@@ -2,7 +2,6 @@ import datetime
 from django.db import models
 from django.contrib.auth.models import User
 
-# Models of drScratch
 
 class File(models.Model):
     filename = models.CharField(max_length=100)
@@ -24,12 +23,14 @@ class File(models.Model):
     deadCode = models.IntegerField()
     duplicateScript = models.IntegerField()
 
+
 class CSVs(models.Model):
     filename = models.CharField(max_length=100)
     directory = models.CharField(max_length=100)
     organization = models.CharField(max_length=100, default='drscratch')
     coder = models.CharField(max_length=100, default='drscratch')
     date = models.DateTimeField(default=datetime.datetime.now)
+
 
 class Coder(User):
     birthmonth = models.CharField(max_length=100)
@@ -38,6 +39,7 @@ class Coder(User):
     gender_other = models.CharField(max_length=100)
     country = models.CharField(max_length=100)
     img = models.ImageField(upload_to="img/", default="app/images/drScratch.png")
+
 
 class Organization(User):
     hashkey = models.TextField()
@@ -49,9 +51,9 @@ class OrganizationHash(models.Model):
 
 
 class Comment(models.Model):
-	user = models.TextField()
-	text = models.TextField()
-	date = models.DateField()
+    user = models.TextField()
+    text = models.TextField()
+    date = models.DateField()
 
 
 class Activity(models.Model):
@@ -88,12 +90,12 @@ class Stats(models.Model):
 
 class Student(models.Model):
     #student = models.ForeignKey(User, unique=True)
-    student = models.OneToOneField(User)
+    student = models.OneToOneField(User, on_delete=models.CASCADE)
 
 
 class Teacher(models.Model):
     #teacher = models.ForeignKey(User, unique=True)
-    teacher = models.OneToOneField(User)
+    teacher = models.OneToOneField(User, on_delete=models.CASCADE)
     username = models.TextField()
     password = models.TextField()
     email = models.TextField()

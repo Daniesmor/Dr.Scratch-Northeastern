@@ -1,19 +1,22 @@
 from django.forms import ModelForm
 from django import forms
-from models import OrganizationHash
-from models import Discuss
+from app.models import OrganizationHash
+from app.models import Discuss
+
 
 class UploadFileForm(forms.Form):
-	filename = forms.CharField(max_length=50)
+    filename = forms.CharField(max_length=50)
+
 
 class UserForm(forms.Form):
-	username = forms.CharField(max_length=50)
-	password = forms.CharField(max_length=50)
+    username = forms.CharField(max_length=50)
+    password = forms.CharField(max_length=50)
+
 
 class NewUserForm(forms.Form):
-	nickname = forms.CharField(max_length=50)
-	emailUser = forms.CharField(max_length=50)
-	passUser = forms.CharField(max_length=50)
+    nickname = forms.CharField(max_length=50)
+    emailUser = forms.CharField(max_length=50)
+    passUser = forms.CharField(max_length=50)
 
 
 

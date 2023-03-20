@@ -26,7 +26,7 @@ from django.shortcuts import render
 import os
 import ast
 import json
-import urllib2
+import urllib3
 import shutil
 import unicodedata
 import csv
@@ -38,25 +38,18 @@ import traceback
 from app import pyploma
 from app import org
 
-import analyzer
-import spriteNaming
-import backdropNaming
-import duplicateScripts
-import deadCode
+import app.analyzer
+import app.spriteNaming
+import app.backdropNaming
+import app.duplicateScripts
+import app.deadCode
 
-from exception import DrScratchException
+from app.exception import DrScratchException
 
 import errno
 import logging
 
 logger = logging.getLogger(__name__)
-
-
-###############################################################################
-#                             MAIN PAGE                                       #
-###############################################################################
-
-#________________________________ MAIN _______________________________________#
 
 
 def main(request):
@@ -92,8 +85,6 @@ def collaborators(request):
     return render(request, 'main/collaborators.html')
 
 
-#____________________________ GENERAL STATISTICS _____________________________#
-
 def date_range(start, end):
     """Initialization of ranges"""
 
@@ -105,20 +96,22 @@ def date_range(start, end):
 def statistics(request):
     """Initializing variables"""
 
-    start = date(2015,8,1)
+    start = date(2015, 8, 1)
     end = datetime.today()
-    y = end.year
-    m = end.month
-    d = end.day
-    end = date(y,m,d)
-    dateList = date_range(start, end)
-    mydates=[]
-    for n in dateList:
-        mydates.append(n.strftime("%d/%m")) #used for x axis in
+    year = end.year
+    month = end.month
+    day = end.day
+    end = date(year, month, day)
+    date_list = date_range(start, end)
+
+    my_dates=[]
+
+    for n in date_list:
+        my_dates.append(n.strftime("%d/%m")) #used for x axis in
 
     #This final section stores all data for the template
     obj= Stats.objects.order_by("-id")[0]
-    data = {"date":mydates,
+    data = {"date":my_dates,
              "dailyRate":obj.daily_score,
              "levels":{"basic":obj.basic,
                      "development":obj.development,
@@ -177,10 +170,13 @@ def show_dashboard(request):
 
 
 def build_dictionary_with_automatic_analysis(request):
-    """Choose between analysis by URL or project"""
+    """
+    Choose between analysis by URL or project
+    """
 
     dict_metrics = {}
-    url = ""
+    url = None
+    filename = None
 
     if "_upload" in request.POST:
         dict_metrics = _make_analysis_by_upload(request)
@@ -199,7 +195,11 @@ def build_dictionary_with_automatic_analysis(request):
 
 
 def segmentation(request):
-    """Find which is authenticated (organization or coder or none)"""
+    """
+    Find which is authenticated (organization or coder or none)
+    """
+
+    user = None
 
     if request.user.is_authenticated():
         username = request.user.username
@@ -209,24 +209,22 @@ def segmentation(request):
             user = 'coder'
     else:
         user = 'main'
+
     return user
 
 
-###############################################################################
-#                         PROJECT ANALYSIS                                    #
-###############################################################################
-
 def _make_analysis_by_upload(request):
-    """Upload file from form POST for unregistered users"""
+    """
+    Upload file from form POST for unregistered users
+    """
 
     if request.method == 'POST':
         try:
-            file = request.FILES['zipFile']
+            zip_file = request.FILES['zipFile']
         except:
             d = {'Error': 'MultiValueDict'}
             return d
-        
-        # Create DB of files
+
         now = datetime.now()
         method = "project"
 
@@ -236,7 +234,7 @@ def _make_analysis_by_upload(request):
             username = None
 
         if Organization.objects.filter(username=username):
-            filename = File(filename=file.name.encode('utf-8'),
+            filename = File(filename=zip_file.name.encode('utf-8'),
                             organization=username,
                             method=method, time=now,
                             score=0, abstraction=0, parallelization=0,
@@ -245,7 +243,7 @@ def _make_analysis_by_upload(request):
                             spriteNaming=0, initialization=0,
                             deadCode=0, duplicateScript=0)
         elif Coder.objects.filter(username=username):
-            filename = File(filename=file.name.encode('utf-8'),
+            filename = File(filename=zip_file.name.encode('utf-8'),
                             coder=username,
                             method=method, time=now,
                             score=0, abstraction=0, parallelization=0,
@@ -254,7 +252,7 @@ def _make_analysis_by_upload(request):
                             spriteNaming=0, initialization=0,
                             deadCode=0, duplicateScript=0)
         else:
-            filename = File(filename=file.name.encode('utf-8'),
+            filename = File(filename=zip_file.name.encode('utf-8'),
                             method=method, time=now,
                             score=0, abstraction=0, parallelization=0,
                             logic=0, synchronization=0, flowControl=0,
@@ -298,7 +296,7 @@ def _make_analysis_by_upload(request):
         file_name = handler_upload(file_saved, counter)
 
         with open(file_name, 'wb+') as destination:
-            for chunk in file.chunks():
+            for chunk in zip_file.chunks():
                 destination.write(chunk)
 
         try:
@@ -484,14 +482,15 @@ def download_scratch_project_from_servers(path_project, id_project):
     path_json_file = path_utemp + '_new_project.json'
 
     try:
-        response_from_scratch = urllib2.urlopen(url_json_scratch)
-    except urllib2.HTTPError as e:
+        http = urllib3.PoolManager()
+        response_from_scratch = http.urlopen(url_json_scratch)
+    except urllib3.exceptions.HTTPError as e:
         # Two ways, id does not exist in servers or id is in other server
         logger.error('HTTPError %s', e.message)
         url_json_scratch = "http://127.0.0.1:3030/api/{}".format(id_project)
-        response_from_scratch = urllib2.urlopen(url_json_scratch)
+        response_from_scratch = urllib3.urlopen(url_json_scratch)
         path_json_file = path_utemp + '_old_project.json'
-    except urllib2.URLError as e:
+    except urllib3.exceptions.URLError as e:
         logger.error('URLError: %s', e.message)
         traceback.print_exc()
     except:
