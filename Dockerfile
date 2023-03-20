@@ -1,6 +1,6 @@
-FROM python:2-onbuild
+FROM python:3.10
 
-LABEL maintainer="cdchushig <cdavid.chushig@gmail.com>"
+LABEL maintainer="cdchushig"
 
 # Set Python environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -15,9 +15,11 @@ ADD . /var/www/
 RUN apt-get update && apt-get upgrade -y && apt-get autoclean
 
 RUN apt-get install -y \
-    libmysqlclient-dev \
+    default-libmysqlclient-dev \
     texlive-latex-recommended \
     gettext
+
+# RUN apt-get install python3.10-dev
 
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
