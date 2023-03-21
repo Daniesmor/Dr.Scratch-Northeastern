@@ -107,7 +107,7 @@ class Migration(migrations.Migration):
                 ('level', models.TextField()),
                 ('path', models.TextField()),
                 ('fupdate', models.TextField()),
-                ('dashboard', models.ForeignKey(to='app.Dashboard')),
+                ('dashboard', models.ForeignKey(to='app.Dashboard', on_delete=models.CASCADE)),
             ],
             options={
             },
@@ -118,7 +118,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('character', models.TextField()),
-                ('myproject', models.ForeignKey(to='app.Project')),
+                ('myproject', models.ForeignKey(to='app.Project', on_delete=models.CASCADE)),
             ],
             options={
             },
@@ -127,25 +127,25 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='mastery',
             name='myproject',
-            field=models.ForeignKey(to='app.Project'),
+            field=models.ForeignKey(to='app.Project', on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='duplicate',
             name='myproject',
-            field=models.ForeignKey(to='app.Project'),
+            field=models.ForeignKey(to='app.Project', on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='dead',
             name='myproject',
-            field=models.ForeignKey(to='app.Project'),
+            field=models.ForeignKey(to='app.Project', on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='attribute',
             name='myproject',
-            field=models.ForeignKey(to='app.Project'),
+            field=models.ForeignKey(to='app.Project', on_delete=models.CASCADE),
             preserve_default=True,
         ),
     ]

@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
             name='Student',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('student', models.ForeignKey(to=settings.AUTH_USER_MODEL, unique=True)),
+                ('student', models.ForeignKey(to=settings.AUTH_USER_MODEL, unique=True, on_delete=models.CASCADE)),
             ],
             options={
             },
@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('hashkey', models.TextField()),
                 ('student', models.ManyToManyField(to='app.Student')),
-                ('teacher', models.ForeignKey(to=settings.AUTH_USER_MODEL, unique=True)),
+                ('teacher', models.ForeignKey(to=settings.AUTH_USER_MODEL, unique=True, on_delete=models.CASCADE)),
             ],
             options={
             },

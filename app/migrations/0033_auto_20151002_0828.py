@@ -28,11 +28,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='student',
             name='student',
-            field=models.OneToOneField(to=settings.AUTH_USER_MODEL),
+            field=models.OneToOneField(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE),
         ),
         migrations.AlterField(
             model_name='teacher',
             name='teacher',
-            field=models.OneToOneField(to=settings.AUTH_USER_MODEL),
+            field=models.OneToOneField(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE),
         ),
     ]

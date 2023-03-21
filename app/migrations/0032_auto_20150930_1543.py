@@ -17,7 +17,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='User',
             fields=[
-                ('user_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to=settings.AUTH_USER_MODEL)),
+                ('user_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True,
+                                                  serialize=False, to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
                 ('hashkey', models.TextField()),
             ],
             options={
@@ -40,11 +41,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='student',
             name='student',
-            field=models.OneToOneField(to='app.User'),
+            field=models.OneToOneField(to='app.User', on_delete=models.CASCADE),
         ),
         migrations.AlterField(
             model_name='teacher',
             name='teacher',
-            field=models.OneToOneField(to='app.User'),
+            field=models.OneToOneField(to='app.User', on_delete=models.CASCADE),
         ),
     ]

@@ -48,7 +48,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='organization',
             name='user_ptr',
-            field=models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, default=10000, serialize=False, to=settings.AUTH_USER_MODEL),
+            field=models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, default=10000,
+                                       serialize=False, to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE),
             preserve_default=False,
         ),
     ]
