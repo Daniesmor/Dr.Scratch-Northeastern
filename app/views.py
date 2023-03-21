@@ -53,14 +53,12 @@ logger = logging.getLogger(__name__)
 
 
 def main(request):
-    """Main page"""
 
-    # The first time one user enters
-    # Create the dashboards associated to users
-    flagUser = 0
-    if request.user.is_authenticated():
+    flag_user = 0
+    user = None
+
+    if request.user.is_authenticated:
         username = request.user.username
-        #Find which is authenticated (organization or coder or none)
         page = segmentation(request)
         if page == 'coder':
             user = Coder.objects.get(username=username)
@@ -69,7 +67,6 @@ def main(request):
         img = user.img
         dic = {'username': username, "img": str(img)}
         return render(request, page + '/main.html', dic)
-
     else:
         username = None
         return render(request, 'main/main.html', {'username': username})
