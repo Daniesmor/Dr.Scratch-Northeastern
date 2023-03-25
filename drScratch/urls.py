@@ -6,11 +6,11 @@ from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.views.generic import RedirectView
-admin.autodiscover()
-
 from app import views as app_views
 from django.conf.urls.static import static
 from django.views.static import serve
+admin.autodiscover()
+
 
 urlpatterns = [
     # url(r'^admin/', include(admin.site.urls)),
@@ -19,8 +19,7 @@ urlpatterns = [
     # Statics
     # url(r'^/v3/static/(?P<path>.*)$' , serve,
     #                              {'document_root': settings.MEDIA_ROOT}),
-    url(r'^(.*)/static/(?P<path>.*)$', serve, 
-                                {'document_root' : settings.MEDIA_ROOT}),
+    url(r'^(.*)/static/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 
     # Statistics
     url(r'^statistics$', app_views.statistics, name='statistics'),
@@ -68,7 +67,7 @@ urlpatterns = [
     url(r'^logout_coder$', app_views.logout_coder, name='coder_logout'),
 
     # Upload a .CSV
-    url(r'^analyze_CSV$', app_views.analyze_CSV, name='csv'),
+    url(r'^analyze_CSV$', app_views.analyze_csv, name='csv'),
 
     # Plugins
     url(r'^plugin/(.*)', app_views.plugin, name='plugin'),

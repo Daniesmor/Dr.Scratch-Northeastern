@@ -57,8 +57,8 @@ class Comment(models.Model):
 
 
 class Activity(models.Model):
-	text = models.TextField()
-	date = models.DateField()
+    text = models.TextField()
+    date = models.DateField()
 
 
 class Discuss(models.Model):
@@ -84,8 +84,6 @@ class Stats(models.Model):
     duplicateScript = models.IntegerField(default=int(0))
     spriteNaming = models.IntegerField(default=int(0))
     initialization = models.IntegerField(default=int(0))
-
-######################### UNDERDEVELOPMENT ####################################
 
 
 class Student(models.Model):

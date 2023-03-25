@@ -45,6 +45,7 @@ def subject_welcome_organization(lang):
         subject = "Welcome to Dr.Scratch for organizations"
     return subject
 
+
 def subject_welcome_coder(lang):
     """
     External function to translate

@@ -35,6 +35,7 @@ lib64/
 parts/
 sdist/
 var/
+venv310/
 *.egg-info/
 .installed.cfg
 *.egg

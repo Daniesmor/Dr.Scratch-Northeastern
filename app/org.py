@@ -2,7 +2,7 @@
 # -*- encoding: utf-8 -*-
 # -*- coding: utf-8 -*-
 
-def translate_CT(lang):
+def translate_ct_skills(lang):
     """
     External function to translate CT Skills
     """

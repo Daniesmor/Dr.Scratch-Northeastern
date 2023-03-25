@@ -1,15 +1,17 @@
 from django.core.management.base import BaseCommand
-from app.models import Stats,File
+from app.models import Stats, File
 from app.views import date_range
-from datetime import datetime,timedelta,date
+from datetime import datetime, timedelta, date
 from django.db.models import Avg
 
+
 class Command(BaseCommand):
-    def handle(self,*args,**options):
+
+    def handle(self, *args, **options):
         """ Initializing variables """
         daily_rate = []
-        daily_projects=[]
-        point_list=[]
+        daily_projects = []
+        point_list = []
         start = date(2015,8,1)
         end = datetime.today()
         y = end.year
