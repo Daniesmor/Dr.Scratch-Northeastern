@@ -8,6 +8,7 @@ from django.template.loader import render_to_string
 from django.contrib.auth import logout, login, authenticate,get_user_model
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
+from django.utils.datastructures import MultiValueDictKeyError
 from django.utils import timezone
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from django.db.models import Avg
@@ -22,7 +23,7 @@ from app.forms import DiscussForm
 from django.contrib.auth.models import User
 from django.utils.encoding import smart_str
 from django.shortcuts import render
-
+import consts_plugins as consts
 import os
 import ast
 import json
@@ -35,14 +36,14 @@ import uuid
 from datetime import datetime, timedelta, date
 import traceback
 
-from app import pyploma
-from app import org
+from pyploma import generate_certificate
+import org
 
-import app.analyzer
-import app.spriteNaming
-import app.backdropNaming
-import app.duplicateScripts
-import app.deadCode
+from app.mastery import Mastery
+from app.spriteNaming import SpriteNaming
+from app.backdropNaming import BackdropNaming
+from app.duplicateScripts import DuplicateScripts
+from app.deadCode import DeadCode
 
 from app.exception import DrScratchException
 
@@ -54,45 +55,34 @@ logger = logging.getLogger(__name__)
 
 def main(request):
 
-    flag_user = 0
     user = None
 
     if request.user.is_authenticated:
-        username = request.user.username
-        page = segmentation(request)
-        if page == 'coder':
-            user = Coder.objects.get(username=username)
-        elif page == 'organization':
-            user = Organization.objects.get(username=username)
-        img = user.img
-        dic = {'username': username, "img": str(img)}
-        return render(request, page + '/main.html', dic)
+        user_name = request.user.username
+        user_type = identify_user_type(request)
+        if user_type == 'coder':
+            user = Coder.objects.get(username=user_name)
+        elif user_type == 'organization':
+            user = Organization.objects.get(username=user_name)
+        return render(request, user_type + '/main.html', {'username': user_name, "img": str(user.img)})
     else:
-        username = None
-        return render(request, 'main/main.html', {'username': username})
+        return render(request, 'main/main.html', {'username': None})
 
 
 def contest(request):
-    """Shows pages for contests"""
     return render(request, 'contest.html', {})
 
 
 def collaborators(request):
-    """Shows collaborators page"""
     return render(request, 'main/collaborators.html')
 
 
 def date_range(start, end):
-    """Initialization of ranges"""
-
     r = (end+timedelta(days=1)-start).days
-
     return [start+timedelta(days=i) for i in range(r)]
 
 
 def statistics(request):
-    """Initializing variables"""
-
     start = date(2015, 8, 1)
     end = datetime.today()
     year = end.year
@@ -101,30 +91,37 @@ def statistics(request):
     end = date(year, month, day)
     date_list = date_range(start, end)
 
-    my_dates=[]
+    my_dates = []
 
     for n in date_list:
         my_dates.append(n.strftime("%d/%m")) #used for x axis in
 
-    #This final section stores all data for the template
-    obj= Stats.objects.order_by("-id")[0]
-    data = {"date":my_dates,
-             "dailyRate":obj.daily_score,
-             "levels":{"basic":obj.basic,
-                     "development":obj.development,
-                     "master":obj.master},
-             "totalProjects":obj.daily_projects,
-             "skillRate":{"parallelism":obj.parallelism,
-                          "abstraction":obj.abstraction,
-                          "logic": obj.logic,
-                          "synchronization":obj.synchronization,
-                          "flowControl":obj.flowControl,
-                          "userInteractivity":obj.userInteractivity,
-                          "dataRepresentation":obj.dataRepresentation},
-             "codeSmellRate":{"deadCode":obj.deadCode,
-                              "duplicateScript":obj.duplicateScript,
-                              "spriteNaming":obj.spriteNaming,
-                              "initialization":obj.initialization }}
+    obj = Stats.objects.order_by("-id")[0]
+    data = {
+        "date": my_dates,
+        "dailyRate": obj.daily_score,
+        "levels": {
+            "basic": obj.basic,
+            "development": obj.development,
+            "master": obj.master
+        },
+        "totalProjects": obj.daily_projects,
+        "skillRate": {
+            "parallelism": obj.parallelism,
+            "abstraction": obj.abstraction,
+            "logic": obj.logic,
+            "synchronization": obj.synchronization,
+            "flowControl": obj.flowControl,
+            "userInteractivity": obj.userInteractivity,
+            "dataRepresentation": obj.dataRepresentation
+        },
+        "codeSmellRate": {
+            "deadCode": obj.deadCode,
+            "duplicateScript": obj.duplicateScript,
+            "spriteNaming": obj.spriteNaming,
+            "initialization": obj.initialization
+        }
+    }
 
     #Show general statistics page of Dr. Scratch: www.drscratch.org/statistics
     #return render_to_response("main/statistics.html",
@@ -133,42 +130,32 @@ def statistics(request):
 
 
 def show_dashboard(request):
-    """Shows the different dashboards"""
 
     if request.method == 'POST':
-
         d = build_dictionary_with_automatic_analysis(request)
-
-        user = str(segmentation(request))
-
+        user = str(identify_user_type(request))
         if d['Error'] == 'analyzing':
             return render(request, 'error/analyzing.html')
-
         elif d['Error'] == 'MultiValueDict':
             return render(request, user + '/main.html', {'error': True})
-
         elif d['Error'] == 'id_error':
             return render(request, user + '/main.html', {'id_error': True})
-
         elif d['Error'] == 'no_exists':
             return render(request, user + '/main.html', {'no_exists': True})
         else:
             if d["mastery"]["points"] >= 15:
                 return render(request, user + '/dashboard-master.html', d)
-
             elif d["mastery"]["points"] > 7:
                 return render(request, user + '/dashboard-developing.html', d)
-
             else:
                 return render(request, user + '/dashboard-basic.html', d)
-
     else:
         return HttpResponseRedirect('/')
 
 
-def build_dictionary_with_automatic_analysis(request):
+def build_dictionary_with_automatic_analysis(request) -> dict:
     """
-    Choose between analysis by URL or project
+    Build dictionary with automatic analysis by distinguishing between URL or project
     """
 
     dict_metrics = {}
@@ -185,20 +172,19 @@ def build_dictionary_with_automatic_analysis(request):
         url = request.POST['urlProject']
         filename = url
 
-    dict_aux = {'url': url, 'filename': filename}
-    dict_metrics.update(dict_aux)
+    dict_metrics.update({'url': url, 'filename': filename})
 
     return dict_metrics
 
 
-def segmentation(request):
+def identify_user_type(request) -> str:
     """
-    Find which is authenticated (organization or coder or none)
+    Return authenticated user type (organization, coder, main, None)
     """
 
     user = None
 
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         username = request.user.username
         if Organization.objects.filter(username=username.encode('utf-8')):
             user = 'organization'
@@ -218,9 +204,8 @@ def _make_analysis_by_upload(request):
     if request.method == 'POST':
         try:
             zip_file = request.FILES['zipFile']
-        except:
-            d = {'Error': 'MultiValueDict'}
-            return d
+        except MultiValueDictKeyError:
+            return {'Error': 'MultiValueDict'}
 
         now = datetime.now()
         method = "project"
@@ -261,7 +246,6 @@ def _make_analysis_by_upload(request):
 
         dir_zips = os.path.dirname(os.path.dirname(__file__)) + "/uploads/"
 
-        #Build the id
         now = datetime.now()
         date = now.strftime("%Y_%m_%d_%H_%M_%S_")
         ms = now.microsecond
@@ -281,12 +265,10 @@ def _make_analysis_by_upload(request):
             file_saved = dir_zips + unique_id + ".sb3"
 
         # Create log
-        pathLog = os.path.dirname(os.path.dirname(__file__)) + "/log/"
-        logFile = open (pathLog + "logFile.txt", "a")
-        logFile.write("FileName: " + str(filename.filename) + "\t\t\t" + \
-            "ID: " + str(filename.id) + "\t\t\t" + \
-            "Method: " + str(filename.method) + \
-            "\t\t\tTime: " + str(filename.time) + "\n")
+        path_log = os.path.dirname(os.path.dirname(__file__)) + "/log/"
+        logFile = open(path_log + "logFile.txt", "a")
+        logFile.write("FileName: " + str(filename.filename) + "\t\t\t" + "ID: " + str(filename.id) + "\t\t\t" + \
+                      "Method: " + str(filename.method) + "\t\t\tTime: " + str(filename.time) + "\n")
 
         # Save file in server
         counter = 0
@@ -297,68 +279,62 @@ def _make_analysis_by_upload(request):
                 destination.write(chunk)
 
         try:
-            d = analyze_project(request, file_name, filename, ext_type_project=None)
+            dict_drscratch_analysis = analyze_project(request, file_name, filename, ext_type_project=None)
         except Exception:
             traceback.print_exc()
             filename.method = 'project/error'
             filename.save()
             old_path_project = file_saved
-            new_path_project = file_saved.split("/uploads/")[0] + \
-                             "/error_analyzing/" + \
-                             file_saved.split("/uploads/")[1]
+            new_path_project = file_saved.split("/uploads/")[0] + "/error_analyzing/" + file_saved.split("/uploads/")[1]
             shutil.copy(old_path_project, new_path_project)
-            d = {'Error': 'analyzing'}
-            return d
+            dict_drscratch_analysis = {'Error': 'analyzing'}
+            return dict_drscratch_analysis
 
         # Redirect to dashboard for unregistered user
-        d['Error'] = 'None'
-
-        return d
-    
+        dict_drscratch_analysis['Error'] = 'None'
+        return dict_drscratch_analysis
     else:
         return HttpResponseRedirect('/')
 
 
 def _make_analysis_by_url(request):
-    """Process Request of form URL"""
+    """
+    Make the automatic analysis by URL
+    """
 
     if request.method == "POST":
         form = UrlForm(request.POST)
         if form.is_valid():
-            d = {}
             url = form.cleaned_data['urlProject']
-            id_project = process_string_url(url)
-
+            id_project = return_scratch_project_identifier(url)
             if id_project == "error":
-                d = {'Error': 'id_error'}
+                return {'Error': 'id_error'}
             else:
-                d = generator_dic(request, id_project)
-
-            return d
+                return generator_dic(request, id_project)
         else:
-            d = {'Error': 'MultiValueDict'}
-            return d
+            return {'Error': 'MultiValueDict'}
     else:
-
         return HttpResponseRedirect('/')
 
 
-def process_string_url(url):
-    """Process String from URL Form"""
+def return_scratch_project_identifier(url) -> str:
+    """
+    Process String from URL Form
+    """
 
     id_project = ''
-    auxString = url.split("/")[-1]
-    if auxString == '':
+    aux_string = url.split("/")[-1]
+    if aux_string == '':
         possible_id = url.split("/")[-2]
         if possible_id == "editor":
             id_project = url.split("/")[-3]
         else:
             id_project = possible_id
     else:
-        if auxString == "editor":
+        if aux_string == "editor":
             id_project = url.split("/")[-2]
         else:
-            id_project = auxString
+            id_project = aux_string
 
     try:
         check_int = int(id_project)
@@ -370,20 +346,21 @@ def process_string_url(url):
 
 
 def generator_dic(request, id_project):
-    """Returns dictionary with analyzes and errors"""
+    """
+    Return a dictionary with static analysis and errors
+    """
 
     try:
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             username = request.user.username
         else:
             username = None
-
         path_project, file, ext_type_project = send_request_getsb3(id_project, username, method="url")
     except DrScratchException:
         logger.error('DrScratchException')
         d = {'Error': 'no_exists'}
         return d
-    except Exception:
+    except FileNotFoundError:
         logger.error('File not found into Scratch server')
         traceback.print_exc()
         d = {'Error': 'no_exists'}
@@ -394,17 +371,12 @@ def generator_dic(request, id_project):
     except Exception:
         logger.error('Impossible analyze project')
         traceback.print_exc()
-
         file.method = 'url/error'
         file.save()
-        oldPathProject = path_project
-        newPathProject = path_project.split("/uploads/")[0] + \
-                         "/error_analyzing/" + \
-                         path_project.split("/uploads/")[1]
-        shutil.copy(oldPathProject, newPathProject)
-        d = {'Error': 'analyzing'}
-
-        return d
+        old_path_project = path_project
+        new_path_project = path_project.split("/uploads/")[0] + "/error_analyzing/" + path_project.split("/uploads/")[1]
+        shutil.copy(old_path_project, new_path_project)
+        return {'Error': 'analyzing'}
 
     # Redirect to dashboard for unregistered user
     d['Error'] = 'None'
@@ -444,22 +416,18 @@ def save_projectsb3(path_file_temporary, id_project):
     try:
         os.remove('project.json')
         os.chdir(path_project)
-    except:
+    except OSError:
         logger.error('Error removing temporary project.json')
 
     return unique_file_name_for_saving, ext_project
 
 
-def send_request_getstudio(id_studio):
-    api_get_projects_by_studio = "https://api.scratch.mit.edu/studios/" + id_studio + "/projects"
-
-
 def write_activity_in_logfile(file_name):
 
-    path_log = os.path.dirname(os.path.dirname(__file__)) + "/log/"
+    log_filename = '{}/log/{}'.format(os.path.dirname(os.path.dirname(__file__)), 'logFile.txt')
 
     try:
-        log_file = open(path_log + "logFile.txt", "a")
+        log_file = open(log_filename, "a")
         log_file.write("FileName: " + str(file_name.filename) + "\t\t\t" + "ID: " + str(file_name.id) + "\t\t\t" +
                        "Method: " + str(file_name.method) + "\t\t\t" + "Time: " + str(file_name.time) + "\n")
     except OSError:
@@ -472,10 +440,8 @@ def write_activity_in_logfile(file_name):
 
 def download_scratch_project_from_servers(path_project, id_project):
 
-    random_string = uuid.uuid4().hex
-    url_json_scratch = "https://projects.scratch.mit.edu/{}/get?foo={}".format(id_project, random_string)
-
-    path_utemp = path_project + '/utemp/' + str(id_project)
+    url_json_scratch = "{}/{}/get?foo={}".format(consts.URL_SCRATCH_SERVER, id_project, uuid.uuid4().hex)
+    path_utemp = '{}/utemp/{}'.format(path_project, id_project)
     path_json_file = path_utemp + '_new_project.json'
 
     try:
@@ -484,7 +450,7 @@ def download_scratch_project_from_servers(path_project, id_project):
     except urllib3.exceptions.HTTPError as e:
         # Two ways, id does not exist in servers or id is in other server
         logger.error('HTTPError %s', e.message)
-        url_json_scratch = "http://127.0.0.1:3030/api/{}".format(id_project)
+        url_json_scratch = "{}/{}".format(consts.URL_GETSB3, id_project)
         response_from_scratch = urllib3.urlopen(url_json_scratch)
         path_json_file = path_utemp + '_old_project.json'
     except urllib3.exceptions.URLError as e:
@@ -494,14 +460,11 @@ def download_scratch_project_from_servers(path_project, id_project):
         traceback.print_exc()
 
     try:
-
         json_string_format = response_from_scratch.read()
         json_data = json.loads(json_string_format)
-
         resulting_file = open(path_json_file, 'wb')
         resulting_file.write(json_string_format)
         resulting_file.close()
-
     except ValueError as e:
         logger.error('ValueError: %s', e.message)
         raise DrScratchException
@@ -513,9 +476,11 @@ def download_scratch_project_from_servers(path_project, id_project):
 
 
 def send_request_getsb3(id_project, username, method):
-    """First request to getSb3"""
+    """
+    Send request to getsb3 app
+    """
 
-    file_url = id_project + ".sb3"
+    file_url = '{}{}'.format(id_project, '.sb3')
 
     path_project = os.path.dirname(os.path.dirname(__file__))
     path_json_file_temporary = download_scratch_project_from_servers(path_project, id_project)
@@ -523,7 +488,7 @@ def send_request_getsb3(id_project, username, method):
     now = datetime.now()
 
     if Organization.objects.filter(username=username):
-        fileName = File(filename=file_url,
+        file_name = File(filename=file_url,
                         organization=username,
                         method=method, time=now,
                         score=0, abstraction=0, parallelization=0,
@@ -532,7 +497,7 @@ def send_request_getsb3(id_project, username, method):
                         spriteNaming=0, initialization=0,
                         deadCode=0, duplicateScript=0)
     elif Coder.objects.filter(username=username):
-        fileName = File(filename=file_url,
+        file_name = File(filename=file_url,
                         coder=username,
                         method=method, time=now,
                         score=0, abstraction=0, parallelization=0,
@@ -541,7 +506,7 @@ def send_request_getsb3(id_project, username, method):
                         spriteNaming=0, initialization=0,
                         deadCode=0, duplicateScript=0)
     else:
-        fileName = File(filename=file_url,
+        file_name = File(filename=file_url,
                         method=method, time=now,
                         score=0, abstraction=0, parallelization=0,
                         logic=0, synchronization=0, flowControl=0,
@@ -549,13 +514,12 @@ def send_request_getsb3(id_project, username, method):
                         spriteNaming=0, initialization=0,
                         deadCode=0, duplicateScript=0)
     
-    fileName.save()
+    file_name.save()
 
-    write_activity_in_logfile(fileName)
-
+    write_activity_in_logfile(file_name)
     path_scratch_project_sb3, ext_type_project = save_projectsb3(path_json_file_temporary, id_project)
 
-    return path_scratch_project_sb3, fileName, ext_type_project
+    return path_scratch_project_sb3, file_name, ext_type_project
 
 
 def handler_upload(file_saved, counter):
@@ -571,20 +535,17 @@ def handler_upload(file_saved, counter):
             if counter == 1:
                 file_saved = file_saved.split(".")[0] + "(1).sb3"
             else:
-                file_saved = file_saved.split('(')[0] + \
-                    "(" + str(counter) + ").sb3"
+                file_saved = file_saved.split('(')[0] + "(" + str(counter) + ").sb3"
         elif version == "2.0":
             if counter == 1:
                 file_saved = file_saved.split(".")[0] + "(1).sb2"
             else:
-                file_saved = file_saved.split('(')[0] + \
-                    "(" + str(counter) + ").sb2"
+                file_saved = file_saved.split('(')[0] + "(" + str(counter) + ").sb2"
         else:
             if counter == 1:
                 file_saved = file_saved.split(".")[0] + "(1).sb"
             else:
-                file_saved = file_saved.split('(')[0] + \
-                    "(" + str(counter) + ").sb"
+                file_saved = file_saved.split('(')[0] + "(" + str(counter) + ").sb"
 
         file_name = handler_upload(file_saved, counter)
 
@@ -597,7 +558,9 @@ def handler_upload(file_saved, counter):
 
 
 def check_version(filename):
-    """Check the version of the project and return it"""
+    """
+    Check the version of the project and return it
+    """
 
     extension = filename.split('.')[-1]
     if extension == 'sb2':
@@ -615,26 +578,24 @@ def analyze_project(request, path_projectsb3, filename, ext_type_project):
     dictionary = {}
 
     if os.path.exists(path_projectsb3):
-
-        result_mastery = analyzer.main(path_projectsb3)
-        result_sprite_naming = spriteNaming.main(path_projectsb3)
-        result_backdrop_naming = backdropNaming.main(path_projectsb3)
-        result_duplicate_script = duplicateScripts.main(path_projectsb3)
-        resultDeadCode = deadCode.main(path_projectsb3)
+        result_mastery = Mastery(path_projectsb3).finalize()
+        result_sprite_naming = SpriteNaming(path_projectsb3).finalize()
+        result_backdrop_naming = BackdropNaming(path_projectsb3).finalize()
+        result_duplicate_script = DuplicateScripts(path_projectsb3).finalize()
+        result_dead_code = DeadCode(path_projectsb3).finalize()
 
         dictionary.update(proc_mastery(request, result_mastery, filename))
         dictionary.update(proc_sprite_naming(result_sprite_naming, filename))
         dictionary.update(proc_backdrop_naming(result_backdrop_naming, filename))
         dictionary.update(proc_duplicate_script(result_duplicate_script, filename))
-        dictionary.update(proc_dead_code(resultDeadCode, filename))
+        dictionary.update(proc_dead_code(result_dead_code, filename))
+        dictionary.update(proc_duplicate_script_scratch_block(result_duplicate_script))
         # dictionary.update(proc_initialization(resultInitialization, filename))
-        code = {'dupCode': duplicate_script_scratch_block(result_duplicate_script)}
-        dictionary.update(code)
         # code = {'dCode':dead_code_scratch_block(resultDeadCode)}
         # dictionary.update(code)
         return dictionary
     else:
-        raise Exception
+        return dictionary
 
 
 # _______________________________ PROCESSORS _________________________________#
@@ -650,7 +611,6 @@ def proc_mastery(request, lines, filename):
     points = int(lLines.split('/')[0])
     maxi = int(lLines.split('/')[1])
 
-    #Save in DB
     filename.score = points
     filename.abstraction = d["Abstraction"]
     filename.parallelization = d["Parallelization"]
@@ -661,7 +621,6 @@ def proc_mastery(request, lines, filename):
     filename.dataRepresentation = d["DataRepresentation"]
     filename.save()
 
-    #Translation
     d_translated = translate(request, d, filename)
 
     dic["mastery"] = d_translated
@@ -754,67 +713,17 @@ def proc_dead_code(lines, filename):
     return dic
 
 
-"""
-def proc_initialization(lines, filename):
-
-
-    dic = {}
-    lLines = lines.split('.sb2')
-    d = ast.literal_eval(lLines[1])
-    keys = d.keys()
-    values = d.values()
-    items = d.items()
-    number = 0
-
-    for keys, values in items:
-        list = []
-        attribute = ""
-        internalkeys = values.keys()
-        internalvalues = values.values()
-        internalitems = values.items()
-        flag = False
-        counterFlag = False
-        i = 0
-        for internalkeys, internalvalues in internalitems:
-            if internalvalues == 1:
-                counterFlag = True
-                for value in list:
-                    if internalvalues == value:
-                        flag = True
-                if not flag:
-                    list.append(internalkeys)
-                    if len(list) < 2:
-                        attribute = str(internalkeys)
-                    else:
-                        attribute = attribute + ", " + str(internalkeys)
-        if counterFlag:
-            number = number + 1
-        d[keys] = attribute
-    dic["initialization"] = d
-    dic["initialization"]["number"] = number
-
-    #Save in DB
-    filename.initialization = number
-    filename.save()
-
-    return dic
-
-"""
-
-#____________________  INFORMATION TO SCRATCH BLOCKS  ________________________#
-
-def duplicate_script_scratch_block(code):
-
+def proc_duplicate_script_scratch_block(code) -> dict:
     try:
         code = code.split("\n")[1:][0]
-        if code == "":  #No duplicated scripts found
+        if code == "":
             code = ""
         else:
             code = code[1:-1].split(",")
     except:
         code = ""
 
-    return code
+    return {'dupCode': code}
 
 
 """
@@ -831,157 +740,109 @@ def dead_code_scratch_block(code):
 """
 
 
-# ______________________________ TRANSLATE MASTERY ___________________________#
-
 def translate(request, d, filename):
-    """Translate the output of Hairball"""
+    """
+    Translate the output of Hairball
+    """
 
     if request.LANGUAGE_CODE == "es":
-        d_translate_es = {}
-        d_translate_es['Abstracción'] = d['Abstraction']
-        d_translate_es['Paralelismo'] = d['Parallelization']
-        d_translate_es['Pensamiento lógico'] = d['Logic']
-        d_translate_es['Sincronización'] = d['Synchronization']
-        d_translate_es['Control de flujo'] = d['FlowControl']
-        d_translate_es['Interactividad con el usuario'] = d['UserInteractivity']
-        d_translate_es['Representación de la información'] = d['DataRepresentation']
+        d_translate_es = {'Abstracción': d['Abstraction'], 'Paralelismo': d['Parallelization'],
+                          'Pensamiento lógico': d['Logic'], 'Sincronización': d['Synchronization'],
+                          'Control de flujo': d['FlowControl'], 'Interactividad con el usuario': d['UserInteractivity'],
+                          'Representación de la información': d['DataRepresentation']}
         filename.language = "es"
         filename.save()
         return d_translate_es
     elif request.LANGUAGE_CODE == "en":
-        d_translate_en = {}
-        d_translate_en['Abstraction'] = d['Abstraction']
-        d_translate_en['Parallelism'] = d['Parallelization']
-        d_translate_en['Logic'] = d['Logic']
-        d_translate_en['Synchronization'] = d['Synchronization']
-        d_translate_en['Flow control'] = d['FlowControl']
-        d_translate_en['User interactivity'] = d['UserInteractivity']
-        d_translate_en['Data representation'] = d['DataRepresentation']
+        d_translate_en = {'Abstraction': d['Abstraction'], 'Parallelism': d['Parallelization'], 'Logic': d['Logic'],
+                          'Synchronization': d['Synchronization'], 'Flow control': d['FlowControl'],
+                          'User interactivity': d['UserInteractivity'], 'Data representation': d['DataRepresentation']}
         filename.language = "en"
         filename.save()
         return d_translate_en
     elif request.LANGUAGE_CODE == "ca":
-        d_translate_ca = {}
-        d_translate_ca['Abstracció'] = d['Abstraction']
-        d_translate_ca['Paral·lelisme'] = d['Parallelization']
-        d_translate_ca['Lògica'] = d['Logic']
-        d_translate_ca['Sincronització'] = d['Synchronization']
-        d_translate_ca['Controls de flux'] = d['FlowControl']
-        d_translate_ca["Interactivitat de l'usuari"] = d['UserInteractivity']
-        d_translate_ca['Representació de dades'] = d['DataRepresentation']
+        d_translate_ca = {'Abstracció': d['Abstraction'], 'Paral·lelisme': d['Parallelization'], 'Lògica': d['Logic'],
+                          'Sincronització': d['Synchronization'], 'Controls de flux': d['FlowControl'],
+                          "Interactivitat de l'usuari": d['UserInteractivity'],
+                          'Representació de dades': d['DataRepresentation']}
         filename.language = "ca"
         filename.save()
         return d_translate_ca
     elif request.LANGUAGE_CODE == "gl":
-        d_translate_gl = {}
-        d_translate_gl['Abstracción'] = d['Abstraction']
-        d_translate_gl['Paralelismo'] = d['Parallelization']
-        d_translate_gl['Lóxica'] = d['Logic']
-        d_translate_gl['Sincronización'] = d['Synchronization']
-        d_translate_gl['Control de fluxo'] = d['FlowControl']
-        d_translate_gl["Interactividade do susario"] = d['UserInteractivity']
-        d_translate_gl['Representación dos datos'] = d['DataRepresentation']
+        d_translate_gl = {'Abstracción': d['Abstraction'], 'Paralelismo': d['Parallelization'], 'Lóxica': d['Logic'],
+                          'Sincronización': d['Synchronization'], 'Control de fluxo': d['FlowControl'],
+                          "Interactividade do susario": d['UserInteractivity'],
+                          'Representación dos datos': d['DataRepresentation']}
         filename.language = "gl"
         filename.save()
         return d_translate_gl
 
     elif request.LANGUAGE_CODE == "pt":
-        d_translate_pt = {}
-        d_translate_pt['Abstração'] = d['Abstraction']
-        d_translate_pt['Paralelismo'] = d['Parallelization']
-        d_translate_pt['Lógica'] = d['Logic']
-        d_translate_pt['Sincronização'] = d['Synchronization']
-        d_translate_pt['Controle de fluxo'] = d['FlowControl']
-        d_translate_pt["Interatividade com o usuário"] = d['UserInteractivity']
-        d_translate_pt['Representação de dados'] = d['DataRepresentation']
+        d_translate_pt = {'Abstração': d['Abstraction'], 'Paralelismo': d['Parallelization'], 'Lógica': d['Logic'],
+                          'Sincronização': d['Synchronization'], 'Controle de fluxo': d['FlowControl'],
+                          "Interatividade com o usuário": d['UserInteractivity'],
+                          'Representação de dados': d['DataRepresentation']}
         filename.language = "pt"
         filename.save()
         return d_translate_pt
     
     elif request.LANGUAGE_CODE == "el":
-        d_translate_el = {}
-        d_translate_el['Αφαίρεση'] = d['Abstraction']
-        d_translate_el['Παραλληλισμός'] = d['Parallelization']
-        d_translate_el['Λογική'] = d['Logic']
-        d_translate_el['Συγχρονισμός'] = d['Synchronization']
-        d_translate_el['Έλεγχος ροής'] = d['FlowControl']
-        d_translate_el['Αλληλεπίδραση χρήστη'] = d['UserInteractivity']
-        d_translate_el['Αναπαράσταση δεδομένων'] = d['DataRepresentation']
+        d_translate_el = {'Αφαίρεση': d['Abstraction'], 'Παραλληλισμός': d['Parallelization'], 'Λογική': d['Logic'],
+                          'Συγχρονισμός': d['Synchronization'], 'Έλεγχος ροής': d['FlowControl'],
+                          'Αλληλεπίδραση χρήστη': d['UserInteractivity'],
+                          'Αναπαράσταση δεδομένων': d['DataRepresentation']}
         filename.language = "el"
         filename.save()
         return d_translate_el
 
     elif request.LANGUAGE_CODE == "eu":           
-        d_translate_eu = {}
-        d_translate_eu['Abstrakzioa'] = d['Abstraction']
-        d_translate_eu['Paralelismoa'] = d['Parallelization']
-        d_translate_eu['Logika'] = d['Logic']
-        d_translate_eu['Sinkronizatzea'] = d['Synchronization']
-        d_translate_eu['Kontrol fluxua'] = d['FlowControl']
-        d_translate_eu['Erabiltzailearen elkarreragiletasuna'] = d['UserInteractivity']
-        d_translate_eu['Datu adierazlea'] = d['DataRepresentation']
+        d_translate_eu = {'Abstrakzioa': d['Abstraction'], 'Paralelismoa': d['Parallelization'], 'Logika': d['Logic'],
+                          'Sinkronizatzea': d['Synchronization'], 'Kontrol fluxua': d['FlowControl'],
+                          'Erabiltzailearen elkarreragiletasuna': d['UserInteractivity'],
+                          'Datu adierazlea': d['DataRepresentation']}
         filename.language = "eu"
         filename.save()
         return d_translate_eu
 
     elif request.LANGUAGE_CODE == "it":           
-        d_translate_it = {}
-        d_translate_it['Astrazione'] = d['Abstraction']
-        d_translate_it['Parallelismo'] = d['Parallelization']
-        d_translate_it['Logica'] = d['Logic']
-        d_translate_it['Sincronizzazione'] = d['Synchronization']
-        d_translate_it['Controllo di flusso'] = d['FlowControl']
-        d_translate_it['Interattività utente'] = d['UserInteractivity']
-        d_translate_it['Rappresentazione dei dati'] = d['DataRepresentation']
+        d_translate_it = {'Astrazione': d['Abstraction'], 'Parallelismo': d['Parallelization'], 'Logica': d['Logic'],
+                          'Sincronizzazione': d['Synchronization'], 'Controllo di flusso': d['FlowControl'],
+                          'Interattività utente': d['UserInteractivity'],
+                          'Rappresentazione dei dati': d['DataRepresentation']}
         filename.language = "it"
         filename.save()
         return d_translate_it
 
     elif request.LANGUAGE_CODE == "ru":
-        d_translate_ru = {}
-        d_translate_ru['Абстракция'] = d['Abstraction']
-        d_translate_ru['Параллельность действий'] = d['Parallelization']
-        d_translate_ru['Логика'] = d['Logic']
-        d_translate_ru['cинхронизация'] = d['Synchronization']
-        d_translate_ru['Управление потоком'] = d['FlowControl']
-        d_translate_ru['Интерактивность'] = d['UserInteractivity']
-        d_translate_ru['Представление данных'] = d['DataRepresentation']
+        d_translate_ru = {'Абстракция': d['Abstraction'], 'Параллельность действий': d['Parallelization'],
+                          'Логика': d['Logic'], 'cинхронизация': d['Synchronization'],
+                          'Управление потоком': d['FlowControl'], 'Интерактивность': d['UserInteractivity'],
+                          'Представление данных': d['DataRepresentation']}
         filename.language = "ru"
         filename.save()
         return d_translate_ru
-
-
     else:
-        d_translate_en = {}
-        d_translate_en['Abstraction'] = d['Abstraction']
-        d_translate_en['Parallelism'] = d['Parallelization']
-        d_translate_en['Logic'] = d['Logic']
-        d_translate_en['Synchronization'] = d['Synchronization']
-        d_translate_en['Flow control'] = d['FlowControl']
-        d_translate_en['User interactivity'] = d['UserInteractivity']
-        d_translate_en['Data representation'] = d['DataRepresentation']
+        d_translate_en = {'Abstraction': d['Abstraction'], 'Parallelism': d['Parallelization'], 'Logic': d['Logic'],
+                          'Synchronization': d['Synchronization'], 'Flow control': d['FlowControl'],
+                          'User interactivity': d['UserInteractivity'], 'Data representation': d['DataRepresentation']}
         filename.language = "any"
         filename.save()
-        return d_translate_any
+        return d_translate_en
 
-###############################################################################
-
-###############################################################################
-
-#_______________________________ LEARN MORE __________________________________#
 
 def learn(request, page):
-    """Shows pages to learn more about CT"""
+    """
+    Shows pages to learn more about CT
+    """
 
-    flagUser = 0
-    #Unicode to string(page)
+    flag_user = 0
 
     if request.user.is_authenticated():
         user = request.user.username
-        flagUser = 1
+        flag_user = 1
 
     if request.LANGUAGE_CODE == "en":
-        dic = {u'Logic':'Logic',
+        dic = {u'Logic': 'Logic',
                u'Parallelism':'Parallelism',
                u'Data':'Data',
                u'Synchronization':'Synchronization',
@@ -1070,18 +931,20 @@ def learn(request, page):
     if page in dic:
         page = dic[page]
     
-    page = "learn/" + page + ".html"
+    page = '{}{}{}'.format('learn/', page, '.html')
 
     if request.user.is_authenticated():
-        user = segmentation(request)
+        user = identify_user_type(request)
         username = request.user.username
-        return render(request, page, {'flagUser':flagUser, 'user':user, 'username':username})
+        return render(request, page, {'flagUser': flag_user, 'user': user, 'username': username})
     else:
         return render(request, page)
 
 
 def download_certificate(request):
-    """Function to download your project's certificate"""
+    """
+    Download project's certificate
+    """
 
     if request.method == "POST":
         data = request.POST["certificate"]
@@ -1094,7 +957,7 @@ def download_certificate(request):
         else:
             language = 'en'
 
-        pyploma.generate(filename, level, language)
+        generate_certificate(filename, level, language)
         path_to_file = os.path.dirname(os.path.dirname(__file__)) + "/app/certificate/output.pdf"
 
         pdf_data = open(path_to_file, 'r')
@@ -1111,46 +974,31 @@ def download_certificate(request):
         return HttpResponseRedirect('/')
 
 
-#___________________________ ASYNCHRONOUS FORMS ______________________________#
-
 def search_email(request):
-    """Comfirm email"""
-
-
     if request.is_ajax():
         user = Organization.objects.filter(email=request.GET['email'])
         if user:
-            return HttpResponse(json.dumps({"exist":"yes"}), 
-                                content_type ='application/json')
+            return HttpResponse(json.dumps({"exist": "yes"}), content_type ='application/json')
+
 
 def search_username(request):
-    """Comfirm username"""
-
-
     if request.is_ajax():
         user = Organization.objects.filter(username=request.GET['username'])
         if user:
-            return HttpResponse(json.dumps({"exist":"yes"}), 
-                                content_type ='application/json')
+            return HttpResponse(json.dumps({"exist": "yes"}), content_type='application/json')
+
 
 def search_hashkey(request):
-    """Comfirm hashkey"""
-
-
     if request.is_ajax():
         user = OrganizationHash.objects.filter(hashkey=request.GET['hashkey'])
         if not user:
-            return HttpResponse(json.dumps({"exist":"yes"}), 
-                                content_type ='application/json')
+            return HttpResponse(json.dumps({"exist": "yes"}), content_type='application/json')
 
-#____________________________ PLUG-INS _______________________________________#
 
 def plugin(request, urlProject):
-    """Analysis by plugin"""
-
     user = None
-    idProject = process_string_url(urlProject)
-    d = generator_dic(request, idProject)
+    id_project = return_scratch_project_identifier(urlProject)
+    d = generator_dic(request, id_project)
     #Find if any error has occurred
     if d['Error'] == 'analyzing':
         return render(request, user + '/error_analyzing.html')
@@ -1181,11 +1029,10 @@ def plugin(request, urlProject):
             return render(request, user + '/dashboard-basic.html', d) 
 
 
-#_____________________ TRANSLATION SCRATCHBLOCKS______________________________#
-
 def blocks(request):
-    """Translate blocks of Scratch shown in learn pages"""
-
+    """
+    Translate blocks of Scratch shown in learn pages
+    """
 
     callback = request.GET.get('callback')
     headers = {}
@@ -1198,16 +1045,10 @@ def blocks(request):
 
 
 def blocks_v3(request):
+    return render(request, 'learn/blocks_v3.html')
 
-    return render (request, 'learn/blocks_v3.html')
-
-
-#_____________________________ TO REGISTER ORGANIZATION ______________________#
 
 def organization_hash(request):
-    """Method for to sign up in the platform"""
-
-
     if request.method == "POST":
         form = OrganizationHashForm(request.POST)
         if form.is_valid():
@@ -1223,12 +1064,12 @@ def organization_hash(request):
 def sign_up_organization(request):
     """Method which allow to sign up organizations"""
 
+    flag_organization = 1
+    flag_hash = 0
+    flag_name = 0
+    flag_email = 0
+    flag_form = 0
 
-    flagOrganization = 1
-    flagHash = 0
-    flagName = 0
-    flagEmail = 0
-    flagForm = 0
     if request.method == 'POST':
         form = OrganizationForm(request.POST)
         if form.is_valid():
@@ -1242,23 +1083,23 @@ def sign_up_organization(request):
             #If they exist an error message will be shown.
             if User.objects.filter(username = username):
                 #This name already exists
-                flagName = 1
+                flag_name = 1
                 return render(request, 'error/sign-up.html',
-                                          {'flagName':flagName,
-                                           'flagEmail':flagEmail,
-                                           'flagHash':flagHash,
-                                           'flagForm':flagForm,
-                                           'flagOrganization':flagOrganization})
+                                          {'flagName':flag_name,
+                                           'flagEmail':flag_email,
+                                           'flagHash':flag_hash,
+                                           'flagForm':flag_form,
+                                           'flagOrganization':flag_organization})
 
             elif User.objects.filter(email = email):
                 #This email already exists
-                flagEmail = 1
+                flag_email = 1
                 return render(request, 'error/sign-up.html',
-                                        {'flagName':flagName,
-                                        'flagEmail':flagEmail,
-                                        'flagHash':flagHash,
-                                        'flagForm':flagForm,
-                                        'flagOrganization':flagOrganization})
+                                        {'flagName':flag_name,
+                                        'flagEmail':flag_email,
+                                        'flagHash':flag_hash,
+                                        'flagForm':flag_form,
+                                        'flagOrganization':flag_organization})
 
             if (OrganizationHash.objects.filter(hashkey = hashkey)):
                 organizationHashkey = OrganizationHash.objects.get(hashkey=hashkey)
@@ -1288,24 +1129,24 @@ def sign_up_organization(request):
 
             else:
                 #Doesn't exist this hash
-                flagHash = 1
+                flag_hash = 1
 
                 return render(request, 'error/sign-up.html',
-                                  {'flagName':flagName,
-                                   'flagEmail':flagEmail,
-                                   'flagHash':flagHash,
-                                   'flagForm':flagForm,
-                                   'flagOrganization':flagOrganization})
+                                  {'flagName':flag_name,
+                                   'flagEmail':flag_email,
+                                   'flagHash':flag_hash,
+                                   'flagForm':flag_form,
+                                   'flagOrganization':flag_organization})
 
 
         else:
-            flagForm = 1
+            flag_form = 1
             return render(request, 'error/sign-up.html',
-                  {'flagName':flagName,
-                   'flagEmail':flagEmail,
-                   'flagHash':flagHash,
-                   'flagForm':flagForm,
-                   'flagOrganization':flagOrganization})
+                  {'flagName':flag_name,
+                   'flagEmail':flag_email,
+                   'flagHash':flag_hash,
+                   'flagForm':flag_form,
+                   'flagOrganization':flag_organization})
 
     elif request.method == 'GET':
         if request.user.is_authenticated():
@@ -1314,11 +1155,8 @@ def sign_up_organization(request):
             return render(request, 'organization/organization.html')
 
 
-#_________________________ TO SHOW ORGANIZATION'S DASHBOARD ___________#
-
 def login_organization(request):
     """Log in app to user"""
-
 
     if request.method == 'POST':
         flag = False
@@ -1337,23 +1175,21 @@ def login_organization(request):
                 flag = True
                 flagOrganization = 1
                 return render(request, 'sign-password/user-doesnt-exist.html',
-                                         {'flag': flag,
-                                         'flagOrganization': flagOrganization})
+                              {'flag': flag, 'flagOrganization': flagOrganization})
 
     else:
         return HttpResponseRedirect("/")
 
 
 def logout_organization(request):
-    """Method for logging out"""
-
-
     logout(request)
     return HttpResponseRedirect('/')
 
-def organization(request, name):
-    """Show page of Organizations to sign up"""
 
+def organization(request, name):
+    """
+    Show page of Organizations to sign up
+    """
 
     if request.method == 'GET':
         if request.user.is_authenticated():
@@ -1380,44 +1216,44 @@ def organization(request, name):
     else:
         return HttpResponseRedirect("/")
 
-def stats(request,username):
+
+def stats(request, username):
     """Generator of the stats from Coders and Organizations"""
 
-
-    flagOrganization = 0
-    flagCoder = 0
+    flag_organization = 0
+    flag_coder = 0
     if Organization.objects.filter(username=username):
-        flagOrganization = 1
+        flag_organization = 1
         page = 'organization'
         user = Organization.objects.get(username=username)
     elif Coder.objects.filter(username=username):
-        flagCoder = 1
+        flag_coder = 1
         page = 'coder'
         user = Coder.objects.get(username=username)
 
-    date_joined= user.date_joined
+    date_joined = user.date_joined
     end = datetime.today()
-    end = date(end.year, end.month,end.day)
-    start = date(date_joined.year,date_joined.month,date_joined.day)
-    dateList = date_range(start, end)
+    end = date(end.year, end.month, end.day)
+    start = date(date_joined.year, date_joined.month,date_joined.day)
+    date_list = date_range(start, end)
     daily_score = []
     mydates = []
-    for n in dateList:
+    for n in date_list:
         mydates.append(n.strftime("%d/%m"))
-        if flagOrganization:
+        if flag_organization:
             points = File.objects.filter(organization=username).filter(time=n)
-        elif flagCoder:
+        elif flag_coder:
             points = File.objects.filter(coder=username).filter(time=n)
         points = points.aggregate(Avg("score"))["score__avg"]
         daily_score.append(points)
 
     for n in daily_score:
-        if n==None:
+        if n is None:
             daily_score[daily_score.index(n)]=0
 
-    if flagOrganization:
+    if flag_organization:
         f = File.objects.filter(organization=username)
-    elif flagCoder:
+    elif flag_coder:
         f = File.objects.filter(coder=username)
     if f:
 
@@ -1474,7 +1310,6 @@ def stats(request,username):
     return render(request, page + '/stats.html', dic)
 
 
-
 def settings(request,username):
     """Allow to Coders and Organizations change the image and password"""
 
@@ -1509,14 +1344,13 @@ def settings(request,username):
     "img": user.img
     }
 
-
     return render(request, page + '/settings.html', dic)
 
 
-
-def downloads(request,username, filename=""):
-    """Allow to Coders and Organizations download the files.CSV already analyzed"""
-
+def downloads(request, username, filename=""):
+    """
+    Allow to Coders and Organizations download the files.CSV already analyzed
+    """
 
     flagOrganization = 0
     flagCoder = 0
@@ -1563,7 +1397,6 @@ def downloads(request,username, filename=""):
         "flag": 0
         }
 
-
     if request.method == "POST":
         #Downloading CSV
         filename = request.POST["csv"]
@@ -1578,11 +1411,10 @@ def downloads(request,username, filename=""):
     return render(request, page + '/downloads.html', dic)
 
 
-
-#________________________ ANALYZE CSV FOR ORGANIZATIONS ____________#
-
-def analyze_CSV(request):
-    """Analyze files.CSV with a list of projects to analyze them at a time"""
+def analyze_csv(request):
+    """
+    Analyze files.CSV with a list of projects to analyze them at a time
+    """
 
     if request.method =='POST':
         if "_upload" in request.POST:
@@ -1617,15 +1449,15 @@ def analyze_CSV(request):
                     url = url.split("\n")[0]
                     method = "csv"
                     if url.isdigit():
-                        idProject = url
+                        id_project = url
                     else:
                         slashNum = url.count('/')
                         if slashNum == 4:
-                            idProject = url.split("/")[-1]
+                            id_project = url.split("/")[-1]
                         elif slashNum == 5:
-                            idProject = url.split('/')[-2]
+                            id_project = url.split('/')[-2]
                     try:
-                        path_project, file = send_request_getsb3(idProject, username, method)
+                        path_project, file = send_request_getsb3(id_project, username, method)
                         d = analyze_project(request, path_project, file)
                     except:
                         d = ["Error analyzing project", url]
@@ -1643,15 +1475,15 @@ def analyze_CSV(request):
                     url = line.split("\n")[0]
                     method = "csv"
                     if url.isdigit():
-                        idProject = url
+                        id_project = url
                     else:
                         slashNum = url.count('/')
                         if slashNum == 4:
-                            idProject = url.split("/")[-1]
+                            id_project = url.split("/")[-1]
                         elif slashNum == 5:
-                            idProject = url.split('/')[-2]
+                            id_project = url.split('/')[-2]
                     try:
-                        path_project, file = send_request_getsb3(idProject, username, method)
+                        path_project, file = send_request_getsb3(id_project, username, method)
                         d = analyze_project(request, path_project, file)
                     except:
                         d = ["Error analyzing project", url]
@@ -1666,7 +1498,7 @@ def analyze_CSV(request):
                     dic[url] = d
                     dictionary.update(dic)
 
-            csv_data = generator_CSV(request, dictionary, file_name, type_csv)
+            csv_data = generate_csv(request, dictionary, file_name, type_csv)
 
             #segmentation
             if Organization.objects.filter(username = username):
@@ -1704,14 +1536,15 @@ def analyze_CSV(request):
 
 #_________________________GENERATOR CSV FOR ORGANIZATION____________________________#
 
-def generator_CSV(request, dictionary, filename, type_csv):
-    """Generator of a csv file"""
+def generate_csv(request, dictionary, filename, type_csv):
+    """
+    Generate a csv file
+    """
 
-    csv_directory = os.path.dirname(os.path.dirname(__file__)) + \
-                                        "/csvs/Dr.Scratch/"
+    csv_directory = os.path.dirname(os.path.dirname(__file__)) + "/csvs/Dr.Scratch/"
     csv_data = csv_directory + filename
     writer = csv.writer(open(csv_data, "wb"))
-    dic = org.translate_CT(request.LANGUAGE_CODE)
+    dic = org.translate_ct_skills(request.LANGUAGE_CODE)
 
     if type_csv == "2_row":
         writer.writerow([dic["code"], dic["url"], dic["mastery"],
@@ -1796,13 +1629,8 @@ def generator_CSV(request, dictionary, filename, type_csv):
     return csv_data
 
 
-
-#__________________________ TO REGISTER USER _________________________________#
-
 def coder_hash(request):
     """Method for to sign up users in the platform"""
-
-
     if request.method == "POST":
         form = CoderHashForm(request.POST)
         if form.is_valid():
@@ -2013,23 +1841,16 @@ def login_coder(request):
 
 
 def logout_coder(request):
-    """Method for logging out"""
-
-
     logout(request)
     return HttpResponseRedirect('/')
 
-#_________________________ CHANGE PASSWORD __________________________________#
 
 def change_pwd(request):
     """Change user's password"""
 
-
     if request.method == 'POST':
         recipient = request.POST['email']
-
-        #segmentation
-        page = segmentation(request)
+        page = identify_user_type(request)
         try:
             if Organization.objects.filter(email=recipient):
                 user = Organization.objects.get(email=recipient)
@@ -2063,7 +1884,7 @@ def change_pwd(request):
 
     else:
 
-        page = segmentation(request)
+        page = identify_user_type(request)
         #return render_to_response("sign-password/password.html", 
         #                        context_instance=RC(request))
         return render(request, 'sign-password/password.html')
@@ -2161,23 +1982,63 @@ def discuss(request):
     return render(request, 'discuss.html', comments)
 
 
-
-########################## UNDERDEVELOPMENT ###################################
-
-#_________________________________ ERROR _____________________________________#
-
 def error404(request):
     """Return own 404 page"""
-
-
     response = render(request, '404.html', {})
     response.status_code = 404
     return response
 
+
 def error500(request):
     """Return own 500 page"""
-
-
     response = render(request, '500.html', {})
     return response
 
+
+
+"""
+def proc_initialization(lines, filename):
+
+
+    dic = {}
+    lLines = lines.split('.sb2')
+    d = ast.literal_eval(lLines[1])
+    keys = d.keys()
+    values = d.values()
+    items = d.items()
+    number = 0
+
+    for keys, values in items:
+        list = []
+        attribute = ""
+        internalkeys = values.keys()
+        internalvalues = values.values()
+        internalitems = values.items()
+        flag = False
+        counterFlag = False
+        i = 0
+        for internalkeys, internalvalues in internalitems:
+            if internalvalues == 1:
+                counterFlag = True
+                for value in list:
+                    if internalvalues == value:
+                        flag = True
+                if not flag:
+                    list.append(internalkeys)
+                    if len(list) < 2:
+                        attribute = str(internalkeys)
+                    else:
+                        attribute = attribute + ", " + str(internalkeys)
+        if counterFlag:
+            number = number + 1
+        d[keys] = attribute
+    dic["initialization"] = d
+    dic["initialization"]["number"] = number
+
+    #Save in DB
+    filename.initialization = number
+    filename.save()
+
+    return dic
+
+"""
