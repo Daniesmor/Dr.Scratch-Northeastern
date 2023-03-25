@@ -1,65 +1,53 @@
-#!/usr/bin/env python
-# -*- encoding: utf-8 -*-
-# -*- coding: utf-8 -*-
-
-import json
-import zipfile
+from plugin import Plugin
+import consts_plugins as consts
 
 
-class BackdropNaming():
-
-    """Module that keeps track of how often backdrops default 
-       
-    names (like Backdrop1, Backdrop2...) are used within a project.
-    
+class BackdropNaming(Plugin):
+    """
+    Plugin that tracks how often backdrops default names (like Backdrop1, Backdrop2) are used in a scratch project
     """
 
-    def __init__(self):
+    def __init__(self, filename):
+        super().__init__(filename)
+        self.total_default = 0
+        self.list_default_names = []
 
-      self.total_default = 0
-      self.list_default = []
-      self.default_names = ["backdrop", "fondo", "fons", "atzeko oihala"]
+    def finalize(self) -> str:
+        """
+        Output the default backdrop names found in the project
+        """
 
-   
-    """Output the default backdrop names found in the project."""
-    def finalize(self):
-       result = ""
-       
-       result += ("%d default backdrop names found:\n" % self.total_default)
-       for name in self.list_default:
+        result = '{} default backdrop names found:\n'.format(self.total_default)
+
+        for name in self.list_default_names:
             result += name
             result += "\n"
 
-       return result
+        return result
+
+    def analyze(self):
+        """
+        Run and return the results from the SpriteNaming module.
+        """
+
+        for key, value in self.json_project.iteritems():
+            if key == "targets":
+                for dicc in value:
+                    for dicc_key, dicc_value in dicc.iteritems():
+                        if dicc_key == "costumes":
+                            for backdrop in dicc_value:
+                                for name_key, name_value in backdrop.iteritems():
+                                    if name_key == "name":
+                                        for default in consts.PLUGIN_NAMING_DEFAULT_NAMES:
+                                            if default in name_value:
+                                                self.total_default += 1
+                                                self.list_default_names.append(name_value)
 
 
-    """Run and return the results from the SpriteNaming module."""
-    def analyze(self, filename):
-       
-      zip_file = zipfile.ZipFile(filename, "r")
-      json_project = json.loads(zip_file.open("project.json").read())
-
-      for key, value in json_project.iteritems():
-        if key == "targets":
-          for dicc in value:
-            for dicc_key, dicc_value in dicc.iteritems():
-              if dicc_key == "costumes":
-                for backdrop in dicc_value:
-                  for name_key, name_value in backdrop.iteritems():
-                    if name_key == "name":
-                      for default in self.default_names:
-                        if default in name_value:
-                          self.total_default += 1
-                          self.list_default.append(name_value)
-
-
-
-def main(filename):
-    """The entrypoint for the 'backdropNaming' extension"""
-
-    naming = BackdropNaming()
-    naming.analyze(filename)
-    return naming.finalize()
+# def main(filename):
+#     naming = BackdropNaming()
+#     naming.analyze(filename)
+#     return naming.finalize()
 
 
 

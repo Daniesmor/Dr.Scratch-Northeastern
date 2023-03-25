@@ -1,50 +1,40 @@
-import json
-import zipfile
-
 import logging
-
+import consts_plugins as consts
+from plugin import Plugin
 logger = logging.getLogger(__name__)
 
 
-class DeadCode():
-    """Plugin that indicates unreachable code in Scratch files."""
+class DeadCode(Plugin):
+    """
+    Plugin that indicates unreachable code in Scratch files
+    """
 
-    def __init__(self):
-
+    def __init__(self, filename):
+        super().__init__(filename)
         self.dead_code_instances = 0
+        self.dict_deadcode = {}
         self.opcode_argument_reporter = "argument_reporter"
-        self.event_variables = ["event_broadcastandwait", "event_whenflagclicked",
-                                "event_whengreaterthan", "event_whenkeypressed",
-                                "event_whenthisspriteclicked", "event_whenbackdropswitchesto",
-                                "procedures_prototype", "procedures_definition"]
 
-        self.loop_blocks = ["control_repeat", "control_forever", "control_if", "control_if_else",
-                            "control_repeat_until"]
-
-
-    """Run and return the results form the DeadCode plugin."""
-    def analyze(self, filename):
-
-        zip_file = zipfile.ZipFile(filename, "r")
-        json_project = json.loads(zip_file.open("project.json").read())
+    def analyze(self):
+        """
+        Run and return the results form the DeadCode plugin
+        """
 
         sprites = {}
 
-        for key, value in json_project.iteritems():
+        for key, value in self.json_project.iteritems():
             if key == "targets":
                 for dicc in value:
                     sprite = dicc["name"]
                     blocks_list = []
                     for _, blocks_dicc in dicc["blocks"].iteritems():
                         if type(blocks_dicc) is dict:
-                            event_variable = any(blocks_dicc["opcode"] == event for event in self.event_variables)
-                            loop_block = any(blocks_dicc["opcode"] == loop for loop in self.loop_blocks)
+                            event_var = any(blocks_dicc["opcode"] == event for event in consts.PLUGIN_DEADCODE_LIST_EVENT_VARS)
+                            loop_block = any(blocks_dicc["opcode"] == loop for loop in consts.PLUGIN_DEADCODE_LIST_LOOP_BLOCKS)
 
-                            if event_variable == False:
-
+                            if not event_var:
                                 if not self.opcode_argument_reporter in blocks_dicc["opcode"]:
-
-                                    if blocks_dicc["parent"] == None and blocks_dicc["next"] == None:
+                                    if blocks_dicc["parent"] is None and blocks_dicc["next"] is None:
                                         blocks_list.append(str(blocks_dicc["opcode"]))
 
                                     # Check dead loop blocks
@@ -54,33 +44,31 @@ class DeadCode():
                                             blocks_list.append(str(blocks_dicc["opcode"]))
                                         elif "SUBSTACK" not in blocks_dicc["inputs"]:
                                             blocks_list.append(str(blocks_dicc["opcode"]))
-                                        else:
-                                            # Could be normal loop block
-                                            if blocks_dicc["inputs"]["SUBSTACK"][1] == None:
+                                        else: # Could be normal loop block
+                                            if blocks_dicc["inputs"]["SUBSTACK"][1] is None:
                                                 blocks_list.append(str(blocks_dicc["opcode"]))
 
                     if blocks_list:
                         sprites[sprite] = blocks_list
                         self.dead_code_instances += 1
 
-        return sprites
+        self.dict_deadcode = sprites
 
-    """Output the number of instances that contained dead code."""
+    def finalize(self):
+        """
+        Output the number of instances that contained dead code
+        """
 
-    def finalize(self, dicc_deadCode, filename):
+        result = "{}".format(self.filename)
 
-        result = ""
-        result += filename
         if self.dead_code_instances > 0:
             result += "\n"
-            result += str(dicc_deadCode)
+            result += str(self.dict_deadcode)
 
         return result
 
 
 def main(filename):
-    """The entrypoint for the 'deadCode' extension"""
-
-    deadCode = DeadCode()
-    result = deadCode.analyze(filename)
-    return deadCode.finalize(result, filename)
+    dead_code = DeadCode(filename)
+    dead_code.analyze()
+    return dead_code.finalize()

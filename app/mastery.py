@@ -7,10 +7,6 @@ class Mastery(Plugin):
     def __init__(self, filename: str):
         super().__init__(filename)
 
-        # self.dict_mastery = {}
-        # self.list_total_blocks = []
-        # self.dict_blocks = Counter()
-
     def process(self):
 
         for key, value in self.json_project.iteritems():
@@ -36,7 +32,7 @@ class Mastery(Plugin):
         self.compute_user_interactivity()
         self.compute_parallelization()
 
-    def finalize(self):
+    def finalize(self) -> str:
         """Output the overall programming competence"""
         # result = ""
         # result += filename
@@ -64,7 +60,9 @@ class Mastery(Plugin):
         return result
 
     def compute_logic(self):
-        """Assign the logic skill result"""
+        """
+        Assign the logic skill result
+        """
 
         logic_operators = {
             'operator_and',
@@ -299,12 +297,12 @@ class Mastery(Plugin):
         return 0
 
 
-def main(filename):
-    mastery = Mastery(filename)
-    mastery.process()
-    mastery.analyze()
-    dict_result = mastery.finalize()
-    return dict_result
+# def main(filename):
+#     mastery = Mastery(filename)
+#     mastery.process()
+#     mastery.analyze()
+#     dict_result = mastery.finalize()
+#     return dict_result
 
 
 
