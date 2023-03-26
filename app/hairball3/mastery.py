@@ -1,11 +1,18 @@
 import json
+import ast
 from app.hairball3.plugin import Plugin
+import app.consts_drscratch as consts
+import logging
+import coloredlogs
+
+logger = logging.getLogger(__name__)
+coloredlogs.install(level='DEBUG', logger=logger)
 
 
 class Mastery(Plugin):
 
-    def __init__(self, filename: str, json_project):
-        super().__init__(filename, json_project)
+    def __init__(self, filename: str, json_project, verbose=False):
+        super().__init__(filename, json_project, verbose)
 
     def process(self):
 
@@ -32,37 +39,46 @@ class Mastery(Plugin):
         self.compute_user_interactivity()
         self.compute_parallelization()
 
-    def finalize(self) -> str:
-        """
-        Output the overall programming competence
-        """
+    def finalize(self) -> dict:
+
         self.process()
         self.analyze()
 
-        # result = ""
-        # result += filename
-        # result += '\n'
+        total_points = 0
 
-        result = '{}{}'.format(self.filename, '\n')
-        result += json.dumps(self.dict_mastery)
-        result += '\n'
+        for skill, skill_grade in self.dict_mastery.items():
+            if self.verbose:
+                logger.info('Skill: {}, points: {}'.format(skill, skill_grade))
+            total_points += skill_grade
 
-        total = 0
-        for i in self.dict_mastery.items():
-            total += i[1]
+        average_points = float(total_points) / 7
 
-        result += ("Total mastery points: %d/21\n" % total)
+        result = '{}{}{}{}'.format(self.filename, '\n', json.dumps(self.dict_mastery), '\n')
+        result += ('Total mastery points: {}/{}\n'.format(total_points, consts.PLUGIN_MASTERY_MAX_POINTS))
+        result += ('Average mastery points: {}/{}\n'.format(average_points, consts.PLUGIN_MASTERY_AVG_POINTS))
 
-        average = float(total) / 7
-        result += ("Average mastery points: %.2f/3\n" % average)
-
-        if average > 2:
+        if average_points > 2:
             result += "Overall programming competence: Proficiency"
-        elif average > 1:
+            programming_competence = 'Proficiency'
+        elif average_points > 1:
             result += "Overall programming competence: Developing"
+            programming_competence = 'Developing'
         else:
             result += "Overall programming competence: Basic"
-        return result
+            programming_competence = 'Basic'
+
+        self.dict_mastery['total_points'] = total_points
+        self.dict_mastery['average_points'] = average_points
+        self.dict_mastery['programming_competence'] = programming_competence
+        self.dict_mastery['max_points'] = consts.PLUGIN_MASTERY_MAX_POINTS
+        self.dict_mastery['description'] = result
+
+        if self.verbose:
+            logger.info(self.dict_mastery['description'])
+
+        dict_result = {'plugin': 'mastery', 'result': self.dict_mastery}
+
+        return dict_result
 
     def compute_logic(self):
         """
@@ -300,16 +316,5 @@ class Mastery(Plugin):
                             return 1
 
         return 0
-
-
-# def main(filename):
-#     mastery = Mastery(filename)
-#     mastery.process()
-#     mastery.analyze()
-#     dict_result = mastery.finalize()
-#     return dict_result
-
-
-
 
 

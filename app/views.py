@@ -2,6 +2,9 @@
 # -*- encoding: utf-8 -*-
 # -*- coding: utf-8 -*-
 
+import os
+import ast
+import json
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
@@ -9,38 +12,26 @@ from django.contrib.auth import logout, login, authenticate,get_user_model
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from django.utils.datastructures import MultiValueDictKeyError
-from django.utils import timezone
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
+from django.utils import timezone
 from django.db.models import Avg
-import json
-from zipfile import ZipFile
-from zipfile import BadZipfile
-from app.models import File, CSVs
-from app.models import Organization, OrganizationHash, Coder
-from app.models import Discuss, Stats
-from app.forms import UrlForm
-from app.forms import OrganizationForm, OrganizationHashForm
-from app.forms import LoginOrganizationForm
-from app.forms import CoderForm
-from app.forms import DiscussForm
 from django.contrib.auth.models import User
 from django.utils.encoding import smart_str
 from django.shortcuts import render
-import app.consts_drscratch as consts
-import os
-import ast
-import json
+from app.forms import UrlForm, OrganizationForm, OrganizationHashForm, LoginOrganizationForm, CoderForm, DiscussForm
+from app.models import File, CSVs, Organization, OrganizationHash, Coder, Discuss, Stats
 from urllib.request import urlopen
 from urllib.error import HTTPError, URLError
+from zipfile import ZipFile, BadZipfile
 import shutil
 import unicodedata
 import csv
 from datetime import datetime, timedelta, date
 import traceback
 
+import app.consts_drscratch as consts
 from app.scratchclient import ScratchSession
 from app.pyploma import generate_certificate
-
 from app.hairball3.mastery import Mastery
 from app.hairball3.spriteNaming import SpriteNaming
 from app.hairball3.backdropNaming import BackdropNaming
@@ -77,58 +68,6 @@ def contest(request):
 
 def collaborators(request):
     return render(request, 'main/collaborators.html')
-
-
-def date_range(start, end):
-    r = (end+timedelta(days=1)-start).days
-    return [start+timedelta(days=i) for i in range(r)]
-
-
-def statistics(request):
-    start = date(2015, 8, 1)
-    end = datetime.today()
-    year = end.year
-    month = end.month
-    day = end.day
-    end = date(year, month, day)
-    date_list = date_range(start, end)
-
-    my_dates = []
-
-    for n in date_list:
-        my_dates.append(n.strftime("%d/%m")) #used for x axis in
-
-    obj = Stats.objects.order_by("-id")[0]
-    data = {
-        "date": my_dates,
-        "dailyRate": obj.daily_score,
-        "levels": {
-            "basic": obj.basic,
-            "development": obj.development,
-            "master": obj.master
-        },
-        "totalProjects": obj.daily_projects,
-        "skillRate": {
-            "parallelism": obj.parallelism,
-            "abstraction": obj.abstraction,
-            "logic": obj.logic,
-            "synchronization": obj.synchronization,
-            "flowControl": obj.flow_control,
-            "userInteractivity": obj.userInteractivity,
-            "dataRepresentation": obj.dataRepresentation
-        },
-        "codeSmellRate": {
-            "deadCode": obj.deadCode,
-            "duplicateScript": obj.duplicateScript,
-            "spriteNaming": obj.spriteNaming,
-            "initialization": obj.initialization
-        }
-    }
-
-    #Show general statistics page of Dr. Scratch: www.drscratch.org/statistics
-    #return render_to_response("main/statistics.html",
-    #                                data, context_instance=RC(request))
-    return render(request, 'main/statistics.html', data)
 
 
 def show_dashboard(request):
@@ -356,7 +295,7 @@ def generator_dic(request, id_project):
             username = request.user.username
         else:
             username = None
-        path_project, file, ext_type_project = send_request_getsb3(id_project, username, method="url")
+        path_project, file_obj, ext_type_project = send_request_getsb3(id_project, username, method="url")
     except DrScratchException:
         logger.error('DrScratchException')
         d = {'Error': 'no_exists'}
@@ -368,12 +307,12 @@ def generator_dic(request, id_project):
         return d
 
     try:
-        d = analyze_project(request, path_project, file, ext_type_project)
+        d = analyze_project(request, path_project, file_obj, ext_type_project)
     except Exception:
         logger.error('Impossible analyze project')
         traceback.print_exc()
-        file.method = 'url/error'
-        file.save()
+        file_obj.method = 'url/error'
+        file_obj.save()
         old_path_project = path_project
         new_path_project = path_project.split("/uploads/")[0] + "/error_analyzing/" + path_project.split("/uploads/")[1]
         shutil.copy(old_path_project, new_path_project)
@@ -489,7 +428,7 @@ def send_request_getsb3(id_project, username, method):
     now = datetime.now()
 
     if Organization.objects.filter(username=username):
-        file_name = File(filename=file_url,
+        file_obj = File(filename=file_url,
                         organization=username,
                         method=method, time=now,
                         score=0, abstraction=0, parallelization=0,
@@ -498,7 +437,7 @@ def send_request_getsb3(id_project, username, method):
                         spriteNaming=0, initialization=0,
                         deadCode=0, duplicateScript=0)
     elif Coder.objects.filter(username=username):
-        file_name = File(filename=file_url,
+        file_obj = File(filename=file_url,
                         coder=username,
                         method=method, time=now,
                         score=0, abstraction=0, parallelization=0,
@@ -507,7 +446,7 @@ def send_request_getsb3(id_project, username, method):
                         spriteNaming=0, initialization=0,
                         deadCode=0, duplicateScript=0)
     else:
-        file_name = File(filename=file_url,
+        file_obj = File(filename=file_url,
                         method=method, time=now,
                         score=0, abstraction=0, parallelization=0,
                         logic=0, synchronization=0, flowControl=0,
@@ -515,12 +454,12 @@ def send_request_getsb3(id_project, username, method):
                         spriteNaming=0, initialization=0,
                         deadCode=0, duplicateScript=0)
     
-    file_name.save()
+    file_obj.save()
 
-    write_activity_in_logfile(file_name)
+    write_activity_in_logfile(file_obj)
     path_scratch_project_sb3, ext_type_project = save_projectsb3(path_json_file_temporary, id_project)
 
-    return path_scratch_project_sb3, file_name, ext_type_project
+    return path_scratch_project_sb3, file_obj, ext_type_project
 
 
 def handler_upload(file_saved, counter):
@@ -583,98 +522,97 @@ def load_json_project(path_projectsb3):
         print('Bad zipfile')
 
 
-def analyze_project(request, path_projectsb3, filename, ext_type_project):
+def analyze_project(request, path_projectsb3, file_obj, ext_type_project):
 
-    dictionary = {}
+    dict_analysis = {}
 
     if os.path.exists(path_projectsb3):
         json_scratch_project = load_json_project(path_projectsb3)
-        result_mastery = Mastery(path_projectsb3, json_scratch_project).finalize()
+        dict_mastery = Mastery(path_projectsb3, json_scratch_project).finalize()
+        dict_duplicate_script = DuplicateScripts(path_projectsb3, json_scratch_project, verbose=True).finalize()
+        dict_dead_code = DeadCode(path_projectsb3, json_scratch_project).finalize()
         result_sprite_naming = SpriteNaming(path_projectsb3, json_scratch_project).finalize()
         result_backdrop_naming = BackdropNaming(path_projectsb3, json_scratch_project).finalize()
-        result_duplicate_script = DuplicateScripts(path_projectsb3, json_scratch_project).finalize()
-        result_dead_code = DeadCode(path_projectsb3, json_scratch_project).finalize()
 
-        dictionary.update(proc_mastery(request, result_mastery, filename))
-        dictionary.update(proc_sprite_naming(result_sprite_naming, filename))
-        dictionary.update(proc_backdrop_naming(result_backdrop_naming, filename))
-        dictionary.update(proc_duplicate_script(result_duplicate_script, filename))
-        dictionary.update(proc_dead_code(result_dead_code, filename))
-        dictionary.update(proc_duplicate_script_scratch_block(result_duplicate_script))
+        dict_analysis.update(proc_mastery(request, dict_mastery, file_obj))
+        dict_analysis.update(proc_duplicate_script(dict_duplicate_script, file_obj))
+        dict_analysis.update(proc_dead_code(dict_dead_code, file_obj))
+        # dict_analysis.update(proc_duplicate_script_scratch_block(dict_duplicate_script))
+        dict_analysis.update(proc_sprite_naming(result_sprite_naming, file_obj))
+        dict_analysis.update(proc_backdrop_naming(result_backdrop_naming, file_obj))
         # dictionary.update(proc_initialization(resultInitialization, filename))
-        # code = {'dCode':dead_code_scratch_block(resultDeadCode)}
-        # dictionary.update(code)
-        return dictionary
+
+        return dict_analysis
     else:
-        return dictionary
+        return dict_analysis
 
 
-def proc_mastery(request, lines, filename):
-    """
-    Returns the information of Mastery
-    """
+def proc_dead_code(dict_dead_code, filename):
 
-    print(lines)
+    dict_dc = {}
+    dict_dc["deadCode"] = dict_dc
+    dict_dc["deadCode"]["number"] = dict_dead_code['result']['total_dead_code_scripts']
 
-    dic = {}
-    lLines = lines.split('\n')
-    d = {}
-    d = ast.literal_eval(lLines[1])
-    lLines = lLines[2].split(':')[1]
-    points = int(lLines.split('/')[0])
-    maxi = int(lLines.split('/')[1])
+    for dict_sprite_dead_code_blocks in dict_dead_code['result']['list_dead_code_scripts']:
+        for sprite_name, list_blocks in dict_sprite_dead_code_blocks.items():
+            dict_dc["deadCode"][sprite_name] = list_blocks
 
-    filename.score = points
-    filename.abstraction = d["Abstraction"]
-    filename.parallelization = d["Parallelization"]
-    filename.logic = d["Logic"]
-    filename.synchronization = d["Synchronization"]
-    filename.flow_control = d["FlowControl"]
-    filename.userInteractivity = d["UserInteractivity"]
-    filename.dataRepresentation = d["DataRepresentation"]
+    filename.deadCode = dict_dead_code['result']['total_dead_code_scripts']
     filename.save()
 
-    d_translated = translate(request, d, filename)
+    return dict_dc
 
-    dic["mastery"] = d_translated
-    dic["mastery"]["points"] = points
-    dic["mastery"]["maxi"] = maxi
+
+def proc_mastery(request, dict_mastery, file_obj):
+
+    dict_result = dict_mastery['result'].copy()
+
+    file_obj.score = dict_result["total_points"]
+    file_obj.abstraction = dict_result["Abstraction"]
+    file_obj.parallelization = dict_result["Parallelization"]
+    file_obj.logic = dict_result["Logic"]
+    file_obj.synchronization = dict_result["Synchronization"]
+    file_obj.flow_control = dict_result["FlowControl"]
+    file_obj.userInteractivity = dict_result["UserInteractivity"]
+    file_obj.dataRepresentation = dict_result["DataRepresentation"]
+    file_obj.save()
+
+    d_translated = translate(request, dict_result, file_obj)
+
+    dic = {"mastery": d_translated}
+    dic["mastery"]["points"] = dict_result["total_points"]
+    dic["mastery"]["maxi"] = dict_result["max_points"]
 
     return dic
 
 
-def proc_duplicate_script(lines, filename):
+def proc_duplicate_script(dict_result, file_obj) -> dict:
 
-    dic = {}
-    number = 0
-    lLines = lines.split('\n')
-    number = lLines[0].split(" ")[0]
-    dic["duplicateScript"] = dic
-    dic["duplicateScript"]["number"] = number
-    # if number != "0":
-    #     dic["duplicateScript"]["duplicated"] = lLines[1:-1]
+    dict_ds = {}
+    dict_ds["duplicateScript"] = dict_ds
+    dict_ds["duplicateScript"]["number"] = dict_result['result']['total_duplicate_scripts']
+    dict_ds["duplicateScript"]["scripts"] = dict_result['result']['list_duplicate_scripts']
 
-    #Save in DB
-    filename.duplicateScript = number
-    filename.save()
+    file_obj.duplicateScript = dict_result['result']['total_duplicate_scripts']
+    file_obj.save()
 
-    return dic
+    return dict_ds
 
 
-def proc_sprite_naming(lines, filename):
+def proc_sprite_naming(lines, file_obj):
 
     dic = {}
     lLines = lines.split('\n')
     number = lLines[0].split(' ')[0]
     lObjects = lLines[1:]
     lfinal = lObjects[:-1]
+
     dic['spriteNaming'] = dic
     dic['spriteNaming']['number'] = int(number)
     dic['spriteNaming']['sprite'] = lfinal
 
-    #Save in DB
-    filename.spriteNaming = number
-    filename.save()
+    file_obj.spriteNaming = number
+    file_obj.save()
 
     return dic
 
@@ -695,47 +633,6 @@ def proc_backdrop_naming(lines, filename):
 
     return dic
 
-
-def proc_dead_code(lines, filename):
-
-    dead_code = lines.split("\n")[1:]
-    iterator = 0
-    lcharacter = []
-    lblocks = []
-
-    if dead_code:
-        d = ast.literal_eval(dead_code[0])
-        for keys, values in d.items():
-            lcharacter.append(keys)
-            lblocks.append(values)
-            iterator += len(values)
-
-    dic = {}
-    dic["deadCode"] = dic
-    dic["deadCode"]["number"] = iterator
-
-    number = len(lcharacter)
-
-    for i in range(number):
-        dic["deadCode"][lcharacter[i].encode('utf-8')] = lblocks[i]
-
-    filename.deadCode = iterator
-    filename.save()
-
-    return dic
-
-
-def proc_duplicate_script_scratch_block(code) -> dict:
-    try:
-        code = code.split("\n")[1:][0]
-        if code == "":
-            code = ""
-        else:
-            code = code[1:-1].split(",")
-    except:
-        code = ""
-
-    return {'dupCode': code}
 
 
 """
@@ -1387,7 +1284,6 @@ def downloads(request, username, filename=""):
     upper = 10
     list_csv = {}
 
-
     if csv_len > 10:
         for n in range((csv_len/10)+1):
             list_csv[str(n)]= csv[lower:upper-1]
@@ -2001,10 +1897,63 @@ def error404(request):
     return response
 
 
+def date_range(start, end):
+    r = (end+timedelta(days=1)-start).days
+    return [start+timedelta(days=i) for i in range(r)]
+
+
 def error500(request):
     """Return own 500 page"""
     response = render(request, '500.html', {})
     return response
+
+
+def statistics(request):
+    start = date(2015, 8, 1)
+    end = datetime.today()
+    year = end.year
+    month = end.month
+    day = end.day
+    end = date(year, month, day)
+    date_list = date_range(start, end)
+
+    my_dates = []
+
+    for n in date_list:
+        my_dates.append(n.strftime("%d/%m")) #used for x axis in
+
+    obj = Stats.objects.order_by("-id")[0]
+    data = {
+        "date": my_dates,
+        "dailyRate": obj.daily_score,
+        "levels": {
+            "basic": obj.basic,
+            "development": obj.development,
+            "master": obj.master
+        },
+        "totalProjects": obj.daily_projects,
+        "skillRate": {
+            "parallelism": obj.parallelism,
+            "abstraction": obj.abstraction,
+            "logic": obj.logic,
+            "synchronization": obj.synchronization,
+            "flowControl": obj.flow_control,
+            "userInteractivity": obj.userInteractivity,
+            "dataRepresentation": obj.dataRepresentation
+        },
+        "codeSmellRate": {
+            "deadCode": obj.deadCode,
+            "duplicateScript": obj.duplicateScript,
+            "spriteNaming": obj.spriteNaming,
+            "initialization": obj.initialization
+        }
+    }
+
+    #Show general statistics page of Dr. Scratch: www.drscratch.org/statistics
+    #return render_to_response("main/statistics.html",
+    #                                data, context_instance=RC(request))
+    return render(request, 'main/statistics.html', data)
+
 
 
 

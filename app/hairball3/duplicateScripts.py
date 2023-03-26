@@ -1,4 +1,9 @@
 from app.hairball3.plugin import Plugin
+import logging
+import coloredlogs
+
+logger = logging.getLogger(__name__)
+coloredlogs.install(level='DEBUG', logger=logger)
 
 
 class DuplicateScripts(Plugin):
@@ -6,21 +11,24 @@ class DuplicateScripts(Plugin):
     Plugin that analyzes duplicate scripts in scratch projects version 3.0
     """
 
-    def __init__(self, filename, json_project):
-        super().__init__(filename, json_project)
+    def __init__(self, filename, json_project, verbose):
+        super().__init__(filename, json_project, verbose)
         self.total_duplicate = 0
         self.blocks_dicc = {}
         self.total_blocks = []
         self.list_duplicate = []
 
     def analyze(self):
+
+        json_scratch_project = self.json_project.copy()
         scripts_set = set()
 
-        for key, value in self.json_project.items():
+        for key, list_dict_targets in json_scratch_project.items():
             if key == "targets":
-                for dicc in value:
-                    for dicc_key, dicc_value in dicc.items():
-                        if dicc_key == "blocks":
+                for dict_target in list_dict_targets:
+                    block_name = dict_target['name']
+                    for dict_key, dicc_value in dict_target.items():
+                        if dict_key == "blocks":
                             for blocks, blocks_value in dicc_value.items():
                                 if type(blocks_value) is dict:
                                     self.blocks_dicc[blocks] = blocks_value
@@ -48,7 +56,7 @@ class DuplicateScripts(Plugin):
 
     def _search_next(self, next, block_list, key_block, aux_next):
         if next is None:
-            try: # Maybe is a control_forever block
+            try:
                 next = self.blocks_dicc[key_block]["inputs"]["SUBSTACK"][1]
                 if next is None:
                     return
@@ -59,7 +67,7 @@ class DuplicateScripts(Plugin):
                 else:
                     next = None
                     return
-        else: # Maybe is a loop block
+        else: # loop block
             if "SUBSTACK" in self.blocks_dicc[key_block]["inputs"]:
                 loop_block = self.blocks_dicc[key_block]["inputs"]["SUBSTACK"][1]
                 if loop_block is not None: #Check if is a loop block but EMPTY
@@ -72,7 +80,7 @@ class DuplicateScripts(Plugin):
         next = block["next"]
         self._search_next(next, block_list, key_block, aux_next)
 
-    def finalize(self):
+    def finalize(self) -> dict:
 
         self.analyze()
 
@@ -81,12 +89,21 @@ class DuplicateScripts(Plugin):
         for duplicate in self.list_duplicate:
             result += str(duplicate)
             result += "\n"
-        return result
+
+        self.dict_mastery['description'] = result
+        self.dict_mastery['total_duplicate_scripts'] = self.total_duplicate
+        self.dict_mastery['list_duplicate_scripts'] = self.list_duplicate
+
+        if self.verbose:
+            logger.info(self.dict_mastery['description'])
+            logger.info(self.dict_mastery['total_duplicate_scripts'])
+            logger.info(self.dict_mastery['list_duplicate_scripts'])
+
+        dict_result = {'plugin': 'duplicate_scripts', 'result': self.dict_mastery}
+
+        return dict_result
 
 
-# def main(filename):
-#     duplicate = DuplicateScripts(filename)
-#     duplicate.analyze()
-#     return duplicate.finalize()
+
 
 

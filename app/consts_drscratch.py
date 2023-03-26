@@ -30,6 +30,9 @@ PLUGIN_DEADCODE_LIST_LOOP_BLOCKS = [
     "control_repeat_until"
 ]
 
+PLUGIN_MASTERY_MAX_POINTS = 21
+PLUGIN_MASTERY_AVG_POINTS = 3.0
+
 PLUGIN_INIT_ATTRIBUTES = [
     'costume',
     'orientation',

@@ -43,11 +43,5 @@ class SpriteNaming(Plugin):
         return result
 
 
-# def main(filename):
-#     naming = SpriteNaming(filename)
-#     naming.analyze()
-#     return naming.finalize()
-
-
 
 

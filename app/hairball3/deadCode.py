@@ -16,9 +16,6 @@ class DeadCode(Plugin):
         self.opcode_argument_reporter = "argument_reporter"
 
     def analyze(self):
-        """
-        Run and return the results form the DeadCode plugin
-        """
 
         sprites = {}
 
@@ -64,10 +61,13 @@ class DeadCode(Plugin):
             result += "\n"
             result += str(self.dict_deadcode)
 
-        return result
+        self.dict_mastery['description'] = result
+        self.dict_mastery['total_dead_code_scripts'] = self.dead_code_instances
+        self.dict_mastery['list_dead_code_scripts'] = [self.dict_deadcode]
+
+        dict_result = {'plugin': 'dead_code', 'result': self.dict_mastery}
+
+        return dict_result
 
 
-# def main(filename):
-#     dead_code = DeadCode(filename)
-#     dead_code.analyze()
-#     return dead_code.finalize()
+
