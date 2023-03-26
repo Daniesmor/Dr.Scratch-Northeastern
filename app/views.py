@@ -529,7 +529,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project):
     if os.path.exists(path_projectsb3):
         json_scratch_project = load_json_project(path_projectsb3)
         dict_mastery = Mastery(path_projectsb3, json_scratch_project).finalize()
-        dict_duplicate_script = DuplicateScripts(path_projectsb3, json_scratch_project, verbose=True).finalize()
+        dict_duplicate_script = DuplicateScripts(path_projectsb3, json_scratch_project).finalize()
         dict_dead_code = DeadCode(path_projectsb3, json_scratch_project).finalize()
         result_sprite_naming = SpriteNaming(path_projectsb3, json_scratch_project).finalize()
         result_backdrop_naming = BackdropNaming(path_projectsb3, json_scratch_project).finalize()
@@ -537,7 +537,6 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project):
         dict_analysis.update(proc_mastery(request, dict_mastery, file_obj))
         dict_analysis.update(proc_duplicate_script(dict_duplicate_script, file_obj))
         dict_analysis.update(proc_dead_code(dict_dead_code, file_obj))
-        # dict_analysis.update(proc_duplicate_script_scratch_block(dict_duplicate_script))
         dict_analysis.update(proc_sprite_naming(result_sprite_naming, file_obj))
         dict_analysis.update(proc_backdrop_naming(result_backdrop_naming, file_obj))
         # dictionary.update(proc_initialization(resultInitialization, filename))
@@ -617,7 +616,7 @@ def proc_sprite_naming(lines, file_obj):
     return dic
 
 
-def proc_backdrop_naming(lines, filename):
+def proc_backdrop_naming(lines, file_obj):
 
     dic = {}
     lLines = lines.split('\n')
@@ -628,25 +627,10 @@ def proc_backdrop_naming(lines, filename):
     dic['backdropNaming']['number'] = int(number)
     dic['backdropNaming']['backdrop'] = lfinal
 
-    filename.backdropNaming = number
-    filename.save()
+    file_obj.backdropNaming = number
+    file_obj.save()
 
     return dic
-
-
-
-"""
-def dead_code_scratch_block(code):
-
-    try:
-        code = code.split("\n")[1]
-        for n in code:
-            n = n[15:-2]
-    except:
-        code = ""
-        
-    return code
-"""
 
 
 def translate(request, d, filename):

@@ -11,7 +11,7 @@ class DuplicateScripts(Plugin):
     Plugin that analyzes duplicate scripts in scratch projects version 3.0
     """
 
-    def __init__(self, filename, json_project, verbose):
+    def __init__(self, filename, json_project, verbose=False):
         super().__init__(filename, json_project, verbose)
         self.total_duplicate = 0
         self.blocks_dicc = {}
