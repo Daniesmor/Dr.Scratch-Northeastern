@@ -5,7 +5,13 @@ PLUGIN_DEADCODE_LIST_EVENT_VARS = [
     "procedures_prototype", "procedures_definition"
 ]
 
-PLUGIN_NAMING_DEFAULT_NAMES = ["backdrop", "fondo", "fons", "atzeko oihala"]
+PLUGIN_BACKDROPNAMING_DEFAULT_NAMES = [
+    "backdrop",
+    "fondo",
+    "Fondos",
+    "fons",
+    "atzeko oihala"
+]
 
 PLUGIN_SPRITENAMING_DEFAULT_NAMES = [
     "Sprite",
@@ -24,7 +30,13 @@ PLUGIN_DEADCODE_LIST_LOOP_BLOCKS = [
     "control_repeat_until"
 ]
 
-PLUGIN_INIT_ATTRIBUTES = ['costume', 'orientation', 'position', 'size', 'visibility']
+PLUGIN_INIT_ATTRIBUTES = [
+    'costume',
+    'orientation',
+    'position',
+    'size',
+    'visibility'
+]
 
 PLUGIN_INIT_BLOCKMAPPING = {
     'costume': frozenset([('looks_switchbackdropto', 'absolute'),
@@ -51,4 +63,7 @@ PLUGIN_INIT_BLOCKMAPPING = {
 }
 
 URL_SCRATCH_SERVER = 'https://projects.scratch.mit.edu'
-URL_GETSB3 = 'http://127.0.0.1:3030/api'
+# URL_GETSB3 = 'http://127.0.0.1:3030/api'
+URL_GETSB3 = 'http://127.0.0.1:3000/api'
+URL_SCRATCH_API = 'https://api.scratch.mit.edu/projects'
+

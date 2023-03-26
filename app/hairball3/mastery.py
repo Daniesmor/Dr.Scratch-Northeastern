@@ -1,5 +1,5 @@
 import json
-from app.plugin import Plugin
+from app.hairball3.plugin import Plugin
 
 
 class Mastery(Plugin):

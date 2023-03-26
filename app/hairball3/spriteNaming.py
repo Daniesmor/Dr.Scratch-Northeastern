@@ -1,5 +1,5 @@
-from app.plugin import Plugin
-import app.consts_plugins as consts
+from app.hairball3.plugin import Plugin
+import app.consts_drscratch as consts
 
 
 class SpriteNaming(Plugin):
