@@ -1,6 +1,6 @@
 import logging
-import consts_plugins as consts
-from plugin import Plugin
+import app.consts_plugins as consts
+from app.plugin import Plugin
 logger = logging.getLogger(__name__)
 
 
@@ -9,8 +9,8 @@ class DeadCode(Plugin):
     Plugin that indicates unreachable code in Scratch files
     """
 
-    def __init__(self, filename):
-        super().__init__(filename)
+    def __init__(self, filename, json_project):
+        super().__init__(filename, json_project)
         self.dead_code_instances = 0
         self.dict_deadcode = {}
         self.opcode_argument_reporter = "argument_reporter"
@@ -22,12 +22,12 @@ class DeadCode(Plugin):
 
         sprites = {}
 
-        for key, value in self.json_project.iteritems():
+        for key, value in self.json_project.items():
             if key == "targets":
                 for dicc in value:
                     sprite = dicc["name"]
                     blocks_list = []
-                    for _, blocks_dicc in dicc["blocks"].iteritems():
+                    for _, blocks_dicc in dicc["blocks"].items():
                         if type(blocks_dicc) is dict:
                             event_var = any(blocks_dicc["opcode"] == event for event in consts.PLUGIN_DEADCODE_LIST_EVENT_VARS)
                             loop_block = any(blocks_dicc["opcode"] == loop for loop in consts.PLUGIN_DEADCODE_LIST_LOOP_BLOCKS)
@@ -55,9 +55,8 @@ class DeadCode(Plugin):
         self.dict_deadcode = sprites
 
     def finalize(self):
-        """
-        Output the number of instances that contained dead code
-        """
+
+        self.analyze()
 
         result = "{}".format(self.filename)
 
@@ -68,7 +67,7 @@ class DeadCode(Plugin):
         return result
 
 
-def main(filename):
-    dead_code = DeadCode(filename)
-    dead_code.analyze()
-    return dead_code.finalize()
+# def main(filename):
+#     dead_code = DeadCode(filename)
+#     dead_code.analyze()
+#     return dead_code.finalize()

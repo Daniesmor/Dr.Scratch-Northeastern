@@ -1,27 +1,27 @@
 import json
-from plugin import Plugin
+from app.plugin import Plugin
 
 
 class Mastery(Plugin):
 
-    def __init__(self, filename: str):
-        super().__init__(filename)
+    def __init__(self, filename: str, json_project):
+        super().__init__(filename, json_project)
 
     def process(self):
 
-        for key, value in self.json_project.iteritems():
+        for key, list_info in self.json_project.items():
             if key == "targets":
-                for dicc in value:
-                    for dicc_key, dicc_value in dicc.iteritems():
+                for dict_target in list_info:
+                    for dicc_key, dicc_value in dict_target.items():
                         if dicc_key == "blocks":
-                            for blocks, blocks_value in dicc_value.iteritems():
+                            for blocks, blocks_value in dicc_value.items():
                                 if type(blocks_value) is dict:
                                     self.list_total_blocks.append(blocks_value)
 
         for block in self.list_total_blocks:
-            for key, value in block.iteritems():
+            for key, list_info in block.items():
                 if key == "opcode":
-                    self.dict_blocks[value] += 1
+                    self.dict_blocks[list_info] += 1
 
     def analyze(self):
         self.compute_logic()
@@ -33,7 +33,12 @@ class Mastery(Plugin):
         self.compute_parallelization()
 
     def finalize(self) -> str:
-        """Output the overall programming competence"""
+        """
+        Output the overall programming competence
+        """
+        self.process()
+        self.analyze()
+
         # result = ""
         # result += filename
         # result += '\n'
@@ -98,7 +103,7 @@ class Mastery(Plugin):
             fc_score = 2
         else:
             for block in self.list_total_blocks:
-                for key, value in block.iteritems():
+                for key, value in block.items():
                     if key == "next" and value is not None:
                         fc_score = 1
                         break
@@ -137,7 +142,7 @@ class Mastery(Plugin):
         else:
             count = 0
             for block in self.list_total_blocks:
-                for key, value in block.iteritems():
+                for key, value in block.items():
                     if key == "parent" and value is None:
                         count += 1
             if count > 1:
@@ -272,9 +277,9 @@ class Mastery(Plugin):
         dict_parallelization = {}
 
         for block in self.list_total_blocks:
-            for key, value in block.iteritems():
+            for key, value in block.items():
                 if key == 'fields':
-                    for key_pressed, val_pressed in value.iteritems():
+                    for key_pressed, val_pressed in value.items():
                         if key_pressed in dict_parallelization:
                             dict_parallelization[key_pressed].append(val_pressed[0])
                         else:
@@ -288,9 +293,9 @@ class Mastery(Plugin):
         """
 
         for block in self.list_total_blocks:
-            for key, value in block.iteritems():
+            for key, value in block.items():
                 if key == 'fields':
-                    for mouse_key, mouse_val in value.iteritems():
+                    for mouse_key, mouse_val in value.items():
                         if (mouse_key == 'TO' or mouse_key == 'TOUCHINGOBJECTMENU') and mouse_val[0] == '_mouse_':
                             return 1
 

@@ -1,4 +1,4 @@
-from plugin import Plugin
+from app.plugin import Plugin
 
 
 class DuplicateScripts(Plugin):
@@ -6,26 +6,22 @@ class DuplicateScripts(Plugin):
     Plugin that analyzes duplicate scripts in scratch projects version 3.0
     """
 
-    def __init__(self, filename):
-        super().__init__(filename)
+    def __init__(self, filename, json_project):
+        super().__init__(filename, json_project)
         self.total_duplicate = 0
         self.blocks_dicc = {}
         self.total_blocks = []
         self.list_duplicate = []
 
     def analyze(self):
-        """
-        Takes into account scripts with more than 5 blocks
-        """
-
         scripts_set = set()
 
-        for key, value in self.json_project.iteritems():
+        for key, value in self.json_project.items():
             if key == "targets":
                 for dicc in value:
-                    for dicc_key, dicc_value in dicc.iteritems():
+                    for dicc_key, dicc_value in dicc.items():
                         if dicc_key == "blocks":
-                            for blocks, blocks_value in dicc_value.iteritems():
+                            for blocks, blocks_value in dicc_value.items():
                                 if type(blocks_value) is dict:
                                     self.blocks_dicc[blocks] = blocks_value
                                     self.total_blocks.append(blocks_value)
@@ -77,9 +73,9 @@ class DuplicateScripts(Plugin):
         self._search_next(next, block_list, key_block, aux_next)
 
     def finalize(self):
-        """
-        Output the duplicate scripts detected
-        """
+
+        self.analyze()
+
         result = ("%d duplicate scripts found" % self.total_duplicate)
         result += "\n"
         for duplicate in self.list_duplicate:
@@ -88,9 +84,9 @@ class DuplicateScripts(Plugin):
         return result
 
 
-def main(filename):
-    duplicate = DuplicateScripts(filename)
-    duplicate.analyze()
-    return duplicate.finalize()
+# def main(filename):
+#     duplicate = DuplicateScripts(filename)
+#     duplicate.analyze()
+#     return duplicate.finalize()
 
 
