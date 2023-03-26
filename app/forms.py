@@ -19,26 +19,29 @@ class NewUserForm(forms.Form):
     passUser = forms.CharField(max_length=50)
 
 
-
 class UrlForm(forms.Form):
-	urlProject = forms.CharField(max_length=80)
+    urlProject = forms.CharField(max_length=80)
+
 
 class UpdateForm(forms.Form):
-	newPass = forms.CharField(max_length=50)
-	newEmail = forms.CharField(max_length=50)
-#	choiceAvatar = forms.ChoiceField(choices=AVATAR_CHOICES, widget=forms.RadioSelect()
+    newPass = forms.CharField(max_length=50)
+    newEmail = forms.CharField(max_length=50)
+    # choiceAvatar = forms.ChoiceField(choices=AVATAR_CHOICES, widget=forms.RadioSelect()
+
 
 class TeacherForm(forms.Form):
     username = forms.CharField(max_length=50)
     password = forms.CharField(max_length=50)
     email = forms.CharField(max_length=50)
     hashkey = forms.CharField(max_length=50)
-    #classroom = forms.CharField(max_length=50)
+    # classroom = forms.CharField(max_length=50)
+
 
 class OrganizationHashForm(ModelForm):
     class Meta:
         model = OrganizationHash
         fields = ['hashkey']
+
 
 class OrganizationForm(forms.Form):
     username = forms.CharField(max_length=50)
@@ -60,10 +63,10 @@ class CoderForm(forms.Form):
     country = forms.CharField(max_length=50)
 
 
-
 class LoginOrganizationForm(forms.Form):
     username = forms.CharField(max_length=50)
     password = forms.CharField(max_length=50)
+
 
 class LoginCoderForm(forms.Form):
     username = forms.CharField(max_length=50)
