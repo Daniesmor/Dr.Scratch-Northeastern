@@ -12,45 +12,47 @@ from django.utils.datastructures import MultiValueDictKeyError
 from django.utils import timezone
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from django.db.models import Avg
+import json
+from zipfile import ZipFile
+from zipfile import BadZipfile
 from app.models import File, CSVs
 from app.models import Organization, OrganizationHash, Coder
 from app.models import Discuss, Stats
-from app.forms import UploadFileForm, UserForm, NewUserForm, UrlForm
+from app.forms import UrlForm
 from app.forms import OrganizationForm, OrganizationHashForm
-from app.forms import TeacherForm, LoginOrganizationForm
-from app.forms import CoderForm, LoginCoderForm
+from app.forms import LoginOrganizationForm
+from app.forms import CoderForm
 from app.forms import DiscussForm
 from django.contrib.auth.models import User
 from django.utils.encoding import smart_str
 from django.shortcuts import render
-import consts_plugins as consts
+import app.consts_drscratch as consts
 import os
 import ast
 import json
-import urllib3
+from urllib.request import urlopen
+from urllib.error import HTTPError, URLError
 import shutil
 import unicodedata
 import csv
-import zipfile
-import uuid
 from datetime import datetime, timedelta, date
 import traceback
 
-from pyploma import generate_certificate
-import org
+from app.scratchclient import ScratchSession
+from app.pyploma import generate_certificate
 
-from app.mastery import Mastery
-from app.spriteNaming import SpriteNaming
-from app.backdropNaming import BackdropNaming
-from app.duplicateScripts import DuplicateScripts
-from app.deadCode import DeadCode
-
+from app.hairball3.mastery import Mastery
+from app.hairball3.spriteNaming import SpriteNaming
+from app.hairball3.backdropNaming import BackdropNaming
+from app.hairball3.duplicateScripts import DuplicateScripts
+from app.hairball3.deadCode import DeadCode
 from app.exception import DrScratchException
 
-import errno
 import logging
+import coloredlogs
 
 logger = logging.getLogger(__name__)
+coloredlogs.install(level='DEBUG', logger=logger)
 
 
 def main(request):
@@ -111,7 +113,7 @@ def statistics(request):
             "abstraction": obj.abstraction,
             "logic": obj.logic,
             "synchronization": obj.synchronization,
-            "flowControl": obj.flowControl,
+            "flowControl": obj.flow_control,
             "userInteractivity": obj.userInteractivity,
             "dataRepresentation": obj.dataRepresentation
         },
@@ -196,6 +198,46 @@ def identify_user_type(request) -> str:
     return user
 
 
+def save_analysis_in_file_db(request, zip_filename):
+    now = datetime.now()
+    method = "project"
+
+    if request.user.is_authenticated():
+        username = request.user.username
+    else:
+        username = None
+
+    if Organization.objects.filter(username=username):
+        filename_obj = File(filename=zip_filename,
+                        organization=username,
+                        method=method, time=now,
+                        score=0, abstraction=0, parallelization=0,
+                        logic=0, synchronization=0, flowControl=0,
+                        userInteractivity=0, dataRepresentation=0,
+                        spriteNaming=0, initialization=0,
+                        deadCode=0, duplicateScript=0)
+    elif Coder.objects.filter(username=username):
+        filename_obj = File(filename=zip_filename,
+                        coder=username,
+                        method=method, time=now,
+                        score=0, abstraction=0, parallelization=0,
+                        logic=0, synchronization=0, flowControl=0,
+                        userInteractivity=0, dataRepresentation=0,
+                        spriteNaming=0, initialization=0,
+                        deadCode=0, duplicateScript=0)
+    else:
+        filename_obj = File(filename=zip_filename,
+                        method=method, time=now,
+                        score=0, abstraction=0, parallelization=0,
+                        logic=0, synchronization=0, flowControl=0,
+                        userInteractivity=0, dataRepresentation=0,
+                        spriteNaming=0, initialization=0,
+                        deadCode=0, duplicateScript=0)
+
+    filename_obj.save()
+    return filename_obj
+
+
 def _make_analysis_by_upload(request):
     """
     Upload file from form POST for unregistered users
@@ -205,57 +247,16 @@ def _make_analysis_by_upload(request):
         try:
             zip_file = request.FILES['zipFile']
         except MultiValueDictKeyError:
+            print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
             return {'Error': 'MultiValueDict'}
 
-        now = datetime.now()
-        method = "project"
-
-        if request.user.is_authenticated():
-            username = request.user.username
-        else:
-            username = None
-
-        if Organization.objects.filter(username=username):
-            filename = File(filename=zip_file.name.encode('utf-8'),
-                            organization=username,
-                            method=method, time=now,
-                            score=0, abstraction=0, parallelization=0,
-                            logic=0, synchronization=0, flowControl=0,
-                            userInteractivity=0, dataRepresentation=0,
-                            spriteNaming=0, initialization=0,
-                            deadCode=0, duplicateScript=0)
-        elif Coder.objects.filter(username=username):
-            filename = File(filename=zip_file.name.encode('utf-8'),
-                            coder=username,
-                            method=method, time=now,
-                            score=0, abstraction=0, parallelization=0,
-                            logic=0, synchronization=0, flowControl=0,
-                            userInteractivity=0, dataRepresentation=0,
-                            spriteNaming=0, initialization=0,
-                            deadCode=0, duplicateScript=0)
-        else:
-            filename = File(filename=zip_file.name.encode('utf-8'),
-                            method=method, time=now,
-                            score=0, abstraction=0, parallelization=0,
-                            logic=0, synchronization=0, flowControl=0,
-                            userInteractivity=0, dataRepresentation=0,
-                            spriteNaming=0, initialization=0,
-                            deadCode=0, duplicateScript=0)
-
-        filename.save()
+        zip_filename = zip_file.name.encode('utf-8')
+        filename_obj = save_analysis_in_file_db(request, zip_filename)
 
         dir_zips = os.path.dirname(os.path.dirname(__file__)) + "/uploads/"
-
-        now = datetime.now()
-        date = now.strftime("%Y_%m_%d_%H_%M_%S_")
-        ms = now.microsecond
-
-        project_name = str(filename.filename).split(".sb")[0]
-        project_name = project_name.replace(" ", "_")
-
-        unique_id = project_name + "_" + date + str(ms)
-
-        version = check_version(filename.filename)
+        project_name = str(zip_filename).split(".sb")[0].replace(" ", "_")
+        unique_id = '{}_{}{}'.format(project_name, datetime.now().strftime("%Y_%m_%d_%H_%M_%S_"), datetime.now().microsecond)
+        version = check_version(zip_filename)
 
         if version == "1.4":
             file_saved = dir_zips + unique_id + ".sb"
@@ -266,9 +267,9 @@ def _make_analysis_by_upload(request):
 
         # Create log
         path_log = os.path.dirname(os.path.dirname(__file__)) + "/log/"
-        logFile = open(path_log + "logFile.txt", "a")
-        logFile.write("FileName: " + str(filename.filename) + "\t\t\t" + "ID: " + str(filename.id) + "\t\t\t" + \
-                      "Method: " + str(filename.method) + "\t\t\tTime: " + str(filename.time) + "\n")
+        log_file = open(path_log + "logFile.txt", "a")
+        log_file.write("FileName: " + str(zip_filename) + "\t\t\t" + "ID: " + str(filename_obj.id) + "\t\t\t" + \
+                       "Method: " + str(filename_obj.method) + "\t\t\tTime: " + str(filename_obj.time) + "\n")
 
         # Save file in server
         counter = 0
@@ -279,11 +280,11 @@ def _make_analysis_by_upload(request):
                 destination.write(chunk)
 
         try:
-            dict_drscratch_analysis = analyze_project(request, file_name, filename, ext_type_project=None)
+            dict_drscratch_analysis = analyze_project(request, file_name, zip_filename, ext_type_project=None)
         except Exception:
             traceback.print_exc()
-            filename.method = 'project/error'
-            filename.save()
+            filename_obj.method = 'project/error'
+            filename_obj.save()
             old_path_project = file_saved
             new_path_project = file_saved.split("/uploads/")[0] + "/error_analyzing/" + file_saved.split("/uploads/")[1]
             shutil.copy(old_path_project, new_path_project)
@@ -409,7 +410,7 @@ def save_projectsb3(path_file_temporary, id_project):
 
     os.chdir(dir_utemp)
 
-    with zipfile.ZipFile(unique_file_name_for_saving, 'w') as myzip:
+    with ZipFile(unique_file_name_for_saving, 'w') as myzip:
         os.rename(temporary_file_name, 'project.json')
         myzip.write('project.json')
 
@@ -427,7 +428,7 @@ def write_activity_in_logfile(file_name):
     log_filename = '{}/log/{}'.format(os.path.dirname(os.path.dirname(__file__)), 'logFile.txt')
 
     try:
-        log_file = open(log_filename, "a")
+        log_file = open(log_filename, "a+")
         log_file.write("FileName: " + str(file_name.filename) + "\t\t\t" + "ID: " + str(file_name.id) + "\t\t\t" +
                        "Method: " + str(file_name.method) + "\t\t\t" + "Time: " + str(file_name.time) + "\n")
     except OSError:
@@ -439,22 +440,22 @@ def write_activity_in_logfile(file_name):
 
 
 def download_scratch_project_from_servers(path_project, id_project):
-
-    url_json_scratch = "{}/{}/get?foo={}".format(consts.URL_SCRATCH_SERVER, id_project, uuid.uuid4().hex)
+    scratch_project_inf = ScratchSession().get_project(id_project)
+    url_json_scratch = "{}/{}?token={}".format(consts.URL_SCRATCH_SERVER, id_project, scratch_project_inf.project_token)
     path_utemp = '{}/utemp/{}'.format(path_project, id_project)
     path_json_file = path_utemp + '_new_project.json'
 
     try:
-        http = urllib3.PoolManager()
-        response_from_scratch = http.urlopen(url_json_scratch)
-    except urllib3.exceptions.HTTPError as e:
+        logger.info(url_json_scratch)
+        response_from_scratch = urlopen(url_json_scratch)
+    except HTTPError:
         # Two ways, id does not exist in servers or id is in other server
-        logger.error('HTTPError %s', e.message)
+        logger.error('HTTPError')
         url_json_scratch = "{}/{}".format(consts.URL_GETSB3, id_project)
-        response_from_scratch = urllib3.urlopen(url_json_scratch)
+        response_from_scratch = urlopen(url_json_scratch)
         path_json_file = path_utemp + '_old_project.json'
-    except urllib3.exceptions.URLError as e:
-        logger.error('URLError: %s', e.message)
+    except URLError:
+        logger.error('URLError')
         traceback.print_exc()
     except:
         traceback.print_exc()
@@ -573,16 +574,26 @@ def check_version(filename):
     return version
 
 
+def load_json_project(path_projectsb3):
+    try:
+        zip_file = ZipFile(path_projectsb3, "r")
+        json_project = json.loads(zip_file.open("project.json").read())
+        return json_project
+    except BadZipfile:
+        print('Bad zipfile')
+
+
 def analyze_project(request, path_projectsb3, filename, ext_type_project):
 
     dictionary = {}
 
     if os.path.exists(path_projectsb3):
-        result_mastery = Mastery(path_projectsb3).finalize()
-        result_sprite_naming = SpriteNaming(path_projectsb3).finalize()
-        result_backdrop_naming = BackdropNaming(path_projectsb3).finalize()
-        result_duplicate_script = DuplicateScripts(path_projectsb3).finalize()
-        result_dead_code = DeadCode(path_projectsb3).finalize()
+        json_scratch_project = load_json_project(path_projectsb3)
+        result_mastery = Mastery(path_projectsb3, json_scratch_project).finalize()
+        result_sprite_naming = SpriteNaming(path_projectsb3, json_scratch_project).finalize()
+        result_backdrop_naming = BackdropNaming(path_projectsb3, json_scratch_project).finalize()
+        result_duplicate_script = DuplicateScripts(path_projectsb3, json_scratch_project).finalize()
+        result_dead_code = DeadCode(path_projectsb3, json_scratch_project).finalize()
 
         dictionary.update(proc_mastery(request, result_mastery, filename))
         dictionary.update(proc_sprite_naming(result_sprite_naming, filename))
@@ -598,10 +609,12 @@ def analyze_project(request, path_projectsb3, filename, ext_type_project):
         return dictionary
 
 
-# _______________________________ PROCESSORS _________________________________#
-
 def proc_mastery(request, lines, filename):
-    """Returns the information of Mastery"""
+    """
+    Returns the information of Mastery
+    """
+
+    print(lines)
 
     dic = {}
     lLines = lines.split('\n')
@@ -616,7 +629,7 @@ def proc_mastery(request, lines, filename):
     filename.parallelization = d["Parallelization"]
     filename.logic = d["Logic"]
     filename.synchronization = d["Synchronization"]
-    filename.flowControl = d["FlowControl"]
+    filename.flow_control = d["FlowControl"]
     filename.userInteractivity = d["UserInteractivity"]
     filename.dataRepresentation = d["DataRepresentation"]
     filename.save()
@@ -677,7 +690,6 @@ def proc_backdrop_naming(lines, filename):
     dic['backdropNaming']['number'] = int(number)
     dic['backdropNaming']['backdrop'] = lfinal
 
-    #Save in DB
     filename.backdropNaming = number
     filename.save()
 

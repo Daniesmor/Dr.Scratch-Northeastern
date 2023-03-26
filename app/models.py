@@ -7,6 +7,7 @@ class File(models.Model):
     filename = models.CharField(max_length=100)
     organization = models.CharField(max_length=100, default='drscratch')
     coder = models.CharField(max_length=100, default='drscratch')
+    # type_user = models.CharField(max_length=100, default='drscratch')
     method = models.CharField(max_length=100)
     time = models.DateField(auto_now=False)
     language = models.TextField(default="en")
