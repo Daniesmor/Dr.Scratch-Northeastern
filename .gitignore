@@ -36,6 +36,7 @@ parts/
 sdist/
 var/
 venv310/
+log/logFile.txt
 *.egg-info/
 .installed.cfg
 *.egg
