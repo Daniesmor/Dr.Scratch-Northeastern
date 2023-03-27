@@ -1,5 +1,4 @@
 import json
-import ast
 from app.hairball3.plugin import Plugin
 import app.consts_drscratch as consts
 import logging

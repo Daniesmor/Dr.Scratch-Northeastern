@@ -15,6 +15,10 @@ services:
       retries: 10
     volumes:
       - dbdata:/var/run/mysqld
+  getsb3:
+    build: ./scratchapi
+    ports:
+      - "3000:3000"
   web:
     build: .
     volumes:
