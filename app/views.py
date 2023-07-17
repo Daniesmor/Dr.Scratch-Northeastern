@@ -37,6 +37,7 @@ from app.hairball3.spriteNaming import SpriteNaming
 from app.hairball3.backdropNaming import BackdropNaming
 from app.hairball3.duplicateScripts import DuplicateScripts
 from app.hairball3.deadCode import DeadCode
+from app.hairball3.refactor import RefactorDuplicate
 from app.exception import DrScratchException
 
 import logging
@@ -533,17 +534,29 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project):
         dict_dead_code = DeadCode(path_projectsb3, json_scratch_project).finalize()
         result_sprite_naming = SpriteNaming(path_projectsb3, json_scratch_project).finalize()
         result_backdrop_naming = BackdropNaming(path_projectsb3, json_scratch_project).finalize()
+        
+        #Refactorings
+        refactored_code = RefactorDuplicate(json_scratch_project).refactor_duplicates()
 
         dict_analysis.update(proc_mastery(request, dict_mastery, file_obj))
         dict_analysis.update(proc_duplicate_script(dict_duplicate_script, file_obj))
         dict_analysis.update(proc_dead_code(dict_dead_code, file_obj))
         dict_analysis.update(proc_sprite_naming(result_sprite_naming, file_obj))
         dict_analysis.update(proc_backdrop_naming(result_backdrop_naming, file_obj))
+        dict_analysis.update(proc_refactored_code(refactored_code))
+        
         # dictionary.update(proc_initialization(resultInitialization, filename))
 
         return dict_analysis
     else:
         return dict_analysis
+    
+def proc_refactored_code(refactor):
+    dict_refactor = {}
+    dict_refactor["refactor"] = dict_refactor
+    dict_refactor["refactor"]["refactor_list"] = refactor
+
+    return dict_refactor
 
 
 def proc_dead_code(dict_dead_code, filename):

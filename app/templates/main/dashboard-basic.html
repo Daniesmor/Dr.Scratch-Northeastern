@@ -11,6 +11,7 @@
     <script src="../../static/app/scripts/bootstrap.min.js"></script>
     <script src="../../static/app/scripts/bootstrap-tour.js"></script>
     <script src="../../static/app/scripts/googleAnalytics.js"></script>
+    <script src="../../static/app/scripts/scratchblocks-v3.4-min.js"></script>
 
     <!-- SITE TITLE -->
     <title>Dr. Scratch</title>
@@ -91,6 +92,16 @@
     $("#certificate").val(list.toString());
     });
 
+    </script>
+    <script>
+        $(document).ready(function() {
+            scratchblocks.renderMatching('pre.blocks', {
+            style:     'scratch3',   // Optional, defaults to 'scratch2'.
+            languages: ['en'], // Optional, defaults to ['en'].
+            scale: 0.5,                // Optional, defaults to 1
+            });
+        })
+        
     </script>
 
 </head>
@@ -239,6 +250,32 @@
                     </div>
                 </div>
         </section>
+        <div id="refactor">
+            {% for refactor_dict in refactor.refactor_list %}
+            <p>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#originalCollapse{{ forloop.counter }}" aria-expanded="false" aria-controls="originalCollapse{{ forloop.counter }}">
+                  Display Original Blocks!
+                </button>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#refactoredCollapse{{ forloop.counter }}" aria-expanded="false" aria-controls="refactoredCollapse{{ forloop.counter }}">
+                    Display Solution!
+                  </button>
+              </p>
+              <div class="collapse" id="originalCollapse{{ forloop.counter }}">
+                <div class="card card-body">
+                    <pre class="blocks">
+                        {{ refactor_dict.original }}
+                    </pre>
+                </div>
+              </div>
+              <div class="collapse" id="refactoredCollapse{{ forloop.counter }}">
+                <div class="card card-body">
+                    <pre class="blocks">
+                        {{ refactor_dict.refactored }}
+                    </pre>
+                </div>
+              </div>
+            {% endfor %}
+        </div>
      </div>
 </div>
 

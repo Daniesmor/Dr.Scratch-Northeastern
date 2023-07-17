@@ -1,11 +1,12 @@
 import json
-from scriptObject import Script
+# from scriptObject import Script
+from app.hairball3.scriptObject import Script
 
 
 class RefactorDuplicate():
-    def __init__(self, json):
+    def __init__(self, json_project):
         self.duplicates = {}
-        self.json = json
+        self.json_project = json_project
         self.block_dict = {}
         self.sprite_dict = {}
         self.constants = []
@@ -30,7 +31,7 @@ class RefactorDuplicate():
     def set_sprite_dict(self):
         block_dict = []
 
-        for key, list_dict_targets in proj.items():
+        for key, list_dict_targets in self.json_project.items():
             if key == "targets":
                 for dict_target in list_dict_targets:
                     sprite_name = dict_target['name']
@@ -50,6 +51,8 @@ class RefactorDuplicate():
         return self.sprite_dict
     
     def search_duplicates(self):
+        self.set_sprite_dict()
+
         self.duplicates = {}
         
         for sprite, scripts in self.sprite_dict.items():
@@ -106,6 +109,8 @@ class RefactorDuplicate():
         refactored_list = []
 
         for key, value in duplicates.items():
+            sprite_name = value[0][1]
+
             duplicated_scripts = [pair[0] for pair in value]
 
             list_script_variables = [script.get_vars() for script in duplicated_scripts]
@@ -136,11 +141,13 @@ class RefactorDuplicate():
                 
                 calling_text_list.append(new_call)
 
+            original_text = "\n".join([script.convert_to_text() for script in duplicated_scripts])
+
             refactored_text = "\n".join(func_text_list) + "\n" + "\n".join(calling_text_list)
 
-            refactored_list.append(refactored_text)
+            refactored_list.append({"original":original_text, "refactored":refactored_text, "sprite":sprite_name})
 
-        return "\n".join(refactored_list)
+        return refactored_list
 
 
     def refactor_duplicate_script(self, script: Script, arguments):
@@ -180,18 +187,18 @@ class RefactorDuplicate():
 
 
 
-file = open("app\hairball3\project.json")
+# file = open("app\hairball3\project.json")
 
-proj = json.load(file)
+# proj = json.load(file)
 
 
 
-refactor = RefactorDuplicate(proj)
+# refactor = RefactorDuplicate(proj)
 
-refactor.set_sprite_dict()
+# refactor.set_sprite_dict()
 
-# print(refactor.search_duplicates())
-print(refactor.refactor_duplicates())
+# # print(refactor.search_duplicates())
+# print(refactor.refactor_duplicates())
 
 # print(refactor.search_clones())
 
