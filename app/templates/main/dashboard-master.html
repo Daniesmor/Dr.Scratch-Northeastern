@@ -137,6 +137,17 @@
     });
 
     </script>
+    <!-- <style>
+        .btn-primary {
+            background-color: #1792A4;
+        }
+        .btn-primary:hover {
+            background-color: #4CA8A1;
+        }
+        .btn-primary:focus {
+            background-color: #4CA8A1;
+        }
+    </style> -->
     
 </head>
 <body>
@@ -358,7 +369,7 @@
                     </div>
                 </div>
         </section>
-        <div id="refactor">
+        <div class="card" id="refactorization">
             {% for refactor_dict in refactor.refactor_list %}
             <p>
                 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#originalCollapse{{ forloop.counter }}" aria-expanded="false" aria-controls="originalCollapse{{ forloop.counter }}">
@@ -368,14 +379,14 @@
                     Display Solution!
                   </button>
               </p>
-              <div class="collapse" id="originalCollapse{{ forloop.counter }}">
+              <div class="collapse" id="originalCollapse{{ forloop.counter }}" data-bs-parent="#refactorization">
                 <div class="card card-body">
                     <pre class="blocks">
                         {{ refactor_dict.original }}
                     </pre>
                 </div>
               </div>
-              <div class="collapse" id="refactoredCollapse{{ forloop.counter }}">
+              <div class="collapse" id="refactoredCollapse{{ forloop.counter }}" data-bs-parent="#refactorization">
                 <div class="card card-body">
                     <pre class="blocks">
                         {{ refactor_dict.refactored }}

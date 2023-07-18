@@ -2,6 +2,15 @@ import json
 # from scriptObject import Script
 from app.hairball3.scriptObject import Script
 
+N_VARIABLES_IN_STARTER_BLOCK = {"EVENT_WHENFLAGCLICKED":0,
+    "EVENT_WHENTHISSPRITECLICKED":0,
+    "EVENT_WHENSTAGECLICKED":0,
+    "EVENT_WHENTOUCHINGOBJECT":1,
+    "EVENT_WHENBROADCASTRECEIVED":1,
+    "EVENT_WHENBACKDROPSWITCHESTO":1,
+    "EVENT_WHENGREATERTHAN":2,
+    "CONTROL_START_AS_CLONE":0,
+    "PROCEDURES_DEFINITION":0}
 
 class RefactorDuplicate():
     def __init__(self, json_project):
@@ -111,13 +120,22 @@ class RefactorDuplicate():
         for key, value in duplicates.items():
             sprite_name = value[0][1]
 
+            starting_block_type = value[0][0].get_blocks()[0]
+
             duplicated_scripts = [pair[0] for pair in value]
+
+            original_text = "\n".join([script.convert_to_text() for script in duplicated_scripts])
+
+            starting_blocks = [script.convert_to_text().split("\n")[1] for script in duplicated_scripts]
 
             list_script_variables = [script.get_vars() for script in duplicated_scripts]
 
             var_dict = {}
 
-            for k in list_script_variables[0].keys():
+            for i, k in enumerate(list_script_variables[0].keys()):
+                if i < N_VARIABLES_IN_STARTER_BLOCK[starting_block_type.upper()]:
+                    continue
+
                 var_dict[k] = [d[k] for d in list_script_variables]
             
             constants, arguments = self.search_constants_and_arguments(var_dict)
@@ -127,21 +145,18 @@ class RefactorDuplicate():
             func_script.set_custom_script_dict(self.refactor_duplicate_script(script=duplicated_scripts[0], arguments=arguments))
 
             func_text_list = func_script.convert_to_text().split('\n')
-            starting_block = func_text_list[1]
 
             func_text_list[1] = f"define function{func_counter}" + "".join([f" (arg{i})" for i in range(1, len(arguments)+1)])
 
             calling_text_list = []
 
 
-            for variables in list_script_variables:
-                new_call = starting_block + "\n" + f"function{func_counter}" 
+            for i, variables in enumerate(list_script_variables):
+                new_call = starting_blocks[i] + "\n" + f"function{func_counter}" 
                 for arg in arguments:
                     new_call += f" [{variables[arg]}]"
                 
                 calling_text_list.append(new_call)
-
-            original_text = "\n".join([script.convert_to_text() for script in duplicated_scripts])
 
             refactored_text = "\n".join(func_text_list) + "\n" + "\n".join(calling_text_list)
 
