@@ -1,5 +1,3 @@
-import json
-# from scriptObject import Script
 from app.hairball3.scriptObject import Script
 
 N_VARIABLES_IN_STARTER_BLOCK = {"EVENT_WHENFLAGCLICKED":0,
@@ -25,6 +23,9 @@ class RefactorDuplicate():
         self.arg_count = 1
 
     def get_blocks(self, dict_target):
+        """
+        Gets all the blocks in json format into a dictionary
+        """
         out = {}
 
 
@@ -38,7 +39,9 @@ class RefactorDuplicate():
 
 
     def set_sprite_dict(self):
-        block_dict = []
+        """
+        Sets a dictionary containing the scripts of each sprite in Script() format
+        """
 
         for key, list_dict_targets in self.json_project.items():
             if key == "targets":
@@ -60,6 +63,9 @@ class RefactorDuplicate():
         return self.sprite_dict
     
     def search_duplicates(self):
+        """
+        Searches for intra duplicates of each sprite and outputs them
+        """
         self.set_sprite_dict()
 
         self.duplicates = {}
@@ -89,6 +95,9 @@ class RefactorDuplicate():
         return self.duplicates
     
     def search_clones(self):
+        """
+        Searches for sprite clones
+        """
         self.clones = {}
 
         seen = set()
@@ -96,15 +105,11 @@ class RefactorDuplicate():
         for sprite, scripts in self.sprite_dict.items():
             tuple_of_scripts = tuple([tuple(script.get_blocks()) for script in scripts])
 
-
-
             if tuple_of_scripts not in self.clones.keys():
                 self.clones[tuple_of_scripts] = [(scripts, sprite)]
-                # self.clones[tuple_of_scripts] = [sprite]
 
             else:
                 self.clones[tuple_of_scripts].append((scripts, sprite))
-                # self.clones[tuple_of_scripts].append(sprite)
 
             seen.add(tuple_of_scripts)
         
@@ -116,6 +121,10 @@ class RefactorDuplicate():
             
     
     def refactor_duplicates(self):
+        """
+        Converts duplicated scripts into a custom block format. It outputs a list of tuples containing the original blocks, the refactorization
+        and the sprite all in the scratchblocks text format.
+        """
         duplicates = self.search_duplicates()
         func_counter = 1
         refactored_list = []
@@ -129,6 +138,7 @@ class RefactorDuplicate():
 
             original_text = "\n".join([script.convert_to_text() for script in duplicated_scripts])
 
+            # Top Blocks (like when green flag clicked)
             starting_blocks = [script.convert_to_text().split("\n")[1] for script in duplicated_scripts]
 
             list_script_variables = [script.get_vars() for script in duplicated_scripts]
@@ -144,6 +154,7 @@ class RefactorDuplicate():
             constants, arguments = self.search_constants_and_arguments(var_dict)
 
 
+            # Custom Block refactorization
             func_script = Script()
             func_script.set_custom_script_dict(self.refactor_duplicate_script(script=duplicated_scripts[0], arguments=arguments))
 
@@ -169,6 +180,9 @@ class RefactorDuplicate():
 
 
     def refactor_duplicate_script(self, script: Script, arguments):
+        """
+        Helper function to change the corresponding variables to their argument counterparts
+        """
         parsed_script = script.get_script_dict()
         self.arg_count = 1
 
@@ -201,24 +215,3 @@ class RefactorDuplicate():
 
     def refactor_sprite_clones(self):
         pass
-    
-
-
-
-# file = open("app\hairball3\project.json")
-
-# proj = json.load(file)
-
-
-
-# refactor = RefactorDuplicate(proj)
-
-# refactor.set_sprite_dict()
-
-# # print(refactor.search_duplicates())
-# print(refactor.refactor_duplicates())
-
-# print(refactor.search_clones())
-
-# print(refactor.search_clones())
-
