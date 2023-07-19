@@ -61,8 +61,14 @@ a:focus{
    
 }
 .modal-backdrop{
-    background-color: red;
+    background-color: #a49fcc;
+    position: fixed;
 }
+
+.modal-xl {
+    width: 90%;
+   max-width:1200px;
+  }
 
 .white{
      color:white;

@@ -8,9 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
     <link rel="stylesheet" href="../../static/app/content/scratchblocks2.css">
-    <script src="../../static/app/scripts/bootstrap-modal.js"></script>
+    <!-- <script src="../../static/app/scripts/bootstrap-modal.js"></script> -->
     <script src="../../static/app/scripts/translations.js"></script>
-    <script src="../../static/app/scripts/bootstrap.js"></script>
+    <!-- <script src="../../static/app/scripts/bootstrap.js"></script> -->
     <link rel="stylesheet" href="../../static/app/content/bootstrap-tour.css">
     <script src="../../static/app/scripts/bootstrap.min.js"></script>
     <script src="../../static/app/scripts/bootstrap-tour.js"></script>
@@ -137,7 +137,7 @@
     });
 
     </script>
-    <!-- <style>
+    <style>
         .btn-primary {
             background-color: #1792A4;
         }
@@ -147,7 +147,7 @@
         .btn-primary:focus {
             background-color: #4CA8A1;
         }
-    </style> -->
+    </style>
     
 </head>
 <body>
@@ -276,6 +276,9 @@
 			-->
                     </div>
                     </div>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        Display all duplicates
+                    </button>
                 </div>
             </div>
             <div class="improve" >
@@ -369,7 +372,63 @@
                     </div>
                 </div>
         </section>
-        <div class="card" id="refactorization">
+        
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Duplicates</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="card" id="refactorization">
+                            {% for refactor_dict in refactor.refactor_list %}
+                            <p>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#originalCollapse{{ forloop.counter }}" aria-expanded="false" aria-controls="originalCollapse{{ forloop.counter }}">
+                                    Display Original Blocks!
+                                    </button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#refactoredCollapse{{ forloop.counter }}" aria-expanded="false" aria-controls="refactoredCollapse{{ forloop.counter }}">
+                                        Display Solution!
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="collapse" id="originalCollapse{{ forloop.counter }}" data-bs-parent="#refactorization">
+                                        <div class="card card-body">
+                                            <pre class="blocks">
+                                                {{ refactor_dict.original }}
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="collapse" id="refactoredCollapse{{ forloop.counter }}" data-bs-parent="#refactorization">
+                                        <div class="card card-body">
+                                            <pre class="blocks">
+                                                {{ refactor_dict.refactored }}
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        <!-- <div class="card" id="refactorization">
             {% for refactor_dict in refactor.refactor_list %}
             <p>
                 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#originalCollapse{{ forloop.counter }}" aria-expanded="false" aria-controls="originalCollapse{{ forloop.counter }}">
@@ -394,7 +453,7 @@
                 </div>
               </div>
             {% endfor %}
-        </div>
+        </div> -->
      </div>
 </div>
 

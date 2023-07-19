@@ -66,22 +66,25 @@ class RefactorDuplicate():
         
         for sprite, scripts in self.sprite_dict.items():
             seen = set()
+            sprite_duplicates = {}
             for script in scripts:
                 blocks = tuple(script.get_blocks())
 
-                if blocks not in self.duplicates.keys():
+                if blocks not in sprite_duplicates.keys():
                     if len(blocks) > 5:
-                        self.duplicates[blocks] = [(script, sprite)]
+                        sprite_duplicates[blocks] = [(script, sprite)]
                 else:
-                    self.duplicates[blocks].append((script, sprite))
+                    sprite_duplicates[blocks].append((script, sprite))
 
                 seen.add(blocks)
 
 
             for key in seen:
-                if key in self.duplicates:
-                    if len(self.duplicates[key]) <= 1:
-                        self.duplicates.pop(key, None)
+                if key in sprite_duplicates:
+                    if len(sprite_duplicates[key]) <= 1:
+                        sprite_duplicates.pop(key, None)
+
+            self.duplicates.update(sprite_duplicates)
 
         return self.duplicates
     
