@@ -67,7 +67,7 @@ DATABASES = {
         'NAME': os.environ.get('DRSCRATCH_DATABASE_NAME'),
         'USER': os.environ.get('DRSCRATCH_DATABASE_USER'),
         'PASSWORD': os.environ.get('DRSCRATCH_DATABASE_PASSWORD'),
-        'HOST': os.environ.get('DRSCRATCH_DATABASE_HOST'),
+        'HOST': os.environ.get('DRSCRATCH_DATABASE_NAME'),
         'PORT': os.environ.get('DRSCRATCH_DATABASE_PORT'),
         'OPTIONS': {
                'autocommit': True,
