@@ -1,0 +1,48 @@
+---
+
+- name: Install packages required by the Django app inside virtualenv
+  pip: virtualenv={{ virtualenv_path }} requirements={{ requirements_file }}
+
+- name: Install web application dependencies listed in requirements.txt
+  pip: requirements={{requirements_file}}
+       virtualenv={{virtualenv_dir}}
+
+- name: check if app/static directory exists
+  stat: path={{app_code_dir}}/static
+  register: static_dir
+
+- name: create static directory for Django app if it does not exist
+  command: mkdir {{app_code_dir}}/static
+  when: static_dir.stat.isdir is not defined
+
+- name: Run the Django syncdb command
+  django_manage:
+    command: syncdb
+    app_path: "{{ project_path }}"
+    virtualenv: "{{ virtualenv_path }}"
+    settings: "{{ django_settings_file }}"
+  environment: "{{ django_environment }}"
+  when: run_django_syncdb is defined and run_django_syncdb
+  tags: django.syncdb
+
+- name: Run Django database migrations
+  django_manage:
+    command: migrate
+    app_path: "{{ project_path }}"
+    virtualenv: "{{ virtualenv_path }}"
+    settings: "{{ django_settings_file }}"
+  environment: "{{ django_environment }}"
+  when: run_django_db_migrations is defined and run_django_db_migrations
+  tags: django.migrate
+
+- name: Run Django collectstatic
+  django_manage:
+    command: collectstatic
+    app_path: "{{ project_path }}"
+    virtualenv: "{{ virtualenv_path }}"
+    settings: "{{ django_settings_file }}"
+  environment: "{{ django_environment }}"
+  when: run_django_collectstatic is defined and run_django_collectstatic
+  notify: restart application
+  tags: django.collectstatic
+

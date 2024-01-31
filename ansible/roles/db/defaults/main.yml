@@ -1,0 +1,14 @@
+---
+
+mysql_enabled_on_startup: true
+mysql_db_user: root
+mysql_db_password: root
+mysql_db_name: "drscratchv3"
+
+# mysql connection settings
+mysql_port: 3306
+mysql_bind_address: "127.0.0.1"
+mysql_my_cnf_path: "/etc/mysql/"
+mysql_socket_dir: "/var/run/mysqld/mysqld.sock"
+mysql_log_dir: "/var/log/mysql/error.log"
+mysql_data_dir: "/var/lib/mysql"
