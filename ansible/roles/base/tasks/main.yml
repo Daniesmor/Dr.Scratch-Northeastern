@@ -1,0 +1,28 @@
+---
+
+- name: Install base packages
+  apt: pkg={{ item }} update_cache=yes
+  become: True
+  with_items:
+    - build-essential
+    - acl
+    - git
+    - unzip
+    - libpq-dev
+    - python-dev
+    - python-pip
+    - python-virtualenv
+  tags: packages
+
+- name: Upgrade pip
+  pip: name=pip state=latest
+  tags: packages
+
+- name: Ensure bash, OpenSSL, and libssl are the latest versions
+  apt: name={{ item }} state=latest
+  with_items:
+    - bash
+    - openssl
+    - libssl-dev
+    - libssl-doc
+  tags: packages
