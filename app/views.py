@@ -142,7 +142,7 @@ def save_analysis_in_file_db(request, zip_filename):
     now = datetime.now()
     method = "project"
 
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         username = request.user.username
     else:
         username = None
@@ -743,7 +743,7 @@ def learn(request, page):
 
     flag_user = 0
 
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         user = request.user.username
         flag_user = 1
 
@@ -839,7 +839,7 @@ def learn(request, page):
     
     page = '{}{}{}'.format('learn/', page, '.html')
 
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         user = identify_user_type(request)
         username = request.user.username
         return render(request, page, {'flagUser': flag_user, 'user': user, 'username': username})
@@ -1055,7 +1055,7 @@ def sign_up_organization(request):
                    'flagOrganization':flag_organization})
 
     elif request.method == 'GET':
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             return HttpResponseRedirect('/organization/' + request.user.username)
         else:
             return render(request, 'organization/organization.html')
@@ -1098,7 +1098,7 @@ def organization(request, name):
     """
 
     if request.method == 'GET':
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             username = request.user.username
             if username == name:
                 if Organization.objects.filter(username = username):
@@ -1424,7 +1424,7 @@ def analyze_csv(request):
         elif "_download" in request.POST:
             #Export a CSV File
 
-            if request.user.is_authenticated():
+            if request.user.is_authenticated:
                 username = request.user.username
             csv = CSVs.objects.latest('date')
 
@@ -1679,7 +1679,7 @@ def sign_up_coder(request):
                                                           'flagForm':flagForm})
 
     elif request.method == 'GET':
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             return HttpResponseRedirect('/coder/' + request.user.username)
         else:
             #return render_to_response("main/main.html", 
@@ -1695,10 +1695,14 @@ def coder(request, name):
 
 
     if (request.method == 'GET') or (request.method == 'POST'):
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             username = request.user.username
+            
             if username == name:
+                
                 if Coder.objects.filter(username = username):
+                    print("username ----------------------------------------------------------->")
+                    print(username)
                     user = Coder.objects.get(username=username)
                     img = user.img
                     dic={'username':username,
@@ -1850,7 +1854,7 @@ def discuss(request):
 
     comments = dict()
     form = DiscussForm()
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         user = request.user.username
     else:
         user = ""
