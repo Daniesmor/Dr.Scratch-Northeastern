@@ -128,9 +128,9 @@ def identify_user_type(request) -> str:
 
     if request.user.is_authenticated:
         username = request.user.username
-        if Organization.objects.filter(username=username.encode('utf-8')):
+        if Organization.objects.filter(username=username).exists():
             user = 'organization'
-        elif Coder.objects.filter(username=username.encode('utf-8')):
+        elif Coder.objects.filter(username=username).exists():
             user = 'coder'
     else:
         user = 'main'
