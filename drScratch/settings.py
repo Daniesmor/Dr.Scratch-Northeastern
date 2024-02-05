@@ -78,7 +78,7 @@ DATABASES = {
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
 MEDIA_ROOT = 'static'
-MEDIA_URL = os.path.join(BASE_DIR, 'static/img/')
+MEDIA_URL = os.path.join(BASE_DIR, 'static/')
 
 LANGUAGE_CODE = 'en-us'
 
