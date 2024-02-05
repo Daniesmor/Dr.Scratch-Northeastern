@@ -54,11 +54,17 @@ def main(request):
     if request.user.is_authenticated:
         user_name = request.user.username
         user_type = identify_user_type(request)
-        if user_type == 'coder':
-            user = Coder.objects.get(username=user_name)
-        elif user_type == 'organization':
-            user = Organization.objects.get(username=user_name)
-        return render(request, user_type + '/main.html', {'username': user_name, "img": str(user.img)})
+        print("mi usertype ---------------------------")
+        print(user_type)
+        is_admin = identify_admin(user_type)
+        if (is_admin):
+            return render(request, 'main/main.html', {'username': user_name})
+        else:
+            if user_type == 'coder':
+                user = Coder.objects.get(username=user_name)
+            elif user_type == 'organization':
+                user = Organization.objects.get(username=user_name)
+            return render(request, user_type + '/main.html', {'username': user_name, "img": str(user.img)})
     else:
         return render(request, 'main/main.html', {'username': None})
 
@@ -128,14 +134,24 @@ def identify_user_type(request) -> str:
 
     if request.user.is_authenticated:
         username = request.user.username
-        if Organization.objects.filter(username=username.encode('utf-8')):
+        if Organization.objects.filter(username=username).exists():
             user = 'organization'
-        elif Coder.objects.filter(username=username.encode('utf-8')):
+        elif Coder.objects.filter(username=username).exists():
             user = 'coder'
+        elif request.user.is_staff:
+            user = 'staff'
+        elif rquest.user.is_superuser:
+            user = 'superuser'
     else:
         user = 'main'
 
     return user
+
+def identify_admin(user_type):
+    is_admin = 0
+    if (user_type == 'superuser' or user_type == 'staff'):
+        is_admin = 1
+    return is_admin
 
 
 def save_analysis_in_file_db(request, zip_filename):
