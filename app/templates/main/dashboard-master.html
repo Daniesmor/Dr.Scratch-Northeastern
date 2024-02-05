@@ -6,7 +6,7 @@
     <meta name="keywords" content="Stamp, Startup, Multipurpose, Bootstrap, Landing page, Template, Registration, Landing">
     <meta name="author" content="Programamos URJC Libresoft FECyT">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="../../static/app/content/scratchblocks2.css">
     <!-- <script src="../../static/app/scripts/bootstrap-modal.js"></script> -->
     <script src="../../static/app/scripts/translations.js"></script>
@@ -104,11 +104,10 @@
             scratchblocks.renderMatching('pre.blocks', {
             style:     'scratch3',   // Optional, defaults to 'scratch2'.
             languages: ['en'], // Optional, defaults to ['en'].
-            scale: 0.5,                // Optional, defaults to 1
+            scale: 1,                // Optional, defaults to 1
             });
         })
-        
-        </script>
+    </script>
     <script>
         $(document).ready(function () {
             if("{{ dupCode }}" == ""){
@@ -124,8 +123,7 @@
                 };
                 $("#dupCode").attr("data-content",str.join("\n"));
             }
-
-    });
+        });
     </script>
     <script>
     $(document).ready(function(){
@@ -136,6 +134,36 @@
     $("#certificate").val(list.toString());
     });
 
+    </script>
+
+    <script>
+        $(document).ready(function(){
+            var isMouseOverPopover = false;
+        
+            $('[id="bad-smells"]').popover({
+                trigger: 'manual',
+                html: true,
+                animation: false
+            }).on('mouseenter', function () {
+                var _this = this;
+                $(this).popover('show');
+                $('.popover').on('mouseenter', function () {
+                    isMouseOverPopover = true;
+                }).on('mouseleave', function () {
+                    isMouseOverPopover = false;
+                    $(_this).popover('hide');
+                });
+            }).on('mouseleave', function () {
+                var _this = this;
+                setTimeout(function () {
+                    if (!isMouseOverPopover) {
+                        $(_this).popover('hide');
+                    }
+                }, 100);
+            });
+        });
+        
+        
     </script>
     <style>
         .btn-primary {
@@ -197,7 +225,7 @@
 
         </div>
     <!-- /POINTS PANNEL -->
-
+    
     <!-- HOW TO IMPROVE -->
             <div class="improve">
                 <div class="panel panel-success" id="improve">
@@ -208,21 +236,25 @@
                         <h2 id="score" class="panel-title dark-text">{% trans "Bad habits"%}</h2>
                     </div>
                     <div class="panel-body text-left typ">
-                        <a class="glyphicon glyphicon-repeat"/><a data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Duplicated scripts' %}" data-content="
+                        <a class="glyphicon glyphicon-repeat"/>
+                        <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Duplicated scripts' %}" 
+                        data-content="
                         {% for k, list_duplicate_blocks in duplicateScript.items %}
                             {% if k == 'scripts' %}
-                                {% for list_blocks in list_duplicate_blocks %}
-                                    {{ list_blocks }}
-                                    <br>
-                                {% endfor %}
+                                    {% for list_blocks in list_duplicate_blocks %}
+                                        {{ list_blocks }}
+                                    {% endfor %}
                             {% endif%}
                         {% endfor %}
                         {% if duplicateScript.number == 0 %}
                             {% trans 'Your project does not have dead code, good job!' %}
                         {% endif %}
-                        " data-trigger="hover" href="learn/duplicatedScripts"> {{ duplicateScript.number }} {% trans " duplicated scripts." %}
+                        " data-trigger="manual" href="learn/duplicatedScripts">
+                            {{ duplicateScript.number }} {% trans " duplicated scripts." %}
                         </a><br>
-                        <a class="glyphicon glyphicon-pencil"/> <a data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Sprite naming' %}" data-content="
+                        <a class="glyphicon glyphicon-pencil"/>
+                        <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Sprite naming' %}" 
+                        data-content="
                         {% for value in spriteNaming.sprite %}
                             {{ value }}
                             <br>
@@ -230,18 +262,22 @@
                         {% if spriteNaming.number == 0 %}
                             {% trans 'Your project does not have default sprite naming, good job!' %}
                         {% endif %}
-                        " data-trigger="hover" href="learn/spriteNaming"> {{ spriteNaming.number }} {% trans " sprite naming." %}
+                        " data-trigger="manual" href="learn/spriteNaming"> 
+                            {{ spriteNaming.number }} {% trans " sprite naming." %}
                        </a><br>
-                       <a class="glyphicon glyphicon-pencil"/> <a data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Backdrop naming' %}" data-content="
+                       <a class="glyphicon glyphicon-pencil"/> 
+                       <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Backdrop naming' %}" data-content="
                        {% for value in backdropNaming.backdrop %}
                             {{ value }} <br>
                        {% endfor %}
                        {% if backdropNaming.number == 0 %}
                             {% trans 'Your project does not have default backdrop naming, good job!' %}
                        {% endif %}
-                        " data-trigger="hover" href="learn/spriteNaming"> {{ backdropNaming.number }} {% trans " backdrop naming." %}
+                        " data-trigger="manual" href="learn/spriteNaming"> 
+                            {{ backdropNaming.number }} {% trans " backdrop naming." %}
                        </a><br>
-                        <a class="glyphicon glyphicon-remove-sign"/><a data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Dead code' %}" data-content="
+                        <a class="glyphicon glyphicon-remove-sign"/>
+                        <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Dead code' %}" data-content="
                         {% for key, value in deadCode.items %}
                             {% if key != 'deadCode' %}
                                 {% if key != 'number' %}
@@ -256,7 +292,8 @@
                         {% if deadCode.number == 0 %}
                             {% trans 'Your project does not have dead code, good job!' %}
                         {% endif %}
-                        " data-trigger="hover" href="learn/deadCode"> {{ deadCode.number }} {% trans " dead code." %}
+                        " data-trigger="manual" href="learn/deadCode"> 
+                            {{ deadCode.number }} {% trans " dead code." %}
                        </a><br>
 
 			<!--
@@ -276,9 +313,11 @@
 			-->
                     </div>
                     </div>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                        Display all duplicates
-                    </button>
+                    {% if refactor.refactor_list %}
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            Display all duplicates
+                        </button>
+                    {% endif %}
                 </div>
             </div>
             <div class="improve" >
