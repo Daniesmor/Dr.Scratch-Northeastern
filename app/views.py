@@ -1667,6 +1667,7 @@ def sign_up_coder(request):
                 user = Coder.objects.get(email=email)
                 uid = urlsafe_base64_encode(force_bytes(user.pk))
                 token=default_token_generator.make_token(user)
+                """
                 c = {
                         'email':email,
                         'uid':uid,
@@ -1678,6 +1679,7 @@ def sign_up_coder(request):
                 to = [email]
                 email = EmailMessage(subject,body,sender,to)
                 email.send()
+                """
                 login(request, coder)
                 return HttpResponseRedirect('/coder/' + coder.username)
 
