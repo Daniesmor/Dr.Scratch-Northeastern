@@ -519,6 +519,7 @@ def check_version(filename):
     Check the version of the project and return it
     """
 
+    filename = filename.decode('utf-8')
     extension = filename.split('.')[-1]
     if extension == 'sb2':
         version = '2.0'
