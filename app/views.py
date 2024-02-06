@@ -28,6 +28,7 @@ import unicodedata
 import csv
 from datetime import datetime, timedelta, date
 import traceback
+import re
 
 import app.consts_drscratch as consts
 from app.scratchclient import ScratchSession
@@ -54,8 +55,6 @@ def main(request):
     if request.user.is_authenticated:
         user_name = request.user.username
         user_type = identify_user_type(request)
-        print("mi usertype ---------------------------")
-        print(user_type)
         is_admin = identify_admin(user_type)
         if (is_admin):
             return render(request, 'main/main.html', {'username': user_name})
@@ -212,6 +211,7 @@ def _make_analysis_by_upload(request):
         dir_zips = os.path.dirname(os.path.dirname(__file__)) + "/uploads/"
         project_name = str(zip_filename).split(".sb")[0].replace(" ", "_")
         unique_id = '{}_{}{}'.format(project_name, datetime.now().strftime("%Y_%m_%d_%H_%M_%S_"), datetime.now().microsecond)
+        zip_filename = zip_filename.decode('utf-8')
         version = check_version(zip_filename)
 
         if version == "1.4":
@@ -519,7 +519,6 @@ def check_version(filename):
     Check the version of the project and return it
     """
 
-    filename = filename.decode('utf-8')
     extension = filename.split('.')[-1]
     if extension == 'sb2':
         version = '2.0'
@@ -876,6 +875,7 @@ def download_certificate(request):
         # Decode again for manipulate the str
         data = data.decode('utf-8') 
         filename = data.split(",")[0]
+        filename = clean_filename(filename)
         level = data.split(",")[1]
 
         if is_supported_language(request.LANGUAGE_CODE):
@@ -883,6 +883,7 @@ def download_certificate(request):
         else:
             language = 'en'
 
+        
         generate_certificate(filename, level, language)
         path_to_file = os.path.dirname(os.path.dirname(__file__)) + "/app/certificate/output.pdf"
         
@@ -899,6 +900,17 @@ def download_certificate(request):
         return response
     else:
         return HttpResponseRedirect('/')
+    
+def clean_filename(filename):
+    """
+    Clean filename, necessary for .sb3 upload
+    """
+    pattern = r';.*.sb3'
+    matches = re.findall(pattern, filename)
+    if matches:
+        filename = matches[0]
+        filename = re.sub(';', '', filename)
+    return filename
 
 def is_supported_language(lenguage_code):
     suported = 0
