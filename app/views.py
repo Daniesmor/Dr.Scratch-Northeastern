@@ -45,7 +45,7 @@ import coloredlogs
 
 logger = logging.getLogger(__name__)
 coloredlogs.install(level='DEBUG', logger=logger)
-
+supported_languages = ['es', 'ca', 'gl', 'pt']
 
 def main(request):
 
@@ -140,7 +140,7 @@ def identify_user_type(request) -> str:
             user = 'coder'
         elif request.user.is_staff:
             user = 'staff'
-        elif rquest.user.is_superuser:
+        elif request.user.is_superuser:
             user = 'superuser'
     else:
         user = 'main'
@@ -870,21 +870,25 @@ def download_certificate(request):
 
     if request.method == "POST":
         data = request.POST["certificate"]
+        # Encode to make sure that cotains utf-8 chars
         data = unicodedata.normalize('NFKD', data).encode('ascii', 'ignore')
+        # Decode again for manipulate the str
+        data = data.decode('utf-8') 
         filename = data.split(",")[0]
         level = data.split(",")[1]
 
-        if request.LANGUAGE_CODE == 'es' or request.LANGUAGE_CODE == 'ca' or request.LANGUAGE_CODE == 'gl' or request.LANGUAGE_CODE == 'pt':
+        if is_supported_language(request.LANGUAGE_CODE):
             language = request.LANGUAGE_CODE
         else:
             language = 'en'
 
         generate_certificate(filename, level, language)
         path_to_file = os.path.dirname(os.path.dirname(__file__)) + "/app/certificate/output.pdf"
+        
+        with open(path_to_file, 'rb') as pdf_file:
+           pdf_data = pdf_file.read()
 
-        pdf_data = open(path_to_file, 'r')
         response = HttpResponse(pdf_data, content_type='application/pdf')
-
         try:
             file_pdf = filename.split("/")[-2] + ".pdf"
         except:
@@ -895,6 +899,12 @@ def download_certificate(request):
     else:
         return HttpResponseRedirect('/')
 
+def is_supported_language(lenguage_code):
+    suported = 0
+    for i in supported_languages:
+        if i == lenguage_code:
+            suported = 1
+    return suported
 
 def search_email(request):
     if request.is_ajax():
