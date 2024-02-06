@@ -212,6 +212,7 @@ def _make_analysis_by_upload(request):
         dir_zips = os.path.dirname(os.path.dirname(__file__)) + "/uploads/"
         project_name = str(zip_filename).split(".sb")[0].replace(" ", "_")
         unique_id = '{}_{}{}'.format(project_name, datetime.now().strftime("%Y_%m_%d_%H_%M_%S_"), datetime.now().microsecond)
+        zip_filename = zip_filename.decode('utf-8')
         version = check_version(zip_filename)
 
         if version == "1.4":
@@ -519,7 +520,6 @@ def check_version(filename):
     Check the version of the project and return it
     """
 
-    filename = filename.decode('utf-8')
     extension = filename.split('.')[-1]
     if extension == 'sb2':
         version = '2.0'
