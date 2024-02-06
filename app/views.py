@@ -871,7 +871,7 @@ def download_certificate(request):
     if request.method == "POST":
         data = request.POST["certificate"]
         # Encode to make sure that cotains utf-8 chars
-        data = unicodedata.normalize('NFKD', data).encode('ascii', 'ignore')
+        data = unicodedata.normalize('NFKD', data).encode('utf-8', 'ignore')
         # Decode again for manipulate the str
         data = data.decode('utf-8') 
         filename = data.split(",")[0]
