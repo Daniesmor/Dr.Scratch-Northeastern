@@ -236,7 +236,7 @@ def _make_analysis_by_upload(request):
                 destination.write(chunk)
 
         try:
-            dict_drscratch_analysis = analyze_project(request, file_name, zip_filename, ext_type_project=None)
+            dict_drscratch_analysis = analyze_project(request, file_name, filename_obj, ext_type_project=None)
         except Exception:
             traceback.print_exc()
             filename_obj.method = 'project/error'
@@ -519,6 +519,7 @@ def check_version(filename):
     Check the version of the project and return it
     """
 
+    filename = filename.decode('utf-8')
     extension = filename.split('.')[-1]
     if extension == 'sb2':
         version = '2.0'
