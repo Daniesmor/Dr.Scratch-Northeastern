@@ -28,6 +28,7 @@ import unicodedata
 import csv
 from datetime import datetime, timedelta, date
 import traceback
+import re
 
 import app.consts_drscratch as consts
 from app.scratchclient import ScratchSession
@@ -54,8 +55,6 @@ def main(request):
     if request.user.is_authenticated:
         user_name = request.user.username
         user_type = identify_user_type(request)
-        print("mi usertype ---------------------------")
-        print(user_type)
         is_admin = identify_admin(user_type)
         if (is_admin):
             return render(request, 'main/main.html', {'username': user_name})
@@ -872,10 +871,11 @@ def download_certificate(request):
     if request.method == "POST":
         data = request.POST["certificate"]
         # Encode to make sure that cotains utf-8 chars
-        data = unicodedata.normalize('NFKD', data).encode('utf-8', 'ignore')
+        data = unicodedata.normalize('NFKD', data).encode('ascii', 'ignore')
         # Decode again for manipulate the str
         data = data.decode('utf-8') 
         filename = data.split(",")[0]
+        filename = clean_filename(filename)
         level = data.split(",")[1]
 
         if is_supported_language(request.LANGUAGE_CODE):
@@ -883,6 +883,7 @@ def download_certificate(request):
         else:
             language = 'en'
 
+        
         generate_certificate(filename, level, language)
         path_to_file = os.path.dirname(os.path.dirname(__file__)) + "/app/certificate/output.pdf"
         
@@ -899,6 +900,17 @@ def download_certificate(request):
         return response
     else:
         return HttpResponseRedirect('/')
+    
+def clean_filename(filename):
+    """
+    Clean filename, necessary for .sb3 upload
+    """
+    pattern = r';.*.sb3'
+    matches = re.findall(pattern, filename)
+    if matches:
+        filename = matches[0]
+        filename = re.sub(';', '', filename)
+    return filename
 
 def is_supported_language(lenguage_code):
     suported = 0
