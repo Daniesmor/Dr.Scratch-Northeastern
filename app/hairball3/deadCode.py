@@ -1,6 +1,7 @@
 import logging
 import app.consts_drscratch as consts
 from app.hairball3.plugin import Plugin
+from app.hairball3.scriptObject import Script
 logger = logging.getLogger(__name__)
 
 
@@ -14,6 +15,21 @@ class DeadCode(Plugin):
         self.dead_code_instances = 0
         self.dict_deadcode = {}
         self.opcode_argument_reporter = "argument_reporter"
+
+    def get_blocks(self, dict_target):
+        """
+        Gets all the blocks in json format into a dictionary
+        """
+        out = {}
+
+
+        for dict_key, dicc_value in dict_target.items():
+            if dict_key == "blocks":
+                for blocks, blocks_value in dicc_value.items():
+                    if type(blocks_value) is dict:
+                        out[blocks] = blocks_value
+        
+        return out
 
     def analyze(self):
 
@@ -32,20 +48,34 @@ class DeadCode(Plugin):
                             if not event_var:
                                 if not self.opcode_argument_reporter in blocks_dicc["opcode"]:
                                     if blocks_dicc["parent"] is None and blocks_dicc["next"] is None:
+                                        print("Op1", blocks_dicc)
+                                        script = Script()
+                                        script.set_script_dict(block_dict={"block": blocks_dicc}, start="block")
+                                        print("Dic:", script.script_dict)
                                         blocks_list.append(str(blocks_dicc["opcode"]))
 
                                     # Check dead loop blocks
                                     if loop_block and blocks_dicc["opcode"] not in blocks_list:
                                         if not blocks_dicc["inputs"]:
+                                            print("Op2", blocks_dicc)
                                             # Empty loop block, but inside of a block structure
                                             blocks_list.append(str(blocks_dicc["opcode"]))
                                         elif "SUBSTACK" not in blocks_dicc["inputs"]:
+                                            print("Op3", blocks_dicc)
                                             blocks_list.append(str(blocks_dicc["opcode"]))
                                         else: # Could be normal loop block
                                             if blocks_dicc["inputs"]["SUBSTACK"][1] is None:
+                                                print("Op4", blocks_dicc)
                                                 blocks_list.append(str(blocks_dicc["opcode"]))
-
                     if blocks_list:
+                        scripts = []
+                        for block in blocks_list:
+                            script = Script()
+                            script.set_custom_script_dict({"block_0": {"name": block}})
+                            print("DeadCode", script.script_dict)
+                            # script_text = script.convert_to_text()
+                            # print("script_txt", script_text)
+                            # cripts.append(script_text)
                         sprites[sprite] = blocks_list
                         self.dead_code_instances += 1
 
