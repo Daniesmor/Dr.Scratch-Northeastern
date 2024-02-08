@@ -211,6 +211,8 @@
 
                     </div>
 
+                    
+
                     <div class="container">
                         <br></br>
                     <div class="col-md-5">
@@ -221,10 +223,19 @@
 
                                 <h5 class="dark-text form-heading"><strong>{% trans "There are two options to analyze your Scratch project now!" %}</strong></h5>
 
+                                    {% csrf_token %}
+                                    
+
+                                    
                                 <form name="form" class="project-form" enctype="multipart/form-data" method="post" action="/show_dashboard">
 
-
-                                    {% csrf_token %}
+                                    {% trans "Select a dashboard mode:" %}
+                                    <select class="form-select" aria-label="Default select example" name="dashboard_mode">
+                                        <option value="Vanilla" selected>Vanilla</option>
+                                        <option value="Resnick">Resnick Mode</option>
+                                        <option value="Personalized">Personalized</option>
+                                    </select>
+                                    <br>
                                     {% trans "1. Introduce the <span class='colored-text'><a data-toggle='modal' href='#modalUrl'>url</a></span> of your Scratch project, you don't have to download it:" %}
                                     {% trans '<input name="urlProject" id="cf-name" class="form-control input-box placeholder" placeholder="http:/scratch.mit.edu/projects/your_number" type="text">' %}
                                     <button id="url" name='_url' type="submit" class="btn btn-primary standard-button">{% trans "Analyze by url" %}</button>
@@ -260,6 +271,7 @@
                             </div>
                         </div>
                     </div>
+                    
 
                 </div>
             </div>
