@@ -118,9 +118,13 @@ def build_dictionary_with_automatic_analysis(request) -> dict:
         dict_metrics = _make_analysis_by_url(request)
         url = request.POST['urlProject']
         filename = url
-
-    dict_metrics.update({'url': url, 'filename': filename})
-
+    dashboard_mode = request.POST['dashboard_mode']
+    
+    dict_metrics.update({
+        'url': url, 
+        'filename': filename,
+        'dashboard_mode': dashboard_mode
+        })
     return dict_metrics
 
 
@@ -562,7 +566,8 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project):
         dict_analysis.update(proc_refactored_code(refactored_code))
         
         # dictionary.update(proc_initialization(resultInitialization, filename))
-
+        print("dict analysis---------------------------------------->")
+        print(dict_analysis)
         return dict_analysis
     else:
         return dict_analysis
