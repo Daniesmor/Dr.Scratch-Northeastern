@@ -90,12 +90,20 @@ def show_dashboard(request):
         elif d['Error'] == 'no_exists':
             return render(request, user + '/main.html', {'no_exists': True})
         else:
-            if d["mastery"]["points"] >= 15:
-                return render(request, user + '/dashboard-master.html', d)
-            elif d["mastery"]["points"] > 7:
-                return render(request, user + '/dashboard-developing.html', d)
+            if d["dashboard_mode"] == "Vanilla":
+                if d["mastery"]["points"] >= 15:
+                    return render(request, user + '/dashboard-master.html', d)
+                elif d["mastery"]["points"] > 7:
+                    return render(request, user + '/dashboard-developing.html', d)
+                else:
+                    return render(request, user + '/dashboard-basic.html', d)
+            elif d["dashboard_mode"] == "Resnick":
+                return HttpResponse("¡Resnick Mode!")
             else:
-                return render(request, user + '/dashboard-basic.html', d)
+                return HttpResponse("¡Personalized Mode!")
+    
+                
+            
     else:
         return HttpResponseRedirect('/')
 
@@ -566,8 +574,6 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project):
         dict_analysis.update(proc_refactored_code(refactored_code))
         
         # dictionary.update(proc_initialization(resultInitialization, filename))
-        print("dict analysis---------------------------------------->")
-        print(dict_analysis)
         return dict_analysis
     else:
         return dict_analysis
