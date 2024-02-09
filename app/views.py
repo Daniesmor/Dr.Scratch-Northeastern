@@ -1324,12 +1324,12 @@ def downloads(request, username, filename=""):
     if request.method == "POST":
         #Downloading CSV
         filename = request.POST["csv"]
-        path_to_file = os.path.dirname(os.path.dirname(__file__)) + \
-                        "/csvs/Dr.Scratch/" + filename
-        csv_data = open(path_to_file, 'r')
-        response = HttpResponse(csv_data, content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(filename)
-        return response
+        csv_directory = os.path.join(os.path.dirname(os.path.dirname(__file__)), "csvs/Dr.Scratch")
+        path_to_file = os.path.join(csv_directory, filename)
+        with open(path_to_file, 'rb') as csv_data:
+            response = HttpResponse(csv_data, content_type='text/csv')
+            response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(filename)
+            return response
 
     
     return render(request, page + '/downloads.html', dic)
