@@ -5,6 +5,7 @@
 import os
 import ast
 import json
+import uuid
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
@@ -221,7 +222,7 @@ def _make_analysis_by_upload(request):
         filename_obj = save_analysis_in_file_db(request, zip_filename)
 
         dir_zips = os.path.dirname(os.path.dirname(__file__)) + "/uploads/"
-        project_name = str(zip_filename).split(".sb")[0].replace(" ", "_")
+        project_name = str(uuid.uuid4())
         unique_id = '{}_{}{}'.format(project_name, datetime.now().strftime("%Y_%m_%d_%H_%M_%S_"), datetime.now().microsecond)
         zip_filename = zip_filename.decode('utf-8')
         version = check_version(zip_filename)
@@ -240,15 +241,14 @@ def _make_analysis_by_upload(request):
                        "Method: " + str(filename_obj.method) + "\t\t\tTime: " + str(filename_obj.time) + "\n")
 
         # Save file in server
-        counter = 0
-        file_name = handler_upload(file_saved, counter)
-
+        file_name = os.path.join("uploads", file_saved)
         with open(file_name, 'wb+') as destination:
             for chunk in zip_file.chunks():
                 destination.write(chunk)
 
         try:
             dict_drscratch_analysis = analyze_project(request, file_name, filename_obj, ext_type_project=None)
+            print(dict_drscratch_analysis)
         except Exception:
             traceback.print_exc()
             filename_obj.method = 'project/error'
@@ -290,7 +290,8 @@ def return_scratch_project_identifier(url) -> str:
     """
     Process String from URL Form
     """
-
+    print("mi url --------------------------->")
+    print(url)
     id_project = ''
     aux_string = url.split("/")[-1]
     if aux_string == '':
@@ -489,41 +490,6 @@ def send_request_getsb3(id_project, username, method):
     path_scratch_project_sb3, ext_type_project = save_projectsb3(path_json_file_temporary, id_project)
 
     return path_scratch_project_sb3, file_obj, ext_type_project
-
-
-def handler_upload(file_saved, counter):
-    """ Necessary to uploadUnregistered: rename projects"""
-
-    if os.path.exists(file_saved):
-
-        counter = counter + 1
-
-        version = check_version(file_saved)
-
-        if version == "3.0":
-            if counter == 1:
-                file_saved = file_saved.split(".")[0] + "(1).sb3"
-            else:
-                file_saved = file_saved.split('(')[0] + "(" + str(counter) + ").sb3"
-        elif version == "2.0":
-            if counter == 1:
-                file_saved = file_saved.split(".")[0] + "(1).sb2"
-            else:
-                file_saved = file_saved.split('(')[0] + "(" + str(counter) + ").sb2"
-        else:
-            if counter == 1:
-                file_saved = file_saved.split(".")[0] + "(1).sb"
-            else:
-                file_saved = file_saved.split('(')[0] + "(" + str(counter) + ").sb"
-
-        file_name = handler_upload(file_saved, counter)
-
-        return file_name
-
-    else:
-        file_name = file_saved
-
-        return file_name
 
 
 def check_version(filename):
@@ -953,7 +919,10 @@ def search_hashkey(request):
 
 def plugin(request, urlProject):
     user = None
+    print("urlproject -------------------------------------------->")
+    print(urlProject)
     id_project = return_scratch_project_identifier(urlProject)
+    
     d = generator_dic(request, id_project)
     #Find if any error has occurred
     if d['Error'] == 'analyzing':
