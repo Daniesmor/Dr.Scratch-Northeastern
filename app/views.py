@@ -290,8 +290,6 @@ def return_scratch_project_identifier(url) -> str:
     """
     Process String from URL Form
     """
-    print("mi url --------------------------->")
-    print(url)
     id_project = ''
     aux_string = url.split("/")[-1]
     if aux_string == '':
@@ -919,8 +917,6 @@ def search_hashkey(request):
 
 def plugin(request, urlProject):
     user = None
-    print("urlproject -------------------------------------------->")
-    print(urlProject)
     id_project = return_scratch_project_identifier(urlProject)
     
     d = generator_dic(request, id_project)
@@ -1326,13 +1322,19 @@ def downloads(request, username, filename=""):
         filename = request.POST["csv"]
         csv_directory = os.path.join(os.path.dirname(os.path.dirname(__file__)), "csvs/Dr.Scratch")
         path_to_file = os.path.join(csv_directory, filename)
+        # Ensure that the path exists, to avoid injection-attacks
+        if not validate_csv(path_to_file):
+            return HttpResponse("Invalid CSV file", status=400)
         with open(path_to_file, 'rb') as csv_data:
             response = HttpResponse(csv_data, content_type='text/csv')
             response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(filename)
             return response
-
-    
     return render(request, page + '/downloads.html', dic)
+
+def validate_csv(csv_file_path: str)-> bool:
+    is_valid_file = os.path.isfile(csv_file_path)
+    is_csv_file = csv_file_path.endswith('.csv')
+    return is_valid_file and is_csv_file
 
 
 def analyze_csv(request):
@@ -1722,8 +1724,6 @@ def coder(request, name):
             if username == name:
                 
                 if Coder.objects.filter(username = username):
-                    print("username ----------------------------------------------------------->")
-                    print(username)
                     user = Coder.objects.get(username=username)
                     img = user.img
                     dic={'username':username,
