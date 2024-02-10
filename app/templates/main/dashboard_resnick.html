@@ -1,0 +1,290 @@
+{% load i18n %}
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta name="description" content="Analyze your Scratch projects to assess your Computational Thinking skills">
+        <meta name="keywords" content="Stamp, Startup, Multipurpose, Bootstrap, Landing page, Template, Registration, Landing">
+        <meta name="author" content="Programamos URJC Libresoft FECyT">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="../../static/app/content/scratchblocks2.css">
+        <!-- <script src="../../static/app/scripts/bootstrap-modal.js"></script> -->
+        <script src="../../static/app/scripts/translations.js"></script>
+        <!-- <script src="../../static/app/scripts/bootstrap.js"></script> -->
+        <link rel="stylesheet" href="../../static/app/content/bootstrap-tour.css">
+        <script src="../../static/app/scripts/bootstrap.min.js"></script>
+        <script src="../../static/app/scripts/bootstrap-tour.js"></script>
+        <script src="../../static/app/scripts/googleAnalytics.js"></script>
+        <script src="../../static/app/scripts/scratchblocks-v3.4-min.js"></script>
+    
+        <!-- SITE TITLE -->
+        <title>Dr. Scratch</title>
+    
+    
+        <link rel="stylesheet" href="../../static/app/content/style.css">
+        <!-- =========================
+         FAV AND TOUCH ICONS AND FONT
+        ============================== -->
+        <link rel="icon" href="../../static/app/images/favicon.ico">
+        <link rel="stylesheet" href="static/app/icons/icons.css">
+        <link type="text/css" rel="stylesheet" href="../../static/app/content/css_002.css">
+        <link type="text/css" rel="stylesheet" href="../../static/app/content/css.css">
+        <!-- =========================
+         STYLESHEETS
+        ============================== -->
+        <!-- BOOTSTRAP AND ANIMATION -->
+        <link rel="stylesheet" href="../../static/app/content/bootstrap.min.css">
+        <link rel="stylesheet" href="../static/app/content/animate.css">
+    
+        <!-- CAROUSEL AND LIGHTBOX -->
+        <link rel="stylesheet" href="../../static/app/content/owl_002.css">
+        <link rel="stylesheet" href="../../static/app/content/owl.css">
+        <link rel="stylesheet" href="../../static/app/content/nivo-lightbox.css">
+        <link rel="stylesheet" href="../../static/app/content/default.css">
+    
+        <!-- CUSTOM STYLESHEETS -->
+        <link rel="stylesheet" href="../../static/app/content/styles.css">
+        <link rel="stylesheet" href="../../static/app/content/basic.css">
+
+        <!-- RESPONSIVE FIXES -->
+        <link rel="stylesheet" href="../../static/app/content/responsive.css">
+    
+        <!-- DEFAULT COLOR/ CURRENTLY USING -->
+        <link rel="stylesheet" href="../../static/app/content/red.css">
+    
+        <script>
+            window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
+        </script>
+
+        <script>
+            $(document).ready(function() {
+                scratchblocks.renderMatching('pre.blocks', {
+                style:     'scratch3',   // Optional, defaults to 'scratch2'.
+                languages: ['en'], // Optional, defaults to ['en'].
+                scale: 0.5,                // Optional, defaults to 1
+                });
+            })
+            
+        </script>
+
+        <style>
+            .btn-primary {
+                background-color: #1792A4;
+            }
+            .btn-primary:hover {
+                background-color: #4CA8A1;
+            }
+            .btn-primary:focus {
+                background-color: #4CA8A1;
+            }
+        </style>    
+    
+    </head>
+
+    <body>
+    <!-- TOP BAR -->
+    <div id="wrap">
+        <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top  sticky-navigation" role="navigation">
+            <div class="container">
+                <div class="navbar-collapse collapse" id="stamp-navigation">
+                        <!-- NAVIGATION LINK -->
+                    <a class="navbar-brand" href="/">
+                        <img src="static/app/images/logo_main.png" alt="">
+                    </a>
+                    <ul class="nav navbar-nav navbar-right main-navigation ">
+                            <li class="navbar-brand"><a class="navbar-brand pull-right" href="https://twitter.com/DrScratchTool"><span class="icon-social-twitter colored-text"></span></a></li>
+                            <li class="navbar-brand"><a class="navbar-brand pull-right" href="mailto:kgblll@gsyc.urjc.es"><span class="icon-basic-mail colored-text"></span></a></li>
+                            <li class="navbar-brand"><a class="btn btn-default" id="tour">{% trans "HELP" %}</a></li>
+                            <li class="navbar-brand"><a class="navbar-brand pull-right">{% trans "Dr. Scratch(Beta Version)" %}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /END TOP BAR -->
+    
+        <div class="container">
+            <div class="row d-flex align-items-stretch">
+                <!-- BAD SMELLS 1 -->
+                <div class="col-md-4">
+                    <section id="dashboard">
+                        <div class="container-fluid" id="stepfour">
+                            <div class="row marketing">
+                                <div class="jumbotron">
+                                    <div class="table-responsive">
+                                        <table class="table tablesorter">
+                                            <thead>
+                                                <tr>
+                                                    <th><h4>{% trans "Sprite Naming" %}</h4></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% if spriteNaming.number == 0 %}
+                                                    <tr>
+                                                        <th> {% trans 'Your project does not have default sprite naming, good job!' %} </th>
+                                                    </tr>
+                                                {% else %}
+                                                    {% for value in spriteNaming.sprite %}
+                                                        <tr>
+                                                            <td>{{value}}</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="container-fluid" id="stepfour">
+                                <div class="row marketing">
+                                    <div class="jumbotron">
+                                        <div class="table-responsive">
+                                            <table class="table tablesorter">
+                                                <thead>
+                                                    <tr>
+                                                        <th><h4>{% trans "Dead Code" %}</h4></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% if deadCode.number == 0 %}
+                                                        <tr>
+                                                            <th> {% trans 'Your project does not have dead code, good job!' %} </th>
+                                                        </tr>
+                                                    {% else %}
+                                                        {% for key, value in deadCode.items %}
+                                                            {% if key != 'deadCode' %}
+                                                                {% if key != 'number' %}
+                                                                    <tr> 
+                                                                        <th>{{ key }}:</th>
+                                                                    </tr>
+                                                                    {% for dead_block in value %}
+                                                                        <tr>
+                                                                            <td>{{ dead_block }}</td> 
+                                                                        </tr>
+                                                                    {% endfor %}
+                                                                {% endif%}
+                                                            {% endif%}
+                                                        {% endfor%}
+                                                    {% endif %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                    </section>
+                </div>
+            <!-- CAT IMAGE -->
+            <div class="col-md-4 d-flex justify-content-center align-items-center" style="margin-bottom: 20px;">
+                <section id="dashboard">
+                    <img src="static/app/images/cat.png" class="img-fluid" style="max-width: 100%; vertical-align: middle;">
+                </section>
+            </div>
+            <!-- BAD SMELLS 2 -->
+            <div class="col-md-4">
+                <section id="dashboard">
+                    <div class="container-fluid" id="stepfour">
+                        <div class="row marketing">
+                            <div class="jumbotron">
+                                <div class="table-responsive">
+                                    <table class="table tablesorter">
+                                        <thead>
+                                            <tr>
+                                                <th><h4>{% trans "Backdrop Naming" %}</h4></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% if backdropNaming.number == 0 %}
+                                            <tr>
+                                                <th> {% trans 'Your project does not have default backdrop naming, good job!' %} </th>
+                                            </tr>
+                                            {% else %}
+                                                {% for value in backdropNaming.backdrop %}
+                                                    <tr>
+                                                        <td>{{ value }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            {% endif %}                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container-fluid" id="stepfour">
+                        <div class="row marketing">
+                            <div class="jumbotron">
+                                <div class="table-responsive">
+                                    <table class="table tablesorter">
+                                        <thead>
+                                            <tr>
+                                                <th><h4>{% trans "Duplicated Scripts" %}</h4></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% if duplicateScript.number == 0 %}
+                                                <tr>
+                                                    <th> {% trans 'Your project does not have Duplicated Scripts, good job!' %} </th>
+                                                </tr>
+                                            {% else %}
+                                                {% for k, list_duplicate_blocks in duplicateScript.items %}
+                                                    {% if k == 'scripts' %}
+                                                            {% for list_blocks in list_duplicate_blocks %}
+                                                                <tr>
+                                                                    <td>{{ list_blocks }}</td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                    {% endif%}
+                                                {% endfor %} 
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            
+        </div>
+    </div>
+    
+        <footer class="footer grey-bg">
+            <div class="container">
+                <p><small>{% trans "© 2019 Dr. Scratch." %} Made with <span style="color: #e25555;">&#9829;</span> by <a href="/collaborators">Dr. Scratch Team</a></small></p>
+                <ul class="social-icons">
+                    <li><a href="https:/twitter.com/drscratchtool"><span class="icon-font-social-twitter transparent-text-dark"></span></a></li>
+                    <li><a href="https://github.com/AngelaVargas/drscratchv3"><span class="icon-font-social-github transparent-text-dark"></span></a></li>
+                </ul>
+            </div>
+        </footer>
+
+        <script>
+            // Función para establecer la misma altura en todas las columnas
+            function equalizeColumnHeight() {
+                var maxColumnHeight = 0;
+                // Iterar sobre todas las columnas
+                $('.col-md-4').each(function() {
+                    // Obtener la altura de la columna actual
+                    var columnHeight = $(this).height();
+                    // Comparar con la altura máxima encontrada hasta ahora
+                    if (columnHeight > maxColumnHeight) {
+                        maxColumnHeight = columnHeight;
+                    }
+                });
+                // Establecer la misma altura en todas las columnas
+                $('.col-md-4').height(maxColumnHeight);
+            }
+        
+            // Llamar a la función cuando el documento esté listo y cuando se redimensione la ventana
+            $(document).ready(equalizeColumnHeight);
+            $(window).resize(equalizeColumnHeight);
+        </script>
+        
+        <!-- Scripts de Bootstrap y jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </body>
+
+
+</html>
