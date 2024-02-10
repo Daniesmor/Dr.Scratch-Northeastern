@@ -99,7 +99,7 @@ def show_dashboard(request):
                 else:
                     return render(request, user + '/dashboard-basic.html', d)
             elif d["dashboard_mode"] == "Resnick":
-                return HttpResponse("¡Resnick Mode!")
+                return render(request, user + '/dashboard_resnick.html', d)
             else:
                 return HttpResponse("¡Personalized Mode!")
     
