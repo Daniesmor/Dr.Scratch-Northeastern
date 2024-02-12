@@ -151,9 +151,9 @@ class Mastery(Plugin):
         abs_score = 0
 
         if self.dict_blocks['control_start_as_clone']:
-            abs_score = 3
-        elif self.dict_blocks['procedures_definition']:
             abs_score = 2
+        elif self.dict_blocks['procedures_definition']:
+            abs_score = 3
         else:
             count = 0
             for block in self.list_total_blocks:
