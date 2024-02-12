@@ -104,7 +104,7 @@
             scratchblocks.renderMatching('pre.blocks', {
             style:     'scratch3',   // Optional, defaults to 'scratch2'.
             languages: ['en'], // Optional, defaults to ['en'].
-            scale: 1,                // Optional, defaults to 1
+            scale: 0.5,                // Optional, defaults to 1
             });
         })
     </script>
@@ -140,12 +140,18 @@
         $(document).ready(function(){
             var isMouseOverPopover = false;
         
-            $('[id="bad-smells"]').popover({
+            $('.dropdown').popover({
                 trigger: 'manual',
                 html: true,
                 animation: false
             }).on('mouseenter', function () {
-                var _this = this;
+                var contentId = $(this).attr('id');
+                if (contentId === 'dead-code') {
+                    var content = $(this).next('#dead-code-content').html();
+                    $(this).attr('data-content', content);
+                } else {
+                   var _this = this;
+                }
                 $(this).popover('show');
                 $('.popover').on('mouseenter', function () {
                     isMouseOverPopover = true;
@@ -163,8 +169,8 @@
             });
         });
         
-        
     </script>
+
     <style>
         .btn-primary {
             background-color: #1792A4;
@@ -277,24 +283,30 @@
                             {{ backdropNaming.number }} {% trans " backdrop naming." %}
                        </a><br>
                         <a class="glyphicon glyphicon-remove-sign"/>
-                        <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Dead code' %}" data-content="
-                        {% for key, value in deadCode.items %}
-                            {% if key != 'deadCode' %}
-                                {% if key != 'number' %}
-                                    <b> {{ key }}: </b><br>
-                                    {% for dead_block in value %}
-                                        {{ dead_block }} <br>
-                                    {% endfor %}
-                                    <br>
-                                {% endif%}
-                            {% endif%}
-                        {% endfor%}
-                        {% if deadCode.number == 0 %}
-                            {% trans 'Your project does not have dead code, good job!' %}
-                        {% endif %}
-                        " data-trigger="manual" href="learn/deadCode"> 
+                        <a id="dead-code" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Dead code' %}" 
+                           data-trigger="manual" href="learn/deadCode"> 
                             {{ deadCode.number }} {% trans " dead code." %}
-                       </a><br>
+                        </a>
+                        <div id="dead-code-content" class="collapse">
+                            <div class="container-fluid">
+                                {% for key, value in deadCode.items %}
+                                    {% if key != 'deadCode' %}
+                                        {% if key != 'number' %}
+                                            <b> {{ key }}: </b><br>
+                                            {% for dead_block in value %}
+                                                <pre class="blocks">
+                                                    {{ dead_block }}
+                                                </pre>
+                                            {% endfor %}
+                                            <br>
+                                        {% endif%}
+                                    {% endif%}
+                                {% endfor%}
+                                {% if deadCode.number == 0 %}
+                                    {% trans 'Your project does not have dead code, good job!' %}
+                                {% endif %}
+                            </div>
+                        </div>
 
 			<!--
                         <a class="glyphicon glyphicon-exclamation-sign"/><a class="dropdown" data-toggle="popover" title="{% trans 'Sprites attributes' %}" data-content=" {% for key,value in initialization.items%}

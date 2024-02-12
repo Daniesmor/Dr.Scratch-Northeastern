@@ -435,6 +435,25 @@ class Script():
     
     def get_script_dict(self):
         return self.script_dict
+    
+    def convert_block_to_text(self, block_name):
+        """
+        Converts an unique block into a text format using the syntax from scratchblocks (https://en.scratch-wiki.info/wiki/Block_Plugin/Syntax)
+        """
+        name = str(block_name["opcode"]).upper()
+        if name not in BLOCK_TEXT and name not in STARTER_BLOCKS:
+            block_text = block_name["mutation"]["proccode"]
+        else:
+            block_text = BLOCK_TEXT[name]
+
+        placeholders = ["%1", "%2", "%3", "%4", "%s"]
+        for placeholder in placeholders:
+            if placeholder == "%s":
+                block_text = block_text.replace(placeholder, "()")
+            else:
+                block_text = block_text.replace(placeholder, "")
+
+        return block_text
 
     def convert_to_text(self, indent=0, dict=None):
         """
