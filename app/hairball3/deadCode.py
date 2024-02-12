@@ -48,36 +48,31 @@ class DeadCode(Plugin):
                             if not event_var:
                                 if not self.opcode_argument_reporter in blocks_dicc["opcode"]:
                                     if blocks_dicc["parent"] is None and blocks_dicc["next"] is None:
-                                        print("Op1", blocks_dicc)
                                         script = Script()
-                                        script.set_script_dict(block_dict={"block": blocks_dicc}, start="block")
-                                        print("Dic:", script.script_dict)
-                                        blocks_list.append(str(blocks_dicc["opcode"]))
+                                        block = script.convert_block_to_text(blocks_dicc)
+                                        blocks_list.append(str(block))
 
                                     # Check dead loop blocks
                                     if loop_block and blocks_dicc["opcode"] not in blocks_list:
                                         if not blocks_dicc["inputs"]:
-                                            print("Op2", blocks_dicc)
                                             # Empty loop block, but inside of a block structure
-                                            blocks_list.append(str(blocks_dicc["opcode"]))
+                                            script = Script()
+                                            block = script.convert_block_to_text(blocks_dicc)
+                                            blocks_list.append(str(block))
                                         elif "SUBSTACK" not in blocks_dicc["inputs"]:
-                                            print("Op3", blocks_dicc)
-                                            blocks_list.append(str(blocks_dicc["opcode"]))
+                                            script = Script()
+                                            block = script.convert_block_to_text(blocks_dicc)
+                                            blocks_list.append(str(block))
                                         else: # Could be normal loop block
                                             if blocks_dicc["inputs"]["SUBSTACK"][1] is None:
-                                                print("Op4", blocks_dicc)
-                                                blocks_list.append(str(blocks_dicc["opcode"]))
+                                                script = Script()
+                                                block = script.convert_block_to_text(blocks_dicc)
+                                                blocks_list.append(str(block))
                     if blocks_list:
                         scripts = []
                         for block in blocks_list:
-                            script = Script()
-                            script.set_custom_script_dict({"block_0": {"name": block}})
-                            print("DeadCode", script.script_dict)
-                            # script_text = script.convert_to_text()
-                            # print("script_txt", script_text)
-                            # cripts.append(script_text)
-                        sprites[sprite] = blocks_list
-                        self.dead_code_instances += 1
+                            sprites[sprite] = blocks_list
+                            self.dead_code_instances += 1
 
         self.dict_deadcode = sprites
 
