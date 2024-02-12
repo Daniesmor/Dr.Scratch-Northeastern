@@ -1323,7 +1323,7 @@ def downloads(request, username, filename=""):
         csv_directory = os.path.join(os.path.dirname(os.path.dirname(__file__)), "csvs/Dr.Scratch")
         path_to_file = os.path.join(csv_directory, filename)
         # Ensure that the path exists, to avoid injection-attacks
-        if not validate_csv(path_to_file):
+        if not os.path.exists(path_to_file) or not validate_csv(path_to_file):
             return HttpResponse("Invalid CSV file", status=400)
         with open(path_to_file, 'rb') as csv_data:
             response = HttpResponse(csv_data, content_type='text/csv')
