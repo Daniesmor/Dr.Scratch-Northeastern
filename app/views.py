@@ -1319,7 +1319,7 @@ def downloads(request, username, filename=""):
 
     if request.method == "POST":
         #Downloading CSV
-        filename = request.POST["csv"]
+        filename = request.POST.get("csv", "")
         csv_directory = os.path.join(os.path.dirname(os.path.dirname(__file__)), "csvs/Dr.Scratch")
         path_to_file = os.path.join(csv_directory, filename)
         # Ensure that the path exists, to avoid injection-attacks
