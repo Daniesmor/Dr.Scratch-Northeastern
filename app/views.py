@@ -83,8 +83,8 @@ def create_csv_main(d: dict, folder_path: str) -> str:
     csv_filepath = os.path.join(folder_path, csv_name)
     #fieldnames = list(d[0].keys())
     
-    # Lista de encabezados
-    encabezados = [
+    # Lista de headers
+    headers = [
         'url', 'filename', 'points', 
         'Abstraction', 'Parallelism', 'Logic', 'Synchronization',
         'Flow control', 'User interactivity', 'Data representation',
@@ -98,230 +98,155 @@ def create_csv_main(d: dict, folder_path: str) -> str:
 
     # Abir el archivo csv en modo de escritura
     with open(csv_filepath, 'w') as csv_file:
-        escritor_csv = csv.DictWriter(csv_file, fieldnames=encabezados)
-        escritor_csv.writeheader()
+        writer_csv = csv.DictWriter(csv_file, fieldnames=headers)
+        writer_csv.writeheader()
 
-        fila_a_escribir = {}
+        row_to_write = {}
         for project in d:
 
-            for clave in encabezados:
+            for clave in headers:
                 if clave in d[project]:
-                    fila_a_escribir[clave] = d[project].get(clave, '')
+                    row_to_write[clave] = d[project].get(clave, '')
                 elif clave in mastery_fields:
-                    fila_a_escribir[clave] = d[project]['mastery'].get(clave, '')
+                    row_to_write[clave] = d[project]['mastery'].get(clave, '')
                 elif clave == 'DuplicateScripts':
-                    fila_a_escribir[clave] = d[project]['duplicateScript'].get('number', '')
+                    row_to_write[clave] = d[project]['duplicateScript'].get('number', '')
                 elif clave == 'DeadCode':
-                    fila_a_escribir[clave] = d[project]['deadCode'].get('number', '')
+                    row_to_write[clave] = d[project]['deadCode'].get('number', '')
                 elif clave == 'SpriteNaming':
-                    fila_a_escribir[clave] = d[project]['spriteNaming'].get('number', '')
+                    row_to_write[clave] = d[project]['spriteNaming'].get('number', '')
                 elif clave == "BackdropNaming":
-                    fila_a_escribir[clave] = d[project]['backdropNaming'].get('number', '')
+                    row_to_write[clave] = d[project]['backdropNaming'].get('number', '')
                 else:
-                    fila_a_escribir[clave] = ''
-            escritor_csv.writerow(fila_a_escribir)
+                    row_to_write[clave] = ''
+            writer_csv.writerow(row_to_write)
     return csv_filepath
 
-def creeate_csv_dups(d: dict, folder_path: str):
-    
+def create_csv_dups(d: dict, folder_path: str):
     csv_name = "duplicateScript.csv"
     csv_filepath = os.path.join(folder_path, csv_name)
-    # Lista de encabezados
-    encabezados = ['url', 'filename', 'number']
+    
+    # headers list
+    headers = ['url', 'filename', 'number']
 
-    # CREAR CABECERAS
-    for project in d:
-        # Añadimos los campos variables
-        if d[project]['duplicateScript']['scripts']:
-            counter = 0
-            total_dup_scripts = 0
-            duplicates_scripts = d[project]['duplicateScript']['scripts']
-            for duplacate_block in duplicates_scripts:
-                for duplicate_instruction in duplacate_block:
-                    counter += 1
-                    if counter > total_dup_scripts:
-                        total_dup_scripts = counter 
-    for i in range(1, total_dup_scripts+1):
-        dup_name = 'duplicateScript_' + str(i)
-        encabezados.append(dup_name)
-                            
+    # create headers
+    for project in d.values():
+        duplicate_scripts = project.get('duplicateScript', {}).get('scripts', [])
+        if duplicate_scripts:
+            max_dup_scripts = max(len(block) for block in project['duplicateScript'].get('scripts', []))
+            for i in range(1, max_dup_scripts + 1):
+                headers.append(f'duplicateScript_{i}')
 
-    # Abir el archivo csv en modo de escritura
+    # open csv file
     with open(csv_filepath, 'w') as csv_file:
-        escritor_csv = csv.DictWriter(csv_file, fieldnames=encabezados)
-        escritor_csv.writeheader()
+        writer_csv = csv.DictWriter(csv_file, fieldnames=headers)
+        writer_csv.writeheader()
 
-        fila_a_escribir = {}
-        for project in d:
-            for clave in encabezados:
-                if clave in d[project]:
-                    fila_a_escribir[clave] = d[project].get(clave, '')
-                else:
-                    fila_a_escribir[clave] = ''
-            for b in range(1, total_dup_scripts+1):
-                dup_name = 'duplicateScript_' + str(b)
-                fila_a_escribir[dup_name] = 'N/A'
-            # Añadimos el number de dups
-            if d[project]['duplicateScript']['number']:
-                number = d[project]['duplicateScript']['number']
-                fila_a_escribir['number'] = number
-            
-            # Añadimos los campos variables duplicate_script
-            if d[project]['duplicateScript']['scripts']:
-                counter = 0
-                current_counter = 0
-                duplicates_scripts = d[project]['duplicateScript']['scripts']
-                for duplacate_block in duplicates_scripts:
-                    for duplicate_instruction in duplacate_block:
-                        counter += 1
-                        dup_name = 'duplicateScript_' + str(counter)                     
-                        fila_a_escribir[dup_name] = duplicate_instruction
-        
-            escritor_csv.writerow(fila_a_escribir)
+        for project_data in d.values():
+            row_to_write = {
+                'url': project_data.get('url', ''),
+                'filename': project_data.get('filename', ''),
+                'number': project_data['duplicateScript'].get('number', ''),
+            }
+            scripts = project_data['duplicateScript'].get('scripts')
+            if scripts:
+                for i, script_list in enumerate(scripts, 1):
+                    for j, script in enumerate(script_list, 1):
+                        row_to_write[f'duplicateScript_{j}'] = script
+            else:
+                row_to_write.update({f'duplicateScript_{i}': 'N/A' for i in range(1, max_dup_scripts + 1)})        
+            writer_csv.writerow(row_to_write)
+
 
 def create_csv_sprites(d: dict, folder_path: str):
     csv_name = "spriteNaming.csv"
     csv_filepath = os.path.join(folder_path, csv_name)
-    # Lista de encabezados
-    encabezados = ['url', 'filename', 'number']
+    headers = ['url', 'filename', 'number']
 
-    total_sprites_names = 0
-    # CREAR CABECERAS
-    for project in d:
-        
-        # Añadimos los campos variables
-        if d[project]['spriteNaming']['sprite']:
-            counter = 0
-            sprites = d[project]['spriteNaming']['sprite']
-            counter = len(sprites)
-            if counter > total_sprites_names:
-                total_sprites_names = counter 
-    for i in range(1, total_sprites_names+1):
-        sprite_name = 'spriteNaming' + str(i)
-        encabezados.append(sprite_name)
-    # Abir el archivo csv en modo de escritura
-    with open(csv_filepath, 'w') as csv_file:
-        escritor_csv = csv.DictWriter(csv_file, fieldnames=encabezados)
-        escritor_csv.writeheader()
+    # Get the maximum number of sprites
+    total_sprites_names = max(len(proj['spriteNaming'].get('sprite', [])) for proj in d.values())
 
-        fila_a_escribir = {}
-        for project in d:
-            for clave in encabezados:
-                if clave in d[project]:
-                    fila_a_escribir[clave] = d[project].get(clave, '')
-                else:
-                    fila_a_escribir[clave] = ''
-            for b in range(1, total_sprites_names+1):
-                sprite_name = 'spriteNaming' + str(b)
-                fila_a_escribir[sprite_name] = 'N/A'
-            # Añdimos el numero de sprites
-            if d[project]['spriteNaming']['number']:
-                number = d[project]['spriteNaming']['number']
-                fila_a_escribir['number'] = number
-            # Añadimos los campos variables scprites
-            if d[project]['spriteNaming']['sprite']:
-                counter = 0
-                current_counter = 0
-                sprites = d[project]['spriteNaming']['sprite']
-                for sprite in sprites:
-                    counter += 1
-                    sprite_name = 'spriteNaming' + str(counter)                     
-                    fila_a_escribir[sprite_name] = sprite
-            escritor_csv.writerow(fila_a_escribir)
+    # Add the names of the sprites as headers
+    headers.extend(f'spriteNaming{i}' for i in range(1, total_sprites_names + 1))
+
+    # Write in the CSV file
+    with open(csv_filepath, 'w', newline='') as csv_file:
+        writer_csv = csv.DictWriter(csv_file, fieldnames=headers)
+        writer_csv.writeheader()
+
+        for project in d.values():
+            row_to_write = {key: project.get(key, 'N/A') for key in headers} 
+            row_to_write['number'] = project['spriteNaming'].get('number', 'N/A')
+            # Fill the sprites
+            sprites = project['spriteNaming'].get('sprite', [])
+            for i, sprite in enumerate(sprites, 1):
+                row_to_write[f'spriteNaming{i}'] = sprite
+
+            # Write the row
+            writer_csv.writerow(row_to_write)
   
 def create_csv_backdrops(d: dict, folder_path: str):
     csv_name = "backdropNaming.csv"
     csv_filepath = os.path.join(folder_path, csv_name)
-    # Lista de encabezados
-    encabezados = ['url', 'filename','number']
+    # headers list
+    headers = ['url', 'filename','number']
     
-    total_backdrops_names = 0
-    # CREAR CABECERAS
-    for project in d:
-        print(d[project]['deadCode']['number'])
-        # Añadimos los campos variables
-        if d[project]['backdropNaming']['backdrop']:
-            counter = 0
-            backdrops = d[project]['backdropNaming']['backdrop']
-            counter = len(backdrops)
-            print("counter: ", counter)
-            if counter > total_backdrops_names:
-                total_backdrops_names = counter 
-    for i in range(1, total_backdrops_names+1):
-        backdrop_name = 'backdropNaming' + str(i)
-        encabezados.append(backdrop_name)
-    # Abir el archivo csv en modo de escritura
+    total_backdrop_names = max(len(proj['backdropNaming'].get('backdrop', [])) for proj in d.values())
+    headers.extend(f'backdropNaming{i}' for i in range(1, total_backdrop_names+1))
+    
     with open(csv_filepath, 'w') as csv_file:
-        escritor_csv = csv.DictWriter(csv_file, fieldnames=encabezados)
-        escritor_csv.writeheader()
+        writer_csv = csv.DictWriter(csv_file, fieldnames=headers)
+        writer_csv.writeheader()
 
-        fila_a_escribir = {}
-        for project in d:
-            for clave in encabezados:
-                if clave in d[project]:
-                    fila_a_escribir[clave] = d[project].get(clave, '')
-                else:
-                    fila_a_escribir[clave] = ''
-            for b in range(1, total_backdrops_names+1):
-                backdrop_name = 'backdropNaming' + str(b)
-                fila_a_escribir[backdrop_name] = 'N/A'
-            # Añdimos el numero de backdrops
-            if d[project]['backdropNaming']['number']:
-                number = d[project]['backdropNaming']['number']
-                fila_a_escribir['number'] = number
-            # Añadimos los campos variables backdrops
-            if d[project]['backdropNaming']['backdrop']:
-                counter = 0
-                current_counter = 0
-                backdrops = d[project]['backdropNaming']['backdrop']
-                for backdrop in backdrops:
-                    counter += 1
-                    backdrop_name = 'backdropNaming' + str(counter)                     
-                    fila_a_escribir[backdrop_name] = backdrop
-            escritor_csv.writerow(fila_a_escribir)
+        row_to_write = {}
+        for project in d.values():
+            row_to_write = {key: project.get(key, 'N/A') for key in headers}
+            
+            # Fill backdrops
+            backdrops = project['backdropNaming'].get('backdrop', [])
+            for i, backdrop in enumerate(backdrops, 1):
+                row_to_write[f'backdropNaming{i}'] = backdrop if backdrop else 'N/A'
+            writer_csv.writerow(row_to_write)
 
 def create_csv_deadcode(d: dict, folder_path: str):
     csv_name = "deadCode.csv"
     csv_filepath = os.path.join(folder_path, csv_name)
-    # Lista de encabezados
-    encabezados = ['url', 'filename', 'number', 'sprite']
+    # headers list
+    headers = ['url', 'filename', 'number', 'sprite']
     
     max_sprites = 0
-    for project in d:   
-        for sprite_list in d[project]['deadCode']:
-            sprite_list_counter = 0
-            if (sprite_list != 'deadCode') and (sprite_list != 'number'):
-                for sprite in d[project]['deadCode'][sprite_list]:
-                    
-                    sprite_list_counter += 1
-                    if sprite_list_counter > max_sprites:
-                        max_sprites = sprite_list_counter
-    for i in range(1, max_sprites+1):
-        sprite_name = 'deadCode' + str(i)
-        encabezados.append(sprite_name)
+    for project_data in d.values():   
+        dead_code_data = project_data.get('deadCode', {})  
+        for key, value in dead_code_data.items():
+            if key not in ['number', 'deadCode']:
+                sprite_list_counter = len(value)
+                if sprite_list_counter > max_sprites:
+                    max_sprites = sprite_list_counter
 
-    with open(csv_filepath, 'w', newline='') as csv_file:
-        escritor_csv = csv.DictWriter(csv_file, fieldnames=encabezados)
-        escritor_csv.writeheader()
-
-        fila_a_escribir = {}
-        for project in d:   
+    
+    headers.extend(f'deadCode{i}' for i in range(1, max_sprites+1))
             
-            for sprite_list in d[project]['deadCode']: 
-                fila_a_escribir['sprite'] = sprite_list
-                for b in range(1, max_sprites+1):
-                    sprite_name = 'deadCode' + str(b)
-                    fila_a_escribir[sprite_name] = 'N/A'
-                if (sprite_list != 'deadCode') and (sprite_list != 'number'):
-                    counter = 0
-                    for sprite in d[project]['deadCode'][sprite_list]:
-                        fila_a_escribir['url'] = d[project]['url']
-                        fila_a_escribir['filename'] = d[project]['filename']
-                        fila_a_escribir['number'] = d[project]['deadCode']['number']
-                        counter += 1
-                        sprite_name = 'deadCode' + str(counter)
-                        fila_a_escribir[sprite_name] = sprite
-                    escritor_csv.writerow(fila_a_escribir)        
+    with open(csv_filepath, 'w', newline='') as csv_file:
+        writer_csv = csv.DictWriter(csv_file, fieldnames=headers)
+        writer_csv.writeheader()
+
+        row_to_write = {}
+        for project_data in d.values():      
+            for sprite_list_name, sprite_list in project_data['deadCode'].items():
+                if sprite_list_name not in ['number', 'deadCode']:
+                    row_to_write = {
+                        'url': project_data['url'],
+                        'filename': project_data['filename'],
+                        'number': project_data['deadCode']['number'],
+                        'sprite': sprite_list_name
+                    }
+                    
+                    for i, sprite in enumerate(sprite_list, 1):
+                        row_to_write[f'deadCode{i}'] = sprite
+                    for j in range(1, max_sprites+1):
+                        if row_to_write.get(f'deadCode{j}', '') == '':
+                            row_to_write[f'deadCode{j}'] = 'N/A'
+                    writer_csv.writerow(row_to_write)    
         
     
 def zip_folder(folder_path: str):
@@ -345,7 +270,7 @@ def create_csv(d):
     
     
     create_csv_main(d, folder_path)
-    creeate_csv_dups(d, folder_path)
+    create_csv_dups(d, folder_path)
     create_csv_sprites(d, folder_path)
     create_csv_backdrops(d, folder_path)
     create_csv_deadcode(d, folder_path)
