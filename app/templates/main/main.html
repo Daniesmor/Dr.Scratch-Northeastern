@@ -245,7 +245,12 @@
                                     {% trans "2. If you have your <span class='colored-text'><a data-toggle='modal' href='#modalProject'>project</a></span> downloaded in the computer you can analyze it here:" %}
                                     {% trans "<input  name='zipFile' type='file' class='filestyle' data-buttonText='Choose Project'>" %}
                                     <button id="upload" name='_upload' type="submit" class="btn btn-primary standard-button">{% trans "Analyze my project" %}</button>
+                                    <br></br>
+                                    {% trans "3. Upload projects with a <span class='colored-text'><a data-toggle='modal' href='#modalProject'>txt</a></span> file:" %}
+                                    {% trans "<input  name='urlsFile' type='file' class='filestyle' data-buttonText='Choose txt'>" %}
+                                    <button id="urls" name='_urls' type="submit" class="btn btn-primary standard-button">{% trans "Analyze my projects" %}</button>
                                     {% csrf_token %}
+                                    
 
                                 </form>
 
