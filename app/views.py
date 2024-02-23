@@ -19,6 +19,7 @@ from django.db.models import Avg
 from django.contrib.auth.models import User
 from django.utils.encoding import smart_str
 from django.shortcuts import render
+from django.conf import settings
 from app.forms import UrlForm, OrganizationForm, OrganizationHashForm, LoginOrganizationForm, CoderForm, DiscussForm
 from app.models import File, CSVs, Organization, OrganizationHash, Coder, Discuss, Stats
 from urllib.request import urlopen
@@ -77,37 +78,275 @@ def collaborators(request):
     return render(request, 'main/collaborators.html')
 
 
+def create_csv_main(d: dict, folder_path: str) -> str:
+    csv_name = "main.csv"
+    csv_filepath = os.path.join(folder_path, csv_name)
+    #fieldnames = list(d[0].keys())
+    
+    # Lista de headers
+    headers = [
+        'url', 'filename', 'points', 
+        'Abstraction', 'Parallelism', 'Logic', 'Synchronization',
+        'Flow control', 'User interactivity', 'Data representation',
+        'DuplicateScripts', 'DeadCode', 'SpriteNaming', 'BackdropNaming', 
+        'Error', 'dashboard_mode', 
+    ]
+    mastery_fields = [
+        'points', 'Abstraction', 'Parallelism', 'Logic', 'Synchronization',
+        'Flow control', 'User interactivity', 'Data representation', 
+    ]                      
+
+    # Abir el archivo csv en modo de escritura
+    with open(csv_filepath, 'w') as csv_file:
+        writer_csv = csv.DictWriter(csv_file, fieldnames=headers)
+        writer_csv.writeheader()
+
+        row_to_write = {}
+        for project in d:
+
+            for clave in headers:
+                if clave in d[project]:
+                    row_to_write[clave] = d[project].get(clave, '')
+                elif clave in mastery_fields:
+                    row_to_write[clave] = d[project]['mastery'].get(clave, '')
+                elif clave == 'DuplicateScripts':
+                    row_to_write[clave] = d[project]['duplicateScript'].get('number', '')
+                elif clave == 'DeadCode':
+                    row_to_write[clave] = d[project]['deadCode'].get('number', '')
+                elif clave == 'SpriteNaming':
+                    row_to_write[clave] = d[project]['spriteNaming'].get('number', '')
+                elif clave == "BackdropNaming":
+                    row_to_write[clave] = d[project]['backdropNaming'].get('number', '')
+                else:
+                    row_to_write[clave] = ''
+            writer_csv.writerow(row_to_write)
+    return csv_filepath
+
+def create_csv_dups(d: dict, folder_path: str):
+    csv_name = "duplicateScript.csv"
+    csv_filepath = os.path.join(folder_path, csv_name)
+    
+    # headers list
+    headers = ['url', 'filename', 'number']
+
+    # create headers
+    for project in d.values():
+        duplicate_scripts = project.get('duplicateScript', {}).get('scripts', [])
+        if duplicate_scripts:
+            max_dup_scripts = max(len(block) for block in project['duplicateScript'].get('scripts', []))
+            for i in range(1, max_dup_scripts + 1):
+                headers.append(f'duplicateScript_{i}')
+
+    # open csv file
+    with open(csv_filepath, 'w') as csv_file:
+        writer_csv = csv.DictWriter(csv_file, fieldnames=headers)
+        writer_csv.writeheader()
+
+        for project_data in d.values():
+            row_to_write = {
+                'url': project_data.get('url', ''),
+                'filename': project_data.get('filename', ''),
+                'number': project_data['duplicateScript'].get('number', ''),
+            }
+            scripts = project_data['duplicateScript'].get('scripts')
+            if scripts:
+                for i, script_list in enumerate(scripts, 1):
+                    for j, script in enumerate(script_list, 1):
+                        row_to_write[f'duplicateScript_{j}'] = script
+            else:
+                row_to_write.update({f'duplicateScript_{i}': 'N/A' for i in range(1, max_dup_scripts + 1)})        
+            writer_csv.writerow(row_to_write)
+
+
+def create_csv_sprites(d: dict, folder_path: str):
+    csv_name = "spriteNaming.csv"
+    csv_filepath = os.path.join(folder_path, csv_name)
+    headers = ['url', 'filename', 'number']
+
+    # Get the maximum number of sprites
+    total_sprites_names = max(len(proj['spriteNaming'].get('sprite', [])) for proj in d.values())
+
+    # Add the names of the sprites as headers
+    headers.extend(f'spriteNaming{i}' for i in range(1, total_sprites_names + 1))
+
+    # Write in the CSV file
+    with open(csv_filepath, 'w', newline='') as csv_file:
+        writer_csv = csv.DictWriter(csv_file, fieldnames=headers)
+        writer_csv.writeheader()
+
+        for project in d.values():
+            row_to_write = {key: project.get(key, 'N/A') for key in headers} 
+            row_to_write['number'] = project['spriteNaming'].get('number', 'N/A')
+            # Fill the sprites
+            sprites = project['spriteNaming'].get('sprite', [])
+            for i, sprite in enumerate(sprites, 1):
+                row_to_write[f'spriteNaming{i}'] = sprite
+
+            # Write the row
+            writer_csv.writerow(row_to_write)
+  
+def create_csv_backdrops(d: dict, folder_path: str):
+    csv_name = "backdropNaming.csv"
+    csv_filepath = os.path.join(folder_path, csv_name)
+    # headers list
+    headers = ['url', 'filename','number']
+    
+    total_backdrop_names = max(len(proj['backdropNaming'].get('backdrop', [])) for proj in d.values())
+    headers.extend(f'backdropNaming{i}' for i in range(1, total_backdrop_names+1))
+    
+    with open(csv_filepath, 'w') as csv_file:
+        writer_csv = csv.DictWriter(csv_file, fieldnames=headers)
+        writer_csv.writeheader()
+
+        row_to_write = {}
+        for project in d.values():
+            row_to_write = {key: project.get(key, 'N/A') for key in headers}
+            
+            # Fill backdrops
+            backdrops = project['backdropNaming'].get('backdrop', [])
+            for i, backdrop in enumerate(backdrops, 1):
+                row_to_write[f'backdropNaming{i}'] = backdrop if backdrop else 'N/A'
+            writer_csv.writerow(row_to_write)
+
+def create_csv_deadcode(d: dict, folder_path: str):
+    csv_name = "deadCode.csv"
+    csv_filepath = os.path.join(folder_path, csv_name)
+    # headers list
+    headers = ['url', 'filename', 'number', 'sprite']
+    
+    max_sprites = 0
+    for project_data in d.values():   
+        dead_code_data = project_data.get('deadCode', {})  
+        for key, value in dead_code_data.items():
+            if key not in ['number', 'deadCode']:
+                sprite_list_counter = len(value)
+                if sprite_list_counter > max_sprites:
+                    max_sprites = sprite_list_counter
+
+    
+    headers.extend(f'deadCode{i}' for i in range(1, max_sprites+1))
+            
+    with open(csv_filepath, 'w', newline='') as csv_file:
+        writer_csv = csv.DictWriter(csv_file, fieldnames=headers)
+        writer_csv.writeheader()
+
+        row_to_write = {}
+        for project_data in d.values():      
+            for sprite_list_name, sprite_list in project_data['deadCode'].items():
+                if sprite_list_name not in ['number', 'deadCode']:
+                    row_to_write = {
+                        'url': project_data['url'],
+                        'filename': project_data['filename'],
+                        'number': project_data['deadCode']['number'],
+                        'sprite': sprite_list_name
+                    }
+                    
+                    for i, sprite in enumerate(sprite_list, 1):
+                        row_to_write[f'deadCode{i}'] = sprite
+                    for j in range(1, max_sprites+1):
+                        if row_to_write.get(f'deadCode{j}', '') == '':
+                            row_to_write[f'deadCode{j}'] = 'N/A'
+                    writer_csv.writerow(row_to_write)    
+        
+    
+def zip_folder(folder_path: str):
+    with ZipFile(folder_path + '.zip', 'w') as zipObj:
+        for folderName, subfolders, filenames in os.walk(folder_path):
+            for filename in filenames:
+                filePath = os.path.join(folderName, filename)
+                zipObj.write(filePath, os.path.basename(filePath))
+                
+    # Remove the original folder
+    shutil.rmtree(folder_path)
+    return folder_path + '.zip'
+    
+def create_csv(d):
+    
+    now = datetime.now()
+    folder_name = str(uuid.uuid4()) + '_' + now.strftime("%Y%m%d%H%M%S")
+    base_dir = os.getcwd()
+    folder_path = os.path.join(base_dir, 'csvs', 'Dr.Scratch', folder_name)
+    os.mkdir(folder_path)
+    
+    
+    create_csv_main(d, folder_path)
+    create_csv_dups(d, folder_path)
+    create_csv_sprites(d, folder_path)
+    create_csv_backdrops(d, folder_path)
+    create_csv_deadcode(d, folder_path)
+    csv_filepath = zip_folder(folder_path)
+    return csv_filepath
+    
+
 def show_dashboard(request):
 
     if request.method == 'POST':
         d = build_dictionary_with_automatic_analysis(request)
         user = str(identify_user_type(request))
-        if d['Error'] == 'analyzing':
-            return render(request, 'error/analyzing.html')
-        elif d['Error'] == 'MultiValueDict':
-            return render(request, user + '/main.html', {'error': True})
-        elif d['Error'] == 'id_error':
-            return render(request, user + '/main.html', {'id_error': True})
-        elif d['Error'] == 'no_exists':
-            return render(request, user + '/main.html', {'no_exists': True})
-        else:
-            if d["dashboard_mode"] == "Vanilla":
-                if d["mastery"]["points"] >= 15:
-                    return render(request, user + '/dashboard-master.html', d)
-                elif d["mastery"]["points"] > 7:
-                    return render(request, user + '/dashboard-developing.html', d)
-                else:
-                    return render(request, user + '/dashboard-basic.html', d)
-            elif d["dashboard_mode"] == "Resnick":
-                return render(request, user + '/dashboard_resnick.html', d)
-            else:
-                return HttpResponse("¡Personalized Mode!")
-    
-                
+        print(d)
+        if len(d) > 1:
             
+            #creeate_csv_dups()
+            csv_filepath = create_csv(d)
+            
+                
+            summary = create_summary(d)      
+            return render(request, user + '/dashboard-bulk.html', {'summary': summary, 'csv_filepath': csv_filepath})
+        else: 
+            d = d[0]
+            if d['Error'] == 'analyzing':
+                return render(request, 'error/analyzing.html')
+            elif d['Error'] == 'MultiValueDict':
+                return render(request, user + '/main.html', {'error': True})
+            elif d['Error'] == 'id_error':
+                return render(request, user + '/main.html', {'id_error': True})
+            elif d['Error'] == 'no_exists':
+                return render(request, user + '/main.html', {'no_exists': True})
+            else:
+                if d["dashboard_mode"] == "Vanilla":
+                    if d["mastery"]["points"] >= 15:
+                        return render(request, user + '/dashboard-master.html', d)
+                    elif d["mastery"]["points"] > 7:
+                        return render(request, user + '/dashboard-developing.html', d)
+                    else:
+                        return render(request, user + '/dashboard-basic.html', d)
+                elif d["dashboard_mode"] == "Resnick":
+                    return render(request, user + '/dashboard_resnick.html', d)
+                else:
+                    return HttpResponse("¡Personalized Mode!")         
     else:
         return HttpResponseRedirect('/')
 
+
+def create_summary(d: dict) -> dict:
+    summary = {}
+    print(d)
+    # NUM PROJECTS
+    num_projects = len(d)
+    
+    
+    # TOTAL POINTS
+    total_points = 0
+    for project in d:
+        for skill in d[project]["mastery"]:
+            if skill not in summary:
+                summary[skill] = 0
+            summary[skill] += d[project]["mastery"][skill]
+    
+    # AVERAGE POINTS
+    for skill in summary:
+        summary[skill] = round(summary[skill] / num_projects, 2)
+
+    summary['num_projects'] = num_projects
+    
+    if summary['points'] >= 15:
+        summary['mastery'] = 'Master'
+    elif summary['points'] > 7:
+        summary['mastery'] = 'Developing'
+    else:
+        summary['mastery'] = 'Basic'
+    #summary['average_points'] = average_points
+    return summary
 
 def build_dictionary_with_automatic_analysis(request) -> dict:
     """
@@ -117,23 +356,49 @@ def build_dictionary_with_automatic_analysis(request) -> dict:
     dict_metrics = {}
     url = None
     filename = None
+    dashboard_mode = request.POST['dashboard_mode']
+    project_counter = 0
 
     if "_upload" in request.POST:
-        dict_metrics = _make_analysis_by_upload(request)
+        dict_metrics[project_counter] = _make_analysis_by_upload(request)
         if dict_metrics['Error'] != 'None':
             return dict_metrics
         filename = request.FILES['zipFile'].name.encode('utf-8')
+        dict_metrics[project_counter].update({
+            'url': url, 
+            'filename': filename,
+            'dashboard_mode': dashboard_mode,
+            'multiproject': False
+        })
     elif '_url' in request.POST:
-        dict_metrics = _make_analysis_by_url(request)
+        dict_metrics[project_counter] = _make_analysis_by_url(request)
         url = request.POST['urlProject']
         filename = url
-    dashboard_mode = request.POST['dashboard_mode']
-    
-    dict_metrics.update({
-        'url': url, 
-        'filename': filename,
-        'dashboard_mode': dashboard_mode
+        dict_metrics[project_counter].update({
+            'url': url, 
+            'filename': filename,
+            'dashboard_mode': dashboard_mode,
+            'multiproject': False
         })
+    elif '_urls' in request.POST:
+        
+        urls_file = request.FILES['urlsFile']
+
+        # Iterate over the file object directly
+        for url in urls_file:
+            url = url.decode('utf-8')  # Decode bytes to string
+            url = url.strip()  # Remove whitespace from the beginning and end of the string
+            filename = url
+            # Call _make_analysis_by_url function to process the URL and store the result
+            dict_metrics[project_counter] = _make_analysis_by_txt(request, url)
+
+            # Update 'dict_metrics' with additional information
+            dict_metrics[project_counter].update({
+                'url': url, 
+                'filename': filename,
+                'dashboard_mode': dashboard_mode,
+            })
+            project_counter += 1  
     return dict_metrics
 
 
@@ -284,6 +549,20 @@ def _make_analysis_by_url(request):
             return {'Error': 'MultiValueDict'}
     else:
         return HttpResponseRedirect('/')
+
+def _make_analysis_by_txt(request, url):
+    """
+    Make the automatic analysis by URLS txt
+    """
+  
+    
+    id_project = return_scratch_project_identifier(url)
+    if id_project == "error":
+        return {'Error': 'id_error'}
+    else:
+        return generator_dic(request, id_project)
+        
+    
 
 
 def return_scratch_project_identifier(url) -> str:
