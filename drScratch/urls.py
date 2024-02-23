@@ -21,6 +21,9 @@ urlpatterns = [
     #                              {'document_root': settings.MEDIA_ROOT}),
     url(r'^(.*)/static/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 
+    # CSVS (BATCH)
+    url(r'^(.*)/csvs/(?P<path>.*)$',serve, {'document_root': settings.BASE_DIR + '/csvs'}),
+
     # Statistics
     url(r'^statistics$', app_views.statistics, name='statistics'),
 
