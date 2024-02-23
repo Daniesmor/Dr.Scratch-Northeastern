@@ -19,6 +19,7 @@ from django.db.models import Avg
 from django.contrib.auth.models import User
 from django.utils.encoding import smart_str
 from django.shortcuts import render
+from django.conf import settings
 from app.forms import UrlForm, OrganizationForm, OrganizationHashForm, LoginOrganizationForm, CoderForm, DiscussForm
 from app.models import File, CSVs, Organization, OrganizationHash, Coder, Discuss, Stats
 from urllib.request import urlopen
@@ -77,37 +78,350 @@ def collaborators(request):
     return render(request, 'main/collaborators.html')
 
 
+def create_csv_main(d: dict, folder_path: str) -> str:
+    csv_name = "main.csv"
+    csv_filepath = os.path.join(folder_path, csv_name)
+    #fieldnames = list(d[0].keys())
+    
+    # Lista de encabezados
+    encabezados = [
+        'url', 'filename', 'points', 
+        'Abstraction', 'Parallelism', 'Logic', 'Synchronization',
+        'Flow control', 'User interactivity', 'Data representation',
+        'DuplicateScripts', 'DeadCode', 'SpriteNaming', 'BackdropNaming', 
+        'Error', 'dashboard_mode', 
+    ]
+    mastery_fields = [
+        'points', 'Abstraction', 'Parallelism', 'Logic', 'Synchronization',
+        'Flow control', 'User interactivity', 'Data representation', 
+    ]                      
+
+    # Abir el archivo csv en modo de escritura
+    with open(csv_filepath, 'w') as csv_file:
+        escritor_csv = csv.DictWriter(csv_file, fieldnames=encabezados)
+        escritor_csv.writeheader()
+
+        fila_a_escribir = {}
+        for project in d:
+
+            for clave in encabezados:
+                if clave in d[project]:
+                    fila_a_escribir[clave] = d[project].get(clave, '')
+                elif clave in mastery_fields:
+                    fila_a_escribir[clave] = d[project]['mastery'].get(clave, '')
+                elif clave == 'DuplicateScripts':
+                    fila_a_escribir[clave] = d[project]['duplicateScript'].get('number', '')
+                elif clave == 'DeadCode':
+                    fila_a_escribir[clave] = d[project]['deadCode'].get('number', '')
+                elif clave == 'SpriteNaming':
+                    fila_a_escribir[clave] = d[project]['spriteNaming'].get('number', '')
+                elif clave == "BackdropNaming":
+                    fila_a_escribir[clave] = d[project]['backdropNaming'].get('number', '')
+                else:
+                    fila_a_escribir[clave] = ''
+            escritor_csv.writerow(fila_a_escribir)
+    return csv_filepath
+
+def creeate_csv_dups(d: dict, folder_path: str):
+    
+    csv_name = "duplicateScript.csv"
+    csv_filepath = os.path.join(folder_path, csv_name)
+    # Lista de encabezados
+    encabezados = ['url', 'filename', 'number']
+
+    # CREAR CABECERAS
+    for project in d:
+        # Añadimos los campos variables
+        if d[project]['duplicateScript']['scripts']:
+            counter = 0
+            total_dup_scripts = 0
+            duplicates_scripts = d[project]['duplicateScript']['scripts']
+            for duplacate_block in duplicates_scripts:
+                for duplicate_instruction in duplacate_block:
+                    counter += 1
+                    if counter > total_dup_scripts:
+                        total_dup_scripts = counter 
+    for i in range(1, total_dup_scripts+1):
+        dup_name = 'duplicateScript_' + str(i)
+        encabezados.append(dup_name)
+                            
+
+    # Abir el archivo csv en modo de escritura
+    with open(csv_filepath, 'w') as csv_file:
+        escritor_csv = csv.DictWriter(csv_file, fieldnames=encabezados)
+        escritor_csv.writeheader()
+
+        fila_a_escribir = {}
+        for project in d:
+            for clave in encabezados:
+                if clave in d[project]:
+                    fila_a_escribir[clave] = d[project].get(clave, '')
+                else:
+                    fila_a_escribir[clave] = ''
+            for b in range(1, total_dup_scripts+1):
+                dup_name = 'duplicateScript_' + str(b)
+                fila_a_escribir[dup_name] = 'N/A'
+            # Añadimos el number de dups
+            if d[project]['duplicateScript']['number']:
+                number = d[project]['duplicateScript']['number']
+                fila_a_escribir['number'] = number
+            
+            # Añadimos los campos variables duplicate_script
+            if d[project]['duplicateScript']['scripts']:
+                counter = 0
+                current_counter = 0
+                duplicates_scripts = d[project]['duplicateScript']['scripts']
+                for duplacate_block in duplicates_scripts:
+                    for duplicate_instruction in duplacate_block:
+                        counter += 1
+                        dup_name = 'duplicateScript_' + str(counter)                     
+                        fila_a_escribir[dup_name] = duplicate_instruction
+        
+            escritor_csv.writerow(fila_a_escribir)
+
+def create_csv_sprites(d: dict, folder_path: str):
+    csv_name = "spriteNaming.csv"
+    csv_filepath = os.path.join(folder_path, csv_name)
+    # Lista de encabezados
+    encabezados = ['url', 'filename', 'number']
+
+    total_sprites_names = 0
+    # CREAR CABECERAS
+    for project in d:
+        
+        # Añadimos los campos variables
+        if d[project]['spriteNaming']['sprite']:
+            counter = 0
+            sprites = d[project]['spriteNaming']['sprite']
+            counter = len(sprites)
+            if counter > total_sprites_names:
+                total_sprites_names = counter 
+    for i in range(1, total_sprites_names+1):
+        sprite_name = 'spriteNaming' + str(i)
+        encabezados.append(sprite_name)
+    # Abir el archivo csv en modo de escritura
+    with open(csv_filepath, 'w') as csv_file:
+        escritor_csv = csv.DictWriter(csv_file, fieldnames=encabezados)
+        escritor_csv.writeheader()
+
+        fila_a_escribir = {}
+        for project in d:
+            for clave in encabezados:
+                if clave in d[project]:
+                    fila_a_escribir[clave] = d[project].get(clave, '')
+                else:
+                    fila_a_escribir[clave] = ''
+            for b in range(1, total_sprites_names+1):
+                sprite_name = 'spriteNaming' + str(b)
+                fila_a_escribir[sprite_name] = 'N/A'
+            # Añdimos el numero de sprites
+            if d[project]['spriteNaming']['number']:
+                number = d[project]['spriteNaming']['number']
+                fila_a_escribir['number'] = number
+            # Añadimos los campos variables scprites
+            if d[project]['spriteNaming']['sprite']:
+                counter = 0
+                current_counter = 0
+                sprites = d[project]['spriteNaming']['sprite']
+                for sprite in sprites:
+                    counter += 1
+                    sprite_name = 'spriteNaming' + str(counter)                     
+                    fila_a_escribir[sprite_name] = sprite
+            escritor_csv.writerow(fila_a_escribir)
+  
+def create_csv_backdrops(d: dict, folder_path: str):
+    csv_name = "backdropNaming.csv"
+    csv_filepath = os.path.join(folder_path, csv_name)
+    # Lista de encabezados
+    encabezados = ['url', 'filename','number']
+    
+    total_backdrops_names = 0
+    # CREAR CABECERAS
+    for project in d:
+        print(d[project]['deadCode']['number'])
+        # Añadimos los campos variables
+        if d[project]['backdropNaming']['backdrop']:
+            counter = 0
+            backdrops = d[project]['backdropNaming']['backdrop']
+            counter = len(backdrops)
+            print("counter: ", counter)
+            if counter > total_backdrops_names:
+                total_backdrops_names = counter 
+    for i in range(1, total_backdrops_names+1):
+        backdrop_name = 'backdropNaming' + str(i)
+        encabezados.append(backdrop_name)
+    # Abir el archivo csv en modo de escritura
+    with open(csv_filepath, 'w') as csv_file:
+        escritor_csv = csv.DictWriter(csv_file, fieldnames=encabezados)
+        escritor_csv.writeheader()
+
+        fila_a_escribir = {}
+        for project in d:
+            for clave in encabezados:
+                if clave in d[project]:
+                    fila_a_escribir[clave] = d[project].get(clave, '')
+                else:
+                    fila_a_escribir[clave] = ''
+            for b in range(1, total_backdrops_names+1):
+                backdrop_name = 'backdropNaming' + str(b)
+                fila_a_escribir[backdrop_name] = 'N/A'
+            # Añdimos el numero de backdrops
+            if d[project]['backdropNaming']['number']:
+                number = d[project]['backdropNaming']['number']
+                fila_a_escribir['number'] = number
+            # Añadimos los campos variables backdrops
+            if d[project]['backdropNaming']['backdrop']:
+                counter = 0
+                current_counter = 0
+                backdrops = d[project]['backdropNaming']['backdrop']
+                for backdrop in backdrops:
+                    counter += 1
+                    backdrop_name = 'backdropNaming' + str(counter)                     
+                    fila_a_escribir[backdrop_name] = backdrop
+            escritor_csv.writerow(fila_a_escribir)
+
+def create_csv_deadcode(d: dict, folder_path: str):
+    csv_name = "deadCode.csv"
+    csv_filepath = os.path.join(folder_path, csv_name)
+    # Lista de encabezados
+    encabezados = ['url', 'filename', 'number', 'sprite']
+    
+    max_sprites = 0
+    for project in d:   
+        for sprite_list in d[project]['deadCode']:
+            sprite_list_counter = 0
+            if (sprite_list != 'deadCode') and (sprite_list != 'number'):
+                for sprite in d[project]['deadCode'][sprite_list]:
+                    
+                    sprite_list_counter += 1
+                    if sprite_list_counter > max_sprites:
+                        max_sprites = sprite_list_counter
+    for i in range(1, max_sprites+1):
+        sprite_name = 'deadCode' + str(i)
+        encabezados.append(sprite_name)
+
+    with open(csv_filepath, 'w', newline='') as csv_file:
+        escritor_csv = csv.DictWriter(csv_file, fieldnames=encabezados)
+        escritor_csv.writeheader()
+
+        fila_a_escribir = {}
+        for project in d:   
+            
+            for sprite_list in d[project]['deadCode']: 
+                fila_a_escribir['sprite'] = sprite_list
+                for b in range(1, max_sprites+1):
+                    sprite_name = 'deadCode' + str(b)
+                    fila_a_escribir[sprite_name] = 'N/A'
+                if (sprite_list != 'deadCode') and (sprite_list != 'number'):
+                    counter = 0
+                    for sprite in d[project]['deadCode'][sprite_list]:
+                        fila_a_escribir['url'] = d[project]['url']
+                        fila_a_escribir['filename'] = d[project]['filename']
+                        fila_a_escribir['number'] = d[project]['deadCode']['number']
+                        counter += 1
+                        sprite_name = 'deadCode' + str(counter)
+                        fila_a_escribir[sprite_name] = sprite
+                    escritor_csv.writerow(fila_a_escribir)        
+        
+    
+def zip_folder(folder_path: str):
+    with ZipFile(folder_path + '.zip', 'w') as zipObj:
+        for folderName, subfolders, filenames in os.walk(folder_path):
+            for filename in filenames:
+                filePath = os.path.join(folderName, filename)
+                zipObj.write(filePath, os.path.basename(filePath))
+                
+    # Remove the original folder
+    shutil.rmtree(folder_path)
+    return folder_path + '.zip'
+    
+def create_csv(d):
+    
+    now = datetime.now()
+    folder_name = str(uuid.uuid4()) + '_' + now.strftime("%Y%m%d%H%M%S")
+    base_dir = os.getcwd()
+    folder_path = os.path.join(base_dir, 'csvs', 'Dr.Scratch', folder_name)
+    os.mkdir(folder_path)
+    
+    
+    create_csv_main(d, folder_path)
+    creeate_csv_dups(d, folder_path)
+    create_csv_sprites(d, folder_path)
+    create_csv_backdrops(d, folder_path)
+    create_csv_deadcode(d, folder_path)
+    csv_filepath = zip_folder(folder_path)
+    return csv_filepath
+    
+
 def show_dashboard(request):
 
     if request.method == 'POST':
         d = build_dictionary_with_automatic_analysis(request)
         user = str(identify_user_type(request))
-        if d['Error'] == 'analyzing':
-            return render(request, 'error/analyzing.html')
-        elif d['Error'] == 'MultiValueDict':
-            return render(request, user + '/main.html', {'error': True})
-        elif d['Error'] == 'id_error':
-            return render(request, user + '/main.html', {'id_error': True})
-        elif d['Error'] == 'no_exists':
-            return render(request, user + '/main.html', {'no_exists': True})
-        else:
-            if d["dashboard_mode"] == "Vanilla":
-                if d["mastery"]["points"] >= 15:
-                    return render(request, user + '/dashboard-master.html', d)
-                elif d["mastery"]["points"] > 7:
-                    return render(request, user + '/dashboard-developing.html', d)
-                else:
-                    return render(request, user + '/dashboard-basic.html', d)
-            elif d["dashboard_mode"] == "Resnick":
-                return render(request, user + '/dashboard_resnick.html', d)
-            else:
-                return HttpResponse("¡Personalized Mode!")
-    
-                
+        print(d)
+        if len(d) > 1:
             
+            #creeate_csv_dups()
+            csv_filepath = create_csv(d)
+            
+                
+            summary = create_summary(d)      
+            return render(request, user + '/dashboard-bulk.html', {'summary': summary, 'csv_filepath': csv_filepath})
+        else: 
+            d = d[0]
+            if d['Error'] == 'analyzing':
+                return render(request, 'error/analyzing.html')
+            elif d['Error'] == 'MultiValueDict':
+                return render(request, user + '/main.html', {'error': True})
+            elif d['Error'] == 'id_error':
+                return render(request, user + '/main.html', {'id_error': True})
+            elif d['Error'] == 'no_exists':
+                return render(request, user + '/main.html', {'no_exists': True})
+            else:
+                if d["dashboard_mode"] == "Vanilla":
+                    if d["mastery"]["points"] >= 15:
+                        return render(request, user + '/dashboard-master.html', d)
+                    elif d["mastery"]["points"] > 7:
+                        return render(request, user + '/dashboard-developing.html', d)
+                    else:
+                        return render(request, user + '/dashboard-basic.html', d)
+                elif d["dashboard_mode"] == "Resnick":
+                    return render(request, user + '/dashboard_resnick.html', d)
+                else:
+                    return HttpResponse("¡Personalized Mode!")         
     else:
         return HttpResponseRedirect('/')
 
+
+def create_summary(d: dict) -> dict:
+    summary = {}
+    print(d)
+    # NUM PROJECTS
+    num_projects = len(d)
+    
+    
+    # TOTAL POINTS
+    total_points = 0
+    for project in d:
+        for skill in d[project]["mastery"]:
+            if skill not in summary:
+                summary[skill] = 0
+            summary[skill] += d[project]["mastery"][skill]
+    
+    # AVERAGE POINTS
+    for skill in summary:
+        summary[skill] = round(summary[skill] / num_projects, 2)
+
+    summary['num_projects'] = num_projects
+    
+    if summary['points'] >= 15:
+        summary['mastery'] = 'Master'
+    elif summary['points'] > 7:
+        summary['mastery'] = 'Developing'
+    else:
+        summary['mastery'] = 'Basic'
+    #summary['average_points'] = average_points
+    return summary
 
 def build_dictionary_with_automatic_analysis(request) -> dict:
     """
@@ -117,23 +431,49 @@ def build_dictionary_with_automatic_analysis(request) -> dict:
     dict_metrics = {}
     url = None
     filename = None
+    dashboard_mode = request.POST['dashboard_mode']
+    project_counter = 0
 
     if "_upload" in request.POST:
-        dict_metrics = _make_analysis_by_upload(request)
+        dict_metrics[project_counter] = _make_analysis_by_upload(request)
         if dict_metrics['Error'] != 'None':
             return dict_metrics
         filename = request.FILES['zipFile'].name.encode('utf-8')
+        dict_metrics[project_counter].update({
+            'url': url, 
+            'filename': filename,
+            'dashboard_mode': dashboard_mode,
+            'multiproject': False
+        })
     elif '_url' in request.POST:
-        dict_metrics = _make_analysis_by_url(request)
+        dict_metrics[project_counter] = _make_analysis_by_url(request)
         url = request.POST['urlProject']
         filename = url
-    dashboard_mode = request.POST['dashboard_mode']
-    
-    dict_metrics.update({
-        'url': url, 
-        'filename': filename,
-        'dashboard_mode': dashboard_mode
+        dict_metrics[project_counter].update({
+            'url': url, 
+            'filename': filename,
+            'dashboard_mode': dashboard_mode,
+            'multiproject': False
         })
+    elif '_urls' in request.POST:
+        
+        urls_file = request.FILES['urlsFile']
+
+        # Iterate over the file object directly
+        for url in urls_file:
+            url = url.decode('utf-8')  # Decode bytes to string
+            url = url.strip()  # Remove whitespace from the beginning and end of the string
+            filename = url
+            # Call _make_analysis_by_url function to process the URL and store the result
+            dict_metrics[project_counter] = _make_analysis_by_txt(request, url)
+
+            # Update 'dict_metrics' with additional information
+            dict_metrics[project_counter].update({
+                'url': url, 
+                'filename': filename,
+                'dashboard_mode': dashboard_mode,
+            })
+            project_counter += 1  
     return dict_metrics
 
 
@@ -284,6 +624,20 @@ def _make_analysis_by_url(request):
             return {'Error': 'MultiValueDict'}
     else:
         return HttpResponseRedirect('/')
+
+def _make_analysis_by_txt(request, url):
+    """
+    Make the automatic analysis by URLS txt
+    """
+  
+    
+    id_project = return_scratch_project_identifier(url)
+    if id_project == "error":
+        return {'Error': 'id_error'}
+    else:
+        return generator_dic(request, id_project)
+        
+    
 
 
 def return_scratch_project_identifier(url) -> str:
