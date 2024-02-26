@@ -45,6 +45,22 @@
 
     <!-- DEFAULT COLOR/ CURRENTLY USING -->
     <link rel="stylesheet" href="static/app/content/red.css">
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var personalizedOptions = document.getElementById("personalized-options");
+    
+            // Manejador de eventos para el cambio en el campo dashboard_mode
+            document.querySelector("[name='dashboard_mode']").addEventListener("change", function () {
+                var selectedOption = this.value;
+                if (selectedOption === "Personalized") {
+                    personalizedOptions.style.display = "block";
+                } else {
+                    personalizedOptions.style.display = "none";
+                }
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -227,7 +243,7 @@
                                     
 
                                     
-                                <form name="form" class="project-form" enctype="multipart/form-data" method="post" action="/show_dashboard">
+                                <form name="form" class="project-form" enctype="multipart/form-data" method="post" action="/show_dashboard/">
 
                                     {% trans "Select a dashboard mode:" %}
                                     <select class="form-select" aria-label="Default select example" name="dashboard_mode">
@@ -235,6 +251,22 @@
                                         <option value="Resnick">Resnick Mode</option>
                                         <option value="Personalized">Personalized</option>
                                     </select>
+                                    <div id="personalized-options" style="display: none;">
+                                        <label for="Abstraction" class="form-label">{% trans 'Abstraction' %}</label>
+                                        <input type="range" class="form-range" min="0" max="3" id="Abstraction" name="personalized_values">
+                                        <label for="Parallelization" class="form-label">{% trans 'Parallelization' %}</label>
+                                        <input type="range" class="form-range" min="0" max="3" id="Parallelization" name="personalized_values">
+                                        <label for="Logic Thinking" class="form-label">{% trans 'Logic Thinking' %}</label>
+                                        <input type="range" class="form-range" min="0" max="3" id="Logic Thinking" name="personalized_values">
+                                        <label for="Synchronization" class="form-label">{% trans 'Synchronization' %}</label>
+                                        <input type="range" class="form-range" min="0" max="3" id="Synchronization" name="personalized_values">
+                                        <label for="Flow Control" class="form-label">{% trans 'Flow Control' %}</label>
+                                        <input type="range" class="form-range" min="0" max="3" id="Flow Control" name="personalized_values">
+                                        <label for="User Interactivity" class="form-label">{% trans 'User Interactivity' %}</label>
+                                        <input type="range" class="form-range" min="0" max="3" id="User Interactivity" name="personalized_values">
+                                        <label for="Data Representation" class="form-label">{% trans 'Data Representation' %}</label>
+                                        <input type="range" class="form-range" min="0" max="3" id="Data Representation" name="personalized_values">
+                                    </div>
                                     <br>
                                     {% trans "1. Introduce the <span class='colored-text'><a data-toggle='modal' href='#modalUrl'>url</a></span> of your Scratch project, you don't have to download it:" %}
                                     {% trans '<input name="urlProject" id="cf-name" class="form-control input-box placeholder" placeholder="http:/scratch.mit.edu/projects/your_number" type="text">' %}

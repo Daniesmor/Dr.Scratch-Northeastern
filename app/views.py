@@ -312,8 +312,13 @@ def show_dashboard(request):
                         return render(request, user + '/dashboard-basic.html', d)
                 elif d["dashboard_mode"] == "Resnick":
                     return render(request, user + '/dashboard_resnick.html', d)
-                else:
-                    return HttpResponse("¡Personalized Mode!")         
+                elif d["dashboard_mode"] == "Personalized":
+                    if request.path == "/show_dashboard/":
+                        resource = "/show_dashboard/" + "".join(request.POST.getlist("personalized_values"))
+                        print(resource)
+                        return HttpResponseRedirect(resource) 
+                    return render(request, user + '/dashboard-master.html', d)
+                             
     else:
         return HttpResponseRedirect('/')
 
