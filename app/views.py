@@ -278,20 +278,12 @@ def create_csv(d):
     return csv_filepath
     
 
-def show_dashboard(request, skill_points=None):
-    # TEMP --------------------------------------------
-    url = request.path
-    url = os.path.join(url, "4444444")
-    print("URL personalized-------------------------------")
-    print(url)
-    # ----------------------------------------------------------------
-    token = url.split("/")[-1]
-    print(token)
-    skill_rubric = generate_rubric(token)
+def show_dashboard(request):
     
 
-    
     if request.method == 'POST':
+        url = ''
+        skill_rubric = generate_rubric(url)
         print("dict")
         print(skill_rubric)
         d = build_dictionary_with_automatic_analysis(request, skill_rubric)
@@ -323,12 +315,34 @@ def show_dashboard(request, skill_points=None):
                         return render(request, user + '/dashboard-basic.html', d)
                 elif d["dashboard_mode"] == "Resnick":
                     return render(request, user + '/dashboard_resnick.html', d)
-                else:
-                    
-                    return HttpResponse("¡Personalized Mode!")
+                elif d["dashboard_mode"] == "Personalized":
+                    if request.path == "/show_dashboard/":
+                        resource = "/show_dashboard/" + "".join(request.POST.getlist("personalized_values"))
+                        print("resource----------------------------------------------")
+                        print(resource)
+                        return HttpResponseRedirect(resource, d) 
+                    return render(request, user + '/dashboard-master.html', d)
+                             
     else:
-        # Personalized mode
-        return HttpResponseRedirect('/')
+        
+         # TEMP --------------------------------------------
+        url = request.path
+        
+        #url = os.path.join(url, "4444444")
+        print("URL personalizeda-------------------------------")
+        print(url)
+        print("-------------------------------")
+
+        # ----------------------------------------------------------------
+        url = url.split("/")[-1]
+        print(url)
+        skill_rubric = generate_rubric(url)
+        
+        print(skill_rubric)
+        
+        d = build_dictionary_with_automatic_analysis(request, skill_rubric)
+        user = str(identify_user_type(request))
+        return render(request, user + '/dashboard-master.html', d)
     
     
 
@@ -337,7 +351,7 @@ def generate_rubric(skill_points: str) -> dict:
                'Flow control', 'User interactivity', 'Data representation']
        
     skill_rubric = {}
-    if skill_points != None:
+    if skill_points != '':
         for skill_name, points in zip(mastery, skill_points):
             skill_rubric[skill_name] = int(points)   
     else:
@@ -349,7 +363,6 @@ def generate_rubric(skill_points: str) -> dict:
 
 def create_summary(d: dict) -> dict:
     summary = {}
-    print(d)
     # NUM PROJECTS
     num_projects = len(d)
     
@@ -384,8 +397,12 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
     dict_metrics = {}
     url = None
     filename = None
-    dashboard_mode = request.POST['dashboard_mode']
     project_counter = 0
+    
+    if request.method == 'POST':
+        dashboard_mode = request.POST['dashboard_mode']
+    else:
+        dashboard_mode = "Personalized"
 
     if "_upload" in request.POST:
         dict_metrics[project_counter] = _make_analysis_by_upload(request, skill_points)
