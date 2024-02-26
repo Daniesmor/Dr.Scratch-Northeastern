@@ -278,18 +278,29 @@ def create_csv(d):
     return csv_filepath
     
 
-def show_dashboard(request):
+def show_dashboard(request, skill_points=None):
+    # TEMP --------------------------------------------
+    url = request.path
+    url = os.path.join(url, "4444444")
+    print("URL personalized-------------------------------")
+    print(url)
+    # ----------------------------------------------------------------
+    token = url.split("/")[-1]
+    print(token)
+    skill_rubric = generate_rubric(token)
+    
 
+    
     if request.method == 'POST':
-        d = build_dictionary_with_automatic_analysis(request)
+        print("dict")
+        print(skill_rubric)
+        d = build_dictionary_with_automatic_analysis(request, skill_rubric)
+        print("valor de d")
+        print(d[0]['mastery'])
         user = str(identify_user_type(request))
-        print(d)
         if len(d) > 1:
-            
             #creeate_csv_dups()
             csv_filepath = create_csv(d)
-            
-                
             summary = create_summary(d)      
             return render(request, user + '/dashboard-bulk.html', {'summary': summary, 'csv_filepath': csv_filepath})
         else: 
@@ -313,10 +324,28 @@ def show_dashboard(request):
                 elif d["dashboard_mode"] == "Resnick":
                     return render(request, user + '/dashboard_resnick.html', d)
                 else:
-                    return HttpResponse("¡Personalized Mode!")         
+                    
+                    return HttpResponse("¡Personalized Mode!")
     else:
+        # Personalized mode
         return HttpResponseRedirect('/')
+    
+    
 
+def generate_rubric(skill_points: str) -> dict:
+    mastery = ['Abstraction', 'Parallelism', 'Logic', 'Synchronization', 
+               'Flow control', 'User interactivity', 'Data representation']
+       
+    skill_rubric = {}
+    if skill_points != None:
+        for skill_name, points in zip(mastery, skill_points):
+            skill_rubric[skill_name] = int(points)   
+    else:
+        for skill_name in mastery:
+            skill_rubric[skill_name] = 3           
+    return skill_rubric  
+    
+     
 
 def create_summary(d: dict) -> dict:
     summary = {}
@@ -348,11 +377,10 @@ def create_summary(d: dict) -> dict:
     #summary['average_points'] = average_points
     return summary
 
-def build_dictionary_with_automatic_analysis(request) -> dict:
+def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dict:
     """
     Build dictionary with automatic analysis by distinguishing between URL or project
     """
-
     dict_metrics = {}
     url = None
     filename = None
@@ -360,7 +388,7 @@ def build_dictionary_with_automatic_analysis(request) -> dict:
     project_counter = 0
 
     if "_upload" in request.POST:
-        dict_metrics[project_counter] = _make_analysis_by_upload(request)
+        dict_metrics[project_counter] = _make_analysis_by_upload(request, skill_points)
         if dict_metrics['Error'] != 'None':
             return dict_metrics
         filename = request.FILES['zipFile'].name.encode('utf-8')
@@ -371,7 +399,7 @@ def build_dictionary_with_automatic_analysis(request) -> dict:
             'multiproject': False
         })
     elif '_url' in request.POST:
-        dict_metrics[project_counter] = _make_analysis_by_url(request)
+        dict_metrics[project_counter] = _make_analysis_by_url(request, skill_points)
         url = request.POST['urlProject']
         filename = url
         dict_metrics[project_counter].update({
@@ -390,7 +418,7 @@ def build_dictionary_with_automatic_analysis(request) -> dict:
             url = url.strip()  # Remove whitespace from the beginning and end of the string
             filename = url
             # Call _make_analysis_by_url function to process the URL and store the result
-            dict_metrics[project_counter] = _make_analysis_by_txt(request, url)
+            dict_metrics[project_counter] = _make_analysis_by_txt(request, url, skill_points)
 
             # Update 'dict_metrics' with additional information
             dict_metrics[project_counter].update({
@@ -471,7 +499,7 @@ def save_analysis_in_file_db(request, zip_filename):
     return filename_obj
 
 
-def _make_analysis_by_upload(request):
+def _make_analysis_by_upload(request, skill_points: dict):
     """
     Upload file from form POST for unregistered users
     """
@@ -512,7 +540,8 @@ def _make_analysis_by_upload(request):
                 destination.write(chunk)
 
         try:
-            dict_drscratch_analysis = analyze_project(request, file_name, filename_obj, ext_type_project=None)
+            ext_type_project=None
+            dict_drscratch_analysis = analyze_project(request, file_name, filename_obj, ext_type_project, skill_points)
             print(dict_drscratch_analysis)
         except Exception:
             traceback.print_exc()
@@ -531,11 +560,11 @@ def _make_analysis_by_upload(request):
         return HttpResponseRedirect('/')
 
 
-def _make_analysis_by_url(request):
+def _make_analysis_by_url(request, skill_points: dict):
     """
     Make the automatic analysis by URL
     """
-
+    
     if request.method == "POST":
         form = UrlForm(request.POST)
         if form.is_valid():
@@ -544,23 +573,22 @@ def _make_analysis_by_url(request):
             if id_project == "error":
                 return {'Error': 'id_error'}
             else:
-                return generator_dic(request, id_project)
+                return generator_dic(request, id_project, skill_points)
         else:
             return {'Error': 'MultiValueDict'}
     else:
         return HttpResponseRedirect('/')
 
-def _make_analysis_by_txt(request, url):
+def _make_analysis_by_txt(request, url, skill_points: dict):
     """
     Make the automatic analysis by URLS txt
     """
-  
     
     id_project = return_scratch_project_identifier(url)
     if id_project == "error":
         return {'Error': 'id_error'}
     else:
-        return generator_dic(request, id_project)
+        return generator_dic(request, id_project, skill_points)
         
     
 
@@ -592,7 +620,7 @@ def return_scratch_project_identifier(url) -> str:
     return id_project
 
 
-def generator_dic(request, id_project):
+def generator_dic(request, id_project, skill_points: dict):
     """
     Return a dictionary with static analysis and errors
     """
@@ -614,7 +642,7 @@ def generator_dic(request, id_project):
         return d
 
     try:
-        d = analyze_project(request, path_project, file_obj, ext_type_project)
+        d = analyze_project(request, path_project, file_obj, ext_type_project, skill_points)
     except Exception:
         logger.error('Impossible analyze project')
         traceback.print_exc()
@@ -794,15 +822,15 @@ def load_json_project(path_projectsb3):
         print('Bad zipfile')
 
 
-def analyze_project(request, path_projectsb3, file_obj, ext_type_project):
+def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_points: dict):
 
     dict_analysis = {}
-
+    
     if os.path.exists(path_projectsb3):
         json_scratch_project = load_json_project(path_projectsb3)
-        dict_mastery = Mastery(path_projectsb3, json_scratch_project).finalize()
+        dict_mastery = Mastery(path_projectsb3, json_scratch_project, skill_points).finalize()
         dict_duplicate_script = DuplicateScripts(path_projectsb3, json_scratch_project).finalize()
-        dict_dead_code = DeadCode(path_projectsb3, json_scratch_project).finalize()
+        dict_dead_code = DeadCode(path_projectsb3, json_scratch_project,).finalize()
         result_sprite_naming = SpriteNaming(path_projectsb3, json_scratch_project).finalize()
         result_backdrop_naming = BackdropNaming(path_projectsb3, json_scratch_project).finalize()
         

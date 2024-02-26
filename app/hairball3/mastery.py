@@ -10,8 +10,8 @@ coloredlogs.install(level='DEBUG', logger=logger)
 
 class Mastery(Plugin):
 
-    def __init__(self, filename: str, json_project, verbose=False):
-        super().__init__(filename, json_project, verbose)
+    def __init__(self, filename: str, json_project, skill_points: dict,verbose=False):
+        super().__init__(filename, json_project, skill_points, verbose)
 
     def process(self):
 
@@ -83,7 +83,7 @@ class Mastery(Plugin):
         """
         Assign the logic skill result
         """
-
+        
         logic_operators = {
             'operator_and',
             'operator_or',
@@ -94,12 +94,12 @@ class Mastery(Plugin):
 
         for operation in logic_operators:
             if self.dict_blocks[operation]:
-                logic_score = 3
+                logic_score = self.skill_points['Logic']
                 self.dict_mastery['Logic'] = logic_score
                 return
 
         if self.dict_blocks['control_if_else']:
-            logic_score = 2
+            logic_score = (self.skill_points['Logic'])/2
         elif self.dict_blocks['control_if']:
             logic_score = 1
 
@@ -113,9 +113,9 @@ class Mastery(Plugin):
         fc_score = 0
 
         if self.dict_blocks['control_repeat_until']:
-            fc_score = 3
+            fc_score = self.skill_points["Flow control"]
         elif self.dict_blocks['control_repeat'] or self.dict_blocks['control_forever']:
-            fc_score = 2
+            fc_score = (self.skill_points['FlowControl'])/2
         else:
             for block in self.list_total_blocks:
                 for key, value in block.items():
@@ -134,10 +134,10 @@ class Mastery(Plugin):
 
         if (self.dict_blocks['control_wait_until'] or self.dict_blocks['event_whenbackdropswitchesto'] or
                 self.dict_blocks['event_broadcastandwait']):
-            sync_score = 3
+            sync_score = self.skill_points['Synchronization']
         elif (self.dict_blocks['event_broadcast'] or self.dict_blocks['event_whenbroadcastreceived'] or
               self.dict_blocks['control_stop']):
-            sync_score = 2
+            sync_score = (self.skill_points['Synchronization'])/2
         elif self.dict_blocks['control_wait']:
             sync_score = 1
 
@@ -149,11 +149,10 @@ class Mastery(Plugin):
         """
 
         abs_score = 0
-
-        if self.dict_blocks['control_start_as_clone']:
-            abs_score = 2
-        elif self.dict_blocks['procedures_definition']:
-            abs_score = 3
+        if self.dict_blocks['procedures_definition']:
+            abs_score = self.skill_points['Abstraction']
+        elif self.dict_blocks['control_start_as_clone']:
+            abs_score = (self.skill_points['Abstraction'])/2
         else:
             count = 0
             for block in self.list_total_blocks:
@@ -187,12 +186,12 @@ class Mastery(Plugin):
 
         for item in lists:
             if self.dict_blocks[item]:
-                score = 3
+                score = self.skill_points['Data representation']
                 self.dict_mastery['DataRepresentation'] = score
                 return
 
         if self.dict_blocks['data_changevariableby'] or self.dict_blocks['data_setvariableto']:
-            score = 2
+            score = (self.skill_points['Data representation'])/2
         else:
             for modifier in modifiers:
                 if self.dict_blocks[modifier]:
@@ -246,7 +245,7 @@ class Mastery(Plugin):
                 var_list = set(dict_parall['BROADCAST_OPTION'])
                 for var in var_list:
                     if dict_parall['BROADCAST_OPTION'].count(var) > 1:
-                        parallelization_score = 3
+                        parallelization_score = self.skill_points['Parallelism']
                         self.dict_mastery['Parallelization'] = parallelization_score
                         return
 
@@ -255,7 +254,7 @@ class Mastery(Plugin):
                 backdrop_list = set(dict_parall['BACKDROP'])
                 for var in backdrop_list:
                     if dict_parall['BACKDROP'].count(var) > 1:
-                        parallelization_score = 3
+                        parallelization_score = self.skill_points['Parallelism']
                         self.dict_mastery['Parallelization'] = parallelization_score
                         return
 
@@ -264,7 +263,7 @@ class Mastery(Plugin):
                 var_list = set(dict_parall['WHENGREATERTHANMENU'])
                 for var in var_list:
                     if dict_parall['WHENGREATERTHANMENU'].count(var) > 1:
-                        parallelization_score = 3
+                        parallelization_score = self.skill_points['Parallelism']
                         self.dict_mastery['Parallelization'] = parallelization_score
                         return
 
@@ -278,10 +277,10 @@ class Mastery(Plugin):
                 var_list = set(dict_parall['KEY_OPTION'])
                 for var in var_list:
                     if dict_parall['KEY_OPTION'].count(var) > 1:
-                        parallelization_score = 2
+                        parallelization_score = (self.skill_points['Parallelism'])/2
 
         if self.dict_blocks['event_whenthisspriteclicked'] > 1:  # Sprite with 2 scripts on clicked
-            parallelization_score = 2
+            parallelization_score = (self.skill_points['Parallelism'])/2
 
         if self.dict_blocks['event_whenflagclicked'] > 1 and parallelization_score == 0:  # 2 scripts on green flag
             parallelization_score = 1
