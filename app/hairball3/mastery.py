@@ -48,15 +48,22 @@ class Mastery(Plugin):
         for skill, skill_grade in self.dict_mastery.items():
             if self.verbose:
                 logger.info('Skill: {}, points: {}'.format(skill, skill_grade))
-            total_points += skill_grade
+            print(skill)
+            print(skill_grade)
+            total_points = total_points + skill_grade[0]
+        
 
         average_points = float(total_points) / 7
+        
+        total_maxi_points = 0
+        for points in self.skill_points.values():
+            total_maxi_points += points
 
         result = '{}{}{}{}'.format(self.filename, '\n', json.dumps(self.dict_mastery), '\n')
-        result += ('Total mastery points: {}/{}\n'.format(total_points, consts.PLUGIN_MASTERY_MAX_POINTS))
+        result += ('Total mastery points: {}/{}\n'.format(total_points, total_maxi_points))
         result += ('Average mastery points: {}/{}\n'.format(average_points, consts.PLUGIN_MASTERY_AVG_POINTS))
 
-        if average_points > 2:
+        if average_points > total_maxi_points/2:
             result += "Overall programming competence: Proficiency"
             programming_competence = 'Proficiency'
         elif average_points > 1:
@@ -69,7 +76,8 @@ class Mastery(Plugin):
         self.dict_mastery['total_points'] = total_points
         self.dict_mastery['average_points'] = average_points
         self.dict_mastery['programming_competence'] = programming_competence
-        self.dict_mastery['max_points'] = consts.PLUGIN_MASTERY_MAX_POINTS
+        self.dict_mastery['max_points'] = total_maxi_points
+        self.dict_mastery['skill_points'] = self.skill_points
         self.dict_mastery['description'] = result
 
         if self.verbose:
@@ -95,7 +103,7 @@ class Mastery(Plugin):
         for operation in logic_operators:
             if self.dict_blocks[operation]:
                 logic_score = self.skill_points['Logic']
-                self.dict_mastery['Logic'] = logic_score
+                self.dict_mastery['Logic'] = [logic_score, self.skill_points['Logic']]
                 return
 
         if self.dict_blocks['control_if_else']:
@@ -103,7 +111,7 @@ class Mastery(Plugin):
         elif self.dict_blocks['control_if']:
             logic_score = 1
 
-        self.dict_mastery['Logic'] = logic_score
+        self.dict_mastery['Logic'] = [logic_score, self.skill_points['Logic']]
 
     def compute_flow_control(self):
         """
@@ -115,7 +123,7 @@ class Mastery(Plugin):
         if self.dict_blocks['control_repeat_until']:
             fc_score = self.skill_points["Flow control"]
         elif self.dict_blocks['control_repeat'] or self.dict_blocks['control_forever']:
-            fc_score = (self.skill_points['FlowControl'])/2
+            fc_score = (self.skill_points['Flow control'])/2
         else:
             for block in self.list_total_blocks:
                 for key, value in block.items():
@@ -123,7 +131,7 @@ class Mastery(Plugin):
                         fc_score = 1
                         break
 
-        self.dict_mastery['FlowControl'] = fc_score
+        self.dict_mastery['FlowControl'] = [fc_score, self.skill_points["Flow control"]]
 
     def compute_synchronization(self):
         """
@@ -141,7 +149,7 @@ class Mastery(Plugin):
         elif self.dict_blocks['control_wait']:
             sync_score = 1
 
-        self.dict_mastery['Synchronization'] = sync_score
+        self.dict_mastery['Synchronization'] = [sync_score, self.skill_points['Synchronization']]
 
     def compute_abstraction(self):
         """
@@ -162,7 +170,7 @@ class Mastery(Plugin):
             if count > 1:
                 abs_score = 1
 
-        self.dict_mastery['Abstraction'] = abs_score
+        self.dict_mastery['Abstraction'] = [abs_score, self.skill_points['Abstraction']]
 
     def compute_data_representation(self):
         """
@@ -197,7 +205,7 @@ class Mastery(Plugin):
                 if self.dict_blocks[modifier]:
                     score = 1
 
-        self.dict_mastery['DataRepresentation'] = score
+        self.dict_mastery['DataRepresentation'] = [score, self.skill_points['Data representation']]
 
     def compute_user_interactivity(self):
         """Assign the User Interactivity skill result"""
@@ -212,24 +220,24 @@ class Mastery(Plugin):
 
         for item in proficiency:
             if self.dict_blocks[item]:
-                self.dict_mastery['UserInteractivity'] = 3
+                self.dict_mastery['UserInteractivity'] = self.skill_points['User interactivity']
                 return
         for item in developing:
             if self.dict_blocks[item]:
-                self.dict_mastery['UserInteractivity'] = 2
+                self.dict_mastery['UserInteractivity'] = (self.skill_points['User interactivity'])/2
                 return
         if self.dict_blocks['motion_goto_menu']:
             if self._check_mouse() == 1:
-                self.dict_mastery['UserInteractivity'] = 2
+                self.dict_mastery['UserInteractivity'] = (self.skill_points['User interactivity'])/2
                 return
         if self.dict_blocks['sensing_touchingobjectmenu']:
             if self._check_mouse() == 1:
-                self.dict_mastery['UserInteractivity'] = 2
+                self.dict_mastery['UserInteractivity'] = (self.skill_points['User interactivity'])/2
                 return
         if self.dict_blocks['event_whenflagclicked']:
             score = 1
 
-        self.dict_mastery['UserInteractivity'] = score
+        self.dict_mastery['UserInteractivity'] = [score, self.skill_points['User interactivity']]
 
     def compute_parallelization(self):
         """
@@ -246,7 +254,7 @@ class Mastery(Plugin):
                 for var in var_list:
                     if dict_parall['BROADCAST_OPTION'].count(var) > 1:
                         parallelization_score = self.skill_points['Parallelism']
-                        self.dict_mastery['Parallelization'] = parallelization_score
+                        self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
                         return
 
         if self.dict_blocks['event_whenbackdropswitchesto'] > 1:  # 2 Scripts start on the same backdrop change
@@ -255,7 +263,7 @@ class Mastery(Plugin):
                 for var in backdrop_list:
                     if dict_parall['BACKDROP'].count(var) > 1:
                         parallelization_score = self.skill_points['Parallelism']
-                        self.dict_mastery['Parallelization'] = parallelization_score
+                        self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
                         return
 
         if self.dict_blocks['event_whengreaterthan'] > 1:  # 2 Scripts start on the same multimedia (audio, timer) event
@@ -264,12 +272,12 @@ class Mastery(Plugin):
                 for var in var_list:
                     if dict_parall['WHENGREATERTHANMENU'].count(var) > 1:
                         parallelization_score = self.skill_points['Parallelism']
-                        self.dict_mastery['Parallelization'] = parallelization_score
+                        self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
                         return
 
         if self.dict_blocks['videoSensing_whenMotionGreaterThan'] > 1:  # 2 Scripts start on the same multimedia (video) event
             parallelization_score = 3
-            self.dict_mastery['Parallelization'] = parallelization_score
+            self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
             return
 
         if self.dict_blocks['event_whenkeypressed'] > 1:  # 2 Scripts start on the same key pressed
@@ -285,7 +293,7 @@ class Mastery(Plugin):
         if self.dict_blocks['event_whenflagclicked'] > 1 and parallelization_score == 0:  # 2 scripts on green flag
             parallelization_score = 1
 
-        self.dict_mastery['Parallelization'] = parallelization_score
+        self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
 
     def parallelization_dict(self):
         dict_parallelization = {}

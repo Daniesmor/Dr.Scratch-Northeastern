@@ -368,13 +368,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                
+                                
                                 {% for key, value in mastery.items %}
+                                
                                 {% if forloop.counter0|divisibleby:1 %}<tr>{% endif %}
                                 {% if key != "points" %}
                                 {% if key != "maxi" %}
+                                {% if key != "skill_points" %}
 
                                       <td>
-                                        {% if value == 3 %}
+                                        {% if value.0 == 3 %}
                                         <span class="glyphicon glyphicon-star" id="star"></span>
                                         {% else %}
                                         <img src="static/app/images/little_bulb.png" alt="">
@@ -384,37 +388,44 @@
                                         {% endblocktrans %}
                                       </td>
                                       <td>
-                                            {% if value == 0 %}
+                                            {% if value.0 == 0 %}
                                              <div class="progress">
                                                 <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="{{ value }}" aria-valuemin="0" aria-valuemax="3" style="width: 0%">
-                                                    <span><strong>{{ value }}/3</strong></span>
+                                                    <span><strong>{{ value.0 }}/{{ value.1 }}</strong></span>
                                                 </div>
                                              <div>
-                                            {% elif value == 1 %}
+                                            {% elif value.0 == 1 %}
                                             <div class="progress">
                                                 <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="{{ value }}" aria-valuemin="0" aria-valuemax="3" style="width: 33%">
-                                                    <span><strong>{{ value }}/3</strong></span>
+                                                    <span><strong>{{ value.0 }}/{{ value.1 }}</strong></span>
                                                 </div>
                                              <div>
-                                            {% elif value == 2 %}
+                                            {% elif value.0 ==  2%}
                                             <div class="progress">
                                                 <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="{{ value }}" aria-valuemin="0" aria-valuemax="3" style="width: 66%">
-                                                    <span><strong>{{ value }}/3</strong></span>
+                                                    <span><strong>{{ value.0 }}/{{ value.1 }}</strong></span>
                                                 </div>
-                                             <div>
-                                            {% elif value == 3 %}
+                                            <div>
+                                            {% elif value.0 == 3 %}
                                             <div class="progress">
                                                 <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="{{ value }}" aria-valuemin="0" aria-valuemax="3" style="width: 100%">
-                                                    <span><strong>{{ value }}/3</strong></span>
+                                                    <span><strong>{{ value.0 }}/{{ value.1 }}</strong></span>
+                                                </div>
+                                             <div>
+                                            {% elif value.0 == 4 %}
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="{{ value }}" aria-valuemin="0" aria-valuemax="3" style="width: 100%">
+                                                    <span><strong>{{ value.0 }}/{{ value.1 }}</strong></span>
                                                 </div>
                                              <div>
                                             {% endif %}
                                        </td>
-
+                                {% endif %}
                                 {% endif %}
                                 {% endif %}
                                 {% if forloop.counter|divisibleby:1 or forloop.last %}
                                 </tr>{% endif %}
+                 
                                 {% endfor %}
                                 </tbody>
                              </table>
