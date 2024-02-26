@@ -296,7 +296,7 @@ def show_dashboard(request, skill_points=None):
         print(skill_rubric)
         d = build_dictionary_with_automatic_analysis(request, skill_rubric)
         print("valor de d")
-        print(d[0]['mastery'])
+        print(d[0])
         user = str(identify_user_type(request))
         if len(d) > 1:
             #creeate_csv_dups()
@@ -829,6 +829,8 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
     if os.path.exists(path_projectsb3):
         json_scratch_project = load_json_project(path_projectsb3)
         dict_mastery = Mastery(path_projectsb3, json_scratch_project, skill_points).finalize()
+        print("traza de mastery")
+        print(dict_mastery)
         dict_duplicate_script = DuplicateScripts(path_projectsb3, json_scratch_project).finalize()
         dict_dead_code = DeadCode(path_projectsb3, json_scratch_project,).finalize()
         result_sprite_naming = SpriteNaming(path_projectsb3, json_scratch_project).finalize()
@@ -878,13 +880,13 @@ def proc_mastery(request, dict_mastery, file_obj):
     dict_result = dict_mastery['result'].copy()
 
     file_obj.score = dict_result["total_points"]
-    file_obj.abstraction = dict_result["Abstraction"]
-    file_obj.parallelization = dict_result["Parallelization"]
-    file_obj.logic = dict_result["Logic"]
-    file_obj.synchronization = dict_result["Synchronization"]
-    file_obj.flow_control = dict_result["FlowControl"]
-    file_obj.userInteractivity = dict_result["UserInteractivity"]
-    file_obj.dataRepresentation = dict_result["DataRepresentation"]
+    file_obj.abstraction = dict_result["Abstraction"][0]
+    file_obj.parallelization = dict_result["Parallelization"][0]
+    file_obj.logic = dict_result["Logic"][0]
+    file_obj.synchronization = dict_result["Synchronization"][0]
+    file_obj.flow_control = dict_result["FlowControl"][0]
+    file_obj.userInteractivity = dict_result["UserInteractivity"][0]
+    file_obj.dataRepresentation = dict_result["DataRepresentation"][0]
     file_obj.save()
 
     d_translated = translate(request, dict_result, file_obj)
@@ -892,6 +894,7 @@ def proc_mastery(request, dict_mastery, file_obj):
     dic = {"mastery": d_translated}
     dic["mastery"]["points"] = dict_result["total_points"]
     dic["mastery"]["maxi"] = dict_result["max_points"]
+    dic["mastery"]["skill_points"] = dict_result["skill_points"]
 
     return dic
 
