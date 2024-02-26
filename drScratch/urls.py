@@ -38,7 +38,7 @@ urlpatterns = [
         RedirectView.as_view(url='https://drscratchblog.wordpress.com')),
 
     # Dashboards
-    url(r'^show_dashboard', app_views.show_dashboard, name='show_dashboard'),
+    url(r'^show_dashboard/(?P<skill_points>\d{7})?$', app_views.show_dashboard, name='show_dashboard'),
     url(r'^download_certificate', app_views.download_certificate, name='certificate'),
 
     # Translation
