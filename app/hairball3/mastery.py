@@ -195,7 +195,7 @@ class Mastery(Plugin):
         for item in lists:
             if self.dict_blocks[item]:
                 score = self.skill_points['Data representation']
-                self.dict_mastery['DataRepresentation'] = score
+                self.dict_mastery['DataRepresentation'] = [score, self.skill_points['Data representation']]
                 return
 
         if self.dict_blocks['data_changevariableby'] or self.dict_blocks['data_setvariableto']:
@@ -220,19 +220,19 @@ class Mastery(Plugin):
 
         for item in proficiency:
             if self.dict_blocks[item]:
-                self.dict_mastery['UserInteractivity'] = self.skill_points['User interactivity']
+                self.dict_mastery['UserInteractivity'] = [score, self.skill_points['User interactivity']]
                 return
         for item in developing:
             if self.dict_blocks[item]:
-                self.dict_mastery['UserInteractivity'] = (self.skill_points['User interactivity'])/2
+                self.dict_mastery['UserInteractivity'] = [score, (self.skill_points['User interactivity'])/2]
                 return
         if self.dict_blocks['motion_goto_menu']:
             if self._check_mouse() == 1:
-                self.dict_mastery['UserInteractivity'] = (self.skill_points['User interactivity'])/2
+                self.dict_mastery['UserInteractivity'] = [score, (self.skill_points['User interactivity'])/2]
                 return
         if self.dict_blocks['sensing_touchingobjectmenu']:
             if self._check_mouse() == 1:
-                self.dict_mastery['UserInteractivity'] = (self.skill_points['User interactivity'])/2
+                self.dict_mastery['UserInteractivity'] = [score, (self.skill_points['User interactivity'])/2]
                 return
         if self.dict_blocks['event_whenflagclicked']:
             score = 1
