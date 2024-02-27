@@ -61,6 +61,35 @@
             });
         });
     </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var form = document.forms["form"];
+            var select = form.elements["dashboard_mode"];
+    
+            // Situation when you change the value of a Slider
+            var personalizedInputs = form.querySelectorAll('.form-range');
+            personalizedInputs.forEach(function(input) {
+                input.addEventListener('input', function() {
+                    if (select.value === "Personalized") {
+                        updateUrl();
+                    }
+                });
+            });
+    
+            // Update of the URL for the Sliders
+            function updateUrl() {
+                var personalizedValues = '';
+                // Collection of the Customized Input Fields
+                var personalizedInputs = form.querySelectorAll('.form-range');
+                personalizedInputs.forEach(function(input) {
+                    personalizedValues += input.value;
+                });
+                // Modification of the Action's URL
+                form.action = "/show_dashboard/" + personalizedValues;
+            }
+        });
+    </script>
 </head>
 
 <body>
@@ -253,19 +282,19 @@
                                     </select>
                                     <div id="personalized-options" style="display: none;">
                                         <label for="Abstraction" class="form-label">{% trans 'Abstraction' %}</label>
-                                        <input type="range" class="form-range" min="0" max="3" id="Abstraction" name="personalized_values">
+                                        <input type="range" class="form-range" min="0" max="3" id="Abstraction" name="Abstraction">
                                         <label for="Parallelization" class="form-label">{% trans 'Parallelization' %}</label>
-                                        <input type="range" class="form-range" min="0" max="3" id="Parallelization" name="personalized_values">
+                                        <input type="range" class="form-range" min="0" max="3" id="Parallelization" name="Parallelization">
                                         <label for="Logic Thinking" class="form-label">{% trans 'Logic Thinking' %}</label>
-                                        <input type="range" class="form-range" min="0" max="3" id="Logic Thinking" name="personalized_values">
+                                        <input type="range" class="form-range" min="0" max="3" id="Logic Thinking" name="Logic Thinking">
                                         <label for="Synchronization" class="form-label">{% trans 'Synchronization' %}</label>
-                                        <input type="range" class="form-range" min="0" max="3" id="Synchronization" name="personalized_values">
+                                        <input type="range" class="form-range" min="0" max="3" id="Synchronization" name="Synchronization">
                                         <label for="Flow Control" class="form-label">{% trans 'Flow Control' %}</label>
-                                        <input type="range" class="form-range" min="0" max="3" id="Flow Control" name="personalized_values">
+                                        <input type="range" class="form-range" min="0" max="3" id="Flow Control" name="Flow Control">
                                         <label for="User Interactivity" class="form-label">{% trans 'User Interactivity' %}</label>
-                                        <input type="range" class="form-range" min="0" max="3" id="User Interactivity" name="personalized_values">
+                                        <input type="range" class="form-range" min="0" max="3" id="User Interactivity" name="User Interactivity">
                                         <label for="Data Representation" class="form-label">{% trans 'Data Representation' %}</label>
-                                        <input type="range" class="form-range" min="0" max="3" id="Data Representation" name="personalized_values">
+                                        <input type="range" class="form-range" min="0" max="3" id="Data Representation" name="Data Representation">
                                     </div>
                                     <br>
                                     {% trans "1. Introduce the <span class='colored-text'><a data-toggle='modal' href='#modalUrl'>url</a></span> of your Scratch project, you don't have to download it:" %}

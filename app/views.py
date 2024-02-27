@@ -278,12 +278,17 @@ def create_csv(d):
     return csv_filepath
     
 
-def show_dashboard(request):
+def show_dashboard(request, skill_points=None):
     
 
     if request.method == 'POST':
-        url = ''
-        skill_rubric = generate_rubric(url)
+        url = request.path
+        print("Url:", url)
+        numbers = ''
+        for char in url:
+            if char.isdigit():
+                numbers += char
+        skill_rubric = generate_rubric(numbers)
         print("dict")
         print(skill_rubric)
         d = build_dictionary_with_automatic_analysis(request, skill_rubric)
@@ -316,11 +321,6 @@ def show_dashboard(request):
                 elif d["dashboard_mode"] == "Resnick":
                     return render(request, user + '/dashboard_resnick.html', d)
                 elif d["dashboard_mode"] == "Personalized":
-                    if request.path == "/show_dashboard/":
-                        resource = "/show_dashboard/" + "".join(request.POST.getlist("personalized_values"))
-                        print("resource----------------------------------------------")
-                        print(resource)
-                        return HttpResponseRedirect(resource, d) 
                     return render(request, user + '/dashboard-master.html', d)
                              
     else:
