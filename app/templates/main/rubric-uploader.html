@@ -172,37 +172,26 @@
     </script>
 
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var form = document.forms["form"];
 
-        function updateUrl(numero) {
-               console.log("hgolaaas")
-                // Modification of the Action's URL
-                form.action = "/show_dashboard/" + personalizedValues;
-        }
+            function updateUrl(number) {
+                form.action = "/show_dashboard/" + number;
+                console.log(form.action);
+            }
 
-        function obtenerNumerosDesdeURL(url) {
-            // Crear un objeto URL a partir de la cadena de la URL
-            var urlObj = new URL(url);
+            function obtainNumbersOfUrl(url) {
+                var urlObj = new URL(url);
+                var path = urlObj.pathname;
+                var parts = path.split('/');
+                var number = parts.pop();
+                updateUrl(number);
+            }
 
-            // Obtener la ruta (path) de la URL
-            var ruta = urlObj.pathname;
-
-            // Separar la ruta en partes usando la barra como delimitador
-            var partes = ruta.split('/');
-
-            // Obtener el último elemento de las partes (que debería ser el número)
-            var numero = partes.pop();
-
-            // Devolver el número como resultado
-            updateUrl(numero);
-        }
-
-    
-        // Update of the URL for the Sliders
-        
-        // Ejemplo de uso
-        var url = "http://127.0.0.1:8000/2012123";
-        obtenerNumerosDesdeURL(url);
-
+            // Update of the URL for the Sliders
+            var url = window.location.href;
+            obtainNumbersOfUrl(url);
+        });
     </script>
 
 
@@ -263,8 +252,8 @@
                             {% csrf_token %}
                             
 
-                            
-                        <form name="form" class="project-form" enctype="multipart/form-data" method="post" action="/show_dashboard/">
+                        
+                        <form name="form" id="form-personalized" class="project-form" enctype="multipart/form-data" method="post" action="/show_dashboard/">
 
                             {% trans "Select a dashboard mode:" %}
                             <select class="form-select" aria-label="Default select example" name="dashboard_mode">
