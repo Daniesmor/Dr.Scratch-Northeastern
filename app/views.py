@@ -277,10 +277,18 @@ def create_csv(d):
     csv_filepath = zip_folder(folder_path)
     return csv_filepath
     
+def rubric_creator(request):
+    print("welcome to rubric creator-----------------------")
+    user = str(identify_user_type(request))
+    return render(request, user + '/rubric-creator.html')
+
+def upload_persolized(request, skill_points=None):
+    print("welcome to upload persolized-----------------------")
+    user = str(identify_user_type(request))
+    return render(request, user + '/rubric-uploader.html')
 
 def show_dashboard(request, skill_points=None):
     
-
     if request.method == 'POST':
         url = request.path
         print("Url:", url)
