@@ -310,10 +310,11 @@
                                     {% trans "3. Upload projects with a <span class='colored-text'><a data-toggle='modal' href='#modalProject'>txt</a></span> file:" %}
                                     {% trans "<input  name='urlsFile' type='file' class='filestyle' data-buttonText='Choose txt'>" %}
                                     <button id="urls" name='_urls' type="submit" class="btn btn-primary standard-button">{% trans "Analyze my projects" %}</button>
+                                    <br></br>
                                     {% csrf_token %}
-                                    
-
                                 </form>
+                                {% trans "<span class='colored-text'>NEW!!</span> You also can create your own rubric with your own criteria:" %}
+                                <a href="{% url 'rubric_creator' %}"><button class="btn text-secondary">{% trans "Create rubric" %}</button></a>
 
                                 <!-- FORM SUBMIT SUCCESS / ERROR MESSAGES -->
                                 <p class="file-error dark-text small-text">

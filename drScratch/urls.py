@@ -38,9 +38,8 @@ urlpatterns = [
         RedirectView.as_view(url='https://drscratchblog.wordpress.com')),
     
     # Rubric personalized
-    url(r'^rubric_creator$', app_views.rubric_creator, name='rubric_creator'),
-    url(r'^(?P<skill_points>\d{7})$', app_views.upload_persolized, name='upload_persolized'),
-
+    url(r'^rubric_creator', app_views.rubric_creator, name='rubric_creator'),
+    url(r'^(?P<skill_points>\d{7})$', app_views.upload_personalized, name='upload_personalized'),
 
     # Dashboards
     url(r'^show_dashboard/(?P<skill_points>\d{7})?$', app_views.show_dashboard, name='show_dashboard'),

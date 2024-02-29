@@ -278,20 +278,18 @@ def create_csv(d):
     return csv_filepath
     
 def rubric_creator(request):
-    print("welcome to rubric creator-----------------------")
     user = str(identify_user_type(request))
     return render(request, user + '/rubric-creator.html')
 
-def upload_persolized(request, skill_points=None):
-    print("welcome to upload persolized-----------------------")
+def upload_personalized(request, skill_points=None):
     user = str(identify_user_type(request))
     return render(request, user + '/rubric-uploader.html')
+
 
 def show_dashboard(request, skill_points=None):
     
     if request.method == 'POST':
         url = request.path
-        print("Url:", url)
         numbers = ''
         for char in url:
             if char.isdigit():
@@ -333,7 +331,7 @@ def show_dashboard(request, skill_points=None):
                              
     else:
         
-         # TEMP --------------------------------------------
+        # TEMP --------------------------------------------
         url = request.path
         
         #url = os.path.join(url, "4444444")
