@@ -261,13 +261,13 @@ def zip_folder(folder_path: str):
     return folder_path + '.zip'
     
 def create_csv(d):
-    
+    print("estamos en create csv---------------------------------")
+    print(d)
     now = datetime.now()
     folder_name = str(uuid.uuid4()) + '_' + now.strftime("%Y%m%d%H%M%S")
     base_dir = os.getcwd()
     folder_path = os.path.join(base_dir, 'csvs', 'Dr.Scratch', folder_name)
     os.mkdir(folder_path)
-    
     
     create_csv_main(d, folder_path)
     create_csv_dups(d, folder_path)
@@ -296,7 +296,6 @@ def show_dashboard(request, skill_points=None):
                 numbers += char
         skill_rubric = generate_rubric(numbers)
         print("dict")
-        print(skill_rubric)
         d = build_dictionary_with_automatic_analysis(request, skill_rubric)
         print("valor de d")
         print(d[0])
@@ -333,12 +332,6 @@ def show_dashboard(request, skill_points=None):
         
         # TEMP --------------------------------------------
         url = request.path
-        
-        #url = os.path.join(url, "4444444")
-        print("URL personalizeda-------------------------------")
-        print(url)
-        print("-------------------------------")
-
         # ----------------------------------------------------------------
         url = url.split("/")[-1]
         print(url)
@@ -369,9 +362,12 @@ def generate_rubric(skill_points: str) -> dict:
 
 def create_summary(d: dict) -> dict:
     summary = {}
+    print("tamo en sumario")
+    print(d)
+    skills = ['Abstraction', 'Parallelism', 'Logic', 'Synchronization',
+               'Flow control', 'User interactivity', 'Data representation']
     # NUM PROJECTS
     num_projects = len(d)
-    
     
     # TOTAL POINTS
     total_points = 0
@@ -379,14 +375,20 @@ def create_summary(d: dict) -> dict:
         for skill in d[project]["mastery"]:
             if skill not in summary:
                 summary[skill] = 0
-            summary[skill] += d[project]["mastery"][skill]
+            summary[skill] += d[project]["mastery"][skill][0]
+            total_points += d[project]["mastery"][skill][0]  # Add points to total
     
     # AVERAGE POINTS
     for skill in summary:
         summary[skill] = round(summary[skill] / num_projects, 2)
 
     summary['num_projects'] = num_projects
+    summary['points'] = total_points  # Define total points before using it
+
+    total_maxi_points = 0
+    total_maxi_points = sum(d['mastery'][skill][1] for skill in skills)
     
+    """
     if summary['points'] >= 15:
         summary['mastery'] = 'Master'
     elif summary['points'] > 7:
@@ -394,7 +396,9 @@ def create_summary(d: dict) -> dict:
     else:
         summary['mastery'] = 'Basic'
     #summary['average_points'] = average_points
+    """
     return summary
+
 
 def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dict:
     """

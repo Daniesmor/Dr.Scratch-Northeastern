@@ -48,8 +48,6 @@ class Mastery(Plugin):
         for skill, skill_grade in self.dict_mastery.items():
             if self.verbose:
                 logger.info('Skill: {}, points: {}'.format(skill, skill_grade))
-            print(skill)
-            print(skill_grade)
             total_points = total_points + skill_grade[0]
         
 
@@ -220,19 +218,23 @@ class Mastery(Plugin):
 
         for item in proficiency:
             if self.dict_blocks[item]:
+                score = self.skill_points['User interactivity']
                 self.dict_mastery['UserInteractivity'] = [score, self.skill_points['User interactivity']]
                 return
         for item in developing:
             if self.dict_blocks[item]:
-                self.dict_mastery['UserInteractivity'] = [score, (self.skill_points['User interactivity'])/2]
+                score = (self.skill_points['User interactivity'])/2
+                self.dict_mastery['UserInteractivity'] = [score, self.skill_points['User interactivity']]
                 return
         if self.dict_blocks['motion_goto_menu']:
             if self._check_mouse() == 1:
-                self.dict_mastery['UserInteractivity'] = [score, (self.skill_points['User interactivity'])/2]
+                score = (self.skill_points['User interactivity'])/2
+                self.dict_mastery['UserInteractivity'] = [score, self.skill_points['User interactivity']]
                 return
         if self.dict_blocks['sensing_touchingobjectmenu']:
             if self._check_mouse() == 1:
-                self.dict_mastery['UserInteractivity'] = [score, (self.skill_points['User interactivity'])/2]
+                score = (self.skill_points['User interactivity'])/2
+                self.dict_mastery['UserInteractivity'] = [score, self.skill_points['User interactivity']]
                 return
         if self.dict_blocks['event_whenflagclicked']:
             score = 1
