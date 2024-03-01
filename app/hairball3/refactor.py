@@ -1,4 +1,5 @@
 from app.hairball3.scriptObject import Script
+from app.hairball3.duplicateScripts import DuplicateScripts
 
 N_VARIABLES_IN_STARTER_BLOCK = {"EVENT_WHENFLAGCLICKED":0,
     "EVENT_WHENTHISSPRITECLICKED":0,
@@ -11,8 +12,8 @@ N_VARIABLES_IN_STARTER_BLOCK = {"EVENT_WHENFLAGCLICKED":0,
     "PROCEDURES_DEFINITION":0}
 
 class RefactorDuplicate():
-    def __init__(self, json_project):
-        self.duplicates = {}
+    def __init__(self, json_project, duplicates_dict):
+        self.duplicates = duplicates_dict['result']['duplicates']
         self.json_project = json_project
         self.block_dict = {}
         self.sprite_dict = {}
@@ -37,7 +38,6 @@ class RefactorDuplicate():
         
         return out
 
-
     def set_sprite_dict(self):
         """
         Sets a dictionary containing the scripts of each sprite in Script() format
@@ -55,44 +55,11 @@ class RefactorDuplicate():
                         if block["topLevel"]:
                             new_script = Script()
                             new_script.set_script_dict(block_dict=sprite_blocks, start=key)
-
                             sprite_scripts.append(new_script)
 
                     self.sprite_dict[sprite_name] = sprite_scripts
         
         return self.sprite_dict
-    
-    def search_duplicates(self):
-        """
-        Searches for intra duplicates of each sprite and outputs them
-        """
-        self.set_sprite_dict()
-
-        self.duplicates = {}
-        
-        for sprite, scripts in self.sprite_dict.items():
-            seen = set()
-            sprite_duplicates = {}
-            for script in scripts:
-                blocks = tuple(script.get_blocks())
-
-                if blocks not in sprite_duplicates.keys():
-                    if len(blocks) > 5:
-                        sprite_duplicates[blocks] = [(script, sprite)]
-                else:
-                    sprite_duplicates[blocks].append((script, sprite))
-
-                seen.add(blocks)
-
-
-            for key in seen:
-                if key in sprite_duplicates:
-                    if len(sprite_duplicates[key]) <= 1:
-                        sprite_duplicates.pop(key, None)
-
-            self.duplicates.update(sprite_duplicates)
-
-        return self.duplicates
     
     def search_clones(self):
         """
@@ -118,14 +85,13 @@ class RefactorDuplicate():
                 self.clones.pop(tupl, None)
 
         return self.clones
-            
     
     def refactor_duplicates(self):
         """
         Converts duplicated scripts into a custom block format. It outputs a list of tuples containing the original blocks, the refactorization
         and the sprite all in the scratchblocks text format.
         """
-        duplicates = self.search_duplicates()
+        duplicates = self.duplicates
         func_counter = 1
         refactored_list = []
 
