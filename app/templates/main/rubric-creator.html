@@ -208,7 +208,16 @@
 
                     // Aquí puedes realizar cualquier otra acción que necesites con estos valores
                 
-                document.getElementById("url-share").innerText = url;
+                // document.getElementById("url-share").innerText = url;
+                // Crear un elemento de enlace <a> y establecer sus atributos
+                var linkElement = document.createElement("a");
+                linkElement.setAttribute("href", url);
+                linkElement.textContent = url;
+
+                // Limpiar el contenido existente y agregar el nuevo elemento de enlace
+                var urlShareElement = document.getElementById("url-share");
+                urlShareElement.innerHTML = ""; // Limpiar el contenido existente
+                urlShareElement.appendChild(linkElement); // Agregar el enlace
             });
 
 
@@ -285,7 +294,6 @@
                                         <input type="range" class="form-range" min="0" max="3" id="DataRepresentation" name="DataRepresentation">
                                         <button id="url" name='_url' type="submit" class="btn btn-primary standard-button">{% trans "Generate rubric" %}</button>
                                     </form>
-                                    
                                 </div>
                             </div>
                             
@@ -300,9 +308,9 @@
                             
                             <div class="jumbotron">
                                 
-                                <h4>You can shre this url:</h4>
+                                <h4>{% trans 'You can share this url:' %}</h4>
                                 <div id="personalized-options">
-                                    <h3 class="text-success" id="url-share">First fill the form</h3>
+                                    <h5 class="text-success" id="url-share">{% trans 'First fill the form' %}</h3>
                                 </div>
                             </div>
 

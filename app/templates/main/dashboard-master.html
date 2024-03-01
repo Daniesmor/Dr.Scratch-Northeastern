@@ -149,8 +149,11 @@
                 if (contentId === 'dead-code') {
                     var content = $(this).next('#dead-code-content').html();
                     $(this).attr('data-content', content);
+                } else if (contentId === 'duplicated-scripts') {
+                    var content = $(this).next('#duplicated-scripts-content').html();
+                    $(this).attr('data-content', content);
                 } else {
-                   var _this = this;
+                    var _this = this;
                 }
                 $(this).popover('show');
                 $('.popover').on('mouseenter', function () {
@@ -168,7 +171,7 @@
                 }, 100);
             });
         });
-        
+            
     </script>
 
     <script>
@@ -265,21 +268,27 @@
                     </div>
                     <div class="panel-body text-left typ">
                         <a class="glyphicon glyphicon-repeat"/>
-                        <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Duplicated scripts' %}" 
-                        data-content="
-                        {% for k, list_duplicate_blocks in duplicateScript.items %}
-                            {% if k == 'scripts' %}
-                                    {% for list_blocks in list_duplicate_blocks %}
-                                        {{ list_blocks }}
-                                    {% endfor %}
-                            {% endif%}
-                        {% endfor %}
-                        {% if duplicateScript.number == 0 %}
-                            {% trans 'Your project does not have dead code, good job!' %}
-                        {% endif %}
-                        " data-trigger="manual" href="learn/duplicatedScripts">
+                        <a id="duplicated-scripts" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Duplicated scripts' %}" 
+                        data-trigger="manual" href="learn/duplicatedScripts"> 
                             {{ duplicateScript.number }} {% trans " duplicated scripts." %}
-                        </a><br>
+                        </a>
+                        <div id="duplicated-scripts-content" class="collapse">
+                            <div class="container-fluid">
+                                {% for k, list_duplicate_blocks in duplicateScript.items %}
+                                {% if k == 'scripts' %}
+                                    {% for list_blocks in list_duplicate_blocks %}
+                                        <pre class="blocks">
+                                            {{ list_blocks }}
+                                        </pre>
+                                    {% endfor %}
+                                {% endif %}
+                                {% endfor %}
+                                {% if duplicateScript.number == 0 %}
+                                    {% trans 'Your project does not have duplicated scripts, good job!' %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <br>
                         <a class="glyphicon glyphicon-pencil"/>
                         <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Sprite naming' %}" 
                         data-content="
