@@ -317,17 +317,20 @@ def show_dashboard(request, skill_points=None):
             elif d['Error'] == 'no_exists':
                 return render(request, user + '/main.html', {'no_exists': True})
             else:
-                if d["dashboard_mode"] == "Vanilla":
+                if d["dashboard_mode"] == "Default":
+                    if d["mastery"]["points"] >= 15:
+                        return render(request, user + '/dashboard-default-master.html', d)
+                    elif d["mastery"]["points"] > 7:
+                        return render(request, user + '/dashboard-default-developing.html', d)
+                    else:
+                        return render(request, user + '/dashboard-default-basic.html', d)
+                elif d["dashboard_mode"] == "Personalized":
                     if d["mastery"]["points"] >= 15:
                         return render(request, user + '/dashboard-master.html', d)
                     elif d["mastery"]["points"] > 7:
                         return render(request, user + '/dashboard-developing.html', d)
                     else:
                         return render(request, user + '/dashboard-basic.html', d)
-                elif d["dashboard_mode"] == "Resnick":
-                    return render(request, user + '/dashboard_resnick.html', d)
-                elif d["dashboard_mode"] == "Personalized":
-                    return render(request, user + '/dashboard-master.html', d)
                              
     else:
         
@@ -412,7 +415,7 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
 
     if "_upload" in request.POST:
         dict_metrics[project_counter] = _make_analysis_by_upload(request, skill_points)
-        if dict_metrics['Error'] != 'None':
+        if dict_metrics[project_counter]['Error'] != 'None':
             return dict_metrics
         filename = request.FILES['zipFile'].name.encode('utf-8')
         dict_metrics[project_counter].update({
@@ -860,7 +863,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         result_backdrop_naming = BackdropNaming(path_projectsb3, json_scratch_project).finalize()
         
         #Refactorings
-        refactored_code = RefactorDuplicate(json_scratch_project).refactor_duplicates()
+        refactored_code = RefactorDuplicate(json_scratch_project, dict_duplicate_script).refactor_duplicates()
 
         dict_analysis.update(proc_mastery(request, dict_mastery, file_obj))
         dict_analysis.update(proc_duplicate_script(dict_duplicate_script, file_obj))
