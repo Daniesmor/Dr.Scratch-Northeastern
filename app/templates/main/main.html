@@ -274,12 +274,7 @@
                                     
                                 <form name="form" class="project-form" enctype="multipart/form-data" method="post" action="/show_dashboard/">
 
-                                    {% trans "Select a dashboard mode:" %}
-                                    <select class="form-select" aria-label="Default select example" name="dashboard_mode">
-                                        <option value="Vanilla" selected>Vanilla</option>
-                                        <option value="Resnick">Resnick Mode</option>
-                                        <option value="Personalized">Personalized</option>
-                                    </select>
+                                    <input type="hidden" name="dashboard_mode" value="Default">
                                     <div id="personalized-options" style="display: none;">
                                         <label for="Abstraction" class="form-label">{% trans 'Abstraction' %}</label>
                                         <input type="range" class="form-range" min="0" max="3" id="Abstraction" name="Abstraction">
