@@ -108,7 +108,9 @@ def create_csv_main(d: dict, folder_path: str) -> str:
                 if clave in d[project]:
                     row_to_write[clave] = d[project].get(clave, '')
                 elif clave in mastery_fields:
-                    row_to_write[clave] = d[project]['mastery'].get(clave, '')
+                    mastery_list = d[project]['mastery'].get(clave, [])
+                    if type(mastery_list) == list:
+                        row_to_write[clave] = mastery_list[0] 
                 elif clave == 'DuplicateScripts':
                     row_to_write[clave] = d[project]['duplicateScript'].get('number', '')
                 elif clave == 'DeadCode':
@@ -129,13 +131,15 @@ def create_csv_dups(d: dict, folder_path: str):
     # headers list
     headers = ['url', 'filename', 'number']
 
+    max_dup_scripts = 0
     # create headers
     for project in d.values():
-        duplicate_scripts = project.get('duplicateScript', {}).get('scripts', [])
-        if duplicate_scripts:
-            max_dup_scripts = max(len(block) for block in project['duplicateScript'].get('scripts', []))
-            for i in range(1, max_dup_scripts + 1):
-                headers.append(f'duplicateScript_{i}')
+        if project['duplicateScript'].get('number', 0) > max_dup_scripts:
+            duplicate_scripts = project.get('duplicateScript', {}).get('scripts', [])
+            if duplicate_scripts:
+                max_dup_scripts = max(len(block) for block in project['duplicateScript'].get('scripts', []))
+                for i in range(1, max_dup_scripts + 1):
+                    headers.append(f'duplicateScript_{i}')
 
     # open csv file
     with open(csv_filepath, 'w') as csv_file:
@@ -295,6 +299,8 @@ def show_dashboard(request, skill_points=None):
             if char.isdigit():
                 numbers += char
         skill_rubric = generate_rubric(numbers)
+        print("skill_rubric")
+        print(skill_points)
         print("dict")
         d = build_dictionary_with_automatic_analysis(request, skill_rubric)
         print("valor de d")
@@ -372,6 +378,7 @@ def create_summary(d: dict) -> dict:
     # NUM PROJECTS
     num_projects = len(d)
     
+    """
     # TOTAL POINTS
     total_points = 0
     for project in d:
@@ -391,7 +398,7 @@ def create_summary(d: dict) -> dict:
     total_maxi_points = 0
     total_maxi_points = sum(d['mastery'][skill][1] for skill in skills)
     
-    """
+    
     if summary['points'] >= 15:
         summary['mastery'] = 'Master'
     elif summary['points'] > 7:
