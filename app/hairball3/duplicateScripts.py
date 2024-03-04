@@ -18,6 +18,7 @@ class DuplicateScripts(Plugin):
         self.sprite_dict = {}
         self.duplicates = {}
         self.list_duplicate = []
+        self.list_csv = []
 
     def get_blocks(self, dict_target):
         """
@@ -89,11 +90,15 @@ class DuplicateScripts(Plugin):
             duplicated_scripts = [pair[0] for pair in value]
             print("----------------DUP SCRIPTS---------------")
             print(duplicated_scripts)
+            csv_text = [script.get_blocks() for script in duplicated_scripts]
+            print("----------------OLD TEXT SCRIPTS---------------")
+            print(csv_text)
             script_text = "\n".join([script.convert_to_text() for script in duplicated_scripts])
             print("----------------TEXT SCRIPTS---------------")
             print(script_text)
             self.total_duplicate += sum(1 for _ in duplicated_scripts)
             self.list_duplicate.append(script_text)
+            self.list_csv.append(csv_text)
 
         return self.duplicates
 
@@ -111,6 +116,7 @@ class DuplicateScripts(Plugin):
         self.dict_mastery['total_duplicate_scripts'] = self.total_duplicate
         self.dict_mastery['list_duplicate_scripts'] = self.list_duplicate
         self.dict_mastery['duplicates'] = self.duplicates
+        self.dict_mastery['list_csv'] =  self.list_csv
 
         if self.verbose:
             logger.info(self.dict_mastery['description'])
