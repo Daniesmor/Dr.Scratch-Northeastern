@@ -52,126 +52,6 @@
     
         <!-- DEFAULT COLOR/ CURRENTLY USING -->
         <link rel="stylesheet" href="../../static/app/content/red.css">
-    
-
-        <script>
-            // Instance the tour
-            $(document).ready(function(){
-                $("#tour").click(function(){
-            var tour = new Tour({
-              storage: false,
-              backdrop: true,
-              steps: [
-              {
-                element: "#stepone",
-                title: "{% trans 'Score' %}",
-                content: "{% trans 'This section shows the total score.' %}"
-              },
-              {
-                element: "#steptwo",
-                title: "{% trans 'Bad habits in programming' %}",
-                content:"{% trans 'If you correct your bad habits in programming, you will avoid problems in the future.'%}"
-              },
-              {
-                element: "#stepthree",
-                title: "{% trans 'Certificate' %}",
-                content:"{% trans 'Download your certificate!'%}"
-              },
-              {
-                element: "#stepfour",
-                title: "{% trans 'Score in detail'%}",
-                content: "{% trans 'Here we show the score in each programming skill as well as links to sites that can help you to level up.' %}",
-                placement:'left'
-              }
-            ]});
-             tour.init();
-            // Initialize the tour
-        
-        
-                    tour.start();
-        
-                });
-        });
-        </script>
-
-        <script>
-            var currentMode = 'Rethinking';
-
-            // Función para obtener el modo actual
-            function getMode() {
-                return currentMode; // Suponiendo que "currentMode" contiene el modo actual.
-            }
-        
-            // Función para configurar el tour según el modo
-            function setupTour() {
-                var mode = getMode(); // Obtener el modo actual
-        
-                var tourSteps = [];
-        
-                // Configurar el tour según el modo
-                if (mode === 'Rethinking') {
-                    tourSteps = [
-                        {
-                            element: "#stepone",
-                            title: "{% trans 'Modes' %}",
-                            content: "{% trans 'This section shows all the modes you can use.' %}"
-                        },
-                        {
-                            element: "#steptwo",
-                            title: "{% trans 'Bad Smells World' %}",
-                            content: "{% trans 'These different Island will help you to improve and get better in programming.' %}"
-                        }
-                    ];
-                } else if (mode === 'Vanilla') {
-                    tourSteps = [
-                        {
-                            element: "#stepone",
-                            title: "{% trans 'Modes' %}",
-                            content: "{% trans 'This section shows all the modes you can use.' %}"
-                        },
-                        {
-                            element: "#steptwo",
-                            title: "{% trans 'Score' %}",
-                            content: "{% trans 'This section shows the total score.' %}"
-                        },
-                        {
-                            element: "#stepthree",
-                            title: "{% trans 'Bad habits in programming' %}",
-                            content:"{% trans 'If you correct your bad habits in programming, you will avoid problems in the future.'%}"
-                        },
-                        {
-                            element: "#stepfour",
-                            title: "{% trans 'Certificate' %}",
-                            content:"{% trans 'Download your certificate!'%}"
-                        },
-                        {
-                            element: "#stepfive",
-                            title: "{% trans 'Score in detail'%}",
-                            content: "{% trans 'Here we show the score in each programming skill as well as links to sites that can help you to level up.' %}",
-                            placement:'left'
-                        }
-                    ];
-                }
-        
-                // Crear el tour con los pasos configurados
-                var tour = new Tour({
-                    storage: false,
-                    backdrop: true,
-                    steps: tourSteps
-                });
-        
-                // Inicializar y empezar el tour
-                tour.init();
-                tour.start();
-            }
-        
-            // Ejecutar la configuración del tour al cargar el documento
-            $(document).ready(function () {
-                $("#tour").click(function () {
-                    setupTour(); // Configurar el tour según el modo actual
-                });
-            });
-        </script>
 
         <script>
                 window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
@@ -391,7 +271,6 @@
                     <ul class="nav navbar-nav navbar-right main-navigation ">
                             <li class="navbar-brand"><a class="navbar-brand pull-right" href="https://twitter.com/DrScratchTool"><span class="icon-social-twitter colored-text"></span></a></li>
                             <li class="navbar-brand"><a class="navbar-brand pull-right" href="mailto:kgblll@gsyc.urjc.es"><span class="icon-basic-mail colored-text"></span></a></li>
-                            <li class="navbar-brand"><a class="btn btn-default" id="tour">{% trans "HELP" %}</a></li>
                             <li class="navbar-brand"><a class="navbar-brand pull-right">{% trans "Dr. Scratch(Beta Version)" %}</a></li>
                     </ul>
                 </div>
@@ -421,37 +300,29 @@
                     <!-- World 1: Sprite Naming -->
                     <div class="col-md-3">
                         <div class="island">
-                            <button type="button" class="btn btn-primary" onclick="modalContentChange('sprite-naming-content-r')">
-                                {% trans "Sprite Naming" %}
-                            </button>
-                            <img src="static/app/images/Isla_1.jpg" alt="Isla 1">
+                            <h4> {% trans "Sprite Naming" %} </h4>
+                            <img src="static/app/images/Isla_1.jpg" alt="Isla 1" onclick="modalContentChange('sprite-naming-content-r')">
                         </div>
                     </div>
                     <!-- World 2: Backdrop Naming -->
                     <div class="col-md-3">
                         <div class="island">
-                            <button type="button" class="btn btn-primary" onclick="modalContentChange('backdrop-naming-content-r')">
-                                {% trans 'Backdrop Naming' %}
-                            </button>
-                            <img src="static/app/images/Isla_2.jpg" alt="Isla 2">
+                            <h4> {% trans 'Backdrop Naming' %} </h4>
+                            <img src="static/app/images/Isla_2.jpg" alt="Isla 2" onclick="modalContentChange('backdrop-naming-content-r')">
                         </div>
                     </div>
                     <!-- World 3: Dead Code -->
                     <div class="col-md-3">
                         <div class="island">
-                            <button type="button" class="btn btn-primary" onclick="modalContentChange('dead-code-content-r')">
-                                {% trans 'Dead Code' %}
-                            </button>
-                            <img src="static/app/images/Isla_3.jpg" alt="Isla 3">
+                            <h4>  {% trans 'Dead Code' %} </h4>
+                            <img src="static/app/images/Isla_3.jpg" alt="Isla 3" onclick="modalContentChange('dead-code-content-r')">
                         </div>
                     </div>
                     <!-- World 4: Duplicated Scripts -->
                     <div class="col-md-3">
                         <div class="island">
-                            <button type="button" class="btn btn-primary" onclick="modalContentChange('duplicated-scripts-content-r')">
-                                {% trans 'Duplicated Scripts' %}
-                            </button>
-                            <img src="static/app/images/Isla_4.jpg" alt="Isla 4">
+                            <h4>  {% trans 'Duplicated Scripts' %} </h4>
+                            <img src="static/app/images/Isla_4.jpg" alt="Isla 4" onclick="modalContentChange('duplicated-scripts-content-r')">
                         </div>
                     </div>
                 </div>
@@ -619,10 +490,10 @@
                                                         {% endblocktrans %}
                                                     </td>
                                                     <td>
-                                                        {% if value.1 == 0 %}
+                                                        {% if value.1 == 0 or value.0 == 0 %}
                                                             <div class="progress">
                                                                 <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="{{ value.1 }}" style="width: 0%">
-                                                                    <span><strong>0/{{ value.1 }}</strong></span>
+                                                                    <span style="color: grey;"><strong>0/{{ value.1 }}</strong></span>
                                                                 </div>
                                                             </div>
                                                         {% else %}
