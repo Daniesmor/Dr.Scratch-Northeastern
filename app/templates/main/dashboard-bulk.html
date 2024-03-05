@@ -114,7 +114,7 @@
                         {% elif summary.mastery == 'Developing' %}
                             <img src="static/app/images/monkey.png" class="img-fluid" style="max-width: 100%; vertical-align: middle;">
                         {% else %}
-                            <img src="static/app/images/ferret.png" class="img-fluid" style="max-width: 100%; vertical-align: middle;">
+                            <img src="static/app/images/cat.png" class="img-fluid" style="max-width: 100%; vertical-align: middle;">
                         {% endif %}
                     </section>
                 </div>
@@ -144,21 +144,21 @@
                                         <h5 class="text-info">Projects Analyzed: {{ summary.num_projects }}</h5>
                                         <h6 class="text-warning">{% trans "Average Score: " %}</h6>
                                             {% for skill, value in summary.items %}
-                                                {% if skill != 'num_projects' and skill != 'maxi' and skill != 'mastery' %}
-                                                    {% if value > 1.5 %}
-                                                        <h5><span class="text-info">{{ skill }}: </span><span class="text-success" style="font-size: 20px;">{{ value }}</span></h5>
+                                                {% if skill != 'num_projects' and skill != 'maxi' and skill != 'Mastery' %}
+                                                    {% if value.0 >= value.2 %}
+                                                        <h5><span class="text-info">{{ skill }}: </span><span class="text-success" style="font-size: 20px;">{{ value.0 }}/{{ value.1 }}</span></h5>
                                                     {% else %}
-                                                        <h5><span class="text-info">{{ skill }}: </span><span class="text-danger" style="font-size: 20px;">{{ value }}</span></h5>
+                                                        <h5><span class="text-info">{{ skill }}: </span><span class="text-danger" style="font-size: 20px;">{{ value.0 }}/{{ value.1 }}</span></h5>
                                                     {% endif %}
                                                 {% endif %}
                                             {% endfor %}
                                         <h6 class="text-warning">{% trans "Average Mastery: " %}</h6>
-                                        {% if summary.mastery == 'Master' %}
-                                            <h5 class="text-success">{{ summary.mastery }}</h5>  
-                                        {% elif summary.mastery == 'Developing' %}
-                                            <h5 class="text-warning">{{ summary.mastery }}</h5>  
+                                        {% if summary.Mastery == 'Master' %}
+                                            <h5 class="text-success">{{ summary.Mastery }}</h5>  
+                                        {% elif summary.Mastery == 'Developing' %}
+                                            <h5 class="text-warning">{{ summary.Mastery }}</h5>  
                                         {% else %}
-                                            <h5 class="text-danger">{{ summary.mastery }}</h5>  
+                                            <h5 class="text-danger">{{ summary.Mastery }}</h5>  
                                         {% endif %}
                                                                                   
                                         
