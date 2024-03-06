@@ -110,7 +110,9 @@ def create_csv_main(d: dict, folder_path: str) -> str:
                 elif clave in mastery_fields:
                     mastery_list = d[project]['mastery'].get(clave, [])
                     if type(mastery_list) == list:
-                        row_to_write[clave] = mastery_list[0] 
+                        row_to_write[clave] = mastery_list[0]
+                    else:
+                        row_to_write[clave] = mastery_list
                 elif clave == 'DuplicateScripts':
                     row_to_write[clave] = d[project]['duplicateScript'].get('number', '')
                 elif clave == 'DeadCode':
@@ -124,42 +126,49 @@ def create_csv_main(d: dict, folder_path: str) -> str:
             writer_csv.writerow(row_to_write)
     return csv_filepath
 
-def create_csv_dups(d: dict, folder_path: str):
+def create_csv_dups(d: dict, folder_path: str): 
+    """
+        Analyzes Brian format.
+    """
+    print("dupsss")
+    print(d[3]['duplicateScript']['scripts'])
     csv_name = "duplicateScript.csv"
     csv_filepath = os.path.join(folder_path, csv_name)
-    
     # headers list
-    headers = ['url', 'filename', 'number']
-
-    max_dup_scripts = 0
-    # create headers
-    for project in d.values():
-        if project['duplicateScript'].get('number', 0) > max_dup_scripts:
-            duplicate_scripts = project.get('duplicateScript', {}).get('scripts', [])
-            if duplicate_scripts:
-                max_dup_scripts = max(len(block) for block in project['duplicateScript'].get('scripts', []))
-                for i in range(1, max_dup_scripts + 1):
-                    headers.append(f'duplicateScript_{i}')
-
-    # open csv file
-    with open(csv_filepath, 'w') as csv_file:
+    headers = ['url', 'filename', 'number', 'sprite']
+    
+    max_duplicates = max(len(project_data['duplicateScript']['scripts'].split('\n')) for project_data in d.values())
+    for project_data in d.values():
+        
+        dup_list = project_data['duplicateScript']['scripts']
+        for dup_block in dup_list:
+            dup_block = dup_block.split('\n')
+            if len(dup_block) > max_duplicates:
+                max_duplicates = len(dup_block)
+    
+    headers.extend(f'duplicateScript{i}' for i in range(1, max_duplicates+1))
+            
+    with open(csv_filepath, 'w', newline='') as csv_file:
         writer_csv = csv.DictWriter(csv_file, fieldnames=headers)
         writer_csv.writeheader()
 
-        for project_data in d.values():
-            row_to_write = {
-                'url': project_data.get('url', ''),
-                'filename': project_data.get('filename', ''),
-                'number': project_data['duplicateScript'].get('number', ''),
-            }
-            scripts = project_data['duplicateScript'].get('scripts')
-            if scripts:
-                for i, script_list in enumerate(scripts, 1):
-                    for j, script in enumerate(script_list, 1):
-                        row_to_write[f'duplicateScript_{j}'] = script
-            else:
-                row_to_write.update({f'duplicateScript_{i}': 'N/A' for i in range(1, max_dup_scripts + 1)})        
-            writer_csv.writerow(row_to_write)
+        row_to_write = {}
+        for project_data in d.values():      
+            for dup_list_name, duplicate_list in project_data['duplicateScript'].items():
+                if dup_list_name not in ['number', 'duplicateScript']:
+                    row_to_write = {
+                        'url': project_data['url'],
+                        'filename': project_data['filename'],
+                        'number': project_data['duplicateScript']['number'],
+                        'sprite': dup_list_name
+                    }
+                    
+                    for i, sprite in enumerate(duplicate_list, 1):
+                        row_to_write[f'duplicateScript{i}'] = sprite
+                    for j in range(1, max_duplicates+1):
+                        if row_to_write.get(f'duplicateScript{j}', '') == '':
+                            row_to_write[f'duplicateScript{j}'] = 'N/A'
+                    writer_csv.writerow(row_to_write)    
 
 
 def create_csv_sprites(d: dict, folder_path: str):
@@ -226,7 +235,6 @@ def create_csv_deadcode(d: dict, folder_path: str):
                 sprite_list_counter = len(value)
                 if sprite_list_counter > max_sprites:
                     max_sprites = sprite_list_counter
-
     
     headers.extend(f'deadCode{i}' for i in range(1, max_sprites+1))
             
@@ -265,8 +273,6 @@ def zip_folder(folder_path: str):
     return folder_path + '.zip'
     
 def create_csv(d):
-    print("estamos en create csv---------------------------------")
-    print(d)
     now = datetime.now()
     folder_name = str(uuid.uuid4()) + '_' + now.strftime("%Y%m%d%H%M%S")
     base_dir = os.getcwd()
@@ -299,12 +305,9 @@ def show_dashboard(request, skill_points=None):
             if char.isdigit():
                 numbers += char
         skill_rubric = generate_rubric(numbers)
-        print("skill_rubric")
-        print(skill_points)
-        print("dict")
+       
         d = build_dictionary_with_automatic_analysis(request, skill_rubric)
-        print("valor de d")
-        print(d[0])
+       
         user = str(identify_user_type(request))
         if len(d) > 1:
             #creeate_csv_dups()
@@ -343,16 +346,13 @@ def show_dashboard(request, skill_points=None):
         url = request.path
         # ----------------------------------------------------------------
         url = url.split("/")[-1]
-        print(url)
         skill_rubric = generate_rubric(url)
-        
-        print(skill_rubric)
-        
+                
         d = build_dictionary_with_automatic_analysis(request, skill_rubric)
         user = str(identify_user_type(request))
         return render(request, user + '/dashboard-master.html', d)
     
-    
+
 
 def generate_rubric(skill_points: str) -> dict:
     mastery = ['Abstraction', 'Parallelism', 'Logic', 'Synchronization', 
@@ -371,42 +371,51 @@ def generate_rubric(skill_points: str) -> dict:
 
 def create_summary(d: dict) -> dict:
     summary = {}
-    print("tamo en sumario")
-    print(d)
-    skills = ['Abstraction', 'Parallelism', 'Logic', 'Synchronization',
-               'Flow control', 'User interactivity', 'Data representation']
     # NUM PROJECTS
+    total_maxi_points = d[0]['mastery']['maxi']
     num_projects = len(d)
-    
-    """
-    # TOTAL POINTS
-    total_points = 0
-    for project in d:
-        for skill in d[project]["mastery"]:
-            if skill not in summary:
-                summary[skill] = 0
-            summary[skill] += d[project]["mastery"][skill][0]
-            total_points += d[project]["mastery"][skill][0]  # Add points to total
-    
-    # AVERAGE POINTS
-    for skill in summary:
-        summary[skill] = round(summary[skill] / num_projects, 2)
 
     summary['num_projects'] = num_projects
-    summary['points'] = total_points  # Define total points before using it
+    summary['Points'] = 0
+    skills = ['Abstraction', 'Parallelism', 'Logic', 'Synchronization', 'Flow control', 'User interactivity', 'Data representation']
 
-    total_maxi_points = 0
-    total_maxi_points = sum(d['mastery'][skill][1] for skill in skills)
+    for project in d:
+        summary['Points'] += round(d[project]["mastery"]["points"], 2)
+        for skill in skills:
+            if skill not in summary:
+                summary[skill] = 0
+            if type(d[project]["mastery"][skill]) == list:
+                if d[project]["mastery"][skill][1] != 0:
+                    summary[skill] += d[project]["mastery"][skill][0]
+                else:
+                    summary[skill] = 0
+    
+    for skill in skills:
+        summary[skill] = round(summary[skill] / num_projects, 2)
+    
+    # AVERAGE MASTERY POINTS
+    average_mastery_points = round(summary['Points'] / num_projects, 2)
     
     
-    if summary['points'] >= 15:
-        summary['mastery'] = 'Master'
-    elif summary['points'] > 7:
-        summary['mastery'] = 'Developing'
+    # SET A LIST WITH MAX AND MID POINTS
+    mid_points = total_maxi_points / 2
+    summary['Points'] = [average_mastery_points, total_maxi_points, mid_points]
+    for skill in skills:
+        mid_points = d[0]["mastery"][skill][1] / 2
+        summary[skill] = [summary[skill], d[0]["mastery"][skill][1], mid_points]
+        
+
+
+    # MASTERY LEVEL
+    master_limit = (total_maxi_points * 15)/21
+    developing_limit = (total_maxi_points * 7)/21
+    
+    if summary['Points'][0] >= master_limit:
+        summary['Mastery'] = 'Master'
+    elif summary['Points'][0] > developing_limit:
+        summary['Mastery'] = 'Developing'
     else:
-        summary['mastery'] = 'Basic'
-    #summary['average_points'] = average_points
-    """
+        summary['Mastery'] = 'Basic'
     return summary
 
 
@@ -866,8 +875,6 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
     if os.path.exists(path_projectsb3):
         json_scratch_project = load_json_project(path_projectsb3)
         dict_mastery = Mastery(path_projectsb3, json_scratch_project, skill_points).finalize()
-        print("traza de mastery")
-        print(dict_mastery)
         dict_duplicate_script = DuplicateScripts(path_projectsb3, json_scratch_project).finalize()
         dict_dead_code = DeadCode(path_projectsb3, json_scratch_project,).finalize()
         result_sprite_naming = SpriteNaming(path_projectsb3, json_scratch_project).finalize()
