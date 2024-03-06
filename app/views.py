@@ -126,49 +126,47 @@ def create_csv_main(d: dict, folder_path: str) -> str:
             writer_csv.writerow(row_to_write)
     return csv_filepath
 
-def create_csv_dups(d: dict, folder_path: str): 
-    """
-        Analyzes Brian format.
-    """
-    print("dupsss")
-    print(d[3]['duplicateScript']['scripts'])
+def create_csv_dups(d: dict, folder_path: str):
     csv_name = "duplicateScript.csv"
     csv_filepath = os.path.join(folder_path, csv_name)
+    
     # headers list
-    headers = ['url', 'filename', 'number', 'sprite']
-    
-    max_duplicates = max(len(project_data['duplicateScript']['scripts'].split('\n')) for project_data in d.values())
-    for project_data in d.values():
+    headers = ['url', 'filename', 'number']
+    max_dup_scripts = 0
+    # create headers
+    for project in d.values():
+        duplicate_scripts = project.get('duplicateScript', {}).get('csv_format', [])
         
-        dup_list = project_data['duplicateScript']['scripts']
-        for dup_block in dup_list:
-            dup_block = dup_block.split('\n')
-            if len(dup_block) > max_duplicates:
-                max_duplicates = len(dup_block)
-    
-    headers.extend(f'duplicateScript{i}' for i in range(1, max_duplicates+1))
-            
-    with open(csv_filepath, 'w', newline='') as csv_file:
+        if duplicate_scripts:
+            for block in duplicate_scripts:
+                max_dup_scripts_temp = max(len(instruction_list) for instruction_list in block)
+                if max_dup_scripts < max_dup_scripts_temp:
+                    max_dup_scripts = max_dup_scripts_temp
+    for i in range(1, max_dup_scripts + 1):
+        headers.append(f'duplicateScript_{i}')
+    # open csv file
+    with open(csv_filepath, 'w') as csv_file:
         writer_csv = csv.DictWriter(csv_file, fieldnames=headers)
         writer_csv.writeheader()
 
-        row_to_write = {}
-        for project_data in d.values():      
-            for dup_list_name, duplicate_list in project_data['duplicateScript'].items():
-                if dup_list_name not in ['number', 'duplicateScript']:
-                    row_to_write = {
-                        'url': project_data['url'],
-                        'filename': project_data['filename'],
-                        'number': project_data['duplicateScript']['number'],
-                        'sprite': dup_list_name
-                    }
-                    
-                    for i, sprite in enumerate(duplicate_list, 1):
-                        row_to_write[f'duplicateScript{i}'] = sprite
-                    for j in range(1, max_duplicates+1):
-                        if row_to_write.get(f'duplicateScript{j}', '') == '':
-                            row_to_write[f'duplicateScript{j}'] = 'N/A'
-                    writer_csv.writerow(row_to_write)    
+        for project_data in d.values():
+            row_to_write = {
+                'url': project_data.get('url', ''),
+                'filename': project_data.get('filename', ''),
+                'number': project_data['duplicateScript'].get('number', ''),
+            }
+            duplicate_scripts = project_data.get('duplicateScript', {}).get('csv_format', [])
+            if duplicate_scripts:
+                script_number = 0
+                for block in duplicate_scripts:
+                    for instruction in block:
+                        script_number += 1
+                        row_to_write[f'duplicateScript_{script_number}'] = instruction
+            else:
+                print("no hay duplicados")
+                row_to_write.update({f'duplicateScript_{i}': 'N/A' for i in range(1, max_dup_scripts + 1)})        
+            writer_csv.writerow(row_to_write)
+
 
 
 def create_csv_sprites(d: dict, folder_path: str):
@@ -949,6 +947,7 @@ def proc_duplicate_script(dict_result, file_obj) -> dict:
     dict_ds["duplicateScript"] = dict_ds
     dict_ds["duplicateScript"]["number"] = dict_result['result']['total_duplicate_scripts']
     dict_ds["duplicateScript"]["scripts"] = dict_result['result']['list_duplicate_scripts']
+    dict_ds["duplicateScript"]["csv_format"] = dict_result['result']['list_csv']
 
     file_obj.duplicateScript = dict_result['result']['total_duplicate_scripts']
     file_obj.save()
