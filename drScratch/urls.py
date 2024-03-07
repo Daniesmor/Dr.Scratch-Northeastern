@@ -39,10 +39,10 @@ urlpatterns = [
     
     # Rubric personalized
     url(r'^rubric_creator', app_views.rubric_creator, name='rubric_creator'),
-    url(r'^(?P<skill_points>\d{7})$', app_views.upload_personalized, name='upload_personalized'),
+    url(r'^(?P<skill_points>.{1,5})$', app_views.upload_personalized, name='upload_personalized'),
         
     # Dashboards
-    url(r'^show_dashboard/(?P<skill_points>\d{7})?$', app_views.show_dashboard, name='show_dashboard'),
+    url(r'^show_dashboard/(?P<skill_points>.{1,5})?$', app_views.show_dashboard, name='show_dashboard'),
     url(r'^download_certificate', app_views.download_certificate, name='certificate'),
 
     # Translation
