@@ -7,6 +7,7 @@
     <meta name="author" content="Programamos URJC Libresoft FECyT">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
     <link rel="stylesheet" href="../../static/app/content/scratchblocks2.css">
     <!-- <script src="../../static/app/scripts/bootstrap-modal.js"></script> -->
     <script src="../../static/app/scripts/translations.js"></script>
@@ -173,11 +174,19 @@
 
     <script>
 
-        document.addEventListener("DOMContentLoaded", function() {
-            document.getElementById("rubric-generator").addEventListener("submit", function(event) {
-                event.preventDefault(); // Evitar que el formulario se envíe
+        
 
-                // Obtener referencias a cada elemento de rango por su ID
+        document.addEventListener("DOMContentLoaded", function() {
+            function hideDigits(digits) {
+                var base32 = digits.toString(32);
+                return base32;
+            }
+
+            document.getElementById("rubric-generator").addEventListener("submit", function(event) {
+                event.preventDefault(); 
+                
+
+
                 var abstractionInput = document.getElementById("Abstraction");
                 var parallelizationInput = document.getElementById("Parallelization");
                 var logicThinkingInput = document.getElementById("LogicThinking");
@@ -186,7 +195,6 @@
                 var userInteractivityInput = document.getElementById("UserInteractivity");
                 var dataRepresentationInput = document.getElementById("DataRepresentation");
 
-                // Obtener el valor seleccionado en cada elemento de rango
                 var abstractionValue = abstractionInput.value;
                 var parallelizationValue = parallelizationInput.value;
                 var logicThinkingValue = logicThinkingInput.value;
@@ -195,10 +203,7 @@
                 var userInteractivityValue = userInteractivityInput.value;
                 var dataRepresentationValue = dataRepresentationInput.value;
 
-
-                // Construir la URL con los parámetros concatenados
-                var url = "http://127.0.0.1:8000/" + 
-                        abstractionValue +
+                var digits = abstractionValue +
                         parallelizationValue +
                         logicThinkingValue +
                         synchronizationValue + 
@@ -206,18 +211,17 @@
                         userInteractivityValue + 
                         dataRepresentationValue;
 
-                    // Aquí puedes realizar cualquier otra acción que necesites con estos valores
                 
+                var digits = hideDigits(parseInt(digits))
+                var url = "http://127.0.0.1:8000/" + digits;
                 // document.getElementById("url-share").innerText = url;
-                // Crear un elemento de enlace <a> y establecer sus atributos
                 var linkElement = document.createElement("a");
                 linkElement.setAttribute("href", url);
                 linkElement.textContent = url;
 
-                // Limpiar el contenido existente y agregar el nuevo elemento de enlace
                 var urlShareElement = document.getElementById("url-share");
-                urlShareElement.innerHTML = ""; // Limpiar el contenido existente
-                urlShareElement.appendChild(linkElement); // Agregar el enlace
+                urlShareElement.innerHTML = ""; 
+                urlShareElement.appendChild(linkElement); 
             });
 
 

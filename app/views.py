@@ -293,22 +293,24 @@ def upload_personalized(request, skill_points=None):
     user = str(identify_user_type(request))
     return render(request, user + '/rubric-uploader.html')
 
-
+def base32_to_str(base32_str: str) -> str:
+    value = int(base32_str, 32)
+    return str(value).zfill(7)
+    
 def show_dashboard(request, skill_points=None):
     
     if request.method == 'POST':
-        url = request.path
-        numbers = ''
-        for char in url:
-            if char.isdigit():
-                numbers += char
+        url = request.path.split('/')[-1]
+        if url != '':
+            numbers = base32_to_str(url)
+        else:
+            numbers = ''
         skill_rubric = generate_rubric(numbers)
-       
         d = build_dictionary_with_automatic_analysis(request, skill_rubric)
-       
         user = str(identify_user_type(request))
+        print(d)
+        print(skill_rubric)
         if len(d) > 1:
-            #creeate_csv_dups()
             csv_filepath = create_csv(d)
             summary = create_summary(d)      
             return render(request, user + '/dashboard-bulk.html', {'summary': summary, 'csv_filepath': csv_filepath})
@@ -336,20 +338,9 @@ def show_dashboard(request, skill_points=None):
                     elif d["mastery"]["points"] > 7:
                         return render(request, user + '/dashboard-developing.html', d)
                     else:
-                        return render(request, user + '/dashboard-basic.html', d)
-                             
+                        return render(request, user + '/dashboard-basic.html', d)                     
     else:
-        
-        # TEMP --------------------------------------------
-        url = request.path
-        # ----------------------------------------------------------------
-        url = url.split("/")[-1]
-        skill_rubric = generate_rubric(url)
-                
-        d = build_dictionary_with_automatic_analysis(request, skill_rubric)
-        user = str(identify_user_type(request))
-        return render(request, user + '/dashboard-master.html', d)
-    
+        return HttpResponseRedirect('/')    
 
 
 def generate_rubric(skill_points: str) -> dict:
