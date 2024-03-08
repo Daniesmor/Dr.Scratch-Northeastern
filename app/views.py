@@ -325,20 +325,16 @@ def show_dashboard(request, skill_points=None):
             elif d['Error'] == 'no_exists':
                 return render(request, user + '/main.html', {'no_exists': True})
             else:
-                if d["dashboard_mode"] == "Default":
-                    if d["mastery"]["points"] >= 15:
-                        return render(request, user + '/dashboard-default-master.html', d)
-                    elif d["mastery"]["points"] > 7:
-                        return render(request, user + '/dashboard-default-developing.html', d)
-                    else:
-                        return render(request, user + '/dashboard-default-basic.html', d)
-                elif d["dashboard_mode"] == "Personalized":
-                    if d["mastery"]["points"] >= 15:
-                        return render(request, user + '/dashboard-master.html', d)
-                    elif d["mastery"]["points"] > 7:
-                        return render(request, user + '/dashboard-developing.html', d)
-                    else:
-                        return render(request, user + '/dashboard-basic.html', d)                     
+                if d["mastery"]["points"] >= 29:
+                    return render(request, user + '/dashboard-finesse.html', d)
+                elif d["mastery"]["points"] >= 22:
+                    return render(request, user + '/dashboard-advanced.html', d)
+                elif d["mastery"]["points"] >= 15:
+                    return render(request, user + '/dashboard-master.html', d)
+                elif d["mastery"]["points"] > 7:
+                    return render(request, user + '/dashboard-developing.html', d)
+                else:
+                    return render(request, user + '/dashboard-basic.html', d)                     
     else:
         return HttpResponseRedirect('/')    
 
