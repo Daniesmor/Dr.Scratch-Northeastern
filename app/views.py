@@ -325,16 +325,28 @@ def show_dashboard(request, skill_points=None):
             elif d['Error'] == 'no_exists':
                 return render(request, user + '/main.html', {'no_exists': True})
             else:
-                if d["mastery"]["points"] >= 29:
-                    return render(request, user + '/dashboard-finesse.html', d)
-                elif d["mastery"]["points"] >= 22:
-                    return render(request, user + '/dashboard-advanced.html', d)
-                elif d["mastery"]["points"] >= 15:
-                    return render(request, user + '/dashboard-master.html', d)
-                elif d["mastery"]["points"] > 7:
-                    return render(request, user + '/dashboard-developing.html', d)
-                else:
-                    return render(request, user + '/dashboard-basic.html', d)                     
+                if d["dashboard_mode"] == 'Default':
+                    if d["mastery"]["points"] >= 29:
+                        return render(request, user + '/dashboard-default-master.html', d)
+                    elif d["mastery"]["points"] >= 22:
+                        return render(request, user + '/dashboard-default-master.html', d)
+                    elif d["mastery"]["points"] >= 15:
+                        return render(request, user + '/dashboard-default-master.html', d)
+                    elif d["mastery"]["points"] > 7:
+                        return render(request, user + '/dashboard-default-developing.html', d)
+                    else:
+                        return render(request, user + '/dashboard-default-basic.html', d)
+                elif d["dashboard_mode"] == 'Personalized':
+                    if d["mastery"]["points"] >= 29: # Modificar estos límites
+                        return render(request, user + '/dashboard-finesse.html', d)
+                    elif d["mastery"]["points"] >= 22: # Modificar estos límites
+                        return render(request, user + '/dashboard-advanced.html', d)
+                    elif d["mastery"]["points"] >= 15: # Modificar estos límites
+                        return render(request, user + '/dashboard-master.html', d)
+                    elif d["mastery"]["points"] > 7: # Modificar estos límites
+                        return render(request, user + '/dashboard-developing.html', d)
+                    else:
+                        return render(request, user + '/dashboard-basic.html', d)                   
     else:
         return HttpResponseRedirect('/')    
 
@@ -907,6 +919,8 @@ def proc_dead_code(dict_dead_code, filename):
 def proc_mastery(request, dict_mastery, file_obj):
 
     dict_result = dict_mastery['result'].copy()
+    print("Dict_Result:")
+    print(dict_result)
 
     file_obj.score = dict_result["total_points"]
     file_obj.abstraction = dict_result["Abstraction"][0]
@@ -916,6 +930,8 @@ def proc_mastery(request, dict_mastery, file_obj):
     file_obj.flow_control = dict_result["FlowControl"][0]
     file_obj.userInteractivity = dict_result["UserInteractivity"][0]
     file_obj.dataRepresentation = dict_result["DataRepresentation"][0]
+    file_obj.mathOperators = dict_result["MathOperators"][0]
+    file_obj.mathOperators = dict_result["MotionOperators"][0]
     file_obj.save()
 
     d_translated = translate(request, dict_result, file_obj)
@@ -986,14 +1002,16 @@ def translate(request, d, filename):
         d_translate_es = {'Abstracción': d['Abstraction'], 'Paralelismo': d['Parallelization'],
                           'Pensamiento lógico': d['Logic'], 'Sincronización': d['Synchronization'],
                           'Control de flujo': d['FlowControl'], 'Interactividad con el usuario': d['UserInteractivity'],
-                          'Representación de la información': d['DataRepresentation']}
+                          'Representación de la información': d['DataRepresentation'],
+                          'Operadores matemáticos': d['MathOperators'], 'Operadores de movimiento': d['MotionOperators']}
         filename.language = "es"
         filename.save()
         return d_translate_es
     elif request.LANGUAGE_CODE == "en":
         d_translate_en = {'Abstraction': d['Abstraction'], 'Parallelism': d['Parallelization'], 'Logic': d['Logic'],
                           'Synchronization': d['Synchronization'], 'Flow control': d['FlowControl'],
-                          'User interactivity': d['UserInteractivity'], 'Data representation': d['DataRepresentation']}
+                          'User interactivity': d['UserInteractivity'], 'Data representation': d['DataRepresentation'],
+                          'Math operators': d['MathOperators'], 'Motion operators': d['MotionOperators']}
         filename.language = "en"
         filename.save()
         return d_translate_en
@@ -1001,7 +1019,8 @@ def translate(request, d, filename):
         d_translate_ca = {'Abstracció': d['Abstraction'], 'Paral·lelisme': d['Parallelization'], 'Lògica': d['Logic'],
                           'Sincronització': d['Synchronization'], 'Controls de flux': d['FlowControl'],
                           "Interactivitat de l'usuari": d['UserInteractivity'],
-                          'Representació de dades': d['DataRepresentation']}
+                          'Representació de dades': d['DataRepresentation'], 'Operadors matemàtics': d['MathOperators'],
+                          'Operadors de moviment':  d['MotionOperators']}
         filename.language = "ca"
         filename.save()
         return d_translate_ca
@@ -1009,7 +1028,8 @@ def translate(request, d, filename):
         d_translate_gl = {'Abstracción': d['Abstraction'], 'Paralelismo': d['Parallelization'], 'Lóxica': d['Logic'],
                           'Sincronización': d['Synchronization'], 'Control de fluxo': d['FlowControl'],
                           "Interactividade do susario": d['UserInteractivity'],
-                          'Representación dos datos': d['DataRepresentation']}
+                          'Representación dos datos': d['DataRepresentation'], 'Operadores matemáticos': d['MathOperators'],
+                          'Operadores de movemento': d['MotionOperators']}
         filename.language = "gl"
         filename.save()
         return d_translate_gl
@@ -1018,7 +1038,8 @@ def translate(request, d, filename):
         d_translate_pt = {'Abstração': d['Abstraction'], 'Paralelismo': d['Parallelization'], 'Lógica': d['Logic'],
                           'Sincronização': d['Synchronization'], 'Controle de fluxo': d['FlowControl'],
                           "Interatividade com o usuário": d['UserInteractivity'],
-                          'Representação de dados': d['DataRepresentation']}
+                          'Representação de dados': d['DataRepresentation'], 'Operadores matemáticos': d['MathOperators'],
+                          'Operadores de movimento': d['MotionOperators']}
         filename.language = "pt"
         filename.save()
         return d_translate_pt
@@ -1027,7 +1048,8 @@ def translate(request, d, filename):
         d_translate_el = {'Αφαίρεση': d['Abstraction'], 'Παραλληλισμός': d['Parallelization'], 'Λογική': d['Logic'],
                           'Συγχρονισμός': d['Synchronization'], 'Έλεγχος ροής': d['FlowControl'],
                           'Αλληλεπίδραση χρήστη': d['UserInteractivity'],
-                          'Αναπαράσταση δεδομένων': d['DataRepresentation']}
+                          'Αναπαράσταση δεδομένων': d['DataRepresentation'], 'Μαθηματικοί χειριστές': d['MathOperators'],
+                          'Χειριστές κίνησης': d['MotionOperators']}
         filename.language = "el"
         filename.save()
         return d_translate_el
@@ -1036,7 +1058,8 @@ def translate(request, d, filename):
         d_translate_eu = {'Abstrakzioa': d['Abstraction'], 'Paralelismoa': d['Parallelization'], 'Logika': d['Logic'],
                           'Sinkronizatzea': d['Synchronization'], 'Kontrol fluxua': d['FlowControl'],
                           'Erabiltzailearen elkarreragiletasuna': d['UserInteractivity'],
-                          'Datu adierazlea': d['DataRepresentation']}
+                          'Datu adierazlea': d['DataRepresentation'], 'Eragile matematikoak': d['MathOperators'],
+                          'Mugimendu-eragileak': d['MotionOperators']}
         filename.language = "eu"
         filename.save()
         return d_translate_eu
@@ -1045,7 +1068,8 @@ def translate(request, d, filename):
         d_translate_it = {'Astrazione': d['Abstraction'], 'Parallelismo': d['Parallelization'], 'Logica': d['Logic'],
                           'Sincronizzazione': d['Synchronization'], 'Controllo di flusso': d['FlowControl'],
                           'Interattività utente': d['UserInteractivity'],
-                          'Rappresentazione dei dati': d['DataRepresentation']}
+                          'Rappresentazione dei dati': d['DataRepresentation'], 'Operatori matematici':  d['MathOperators'],
+                          'Operatori del movimento': d['MotionOperators']}
         filename.language = "it"
         filename.save()
         return d_translate_it
@@ -1054,14 +1078,16 @@ def translate(request, d, filename):
         d_translate_ru = {'Абстракция': d['Abstraction'], 'Параллельность действий': d['Parallelization'],
                           'Логика': d['Logic'], 'cинхронизация': d['Synchronization'],
                           'Управление потоком': d['FlowControl'], 'Интерактивность': d['UserInteractivity'],
-                          'Представление данных': d['DataRepresentation']}
+                          'Представление данных': d['DataRepresentation'], 'Математические операторы': d['MathOperators'],
+                          'Операторы движения': d['MotionOperators']}
         filename.language = "ru"
         filename.save()
         return d_translate_ru
     else:
         d_translate_en = {'Abstraction': d['Abstraction'], 'Parallelism': d['Parallelization'], 'Logic': d['Logic'],
                           'Synchronization': d['Synchronization'], 'Flow control': d['FlowControl'],
-                          'User interactivity': d['UserInteractivity'], 'Data representation': d['DataRepresentation']}
+                          'User interactivity': d['UserInteractivity'], 'Data representation': d['DataRepresentation'],
+                          'Math Operators': d['MathOperators'], 'Motion Operators': d['MotionOperators']}
         filename.language = "any"
         filename.save()
         return d_translate_en

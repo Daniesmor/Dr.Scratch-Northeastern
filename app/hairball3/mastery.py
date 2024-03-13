@@ -37,6 +37,8 @@ class Mastery(Plugin):
         self.compute_data_representation()
         self.compute_user_interactivity()
         self.compute_parallelization()
+        self.compute_math_operators()
+        self.compute_motion_operators()
 
     def finalize(self) -> dict:
 
@@ -325,4 +327,61 @@ class Mastery(Plugin):
 
         return 0
 
+    def compute_math_operators(self):
+        """
+        Assign the Use of Math Operators skill result
+        """
 
+        score = 0
+        possible_scores = {"finesse": 5, "advanced": 4, "master": 3, "developing": 2, "basic": 1}
+        
+        basic = {'operator_add', 'operator_subtract', 'operator_multiply', 'operator_divide'}
+        developing = {'operator_gt', 'operator_lt', 'operator_equals'}
+        master = {'operator_and', 'operator_or', 'operator_not'}
+        advanced = {'operator_mod', 'operator_round', 'operator_random'}
+        finesse = {'operator_join', 'operator_letter_of', 'operator_length', 'operator_contains'}
+
+        scale_dict = {"finesse": finesse, "advanced": advanced, "master": master, "developing": developing, "basic": basic}
+
+        for key, value in scale_dict.items():
+            for item in value:
+                if self.dict_blocks[item]:
+                    if key in possible_scores.keys():
+                        score = possible_scores[key]
+                        # score = self.skill_points["MathOperators"] * possible_scores[key] / len(possible_scores.keys())
+                        self.dict_mastery['MathOperators'] = [score, 5] # Cambiar el 5 por self.skill_points["MathOperators"]
+                        return
+                    
+        self.dict_mastery['MathOperators'] = [score, 5] # Cambiar el 5 por self.skill_points["MathOperators"]
+        return
+
+        
+
+    def compute_motion_operators(self):
+        """
+        Assign the Use of Motion Operators skill result
+        """
+
+        score = 0
+        possible_scores = {"finesse": 5, "advanced": 4, "master": 3, "developing": 2, "basic": 1}
+
+        basic = {'motion_movesteps', 'motion_turnleft', 'motion_turnright'}
+        developing = {'motion_goto', 'motion_gotoxy', 'motion_glideto', 'glide_secstoxy'}
+        master = {'motion_pointindirection', 'motion_pointtowards'}
+        advanced = {'motion_changexby', 'motion_setx', 'motion_changeyby', 'motion_sety'}
+        finesse = {'motion_ifonedgebounce', 'motion_setrotationstyle'}
+
+        scale_dict = {"finesse": finesse, "advanced": advanced, "master": master, "developing": developing, "basic": basic}
+
+        for key, value in scale_dict.items():
+            for item in value:
+                if self.dict_blocks[item]:
+                    if key in possible_scores.keys():
+                        score = possible_scores[key]
+                        # score = self.skill_points["MotionOperators"] * possible_scores[key] / len(possible_scores.keys())
+                        self.dict_mastery['MotionOperators'] = [score, 5] # Cambiar el 5 por self.skill_points["MathOperators"]
+                        return
+
+        self.dict_mastery['MotionOperators'] = [score, 5] # Cambiar el 5 por self.skill_points["MathOperators"]
+        return
+    
