@@ -194,6 +194,9 @@
                 var flowControlInput = document.getElementById("FlowControl");
                 var userInteractivityInput = document.getElementById("UserInteractivity");
                 var dataRepresentationInput = document.getElementById("DataRepresentation");
+                var mathOperators = document.getElementById("MathOperators");
+                var motionOperators = document.getElementById("MotionOperators");
+
 
                 var abstractionValue = abstractionInput.value;
                 var parallelizationValue = parallelizationInput.value;
@@ -202,6 +205,8 @@
                 var flowControlValue = flowControlInput.value;
                 var userInteractivityValue = userInteractivityInput.value;
                 var dataRepresentationValue = dataRepresentationInput.value;
+                var mathOperatorsValue = mathOperators.value;
+                var motionOperatorsValue = motionOperators.value;
 
                 var digits = abstractionValue +
                         parallelizationValue +
@@ -209,7 +214,9 @@
                         synchronizationValue + 
                         flowControlValue + 
                         userInteractivityValue + 
-                        dataRepresentationValue;
+                        dataRepresentationValue +
+                        mathOperatorsValue +
+                        motionOperatorsValue;
 
                 
                 var digits = hideDigits(parseInt(digits))
@@ -381,6 +388,16 @@
                                         <div class="form-group">
                                             <label for="DataRepresentation" class="form-label text-primary" style="color: black;">{% trans 'Data Representation' %}: <span id="DataRepresentation-value"></span></label>
                                             <input type="range" class="form-range" min="0" max="5" id="DataRepresentation" name="DataRepresentation">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="MathOperators" class="form-label text-primary" style="color: black;">{% trans 'Math operators' %}: <span id="MathOperators-value"></span></label>
+                                            <input type="range" class="form-range" min="0" max="5" id="MathOperators" name="MathOperators">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="MotionOperators" class="form-label text-primary" style="color: black;">{% trans 'Motion operators' %}: <span id="MotionOperators-value"></span></label>
+                                            <input type="range" class="form-range" min="0" max="5" id="MotionOperators" name="MotionOperators">
                                         </div>
                                     
                                         <button id="url" name='_url' type="submit" class="btn btn-primary standard-button">{% trans "Generate rubric" %}</button>

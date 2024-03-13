@@ -348,11 +348,12 @@ class Mastery(Plugin):
                 if self.dict_blocks[item]:
                     if key in possible_scores.keys():
                         score = possible_scores[key]
-                        # score = self.skill_points["MathOperators"] * possible_scores[key] / len(possible_scores.keys())
-                        self.dict_mastery['MathOperators'] = [score, 5] # Cambiar el 5 por self.skill_points["MathOperators"]
+                        score = self.skill_points["Math operators"] * possible_scores[key] / len(possible_scores.keys())
+                        self.dict_mastery['MathOperators'] = [score, self.skill_points['Math operators']] 
                         return
                     
-        self.dict_mastery['MathOperators'] = [score, 5] # Cambiar el 5 por self.skill_points["MathOperators"]
+        self.dict_mastery['MathOperators'] = [score, self.skill_points['Math operators']] 
+        
         return
 
         
@@ -378,10 +379,10 @@ class Mastery(Plugin):
                 if self.dict_blocks[item]:
                     if key in possible_scores.keys():
                         score = possible_scores[key]
-                        # score = self.skill_points["MotionOperators"] * possible_scores[key] / len(possible_scores.keys())
-                        self.dict_mastery['MotionOperators'] = [score, 5] # Cambiar el 5 por self.skill_points["MathOperators"]
+                        score = self.skill_points["Motion operators"] * possible_scores[key] / len(possible_scores.keys())
+                        self.dict_mastery['MotionOperators'] = [score, self.skill_points['Motion operators']] 
                         return
 
-        self.dict_mastery['MotionOperators'] = [score, 5] # Cambiar el 5 por self.skill_points["MathOperators"]
+        self.dict_mastery['MotionOperators'] = [score, self.skill_points['Motion operators']] 
         return
     
