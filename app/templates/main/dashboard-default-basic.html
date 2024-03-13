@@ -295,7 +295,7 @@
             <section id="dashboard">
                 <!-- NAV-MODES -->
                 <div class="tab text-center">
-                    <button class="tablinks" onclick="openMode(event, 'Rethinking')">{% trans 'Rethinking Mode' %}</button>
+                    <!-- <button class="tablinks" onclick="openMode(event, 'Rethinking')">{% trans 'Rethinking Mode' %}</button> -->
                     <button class="tablinks" onclick="openMode(event, 'Vanilla')">{% trans 'Vanilla Mode' %}</button>
                     <button class="tablinks" onclick="openMode(event, 'Extended')">{% trans 'Extended Mode' %}</button>
                 </div>
@@ -666,10 +666,11 @@
         </script>
 
         <script>
-            // Show the Rethinking mode by default
-            document.getElementById("Rethinking").style.display = "block";
-            // Hide the Vanilla mode content
-            document.getElementById("Vanilla").style.display = "none";
+            // Show the Vanilla mode by default
+            document.getElementById("Vanilla").style.display = "block";
+            // Hide the others content
+            document.getElementById("Rethinking").style.display = "none";
+            document.getElementById("Extended").style.display = "none";
         </script>
 
     </body>
