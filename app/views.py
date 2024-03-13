@@ -308,7 +308,9 @@ def show_dashboard(request, skill_points=None):
         skill_rubric = generate_rubric(numbers)
         d = build_dictionary_with_automatic_analysis(request, skill_rubric)
         user = str(identify_user_type(request))
+        print("Context Dictionary:")
         print(d)
+        print("Skill rubric")
         print(skill_rubric)
         if len(d) > 1:
             csv_filepath = create_csv(d)
@@ -353,7 +355,8 @@ def show_dashboard(request, skill_points=None):
 
 def generate_rubric(skill_points: str) -> dict:
     mastery = ['Abstraction', 'Parallelism', 'Logic', 'Synchronization', 
-               'Flow control', 'User interactivity', 'Data representation']
+               'Flow control', 'User interactivity', 'Data representation',
+               'Math operators', 'Motion operators']
        
     skill_rubric = {}
     if skill_points != '':
