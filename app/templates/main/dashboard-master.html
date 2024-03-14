@@ -213,6 +213,7 @@
     
 </head>
 <body>
+    <h1>Hola</h1>
     <!-- TOP BAR -->
 <div id="wrap">
     <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top  sticky-navigation" role="navigation">
@@ -386,7 +387,6 @@
 
             </section>
 <!-- /HOW TO IMPROVE -->
-
   <!-- Score in detail -->
     <div class="col-md-7">
         <section id="dashboard">
@@ -410,7 +410,9 @@
                                 {% if key != "points" %}
                                 {% if key != "maxi" %}
                                 {% if key != "skill_points" %}
-
+                                {% if key != "Motion operators" %}
+                                {% if key != "Math operators" %}
+                                
                                       <td>
                                         {% if value.0 == value.1 %}
                                         <span class="glyphicon glyphicon-star" id="star"></span>
@@ -436,6 +438,8 @@
                                                 </div>
                                             {% endif %}
                                        </td>
+                                {% endif %}
+                                {% endif %}
                                 {% endif %}
                                 {% endif %}
                                 {% endif %}

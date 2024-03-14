@@ -328,13 +328,13 @@ def show_dashboard(request, skill_points=None):
                 return render(request, user + '/main.html', {'no_exists': True})
             else:
                 if d["dashboard_mode"] == 'Default':
-                    if d["mastery"]["points"] >= 29:
+                    if d["mastery"]["points"][0] >= 29:
                         return render(request, user + '/dashboard-default-master.html', d)
-                    elif d["mastery"]["points"] >= 22:
+                    elif d["mastery"]["points"][0] >= 22:
                         return render(request, user + '/dashboard-default-master.html', d)
-                    elif d["mastery"]["points"] >= 15:
+                    elif d["mastery"]["points"][0] >= 15:
                         return render(request, user + '/dashboard-default-master.html', d)
-                    elif d["mastery"]["points"] > 7:
+                    elif d["mastery"]["points"][0] > 7:
                         return render(request, user + '/dashboard-default-developing.html', d)
                     else:
                         return render(request, user + '/dashboard-default-basic.html', d)
@@ -925,7 +925,7 @@ def proc_mastery(request, dict_mastery, file_obj):
     print("Dict_Result:")
     print(dict_result)
 
-    file_obj.score = dict_result["total_points"]
+    file_obj.score = dict_result["total_points"][0]
     file_obj.abstraction = dict_result["Abstraction"][0]
     file_obj.parallelization = dict_result["Parallelization"][0]
     file_obj.logic = dict_result["Logic"][0]
@@ -941,7 +941,6 @@ def proc_mastery(request, dict_mastery, file_obj):
 
     dic = {"mastery": d_translated}
     dic["mastery"]["points"] = dict_result["total_points"]
-    dic["mastery"]["maxi"] = dict_result["max_points"]
     dic["mastery"]["skill_points"] = dict_result["skill_points"]
 
     return dic
