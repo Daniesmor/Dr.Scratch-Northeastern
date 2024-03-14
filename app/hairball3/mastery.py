@@ -51,7 +51,8 @@ class Mastery(Plugin):
             if self.verbose:
                 logger.info('Skill: {}, points: {}'.format(skill, skill_grade))
             total_points = total_points + skill_grade[0]
-        
+            total_points = round(total_points, 2)
+
 
         average_points = float(total_points) / 7
         
@@ -72,11 +73,17 @@ class Mastery(Plugin):
         else:
             result += "Overall programming competence: Basic"
             programming_competence = 'Basic'
+            
+        
+        extended_points = total_maxi_points - self.skill_points['Math operators'] - self.skill_points['Motion operators']
+        
+        print("extended_points")
+        print(extended_points)
 
-        self.dict_mastery['total_points'] = total_points
+        self.dict_mastery['total_points'] = [total_points, total_maxi_points]
+        self.dict_mastery['max_points_extended'] = extended_points
         self.dict_mastery['average_points'] = average_points
         self.dict_mastery['programming_competence'] = programming_competence
-        self.dict_mastery['max_points'] = total_maxi_points
         self.dict_mastery['skill_points'] = self.skill_points
         self.dict_mastery['description'] = result
 

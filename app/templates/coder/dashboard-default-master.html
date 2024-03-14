@@ -474,12 +474,11 @@
                                                 
                                                 
                                                 {% for key, value in mastery.items %}
-                                                
                                                 {% if forloop.counter0|divisibleby:1 %}<tr>{% endif %}
                                                 {% if key != "points" %}
                                                 {% if key != "maxi" %}
                                                 {% if key != "skill_points" %}
-                
+
                                                     <td>
                                                         {% if value.0 == value.1 %}
                                                         <span class="glyphicon glyphicon-star" id="star"></span>
@@ -505,6 +504,7 @@
                                                             </div>
                                                         {% endif %}
                                                     </td>
+
                                                 {% endif %}
                                                 {% endif %}
                                                 {% endif %}
