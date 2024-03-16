@@ -329,9 +329,9 @@ def show_dashboard(request, skill_points=None):
             else:
                 if d["dashboard_mode"] == 'Default':
                     if d["mastery"]["points"] >= 29:
-                        return render(request, user + '/dashboard-default-master.html', d)
+                        return render(request, user + '/dashboard-default-finesse.html', d)
                     elif d["mastery"]["points"] >= 22:
-                        return render(request, user + '/dashboard-default-master.html', d)
+                        return render(request, user + '/dashboard-default-advanced.html', d)
                     elif d["mastery"]["points"] >= 15:
                         return render(request, user + '/dashboard-default-master.html', d)
                     elif d["mastery"]["points"] > 7:
