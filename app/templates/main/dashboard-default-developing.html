@@ -479,6 +479,9 @@
                                                 {% if key != "points" %}
                                                 {% if key != "maxi" %}
                                                 {% if key != "skill_points" %}
+                                                {% if key != "Math operators" %}
+                                                {% if key != "Motion operators" %}
+
                                                     <td>
                                                         {% if value.0 == value.1 %}
                                                         <span class="glyphicon glyphicon-star" id="star"></span>
@@ -504,6 +507,8 @@
                                                             </div>
                                                         {% endif %}
                                                     </td>
+                                                {% endif %}
+                                                {% endif %}
                                                 {% endif %}
                                                 {% endif %}
                                                 {% endif %}
