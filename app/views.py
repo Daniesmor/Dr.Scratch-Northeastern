@@ -329,9 +329,9 @@ def show_dashboard(request, skill_points=None):
             else:
                 if d["dashboard_mode"] == 'Default':
                     if d["mastery"]["points"][0] >= 29:
-                        return render(request, user + '/dashboard-default-master.html', d)
+                        return render(request, user + '/dashboard-default-finesse.html', d)
                     elif d["mastery"]["points"][0] >= 22:
-                        return render(request, user + '/dashboard-default-master.html', d)
+                        return render(request, user + '/dashboard-default-advanced.html', d)
                     elif d["mastery"]["points"][0] >= 15:
                         return render(request, user + '/dashboard-default-master.html', d)
                     elif d["mastery"]["points"][0] > 7:
@@ -339,13 +339,13 @@ def show_dashboard(request, skill_points=None):
                     else:
                         return render(request, user + '/dashboard-default-basic.html', d)
                 elif d["dashboard_mode"] == 'Personalized':
-                    if d["mastery"]["points"] >= 29: # Modificar estos límites
+                    if d["mastery"]["points"][0] >= 29: # Modificar estos límites
                         return render(request, user + '/dashboard-finesse.html', d)
-                    elif d["mastery"]["points"] >= 22: # Modificar estos límites
+                    elif d["mastery"]["points"][0] >= 22: # Modificar estos límites
                         return render(request, user + '/dashboard-advanced.html', d)
-                    elif d["mastery"]["points"] >= 15: # Modificar estos límites
+                    elif d["mastery"]["points"][0] >= 15: # Modificar estos límites
                         return render(request, user + '/dashboard-master.html', d)
-                    elif d["mastery"]["points"] > 7: # Modificar estos límites
+                    elif d["mastery"]["points"][0] > 7: # Modificar estos límites
                         return render(request, user + '/dashboard-developing.html', d)
                     else:
                         return render(request, user + '/dashboard-basic.html', d)                   
