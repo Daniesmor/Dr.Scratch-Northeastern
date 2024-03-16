@@ -46,7 +46,7 @@
     
         <!-- CUSTOM STYLESHEETS -->
         <link rel="stylesheet" href="../../static/app/content/styles.css">
-        <link rel="stylesheet" href="../../static/app/content/advanced.css">
+        <link rel="stylesheet" href="/static/app/content/finesse.css">
         <!-- RESPONSIVE FIXES -->
         <link rel="stylesheet" href="../../static/app/content/responsive.css">
     
@@ -111,7 +111,7 @@
                     if (contentId === 'dead-code') {
                         var content = $(this).next('#dead-code-content').html();
                         $(this).attr('data-content', content);
-                    }  else if (contentId === 'duplicated-scripts') {
+                    } else if (contentId === 'duplicated-scripts') {
                         var content = $(this).next('#duplicated-scripts-content').html();
                         $(this).attr('data-content', content);
                     } else {
@@ -277,6 +277,57 @@
             </div>
         </div>
         <!-- /END TOP BAR -->
+    
+        <!-- NAV-MODES -->
+        <div class="container" id="stepone">
+            <section id="dashboard">
+                <!-- NAV-MODES -->
+                <div class="tab text-center">
+                    <!-- <button class="tablinks" onclick="openMode(event, 'Rethinking')">{% trans 'Rethinking Mode' %}</button> -->
+                    <button class="tablinks" onclick="openMode(event, 'Vanilla')">{% trans 'Vanilla Mode' %}</button>
+                    <button class="tablinks" onclick="openMode(event, 'Extended')">{% trans 'Extended Mode' %}</button>
+                </div>
+            </section>
+        </div>
+              
+        <!-- RETHINKING MODE -->
+        <div id="Rethinking" class="tabcontent">
+            <div class="container" id="steptwo">
+                <div class="row d-flex align-items-stretch text-center">
+                    <h2 class="bad-smells-title"> {% trans 'Bad Smells World'%} </h2>
+                </div>
+                <div class="row d-flex align-items-stretch">
+                    <!-- World 1: Sprite Naming -->
+                    <div class="col-md-3">
+                        <div class="island">
+                            <h4> {% trans "Sprite Naming" %} </h4>
+                            <img src="static/app/images/Isla_1.jpg" alt="Isla 1" onclick="modalContentChange('sprite-naming-content-r')">
+                        </div>
+                    </div>
+                    <!-- World 2: Backdrop Naming -->
+                    <div class="col-md-3">
+                        <div class="island">
+                            <h4> {% trans 'Backdrop Naming' %} </h4>
+                            <img src="static/app/images/Isla_2.jpg" alt="Isla 2" onclick="modalContentChange('backdrop-naming-content-r')">
+                        </div>
+                    </div>
+                    <!-- World 3: Dead Code -->
+                    <div class="col-md-3">
+                        <div class="island">
+                            <h4>  {% trans 'Dead Code' %} </h4>
+                            <img src="static/app/images/Isla_3.jpg" alt="Isla 3" onclick="modalContentChange('dead-code-content-r')">
+                        </div>
+                    </div>
+                    <!-- World 4: Duplicated Scripts -->
+                    <div class="col-md-3">
+                        <div class="island">
+                            <h4>  {% trans 'Duplicated Scripts' %} </h4>
+                            <img src="static/app/images/Isla_4.jpg" alt="Isla 4" onclick="modalContentChange('duplicated-scripts-content-r')">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- VANILLA MODE -->
         <div id="Vanilla" class="tabcontent">
@@ -286,14 +337,14 @@
                     <div class="devpanel">
                         <div class="panel panel-success" id="devpanel">
                             <div class="panel-heading" id="steptwo" >
-                                <img src="static/app/images/advanced.png" class="img-responsive col-md-4">
+                                <img src="static/app/images/cat.png" class="img-responsive col-md-3">
                                 <h2 id="score" class="panel-title dark-text"> <strong>{% trans "Score:" %}</strong> {{ mastery.points }}/{{ mastery.maxi }}
                                 <a class="twitter-share-button" data-text="{% blocktrans with points=mastery.points %} I have just obtained {{ points }} points analyzing my project in Dr. Scratch! Beat it! @DrScratchTool {% endblocktrans %}"href="https://twitter.com/share">Tweet</a></h2>
                             </div>
                             <div class="panel-body">
                                 <div class="container col-md-12">
-                                    {% trans "<h3 class='text-left dark-text'>The level of your project is... <strong> ADVANCED! </strong></h3>" %}
-                                    <p class='text-left dark-text'> {% trans "You're doing a great job. Keep it up!!! " %}</p>
+                                    {% trans "<h3 class='text-left dark-text'>The level of your project is... <strong> MASTER! </strong></h3>" %}
+                                    <p class='text-left dark-text'> {% trans "You're the master of the universe!!! " %}</p>
                                 </div>
 
                             </div>
@@ -316,9 +367,6 @@
                                     </a>
                                     <div id="duplicated-scripts-content" class="collapse">
                                         <div class="container-fluid">
-                                            {% if duplicateScript.number == 0 %}
-                                                {% trans 'Your project does not have duplicated scripts, good job!' %}
-                                            {% endif %}
                                             {% for k, list_duplicate_blocks in duplicateScript.items %}
                                             {% if k == 'scripts' %}
                                                 {% for list_blocks in list_duplicate_blocks %}
@@ -328,6 +376,9 @@
                                                 {% endfor %}
                                             {% endif %}
                                             {% endfor %}
+                                            {% if duplicateScript.number == 0 %}
+                                                {% trans 'Your project does not have duplicated scripts, good job!' %}
+                                            {% endif %}
                                         </div>
                                     </div>
                                     <br>
@@ -343,18 +394,18 @@
                                     {% endif %}
                                     " data-trigger="manual" href="learn/spriteNaming"> 
                                         {{ spriteNaming.number }} {% trans " sprite naming." %}
-                                </a><br>
-                                <a class="glyphicon glyphicon-pencil"/> 
-                                <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Backdrop naming' %}" data-content="
-                                {% for value in backdropNaming.backdrop %}
-                                        {{ value }} <br>
-                                {% endfor %}
-                                {% if backdropNaming.number == 0 %}
-                                        {% trans 'Your project does not have default backdrop naming, good job!' %}
-                                {% endif %}
-                                    " data-trigger="manual" href="learn/spriteNaming"> 
-                                        {{ backdropNaming.number }} {% trans " backdrop naming." %}
-                                </a><br>
+                                    </a><br>
+                                    <a class="glyphicon glyphicon-pencil"/> 
+                                    <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Backdrop naming' %}" data-content="
+                                    {% for value in backdropNaming.backdrop %}
+                                            {{ value }} <br>
+                                    {% endfor %}
+                                    {% if backdropNaming.number == 0 %}
+                                            {% trans 'Your project does not have default backdrop naming, good job!' %}
+                                    {% endif %}
+                                        " data-trigger="manual" href="learn/spriteNaming"> 
+                                            {{ backdropNaming.number }} {% trans " backdrop naming." %}
+                                    </a><br>
                                     <a class="glyphicon glyphicon-remove-sign"/>
                                     <a id="dead-code" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Dead code' %}" 
                                     data-trigger="manual" href="learn/deadCode"> 
@@ -428,6 +479,9 @@
                                                 {% if key != "points" %}
                                                 {% if key != "maxi" %}
                                                 {% if key != "skill_points" %}
+                                                {% if key != "Math operators" %}
+                                                {% if key != "Motion operators" %}
+                
                                                     <td>
                                                         {% if value.0 == value.1 %}
                                                         <span class="glyphicon glyphicon-star" id="star"></span>
@@ -443,6 +497,216 @@
                                                             <div class="progress">
                                                                 <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="{{ value.1 }}" style="width: 0%">
                                                                     <span style="color: grey;"><strong>0/{{ value.1 }}</strong></span>
+                                                                </div>
+                                                            </div>
+                                                        {% elif value.0 >= 3 %}
+                                                            <div class="progress">
+                                                                <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="3" aria-valuemin="0" aria-valuemax="3" style="width: 100%">
+                                                                    <span><strong>3/3</strong></span>
+                                                                </div>
+                                                            </div>
+                                                        {% else %}
+                                                            <div class="progress">
+                                                                <div id="progressBar" class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="{{ value.0 }}" aria-valuemin="0" aria-valuemax="{{ value.1 }}" style="width: {% widthratio value.0 value.1 100 %}%">
+                                                                    <span><strong>{{ value.0 }}/{{ value.1 }}</strong></span>
+                                                                </div>
+                                                            </div>
+                                                        {% endif %}
+                                                    </td>
+                                                {% endif %}
+                                                {% endif %}
+                                                {% endif %}
+                                                {% endif %}
+                                                {% endif %}
+                                                {% if forloop.counter|divisibleby:1 or forloop.last %}
+                                                </tr>{% endif %}
+                                 
+                                                {% endfor %}
+                                                </tbody>
+                                             </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <!-- EXTENDED MODE -->
+        <div id="Extended" class="tabcontent">
+            <div id="confeti-container"></div>
+            <div class="container">
+                <section id="blackboard" class="services col-md-5">
+                    <!-- POINTS PANEL -->
+                    <div class="devpanel">
+                        <div class="panel panel-success" id="devpanel">
+                            <div class="panel-heading" id="steptwo" >
+                                <img src="static/app/images/finesses.png" class="img-responsive col-md-3">
+                                <h2 id="score" class="panel-title dark-text"> <strong>{% trans "Score:" %}</strong> {{ mastery.points }}/{{ mastery.maxi }}
+                                <a class="twitter-share-button" data-text="{% blocktrans with points=mastery.points %} I have just obtained {{ points }} points analyzing my project in Dr. Scratch! Beat it! @DrScratchTool {% endblocktrans %}"href="https://twitter.com/share">Tweet</a></h2>
+                            </div>
+                            <div class="panel-body">
+                                <div class="container col-md-12">
+                                    {% trans "<h3 class='text-left dark-text'>The level of your project is... <strong> FINESSE! </strong></h3>" %}
+                                    <p class='text-left dark-text'> {% trans "You're doing a great job. Keep it up!!! " %}</p>
+                                </div>
+
+                            </div>
+                            {% if url != "" %}
+                                <a href="{{ url }}" target="_blank"><span class="glyphicon glyphicon-hand-right"></span>{% trans "Come back to your Scratch project." %}</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="improve">
+                        <div class="panel panel-success" id="improve">
+                            <div id="stepthree">
+                                <div class="panel-heading" >
+                                    <h2 id="score" class="panel-title dark-text">{% trans "Bad habits"%}</h2>
+                                </div>
+                                <div class="panel-body text-left typ">
+                                    <a class="glyphicon glyphicon-repeat"/>
+                                    <a id="duplicated-scripts" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Duplicated scripts' %}" 
+                                    data-trigger="manual" href="learn/duplicatedScripts"> 
+                                        {{ duplicateScript.number }} {% trans " duplicated scripts." %}
+                                    </a>
+                                    <div id="duplicated-scripts-content" class="collapse">
+                                        <div class="container-fluid">
+                                            {% for k, list_duplicate_blocks in duplicateScript.items %}
+                                            {% if k == 'scripts' %}
+                                                {% for list_blocks in list_duplicate_blocks %}
+                                                    <pre class="blocks">
+                                                        {{ list_blocks }}
+                                                    </pre>
+                                                {% endfor %}
+                                            {% endif %}
+                                            {% endfor %}
+                                            {% if duplicateScript.number == 0 %}
+                                                {% trans 'Your project does not have duplicated scripts, good job!' %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <a class="glyphicon glyphicon-pencil"/>
+                                    <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Sprite naming' %}" 
+                                    data-content="
+                                    {% for value in spriteNaming.sprite %}
+                                        {{ value }}
+                                        <br>
+                                    {% endfor %}
+                                    {% if spriteNaming.number == 0 %}
+                                        {% trans 'Your project does not have default sprite naming, good job!' %}
+                                    {% endif %}
+                                    " data-trigger="manual" href="learn/spriteNaming"> 
+                                        {{ spriteNaming.number }} {% trans " sprite naming." %}
+                                    </a><br>
+                                    <a class="glyphicon glyphicon-pencil"/> 
+                                    <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Backdrop naming' %}" data-content="
+                                    {% for value in backdropNaming.backdrop %}
+                                            {{ value }} <br>
+                                    {% endfor %}
+                                    {% if backdropNaming.number == 0 %}
+                                            {% trans 'Your project does not have default backdrop naming, good job!' %}
+                                    {% endif %}
+                                        " data-trigger="manual" href="learn/spriteNaming"> 
+                                            {{ backdropNaming.number }} {% trans " backdrop naming." %}
+                                    </a><br>
+                                    <a class="glyphicon glyphicon-remove-sign"/>
+                                    <a id="dead-code" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Dead code' %}" 
+                                    data-trigger="manual" href="learn/deadCode"> 
+                                        {{ deadCode.number }} {% trans " dead code." %}
+                                    </a>
+                                    <div id="dead-code-content" class="collapse">
+                                        <div class="container-fluid">
+                                            {% for key, value in deadCode.items %}
+                                                {% if key != 'deadCode' %}
+                                                    {% if key != 'number' %}
+                                                        <b> {{ key }}: </b><br>
+                                                        {% for dead_block in value %}
+                                                            <pre class="blocks">
+                                                                {{ dead_block }}
+                                                            </pre>
+                                                        {% endfor %}
+                                                        <br>
+                                                    {% endif%}
+                                                {% endif%}
+                                            {% endfor%}
+                                            {% if deadCode.number == 0 %}
+                                                {% trans 'Your project does not have dead code, good job!' %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if refactor.refactor_list %}
+                                    <button type="button" class="btn btn-primary" onclick="modalContentChange('duplicated-scripts-content-r')">
+                                        {% trans 'Display all duplicates' %}
+                                    </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="improve">
+                        <div class="panel panel-success" id="improve">
+                            <div id="stepfour">
+                                <div class="panel-heading" >
+                                    <h2 id="score" class="panel-title dark-text">{% trans "Project certificate"%}</h2>
+                                </div>
+                                <div class="panel-success" style="word-break: break-word;" >
+                                    <h5>{{ filename }} <form name="form" class="project-form" enctype="multipart/form-data" method="post" action="/download_certificate">
+                                    {% csrf_token %}
+                                    <button value="{{ filename }}" name="certificate" type="submit" id ="certificate">{% trans "Download" %}</button>
+                                  </form></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <div class="col-md-7">
+                    <section id="dashboard">
+                        <div class="container-fluid">
+                            <div class="row marketing">
+                                <div class="jumbotron">
+                                    <div class="table-responsive">
+                                        <div id="stepfive">
+                                            <table class="table tablesorter">
+                                                <thead>
+                                                    <tr>
+                                                    <th><h4>{% trans "Level up" %}</h4></th>
+                                                    <th class="col-md-5"><h4>{% trans "Level" %}</h4></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                
+                                                
+                                                {% for key, value in mastery.items %}
+                                                
+                                                {% if forloop.counter0|divisibleby:1 %}<tr>{% endif %}
+                                                {% if key != "points" %}
+                                                {% if key != "maxi" %}
+                                                {% if key != "skill_points" %}
+                
+                                                    <td>
+                                                        {% if value.0 == value.1 %}
+                                                        <span class="glyphicon glyphicon-star" id="star"></span>
+                                                        {% else %}
+                                                        <img src="static/app/images/little_bulb.png" alt="">
+                                                        {% endif %}
+                                                        {% blocktrans %}
+                                                        <a href="/learn/{{ key }}/">{{ key }}</a>
+                                                        {% endblocktrans %}
+                                                    </td>
+                                                    <td>
+                                                        {% if value.1 == 0 or value.0 == 0 %}
+                                                            <div class="progress">
+                                                                <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="{{ value.1 }}" style="width: 0%">
+                                                                    <span style="color: grey;"><strong>0/{{ value.1 }}</strong></span>
+                                                                </div>
+                                                            </div>
+                                                        {% elif value.0 >= 3 %}
+                                                            <div class="progress">
+                                                                <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="3" aria-valuemin="0" aria-valuemax="3" style="width: 100%">
+                                                                    <span><strong>3/3</strong></span>
                                                                 </div>
                                                             </div>
                                                         {% else %}
@@ -472,7 +736,7 @@
             </div>
         </div>
 
-        <!-- Modal -->
+        <!-- MODAL -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
                 <div class="modal-content" id="modalContentChange"></div>
@@ -707,30 +971,52 @@
             function openMode(evt, ModeName) {
                 // Declare all variables
                 var i, tabcontent, tablinks;
-                
-                // Get all elements with class="tabcontent" and hide them
+        
+                // Ocultar todas las tablas con class="tabcontent"
                 tabcontent = document.getElementsByClassName("tabcontent");
                 for (i = 0; i < tabcontent.length; i++) {
                     tabcontent[i].style.display = "none";
                 }
-                
-                // Get all elements with class="tablinks" and remove the class "active"
+        
+                // Obtener todos los elementos con class="tablinks" y eliminar la clase "active"
                 tablinks = document.getElementsByClassName("tablinks");
                 for (i = 0; i < tablinks.length; i++) {
                     tablinks[i].className = tablinks[i].className.replace(" active", "");
                 }
-                
-                // Show the current tab, and add an "active" class to the button that opened the tab
-                document.getElementById(ModeName ).style.display = "block";
+        
+                // Mostrar el tab actual y agregar la clase "active" al botón que abrió el tab
+                document.getElementById(ModeName).style.display = "block";
                 evt.currentTarget.className += " active";
+        
+                // Mostrar u ocultar la tabla dependiendo del modo seleccionado
+                if (ModeName === 'Vanilla') {
+                    document.getElementById("levelTable").style.display = "block"; // Mostrar la tabla
+                } else if (ModeName === 'Extended') {
+                    document.getElementById("levelTable").style.display = "block"; // Mostrar la tabla
+                    // Ocultar las filas que contienen "Math operators" y "Motion operators"
+                    var tableRows = document.getElementById("levelTable").getElementsByTagName('tr');
+                    for (var j = 0; j < tableRows.length; j++) {
+                        var cells = tableRows[j].getElementsByTagName('td');
+                        if (cells.length > 0) {
+                            var cellText = cells[0].innerText;
+                            if (cellText.includes("Math operators") || cellText.includes("Motion operators")) {
+                                tableRows[j].style.display = "none";
+                            } else {
+                                tableRows[j].style.display = "table-row";
+                            }
+                        }
+                    }
+                }
             }
         </script>
+        
 
         <script>
-            // Show the Rethinking mode by default
-            document.getElementById("Rethinking").style.display = "block";
-            // Hide the Vanilla mode content
-            document.getElementById("Vanilla").style.display = "none";
+            // Show the Vanilla mode by default
+            document.getElementById("Vanilla").style.display = "block";
+            // Hide the others content
+            document.getElementById("Rethinking").style.display = "none";
+            document.getElementById("Extended").style.display = "none";
         </script>
 
     </body>
