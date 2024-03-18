@@ -100,7 +100,7 @@ class Mastery(Plugin):
     def set_dimension_score(self, scale_dict, dimension):
 
         score = 0
-        possible_scores = {"advanced": 4, "master": 3, "developing": 2, "basic": 1} # Falta añadir la puntuación de finesse
+        possible_scores = {"finesse": 5, "advanced": 4, "master": 3, "developing": 2, "basic": 1}
 
         for key, value in scale_dict.items():
             if type(value) == bool and value is True:
@@ -260,39 +260,44 @@ class Mastery(Plugin):
         Compute the syncronization score
         """
 
-        sync_score = 0
+        basic = {'control_wait'}
+        developing = {'event_broadcast', 'event_whenbroadcastreceived', 'control_stop'}
+        master = {'control_wait_until', 'event_whenbackdropswitchesto', 'event_broadcastandwait'}
+        # advanced = PREGUNTAR GREGORIO
+        # finesse = PREGUNTAR GREGORIO
 
-        if (self.dict_blocks['control_wait_until'] or self.dict_blocks['event_whenbackdropswitchesto'] or
-                self.dict_blocks['event_broadcastandwait']):
-            sync_score = self.skill_points['Synchronization']
-        elif (self.dict_blocks['event_broadcast'] or self.dict_blocks['event_whenbroadcastreceived'] or
-              self.dict_blocks['control_stop']):
-            sync_score = (self.skill_points['Synchronization'])/2
-        elif self.dict_blocks['control_wait']:
-            sync_score = 1
+        scale_dict = {"master": master, "developing": developing, "basic": basic}
 
-        self.dict_mastery['Synchronization'] = [sync_score, self.skill_points['Synchronization']]
+        self.set_dimension_score(scale_dict, "Synchronization")
 
     def compute_abstraction(self):
         """
         Compute the abstraction score
         """
 
-        abs_score = 0
-        if self.dict_blocks['procedures_definition']:
-            abs_score = self.skill_points['Abstraction']
-        elif self.dict_blocks['control_start_as_clone']:
-            abs_score = (self.skill_points['Abstraction'])/2
-        else:
-            count = 0
-            for block in self.list_total_blocks:
-                for key, value in block.items():
-                    if key == "parent" and value is None:
-                        count += 1
-            if count > 1:
-                abs_score = 1
+        basic = self.check_more_than_one()
+        developing = {'control_start_as_clone'}
+        master = {'procedures_definition'}
+        # advanced = PREGUNTAR GREGORIO
+        # finesse = PREGUNTAR GREGORIO
 
-        self.dict_mastery['Abstraction'] = [abs_score, self.skill_points['Abstraction']]
+        scale_dict = {"master": master, "developing": developing, "basic": basic}
+
+        self.set_dimension_score(scale_dict, "Abstraction")
+
+    def check_more_than_one(self):
+        
+        check = False
+
+        count = 0
+        for block in self.list_total_blocks:
+            for key, value in block.items():
+                if key == "parent" and value is None:
+                    count += 1
+        if count > 1:
+            check = True
+
+        return check
 
     def compute_data_representation(self):
         """
@@ -499,7 +504,6 @@ class Mastery(Plugin):
                     
         return check
 
-        
 
     def compute_motion_operators(self):
         """
@@ -509,22 +513,56 @@ class Mastery(Plugin):
         score = 0
         possible_scores = {"finesse": 5, "advanced": 4, "master": 3, "developing": 2, "basic": 1}
 
-        basic = {'motion_movesteps', 'motion_turnleft', 'motion_turnright'}
-        developing = {'motion_goto', 'motion_gotoxy', 'motion_glideto', 'glide_secstoxy'}
-        master = {'motion_pointindirection', 'motion_pointtowards'}
-        advanced = {'motion_changexby', 'motion_setx', 'motion_changeyby', 'motion_sety'}
-        finesse = {'motion_ifonedgebounce', 'motion_setrotationstyle'}
+        basic = {'motion_movesteps', 'motion_gotoxy', 'motion_changexby', 'motion_goto', 'motion_changeyby', 'motion_setx', 'motion_sety'}
+        developing = {'motion_turnleft', 'motion_turnright', 'motion_setrotationstyles', 'motion_pointindirection', 'motion_pointtowards'}
+        master = {'motion_glideto', 'motion_glidesecstoxy'}
+        advanced = self.check_motion_complex_sequences()
+        print("ADVANCED:")
+        print(advanced)
+        # finesse = PREGUNTAR GREGORIO
 
-        scale_dict = {"finesse": finesse, "advanced": advanced, "master": master, "developing": developing, "basic": basic}
+        scale_dict = {"advanced": advanced, "master": master, "developing": developing, "basic": basic}
 
-        for key, value in scale_dict.items():
-            for item in value:
-                if self.dict_blocks[item]:
-                    if key in possible_scores.keys():
-                        score = self.skill_points["Motion operators"] * possible_scores[key] / len(possible_scores.keys())
-                        self.dict_mastery['MotionOperators'] = [score, self.skill_points['Motion operators']] 
-                        return
-
+        for key, value in scale_dict.items():           
+            if type(value) == bool and value is True:
+                if key in possible_scores.keys():
+                    score = self.skill_points["Motion operators"] * possible_scores[key] / len(possible_scores.keys())
+                    self.dict_mastery['MotionOperators'] = [score, self.skill_points['Motion operators']] 
+                    return
+            elif type(value) == set:
+                for item in value:
+                    if self.dict_blocks[item]:
+                        if key in possible_scores.keys():
+                            score = self.skill_points["Motion operators"] * possible_scores[key] / len(possible_scores.keys())
+                            self.dict_mastery['MotionOperators'] = [score, self.skill_points['Motion operators']] 
+                            return
+                    
         self.dict_mastery['MotionOperators'] = [score, self.skill_points['Motion operators']] 
+        
         return
+    
+        self.set_dimension_score(scale_dict, "MotionOperators") # CAMBIAR LA KEY DE LOS SKILL POINTS
+
+    
+    def check_motion_complex_sequences(self):
+
+        check = False
+        min_motion_blocks = 5
+        counter = 0
+        list = {'motion_movesteps', 'motion_gotoxy', 'motion_glidesecstoxy', 'motion_glideto', 
+                'motion_setx', 'motion_sety', 'motion_changexby', 'motion_changeyby', 
+                'motion_pointindirection', 'motion_pointtowards', 'motion_turnright', 'motion_turnleft', 
+                'motion_goto', 'motion_ifonedgebounce', 'motion_setrotationstyles'}
+        
+        for _,value in self.dict_total_blocks.items():
+            if value['parent'] is None:
+                counter = 0
+            else:
+                if value['opcode'] in list:
+                    counter += 1
+                    if counter >= min_motion_blocks:
+                        check = True
+                        return check
+
+        return check
     
