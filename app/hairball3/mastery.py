@@ -12,6 +12,7 @@ class Mastery(Plugin):
 
     def __init__(self, filename: str, json_project, skill_points: dict,verbose=False):
         super().__init__(filename, json_project, skill_points, verbose)
+        self.dict_total_blocks = {}
 
     def process(self):
 
@@ -23,6 +24,7 @@ class Mastery(Plugin):
                             for blocks, blocks_value in dicc_value.items():
                                 if type(blocks_value) is dict:
                                     self.list_total_blocks.append(blocks_value)
+                                    self.dict_total_blocks[blocks] = blocks_value
 
         for block in self.list_total_blocks:
             for key, list_info in block.items():
@@ -30,6 +32,7 @@ class Mastery(Plugin):
                     self.dict_blocks[list_info] += 1
 
     def analyze(self):
+        # print(self.list_total_blocks)
         self.compute_logic()
         self.compute_flow_control()
         self.compute_synchronization()
@@ -93,91 +96,208 @@ class Mastery(Plugin):
         dict_result = {'plugin': 'mastery', 'result': self.dict_mastery}
 
         return dict_result
+    
+    def set_dimension_score(self, scale_dict, dimension):
+
+        score = 0
+        possible_scores = {"finesse": 5, "advanced": 4, "master": 3, "developing": 2, "basic": 1}
+
+        for key, value in scale_dict.items():
+            if type(value) == bool and value is True:
+                if key in possible_scores.keys():
+                    score = self.skill_points[dimension] * possible_scores[key] / len(possible_scores.keys())
+                    self.dict_mastery[dimension] = [score, self.skill_points[dimension]] 
+                    return
+            elif type(value) == set:
+                for item in value:
+                    if self.dict_blocks[item]:
+                        if key in possible_scores.keys():
+                            score = self.skill_points[dimension] * possible_scores[key] / len(possible_scores.keys())
+                            self.dict_mastery[dimension] = [score, self.skill_points[dimension]] 
+                            return
+
+        self.dict_mastery[dimension] = [score, self.skill_points[dimension]] 
+        return
+
 
     def compute_logic(self):
         """
         Assign the logic skill result
         """
-        
-        logic_operators = {
-            'operator_and',
-            'operator_or',
-            'operator_not'
-        }
 
-        logic_score = 0
+        basic = {'control_if'}
+        developing = {'control_if_else'}
+        master = {'operator_and', 'operator_or', 'operator_not'}
+        advanced = self.check_nested_conditionals()
+        # finesse = PREGUNTAR GREGORIO
 
-        for operation in logic_operators:
-            if self.dict_blocks[operation]:
-                logic_score = self.skill_points['Logic']
-                self.dict_mastery['Logic'] = [logic_score, self.skill_points['Logic']]
-                return
+        scale_dict = {"advanced": advanced, "master": master, "developing": developing, "basic": basic}
 
-        if self.dict_blocks['control_if_else']:
-            logic_score = (self.skill_points['Logic'])/2
-        elif self.dict_blocks['control_if']:
-            logic_score = 1
+        self.set_dimension_score(scale_dict, "Logic")
 
-        self.dict_mastery['Logic'] = [logic_score, self.skill_points['Logic']]
+    def check_nested_conditionals(self):
+        """
+        Finds if there are any nested conditionals in all the blocks of the script.
+        """
+
+        check = False
+
+        for _, block_dict in self.dict_total_blocks.items():
+            if block_dict['opcode'] == 'control_if':
+                try:
+                    substack =  self.dict_total_blocks.get(block_dict['inputs']['SUBSTACK'][1])
+                    if self.has_nested_conditional(substack):
+                        check = True
+                        break
+                except KeyError:
+                    pass
+            elif block_dict['opcode'] == 'control_if_else':
+                try:
+                    substack =  self.dict_total_blocks.get(block_dict['inputs']['SUBSTACK'][1])
+                    substack_2 = self.dict_total_blocks.get(block_dict['inputs']['SUBSTACK2'][1])
+                    if self.has_nested_conditional(substack) or self.has_nested_conditional(substack_2):
+                        check = True
+                        break
+                except KeyError:
+                    pass
+                
+        return check
+    
+    def has_nested_conditional(self, substack):
+        """
+        Returns True if there is a nested conditional
+        """
+
+        while substack is not None:
+            if substack['opcode'] == 'control_if' or substack['opcode'] == 'control_if_else':
+                return True
+            substack = self.dict_total_blocks.get(substack['next'])
+
+        return False
+
 
     def compute_flow_control(self):
         """
         Calculate the flow control score
         """
 
-        fc_score = 0
+        score = 0
+        possible_scores = {"advanced": 4, "master": 3, "developing": 2, "basic": 1} # Falta añadir la puntuación de finesse
 
-        if self.dict_blocks['control_repeat_until']:
-            fc_score = self.skill_points["Flow control"]
-        elif self.dict_blocks['control_repeat'] or self.dict_blocks['control_forever']:
-            fc_score = (self.skill_points['Flow control'])/2
-        else:
-            for block in self.list_total_blocks:
-                for key, value in block.items():
-                    if key == "next" and value is not None:
-                        fc_score = 1
+        basic = self.check_block_sequence()
+        developing = {'control_repeat', 'control_forever'}
+        master = {'control_repeat_until'}
+        advanced = self.check_nested_loops()
+        # finesse = PREGUNTAR GREGORIO
+
+        scale_dict = {"advanced": advanced, "master": master, "developing": developing, "basic": basic}
+
+        for key, value in scale_dict.items():
+            if type(value) == bool and value is True:
+                if key in possible_scores.keys():
+                    score = self.skill_points["Flow control"] * possible_scores[key] / len(possible_scores.keys())
+                    self.dict_mastery['FlowControl'] = [score, self.skill_points['Flow control']] 
+                    return
+            elif type(value) == set:
+                for item in value:
+                    if self.dict_blocks[item]:
+                        if key in possible_scores.keys():
+                            score = self.skill_points["Flow control"] * possible_scores[key] / len(possible_scores.keys())
+                            self.dict_mastery['FlowControl'] = [score, self.skill_points['Flow control']] 
+                            return
+                        
+        self.dict_mastery['FlowControl'] = [score, self.skill_points['Flow control']] 
+        return            
+
+        self.set_dimension_score(scale_dict, "FlowControl") # CAMBIAR LA KEY DE LOS SKILL POINTS
+        
+
+    def check_block_sequence(self):
+
+        check = False
+
+        for _, block_dict in self.dict_total_blocks.items():
+            if block_dict['next'] is not None:
+                check = True
+                break
+
+        return check
+
+    
+    def check_nested_loops(self):
+        """
+        Finds if there are any nested conditionals in all the blocks of the script.
+        """
+
+        check = False
+
+        for _, block_dict in self.dict_total_blocks.items():
+            if block_dict['opcode'] == 'control_forever' or block_dict['opcode'] == 'control_repeat' or block_dict['opcode'] == 'control_repeat_until':
+                try:
+                    substack =  self.dict_total_blocks.get(block_dict['inputs']['SUBSTACK'][1])
+                    if self.has_nested_loops(substack):
+                        check = True
                         break
+                except KeyError:
+                    pass
+                
+        return check
+    
+    def has_nested_loops(self, substack):
+        """
+        Returns True if there is a nested conditional
+        """
 
-        self.dict_mastery['FlowControl'] = [fc_score, self.skill_points["Flow control"]]
+        while substack is not None:
+            if substack['opcode'] == 'control_forever' or substack['opcode'] == 'control_repeat' or  substack['opcode'] == 'control_repeat_until':
+                return True
+            substack = self.dict_total_blocks.get(substack['next'])
+
+        return False
 
     def compute_synchronization(self):
         """
         Compute the syncronization score
         """
 
-        sync_score = 0
+        basic = {'control_wait'}
+        developing = {'event_broadcast', 'event_whenbroadcastreceived', 'control_stop'}
+        master = {'control_wait_until', 'event_whenbackdropswitchesto', 'event_broadcastandwait'}
+        # advanced = PREGUNTAR GREGORIO
+        # finesse = PREGUNTAR GREGORIO
 
-        if (self.dict_blocks['control_wait_until'] or self.dict_blocks['event_whenbackdropswitchesto'] or
-                self.dict_blocks['event_broadcastandwait']):
-            sync_score = self.skill_points['Synchronization']
-        elif (self.dict_blocks['event_broadcast'] or self.dict_blocks['event_whenbroadcastreceived'] or
-              self.dict_blocks['control_stop']):
-            sync_score = (self.skill_points['Synchronization'])/2
-        elif self.dict_blocks['control_wait']:
-            sync_score = 1
+        scale_dict = {"master": master, "developing": developing, "basic": basic}
 
-        self.dict_mastery['Synchronization'] = [sync_score, self.skill_points['Synchronization']]
+        self.set_dimension_score(scale_dict, "Synchronization")
 
     def compute_abstraction(self):
         """
         Compute the abstraction score
         """
 
-        abs_score = 0
-        if self.dict_blocks['procedures_definition']:
-            abs_score = self.skill_points['Abstraction']
-        elif self.dict_blocks['control_start_as_clone']:
-            abs_score = (self.skill_points['Abstraction'])/2
-        else:
-            count = 0
-            for block in self.list_total_blocks:
-                for key, value in block.items():
-                    if key == "parent" and value is None:
-                        count += 1
-            if count > 1:
-                abs_score = 1
+        basic = self.check_more_than_one()
+        developing = {'control_start_as_clone'}
+        master = {'procedures_definition'}
+        # advanced = PREGUNTAR GREGORIO
+        # finesse = PREGUNTAR GREGORIO
 
-        self.dict_mastery['Abstraction'] = [abs_score, self.skill_points['Abstraction']]
+        scale_dict = {"master": master, "developing": developing, "basic": basic}
+
+        self.set_dimension_score(scale_dict, "Abstraction")
+
+    def check_more_than_one(self):
+        
+        check = False
+
+        count = 0
+        for block in self.list_total_blocks:
+            for key, value in block.items():
+                if key == "parent" and value is None:
+                    count += 1
+        if count > 1:
+            check = True
+
+        return check
 
     def compute_data_representation(self):
         """
@@ -344,26 +464,46 @@ class Mastery(Plugin):
         
         basic = {'operator_add', 'operator_subtract', 'operator_multiply', 'operator_divide'}
         developing = {'operator_gt', 'operator_lt', 'operator_equals'}
-        master = {'operator_and', 'operator_or', 'operator_not'}
-        advanced = {'operator_mod', 'operator_round', 'operator_random'}
-        finesse = {'operator_join', 'operator_letter_of', 'operator_length', 'operator_contains'}
+        master = {'operator_join', 'operator_letter_of', 'operator_length', 'operator_contains'}
+        advanced = self.check_trigonometry()
 
-        scale_dict = {"finesse": finesse, "advanced": advanced, "master": master, "developing": developing, "basic": basic}
+        scale_dict = {"advanced": advanced, "master": master, "developing": developing, "basic": basic}
 
-        for key, value in scale_dict.items():
-            for item in value:
-                if self.dict_blocks[item]:
-                    if key in possible_scores.keys():
-                        score = possible_scores[key]
-                        score = self.skill_points["Math operators"] * possible_scores[key] / len(possible_scores.keys())
-                        self.dict_mastery['MathOperators'] = [score, self.skill_points['Math operators']] 
-                        return
+        for key, value in scale_dict.items():           
+            if type(value) == bool and value is True:
+                if key in possible_scores.keys():
+                    score = self.skill_points["Math operators"] * possible_scores[key] / len(possible_scores.keys())
+                    self.dict_mastery['MathOperators'] = [score, self.skill_points['Math operators']] 
+                    return
+            elif type(value) == set:
+                for item in value:
+                    if self.dict_blocks[item]:
+                        if key in possible_scores.keys():
+                            score = self.skill_points["Math operators"] * possible_scores[key] / len(possible_scores.keys())
+                            self.dict_mastery['MathOperators'] = [score, self.skill_points['Math operators']] 
+                            return
                     
         self.dict_mastery['MathOperators'] = [score, self.skill_points['Math operators']] 
         
         return
+    
+        self.set_dimension_score(scale_dict, "MathOperators") # CAMBIAR LA KEY DE LOS SKILL POINTS
+    
+    def check_trigonometry(self):
 
-        
+        check = False
+
+        list = {'cos', 'sin', 'tan', 'asin', 'acos', 'atan'}
+
+        for block in self.list_total_blocks:
+            if block['opcode'] == 'operator_mathop':
+                for element in block['fields']['OPERATOR']:
+                    if element in list:
+                        check = True
+                        return check
+                    
+        return check
+
 
     def compute_motion_operators(self):
         """
@@ -373,23 +513,56 @@ class Mastery(Plugin):
         score = 0
         possible_scores = {"finesse": 5, "advanced": 4, "master": 3, "developing": 2, "basic": 1}
 
-        basic = {'motion_movesteps', 'motion_turnleft', 'motion_turnright'}
-        developing = {'motion_goto', 'motion_gotoxy', 'motion_glideto', 'glide_secstoxy'}
-        master = {'motion_pointindirection', 'motion_pointtowards'}
-        advanced = {'motion_changexby', 'motion_setx', 'motion_changeyby', 'motion_sety'}
-        finesse = {'motion_ifonedgebounce', 'motion_setrotationstyle'}
+        basic = {'motion_movesteps', 'motion_gotoxy', 'motion_changexby', 'motion_goto', 'motion_changeyby', 'motion_setx', 'motion_sety'}
+        developing = {'motion_turnleft', 'motion_turnright', 'motion_setrotationstyles', 'motion_pointindirection', 'motion_pointtowards'}
+        master = {'motion_glideto', 'motion_glidesecstoxy'}
+        advanced = self.check_motion_complex_sequences()
+        print("ADVANCED:")
+        print(advanced)
+        # finesse = PREGUNTAR GREGORIO
 
-        scale_dict = {"finesse": finesse, "advanced": advanced, "master": master, "developing": developing, "basic": basic}
+        scale_dict = {"advanced": advanced, "master": master, "developing": developing, "basic": basic}
 
-        for key, value in scale_dict.items():
-            for item in value:
-                if self.dict_blocks[item]:
-                    if key in possible_scores.keys():
-                        score = possible_scores[key]
-                        score = self.skill_points["Motion operators"] * possible_scores[key] / len(possible_scores.keys())
-                        self.dict_mastery['MotionOperators'] = [score, self.skill_points['Motion operators']] 
-                        return
-
+        for key, value in scale_dict.items():           
+            if type(value) == bool and value is True:
+                if key in possible_scores.keys():
+                    score = self.skill_points["Motion operators"] * possible_scores[key] / len(possible_scores.keys())
+                    self.dict_mastery['MotionOperators'] = [score, self.skill_points['Motion operators']] 
+                    return
+            elif type(value) == set:
+                for item in value:
+                    if self.dict_blocks[item]:
+                        if key in possible_scores.keys():
+                            score = self.skill_points["Motion operators"] * possible_scores[key] / len(possible_scores.keys())
+                            self.dict_mastery['MotionOperators'] = [score, self.skill_points['Motion operators']] 
+                            return
+                    
         self.dict_mastery['MotionOperators'] = [score, self.skill_points['Motion operators']] 
+        
         return
+    
+        self.set_dimension_score(scale_dict, "MotionOperators") # CAMBIAR LA KEY DE LOS SKILL POINTS
+
+    
+    def check_motion_complex_sequences(self):
+
+        check = False
+        min_motion_blocks = 5
+        counter = 0
+        list = {'motion_movesteps', 'motion_gotoxy', 'motion_glidesecstoxy', 'motion_glideto', 
+                'motion_setx', 'motion_sety', 'motion_changexby', 'motion_changeyby', 
+                'motion_pointindirection', 'motion_pointtowards', 'motion_turnright', 'motion_turnleft', 
+                'motion_goto', 'motion_ifonedgebounce', 'motion_setrotationstyles'}
+        
+        for _,value in self.dict_total_blocks.items():
+            if value['parent'] is None:
+                counter = 0
+            else:
+                if value['opcode'] in list:
+                    counter += 1
+                    if counter >= min_motion_blocks:
+                        check = True
+                        return check
+
+        return check
     
