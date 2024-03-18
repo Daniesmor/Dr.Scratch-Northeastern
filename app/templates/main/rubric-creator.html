@@ -53,6 +53,8 @@
     <!-- DEFAULT COLOR/ CURRENTLY USING -->
     <link rel="stylesheet" href="../../static/app/content/red.css">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
     <script>
     // Instance the tour
     $(document).ready(function(){
@@ -315,6 +317,42 @@
             border-radius: 50%; /* Hacer el puntero redondo */
         }
 
+        body p {
+            font-size: 10px;
+            color: #088CE3;
+        }
+
+        body .phrase {
+            font-size: 13px;
+        }
+
+        
+        .phrase {
+            display: none; 
+        }
+
+        .lightbulb-color {
+            color: #FBE259;
+            
+        }
+
+        .label-pair {
+            display: inline-block;
+            vertical-align: middle;
+            
+        }
+
+
+        /* Lightbulb zoom hover */
+        .zoomable {
+            transition: transform 0.3s ease;
+        }
+
+        .zoomable:hover {
+            transform: scale(1.2); /* El valor 1.1 puede ajustarse según el nivel de zoom deseado */
+        }
+
+
     </style>
     
 </head>
@@ -348,6 +386,8 @@
             <!-- Score in detail -->
 
             
+
+            
             <div class="col-md-7">
                 <section id="dashboard">
                     <div class="container-fluid" id="stepfour">
@@ -356,51 +396,175 @@
                             <div class="jumbotron">
                                 
                                 <h4>Build your rubric!</h4>
+    
+                                                         
                                 <div id="personalized-options">
                                     <form action="" id="rubric-generator">
                                         <div class="form-group">
-                                            <label for="Abstraction" class="form-label text-primary" style="color: black;">{% trans 'Abstraction' %}: <span id="Abstraction-value"></span></label>
+                                            <label for="Abstraction" class="form-label text-primary label-pair">
+                                                {% trans 'Abstraction' %}: <span id="Abstraction-value"></span> 
+                                                <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                                            </label>
+                                        
+
+                                            
+                                            <div class="card border-success">
+                                                <div id="collapse1" class="collapse card-body bg-light" aria-labelledby="headingOne" data-parent="#accordion">
+                                                    <p id="Abstraction-phrase-0" class="phrase phrase-Abstraction card-body" >Abstraction is not relevant to me at this moment. I am focused on concrete and specific details of the program.</p>
+                                                    <p id="Abstraction-phrase-1" class="phrase phrase-Abstraction card-body" >Abstraction is minimal. I prefer to stay close to the source code and do not need high levels of generalization.</p>
+                                                    <p id="Abstraction-phrase-2" class="phrase phrase-Abstraction card-body" >Abstraction has some importance, but it is not essential. I am interested in understanding the overall functioning.</p>
+                                                    <p id="Abstraction-phrase-3" class="phrase phrase-Abstraction card-body" >Abstraction is important. I value patterns in the code to facilitate its maintenance and extension.</p>
+                                                    <p id="Abstraction-phrase-4" class="phrase phrase-Abstraction card-body" >Abstraction is crucial. I value modular and reusable code, which abstracts concepts to improve clarity and efficiency.</p>
+                                                    <p id="Abstraction-phrase-5" class="phrase phrase-Abstraction card-body">Abstraction is absolutely vital. The code must be abstract and flexible to adapt to future changes and reuse.</p>
+                                                    
+                                                </div>
+                                            </div>
+                                            
+                                                                                    
                                             <input type="range" class="form-range" min="0" max="5" id="Abstraction" name="Abstraction">
+                                        </div>
+
+                                        
+                                        
+                                        <div class="form-group">
+
+                                            <label for="Parallelization" class="form-label text-primary label-pair">
+                                                {% trans 'Parallelization' %}: <span id="Parallelization-value"></span> 
+                                                <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                                            </label>
+
+                                            <div id="collapse2" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                                <p id="Parallelization-phrase-0" class="phrase phrase-Parallelization" >Parallelization is not crucial at this moment. There is no need to execute tasks simultaneously in the code.</p>
+                                                <p id="Parallelization-phrase-1" class="phrase phrase-Parallelization" >Parallelization is minimal. There is no significant need for parallel processing in the code.</p>
+                                                <p id="Parallelization-phrase-2" class="phrase phrase-Parallelization" >Parallelization has some importance. There is a moderate need to execute tasks in parallel in the code.</p>
+                                                <p id="Parallelization-phrase-3" class="phrase phrase-Parallelization" >Parallelization is important. Proper parallel processing is required to enhance the code's performance.</p>
+                                                <p id="Parallelization-phrase-4" class="phrase phrase-Parallelization" >Parallelization is crucial. Simultaneous execution of tasks is essential to optimize code performance and efficiency.</p>
+                                                <p id="Parallelization-phrase-5" class="phrase phrase-Parallelization" >Parallelization is absolutely vital. The ability to perform parallel processing is fundamental for system performance.</p>
+                                            </div>                                            
+                                            <input type="range" class="form-range" min="0"s max="5" id="Parallelization" name="Parallelization">
+                                        </div>
+                                    
+                                        <div class="form-group">
+                                            <label for="LogicThinking" class="form-label text-primary label-pair">
+                                                {% trans 'Logic Thinking' %}: <span id="LogicThinking-value"></span> 
+                                                <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                                            </label>
+
+                                            <div id="collapse3" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                                <p id="LogicThinking-phrase-0" class="phrase phrase-LogicThinking" >Logical thinking is not relevant to me at this moment. I am focused on other aspects of the problem.</p>
+                                                <p id="LogicThinking-phrase-1" class="phrase phrase-LogicThinking" >Logical thinking is minimal. I prefer to follow a more intuitive approach in my decisions and actions.</p>
+                                                <p id="LogicThinking-phrase-2" class="phrase phrase-LogicThinking" >Logical thinking has some importance, but it is not fundamental. Sometimes, I rely more on my instinct than on pure logic.</p>
+                                                <p id="LogicThinking-phrase-3" class="phrase phrase-LogicThinking" >Logical thinking is important. I use logic to solve problems and make decisions more efficiently.</p>
+                                                <p id="LogicThinking-phrase-4" class="phrase phrase-LogicThinking" >Logical thinking is crucial. I rely on logic to analyze complex situations and find effective solutions.</p>
+                                                <p id="LogicThinking-phrase-5" class="phrase phrase-LogicThinking" >Logical thinking is absolutely vital. All code must follow strict logic for problem-solving.</p>
+                                            </div>
+                                            <input type="range" class="form-range" min="0"s max="5" id="LogicThinking" name="LogicThinking">
+                                        </div>
+                                    
+                                        <div class="form-group">
+                                            <label for="Synchronization" class="form-label text-primary label-pair">
+                                                {% trans 'Synchronization' %}: <span id="Synchronization-value"></span> 
+                                                <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                                            </label>
+
+                                            <div id="collapse4" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                                <p id="Synchronization-phrase-0" class="phrase phrase-Synchronization" >Synchronization is not relevant at this moment. I am not concerned about coordinating activities in the code.</p>
+                                                <p id="Synchronization-phrase-1" class="phrase phrase-Synchronization" >Synchronization is minimal. I do not consider managing concurrency or process synchronization crucial.</p>
+                                                <p id="Synchronization-phrase-2" class="phrase phrase-Synchronization" >Synchronization has some importance. I can allow some operations to run asynchronously.</p>
+                                                <p id="Synchronization-phrase-3" class="phrase phrase-Synchronization" >Synchronization is important. It is crucial to ensure that shared resources are handled correctly.</p>
+                                                <p id="Synchronization-phrase-4" class="phrase phrase-Synchronization" >Synchronization is crucial. It is essential to control concurrency to ensure data consistency and integrity in the code.</p>
+                                                <p id="Synchronization-phrase-5" class="phrase phrase-Synchronization" >Synchronization is absolutely vital. Efficient concurrency is fundamental for system performance and reliability.</p>
+                                            </div>                                            
+                                            
+                                            <input type="range" class="form-range" min="0"s max="5" id="Synchronization" name="Synchronization">
+                                        </div>
+                                    
+                                        <div class="form-group">
+                                            <label for="FlowControl" class="form-label text-primary label-pair">
+                                                {% trans 'Flow Control' %}: <span id="FlowControl-value"></span> 
+                                                <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+                                            </label>
+                                            
+                                            <div id="collapse5" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                                <p id="FlowControl-phrase-0" class="phrase phrase-FlowControl" >Flow control is not relevant at this moment. I do not need control structures to direct code execution.</p>
+                                                <p id="FlowControl-phrase-1" class="phrase phrase-FlowControl" >Flow control is minimal. I prefer to follow a more linear approach in code execution without many control structures.</p>
+                                                <p id="FlowControl-phrase-2" class="phrase phrase-FlowControl" >Flow control has some importance. I can manage code execution with a few basic control structures.</p>
+                                                <p id="FlowControl-phrase-3" class="phrase phrase-FlowControl" >Flow control is important. Code execution must be directed and decisions made based on different conditions.</p>
+                                                <p id="FlowControl-phrase-4" class="phrase phrase-FlowControl" >Flow control is crucial. Ensuring logic and coherence of program execution flow is necessary.</p>
+                                                <p id="FlowControl-phrase-5" class="phrase phrase-FlowControl" >Flow control is absolutely vital. Proper flow control management determines the efficiency and effectiveness of the program.</p>
+                                            </div>
+                                        
+                                            <input type="range" class="form-range" min="0"s max="5" id="FlowControl" name="FlowControl">
                                         </div>
                                         
                                         <div class="form-group">
-                                            <label for="Parallelization" class="form-label text-primary" style="color: black;">{% trans 'Parallelization' %}: <span id="Parallelization-value"></span></label>
-                                            <input type="range" class="form-range" min="0" max="5" id="Parallelization" name="Parallelization">
+                                            <label for="UserInteractivity" class="form-label text-primary label-pair">
+                                                {% trans 'User Interactivity' %}: <span id="UserInteractivity-value"></span> 
+                                                <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
+                                            </label>
+
+                                            <div id="collapse6" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                                <p id="UserInteractivity-phrase-0" class="phrase phrase-UserInteractivity" >User interactivity is not relevant at this moment. I do not need the code to respond to user input.</p>
+                                                <p id="UserInteractivity-phrase-1" class="phrase phrase-UserInteractivity" >User interactivity is minimal. The code does not require much direct interaction with the user.</p>
+                                                <p id="UserInteractivity-phrase-2" class="phrase phrase-UserInteractivity" >User interactivity has some importance. The code can be executed without too much direct user interaction.</p>
+                                                <p id="UserInteractivity-phrase-3" class="phrase phrase-UserInteractivity" >User interactivity is important. The code must respond appropriately to user actions.</p>
+                                                <p id="UserInteractivity-phrase-4" class="phrase phrase-UserInteractivity" >User interactivity is crucial. The code must be highly interactive with quick response to user actions.</p>
+                                                <p id="UserInteractivity-phrase-5" class="phrase phrase-UserInteractivity" >User interactivity is absolutely vital. The ability to interact effectively with the user is fundamental.</p>
+                                            </div>
+                                            
+                                            <input type="range" class="form-range" min="0"s max="5" id="UserInteractivity" name="UserInteractivity">
                                         </div>
                                     
                                         <div class="form-group">
-                                            <label for="LogicThinking" class="form-label text-primary" style="color: black;">{% trans 'Logic Thinking' %}: <span id="LogicThinking-value"></span></label>
-                                            <input type="range" class="form-range" min="0" max="5" id="LogicThinking" name="LogicThinking">
+                                            <label for="DataRepresentation" class="form-label text-primary label-pair">
+                                                {% trans 'Data Representation' %}: <span id="DataRepresentation-value"></span> 
+                                                <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
+                                            </label>
+
+                                            <div id="collapse7" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                                <p id="DataRepresentation-phrase-0" class="phrase phrase-DataRepresentation" >Data representation is not crucial at this moment. It does not significantly affect code execution.</p>
+                                                <p id="DataRepresentation-phrase-1" class="phrase phrase-DataRepresentation" >Data representation is minimal. A complex structure for storing or manipulating data is not required.</p>
+                                                <p id="DataRepresentation-phrase-2" class="phrase phrase-DataRepresentation" >Data representation has some importance. Basic structures are needed to manage the data.</p>
+                                                <p id="DataRepresentation-phrase-3" class="phrase phrase-DataRepresentation" >Data representation is important. Proper design of data structure facilitates code understanding and maintenance.</p>
+                                                <p id="DataRepresentation-phrase-4" class="phrase phrase-DataRepresentation" >Data representation is crucial. It is essential for optimizing code performance and scalability.</p>
+                                                <p id="DataRepresentation-phrase-5" class="phrase phrase-DataRepresentation" >Data representation is absolutely vital. Poor data representation can lead to critical errors.</p>
+                                            </div>
+                                            <input type="range" class="form-range" min="0"s max="5" id="DataRepresentation" name="DataRepresentation">
                                         </div>
-                                    
+                                        
+
                                         <div class="form-group">
-                                            <label for="Synchronization" class="form-label text-primary" style="color: black;">{% trans 'Synchronization' %}: <span id="Synchronization-value"></span></label>
-                                            <input type="range" class="form-range" min="0" max="5" id="Synchronization" name="Synchronization">
-                                        </div>
-                                    
-                                        <div class="form-group">
-                                            <label for="FlowControl" class="form-label text-primary" style="color: black;">{% trans 'Flow Control' %}: <span id="FlowControl-value"></span></label>
-                                            <input type="range" class="form-range" min="0" max="5" id="FlowControl" name="FlowControl">
-                                        </div>
-                                    
-                                        <div class="form-group">
-                                            <label for="UserInteractivity" class="form-label text-primary" style="color: black;">{% trans 'User Interactivity' %}: <span id="UserInteractivity-value"></span></label>
-                                            <input type="range" class="form-range" min="0" max="5" id="UserInteractivity" name="UserInteractivity">
-                                        </div>
-                                    
-                                        <div class="form-group">
-                                            <label for="DataRepresentation" class="form-label text-primary" style="color: black;">{% trans 'Data Representation' %}: <span id="DataRepresentation-value"></span></label>
-                                            <input type="range" class="form-range" min="0" max="5" id="DataRepresentation" name="DataRepresentation">
+                                            <label for="MathOperators" class="form-label text-primary label-pair">
+                                                {% trans 'Math Operators' %}: <span id="MathOperators-value"></span> 
+                                                <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse8" aria-expanded="false" aria-controls="collapse8">
+                                            </label>
+
+                                            <div id="collapse8" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                                <p id="MathOperators-phrase-0" class="phrase phrase-MathOperators" >Mathematical operators are not crucial at this moment. Performing complex mathematical operations is not required.</p>
+                                                <p id="MathOperators-phrase-1" class="phrase phrase-MathOperators" >The use of mathematical operators is minimal. Only basic operations are needed for simple calculations.</p>
+                                                <p id="MathOperators-phrase-2" class="phrase phrase-MathOperators" >Mathematical operators have some importance. Basic operations are required to perform some tasks.</p>
+                                                <p id="MathOperators-phrase-3" class="phrase phrase-MathOperators" >Mathematical operators are important. They are used to perform essential calculations that directly affect functionality.</p>
+                                                <p id="MathOperators-phrase-4" class="phrase phrase-MathOperators" >Mathematical operators are crucial. Their correct usage is fundamental to ensure accuracy and consistency in calculations.</p>
+                                                <p id="MathOperators-phrase-5" class="phrase phrase-MathOperators" >Mathematical operators are absolutely vital. They are indispensable for operations that determine the final result.</p>
+                                            </div>
+                                            <input type="range" class="form-range" min="0"s max="5" id="MathOperators" name="MathOperators">
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="MathOperators" class="form-label text-primary" style="color: black;">{% trans 'Math operators' %}: <span id="MathOperators-value"></span></label>
-                                            <input type="range" class="form-range" min="0" max="5" id="MathOperators" name="MathOperators">
-                                        </div>
+                                            <label for="MotionOperators" class="form-label text-primary label-pair">
+                                                {% trans 'Motion Operators' %}: <span id="MotionOperators-value"></span> 
+                                                <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse9" aria-expanded="false" aria-controls="collapse9">
+                                            </label>
 
-                                        <div class="form-group">
-                                            <label for="MotionOperators" class="form-label text-primary" style="color: black;">{% trans 'Motion operators' %}: <span id="MotionOperators-value"></span></label>
-                                            <input type="range" class="form-range" min="0" max="5" id="MotionOperators" name="MotionOperators">
+                                            <div id="collapse9" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                                <p id="MotionOperators-phrase-0" class="phrase phrase-MotionOperators" >Motion operators are not crucial at this moment. Extensive manipulation of movements in the code is not required.</p>
+                                                <p id="MotionOperators-phrase-1" class="phrase phrase-MotionOperators" >Motion operators are minimal. There is no significant need for motion control in the code.</p>
+                                                <p id="MotionOperators-phrase-2" class="phrase phrase-MotionOperators" >Motion operators have some importance. There is a moderate need for movement manipulation in the code.</p>
+                                                <p id="MotionOperators-phrase-3" class="phrase phrase-MotionOperators" >Motion operators are important. Proper motion control is necessary for the functionality of the code.</p>
+                                                <p id="MotionOperators-phrase-4" class="phrase phrase-MotionOperators" >Motion operators are crucial. Precise motion control is essential for the proper functioning of the code.</p>
+                                                <p id="MotionOperators-phrase-5" class="phrase phrase-MotionOperators" >Motion operators are absolutely vital. The ability to manipulate movements effectively is fundamental.</p>
+                                            </div>
+                                            <input type="range" class="form-range" min="0"s max="5" id="MotionOperators" name="MotionOperators">
                                         </div>
                                     
                                         <button id="url" name='_url' type="submit" class="btn btn-primary standard-button">{% trans "Generate rubric" %}</button>
@@ -458,17 +622,27 @@
         </div>
     </footer>
 
+    
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             var sliders = document.querySelectorAll("input[type='range']");
-        
+            
             sliders.forEach(function(slider) {
                 var sliderValue = document.getElementById(slider.id + "-value");
-        
-                // Actualizar el valor al cargar la página
-                updateSliderValue(slider, sliderValue);
-        
-                // Actualizar el valor cuando el slider cambie
+                var initialValue = slider.value; // Obtener el valor inicial del slider
+    
+                // Ocultar todas las frases al cargar la página
+                // Ocultar todas las frases
+                document.querySelectorAll(".phrase").forEach(function(element) {
+                    element.style.display = "none";
+                });
+    
+                var initialPhrases = document.querySelectorAll("#" + slider.id + "-phrase-" + initialValue);
+
+                initialPhrases.forEach(function(phrase) {
+                    phrase.style.display = "block";
+                });
+    
                 slider.addEventListener("input", function() {
                     updateSliderValue(slider, sliderValue);
                 });
@@ -477,10 +651,25 @@
         
         function updateSliderValue(slider, sliderValue) {
             sliderValue.textContent = slider.value;
+
+            type_phrases = document.querySelectorAll("." + "phrase-" + slider.id)
+            type_phrases.forEach(function(type_phrase) {
+                type_phrase.style.display = "none";
+            });
+
+
+            var phrases = document.querySelectorAll("#" + slider.id + "-phrase-" + slider.value);
+            phrases.forEach(function(phrase) {                
+                phrase.style.display = "block";
+            });
+
+
+           
         }
-        
-          
     </script>
+    
+
+
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -489,10 +678,8 @@
             sliders.forEach(function(slider) {
                 var sliderValue = document.getElementById(slider.id + "-value");
             
-                // Actualizar el valor al cargar la página
                 updateSliderValue(slider, sliderValue);
             
-                // Actualizar el valor cuando el slider cambie
                 slider.addEventListener("input", function() {
                     updateSliderValue(slider, sliderValue);
                 });
