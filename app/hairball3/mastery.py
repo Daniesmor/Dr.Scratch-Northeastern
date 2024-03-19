@@ -263,12 +263,45 @@ class Mastery(Plugin):
         basic = {'control_wait'}
         developing = {'event_broadcast', 'event_whenbroadcastreceived', 'control_stop'}
         master = {'control_wait_until', 'event_whenbackdropswitchesto', 'event_broadcastandwait'}
-        # advanced = PREGUNTAR GREGORIO
+        advanced = self.check_dynamic_msg_handling()
         # finesse = PREGUNTAR GREGORIO
 
-        scale_dict = {"master": master, "developing": developing, "basic": basic}
+        scale_dict = {"advanced": advanced, "master": master, "developing": developing, "basic": basic}
 
         self.set_dimension_score(scale_dict, "Synchronization")
+    
+    def check_dynamic_msg_handling(self):
+
+        check = False
+        counter = 0
+        min_msg = 3
+
+        for block in self.list_total_blocks:
+            if block['opcode'] == "event_broadcast" or block['opcode'] == "event_broadcastandwait":
+                msg = block['inputs']['BROADCAST_INPUT'][1][2]
+                if self.has_conditional_or_loop(msg):
+                    counter += 1
+                    print("Counter=", counter)
+        if counter >= min_msg:
+            check = True
+
+        return check
+    
+    def has_conditional_or_loop(self, msg):
+
+        check = False
+
+        for block in self.list_total_blocks:
+            if block['opcode'] == 'event_whenbroadcastreceived' and block['fields']['BROADCAST_OPTION'][1] == msg:
+                next = self.dict_total_blocks.get(block['next'])
+                while next is not None:
+                    if self.check_conditional(next) or self.check_loops(next):
+                        check = True
+                        return check
+                    next = self.dict_total_blocks.get(next['next']) 
+
+        return check
+
 
     def compute_abstraction(self):
         """
@@ -278,10 +311,10 @@ class Mastery(Plugin):
         basic = self.check_more_than_one()
         developing = {'control_start_as_clone'}
         master = {'procedures_definition'}
-        # advanced = PREGUNTAR GREGORIO
+        advanced = self.check_advanced_clones()
         # finesse = PREGUNTAR GREGORIO
 
-        scale_dict = {"master": master, "developing": developing, "basic": basic}
+        scale_dict = {"advanced": advanced, "master": master, "developing": developing, "basic": basic}
 
         self.set_dimension_score(scale_dict, "Abstraction")
 
@@ -298,6 +331,74 @@ class Mastery(Plugin):
             check = True
 
         return check
+    
+    def check_advanced_clones(self):
+
+        check = False
+
+        for block in self.list_total_blocks:
+            if block['opcode'] == "control_start_as_clone":
+                next = self.dict_total_blocks.get(block['next'])
+                while next is not None:
+                    if self.check_broadcast(next) or self.check_loops(next) or self.check_conditional(next):
+                        check = True
+                        return check
+                    next = self.dict_total_blocks.get(next['next']) 
+
+        return check
+    
+    def check_broadcast(self, block):
+
+        check = False
+
+        list = {'event_broadcast', 'event_broadcastandwait'}
+
+        if block['opcode'] in list:
+            check = True
+        
+        return check
+    
+    def check_loops(self, block):
+
+        check = False
+        counter = 0
+        min_blocks = 3
+
+        list = {'control_forever', 'control_repeat', 'control_repeat_until'}
+
+        if block['opcode'] in list:
+            try: 
+                next = self.dict_total_blocks.get(block['inputs']['SUBSTACK'][1])
+                while next is not None:
+                    counter += 1
+                    next = self.dict_total_blocks.get(next['next'])
+                if counter >= min_blocks:
+                    check = True
+            except KeyError:
+                pass
+        
+        return check
+    
+    def check_conditional(self, block):
+
+        check = False
+
+        if block['opcode'] == 'control_if':
+            try:
+                self.dict_total_blocks.get(block['inputs']['SUBSTACK'][1])
+                check = True
+            except KeyError:
+                pass
+        elif block['opcode'] == 'control_if_else':
+            try:
+                self.dict_total_blocks.get(block['inputs']['SUBSTACK'][1])
+                self.dict_total_blocks.get(block['inputs']['SUBSTACK2'][1])
+                check = True
+            except KeyError:
+                pass
+
+        return check
+
 
     def compute_data_representation(self):
         """
@@ -517,8 +618,6 @@ class Mastery(Plugin):
         developing = {'motion_turnleft', 'motion_turnright', 'motion_setrotationstyles', 'motion_pointindirection', 'motion_pointtowards'}
         master = {'motion_glideto', 'motion_glidesecstoxy'}
         advanced = self.check_motion_complex_sequences()
-        print("ADVANCED:")
-        print(advanced)
         # finesse = PREGUNTAR GREGORIO
 
         scale_dict = {"advanced": advanced, "master": master, "developing": developing, "basic": basic}
