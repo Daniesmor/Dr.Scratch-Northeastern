@@ -161,6 +161,12 @@ class Mastery(Plugin):
                 except KeyError:
                     pass
                 
+            # ------------- FINESE ------------------
+            # ------------- ADVANCE -----------------
+            # ------------- PROFICIENT --------------
+            # ------------- DEVELOPING --------------
+            # ------------- BASIC -------------------    
+                
         return check
     
     def has_nested_conditional(self, substack):
@@ -479,8 +485,8 @@ class Mastery(Plugin):
         possible_scores = {"finesse": 5, "advanced": 4, "proficient": 3, "developing": 2, "basic": 1}
 
         
-        
-
+        parallelization_score = 0
+        dict_parall = self.parallelization_dict()
         """
         if self.dict_blocks['event_whengreaterthan'] > 1:  # 2 Scripts start on the same multimedia (audio, timer) event
             if dict_parall['WHENGREATERTHANMENU']:
@@ -491,9 +497,8 @@ class Mastery(Plugin):
                         #self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
                         return
         """
-        
-    # ------------------------------------ CORREGIDO ---------------------------------------------------------------------------
 
+        
         # ---------- PROFICIENT ----------------------------
         coincidences = 0
         for block in self.dict_total_blocks.values():
@@ -511,7 +516,7 @@ class Mastery(Plugin):
                 for var in backdrop_list:
                     if dict_parall['BACKDROP'].count(var) > 1:
                         parallelization_score = possible_scores['proficient']
-                        #self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
+                        self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
                         return
                        
         if self.dict_blocks['control_create_clone_of'] > 1: # 2 Scripts start on the same clone event
@@ -520,7 +525,7 @@ class Mastery(Plugin):
                 for var in var_list:
                     if dict_parall['CLONE_OPTION'].count(var) > 1:
                         parallelization_score = possible_scores['proficient']
-                        #self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
+                        self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
                         return
                                  
         if self.dict_blocks['event_whenbroadcastreceived'] > 1:  # 2 Scripts start on the same received message
@@ -529,13 +534,13 @@ class Mastery(Plugin):
                 for var in var_list:
                     if dict_parall['BROADCAST_OPTION'].count(var) > 1:
                         parallelization_score = possible_scores['proficient']
-                        #self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
+                        self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
                         return
 
         """
         if self.dict_blocks['videoSensing_whenMotionGreaterThan'] > 1:  # 2 Scripts start on the same multimedia (video) event
             parallelization_score = possible_scores['master']
-            #self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
+            self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
             return
         """
 
@@ -554,11 +559,12 @@ class Mastery(Plugin):
         # ----------- BASIC ----------------------------
 
         if self.dict_blocks['event_whenflagclicked'] > 1 and parallelization_score == 0:  # 2 scripts on green flag
-            parallelization_score = 1
+            parallelization_score = possible_scores["basic"]
 
         print("Diccioanrio con paralelizacion")
-        print(self.dict_mastery['Parallelization'])
+        
         self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
+        print(self.dict_mastery['Parallelization'])
 
     def parallelization_dict(self):
         dict_parallelization = {}
