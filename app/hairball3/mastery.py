@@ -79,9 +79,6 @@ class Mastery(Plugin):
             
         
         extended_points = total_maxi_points - self.skill_points['Math operators'] - self.skill_points['Motion operators']
-        
-        print("extended_points")
-        print(extended_points)
 
         self.dict_mastery['total_points'] = [total_points, total_maxi_points]
         self.dict_mastery['max_points_extended'] = extended_points
@@ -159,13 +156,7 @@ class Mastery(Plugin):
                         check = True
                         break
                 except KeyError:
-                    pass
-                
-            # ------------- FINESE ------------------
-            # ------------- ADVANCE -----------------
-            # ------------- PROFICIENT --------------
-            # ------------- DEVELOPING --------------
-            # ------------- BASIC -------------------    
+                    pass 
                 
         return check
     
@@ -443,7 +434,9 @@ class Mastery(Plugin):
 
     def compute_user_interactivity(self):
         """Assign the User Interactivity skill result"""
-
+        possible_scores = {"finesse": 5, "advanced": 4, "proficient": 3, "developing": 2, "basic": 1}
+        print("user interctivity depuration")
+        print(self.dict_total_blocks)
         score = 0
 
         proficiency = {'videoSensing_videoToggle', 'videoSensing_videoOn', 'videoSensing_whenMotionGreaterThan',
@@ -452,28 +445,47 @@ class Mastery(Plugin):
         developing = {'event_whenkeypressed', 'event_whenthisspriteclicked', 'sensing_mousedown', 'sensing_keypressed',
                       'sensing_askandwait', 'sensing_answer'}
 
+        # ----------- PROFIENCY --------------
+        coincidences = 0
+        for block in self.dict_total_blocks.values(): # 2 scripts when %s is > %s,
+            print("eras")
+            if block['opcode'] == 'control_if':
+                id_codition = block['inputs']['CONDITION'][1]
+                if self.dict_total_blocks[id_codition]['opcode'] == 'operator_gt':
+                    coincidences += 1
+                    if coincidences > 1:
+                        print("USER INTERACTIVITY MASTERY: 2 scripts when %s is > %s,")
+                        score = possible_scores['proficient']
+                        self.dict_mastery['UserInteractivity'] = [score, self.skill_points['User interactivity']]
+                        return    
+        
         for item in proficiency:
             if self.dict_blocks[item]:
                 score = self.skill_points['User interactivity']
                 self.dict_mastery['UserInteractivity'] = [score, self.skill_points['User interactivity']]
                 return
+        # ---------- DEVELOPING ------------------------
         for item in developing:
             if self.dict_blocks[item]:
-                score = (self.skill_points['User interactivity'])/2
+                print("USER INTERACTIVITY mastery: " + item)
+                score = possible_scores['developing']
                 self.dict_mastery['UserInteractivity'] = [score, self.skill_points['User interactivity']]
                 return
         if self.dict_blocks['motion_goto_menu']:
             if self._check_mouse() == 1:
-                score = (self.skill_points['User interactivity'])/2
+                score = possible_scores['developing']
                 self.dict_mastery['UserInteractivity'] = [score, self.skill_points['User interactivity']]
                 return
         if self.dict_blocks['sensing_touchingobjectmenu']:
             if self._check_mouse() == 1:
-                score = (self.skill_points['User interactivity'])/2
+                score = possible_scores['developing']
                 self.dict_mastery['UserInteractivity'] = [score, self.skill_points['User interactivity']]
-                return
-        if self.dict_blocks['event_whenflagclicked']:
-            score = 1
+                return        
+            
+        # ----------- BASIC -------------------------------------
+        if self.dict_blocks['event_whenflagclicked']: # Green flag
+            print("USER_INTERACTIVITY MASTERY: Green flag")
+            score = possible_scores['basic']
 
         self.dict_mastery['UserInteractivity'] = [score, self.skill_points['User interactivity']]
 
@@ -501,13 +513,15 @@ class Mastery(Plugin):
         
         # ---------- PROFICIENT ----------------------------
         coincidences = 0
-        for block in self.dict_total_blocks.values():
+        for block in self.dict_total_blocks.values(): # 2 scripts when %s is > %s,
             if block['opcode'] == 'control_if':
                 id_codition = block['inputs']['CONDITION'][1]
                 if self.dict_total_blocks[id_codition]['opcode'] == 'operator_gt':
                     coincidences += 1
         if coincidences > 1:
+            print("PARALLELISM MASTERY: 2 scripts when %s is > %s,")
             parallelization_score = possible_scores['proficient']
+            self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
             return
           
         if self.dict_blocks['event_whenbackdropswitchesto'] > 1:  # 2 Scripts start on the same backdrop change
@@ -515,24 +529,24 @@ class Mastery(Plugin):
                 backdrop_list = set(dict_parall['BACKDROP'])
                 for var in backdrop_list:
                     if dict_parall['BACKDROP'].count(var) > 1:
+                        print("PARALLELISM MASTERY: 2 Scripts start on the same received message")
                         parallelization_score = possible_scores['proficient']
                         self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
                         return
                        
-        if self.dict_blocks['control_create_clone_of'] > 1: # 2 Scripts start on the same clone event
-            if dict_parall['CLONE_OPTION']:
-                var_list = set(dict_parall['CLONE_OPTION'])
-                for var in var_list:
-                    if dict_parall['CLONE_OPTION'].count(var) > 1:
-                        parallelization_score = possible_scores['proficient']
-                        self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
-                        return
+        if self.dict_blocks['control_create_clone_of']: # Create clone of
+            print("PARALLELISM MASTERY: Create clone of")
+            parallelization_score = possible_scores['proficient']
+            self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
+            return
                                  
+        
         if self.dict_blocks['event_whenbroadcastreceived'] > 1:  # 2 Scripts start on the same received message
             if dict_parall['BROADCAST_OPTION']:
                 var_list = set(dict_parall['BROADCAST_OPTION'])
                 for var in var_list:
                     if dict_parall['BROADCAST_OPTION'].count(var) > 1:
+                        print("PARALLELISM MASTERY: 2 Scripts start on the same received message")
                         parallelization_score = possible_scores['proficient']
                         self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
                         return
@@ -551,20 +565,19 @@ class Mastery(Plugin):
                 var_list = set(dict_parall['KEY_OPTION'])
                 for var in var_list:
                     if dict_parall['KEY_OPTION'].count(var) > 1:
+                        print("PARALLELISM MASTERY: Scripts start on the same key pressed")
                         parallelization_score = possible_scores['developing']
 
         if self.dict_blocks['event_whenthisspriteclicked'] > 1:  # Sprite with 2 scripts on clicked
+            print("PARALLELISM MASTERY: Sprite with 2 scripts on clicked")
             parallelization_score = possible_scores['developing']
         
         # ----------- BASIC ----------------------------
-
         if self.dict_blocks['event_whenflagclicked'] > 1 and parallelization_score == 0:  # 2 scripts on green flag
             parallelization_score = possible_scores["basic"]
-
-        print("Diccioanrio con paralelizacion")
         
         self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
-        print(self.dict_mastery['Parallelization'])
+
 
     def parallelization_dict(self):
         dict_parallelization = {}
