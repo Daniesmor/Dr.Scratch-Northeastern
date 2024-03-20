@@ -401,6 +401,7 @@ class Mastery(Plugin):
         """
         Compute data representation skill score
         """
+        possible_scores = {"finesse": 5, "advanced": 4, "proficient": 3, "developing": 2, "basic": 1}
 
         score = 0
 
@@ -416,27 +417,42 @@ class Mastery(Plugin):
             'data_lengthoflist', 'data_showlist', 'data_insertatlist', 'data_deleteoflist', 'data_addtolist',
             'data_replaceitemoflist', 'data_listcontainsitem', 'data_hidelist', 'data_itemoflist'
         }
+        
+        boolean_logic = {
+            'operator_equals', 'operator_gt', 'operator_and', 'operator_or', 'operator_not', 'operator_lt',
+        }
 
+        for item in boolean_logic:
+            # ---------- ADVANCED -----------------------
+            
+            if self.dict_blocks[item]:
+                print("DATA REPRESENTATION MASTERY: Boolean Logic")
+                score = possible_scores['advanced']
+                self.dict_mastery['DataRepresentation'] = [score, self.skill_points['Data representation']]
+                return
         for item in lists:
             if self.dict_blocks[item]:
-                score = self.skill_points['Data representation']
+                # -------- PROFICIENT -------------------
+                print("DATA REPRESENTATION MASTERY: Operations on lists")
+                score = possible_scores['proficient']
                 self.dict_mastery['DataRepresentation'] = [score, self.skill_points['Data representation']]
                 return
 
         if self.dict_blocks['data_changevariableby'] or self.dict_blocks['data_setvariableto']:
-            score = (self.skill_points['Data representation'])/2
+            # ------------------ DEVELOPING -----------------------------------
+            print("DATA REPRESENTATION MASTERY: Operations on variables")
+            score = possible_scores['developing']
         else:
+            # ------------------- BASIC ----------------------------------------
+            print("DATA REPRESENTATION MASTERY: Modifiers of sprites properties")
             for modifier in modifiers:
                 if self.dict_blocks[modifier]:
-                    score = 1
-
+                    score = possible_scores['basic']
         self.dict_mastery['DataRepresentation'] = [score, self.skill_points['Data representation']]
 
     def compute_user_interactivity(self):
         """Assign the User Interactivity skill result"""
         possible_scores = {"finesse": 5, "advanced": 4, "proficient": 3, "developing": 2, "basic": 1}
-        print("user interctivity depuration")
-        print(self.dict_total_blocks)
         score = 0
 
         proficiency = {'videoSensing_videoToggle', 'videoSensing_videoOn', 'videoSensing_whenMotionGreaterThan',
@@ -448,7 +464,6 @@ class Mastery(Plugin):
         # ----------- PROFIENCY --------------
         coincidences = 0
         for block in self.dict_total_blocks.values(): # 2 scripts when %s is > %s,
-            print("eras")
             if block['opcode'] == 'control_if':
                 id_codition = block['inputs']['CONDITION'][1]
                 if self.dict_total_blocks[id_codition]['opcode'] == 'operator_gt':
