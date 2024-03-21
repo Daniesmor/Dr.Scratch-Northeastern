@@ -12,6 +12,7 @@ class Mastery(Plugin):
 
     def __init__(self, filename: str, json_project, skill_points: dict,verbose=False):
         super().__init__(filename, json_project, skill_points, verbose)
+        self.possible_scores = {"finesse": 5, "advanced": 4, "proficient": 3, "developing": 2, "basic": 1}
         self.dict_total_blocks = {}
 
     def process(self):
@@ -43,6 +44,8 @@ class Mastery(Plugin):
         self.compute_math_operators()
         self.compute_motion_operators()
 
+
+    
     def finalize(self) -> dict:
 
         self.process()
@@ -57,59 +60,126 @@ class Mastery(Plugin):
             total_points = round(total_points, 2)
 
 
-        average_points = float(total_points) / 7
-        
-        total_maxi_points = 0
-        for points in self.skill_points.values():
-            total_maxi_points += points
+        average_points = float(total_points) / 9
+        total_maxi_points = sum(self.skill_points.values())
 
         result = '{}{}{}{}'.format(self.filename, '\n', json.dumps(self.dict_mastery), '\n')
         result += ('Total mastery points: {}/{}\n'.format(total_points, total_maxi_points))
         result += ('Average mastery points: {}/{}\n'.format(average_points, consts.PLUGIN_MASTERY_AVG_POINTS))
 
-        if average_points > total_maxi_points/2:
-            result += "Overall programming competence: Proficiency"
-            programming_competence = 'Proficiency'
-        elif average_points > 1:
-            result += "Overall programming competence: Developing"
-            programming_competence = 'Developing'
-        else:
-            result += "Overall programming competence: Basic"
-            programming_competence = 'Basic'
-            
-        
-        extended_points = total_maxi_points - self.skill_points['Math operators'] - self.skill_points['Motion operators']
+       
+        """
+        EXTENDED MODE
+        """
+        extended_points = total_maxi_points
+        exetended_competence = self.calc_averages(average_points, 'extended')
+
 
         self.dict_mastery['total_points'] = [total_points, total_maxi_points]
         self.dict_mastery['max_points_extended'] = extended_points
-        self.dict_mastery['average_points'] = average_points
-        self.dict_mastery['programming_competence'] = programming_competence
-        self.dict_mastery['skill_points'] = self.skill_points
-        self.dict_mastery['description'] = result
+        self.dict_mastery['average_points'] = round(average_points, 2)
+        self.dict_mastery['competence'] = exetended_competence["programming_competence"]
+        #self.dict_mastery['description'] = result
 
         if self.verbose:
             logger.info(self.dict_mastery['description'])
+            
+        extended_dict = self.dict_mastery.copy()
+        
+        """
+        VANILLA MODE
+        """
+        self.dict_mastery = self.calc_extrapolation(self.dict_mastery)
+        vanilla_points = sum(points[0] for points in self.dict_mastery.values())
+        average_points = vanilla_points / 7
+        vanilla_competence = self.calc_averages(average_points, 'vanilla')
 
-        dict_result = {'plugin': 'mastery', 'result': self.dict_mastery}
+
+        self.dict_mastery['total_points'] = [round(vanilla_points,2), 21]
+        self.dict_mastery['max_points_vanilla'] = 21
+        self.dict_mastery['average_points'] = round(average_points, 2)
+        self.dict_mastery['competence'] = vanilla_competence["programming_competence"]
+        #self.dict_mastery['description'] = result
+
+        if self.verbose:
+            logger.info(self.dict_mastery['description'])
+            
+        vanilla_dict = self.dict_mastery.copy()
+        
+
+        dict_result = {'plugin': 'mastery', 'extended': extended_dict, 'vanilla': vanilla_dict}
 
         return dict_result
+
+    def calc_extrapolation(self, dict_mastery) -> dict:
+        """
+        Extrapolate the points of the extended mode to the vanilla mode.
+        """
+        mastery = {'Logic', 'FlowControl', 'Synchronization', 'Abstraction', 'DataRepresentation', 
+                'UserInteractivity', 'Parallelization'}
+        
+        new_dict = {}
+        for skill in dict_mastery:
+            if skill in mastery:
+                if dict_mastery[skill][0] > 3:
+                    new_value = 3
+                else:
+                    new_value = dict_mastery[skill][0]
+                new_dict[skill] = [new_value, 3]
+        return new_dict
+
+    def calc_averages(self, average_points, mode):
+        result = ''
+        programming_competence = ''
+        if mode == 'extended':
+            if average_points > 36:
+                result += "Overall programming competence: Finesse"
+                programming_competence = 'Finesse'
+            elif average_points > 27:
+                result += "Overall programming competence: Advanced"
+                programming_competence = 'Advanced'
+            elif average_points > 18:
+                result += "Overall programming competence: Proficiency"
+                programming_competence = 'Master'
+            elif average_points > 9:
+                result += "Overall programming competence: Developing"
+                programming_competence = 'Developing'
+            else:
+                result += "Overall programming competence: Basic"
+                programming_competence = 'Basic'
+        else: #Vanilla
+            if average_points > 15:
+                result += "Overall programming competence: Master"
+                programming_competence = 'Master'
+            elif average_points > 7:
+                result += "Overall programming competence: Developing"
+                programming_competence = 'Developing'
+            else:
+                result += "Overall programming competence: Basic"
+                programming_competence = 'Basic'
+        
+        competence_dict = {
+            'result': result, 
+            'programming_competence': programming_competence
+            }
+        return competence_dict
     
     def set_dimension_score(self, scale_dict, dimension):
 
         score = 0
-        possible_scores = {"finesse": 5, "advanced": 4, "master": 3, "developing": 2, "basic": 1}
+        
 
         for key, value in scale_dict.items():
             if type(value) == bool and value is True:
-                if key in possible_scores.keys():
-                    score = self.skill_points[dimension] * possible_scores[key] / len(possible_scores.keys())
+                if key in self.possible_scores.keys():
+                    score = self.skill_points[dimension] * self.possible_scores[key] / len(self.possible_scores.keys())
                     self.dict_mastery[dimension] = [score, self.skill_points[dimension]] 
                     return
             elif type(value) == set:
                 for item in value:
                     if self.dict_blocks[item]:
-                        if key in possible_scores.keys():
-                            score = self.skill_points[dimension] * possible_scores[key] / len(possible_scores.keys())
+                        if key in self.possible_scores.keys():
+                            score = self.skill_points[dimension] * self.possible_scores[key] / len(self.possible_scores.keys())
                             self.dict_mastery[dimension] = [score, self.skill_points[dimension]] 
                             return
 
@@ -179,7 +249,6 @@ class Mastery(Plugin):
         """
 
         score = 0
-        possible_scores = {"advanced": 4, "master": 3, "developing": 2, "basic": 1} # Falta añadir la puntuación de finesse
 
         basic = self.check_block_sequence()
         developing = {'control_repeat', 'control_forever'}
@@ -191,15 +260,15 @@ class Mastery(Plugin):
 
         for key, value in scale_dict.items():
             if type(value) == bool and value is True:
-                if key in possible_scores.keys():
-                    score = self.skill_points["Flow control"] * possible_scores[key] / len(possible_scores.keys())
+                if key in self.possible_scores.keys():
+                    score = self.skill_points["Flow control"] * self.possible_scores[key] / len(self.possible_scores.keys())
                     self.dict_mastery['FlowControl'] = [score, self.skill_points['Flow control']] 
                     return
             elif type(value) == set:
                 for item in value:
                     if self.dict_blocks[item]:
-                        if key in possible_scores.keys():
-                            score = self.skill_points["Flow control"] * possible_scores[key] / len(possible_scores.keys())
+                        if key in self.possible_scores.keys():
+                            score = self.skill_points["Flow control"] * self.possible_scores[key] / len(self.possible_scores.keys())
                             self.dict_mastery['FlowControl'] = [score, self.skill_points['Flow control']] 
                             return
                         
@@ -401,7 +470,6 @@ class Mastery(Plugin):
         """
         Compute data representation skill score
         """
-        possible_scores = {"finesse": 5, "advanced": 4, "proficient": 3, "developing": 2, "basic": 1}
 
         score = 0
 
@@ -427,32 +495,31 @@ class Mastery(Plugin):
             
             if self.dict_blocks[item]:
                 print("DATA REPRESENTATION MASTERY: Boolean Logic")
-                score = possible_scores['advanced']
+                score = self.possible_scores['advanced']
                 self.dict_mastery['DataRepresentation'] = [score, self.skill_points['Data representation']]
                 return
         for item in lists:
             if self.dict_blocks[item]:
                 # -------- PROFICIENT -------------------
                 print("DATA REPRESENTATION MASTERY: Operations on lists")
-                score = possible_scores['proficient']
+                score = self.possible_scores['proficient']
                 self.dict_mastery['DataRepresentation'] = [score, self.skill_points['Data representation']]
                 return
 
         if self.dict_blocks['data_changevariableby'] or self.dict_blocks['data_setvariableto']:
             # ------------------ DEVELOPING -----------------------------------
             print("DATA REPRESENTATION MASTERY: Operations on variables")
-            score = possible_scores['developing']
+            score = self.possible_scores['developing']
         else:
             # ------------------- BASIC ----------------------------------------
             print("DATA REPRESENTATION MASTERY: Modifiers of sprites properties")
             for modifier in modifiers:
                 if self.dict_blocks[modifier]:
-                    score = possible_scores['basic']
+                    score = self.possible_scores['basic']
         self.dict_mastery['DataRepresentation'] = [score, self.skill_points['Data representation']]
 
     def compute_user_interactivity(self):
         """Assign the User Interactivity skill result"""
-        possible_scores = {"finesse": 5, "advanced": 4, "proficient": 3, "developing": 2, "basic": 1}
         score = 0
 
         proficiency = {'videoSensing_videoToggle', 'videoSensing_videoOn', 'videoSensing_whenMotionGreaterThan',
@@ -470,7 +537,7 @@ class Mastery(Plugin):
                     coincidences += 1
                     if coincidences > 1:
                         print("USER INTERACTIVITY MASTERY: 2 scripts when %s is > %s,")
-                        score = possible_scores['proficient']
+                        score = self.possible_scores['proficient']
                         self.dict_mastery['UserInteractivity'] = [score, self.skill_points['User interactivity']]
                         return    
         
@@ -483,24 +550,24 @@ class Mastery(Plugin):
         for item in developing:
             if self.dict_blocks[item]:
                 print("USER INTERACTIVITY mastery: " + item)
-                score = possible_scores['developing']
+                score = self.possible_scores['developing']
                 self.dict_mastery['UserInteractivity'] = [score, self.skill_points['User interactivity']]
                 return
         if self.dict_blocks['motion_goto_menu']:
             if self._check_mouse() == 1:
-                score = possible_scores['developing']
+                score = self.possible_scores['developing']
                 self.dict_mastery['UserInteractivity'] = [score, self.skill_points['User interactivity']]
                 return
         if self.dict_blocks['sensing_touchingobjectmenu']:
             if self._check_mouse() == 1:
-                score = possible_scores['developing']
+                score = self.possible_scores['developing']
                 self.dict_mastery['UserInteractivity'] = [score, self.skill_points['User interactivity']]
                 return        
             
         # ----------- BASIC -------------------------------------
         if self.dict_blocks['event_whenflagclicked']: # Green flag
             print("USER_INTERACTIVITY MASTERY: Green flag")
-            score = possible_scores['basic']
+            score = self.possible_scores['basic']
 
         self.dict_mastery['UserInteractivity'] = [score, self.skill_points['User interactivity']]
 
@@ -508,9 +575,6 @@ class Mastery(Plugin):
         """
         Assign the Parallelization skill result
         """
-
-        possible_scores = {"finesse": 5, "advanced": 4, "proficient": 3, "developing": 2, "basic": 1}
-
         
         parallelization_score = 0
         dict_parall = self.parallelization_dict()
@@ -520,7 +584,7 @@ class Mastery(Plugin):
                 var_list = set(dict_parall['WHENGREATERTHANMENU'])
                 for var in var_list:
                     if dict_parall['WHENGREATERTHANMENU'].count(var) > 1:
-                        parallelization_score = possible_scores['master']
+                        parallelization_score = self.possible_scores['master']
                         #self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
                         return
         """
@@ -535,7 +599,7 @@ class Mastery(Plugin):
                     coincidences += 1
         if coincidences > 1:
             print("PARALLELISM MASTERY: 2 scripts when %s is > %s,")
-            parallelization_score = possible_scores['proficient']
+            parallelization_score = self.possible_scores['proficient']
             self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
             return
           
@@ -545,13 +609,13 @@ class Mastery(Plugin):
                 for var in backdrop_list:
                     if dict_parall['BACKDROP'].count(var) > 1:
                         print("PARALLELISM MASTERY: 2 Scripts start on the same received message")
-                        parallelization_score = possible_scores['proficient']
+                        parallelization_score = self.possible_scores['proficient']
                         self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
                         return
                        
         if self.dict_blocks['control_create_clone_of']: # Create clone of
             print("PARALLELISM MASTERY: Create clone of")
-            parallelization_score = possible_scores['proficient']
+            parallelization_score = self.possible_scores['proficient']
             self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
             return
                                  
@@ -562,13 +626,13 @@ class Mastery(Plugin):
                 for var in var_list:
                     if dict_parall['BROADCAST_OPTION'].count(var) > 1:
                         print("PARALLELISM MASTERY: 2 Scripts start on the same received message")
-                        parallelization_score = possible_scores['proficient']
+                        parallelization_score = self.possible_scores['proficient']
                         self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
                         return
 
         """
         if self.dict_blocks['videoSensing_whenMotionGreaterThan'] > 1:  # 2 Scripts start on the same multimedia (video) event
-            parallelization_score = possible_scores['master']
+            parallelization_score = self.possible_scores['master']
             self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
             return
         """
@@ -581,15 +645,15 @@ class Mastery(Plugin):
                 for var in var_list:
                     if dict_parall['KEY_OPTION'].count(var) > 1:
                         print("PARALLELISM MASTERY: Scripts start on the same key pressed")
-                        parallelization_score = possible_scores['developing']
+                        parallelization_score = self.possible_scores['developing']
 
         if self.dict_blocks['event_whenthisspriteclicked'] > 1:  # Sprite with 2 scripts on clicked
             print("PARALLELISM MASTERY: Sprite with 2 scripts on clicked")
-            parallelization_score = possible_scores['developing']
+            parallelization_score = self.possible_scores['developing']
         
         # ----------- BASIC ----------------------------
         if self.dict_blocks['event_whenflagclicked'] > 1 and parallelization_score == 0:  # 2 scripts on green flag
-            parallelization_score = possible_scores["basic"]
+            parallelization_score = self.possible_scores["basic"]
         
         self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
 
@@ -628,7 +692,6 @@ class Mastery(Plugin):
         """
 
         score = 0
-        possible_scores = {"finesse": 5, "advanced": 4, "master": 3, "developing": 2, "basic": 1}
         
         basic = {'operator_add', 'operator_subtract', 'operator_multiply', 'operator_divide'}
         developing = {'operator_gt', 'operator_lt', 'operator_equals'}
@@ -639,15 +702,15 @@ class Mastery(Plugin):
 
         for key, value in scale_dict.items():           
             if type(value) == bool and value is True:
-                if key in possible_scores.keys():
-                    score = self.skill_points["Math operators"] * possible_scores[key] / len(possible_scores.keys())
+                if key in self.possible_scores.keys():
+                    score = self.skill_points["Math operators"] * self.possible_scores[key] / len(self.possible_scores.keys())
                     self.dict_mastery['MathOperators'] = [score, self.skill_points['Math operators']] 
                     return
             elif type(value) == set:
                 for item in value:
                     if self.dict_blocks[item]:
-                        if key in possible_scores.keys():
-                            score = self.skill_points["Math operators"] * possible_scores[key] / len(possible_scores.keys())
+                        if key in self.possible_scores.keys():
+                            score = self.skill_points["Math operators"] * self.possible_scores[key] / len(self.possible_scores.keys())
                             self.dict_mastery['MathOperators'] = [score, self.skill_points['Math operators']] 
                             return
                     
@@ -679,7 +742,6 @@ class Mastery(Plugin):
         """
 
         score = 0
-        possible_scores = {"finesse": 5, "advanced": 4, "master": 3, "developing": 2, "basic": 1}
 
         basic = {'motion_movesteps', 'motion_gotoxy', 'motion_changexby', 'motion_goto', 'motion_changeyby', 'motion_setx', 'motion_sety'}
         developing = {'motion_turnleft', 'motion_turnright', 'motion_setrotationstyles', 'motion_pointindirection', 'motion_pointtowards'}
@@ -691,15 +753,15 @@ class Mastery(Plugin):
 
         for key, value in scale_dict.items():           
             if type(value) == bool and value is True:
-                if key in possible_scores.keys():
-                    score = self.skill_points["Motion operators"] * possible_scores[key] / len(possible_scores.keys())
+                if key in self.possible_scores.keys():
+                    score = self.skill_points["Motion operators"] * self.possible_scores[key] / len(self.possible_scores.keys())
                     self.dict_mastery['MotionOperators'] = [score, self.skill_points['Motion operators']] 
                     return
             elif type(value) == set:
                 for item in value:
                     if self.dict_blocks[item]:
-                        if key in possible_scores.keys():
-                            score = self.skill_points["Motion operators"] * possible_scores[key] / len(possible_scores.keys())
+                        if key in self.possible_scores.keys():
+                            score = self.skill_points["Motion operators"] * self.possible_scores[key] / len(self.possible_scores.keys())
                             self.dict_mastery['MotionOperators'] = [score, self.skill_points['Motion operators']] 
                             return
                     
