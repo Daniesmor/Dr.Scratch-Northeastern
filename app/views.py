@@ -328,24 +328,24 @@ def show_dashboard(request, skill_points=None):
                 return render(request, user + '/main.html', {'no_exists': True})
             else:
                 if d["dashboard_mode"] == 'Default':
-                    if d["mastery"]["points"][0] >= 29:
+                    if d["mastery"]["points"][0] >= 36:
                         return render(request, user + '/dashboard-default-finesse.html', d)
-                    elif d["mastery"]["points"][0] >= 22:
+                    elif d["mastery"]["points"][0] >= 27:
                         return render(request, user + '/dashboard-default-advanced.html', d)
-                    elif d["mastery"]["points"][0] >= 15:
+                    elif d["mastery"]["points"][0] >= 18:
                         return render(request, user + '/dashboard-default-master.html', d)
-                    elif d["mastery"]["points"][0] > 7:
+                    elif d["mastery"]["points"][0] > 9:
                         return render(request, user + '/dashboard-default-developing.html', d)
                     else:
                         return render(request, user + '/dashboard-default-basic.html', d)
                 elif d["dashboard_mode"] == 'Personalized':
-                    if d["mastery"]["points"][0] >= 29: # Modificar estos límites
+                    if d["mastery"]["points"][0] >= 29: 
                         return render(request, user + '/dashboard-finesse.html', d)
-                    elif d["mastery"]["points"][0] >= 22: # Modificar estos límites
+                    elif d["mastery"]["points"][0] >= 22: 
                         return render(request, user + '/dashboard-advanced.html', d)
-                    elif d["mastery"]["points"][0] >= 15: # Modificar estos límites
+                    elif d["mastery"]["points"][0] >= 15: 
                         return render(request, user + '/dashboard-master.html', d)
-                    elif d["mastery"]["points"][0] > 7: # Modificar estos límites
+                    elif d["mastery"]["points"][0] > 7:
                         return render(request, user + '/dashboard-developing.html', d)
                     else:
                         return render(request, user + '/dashboard-basic.html', d)                   
@@ -364,7 +364,7 @@ def generate_rubric(skill_points: str) -> dict:
             skill_rubric[skill_name] = int(points)   
     else:
         for skill_name in mastery:
-            skill_rubric[skill_name] = 3           
+            skill_rubric[skill_name] = 5           
     return skill_rubric  
     
      
@@ -921,27 +921,48 @@ def proc_dead_code(dict_dead_code, filename):
 
 def proc_mastery(request, dict_mastery, file_obj):
 
-    dict_result = dict_mastery['result'].copy()
+    dict_extended = dict_mastery['extended'].copy()
+    dic_vanilla = dict_mastery['vanilla'].copy()
+    
     print("Dict_Result:")
-    print(dict_result)
+    print(dict_extended)
 
-    file_obj.score = dict_result["total_points"][0]
-    file_obj.abstraction = dict_result["Abstraction"][0]
-    file_obj.parallelization = dict_result["Parallelization"][0]
-    file_obj.logic = dict_result["Logic"][0]
-    file_obj.synchronization = dict_result["Synchronization"][0]
-    file_obj.flow_control = dict_result["FlowControl"][0]
-    file_obj.userInteractivity = dict_result["UserInteractivity"][0]
-    file_obj.dataRepresentation = dict_result["DataRepresentation"][0]
-    file_obj.mathOperators = dict_result["MathOperators"][0]
-    file_obj.mathOperators = dict_result["MotionOperators"][0]
+    # EXTENDED
+    file_obj.score = dict_extended["total_points"][0]
+    file_obj.competence = dict_extended["competence"]
+    file_obj.abstraction = dict_extended["Abstraction"][0]
+    file_obj.parallelization = dict_extended["Parallelization"][0]
+    file_obj.logic = dict_extended["Logic"][0]
+    file_obj.synchronization = dict_extended["Synchronization"][0]
+    file_obj.flow_control = dict_extended["FlowControl"][0]
+    file_obj.userInteractivity = dict_extended["UserInteractivity"][0]
+    file_obj.dataRepresentation = dict_extended["DataRepresentation"][0]
+    file_obj.mathOperators = dict_extended["MathOperators"][0]
+    file_obj.mathOperators = dict_extended["MotionOperators"][0]
+    file_obj.save()
+    
+    # VANILLA
+    file_obj.score = dic_vanilla["total_points"][0]
+    file_obj.competence = dic_vanilla["competence"]
+    file_obj.abstraction = dic_vanilla["Abstraction"][0]
+    file_obj.parallelization = dic_vanilla["Parallelization"][0]
+    file_obj.logic = dic_vanilla["Logic"][0]
+    file_obj.synchronization = dic_vanilla["Synchronization"][0]
+    file_obj.flow_control = dic_vanilla["FlowControl"][0]
+    file_obj.userInteractivity = dic_vanilla["UserInteractivity"][0]
+    file_obj.dataRepresentation = dic_vanilla["DataRepresentation"][0]
     file_obj.save()
 
-    d_translated = translate(request, dict_result, file_obj)
+    d_extended_translated = translate(request, dict_extended, file_obj)
+    d_vanilla_translated = translate(request, dic_vanilla, file_obj)
 
-    dic = {"mastery": d_translated}
-    dic["mastery"]["points"] = dict_result["total_points"]
-    dic["mastery"]["skill_points"] = dict_result["skill_points"]
+
+    dic = {"mastery": d_extended_translated, "mastery_vanilla": d_vanilla_translated} # TRANSLATE EXTENDED
+    dic["mastery"]["competence"] = dict_extended["competence"]
+    dic["mastery"]["points"] = dict_extended["total_points"]
+    
+    dic["mastery_vanilla"]["competence"] = dic_vanilla["competence"]
+    dic["mastery_vanilla"]["points"] = dic_vanilla["total_points"]
 
     return dic
 
