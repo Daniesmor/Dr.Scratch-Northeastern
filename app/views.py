@@ -1025,16 +1025,18 @@ def translate(request, d, filename):
         d_translate_es = {'Abstracción': d['Abstraction'], 'Paralelismo': d['Parallelization'],
                           'Pensamiento lógico': d['Logic'], 'Sincronización': d['Synchronization'],
                           'Control de flujo': d['FlowControl'], 'Interactividad con el usuario': d['UserInteractivity'],
-                          'Representación de la información': d['DataRepresentation'],
-                          'Operadores matemáticos': d['MathOperators'], 'Operadores de movimiento': d['MotionOperators']}
+                          'Representación de la información': d['DataRepresentation']}
+        if d['total_points'][1] > 21: # Check that not is Vanilla Mode
+            d_translate_es.update({'Operadores matemáticos': d['MathOperators'], 'Operadores de movimiento': d['MotionOperators']})
         filename.language = "es"
         filename.save()
         return d_translate_es
     elif request.LANGUAGE_CODE == "en":
         d_translate_en = {'Abstraction': d['Abstraction'], 'Parallelism': d['Parallelization'], 'Logic': d['Logic'],
                           'Synchronization': d['Synchronization'], 'Flow control': d['FlowControl'],
-                          'User interactivity': d['UserInteractivity'], 'Data representation': d['DataRepresentation'],
-                          'Math operators': d['MathOperators'], 'Motion operators': d['MotionOperators']}
+                          'User interactivity': d['UserInteractivity'], 'Data representation': d['DataRepresentation']}
+        if d['total_points'][1] > 21: 
+            d_translate_en.update({'Math operators': d['MathOperators'], 'Motion operators': d['MotionOperators']})
         filename.language = "en"
         filename.save()
         return d_translate_en
@@ -1042,8 +1044,9 @@ def translate(request, d, filename):
         d_translate_ca = {'Abstracció': d['Abstraction'], 'Paral·lelisme': d['Parallelization'], 'Lògica': d['Logic'],
                           'Sincronització': d['Synchronization'], 'Controls de flux': d['FlowControl'],
                           "Interactivitat de l'usuari": d['UserInteractivity'],
-                          'Representació de dades': d['DataRepresentation'], 'Operadors matemàtics': d['MathOperators'],
-                          'Operadors de moviment':  d['MotionOperators']}
+                          'Representació de dades': d['DataRepresentation']}
+        if d['total_points'][1] > 21: 
+            d_translate_ca.update({'Operadors matemàtics': d['MathOperators'], 'Operadors de moviment':  d['MotionOperators']})
         filename.language = "ca"
         filename.save()
         return d_translate_ca
@@ -1051,8 +1054,9 @@ def translate(request, d, filename):
         d_translate_gl = {'Abstracción': d['Abstraction'], 'Paralelismo': d['Parallelization'], 'Lóxica': d['Logic'],
                           'Sincronización': d['Synchronization'], 'Control de fluxo': d['FlowControl'],
                           "Interactividade do susario": d['UserInteractivity'],
-                          'Representación dos datos': d['DataRepresentation'], 'Operadores matemáticos': d['MathOperators'],
-                          'Operadores de movemento': d['MotionOperators']}
+                          'Representación dos datos': d['DataRepresentation']}
+        if d['total_points'][1] > 21: 
+            d_translate_gl.update({'Operadores matemáticos': d['MathOperators'], 'Operadores de movemento': d['MotionOperators']})
         filename.language = "gl"
         filename.save()
         return d_translate_gl
@@ -1061,8 +1065,9 @@ def translate(request, d, filename):
         d_translate_pt = {'Abstração': d['Abstraction'], 'Paralelismo': d['Parallelization'], 'Lógica': d['Logic'],
                           'Sincronização': d['Synchronization'], 'Controle de fluxo': d['FlowControl'],
                           "Interatividade com o usuário": d['UserInteractivity'],
-                          'Representação de dados': d['DataRepresentation'], 'Operadores matemáticos': d['MathOperators'],
-                          'Operadores de movimento': d['MotionOperators']}
+                          'Representação de dados': d['DataRepresentation']}
+        if d['total_points'][1] > 21: 
+            d_translate_pt.update({'Operadores matemáticos': d['MathOperators'], 'Operadores de movimento': d['MotionOperators']})
         filename.language = "pt"
         filename.save()
         return d_translate_pt
@@ -1071,8 +1076,9 @@ def translate(request, d, filename):
         d_translate_el = {'Αφαίρεση': d['Abstraction'], 'Παραλληλισμός': d['Parallelization'], 'Λογική': d['Logic'],
                           'Συγχρονισμός': d['Synchronization'], 'Έλεγχος ροής': d['FlowControl'],
                           'Αλληλεπίδραση χρήστη': d['UserInteractivity'],
-                          'Αναπαράσταση δεδομένων': d['DataRepresentation'], 'Μαθηματικοί χειριστές': d['MathOperators'],
-                          'Χειριστές κίνησης': d['MotionOperators']}
+                          'Αναπαράσταση δεδομένων': d['DataRepresentation']}
+        if d['total_points'][1] > 21: 
+            d_translate_el.update({'Μαθηματικοί χειριστές': d['MathOperators'], 'Χειριστές κίνησης': d['MotionOperators']})
         filename.language = "el"
         filename.save()
         return d_translate_el
@@ -1081,8 +1087,9 @@ def translate(request, d, filename):
         d_translate_eu = {'Abstrakzioa': d['Abstraction'], 'Paralelismoa': d['Parallelization'], 'Logika': d['Logic'],
                           'Sinkronizatzea': d['Synchronization'], 'Kontrol fluxua': d['FlowControl'],
                           'Erabiltzailearen elkarreragiletasuna': d['UserInteractivity'],
-                          'Datu adierazlea': d['DataRepresentation'], 'Eragile matematikoak': d['MathOperators'],
-                          'Mugimendu-eragileak': d['MotionOperators']}
+                          'Datu adierazlea': d['DataRepresentation']}
+        if d['total_points'][1] > 21: 
+            d_translate_eu.update({'Eragile matematikoak': d['MathOperators'], 'Mugimendu-eragileak': d['MotionOperators']})
         filename.language = "eu"
         filename.save()
         return d_translate_eu
@@ -1091,8 +1098,9 @@ def translate(request, d, filename):
         d_translate_it = {'Astrazione': d['Abstraction'], 'Parallelismo': d['Parallelization'], 'Logica': d['Logic'],
                           'Sincronizzazione': d['Synchronization'], 'Controllo di flusso': d['FlowControl'],
                           'Interattività utente': d['UserInteractivity'],
-                          'Rappresentazione dei dati': d['DataRepresentation'], 'Operatori matematici':  d['MathOperators'],
-                          'Operatori del movimento': d['MotionOperators']}
+                          'Rappresentazione dei dati': d['DataRepresentation']}
+        if d['total_points'][1] > 21: 
+            d_translate_it.update({'Operatori matematici':  d['MathOperators'], 'Operatori del movimento': d['MotionOperators']})
         filename.language = "it"
         filename.save()
         return d_translate_it
@@ -1101,16 +1109,18 @@ def translate(request, d, filename):
         d_translate_ru = {'Абстракция': d['Abstraction'], 'Параллельность действий': d['Parallelization'],
                           'Логика': d['Logic'], 'cинхронизация': d['Synchronization'],
                           'Управление потоком': d['FlowControl'], 'Интерактивность': d['UserInteractivity'],
-                          'Представление данных': d['DataRepresentation'], 'Математические операторы': d['MathOperators'],
-                          'Операторы движения': d['MotionOperators']}
+                          'Представление данных': d['DataRepresentation']}
+        if d['total_points'][1] > 21: 
+            d_translate_ru.update({'Математические операторы': d['MathOperators'], 'Операторы движения': d['MotionOperators']})
         filename.language = "ru"
         filename.save()
         return d_translate_ru
     else:
         d_translate_en = {'Abstraction': d['Abstraction'], 'Parallelism': d['Parallelization'], 'Logic': d['Logic'],
                           'Synchronization': d['Synchronization'], 'Flow control': d['FlowControl'],
-                          'User interactivity': d['UserInteractivity'], 'Data representation': d['DataRepresentation'],
-                          'Math Operators': d['MathOperators'], 'Motion Operators': d['MotionOperators']}
+                          'User interactivity': d['UserInteractivity'], 'Data representation': d['DataRepresentation']}
+        if d['total_points'][1] > 21: 
+            d_translate_en.update({'Math Operators': d['MathOperators'], 'Motion Operators': d['MotionOperators']})
         filename.language = "any"
         filename.save()
         return d_translate_en
