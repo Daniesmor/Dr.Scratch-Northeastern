@@ -328,27 +328,9 @@ def show_dashboard(request, skill_points=None):
                 return render(request, user + '/main.html', {'no_exists': True})
             else:
                 if d["dashboard_mode"] == 'Default':
-                    if d["mastery"]["points"][0] >= 36:
-                        return render(request, user + '/dashboard-default-finesse.html', d)
-                    elif d["mastery"]["points"][0] >= 27:
-                        return render(request, user + '/dashboard-default-advanced.html', d)
-                    elif d["mastery"]["points"][0] >= 18:
-                        return render(request, user + '/dashboard-default-master.html', d)
-                    elif d["mastery"]["points"][0] > 9:
-                        return render(request, user + '/dashboard-default-developing.html', d)
-                    else:
-                        return render(request, user + '/dashboard-default-basic.html', d)
+                    return render(request, user + '/dashboard-default.html', d)
                 elif d["dashboard_mode"] == 'Personalized':
-                    if d["mastery"]["points"][0] >= 29: 
-                        return render(request, user + '/dashboard-finesse.html', d)
-                    elif d["mastery"]["points"][0] >= 22: 
-                        return render(request, user + '/dashboard-advanced.html', d)
-                    elif d["mastery"]["points"][0] >= 15: 
-                        return render(request, user + '/dashboard-master.html', d)
-                    elif d["mastery"]["points"][0] > 7:
-                        return render(request, user + '/dashboard-developing.html', d)
-                    else:
-                        return render(request, user + '/dashboard-basic.html', d)                   
+                    return render(request, user + '/dashboard-personal.html', d)               
     else:
         return HttpResponseRedirect('/')    
 
@@ -875,6 +857,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
     if os.path.exists(path_projectsb3):
         json_scratch_project = load_json_project(path_projectsb3)
         dict_mastery = Mastery(path_projectsb3, json_scratch_project, skill_points).finalize()
+        print("MASTERY:", dict_mastery)
         dict_duplicate_script = DuplicateScripts(path_projectsb3, json_scratch_project).finalize()
         dict_dead_code = DeadCode(path_projectsb3, json_scratch_project,).finalize()
         result_sprite_naming = SpriteNaming(path_projectsb3, json_scratch_project).finalize()
