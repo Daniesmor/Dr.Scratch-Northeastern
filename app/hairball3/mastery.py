@@ -10,8 +10,8 @@ coloredlogs.install(level='DEBUG', logger=logger)
 
 class Mastery(Plugin):
 
-    def __init__(self, filename: str, json_project, skill_points: dict,verbose=False):
-        super().__init__(filename, json_project, skill_points, verbose)
+    def __init__(self, filename: str, json_project, skill_points: dict, mode: str ,verbose=False):
+        super().__init__(filename, json_project, skill_points, mode , verbose)
         self.possible_scores = {"finesse": 5, "advanced": 4, "proficient": 3, "developing": 2, "basic": 1}
         self.dict_total_blocks = {}
 
@@ -33,7 +33,6 @@ class Mastery(Plugin):
                     self.dict_blocks[list_info] += 1
 
     def analyze(self):
-        # print(self.list_total_blocks)
         self.compute_logic()
         self.compute_flow_control()
         self.compute_synchronization()
@@ -52,6 +51,7 @@ class Mastery(Plugin):
         self.analyze()
 
         total_points = 0
+        active_dimensions = sum(1 for value in self.skill_points.values() if value > 0)
 
         for skill, skill_grade in self.dict_mastery.items():
             if self.verbose:
@@ -59,57 +59,43 @@ class Mastery(Plugin):
             total_points = total_points + skill_grade[0]
             total_points = round(total_points, 2)
 
-
-        average_points = float(total_points) / 9
+        average_points = float(total_points) / active_dimensions
         total_maxi_points = sum(self.skill_points.values())
+        competence = self.set_competence(total_points, total_maxi_points)
 
         result = '{}{}{}{}'.format(self.filename, '\n', json.dumps(self.dict_mastery), '\n')
         result += ('Total mastery points: {}/{}\n'.format(total_points, total_maxi_points))
         result += ('Average mastery points: {}/{}\n'.format(average_points, consts.PLUGIN_MASTERY_AVG_POINTS))
 
-       
-        """
-        EXTENDED MODE
-        """
-        extended_points = total_maxi_points
-        exetended_competence = self.calc_averages(average_points, 'extended')
+        self.set_dict(self.dict_mastery, total_points, total_maxi_points, average_points, competence)
 
+        if self.mode == 'Personalized':
+            dict_result = {'plugin': 'mastery', 'personalized': self.dict_mastery}
+        elif self.mode == 'Default':
+            vanilla_dict = self.calc_extrapolation(self.dict_mastery)
+            vanilla_points = sum(points[0] for points in vanilla_dict.values())
+            average_points = vanilla_points / 7
+            vanilla_competence = self.set_competence(vanilla_points, 21, 'Vanilla')
+            self.set_dict(vanilla_dict, vanilla_points, 21, average_points, vanilla_competence)
+            #self.dict_mastery['description'] = result
+            if self.verbose:
+                logger.info(self.dict_mastery['description'])
+            dict_result = {'plugin': 'mastery', 'extended': self.dict_mastery, 'vanilla': vanilla_dict}
 
-        self.dict_mastery['total_points'] = [total_points, total_maxi_points]
-        self.dict_mastery['max_points_extended'] = extended_points
-        self.dict_mastery['average_points'] = round(average_points, 2)
-        self.dict_mastery['competence'] = exetended_competence["programming_competence"]
-        #self.dict_mastery['description'] = result
-
-        if self.verbose:
-            logger.info(self.dict_mastery['description'])
-            
-        extended_dict = self.dict_mastery.copy()
-        
-        """
-        VANILLA MODE
-        """
-        self.dict_mastery = self.calc_extrapolation(self.dict_mastery)
-        vanilla_points = sum(points[0] for points in self.dict_mastery.values())
-        average_points = vanilla_points / 7
-        vanilla_competence = self.calc_averages(average_points, 'vanilla')
-
-
-        self.dict_mastery['total_points'] = [round(vanilla_points,2), 21]
-        self.dict_mastery['max_points_vanilla'] = 21
-        self.dict_mastery['average_points'] = round(average_points, 2)
-        self.dict_mastery['competence'] = vanilla_competence["programming_competence"]
-        #self.dict_mastery['description'] = result
-
-        if self.verbose:
-            logger.info(self.dict_mastery['description'])
-            
-        vanilla_dict = self.dict_mastery.copy()
-        
-
-        dict_result = {'plugin': 'mastery', 'extended': extended_dict, 'vanilla': vanilla_dict}
+        print("DICT_RESULT: ", dict_result)
 
         return dict_result
+
+    def set_dict(self, dict, points, max_points, average_points, competence) -> dict:
+        """
+        Include the mastery points, max points, average points and competence in the dictionary.
+        """
+        dict['total_points'] = [points, max_points]
+        dict['max_points'] = max_points
+        dict['average_points'] = round(average_points, 2)
+        dict['competence'] = competence
+
+        return dict
 
     def calc_extrapolation(self, dict_mastery) -> dict:
         """
@@ -127,6 +113,36 @@ class Mastery(Plugin):
                     new_value = dict_mastery[skill][0]
                 new_dict[skill] = [new_value, 3]
         return new_dict
+    
+    def set_competence(self, points, max_points, mode=None):
+
+        competence = ''
+
+        finesse_lvl = max_points*36/45
+        advanced_lvl = max_points*27/45
+        master_lvl = max_points*18/45
+        developing_lvl = max_points*9/45
+
+        if mode == 'Vanilla':
+            if points > 15:
+                competence = 'Master'
+            elif points > 7:
+                competence = 'Developing'
+            else:
+                competence = 'Basic'
+        else:
+            if points > finesse_lvl:
+                competence = 'Finesse'
+            elif points > advanced_lvl:
+                competence = 'Advanced'
+            elif points > master_lvl:
+                competence = 'Master'
+            elif points > developing_lvl:
+                competence = 'Developing'
+            else:
+                competence = 'Basic'
+
+        return competence
 
     def calc_averages(self, average_points, mode):
         result = ''
@@ -347,7 +363,6 @@ class Mastery(Plugin):
                 msg = block['inputs']['BROADCAST_INPUT'][1][2]
                 if self.has_conditional_or_loop(msg):
                     counter += 1
-                    print("Counter=", counter)
         if counter >= min_msg:
             check = True
 
