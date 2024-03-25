@@ -3,7 +3,7 @@ from collections import Counter
 
 class Plugin(object):
 
-    def __init__(self, filename, json_project, skill_points = None,verbose=False):
+    def __init__(self, filename, json_project, skill_points = None, mode = None ,verbose=False):
         self.dict_mastery = {}
         self.list_total_blocks = []
         self.dict_blocks = Counter()
@@ -11,6 +11,7 @@ class Plugin(object):
         self.verbose = verbose
         self.json_project = json_project
         self.skill_points = skill_points
+        self.mode = mode
 
     def process(self):
         pass

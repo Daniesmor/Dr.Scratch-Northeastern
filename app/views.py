@@ -328,27 +328,9 @@ def show_dashboard(request, skill_points=None):
                 return render(request, user + '/main.html', {'no_exists': True})
             else:
                 if d["dashboard_mode"] == 'Default':
-                    if d["mastery"]["points"][0] >= 36:
-                        return render(request, user + '/dashboard-default-finesse.html', d)
-                    elif d["mastery"]["points"][0] >= 27:
-                        return render(request, user + '/dashboard-default-advanced.html', d)
-                    elif d["mastery"]["points"][0] >= 18:
-                        return render(request, user + '/dashboard-default-master.html', d)
-                    elif d["mastery"]["points"][0] > 9:
-                        return render(request, user + '/dashboard-default-developing.html', d)
-                    else:
-                        return render(request, user + '/dashboard-default-basic.html', d)
+                    return render(request, user + '/dashboard-default.html', d)
                 elif d["dashboard_mode"] == 'Personalized':
-                    if d["mastery"]["points"][0] >= 29: 
-                        return render(request, user + '/dashboard-finesse.html', d)
-                    elif d["mastery"]["points"][0] >= 22: 
-                        return render(request, user + '/dashboard-advanced.html', d)
-                    elif d["mastery"]["points"][0] >= 15: 
-                        return render(request, user + '/dashboard-master.html', d)
-                    elif d["mastery"]["points"][0] > 7:
-                        return render(request, user + '/dashboard-developing.html', d)
-                    else:
-                        return render(request, user + '/dashboard-basic.html', d)                   
+                    return render(request, user + '/dashboard-personal.html', d)               
     else:
         return HttpResponseRedirect('/')    
 
@@ -874,7 +856,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
     
     if os.path.exists(path_projectsb3):
         json_scratch_project = load_json_project(path_projectsb3)
-        dict_mastery = Mastery(path_projectsb3, json_scratch_project, skill_points).finalize()
+        dict_mastery = Mastery(path_projectsb3, json_scratch_project, skill_points, request.POST.get('dashboard_mode')).finalize()
         dict_duplicate_script = DuplicateScripts(path_projectsb3, json_scratch_project).finalize()
         dict_dead_code = DeadCode(path_projectsb3, json_scratch_project,).finalize()
         result_sprite_naming = SpriteNaming(path_projectsb3, json_scratch_project).finalize()
@@ -921,50 +903,43 @@ def proc_dead_code(dict_dead_code, filename):
 
 def proc_mastery(request, dict_mastery, file_obj):
 
-    dict_extended = dict_mastery['extended'].copy()
-    dic_vanilla = dict_mastery['vanilla'].copy()
+    if request.POST.get('dashboard_mode') == 'Default':
+        dict_extended = dict_mastery['extended'].copy()
+        dict_vanilla = dict_mastery['vanilla'].copy()
+        set_file_obj(request, file_obj, dict_extended)
+        set_file_obj(request, file_obj, dict_vanilla, 'Vanilla')
+        d_extended_translated = translate(request, dict_extended, file_obj)
+        d_vanilla_translated = translate(request, dict_vanilla, file_obj)
+        dic = {"mastery": d_extended_translated, "mastery_vanilla": d_vanilla_translated}
+        dic["mastery"]["competence"] = dict_extended["competence"]
+        dic["mastery"]["points"] = dict_extended["total_points"]
+        dic["mastery_vanilla"]["competence"] = dict_vanilla["competence"]
+        dic["mastery_vanilla"]["points"] = dict_vanilla["total_points"]
+    elif request.POST.get('dashboard_mode') == 'Personalized':
+        dict_personal = dict_mastery['personalized'].copy()
+        set_file_obj(request, file_obj, dict_personal)
+        d_personal_translated = translate(request, dict_personal, file_obj)
+        dic = {"mastery": d_personal_translated}
+        dic["mastery"]["competence"] = dict_personal["competence"]
+        dic["mastery"]["points"] = dict_personal["total_points"]
     
-    print("Dict_Result:")
-    print(dict_extended)
-
-    # EXTENDED
-    file_obj.score = dict_extended["total_points"][0]
-    file_obj.competence = dict_extended["competence"]
-    file_obj.abstraction = dict_extended["Abstraction"][0]
-    file_obj.parallelization = dict_extended["Parallelization"][0]
-    file_obj.logic = dict_extended["Logic"][0]
-    file_obj.synchronization = dict_extended["Synchronization"][0]
-    file_obj.flow_control = dict_extended["FlowControl"][0]
-    file_obj.userInteractivity = dict_extended["UserInteractivity"][0]
-    file_obj.dataRepresentation = dict_extended["DataRepresentation"][0]
-    file_obj.mathOperators = dict_extended["MathOperators"][0]
-    file_obj.mathOperators = dict_extended["MotionOperators"][0]
-    file_obj.save()
-    
-    # VANILLA
-    file_obj.score = dic_vanilla["total_points"][0]
-    file_obj.competence = dic_vanilla["competence"]
-    file_obj.abstraction = dic_vanilla["Abstraction"][0]
-    file_obj.parallelization = dic_vanilla["Parallelization"][0]
-    file_obj.logic = dic_vanilla["Logic"][0]
-    file_obj.synchronization = dic_vanilla["Synchronization"][0]
-    file_obj.flow_control = dic_vanilla["FlowControl"][0]
-    file_obj.userInteractivity = dic_vanilla["UserInteractivity"][0]
-    file_obj.dataRepresentation = dic_vanilla["DataRepresentation"][0]
-    file_obj.save()
-
-    d_extended_translated = translate(request, dict_extended, file_obj)
-    d_vanilla_translated = translate(request, dic_vanilla, file_obj)
-
-
-    dic = {"mastery": d_extended_translated, "mastery_vanilla": d_vanilla_translated} # TRANSLATE EXTENDED
-    dic["mastery"]["competence"] = dict_extended["competence"]
-    dic["mastery"]["points"] = dict_extended["total_points"]
-    
-    dic["mastery_vanilla"]["competence"] = dic_vanilla["competence"]
-    dic["mastery_vanilla"]["points"] = dic_vanilla["total_points"]
-
     return dic
+
+def set_file_obj(request, file_obj, dict, mode=None):
+
+    file_obj.score = dict["total_points"][0]
+    file_obj.competence = dict["competence"]
+    file_obj.abstraction = dict["Abstraction"][0]
+    file_obj.parallelization = dict["Parallelization"][0]
+    file_obj.logic = dict["Logic"][0]
+    file_obj.synchronization = dict["Synchronization"][0]
+    file_obj.flow_control = dict["FlowControl"][0]
+    file_obj.userInteractivity = dict["UserInteractivity"][0]
+    file_obj.dataRepresentation = dict["DataRepresentation"][0]
+    if mode != 'Vanilla':
+        file_obj.mathOperators = dict["MathOperators"][0]
+        file_obj.mathOperators = dict["MotionOperators"][0]
+    file_obj.save()
 
 
 def proc_duplicate_script(dict_result, file_obj) -> dict:
