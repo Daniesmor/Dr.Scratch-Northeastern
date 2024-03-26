@@ -354,7 +354,7 @@ def generate_rubric(skill_points: str) -> dict:
 def create_summary(d: dict) -> dict:
     summary = {}
     # NUM PROJECTS
-    total_maxi_points = d[0]['mastery']['maxi']
+    total_maxi_points = d[0]['mastery']['points'][1]
     num_projects = len(d)
 
     summary['num_projects'] = num_projects
@@ -362,7 +362,7 @@ def create_summary(d: dict) -> dict:
     skills = ['Abstraction', 'Parallelism', 'Logic', 'Synchronization', 'Flow control', 'User interactivity', 'Data representation']
 
     for project in d:
-        summary['Points'] += round(d[project]["mastery"]["points"], 2)
+        summary['Points'] += round(d[project]["mastery"]["points"][0], 2)
         for skill in skills:
             if skill not in summary:
                 summary[skill] = 0
