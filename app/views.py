@@ -337,8 +337,8 @@ def show_dashboard(request, skill_points=None):
 
 def generate_rubric(skill_points: str) -> dict:
     mastery = ['Abstraction', 'Parallelism', 'Logic', 'Synchronization', 
-               'Flow control', 'User interactivity', 'Data representation',
-               'Math operators', 'Motion operators']
+               'FlowControl', 'UserInteractivity', 'DataRepresentation',
+               'MathOperators', 'MotionOperators']
        
     skill_rubric = {}
     if skill_points != '':
