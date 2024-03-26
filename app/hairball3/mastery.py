@@ -183,25 +183,31 @@ class Mastery(Plugin):
     def set_dimension_score(self, scale_dict, dimension):
 
         score = 0
-        
 
         for key, value in scale_dict.items():
             if type(value) == bool and value is True:
                 if key in self.possible_scores.keys():
-                    score = self.skill_points[dimension] * self.possible_scores[key] / len(self.possible_scores.keys())
+                    score = self.extrapolate_to_rubric(dimension, key)
                     self.dict_mastery[dimension] = [score, self.skill_points[dimension]] 
                     return
             elif type(value) == set:
                 for item in value:
                     if self.dict_blocks[item]:
                         if key in self.possible_scores.keys():
-                            score = self.skill_points[dimension] * self.possible_scores[key] / len(self.possible_scores.keys())
+                            score = self.extrapolate_to_rubric(dimension, key)
                             self.dict_mastery[dimension] = [score, self.skill_points[dimension]] 
                             return
 
         self.dict_mastery[dimension] = [score, self.skill_points[dimension]] 
         return
 
+    def extrapolate_to_rubric(self, dimension, level):
+        """
+        Extrapolate the points to the max points of skill rubric
+        """
+        score = self.skill_points[dimension] * self.possible_scores[level]
+        score /= len(self.possible_scores.keys())
+        return score
 
     def compute_logic(self):
         """
@@ -217,47 +223,7 @@ class Mastery(Plugin):
         scale_dict = {"advanced": advanced, "master": master, "developing": developing, "basic": basic}
 
         self.set_dimension_score(scale_dict, "Logic")
-
-    def check_nested_conditionals(self):
-        """
-        Finds if there are any nested conditionals in all the blocks of the script.
-        """
-
-        check = False
-
-        for _, block_dict in self.dict_total_blocks.items():
-            if block_dict['opcode'] == 'control_if':
-                try:
-                    substack =  self.dict_total_blocks.get(block_dict['inputs']['SUBSTACK'][1])
-                    if self.has_nested_conditional(substack):
-                        check = True
-                        break
-                except KeyError:
-                    pass
-            elif block_dict['opcode'] == 'control_if_else':
-                try:
-                    substack =  self.dict_total_blocks.get(block_dict['inputs']['SUBSTACK'][1])
-                    substack_2 = self.dict_total_blocks.get(block_dict['inputs']['SUBSTACK2'][1])
-                    if self.has_nested_conditional(substack) or self.has_nested_conditional(substack_2):
-                        check = True
-                        break
-                except KeyError:
-                    pass 
-                
-        return check
-    
-    def has_nested_conditional(self, substack):
-        """
-        Returns True if there is a nested conditional
-        """
-
-        while substack is not None:
-            if substack['opcode'] == 'control_if' or substack['opcode'] == 'control_if_else':
-                return True
-            substack = self.dict_total_blocks.get(substack['next'])
-
-        return False
-
+        
 
     def compute_flow_control(self):
         """
@@ -274,68 +240,8 @@ class Mastery(Plugin):
 
         scale_dict = {"advanced": advanced, "master": master, "developing": developing, "basic": basic}
 
-        for key, value in scale_dict.items():
-            if type(value) == bool and value is True:
-                if key in self.possible_scores.keys():
-                    score = self.skill_points["Flow control"] * self.possible_scores[key] / len(self.possible_scores.keys())
-                    self.dict_mastery['FlowControl'] = [score, self.skill_points['Flow control']] 
-                    return
-            elif type(value) == set:
-                for item in value:
-                    if self.dict_blocks[item]:
-                        if key in self.possible_scores.keys():
-                            score = self.skill_points["Flow control"] * self.possible_scores[key] / len(self.possible_scores.keys())
-                            self.dict_mastery['FlowControl'] = [score, self.skill_points['Flow control']] 
-                            return
-                        
-        self.dict_mastery['FlowControl'] = [score, self.skill_points['Flow control']] 
-        return            
-
-        self.set_dimension_score(scale_dict, "FlowControl") # CAMBIAR LA KEY DE LOS SKILL POINTS
+        self.set_dimension_score(scale_dict, "FlowControl")
         
-
-    def check_block_sequence(self):
-
-        check = False
-
-        for _, block_dict in self.dict_total_blocks.items():
-            if block_dict['next'] is not None:
-                check = True
-                break
-
-        return check
-
-    
-    def check_nested_loops(self):
-        """
-        Finds if there are any nested conditionals in all the blocks of the script.
-        """
-
-        check = False
-
-        for _, block_dict in self.dict_total_blocks.items():
-            if block_dict['opcode'] == 'control_forever' or block_dict['opcode'] == 'control_repeat' or block_dict['opcode'] == 'control_repeat_until':
-                try:
-                    substack =  self.dict_total_blocks.get(block_dict['inputs']['SUBSTACK'][1])
-                    if self.has_nested_loops(substack):
-                        check = True
-                        break
-                except KeyError:
-                    pass
-                
-        return check
-    
-    def has_nested_loops(self, substack):
-        """
-        Returns True if there is a nested conditional
-        """
-
-        while substack is not None:
-            if substack['opcode'] == 'control_forever' or substack['opcode'] == 'control_repeat' or  substack['opcode'] == 'control_repeat_until':
-                return True
-            substack = self.dict_total_blocks.get(substack['next'])
-
-        return False
 
     def compute_synchronization(self):
         """
@@ -351,37 +257,6 @@ class Mastery(Plugin):
         scale_dict = {"advanced": advanced, "master": master, "developing": developing, "basic": basic}
 
         self.set_dimension_score(scale_dict, "Synchronization")
-    
-    def check_dynamic_msg_handling(self):
-
-        check = False
-        counter = 0
-        min_msg = 3
-
-        for block in self.list_total_blocks:
-            if block['opcode'] == "event_broadcast" or block['opcode'] == "event_broadcastandwait":
-                msg = block['inputs']['BROADCAST_INPUT'][1][2]
-                if self.has_conditional_or_loop(msg):
-                    counter += 1
-        if counter >= min_msg:
-            check = True
-
-        return check
-    
-    def has_conditional_or_loop(self, msg):
-
-        check = False
-
-        for block in self.list_total_blocks:
-            if block['opcode'] == 'event_whenbroadcastreceived' and block['fields']['BROADCAST_OPTION'][1] == msg:
-                next = self.dict_total_blocks.get(block['next'])
-                while next is not None:
-                    if self.check_conditional(next) or self.check_loops(next):
-                        check = True
-                        return check
-                    next = self.dict_total_blocks.get(next['next']) 
-
-        return check
 
 
     def compute_abstraction(self):
@@ -399,6 +274,247 @@ class Mastery(Plugin):
 
         self.set_dimension_score(scale_dict, "Abstraction")
 
+
+    def compute_data_representation(self):
+        """
+        Compute data representation skill score
+        """
+
+        score = 0
+
+        modifiers = {
+            'motion_movesteps', 'motion_gotoxy', 'motion_glidesecstoxy', 'motion_setx', 'motion_sety',
+            'motion_changexby', 'motion_changeyby', 'motion_pointindirection', 'motion_pointtowards',
+            'motion_turnright', 'motion_turnleft', 'motion_goto', 'looks_changesizeby', 'looks_setsizeto',
+            'looks_switchcostumeto', 'looks_nextcostume', 'looks_changeeffectby', 'looks_seteffectto',
+            'looks_show', 'looks_hide', 'looks_switchbackdropto', 'looks_nextbackdrop'
+        }
+
+        lists = {
+            'data_lengthoflist', 'data_showlist', 'data_insertatlist', 'data_deleteoflist', 'data_addtolist',
+            'data_replaceitemoflist', 'data_listcontainsitem', 'data_hidelist', 'data_itemoflist'
+        }
+        
+        boolean_logic = {
+            'operator_equals', 'operator_gt', 'operator_and', 'operator_or', 'operator_not', 'operator_lt',
+        }
+        
+        variables = {'data_changevariableby', 'data_setvariableto'}
+        
+        scale_dict = {"advanced": boolean_logic, "master": lists, "developing": variables, "basic": modifiers}
+        
+        self.set_dimension_score(scale_dict, "DataRepresentation")
+
+
+    def compute_user_interactivity(self):
+        """Assign the User Interactivity skill result"""
+        score = 0
+        proficiency = {'videoSensing_videoToggle', 'videoSensing_videoOn', 'videoSensing_whenMotionGreaterThan',
+                       'videoSensing_setVideoTransparency', 'sensing_loudness'}
+
+        developing = {'event_whenkeypressed', 'event_whenthisspriteclicked', 'sensing_mousedown', 'sensing_keypressed',
+                      'sensing_askandwait', 'sensing_answer'}
+
+        # ----------- PROFIENCY --------------
+        score_proficiency = self.calc_ui_proficiency(proficiency)
+        if score_proficiency != None:
+            score_proficiency = self.extrapolate_to_rubric('UserInteractivity', 'proficient')
+            self.dict_mastery['UserInteractivity'] = [score_proficiency, self.skill_points['UserInteractivity']]
+            return
+        
+        
+        # ---------- DEVELOPING ------------------------
+        score_developing = self.calc_ui_developing(developing)
+        if score_developing != None:
+            score_developing = self.extrapolate_to_rubric('UserInteractivity', 'developing')
+            self.dict_mastery['UserInteractivity'] = [score_developing, self.skill_points['UserInteractivity']]
+            return
+        
+        # ----------- BASIC -------------------------------------
+        if self.dict_blocks['event_whenflagclicked']: # Green flag
+            print("USER_INTERACTIVITY MASTERY: Green flag")
+            score = self.possible_scores['basic']
+
+        self.dict_mastery['UserInteractivity'] = [score, self.skill_points['UserInteractivity']]
+        
+    def compute_parallelization(self):
+        """
+        Assign the Parallelization skill result
+        """
+        
+        parallelization_score = 0
+        dict_parall = self.parallelization_dict()
+
+        # ---------- PROFICIENT ----------------------------
+        score_proficient = self.calc_parallelization_proficient(dict_parall)
+        if score_proficient != None:
+            score_proficient = self.extrapolate_to_rubric('Parallelism', 'proficient')
+            self.dict_mastery['Parallelization'] = [score_proficient, self.skill_points['Parallelism']]
+            return
+
+        # ---------- DEVELOPING ----------------------------     
+        score_developing = self.calc_parallelization_developing(dict_parall)
+        if score_proficient != None:
+            score_developing = self.extrapolate_to_rubric('Parallelism', 'developing')
+            self.dict_mastery['Parallelization'] = [score_developing, self.skill_points['Parallelism']]
+            return
+        
+        # ----------- BASIC ----------------------------
+        if self.dict_blocks['event_whenflagclicked'] > 1 and parallelization_score == 0:  # 2 scripts on green flag
+            parallelization_score = self.possible_scores["basic"]
+        
+        self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
+        
+        
+    def compute_math_operators(self):
+        """
+        Assign the Use of Math Operators skill result
+        """
+
+        score = 0
+        
+        basic = {'operator_add', 'operator_subtract', 'operator_multiply', 'operator_divide'}
+        developing = {'operator_gt', 'operator_lt', 'operator_equals'}
+        master = {'operator_join', 'operator_letter_of', 'operator_length', 'operator_contains'}
+        advanced = self.check_trigonometry()
+
+        scale_dict = {"advanced": advanced, "master": master, "developing": developing, "basic": basic}
+
+        self.set_dimension_score(scale_dict, "MathOperators")
+        
+
+    def compute_motion_operators(self):
+        """
+        Assign the Use of Motion Operators skill result
+        """
+
+        score = 0
+
+        basic = {'motion_movesteps', 'motion_gotoxy', 'motion_changexby', 'motion_goto', 'motion_changeyby', 'motion_setx', 'motion_sety'}
+        developing = {'motion_turnleft', 'motion_turnright', 'motion_setrotationstyles', 'motion_pointindirection', 'motion_pointtowards'}
+        master = {'motion_glideto', 'motion_glidesecstoxy'}
+        advanced = self.check_motion_complex_sequences()
+        # finesse = PREGUNTAR GREGORIO
+
+        scale_dict = {"advanced": advanced, "master": master, "developing": developing, "basic": basic}
+
+        self.set_dimension_score(scale_dict, "MotionOperators") 
+    
+    def calc_ui_developing(self, developing):
+
+        for item in developing:
+            if self.dict_blocks[item]:
+                print("USER INTERACTIVITY mastery: " + item)
+                score = self.possible_scores['developing']
+                return score
+            
+        if self.dict_blocks['motion_goto_menu']:
+            if self._check_mouse() == 1:
+                score = self.possible_scores['developing']
+                return score
+            
+        if self.dict_blocks['sensing_touchingobjectmenu']:
+            if self._check_mouse() == 1:
+                score = self.possible_scores['developing']
+                return score 
+        
+    def calc_ui_proficiency(self, proficiency):
+        coincidences = 0
+        for block in self.dict_total_blocks.values(): # 2 scripts when %s is > %s,
+            if block['opcode'] == 'control_if':
+                id_codition = block['inputs']['CONDITION'][1]
+                if self.dict_total_blocks[id_codition]['opcode'] == 'operator_gt':
+                    coincidences += 1
+                    if coincidences > 1:
+                        print("USER INTERACTIVITY MASTERY: 2 scripts when %s is > %s,")
+                        score = self.possible_scores['proficient']
+                        return score
+        
+        for item in proficiency:
+            if self.dict_blocks[item]:
+                score = self.skill_points['User interactivity']
+                return score
+
+    
+        
+    def calc_parallelization_developing(self, dict_parall):
+        if self.dict_blocks['event_whenkeypressed'] > 1:  # 2 Scripts start on the same key pressed
+            if dict_parall['KEY_OPTION']:
+                var_list = set(dict_parall['KEY_OPTION'])
+                for var in var_list:
+                    if dict_parall['KEY_OPTION'].count(var) > 1:
+                        print("PARALLELISM MASTERY: Scripts start on the same key pressed")
+                        parallelization_score = self.possible_scores['developing']
+                        return parallelization_score
+
+        if self.dict_blocks['event_whenthisspriteclicked'] > 1:  # Sprite with 2 scripts on clicked
+            print("PARALLELISM MASTERY: Sprite with 2 scripts on clicked")
+            parallelization_score = self.possible_scores['developing']
+            return parallelization_score
+        
+    def calc_parallelization_proficient(self, dict_parall):                
+        if self.dict_blocks['event_whengreaterthan'] > 1:  # 2 Scripts start on the same multimedia (audio, timer) event
+            if dict_parall['WHENGREATERTHANMENU']:
+                var_list = set(dict_parall['WHENGREATERTHANMENU'])
+                for var in var_list:
+                    if dict_parall['WHENGREATERTHANMENU'].count(var) > 1:
+                        parallelization_score = self.possible_scores['proficient']
+                        return parallelization_score
+    
+        
+        coincidences = 0
+        for block in self.dict_total_blocks.values(): # 2 scripts when %s is > %s,
+            if block['opcode'] == 'control_if':
+                id_codition = block['inputs']['CONDITION'][1]
+                if self.dict_total_blocks[id_codition]['opcode'] == 'operator_gt':
+                    coincidences += 1
+        if coincidences > 1:
+            print("PARALLELISM MASTERY: 2 scripts when %s is > %s,")
+            parallelization_score = self.possible_scores['proficient']
+            return parallelization_score
+          
+        if self.dict_blocks['event_whenbackdropswitchesto'] > 1:  # 2 Scripts start on the same backdrop change
+            if dict_parall['BACKDROP']:
+                backdrop_list = set(dict_parall['BACKDROP'])
+                for var in backdrop_list:
+                    if dict_parall['BACKDROP'].count(var) > 1:
+                        print("PARALLELISM MASTERY: 2 Scripts start on the same received message")
+                        parallelization_score = self.possible_scores['proficient']
+                        return parallelization_score
+                       
+        if self.dict_blocks['control_create_clone_of']: # Create clone of
+            print("PARALLELISM MASTERY: Create clone of")
+            parallelization_score = self.possible_scores['proficient']
+            return parallelization_score
+                                 
+        
+        if self.dict_blocks['event_whenbroadcastreceived'] > 1:  # 2 Scripts start on the same received message
+            if dict_parall['BROADCAST_OPTION']:
+                var_list = set(dict_parall['BROADCAST_OPTION'])
+                for var in var_list:
+                    if dict_parall['BROADCAST_OPTION'].count(var) > 1:
+                        print("PARALLELISM MASTERY: 2 Scripts start on the same received message")
+                        parallelization_score = self.possible_scores['proficient']
+                        return parallelization_score
+
+        if self.dict_blocks['videoSensing_whenMotionGreaterThan'] > 1:  # 2 Scripts start on the same multimedia (video) event
+            parallelization_score = self.possible_scores['master']
+            return parallelization_score
+
+    def parallelization_dict(self):
+        dict_parallelization = {}
+
+        for block in self.list_total_blocks:
+            for key, value in block.items():
+                if key == 'fields':
+                    for key_pressed, val_pressed in value.items():
+                        if key_pressed in dict_parallelization:
+                            dict_parallelization[key_pressed].append(val_pressed[0])
+                        else:
+                            dict_parallelization[key_pressed] = val_pressed
+
+        return dict_parallelization
+    
     def check_more_than_one(self):
         
         check = False
@@ -480,213 +596,6 @@ class Mastery(Plugin):
 
         return check
 
-
-    def compute_data_representation(self):
-        """
-        Compute data representation skill score
-        """
-
-        score = 0
-
-        modifiers = {
-            'motion_movesteps', 'motion_gotoxy', 'motion_glidesecstoxy', 'motion_setx', 'motion_sety',
-            'motion_changexby', 'motion_changeyby', 'motion_pointindirection', 'motion_pointtowards',
-            'motion_turnright', 'motion_turnleft', 'motion_goto', 'looks_changesizeby', 'looks_setsizeto',
-            'looks_switchcostumeto', 'looks_nextcostume', 'looks_changeeffectby', 'looks_seteffectto',
-            'looks_show', 'looks_hide', 'looks_switchbackdropto', 'looks_nextbackdrop'
-        }
-
-        lists = {
-            'data_lengthoflist', 'data_showlist', 'data_insertatlist', 'data_deleteoflist', 'data_addtolist',
-            'data_replaceitemoflist', 'data_listcontainsitem', 'data_hidelist', 'data_itemoflist'
-        }
-        
-        boolean_logic = {
-            'operator_equals', 'operator_gt', 'operator_and', 'operator_or', 'operator_not', 'operator_lt',
-        }
-
-        for item in boolean_logic:
-            # ---------- ADVANCED -----------------------
-            
-            if self.dict_blocks[item]:
-                print("DATA REPRESENTATION MASTERY: Boolean Logic")
-                score = self.possible_scores['advanced']
-                self.dict_mastery['DataRepresentation'] = [score, self.skill_points['Data representation']]
-                return
-        for item in lists:
-            if self.dict_blocks[item]:
-                # -------- PROFICIENT -------------------
-                print("DATA REPRESENTATION MASTERY: Operations on lists")
-                score = self.possible_scores['proficient']
-                self.dict_mastery['DataRepresentation'] = [score, self.skill_points['Data representation']]
-                return
-
-        if self.dict_blocks['data_changevariableby'] or self.dict_blocks['data_setvariableto']:
-            # ------------------ DEVELOPING -----------------------------------
-            print("DATA REPRESENTATION MASTERY: Operations on variables")
-            score = self.possible_scores['developing']
-        else:
-            # ------------------- BASIC ----------------------------------------
-            print("DATA REPRESENTATION MASTERY: Modifiers of sprites properties")
-            for modifier in modifiers:
-                if self.dict_blocks[modifier]:
-                    score = self.possible_scores['basic']
-        self.dict_mastery['DataRepresentation'] = [score, self.skill_points['Data representation']]
-
-    def compute_user_interactivity(self):
-        """Assign the User Interactivity skill result"""
-        score = 0
-
-        proficiency = {'videoSensing_videoToggle', 'videoSensing_videoOn', 'videoSensing_whenMotionGreaterThan',
-                       'videoSensing_setVideoTransparency', 'sensing_loudness'}
-
-        developing = {'event_whenkeypressed', 'event_whenthisspriteclicked', 'sensing_mousedown', 'sensing_keypressed',
-                      'sensing_askandwait', 'sensing_answer'}
-
-        # ----------- PROFIENCY --------------
-        coincidences = 0
-        for block in self.dict_total_blocks.values(): # 2 scripts when %s is > %s,
-            if block['opcode'] == 'control_if':
-                id_codition = block['inputs']['CONDITION'][1]
-                if self.dict_total_blocks[id_codition]['opcode'] == 'operator_gt':
-                    coincidences += 1
-                    if coincidences > 1:
-                        print("USER INTERACTIVITY MASTERY: 2 scripts when %s is > %s,")
-                        score = self.possible_scores['proficient']
-                        self.dict_mastery['UserInteractivity'] = [score, self.skill_points['User interactivity']]
-                        return    
-        
-        for item in proficiency:
-            if self.dict_blocks[item]:
-                score = self.skill_points['User interactivity']
-                self.dict_mastery['UserInteractivity'] = [score, self.skill_points['User interactivity']]
-                return
-        # ---------- DEVELOPING ------------------------
-        for item in developing:
-            if self.dict_blocks[item]:
-                print("USER INTERACTIVITY mastery: " + item)
-                score = self.possible_scores['developing']
-                self.dict_mastery['UserInteractivity'] = [score, self.skill_points['User interactivity']]
-                return
-        if self.dict_blocks['motion_goto_menu']:
-            if self._check_mouse() == 1:
-                score = self.possible_scores['developing']
-                self.dict_mastery['UserInteractivity'] = [score, self.skill_points['User interactivity']]
-                return
-        if self.dict_blocks['sensing_touchingobjectmenu']:
-            if self._check_mouse() == 1:
-                score = self.possible_scores['developing']
-                self.dict_mastery['UserInteractivity'] = [score, self.skill_points['User interactivity']]
-                return        
-            
-        # ----------- BASIC -------------------------------------
-        if self.dict_blocks['event_whenflagclicked']: # Green flag
-            print("USER_INTERACTIVITY MASTERY: Green flag")
-            score = self.possible_scores['basic']
-
-        self.dict_mastery['UserInteractivity'] = [score, self.skill_points['User interactivity']]
-
-    def compute_parallelization(self):
-        """
-        Assign the Parallelization skill result
-        """
-        
-        parallelization_score = 0
-        dict_parall = self.parallelization_dict()
-        """
-        if self.dict_blocks['event_whengreaterthan'] > 1:  # 2 Scripts start on the same multimedia (audio, timer) event
-            if dict_parall['WHENGREATERTHANMENU']:
-                var_list = set(dict_parall['WHENGREATERTHANMENU'])
-                for var in var_list:
-                    if dict_parall['WHENGREATERTHANMENU'].count(var) > 1:
-                        parallelization_score = self.possible_scores['master']
-                        #self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
-                        return
-        """
-
-        
-        # ---------- PROFICIENT ----------------------------
-        coincidences = 0
-        for block in self.dict_total_blocks.values(): # 2 scripts when %s is > %s,
-            if block['opcode'] == 'control_if':
-                id_codition = block['inputs']['CONDITION'][1]
-                if self.dict_total_blocks[id_codition]['opcode'] == 'operator_gt':
-                    coincidences += 1
-        if coincidences > 1:
-            print("PARALLELISM MASTERY: 2 scripts when %s is > %s,")
-            parallelization_score = self.possible_scores['proficient']
-            self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
-            return
-          
-        if self.dict_blocks['event_whenbackdropswitchesto'] > 1:  # 2 Scripts start on the same backdrop change
-            if dict_parall['BACKDROP']:
-                backdrop_list = set(dict_parall['BACKDROP'])
-                for var in backdrop_list:
-                    if dict_parall['BACKDROP'].count(var) > 1:
-                        print("PARALLELISM MASTERY: 2 Scripts start on the same received message")
-                        parallelization_score = self.possible_scores['proficient']
-                        self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
-                        return
-                       
-        if self.dict_blocks['control_create_clone_of']: # Create clone of
-            print("PARALLELISM MASTERY: Create clone of")
-            parallelization_score = self.possible_scores['proficient']
-            self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
-            return
-                                 
-        
-        if self.dict_blocks['event_whenbroadcastreceived'] > 1:  # 2 Scripts start on the same received message
-            if dict_parall['BROADCAST_OPTION']:
-                var_list = set(dict_parall['BROADCAST_OPTION'])
-                for var in var_list:
-                    if dict_parall['BROADCAST_OPTION'].count(var) > 1:
-                        print("PARALLELISM MASTERY: 2 Scripts start on the same received message")
-                        parallelization_score = self.possible_scores['proficient']
-                        self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
-                        return
-
-        """
-        if self.dict_blocks['videoSensing_whenMotionGreaterThan'] > 1:  # 2 Scripts start on the same multimedia (video) event
-            parallelization_score = self.possible_scores['master']
-            self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
-            return
-        """
-
-        # ---------- DEVELOPING ----------------------------     
-
-        if self.dict_blocks['event_whenkeypressed'] > 1:  # 2 Scripts start on the same key pressed
-            if dict_parall['KEY_OPTION']:
-                var_list = set(dict_parall['KEY_OPTION'])
-                for var in var_list:
-                    if dict_parall['KEY_OPTION'].count(var) > 1:
-                        print("PARALLELISM MASTERY: Scripts start on the same key pressed")
-                        parallelization_score = self.possible_scores['developing']
-
-        if self.dict_blocks['event_whenthisspriteclicked'] > 1:  # Sprite with 2 scripts on clicked
-            print("PARALLELISM MASTERY: Sprite with 2 scripts on clicked")
-            parallelization_score = self.possible_scores['developing']
-        
-        # ----------- BASIC ----------------------------
-        if self.dict_blocks['event_whenflagclicked'] > 1 and parallelization_score == 0:  # 2 scripts on green flag
-            parallelization_score = self.possible_scores["basic"]
-        
-        self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
-
-
-    def parallelization_dict(self):
-        dict_parallelization = {}
-
-        for block in self.list_total_blocks:
-            for key, value in block.items():
-                if key == 'fields':
-                    for key_pressed, val_pressed in value.items():
-                        if key_pressed in dict_parallelization:
-                            dict_parallelization[key_pressed].append(val_pressed[0])
-                        else:
-                            dict_parallelization[key_pressed] = val_pressed
-
-        return dict_parallelization
-
     def _check_mouse(self):
         """
         Check whether there is a block 'go to mouse' or 'touching mouse-pointer?
@@ -701,40 +610,6 @@ class Mastery(Plugin):
 
         return 0
 
-    def compute_math_operators(self):
-        """
-        Assign the Use of Math Operators skill result
-        """
-
-        score = 0
-        
-        basic = {'operator_add', 'operator_subtract', 'operator_multiply', 'operator_divide'}
-        developing = {'operator_gt', 'operator_lt', 'operator_equals'}
-        master = {'operator_join', 'operator_letter_of', 'operator_length', 'operator_contains'}
-        advanced = self.check_trigonometry()
-
-        scale_dict = {"advanced": advanced, "master": master, "developing": developing, "basic": basic}
-
-        for key, value in scale_dict.items():           
-            if type(value) == bool and value is True:
-                if key in self.possible_scores.keys():
-                    score = self.skill_points["Math operators"] * self.possible_scores[key] / len(self.possible_scores.keys())
-                    self.dict_mastery['MathOperators'] = [score, self.skill_points['Math operators']] 
-                    return
-            elif type(value) == set:
-                for item in value:
-                    if self.dict_blocks[item]:
-                        if key in self.possible_scores.keys():
-                            score = self.skill_points["Math operators"] * self.possible_scores[key] / len(self.possible_scores.keys())
-                            self.dict_mastery['MathOperators'] = [score, self.skill_points['Math operators']] 
-                            return
-                    
-        self.dict_mastery['MathOperators'] = [score, self.skill_points['Math operators']] 
-        
-        return
-    
-        self.set_dimension_score(scale_dict, "MathOperators") # CAMBIAR LA KEY DE LOS SKILL POINTS
-    
     def check_trigonometry(self):
 
         check = False
@@ -749,42 +624,6 @@ class Mastery(Plugin):
                         return check
                     
         return check
-
-
-    def compute_motion_operators(self):
-        """
-        Assign the Use of Motion Operators skill result
-        """
-
-        score = 0
-
-        basic = {'motion_movesteps', 'motion_gotoxy', 'motion_changexby', 'motion_goto', 'motion_changeyby', 'motion_setx', 'motion_sety'}
-        developing = {'motion_turnleft', 'motion_turnright', 'motion_setrotationstyles', 'motion_pointindirection', 'motion_pointtowards'}
-        master = {'motion_glideto', 'motion_glidesecstoxy'}
-        advanced = self.check_motion_complex_sequences()
-        # finesse = PREGUNTAR GREGORIO
-
-        scale_dict = {"advanced": advanced, "master": master, "developing": developing, "basic": basic}
-
-        for key, value in scale_dict.items():           
-            if type(value) == bool and value is True:
-                if key in self.possible_scores.keys():
-                    score = self.skill_points["Motion operators"] * self.possible_scores[key] / len(self.possible_scores.keys())
-                    self.dict_mastery['MotionOperators'] = [score, self.skill_points['Motion operators']] 
-                    return
-            elif type(value) == set:
-                for item in value:
-                    if self.dict_blocks[item]:
-                        if key in self.possible_scores.keys():
-                            score = self.skill_points["Motion operators"] * self.possible_scores[key] / len(self.possible_scores.keys())
-                            self.dict_mastery['MotionOperators'] = [score, self.skill_points['Motion operators']] 
-                            return
-                    
-        self.dict_mastery['MotionOperators'] = [score, self.skill_points['Motion operators']] 
-        
-        return
-    
-        self.set_dimension_score(scale_dict, "MotionOperators") # CAMBIAR LA KEY DE LOS SKILL POINTS
 
     
     def check_motion_complex_sequences(self):
@@ -809,3 +648,120 @@ class Mastery(Plugin):
 
         return check
     
+    
+    def check_dynamic_msg_handling(self):
+
+        check = False
+        counter = 0
+        min_msg = 3
+
+        for block in self.list_total_blocks:
+            if block['opcode'] == "event_broadcast" or block['opcode'] == "event_broadcastandwait":
+                msg = block['inputs']['BROADCAST_INPUT'][1][2]
+                if self.has_conditional_or_loop(msg):
+                    counter += 1
+        if counter >= min_msg:
+            check = True
+
+        return check
+    
+    def has_conditional_or_loop(self, msg):
+
+        check = False
+
+        for block in self.list_total_blocks:
+            if block['opcode'] == 'event_whenbroadcastreceived' and block['fields']['BROADCAST_OPTION'][1] == msg:
+                next = self.dict_total_blocks.get(block['next'])
+                while next is not None:
+                    if self.check_conditional(next) or self.check_loops(next):
+                        check = True
+                        return check
+                    next = self.dict_total_blocks.get(next['next']) 
+
+        return check
+    
+    
+    def check_nested_conditionals(self):
+        """
+        Finds if there are any nested conditionals in all the blocks of the script.
+        """
+
+        check = False
+
+        for _, block_dict in self.dict_total_blocks.items():
+            if block_dict['opcode'] == 'control_if':
+                try:
+                    substack =  self.dict_total_blocks.get(block_dict['inputs']['SUBSTACK'][1])
+                    if self.has_nested_conditional(substack):
+                        check = True
+                        break
+                except KeyError:
+                    pass
+            elif block_dict['opcode'] == 'control_if_else':
+                try:
+                    substack =  self.dict_total_blocks.get(block_dict['inputs']['SUBSTACK'][1])
+                    substack_2 = self.dict_total_blocks.get(block_dict['inputs']['SUBSTACK2'][1])
+                    if self.has_nested_conditional(substack) or self.has_nested_conditional(substack_2):
+                        check = True
+                        break
+                except KeyError:
+                    pass 
+                
+        return check
+    
+    
+    def has_nested_conditional(self, substack):
+        """
+        Returns True if there is a nested conditional
+        """
+
+        while substack is not None:
+            if substack['opcode'] == 'control_if' or substack['opcode'] == 'control_if_else':
+                return True
+            substack = self.dict_total_blocks.get(substack['next'])
+
+        return False
+    
+    
+    def check_block_sequence(self):
+
+        check = False
+
+        for _, block_dict in self.dict_total_blocks.items():
+            if block_dict['next'] is not None:
+                check = True
+                break
+
+        return check
+
+    
+    def check_nested_loops(self):
+        """
+        Finds if there are any nested conditionals in all the blocks of the script.
+        """
+
+        check = False
+
+        for _, block_dict in self.dict_total_blocks.items():
+            if block_dict['opcode'] == 'control_forever' or block_dict['opcode'] == 'control_repeat' or block_dict['opcode'] == 'control_repeat_until':
+                try:
+                    substack =  self.dict_total_blocks.get(block_dict['inputs']['SUBSTACK'][1])
+                    if self.has_nested_loops(substack):
+                        check = True
+                        break
+                except KeyError:
+                    pass
+                
+        return check
+    
+    def has_nested_loops(self, substack):
+        """
+        Returns True if there is a nested conditional
+        """
+
+        while substack is not None:
+            if substack['opcode'] == 'control_forever' or substack['opcode'] == 'control_repeat' or  substack['opcode'] == 'control_repeat_until':
+                return True
+            substack = self.dict_total_blocks.get(substack['next'])
+
+        return False
