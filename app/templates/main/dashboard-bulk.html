@@ -43,6 +43,7 @@
 
         <!-- CUSTOM STYLESHEETS -->
         <link rel="stylesheet" href="static/app/content/styles.css">
+        <link rel="stylesheet" href="/static/app/content/master.css">
 
 
         <!-- RESPONSIVE FIXES -->
@@ -102,12 +103,12 @@
         <!-- /END TOP BAR -->
     
         <div class="container">
+            <section id="dashboard">
             <div class="row d-flex align-items-center">
                 <!-- BAD SMELLS 1 -->
                 
                 <!-- CAT IMAGE -->
                 <div class="col-md-5 d-flex justify-content-center align-items-center" style="margin-bottom: 20px;">
-                    <section id="dashboard">
                         {% if summary.mastery == 'Master' %}
                             <img src="static/app/images/cat.png" class="img-fluid" style="max-width: 100%; vertical-align: middle;">
                         {% elif summary.mastery == 'Developing' %}
@@ -115,11 +116,9 @@
                         {% else %}
                             <img src="static/app/images/cat.png" class="img-fluid" style="max-width: 100%; vertical-align: middle;">
                         {% endif %}
-                    </section>
                 </div>
                 <!-- BAD SMELLS 2 -->
                 <div class="col-md-6">
-                    <section id="dashboard">
                         
                         <div class="container-fluid" id="stepfour">
                             <div class="row marketing">
@@ -145,9 +144,33 @@
                                             {% for skill, value in summary.items %}
                                                 {% if skill != 'num_projects' and skill != 'maxi' and skill != 'Mastery' %}
                                                     {% if value.0 >= value.2 %}
-                                                        <h5><span class="text-info">{{ skill }}: </span><span class="text-success" style="font-size: 20px;">{{ value.0 }}/{{ value.1 }}</span></h5>
+                                                        <h5><span class="text-info">{{ skill }}: </span><span class="text-success" style="font-size: 20px;">
+                                                            {% if value.0|floatformat:"-1" == value.0|floatformat:"0" %}
+                                                                {{ value.0|floatformat:"0" }}
+                                                            {% else %}
+                                                                {{ value.0 }}
+                                                            {% endif %}
+                                                            /
+                                                            {% if value.1|floatformat:"-1" == value.1|floatformat:"0" %}
+                                                                {{ value.1|floatformat:"0" }}
+                                                            {% else %}
+                                                                {{ value.1 }}
+                                                            {% endif %}
+                                                        </span></h5>
                                                     {% else %}
-                                                        <h5><span class="text-info">{{ skill }}: </span><span class="text-danger" style="font-size: 20px;">{{ value.0 }}/{{ value.1 }}</span></h5>
+                                                        <h5><span class="text-info">{{ skill }}: </span><span class="text-danger" style="font-size: 20px;">
+                                                            {% if value.0|floatformat:"-1" == value.0|floatformat:"0" %}
+                                                                {{ value.0|floatformat:"0" }}
+                                                            {% else %}
+                                                                {{ value.0 }}
+                                                            {% endif %}
+                                                            /
+                                                            {% if value.1|floatformat:"-1" == value.1|floatformat:"0" %}
+                                                                {{ value.1|floatformat:"0" }}
+                                                            {% else %}
+                                                                {{ value.1 }}
+                                                            {% endif %}
+                                                        </span></h5>
                                                     {% endif %}
                                                 {% endif %}
                                             {% endfor %}
@@ -165,12 +188,11 @@
                                 </div>
                             </div>
                         </div>
-                    </section>
                 </div>
             </div>
+            </section>
         </div>
-    </div>
-    
+
         <footer class="footer grey-bg">
             <div class="container">
                 <p><small>{% trans "© 2019 Dr. Scratch." %} Made with <span style="color: #e25555;">&#9829;</span> by <a href="/collaborators">Dr. Scratch Team</a></small></p>
@@ -180,7 +202,8 @@
                 </ul>
             </div>
         </footer>
-
+    </div>
+    
         <script>
             // Función para establecer la misma altura en todas las columnas
             function equalizeColumnHeight() {
