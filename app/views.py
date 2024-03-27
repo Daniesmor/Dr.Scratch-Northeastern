@@ -295,7 +295,7 @@ def upload_personalized(request, skill_points=None):
 
 def base32_to_str(base32_str: str) -> str:
     value = int(base32_str, 32)
-    return str(value).zfill(7)
+    return str(value).zfill(9)
     
 def show_dashboard(request, skill_points=None):
     

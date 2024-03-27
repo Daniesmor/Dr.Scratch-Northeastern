@@ -58,8 +58,10 @@ class Mastery(Plugin):
                 logger.info('Skill: {}, points: {}'.format(skill, skill_grade))
             total_points = total_points + skill_grade[0]
             total_points = round(total_points, 2)
-
-        average_points = float(total_points) / active_dimensions
+        try:
+            average_points = float(total_points) / active_dimensions
+        except ZeroDivisionError:
+            average_points = 0
         total_maxi_points = sum(self.skill_points.values())
         competence = self.set_competence(total_points, total_maxi_points)
 
