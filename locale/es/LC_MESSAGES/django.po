@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-01 12:13+0000\n"
+"POT-Creation-Date: 2024-04-01 18:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3445,31 +3445,35 @@ msgstr "Introduce tu correo: "
 
 #: app/templates/main/contact-form.html:149
 msgid ""
-"<input  name='contact_media' type='file' class='filestyle' data-buttonText='Upload media'>"
+"<input  name='contact_media' type='file' class='filestyle' data-"
+"buttonText='Upload media'>"
 msgstr ""
-"<input  name='contact_media' type='file' class='filestyle' data-buttonText='Adjuntar foto/video'>"
+"<input  name='contact_media' type='file' class='filestyle' data-"
+"buttonText='Adjuntar foto/video'>"
 
 #: app/templates/main/dashboard-bulk.html:127
 msgid "Analysis Complete!!"
-msgstr ""
+msgstr "¡Análisis Completado!"
 
 #: app/templates/main/dashboard-bulk.html:131
 msgid "You can download the csv clicking "
-msgstr ""
+msgstr "Puedes descargar el csv haciendo click "
+
+#: app/templates/main/dashboard-bulk.html:131
+msgid "HERE"
+msgstr "AQUÍ"
 
 #: app/templates/main/dashboard-bulk.html:140
 msgid "Summary: "
-msgstr ""
+msgstr "Resumen:"
 
 #: app/templates/main/dashboard-bulk.html:143
 msgid "Average Score: "
-msgstr ""
+msgstr "Puntuación promedio: "
 
 #: app/templates/main/dashboard-bulk.html:177
-#, fuzzy
-#| msgid "Average rate by code smell"
 msgid "Average Mastery: "
-msgstr "Puntuación media por mal hábito de programación"
+msgstr "Maestría promedio: "
 
 #: app/templates/main/main.html:122 app/templates/main/main_new.html:76
 msgid "Why?"
@@ -3595,18 +3599,14 @@ msgstr "Paralelismo"
 
 #: app/templates/main/main.html:290 app/templates/main/rubric-creator.html:449
 msgid "Logic Thinking"
-msgstr ""
+msgstr "Pensamiento"
 
 #: app/templates/main/main.html:294 app/templates/main/rubric-creator.html:484
 #: app/templates/statistics/statistics.html:260
-#, fuzzy
-#| msgid "Flow control"
 msgid "Flow Control"
 msgstr "Control de flujo"
 
 #: app/templates/main/main.html:296 app/templates/main/rubric-creator.html:502
-#, fuzzy
-#| msgid "User interactivity"
 msgid "User Interactivity"
 msgstr "Interactividad del usuario"
 
