@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-01 11:55+0000\n"
+"POT-Creation-Date: 2024-04-01 12:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3414,38 +3414,40 @@ msgstr "<strong>Más agradecimientos</strong></h2>"
 #: app/templates/main/contact-form.html:127
 #: app/templates/main/contact-form.html:146
 msgid "Tell us how your experience went..."
-msgstr ""
+msgstr "Cuéntanos cómo ha sido tu experiencia..."
 
 #: app/templates/main/contact-form.html:129
 msgid "Fill out the form and we will contact you as soon as possible"
 msgstr ""
+"Rellena el formulario y nos pondremos en contacto contigo lo mas pronto "
+"posible"
 
 #: app/templates/main/contact-form.html:136
-#, fuzzy
-#| msgid "Your username is: "
 msgid "Your name"
-msgstr "Tu id es: "
+msgstr "Nombre: "
+
+#: app/templates/main/contact-form.html:137
+msgid "Enter your name"
+msgstr "Introduce tu nombre: "
 
 #: app/templates/main/contact-form.html:138
 #: app/templates/main/contact-form.html:143
 msgid "Obligatory"
-msgstr ""
+msgstr "Obligatorio"
 
 #: app/templates/main/contact-form.html:141
 msgid "Your email"
-msgstr ""
+msgstr "Correo electrónico: "
+
+#: app/templates/main/contact-form.html:142
+msgid "Enter email"
+msgstr "Introduce tu correo: "
 
 #: app/templates/main/contact-form.html:149
-#, fuzzy
-#| msgid ""
-#| "<input  name='img' type='file' class='filestyle' data-buttonText='Choose "
-#| "img'>"
 msgid ""
-"<input  name='contact_media' type='file' class='filestyle' data-"
-"buttonText='Upload media'>"
+"<input  name='contact_media' type='file' class='filestyle' data-buttonText='Upload media'>"
 msgstr ""
-"<input  name='img' type='file' class='filestyle' data-buttonText='Elige "
-"imagen'>"
+"<input  name='contact_media' type='file' class='filestyle' data-buttonText='Adjuntar foto/video'>"
 
 #: app/templates/main/dashboard-bulk.html:127
 msgid "Analysis Complete!!"
@@ -3563,9 +3565,11 @@ msgstr ""
 
 #: app/templates/main/main.html:249
 msgid ""
-"We are still working on it. If you have any comments or ideas please contact us"
+"We are still working on it. If you have any comments or ideas please contact "
+"us"
 msgstr ""
-"Seguimos trabajando en ello. Si tienes algún comentario o idea por favor contáctanos"
+"Seguimos trabajando en ello. Si tienes algún comentario o idea por favor "
+"contáctanos"
 
 #: app/templates/main/main.html:249
 msgid "here"
