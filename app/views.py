@@ -1211,6 +1211,13 @@ def learn(request, page):
     else:
         return render(request, page)
 
+def contact(request):
+    """
+    Shows contact form
+    """
+    user = "main"
+    return render(request, user + '/contact-form.html') 
+
 
 def download_certificate(request):
     """

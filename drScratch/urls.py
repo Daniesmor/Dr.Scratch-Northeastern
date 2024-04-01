@@ -45,6 +45,9 @@ urlpatterns = [
     url(r'^show_dashboard/(?P<skill_points>.{1,6})?$', app_views.show_dashboard, name='show_dashboard'),
     url(r'^download_certificate', app_views.download_certificate, name='certificate'),
 
+    # Conact form
+    url(r'^contact', app_views.contact, name='contact'),
+
     # Translation
     url(r'^i18n/', include('django.conf.urls.i18n'), name="translation"),
     url(r'^blocks$', app_views.blocks, name='blocks'),
@@ -72,7 +75,7 @@ urlpatterns = [
     url(r'^coder/(.*)', app_views.coder, name='coder'),
     url(r'^login_coder$', app_views.login_coder, name='coder_login'),
     url(r'^logout_coder$', app_views.logout_coder, name='coder_logout'),
-
+    
     # Upload a .CSV
     url(r'^analyze_CSV$', app_views.analyze_csv, name='csv'),
 

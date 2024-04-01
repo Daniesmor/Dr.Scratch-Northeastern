@@ -17,8 +17,6 @@
         <script src="../../static/app/scripts/bootstrap-tour.js"></script>
         <script src="../../static/app/scripts/googleAnalytics.js"></script>
         <script src="../../static/app/scripts/scratchblocks-v3.4-min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/party-js@latest/bundle/party.min.js"></script>
-    
     
         <!-- SITE TITLE -->
         <title>Dr. Scratch</title>
@@ -346,6 +344,7 @@
             {% if mastery_vanilla.competence == "Master" %}
                 <div id="confeti-container"></div>
             {% endif %}
+            
             <div class="container">
                 <section id="blackboard" class="services col-md-5">
                     <!-- POINTS PANEL -->
@@ -1051,19 +1050,7 @@
             </div>
         </footer>
 
-        <script>
-            // Crear el efecto de confeti
-            const confetiContainer = document.getElementById('confeti-container');
-            const partyFinesse = new Party(confetiContainer);
-
-            // Configurar el efecto de confeti
-            partyFinesse.colors = ['#FF0000', '#00FF00', '#0000FF'];
-            partyFinesse.confettiCount = 200;
-            partyFinesse.velocity = 3;
-
-            // Lanzar el efecto de confeti
-            partyFinesse.start();
-        </script>
+        
 
         <script>
             function openMode(evt, ModeName) {
