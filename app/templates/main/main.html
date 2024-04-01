@@ -140,35 +140,39 @@
 
 
                      {% else %}
-                     
-                    <!-- LOGIN REGISTER -->
 
-
+                    <!-- LANGUAGUES -->
+                        
                     <ul class="nav navbar-nav navbar-right login-register small-text">
-                      <ul class="nav navbar-nav navbar-left main-navigation ">
+                        <ul class="nav navbar-nav navbar-left main-navigation ">
+  
+                          <li style="display: block;" class="login js-login dropdown">
+                            <a aria-expanded="false" type="button" data-toggle="dropdown" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">
+                              <span class="glyphicon glyphicon-book"><span class="icon-basic-world"></span></span>
+                            </a>
+                            <ul role="menu" class="dropdown-menu">
+                              <li>
+                              <div style="padding: 15px; padding-bottom: 10px;">
+                              <form action="/i18n/setlang/" method="post" type="hidden">
+                                {% csrf_token %}
+                                <input name="next" type="hidden" value="{{ redirect_to }}" />
+                                <select name="language" type="hidden">
+                              {% get_language_info_list for LANGUAGES as languages %}
+                              {% for language in languages %}
+                               <option style="padding: 15px;" type="submit" class='btn-group btn-group-justified colored-text' value="{{ language.code }}">{{ language.name }} ({{ language.code }})</option>
+                              {% endfor %}
+                            </select>
+                            <input type="submit" value="Change language" class='btn-group btn-group-justified colored-text'/>
+                            </form>
+                          </div>
+                        </li>
+                      </ul>
+                        </li>
+                     
+                    <!-- LOGIN REGISTER 
 
-                        <li style="display: block;" class="login js-login dropdown">
-                          <a aria-expanded="false" type="button" data-toggle="dropdown" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">
-                            <span class="glyphicon glyphicon-book"><span class="icon-basic-world"></span></span>
-                          </a>
-                          <ul role="menu" class="dropdown-menu">
-                            <li>
-                            <div style="padding: 15px; padding-bottom: 10px;">
-                            <form action="/i18n/setlang/" method="post" type="hidden">
-                              {% csrf_token %}
-                              <input name="next" type="hidden" value="{{ redirect_to }}" />
-                              <select name="language" type="hidden">
-                            {% get_language_info_list for LANGUAGES as languages %}
-                            {% for language in languages %}
-                             <option style="padding: 15px;" type="submit" class='btn-group btn-group-justified colored-text' value="{{ language.code }}">{{ language.name }} ({{ language.code }})</option>
-                            {% endfor %}
-                          </select>
-                          <input type="submit" value="Change language" class='btn-group btn-group-justified colored-text'/>
-                          </form>
-                        </div>
-                      </li>
-                    </ul>
-                      </li>
+
+                   
 
                       <li style="display: block;" class="login js-login dropdown">
                         <a aria-expanded="false" role="button" class="dropdown-toggle" data-toggle='modal' href='#modalSignUp'>{% trans "Sign up" %}</a>
@@ -219,8 +223,9 @@
                             <a href="#home" class="navbar-register-button">{% trans "Get Started" %}</a>
                         </li>
                     </ul>
-                     
+                     -->
                   </div>
+                  
                   <!-- /END TOP BAR -->
               </div>
               <!-- /END CONTAINER -->
@@ -305,7 +310,7 @@
                                     {% trans "<input  name='zipFile' type='file' class='filestyle' data-buttonText='Choose Project'>" %}
                                     <button id="upload" name='_upload' type="submit" class="btn btn-primary standard-button">{% trans "Analyze my project" %}</button>
                                     <br></br>
-                                    {% trans "<span class='colored-text'>NEW!! </span>3. Upload projects with a <span class='colored-text'><a data-toggle='modal' href='#modalProject'>txt</a></span> file:" %}
+                                    {% trans "<span class='colored-text'>NEW!! </span>3. Upload projects with a <span class='colored-text'><a data-toggle='modal' href='#modalBatch'>txt</a></span> file:" %}
                                     {% trans "<input  name='urlsFile' type='file' class='filestyle' data-buttonText='Choose txt'>" %}
                                     <button id="urls" name='_urls' type="submit" class="btn btn-primary standard-button">{% trans "Analyze my projects" %}</button>
                                     <br></br>
