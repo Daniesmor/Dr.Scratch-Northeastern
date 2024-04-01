@@ -3611,15 +3611,14 @@ msgid "User Interactivity"
 msgstr "Interactividad del usuario"
 
 #: app/templates/main/main.html:313
-#, fuzzy
 msgid ""
 "<span class='colored-text'>NEW!! </span>3. Upload projects with a <span "
 "class='colored-text'><a data-toggle='modal' href='#modalBatch'>txt</a></"
 "span> file:"
 msgstr ""
-"2. Si tienes tu <span class='colored-text'><a data-toggle='modal' "
-"href='#modalProject'>proyecto</a></span> descargado en tu ordenador, podrás "
-"analizarlo aquí:"
+"<span class='colored-text'>¡NUEVO! </span>3. Analizar proyectos de un archivo <span "
+"class='colored-text'><a data-toggle='modal' href='#modalBatch'>txt</a></"
+"span>"
 
 #: app/templates/main/main.html:314 app/templates/main/rubric-uploader.html:147
 msgid "<input  name='urlsFile' type='file' class='filestyle' data-buttonText='Choose txt'>"
@@ -3636,13 +3635,13 @@ msgstr "Analiza mis proyectos"
 
 #: app/templates/main/main.html:319
 msgid ""
-"<span class='colored-text'>NEW!!</span> You also can create your own rubric "
-"with your own criteria:"
+"<span class='colored-text'>NEW!!</span> You also can create your own rubric with your own criteria:"
 msgstr ""
+"<span class='colored-text'>¡NUEVO!</span> También puedes crear tu propia rúbrica con tus propios criterios:"
 
 #: app/templates/main/main.html:320
 msgid "Create rubric"
-msgstr ""
+msgstr "Crear rúbrica"
 
 #: app/templates/main/main.html:560 app/templates/main/main_new.html:460
 msgid "Multilingual website"
