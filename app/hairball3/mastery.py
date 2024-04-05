@@ -58,10 +58,12 @@ class Mastery(Plugin):
                 logger.info('Skill: {}, points: {}'.format(skill, skill_grade))
             total_points = total_points + skill_grade[0]
             total_points = round(total_points, 2)
+
         try:
             average_points = float(total_points) / active_dimensions
         except ZeroDivisionError:
             average_points = 0
+
         total_maxi_points = sum(self.skill_points.values())
         competence = self.set_competence(total_points, total_maxi_points)
 
@@ -122,69 +124,49 @@ class Mastery(Plugin):
 
         finesse_lvl = max_points*36/45
         advanced_lvl = max_points*27/45
-        master_lvl = max_points*18/45
+        proficient_lvl = max_points*18/45
         developing_lvl = max_points*9/45
 
         if mode == 'Vanilla':
             if points > 15:
+                # result = "Overall programming competence: Proficiency"
                 competence = 'Master'
             elif points > 7:
+                # result = "Overall programming competence: Developing"
                 competence = 'Developing'
             else:
+                # result = "Overall programming competence: Basic"
                 competence = 'Basic'
         else:
             if points > finesse_lvl:
+                # result = "Overall programming competence: Finesse"
                 competence = 'Finesse'
             elif points > advanced_lvl:
+                # result = "Overall programming competence: Advanced"
                 competence = 'Advanced'
-            elif points > master_lvl:
+            elif points > proficient_lvl:
+                # result = "Overall programming competence: Proficiency"
                 competence = 'Master'
             elif points > developing_lvl:
+                # result = "Overall programming competence: Developing"
                 competence = 'Developing'
             else:
+                # result = "Overall programming competence: Basic"
                 competence = 'Basic'
-
-        return competence
-
-    def calc_averages(self, average_points, mode):
-        result = ''
-        programming_competence = ''
-        if mode == 'extended':
-            if average_points > 36:
-                result += "Overall programming competence: Finesse"
-                programming_competence = 'Finesse'
-            elif average_points > 27:
-                result += "Overall programming competence: Advanced"
-                programming_competence = 'Advanced'
-            elif average_points > 18:
-                result += "Overall programming competence: Proficiency"
-                programming_competence = 'Master'
-            elif average_points > 9:
-                result += "Overall programming competence: Developing"
-                programming_competence = 'Developing'
-            else:
-                result += "Overall programming competence: Basic"
-                programming_competence = 'Basic'
-        else: #Vanilla
-            if average_points > 15:
-                result += "Overall programming competence: Master"
-                programming_competence = 'Master'
-            elif average_points > 7:
-                result += "Overall programming competence: Developing"
-                programming_competence = 'Developing'
-            else:
-                result += "Overall programming competence: Basic"
-                programming_competence = 'Basic'
-        
+        """
         competence_dict = {
             'result': result, 
-            'programming_competence': programming_competence
-            }
-        return competence_dict
+            'programming_competence': competence
+            }       
+        """
+
+        return competence
     
     def set_dimension_score(self, scale_dict, dimension):
 
         score = 0
+
+        print(dimension + " : " + str(scale_dict))
 
         for key, value in scale_dict.items():
             if type(value) == bool and value is True:
@@ -216,9 +198,9 @@ class Mastery(Plugin):
         Assign the logic skill result
         """
 
-        basic = {'control_if'}
-        developing = {'control_if_else'}
-        master = {'operator_and', 'operator_or', 'operator_not'}
+        basic = self.check_list({'control_if'})
+        developing = self.check_list({'control_if_else'})
+        master = self.check_list({'operator_and', 'operator_or', 'operator_not'})
         advanced = self.check_nested_conditionals()
         # finesse = PREGUNTAR GREGORIO
 
@@ -232,15 +214,13 @@ class Mastery(Plugin):
         Calculate the flow control score
         """
 
-        score = 0
-
         basic = self.check_block_sequence()
-        developing = {'control_repeat', 'control_forever'}
-        master = {'control_repeat_until'}
+        developing = self.check_list({'control_repeat', 'control_forever'})
+        proficient = self.check_list({'control_repeat_until'})
         advanced = self.check_nested_loops()
         # finesse = PREGUNTAR GREGORIO
 
-        scale_dict = {"advanced": advanced, "master": master, "developing": developing, "basic": basic}
+        scale_dict = {"advanced": advanced, "proficient": proficient, "developing": developing, "basic": basic}
 
         self.set_dimension_score(scale_dict, "FlowControl")
         
@@ -250,13 +230,13 @@ class Mastery(Plugin):
         Compute the syncronization score
         """
 
-        basic = {'control_wait'}
-        developing = {'event_broadcast', 'event_whenbroadcastreceived', 'control_stop'}
-        master = {'control_wait_until', 'event_whenbackdropswitchesto', 'event_broadcastandwait'}
+        basic = self.check_list({'control_wait'})
+        developing = self.check_list({'event_broadcast', 'event_whenbroadcastreceived', 'control_stop'})
+        proficient = self.check_list({'control_wait_until', 'event_whenbackdropswitchesto', 'event_broadcastandwait'})
         advanced = self.check_dynamic_msg_handling()
         # finesse = PREGUNTAR GREGORIO
 
-        scale_dict = {"advanced": advanced, "master": master, "developing": developing, "basic": basic}
+        scale_dict = {"advanced": advanced, "proficient": proficient, "developing": developing, "basic": basic}
 
         self.set_dimension_score(scale_dict, "Synchronization")
 
@@ -267,12 +247,12 @@ class Mastery(Plugin):
         """
 
         basic = self.check_more_than_one()
-        developing = {'control_start_as_clone'}
-        master = {'procedures_definition'}
+        developing = self.check_list({'control_start_as_clone'})
+        proficient = self.check_list({'procedures_definition'})
         advanced = self.check_advanced_clones()
         # finesse = PREGUNTAR GREGORIO
 
-        scale_dict = {"advanced": advanced, "master": master, "developing": developing, "basic": basic}
+        scale_dict = {"advanced": advanced, "proficient": proficient, "developing": developing, "basic": basic}
 
         self.set_dimension_score(scale_dict, "Abstraction")
 
@@ -282,28 +262,26 @@ class Mastery(Plugin):
         Compute data representation skill score
         """
 
-        score = 0
-
-        modifiers = {
+        modifiers = self.check_list({
             'motion_movesteps', 'motion_gotoxy', 'motion_glidesecstoxy', 'motion_setx', 'motion_sety',
             'motion_changexby', 'motion_changeyby', 'motion_pointindirection', 'motion_pointtowards',
             'motion_turnright', 'motion_turnleft', 'motion_goto', 'looks_changesizeby', 'looks_setsizeto',
             'looks_switchcostumeto', 'looks_nextcostume', 'looks_changeeffectby', 'looks_seteffectto',
             'looks_show', 'looks_hide', 'looks_switchbackdropto', 'looks_nextbackdrop'
-        }
+        })
 
-        lists = {
+        lists = self.check_list({
             'data_lengthoflist', 'data_showlist', 'data_insertatlist', 'data_deleteoflist', 'data_addtolist',
             'data_replaceitemoflist', 'data_listcontainsitem', 'data_hidelist', 'data_itemoflist'
-        }
+        })
         
-        boolean_logic = {
+        boolean_logic = self.check_list({
             'operator_equals', 'operator_gt', 'operator_and', 'operator_or', 'operator_not', 'operator_lt',
-        }
+        })
         
-        variables = {'data_changevariableby', 'data_setvariableto'}
+        variables = self.check_list({'data_changevariableby', 'data_setvariableto'})
         
-        scale_dict = {"advanced": boolean_logic, "master": lists, "developing": variables, "basic": modifiers}
+        scale_dict = {"advanced": boolean_logic, "proficient": lists, "developing": variables, "basic": modifiers}
         
         self.set_dimension_score(scale_dict, "DataRepresentation")
 
@@ -373,14 +351,12 @@ class Mastery(Plugin):
         Assign the Use of Math Operators skill result
         """
 
-        score = 0
-        
-        basic = {'operator_add', 'operator_subtract', 'operator_multiply', 'operator_divide'}
-        developing = {'operator_gt', 'operator_lt', 'operator_equals'}
-        master = {'operator_join', 'operator_letter_of', 'operator_length', 'operator_contains'}
+        basic = self.check_list({'operator_add', 'operator_subtract', 'operator_multiply', 'operator_divide'})
+        developing = self.check_list({'operator_gt', 'operator_lt', 'operator_equals'})
+        proficient = self.check_list({'operator_join', 'operator_letter_of', 'operator_length', 'operator_contains'})
         advanced = self.check_trigonometry()
 
-        scale_dict = {"advanced": advanced, "master": master, "developing": developing, "basic": basic}
+        scale_dict = {"advanced": advanced, "proficient": proficient, "developing": developing, "basic": basic}
 
         self.set_dimension_score(scale_dict, "MathOperators")
         
@@ -390,17 +366,23 @@ class Mastery(Plugin):
         Assign the Use of Motion Operators skill result
         """
 
-        score = 0
-
-        basic = {'motion_movesteps', 'motion_gotoxy', 'motion_changexby', 'motion_goto', 'motion_changeyby', 'motion_setx', 'motion_sety'}
-        developing = {'motion_turnleft', 'motion_turnright', 'motion_setrotationstyles', 'motion_pointindirection', 'motion_pointtowards'}
-        master = {'motion_glideto', 'motion_glidesecstoxy'}
+        basic = self.check_list({'motion_movesteps', 'motion_gotoxy', 'motion_changexby', 'motion_goto', 'motion_changeyby', 'motion_setx', 'motion_sety'})
+        developing = self.check_list({'motion_turnleft', 'motion_turnright', 'motion_setrotationstyles', 'motion_pointindirection', 'motion_pointtowards'})
+        proficient = self.check_list({'motion_glideto', 'motion_glidesecstoxy'})
         advanced = self.check_motion_complex_sequences()
         # finesse = PREGUNTAR GREGORIO
 
-        scale_dict = {"advanced": advanced, "master": master, "developing": developing, "basic": basic}
+        scale_dict = {"advanced": advanced, "proficient": proficient, "developing": developing, "basic": basic}
 
         self.set_dimension_score(scale_dict, "MotionOperators") 
+
+    def check_list(self, list):
+
+        for item in list:
+            if item in self.dict_blocks.keys():
+                return True
+            
+        return False
     
     def calc_ui_developing(self, developing):
 
@@ -435,9 +417,7 @@ class Mastery(Plugin):
         for item in proficiency:
             if self.dict_blocks[item]:
                 score = self.skill_points['User interactivity']
-                return score
-
-    
+                return score 
         
     def calc_parallelization_developing(self, dict_parall):
         if self.dict_blocks['event_whenkeypressed'] > 1:  # 2 Scripts start on the same key pressed
