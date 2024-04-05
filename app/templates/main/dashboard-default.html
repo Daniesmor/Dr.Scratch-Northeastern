@@ -401,7 +401,7 @@
                                     <div class="panel-body text-left typ">
                                         <a class="glyphicon glyphicon-repeat"/>
                                         <a id="duplicated-scripts" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Duplicated scripts' %}" 
-                                        data-trigger="manual" href="learn/duplicatedScripts"> 
+                                        data-trigger="manual" href="/learn/duplicatedScripts"> 
                                             {{ duplicateScript.number }} {% trans " duplicated scripts." %}
                                         </a>
                                         <div id="duplicated-scripts-content" class="collapse">
@@ -431,7 +431,7 @@
                                         {% if spriteNaming.number == 0 %}
                                             {% trans 'Your project does not have default sprite naming, good job!' %}
                                         {% endif %}
-                                        " data-trigger="manual" href="learn/spriteNaming"> 
+                                        " data-trigger="manual" href="/learn/spriteNaming"> 
                                             {{ spriteNaming.number }} {% trans " sprite naming." %}
                                         </a><br>
                                         <a class="glyphicon glyphicon-pencil"/> 
@@ -442,12 +442,12 @@
                                         {% if backdropNaming.number == 0 %}
                                                 {% trans 'Your project does not have default backdrop naming, good job!' %}
                                         {% endif %}
-                                            " data-trigger="manual" href="learn/spriteNaming"> 
+                                            " data-trigger="manual" href="/learn/spriteNaming"> 
                                                 {{ backdropNaming.number }} {% trans " backdrop naming." %}
                                         </a><br>
                                         <a class="glyphicon glyphicon-remove-sign"/>
                                         <a id="dead-code" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Dead code' %}" 
-                                        data-trigger="manual" href="learn/deadCode"> 
+                                        data-trigger="manual" href="/learn/deadCode"> 
                                             {{ deadCode.number }} {% trans " dead code." %}
                                         </a>
                                         <div id="dead-code-content" class="collapse">
