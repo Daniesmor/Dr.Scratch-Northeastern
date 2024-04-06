@@ -50,6 +50,9 @@
     <!-- DEFAULT COLOR/ CURRENTLY USING -->
     <link rel="stylesheet" href="static/app/content/red.css">
 
+    <!-- PARRALLAX EFFECTS -->
+    <script src="https://cdn.jsdelivr.net/npm/simple-parallax-js@5.5.1/dist/simpleParallax.min.js"></script>
+
     <style>
         /* Para el ancho y alto de las imagenes. Modificalo a gusto =)  */
         .carousel-inner > .item > img,
@@ -439,294 +442,109 @@
     </section>
     <br></br>
 
+    <h2>{% trans "A " %}<strong>{% trans "powerful " %}</strong>{% trans "tool to analyze your Scratch projects" %}</h2>
+    <img src="static/app/images/main_screens.png" class="img-fluid" width="70%" alt="">
+
+
     <!-- =========================
      SECTION: Why
     ============================== -->
-    <section id="section1" class="services grey-bg">
+    <section id="section1" class="services">
+
+        <div class="container">
+            
+
+            <div class="container">
+                <div class="row align-items-right">
+                    <div class="col">
+                        <h1>{% trans "Winner of " %}</h1>
+                    </div>
+                    <div class="col">
+                        <img src="static/app/images/rise_award.png" class="img-fluid" alt="" width="40%">
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            
+            
+            <blockquote class="blockquote text-center">
+                <p class="mb-0">{% trans "For the first time, a Spanish team, made up of researchers from the Rey Juan Carlos University of Madrid and professors from the Sevillian association Programamos, has been awarded a Google RISE Award, for the project Dr. Scratch." %}</p>
+                <footer class="blockquote-footer">{% trans "Article of " %}<cite title="Source Title">National Institute of Educational and Teacher Technologies</cite></footer>
+              </blockquote>
+        </div>
+        <br></br>
+            </section>
+    </section>
+
+
+    <!-- =========================
+     SECTION: Why
+    ============================== -->
+    <section id="section1" class="services">
 
         <div class="container">
             <!-- SECTION HEADER -->
             <div class="section-header">
 
                 <h2 class="dark-text"><strong>{% trans "Why " %} </strong>{% trans "you’ll love Dr. Scratch" %}</h2>
-                <div class="colored-line">
-                </div>
-                <div class="sub-heading">
-                    <h3><em>{% trans "A powerful tool to analyze your Scratch projects" %}</em></h3>
-                </div>
+
             </div>
 
             <div class="row">
 
                 <!-- SINGLE SERVICE -->
-                <div style="visibility: visible; animation-duration: 1.75s; animation-name: fadeInLeft;" class="col-md-4 wow fadeInLeft animated" data-wow-offset="10" data-wow-duration="1.75s">
-                    <div class="service-icon colored-text">
-                        <span class="icon-social-dribbble-circle" style="font-size: 40px;"></span>
+                <div style="visibility: visible;" class="col-md-3">
+                    <div class="service-icon colored-text text-left">
+                        <span class="icon-social-dribbble-circle" style="font-size: 70px;"></span>
                     </div>
-                    <h3 class="colored-text text-left">{% trans "Simple & Fun" %}</h3>
+                    <h3 class="text-left dark-text"><strong>{% trans "Simple & Fun" %}</strong></h3>
                     <h4 class="text-left">{% trans "Your students can easily learn how to improve their programming skills in a fun way." %}</h4>
                     
                 </div>
 
                 <!-- SINGLE SERVICE -->
-                <div style="visibility: visible; animation-duration: 1s; animation-name: flipInY;" class="col-md-4 wow flipInY animated" data-wow-offset="10" data-wow-duration="1s">
-                    <div class="service-icon colored-text">
-                        <span class="icon-ecommerce-graph3" style="font-size: 40px;"></span>
+                <div style="visibility: visible;" class="col-md-3">
+                    <div class="service-icon colored-text text-left">
+                        <span class="icon-ecommerce-graph3" style="font-size: 70px;"></span>
                     </div>
-                    <h3 class="colored-text text-left">{% trans "Improve your skills" %}</h3>
+                    <h3 class="text-left dark-text"><strong>{% trans "Improve your skills" %}</strong></h3>
                     <p>
                         <h4 class="text-left">{% trans "We provide feedback on several aspects which are related to Computational Thinking." %}</h4>
                     </p>
                 </div>
 
                 <!-- SINGLE SERVICE -->
-                <div style="visibility: visible; animation-duration: 1.75s; animation-name: fadeInRight;" class="col-md-4 wow fadeInRight animated" data-wow-offset="10" data-wow-duration="1.75s">
-                    <div class="service-icon colored-text">
-                        <span class="icon-software-pen" style="font-size: 40px;"></span>
+                <div style="visibility: visible;" class="col-md-3">
+                    <div class="service-icon colored-text text-left">
+                        <span class="icon-software-pen" style="font-size: 70px;"></span>
                     </div>
-                    <h3 class="colored-text text-left">{% trans "Always improving" %}</h3>
+                    <h3 class="text-left dark-text"><strong>{% trans "Always improving" %}</strong></h3>
                     <p>
                        <h4 class="text-left">{% trans "We're continually enhancing the features of Dr. Scratch, and we'd love to hear your thoughts" %}</h4>
                     </p>
                 </div>
 
+                <!-- SINGLE SERVICE -->
+                <div style="visibility: visible;" class="col-md-3">
+                    <div class="service-icon colored-text text-left">
+                        <span class="icon-software-pen" style="font-size: 70px;"></span>
+                    </div>
+                    <h3 class=" text-left dark-text"><strong>{% trans "Adaptative" %}</strong></h3>
+                    <p>
+                       <h4 class="text-left">{% trans "We are continually working to adapt De.Scratch to the needs of our users in each version." %}</h4>
+                    </p>
+                </div>
+
+               
             </div>
         </div>
+        <br></br>
             </section>
     </section>
 
-    <!-- =========================
-     SECTION: HOW (BRIEF LEFT)
-    ============================== -->
-    <section id="section2" class="brief white-bg-border text-left">
-        <div class="flex-container">
-            <!-- SECTION HEADER -->
-            <div class="section-header text-center">
-                <h2 class="dark-text"><strong>{% trans "How " %}</strong>{% trans "it works" %}</h2>
-                <div class="colored-line">
-                </div>
-                <div class="sub-heading">
-                    <h3><em>{% trans "Brief tutorials on Dr.Scratch's funcionalities" %}</em></h3>
-                </div>
-            </div>
-            <div class="row"> 
-                <div id="carrusel" class="carousel slide" data-ride="carousel">
-                    <!-- Tutorials Container -->
-                    <div class="carousel-inner" role="listbox">
-                    
-                        <!-- Default Mode Tutorial -->
-                        <div class="item active">
-                            <div class="container">
-                                <div class="row">
-                                <!-- BRIEF IMAGE -->
-                                    <div style="visibility: visible; animation-duration: 1.75s; animation-name: fadeInLeft;" class="col-md-6 pull-right wow fadeInLeft animated" data-wow-offset="20" data-wow-duration="1.75s">
-                                        <div class="brief-image-right">
-                                            <div class="text-left dark-text">
-                                                <br></br>
-                                                <h3></h3>
-                                                <br></br>
-                                            </div>
-                                            <div class="js-video [vimeo, widescreen]">
-                                                <iframe src="http://player.vimeo.com/video/114430745" width="500" height="333" frameborder="0" allowfullscreen="" mozallowfullscreen="" webkitallowfullscreen=""></iframe>
-                                            </div>
-                                        </div>
-                                    </div>
-                  
-                                    <!-- BRIEF HEADING -->
-                                    <div style="visibility: visible; animation-duration: 1.75s; animation-name: fadeInRight;" class="col-md-6 content-section pull-left wow fadeInRight animated" data-wow-offset="20" data-wow-duration="1.75s">
-                                        <div class="small-text-medium uppercase colored-text">
-                                            {% trans "How" %}
-                                        </div>
-                                        <h2 class="text-left dark-text"><strong>{% trans "Default " %} </strong>{% trans "Mode" %} </h2>
-                                        <div class="colored-line-left">
-                                        </div>
-                                        <p class="text-left">
-                                            <p><em>{% trans "There are two options to analyze a Scratch project with Dr. Scratch" %}</em></p>
-                                            <img src="static/app/images/url_project.png"></img>
-                                            <img src="static/app/images/file_project.png"></img>
-                                        <p align=justify>
-                                            {% trans "You can upload an sb3 file or just provide the project url, avoiding the need to previously download the project to your computer. By analyzing your projects with Dr. Scratch, you can easily check your Computational Thinking Score." %}
-                                        </p>
-                                        </p>
-                                        <!-- FEATURE LIST -->
-                                        <div class="row">
-                                            <div class="col-md-6 col-sm-6">
-                                                <ul class="feature-list text-left">
-                                                    <li><p>
-                                                    <span class="icon-basic-clessidre colored-text"></span>
-                                                    {% trans "It is extremely easy to use, both for begginers and expert programmers." %}
-                                                    </p></li>
-                                                    <li><p>
-                                                    <span class="icon-basic-lightbulb colored-text"></span>
-                                                    {% trans "You receive feedback to improve your coding skills." %}
-                                                    <p></li>
-                                                </ul>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6">
-                                                <ul class="feature-list text-left">
-                                                <li><p>
-                                                    <span class="icon-basic-home colored-text"></span>
-                                                    {% trans "You can keep on improving your programming skills by yourself even from home." %}
-                                                <p></li>
-                                                <li><p>
-                                                    <span class="icon-ecommerce-graph3 colored-text"></span>
-                                                    {% trans "You can track your progress through charts and stats." %}
-                                                <p></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                
-                        <!-- Batch Mode -->
-                        <div class="item">
-                            <div class="container">
-                                <div class="row">
-                                <!-- BRIEF IMAGE -->
-                                    <div style="visibility: visible; animation-duration: 1.75s; animation-name: fadeInLeft;" class="col-md-6 pull-right wow fadeInLeft animated" data-wow-offset="20" data-wow-duration="1.75s">
-                                        <div class="brief-image-right">
-                                            <div class="text-left dark-text">
-                                                <br></br>
-                                                <h3></h3>
-                                                <br></br>
-                                            </div>
-                                            <div class="js-video [vimeo, widescreen]">
-                                                <iframe src="http://player.vimeo.com/video/114430745" width="500" height="333" frameborder="0" allowfullscreen="" mozallowfullscreen="" webkitallowfullscreen=""></iframe>
-                                            </div>
-                                        </div>
-                                    </div>
-                
-                                    <!-- BRIEF HEADING -->
-                                    <div style="visibility: visible; animation-duration: 1.75s; animation-name: fadeInRight;" class="col-md-6 content-section pull-left wow fadeInRight animated" data-wow-offset="20" data-wow-duration="1.75s">
-                                        <div class="small-text-medium uppercase colored-text">
-                                            {% trans "How" %}
-                                        </div>
-                                        <h2 class="text-left dark-text"><strong>{% trans "Batch " %} </strong>{% trans "Mode" %} </h2>
-                                        <div class="colored-line-left">
-                                        </div>
-                                        <p class="text-left">
-                                            <p><em>{% trans "You only have to upload a .txt file with the urls of the Scratch's Projects." %}</em></p>
-                                            <img src="static/app/images/csv_project.png"></img>
-                                        </p>
-                                        <!-- FEATURE LIST -->
-                                        <div class="row">
-                                            <div class="col-md-6 col-sm-6">
-                                                <ul class="feature-list text-left">
-                                                    <li><p>
-                                                    <span class="icon-basic-clessidre colored-text"></span>
-                                                    {% trans "It is extremely easy to use, both for begginers and expert programmers." %}
-                                                    </p></li>
-                                                    <li><p>
-                                                    <span class="icon-basic-lightbulb colored-text"></span>
-                                                    {% trans "You receive feedback to improve your coding skills." %}
-                                                    <p></li>
-                                                </ul>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6">
-                                                <ul class="feature-list text-left">
-                                                <li><p>
-                                                    <span class="icon-basic-home colored-text"></span>
-                                                    {% trans "You can keep on improving your programming skills by yourself even from home." %}
-                                                <p></li>
-                                                <li><p>
-                                                    <span class="icon-ecommerce-graph3 colored-text"></span>
-                                                    {% trans "You can track your progress through charts and stats." %}
-                                                <p></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                
-                        <!-- Personal Mode -->
-                        <div class="item">
-                            <div class="container">
-                                <div class="row">
-                                <!-- BRIEF IMAGE -->
-                                    <div style="visibility: visible; animation-duration: 1.75s; animation-name: fadeInLeft;" class="col-md-6 pull-right wow fadeInLeft animated" data-wow-offset="20" data-wow-duration="1.75s">
-                                        <div class="brief-image-right">
-                                            <div class="text-left dark-text">
-                                                <br></br>
-                                                <h3></h3>
-                                                <br></br>
-                                            </div>
-                                            <div class="js-video [vimeo, widescreen]">
-                                                <iframe src="http://player.vimeo.com/video/114430745" width="500" height="333" frameborder="0" allowfullscreen="" mozallowfullscreen="" webkitallowfullscreen=""></iframe>
-                                            </div>
-                                        </div>
-                                    </div>
-                
-                                    <!-- BRIEF HEADING -->
-                                    <div style="visibility: visible; animation-duration: 1.75s; animation-name: fadeInRight;" class="col-md-6 content-section pull-left wow fadeInRight animated" data-wow-offset="20" data-wow-duration="1.75s">
-                                        <div class="small-text-medium uppercase colored-text">
-                                            {% trans "How" %}
-                                        </div>
-                                        <h2 class="text-left dark-text"><strong>{% trans "Personal " %} </strong>{% trans "Mode" %} </h2>
-                                        <div class="colored-line-left">
-                                        </div>
-                                        <p class="text-left">
-                                            <p><em>{% trans "The functionality of this mode is divided in 3 steps:" %}</em></p>
-                                            <p style="margin-top: 0px;"><em>{% trans "1. Creation of the Rubric with the grades of each dimension." %}</em></p>
-                                            <p style="margin-top: 0px;"><em>{% trans "2. Sharing the link to the Rubric created in the previous step." %}</em></p>
-                                            <img src="static/app/images/link_share.png"></img>
-                                            <p style="margin-top: 2px;"><em>{% trans "3. Upload of the projects via an url, .sb3 file or a .txt file with multiple projects." %}</em></p>
-                                            <img src="static/app/images/url_project.png"></img>
-                                            <img src="static/app/images/file_project.png"></img>
-                                            <img src="static/app/images/csv_project.png"></img>
-                                        </p>
-                                        <!-- FEATURE LIST -->
-                                        <div class="row">
-                                            <div class="col-md-6 col-sm-6">
-                                                <ul class="feature-list text-left">
-                                                    <li><p>
-                                                    <span class="icon-basic-clessidre colored-text"></span>
-                                                    {% trans "It is extremely easy to use, both for begginers and expert programmers." %}
-                                                    </p></li>
-                                                    <li><p>
-                                                    <span class="icon-basic-lightbulb colored-text"></span>
-                                                    {% trans "You receive feedback to improve your coding skills." %}
-                                                    <p></li>
-                                                </ul>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6">
-                                                <ul class="feature-list text-left">
-                                                <li><p>
-                                                    <span class="icon-basic-home colored-text"></span>
-                                                    {% trans "You can keep on improving your programming skills by yourself even from home." %}
-                                                <p></li>
-                                                <li><p>
-                                                    <span class="icon-ecommerce-graph3 colored-text"></span>
-                                                    {% trans "You can track your progress through charts and stats." %}
-                                                <p></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    
-                    </div>
-                
-                    <!-- Tutorial Controls -->
-                    <a class="left carousel-control" href="#carrusel" role="button" data-slide="prev">
-                      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                      <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="right carousel-control" href="#carrusel" role="button" data-slide="next">
-                      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                      <span class="sr-only">Next</span>
-                    </a>
-                  </div>
-            </div>
-            
-        </div>
-
-    </section>
+    
 
 
     <!-- =========================
@@ -858,7 +676,6 @@
     </section>
 
 
-
     <!-- =========================
      SECTION: TEAM
     ============================== -->
@@ -866,45 +683,16 @@
         <div class="container">
             <!-- SECTION HEADER -->
             <div class="section-header">
-                <div class="small-text-medium uppercase colored-text">
-                    {% trans "Contact" %}
-                </div>
                 <h2 class="dark-text">{% trans "<strong>Contact </strong> Dr. Scratch team</h2>" %}
                 <div class="colored-line">
                     
-                </div>
-                <div class="sub-heading">
-                    <h3><em>{% trans "We would be pleased to receive your feedback" %}</em></h3>
                 </div>
                 <h3 align=center class="transparent-text-dark"><strong>{% trans "We are still working on it. If you have any comments or ideas please contact us" %} <a href="{% url 'contact' %}">{% trans "here" %}</a>. <br>
 
             </div>
 
 
-        <!-- =========================
-     SECTION: CONTACT INFO
-    ============================== -->
-    <div class="contact-info white-bg">
-        <div class="container">
-
-            <!-- CONTACT INFO -->
-            <div class="row contact-links">
-
-                
-            </div>
-        </div>
-</div>
-        <div class="jumbotron">
-                <div>
-                <!-- {% trans "We would like to thank many people for their collaboration and we have done one special section." %} -->
-                </div>
-                <div class="jumbotron">
-                    <a style="visibility: visible; animation-duration: 2s; animation-name: fadeInRight;" href="/statistics" class="btn btn-primary standard-button inpage-scroll wow fadeInRight animated col-md-3 col-md-offset-1" data-wow-duration="2s" data-wow-offset="10" type="button">{% trans "Statistics" %}</a>
-                    <a style="visibility: visible; animation-duration: 2s; animation-name: fadeInRight;" href="/collaborators" class="btn btn-primary standard-button inpage-scroll wow fadeInRight animated col-md-3 col-md-offset-1" data-wow-duration="2s" data-wow-offset="10" type="button">{% trans "Collaborators" %}</a>
-                    <a style="visibility: visible; animation-duration: 2s; animation-name: fadeInRight;" href="/blog" class="btn btn-primary standard-button inpage-scroll wow fadeInRight animated col-md-3 col-md-offset-1" data-wow-duration="2s" data-wow-offset="10" type="button">{% trans "Blog" %}</a>
-                </div>
-
-        </div>
+       
     </div>
     </section>
 
