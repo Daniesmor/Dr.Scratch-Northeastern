@@ -21,6 +21,7 @@
     <!-- =========================
      FAV AND TOUCH ICONS AND FONT
     ============================== -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="icon" href="../../static/app/images/favicon.ico">
     <link rel="stylesheet" href="../../static/app/icons/icons.css">
     <link type="text/css" rel="stylesheet" href="../../static/app/content/css_002.css">
@@ -73,73 +74,150 @@
         });
 
     </script>
+    <style>
+        .sidebar {
+            position: -webkit-sticky; /* Para navegadores webkit */
+            position: sticky;
+            top: 20px; /* Distancia desde la parte superior del contenedor principal */
+            height: calc(100vh - 40px); /* Altura del sidebar */
+            overflow-y: auto; /* Habilita el desplazamiento vertical si el contenido es más largo que la altura del sidebar */
+        }
+
+        /* Estilos adicionales según tus preferencias */
+        .sidebar ul {
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .sidebar li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .sidebar a:hover {
+            background-color: #f0f0f0;
+        }
+        .active {
+            background-color: #f0f0f0; /* Color de fondo */
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Sombreado */
+        }
+        .title {
+                font-size: 3rem;
+                font-weight: bold;
+                color: #fc3b3b;
+                text-align: center;
+                padding: 30px 0;
+                position: relative;
+            }
+
+
+
+
+    </style>
 </head>
 <body>
-   <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top  sticky-navigation" role="navigation">
+    <!-- TOP BAR -->
+    <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top  sticky-navigation" role="navigation">
         <div class="container">
-                    <!-- TOP BAR -->
-            <div class="navbar-collapse collapse" id="stamp-navigation">
-                    <!-- NAVIGATION LINK -->
+            <!-- NAVIGATION LINK -->
+            <a href="/">
+                <img src="static/app/images/logo_main.png" alt="" width="220" height="70.1667">
+            </a>
 
-                <a class="navbar-brand" href="/">
-                    <img src="../../static/app/images/logo_main.png" alt="">
-                </a>
-                {% if flagUser %}
-                    <!-- NAVIGATION LINK -->
-                    <ul class="nav navbar-nav navbar-left main-navigation ">
-                        <li class="navbar-brand"><a class="navbar-brand pull-left" href="/{{user}}/{{username}}"><span class="icon-basic-home colored-text"></span><em>{{ username }}</em></a></li>
-                   </ul>
-                {% endif %}
-                <ul class="nav navbar-nav navbar-right main-navigation ">
-                        <li class="navbar-brand"><a class="navbar-brand pull-right" href="https://twitter.com/DrScratchTool"><span class="icon-social-twitter colored-text"></span></a></li>
-                        <li class="navbar-brand"><a class="navbar-brand pull-right" href="mailto:drscratch@programamos.es"><span class="icon-basic-mail colored-text"></span></a></li>
-                        <li class="navbar-brand"><a class="navbar-brand pull-right">{% trans "Dr. Scratch(Beta Version)" %}</a></li>
-                      </ul>
-            </div>
-                    <!-- /END TOP BAR -->
         </div>
-                <!-- /END CONTAINER -->
     </div>
-            <!-- /END STICKY NAVIGATION -->
+    <!-- /END TOP BAR -->
     <!-- JUMBOTRON -->
-
-    <div id ="cloud"><h3>{% block title %}{% endblock %}</h3><span class='shadow'></span></div>
-    <div class="container col-md-10 col-md-offset-1">
-    <ul class="nav nav-tabs nav-justified">
-      <li role="presentation"><a href="/learn/Logic/">{% trans "Logic" %}</a></li>
-      <li role="presentation"><a href="/learn/Data/">{% trans "Data representation" %}</a></li>
-      <li role="presentation"><a href="/learn/Parallelism/">{% trans "Parallelism" %}</a></li>
-      <li role="presentation"><a href="/learn/Synchronization/">{% trans "Synchronization" %}</a></li>
-      <li role="presentation"><a href="/learn/User/">{% trans "User interactivity" %}</a></li>
-      <li role="presentation"><a href="/learn/Flow/">{% trans "Flow control" %}</a></li>
-      <li role="presentation"><a href="/learn/Abstraction/">{% trans "Abstraction" %}</a></li>
-    </ul>
-    <ul class="nav nav-tabs nav-justified">
-      <li role="presentation"><a href="/learn/duplicatedScripts/">{% trans "Duplicated scripts" %}</a></li>
-      <li role="presentation"><a href="/learn/spriteNaming/">{% trans "Incorrect names" %}</a></li>
-      <li role="presentation"><a href="/learn/deadCode/">{% trans "Dead code" %}</a></li>
-      <li role="presentation"><a href="/learn/attrInit/">{% trans "Attribute initialization" %}</a></li>
-
-    </ul>
-    </div>
-    <!-- /END JUMBOTRON -->
-    <!-- PANEL-->
-   {% block content %}
-    {% endblock %}
- <footer class="footer grey-bg">
-        <div class="container">
-               {% trans "©2019 Dr. Scratch" %}
-
-                <!-- SOCIAL ICONS -->
-                <ul class="social-icons">
-                    <li><a href="https:/twitter.com/drscratchtool">
-                        <span class="icon-social-twitter transparent-text-dark"></span></a>
+    <div class="container" style="margin-left: 10%; padding-top: 90px;">
+        <div class="col-md-3">
+            <div class="sidebar" style="text-align: left;">
+                <ul class="nav flex-column">
+                    <h4> <strong> {% trans "Tutorials" %} </strong></h4>
+                    <li class="nav-item {% if request.path == '/learn/DefaultMode/' %} active {% endif %}">
+                        <a class="nav-link" href="/learn/DefaultMode/">{% trans "Default Mode" %}</a>
                     </li>
-                    <li><a href=""><span class="icon-social-github transparent-text-dark"></span></a>
+                    <li class="nav-item {% if request.path == '/learn/BatchMode/' %} active {% endif %}">
+                        <a class="nav-link" href="/learn/BatchMode/">{% trans "Batch Mode" %}</a>
                     </li>
-
+                    <li class="nav-item {% if request.path == '/learn/PersonalMode/' %} active {% endif %}">
+                        <a class="nav-link" href="/learn/PersonalMode/">{% trans "Personal Mode" %}</a>
+                    </li>
                 </ul>
+                <hr>
+                <ul class="nav flex-column">
+                    <h4> <strong> {% trans "Dimensions" %} </strong></h4>
+                    <li class="nav-item {% if request.path == '/learn/Logic/' %} active {% endif %}">
+                        <a class="nav-link" href="/learn/Logic/">{% trans "Logic" %}</a>
+                    </li>
+                    <li class="nav-item {% if request.path == '/learn/Data/' %} active {% endif %}">
+                        <a class="nav-link" href="/learn/Data/">{% trans "Data representation" %}</a>
+                    </li>
+                    <li class="nav-item {% if request.path == '/learn/Parallelism/' %} active {% endif %}">
+                        <a class="nav-link" href="/learn/Parallelism/">{% trans "Parallelism" %}</a>
+                    </li>
+                    <li class="nav-item {% if request.path == '/learn/Synchronization/' %} active {% endif %}">
+                        <a class="nav-link" href="/learn/Synchronization/">{% trans "Synchronization" %}</a>
+                    </li>
+                    <li class="nav-item {% if request.path == '/learn/User/' %} active {% endif %}">
+                        <a class="nav-link" href="/learn/User/">{% trans "User interactivity" %}</a>
+                    </li>
+                    <li class="nav-item {% if request.path == '/learn/Flow/' %} active {% endif %}">
+                        <a class="nav-link" href="/learn/Flow/">{% trans "Flow control" %}</a>
+                    </li>
+                    <li class="nav-item {% if request.path == '/learn/Abstraction/' %} active {% endif %}">
+                        <a class="nav-link" href="/learn/Abstraction/">{% trans "Abstraction" %}</a>
+                    </li>
+                </ul>
+                <hr>
+                <ul class="nav flex-column">
+                    <h4> <strong> {% trans "Bad Habits" %} </strong></h4>
+                    <li class="nav-item {% if request.path == '/learn/duplicatedScripts/' %} active {% endif %}">
+                        <a class="nav-link" href="/learn/duplicatedScripts/">{% trans "Duplicated scripts" %}</a>
+                    </li>
+                    <li class="nav-item {% if request.path == '/learn/spriteNaming/' %} active {% endif %}">
+                        <a class="nav-link" href="/learn/spriteNaming/">{% trans "Incorrect names" %}</a>
+                    </li>
+                    <li class="nav-item {% if request.path == '/learn/deadCode/' %} active {% endif %}">
+                        <a class="nav-link" href="/learn/deadCode/">{% trans "Dead code" %}</a>
+                    </li>
+                    <li class="nav-item {% if request.path == '/learn/attrInit/' %} active {% endif %}">
+                        <a class="nav-link" href="/learn/attrInit/">{% trans "Attribute initialization" %}</a>
+                    </li>
+                </ul>
+            </div>
+            
         </div>
+        <!-- /END JUMBOTRON -->
+        <!-- PANEL-->
+        <div class="col-md-7">
+            {% block content %}
+            {% endblock %}
+    
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer grey-bg">
+        {% trans "©2024 Dr. Scratch" %}
+            <!-- SOCIAL ICONS -->
+            <ul class="social-icons">
+                <li>
+                    <a href="https://github.com/Daniesmor/Dr.Scratch-Northeastern"> 
+                    <i class="bi bi-github" style="color: black;"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://twitter.com/DrScratchTool">
+                    <i class="bi bi-twitter-x" style="color: black;"></i>
+                    </a>
+                </li>    
+            </ul>
     </footer>
 </body>
 </html>
