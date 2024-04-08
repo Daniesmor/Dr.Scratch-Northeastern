@@ -1,18 +1,16 @@
 {% extends 'learn/base.html' %}
 {% load i18n %}
-    <!-- JUMBOTRON -->
-    <div id ="cloud"><h2>{% block title %}{% trans "Parallelism" %}{% endblock %}</h2><span class='shadow'></span></div>
-    <!-- /END JUMBOTRON -->
-    <!-- PANEL-->
     {% block content %}
-    <div class="panel panel-default">
-        <div class="panel-body col-lg-10 col-lg-offset-1">
-    {% trans "In most Scratch creations a certain level of parallelism is required. But what means parallelism? <b>Parallelism is the possibility that several things occur simultaneously.</b> For example, two characters perform an action while a character or do several things at once." %}
+
+    <div class="container" style="text-align: left;">
+        <h2> {% trans "Parallelism" %} </h2>
+        <div class="panel panel-default">
+            <div class="panel-body col-lg-10">
+        {% trans "In most Scratch creations a certain level of parallelism is required. But what means parallelism? <b>Parallelism is the possibility that several things occur simultaneously.</b> For example, two characters perform an action while a character or do several things at once." %}
+            </div>
         </div>
-    </div>
-    <div class="container">
     <div class="panel panel-default">
-        <div class="panel-body col-lg-10 col-lg-offset-1">
+        <div class="panel-body col-lg-10">
             <section id="level0">
                 <h3>{% trans "If you get 0 points..." %}</h3>
                 {% trans "The most basic and most obvious way to achieve parallelism is to have several programs that start with <i>'When green flag is clicked'</i>:" %}<br><br>
@@ -26,7 +24,7 @@
     </div>
 
     <div class="panel panel-default">
-        <div class="panel-body col-lg-10 col-lg-offset-1">
+        <div class="panel-body col-lg-10">
             <section id="level1">
                 <h3>{% trans "If you get 1 point..." %}</h3>
                 {% trans "Another way to achieve parallelism in your program is <b>doing several things occur when the user presses a key or clicks on an object</b>. Consider a couple of examples:" %} <br><br>
@@ -60,7 +58,7 @@
     </div>
 
     <div class="panel panel-default">
-        <div class="panel-body col-lg-10 col-lg-offset-1">
+        <div class="panel-body col-lg-10">
             <section id="level2">
                 <h3>{% trans "If you get 2 points..." %}</h3>
                 {% trans "There are several events more that can achieve parallelism:" %}<br><br>
