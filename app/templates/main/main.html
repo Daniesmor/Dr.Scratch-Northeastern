@@ -488,56 +488,24 @@
             <!-- SECTION HEADER -->
             <div class="section-header">
 
-                <h2 class="dark-text"><strong>{% trans "Why " %} </strong>{% trans "you’ll love Dr. Scratch" %}</h2>
+                <h2 class="dark-text">Check the<strong>{% trans " wiki " %} </strong>{% trans "of Dr. Scratch." %}</h2>
 
             </div>
 
             <div class="row">
 
-                <!-- SINGLE SERVICE -->
-                <div style="visibility: visible;" class="col-md-3">
-                    <div class="service-icon colored-text text-left">
-                        <span class="icon-social-dribbble-circle" style="font-size: 70px;"></span>
-                    </div>
-                    <h3 class="text-left dark-text"><strong>{% trans "Simple & Fun" %}</strong></h3>
-                    <h4 class="text-left">{% trans "Your students can easily learn how to improve their programming skills in a fun way." %}</h4>
-                    
-                </div>
-
-                <!-- SINGLE SERVICE -->
-                <div style="visibility: visible;" class="col-md-3">
-                    <div class="service-icon colored-text text-left">
-                        <span class="icon-ecommerce-graph3" style="font-size: 70px;"></span>
-                    </div>
-                    <h3 class="text-left dark-text"><strong>{% trans "Improve your skills" %}</strong></h3>
-                    <p>
-                        <h4 class="text-left">{% trans "We provide feedback on several aspects which are related to Computational Thinking." %}</h4>
-                    </p>
-                </div>
-
-                <!-- SINGLE SERVICE -->
-                <div style="visibility: visible;" class="col-md-3">
-                    <div class="service-icon colored-text text-left">
-                        <span class="icon-software-pen" style="font-size: 70px;"></span>
-                    </div>
-                    <h3 class="text-left dark-text"><strong>{% trans "Always improving" %}</strong></h3>
-                    <p>
-                       <h4 class="text-left">{% trans "We're continually enhancing the features of Dr. Scratch, and we'd love to hear your thoughts" %}</h4>
-                    </p>
-                </div>
-
-                <!-- SINGLE SERVICE -->
-                <div style="visibility: visible;" class="col-md-3">
-                    <div class="service-icon colored-text text-left">
-                        <span class="icon-software-pen" style="font-size: 70px;"></span>
-                    </div>
-                    <h3 class=" text-left dark-text"><strong>{% trans "Adaptative" %}</strong></h3>
-                    <p>
-                       <h4 class="text-left">{% trans "We are continually working to adapt De.Scratch to the needs of our users in each version." %}</h4>
-                    </p>
-                </div>
-
+               <!-- SINGLE SERVICE -->
+               <div style="height: 700px;" class="col-md-3" id="bg-personalized"></div>
                
+                <!-- SINGLE SERVICE -->
+                <div style="height: 700px;" class="col-md-3" id="bg-csv"></div>
+
+                <!-- SINGLE SERVICE -->
+                <div style="height: 700px;" class="col-md-3" id="bg-classic"></div>
+
+                <!-- SINGLE SERVICE -->
+                <div style="height: 700px;" class="col-md-3" id="bg-coming"></div>
+            
             </div>
         </div>
         <br></br>
@@ -547,133 +515,7 @@
     
 
 
-    <!-- =========================
-     SECTION: BENEFITS
-    ============================== -->
-    <section id="section3" class="unique-features white-bg">
-        <div class="container">
-            <!-- SECTION HEADER -->
-            <div class="section-header">
-                <div class="small-text-medium uppercase colored-text">
-                    {% trans "NEW FEATURES" %}
-                </div>
-                <h2 class="dark-text"><strong>{% trans "Coming " %}</strong>{% trans "Soon" %}</h2>
-                <div class="colored-line">
-                </div>
-                <div class="sub-heading">
-                    <h3><em>{% trans "We are working on new features to improve Dr. Scratch" %}</em></h3>
-                </div>
-            </div>
-
-            <!-- FIRST ROW OF FEATURES -->
-            <div class="row">
-                <div style="visibility: visible; animation-duration: 1.75s; animation-name: fadeInRight;" class="col-md-4 wow fadeInRight animated" data-wow-duration="1.75s" data-wow-offset="40">
-
-
-                    <!-- SINGLE FEATURE -->
-                    <div class="feature">
-                        <div class="icon-container">
-                            <span class="icon-comment-alt colored-text"></span>
-                        </div>
-                        <div class="description text-left">
-                            <h4 class="dark-text">{% trans "Multilingual website" %}</h4>
-                            <div class="grey-line-short pull-left">
-                            </div>
-                            <p class="text-left">
-                               {% trans "We know the importance of receiving feedback on your own language to understand every little detail or hint, so we'll translate Dr. Scratch to facilitate coding learning to as many people as possible." %}
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- SINGLE FEATURE -->
-                    <div class="feature">
-                        <div class="icon-container">
-                            <span class="icon-icon-desktop colored-text"></span>
-                        </div>
-                        <div class="description text-left">
-                            <h4 class="dark-text">{% trans "Teacher accounts" %}</h4>
-                            <div class="grey-line-short pull-left">
-                            </div>
-                            <p class="text-left">
-                                {% trans "Teachers will be able to group (and follow) their students to keep track of their progress in a fast and simple way." %}
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- SINGLE FEATURE -->
-                    <div class="feature">
-                        <div class="icon-container">
-                            <span class="icon-cloud-alt colored-text"></span>
-                        </div>
-                        <div class="description text-left">
-                            <h4 class="dark-text">{% trans "Cloud platform" %}</h4>
-                            <div class="grey-line-short pull-left">
-                            </div>
-                            <p class="text-left">
-                                {% trans "We are in the process of migrating our servers to the Cloud with the aim of providing a better performance." %}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- DrScratch's working to improve -->
-                <div class="col-md-4">
-                    <div style="visibility: visible; animation-duration: 1.75s; animation-name: bounceIn;" class="ipad-image wow bounceIn animated" data-wow-duration="1.75s" data-wow-offset="20">
-                        <img src="static/app/images/bulb.png" alt="" height="406" width="360">
-                    </div>
-                </div>
-
-                <div style="visibility: visible; animation-duration: 1.75s; animation-name: fadeInLeft;" class="col-md-4 wow fadeInLeft animated" data-wow-duration="1.75s" data-wow-offset="20">
-
-                    <!-- SINGLE FEATURE -->
-                    <div class="feature">
-                        <div class="icon-container">
-                            <span class="icon-tools colored-text"></span>
-                        </div>
-                        <div class="description text-left">
-                            <h4 class="dark-text">Plug-ins</h4>
-                            <div class="grey-line-short pull-left">
-                            </div>
-                            <p class="text-left">
-                                {% trans "With Dr. Scratch plug-ins for Chrome and Firefox, students will analyze their project WHILE programming on the Scratch website." %}
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- SINGLE FEATURE -->
-                    <div class="feature">
-                        <div class="icon-container">
-                            <span class="icon-star-alt colored-text"></span>
-                        </div>
-                        <div class="description text-left">
-                            <h4 class="dark-text">{% trans "Gamification" %}</h4>
-                            <div class="grey-line-short pull-left">
-                            </div>
-                            <p class="text-left">
-                                {% trans "We'd like to take learners curiosity one step further. Do you have cool ideas to gamify our platform?" %}
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- SINGLE FEATURE -->
-                    <div class="feature">
-                        <div class="icon-container">
-                            <span class="icon-chat-alt colored-text"></span>
-                        </div>
-                        <div class="description text-left">
-                            <h4 class="dark-text">{% trans "Social network" %}</h4>
-                            <div class="grey-line-short pull-left">
-                            </div>
-                            <p class="text-left">
-                                {% trans "The new social network funcionalities will allow users to communicate with each other to exchange ideas and challenges." %}
-                            </p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </section>
+    
 
 
     <!-- =========================
