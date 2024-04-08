@@ -1,19 +1,16 @@
 {% extends 'learn/base.html' %}
 {% load i18n %}
-
-    <!-- JUMBOTRON -->
-    <div id = "cloud"><h2>{% block title %}{% trans "User interactivity" %}{% endblock %}</h2><span class='shadow'></span></div>
-    <!-- /END JUMBOTRON -->
-    <!-- PANEL-->
 {% block content %}
+
+<div class="container" style="text-align: left;">
+    <h2> {% trans "User Interactivity" %} </h2>
     <div class="panel panel-default">
-    <div class="panel-body col-lg-10 col-lg-offset-1">
-  {% trans "The instructions related to user interactivity can <b>help your Scratch projects be more interactive</b>, ie the person who is running it can perform actions that provoke new situations in the project. For example, I can use the keyboard or mouse to move a character, you can answer questions or playing computer webcam, among many other possibilities." %}<br>
-    </div>
-    </div>
-<div class="container">
+        <div class="panel-body col-lg-10">
+      {% trans "The instructions related to user interactivity can <b>help your Scratch projects be more interactive</b>, ie the person who is running it can perform actions that provoke new situations in the project. For example, I can use the keyboard or mouse to move a character, you can answer questions or playing computer webcam, among many other possibilities." %}<br>
+        </div>
+        </div>
     <div class="panel panel-default">
-        <div class="panel-body col-lg-10 col-lg-offset-1">
+        <div class="panel-body col-lg-10">
             <section id="level0">
                 <h3>{% trans "If you get 0 points..." %}</h3>
                 {% trans "The most basic block you can start working interactivity with the user is <i>'when green flag clicked'</i>." %}
@@ -30,7 +27,7 @@
     </div>
 
     <div class="panel panel-default">
-        <div class="panel-body col-lg-10 col-lg-offset-1">
+        <div class="panel-body col-lg-10">
             <section id="level1">
                 <h3>{% trans "If you get 1 point..." %}</h3>
                 {% trans "Now that you have begun to interact with the user running your Scratch project, perhaps you can try some of the following blocks:" %}<br><br>
@@ -60,7 +57,7 @@
         </div>
     </div>
     <div class="panel panel-default">
-        <div class="panel-body col-lg-10 col-lg-offset-1">
+        <div class="panel-body col-lg-10">
             <section id="level2">
                 <h3>{% trans "If you get 2 points..." %}</h3>
                     {% trans "One of the funniest Scratch possibilities in terms of user interactivity is the possibility that <b>the user can use your webcam or microphone to interact with characters from Scratch or sound to trigger certain actions.</b>" %}<br><br>
