@@ -65,7 +65,10 @@
                             <div class="panel panel-success" id="improve">
                                 <div id="stepthree">
                                     <div class="panel-heading" >
-                                        <h2 id="score" class="panel-title dark-text">{% trans "Bad habits"%}</h2>
+                                        <h2 id="score" class="panel-title dark-text">
+                                            {% trans "Bad habits"%} 
+                                            <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Specific parts of the project that do not contribute to good programming practices' %}"></i>
+                                        </h2>
                                     </div>
                                     <div class="panel-body text-left typ">
                                         <a class="glyphicon glyphicon-repeat"/>
@@ -153,7 +156,10 @@
                         <div class="panel panel-success" id="improve">
                             <div id="stepfour">
                                 <div class="panel-heading" >
-                                    <h2 id="score" class="panel-title dark-text">{% trans "Project certificate"%}</h2>
+                                    <h2 id="score" class="panel-title dark-text">
+                                        {% trans "Project certificate"%}
+                                        <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Certificate of the Evaluation of your Scratch Project' %}"></i>
+                                    </h2>
                                 </div>
                                 <div class="panel-success" style="word-break: break-word;" >
                                     <h5>{{ filename }} <form name="form" class="project-form" enctype="multipart/form-data" method="post" action="/download_certificate">
@@ -175,8 +181,18 @@
                                             <table class="table tablesorter">
                                                 <thead>
                                                     <tr>
-                                                    <th><h4>{% trans "Level up" %}</h4></th>
-                                                    <th class="col-md-5"><h4>{% trans "Level" %}</h4></th>
+                                                        <th>
+                                                            <h4>
+                                                                {% trans "Level up" %}
+                                                                <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Dimensions Evaluated in your Scratch Project' %}"></i>
+                                                            </h4>
+                                                        </th>
+                                                        <th class="col-md-5">
+                                                            <h4>
+                                                                {% trans "Level" %}
+                                                                <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Grade from 1 to 3 of each Dimension' %}"></i>
+                                                            </h4>
+                                                        </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
