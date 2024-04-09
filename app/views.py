@@ -115,6 +115,7 @@ def create_csv_main(request ,d: dict, folder_path: str) -> str:
                     clave_trans = mastery_fields[clave]
                     print("clave trans: ", clave_trans)
                     mastery_list = d[project]['mastery'].get(clave_trans, [])
+            
                     if type(mastery_list) == list:
                         row_to_write[clave] = mastery_list[0]
                     else:
@@ -285,7 +286,7 @@ def create_csv(request, d):
    
     
     create_csv_main(request, d, folder_path)
-    create_csv_dups(d, folder_path)
+    #create_csv_dups(d, folder_path)
     create_csv_sprites(d, folder_path)
     create_csv_backdrops(d, folder_path)
     create_csv_deadcode(d, folder_path)
@@ -1119,12 +1120,12 @@ def skills_translation(request) -> dict:
     Create a dict with the skills name translated
     """
     if request.LANGUAGE_CODE == "en":
-        dic = {u'Logic thinking': 'Logic',
+        dic = {u'Logic': 'Logic',
                u'Parallelism':'Parallelism',
-               u'Data representation':'Data',
+               u'Data representation':'Data representation',
                u'Synchronization':'Synchronization',
-               u'User interactivity':'User',
-               u'Flow control':'Flow',
+               u'User interactivity':'User interactivity',
+               u'Flow control':'Flow control',
                u'Abstraction':'Abstraction',
                u'Math operators':'Math operators',
                u'Motion operators': 'Motion operators'}
@@ -1132,10 +1133,10 @@ def skills_translation(request) -> dict:
         #page = unicodedata.normalize('NFKD',page).encode('ascii', 'ignore')
         dic = {'Pensamiento lógico':'Logic',
                'Paralelismo':'Parallelism',
-               'Representación de la información':'Data',
+               'Representación de la información':'Data representation',
                'Sincronización':'Synchronization',
                'Interactividad con el usuario':'User',
-               'Control de flujo':'Flow',
+               'Control de flujo':'Flow control',
                'Abstracción':'Abstraction',
                'Operadores matemáticos':'Math operators',
                'Operadores de movimiento': 'Motion operators'}
@@ -1143,10 +1144,10 @@ def skills_translation(request) -> dict:
         #page = unicodedata.normalize('NFKD', page).encode('ascii', 'ignore')
         dic = {u'Logica':'Logic',
                u'Paral':'Parallelism',
-               u'Representacio':'Data',
+               u'Representacio':'Data representation',
                u'Sincronitzacio':'Synchronization',
-               u'Interactivitat':'User',
-               u'Controls':'Flow',
+               u'Interactivitat':'User interactivity',
+               u'Controls':'Flow control',
                u'Abstraccio':'Abstraction',
                u'Operadors matemàtics':'Math operators',
                u'Operadors de moviment': 'Motion operators'}
@@ -1154,10 +1155,10 @@ def skills_translation(request) -> dict:
         #page = unicodedata.normalize('NFKD',page).encode('ascii', 'ignore')
         dic = {'Loxica':'Logic',
                'Paralelismo':'Parallelism',
-               'Representacion':'Data',
+               'Representacion':'Data representation',
                'Sincronizacion':'Synchronization',
-               'Interactividade':'User',
-               'Control':'Flow',
+               'Interactividade':'User interactivity',
+               'Control':'Flow control',
                'Abstraccion':'Abstraction',
                'Operadores matemáticos':'Math operators',
                'Operadores de movemento': 'Motion operators'}
@@ -1165,20 +1166,20 @@ def skills_translation(request) -> dict:
         #page = unicodedata.normalize('NFKD',page).encode('ascii', 'ignore')
         dic = {'Logica':'Logic',
                'Paralelismo':'Parallelism',
-               'Representacao':'Data',
+               'Representacao':'Data representation',
                'Sincronizacao':'Synchronization',
-               'Interatividade':'User',
-               'Controle':'Flow',
+               'Interatividade':'User interactivity',
+               'Controle':'Flow control',
                'Abstracao':'Abstraction',
                'Operadores matemáticos':'Math operators',
                'Operadores de movimento': 'Motion operators'}
     elif request.LANGUAGE_CODE == "el":
         dic = {u'Λογική':'Logic',
            u'Παραλληλισμός':'Parallelism',
-           u'Αναπαράσταση':'Data',
+           u'Αναπαράσταση':'Data representation',
            u'Συγχρονισμός':'Synchronization',
-           u'Αλληλεπίδραση':'User',
-           u'Έλεγχος':'Flow',
+           u'Αλληλεπίδραση':'User interactivity',
+           u'Έλεγχος':'Flow control',
            u'Αφαίρεση':'Abstraction',
            u'Μαθηματικοί τελεστές':'Math operators',
            u'Χειριστές κίνησης': 'Motion operators'}
@@ -1186,10 +1187,10 @@ def skills_translation(request) -> dict:
         #page = unicodedata.normalize('NFKD',page).encode('ascii', 'ignore')
         dic = {u'Logika':'Logic',
            u'Paralelismoa':'Parallelism',
-           u'Datu':'Data',
+           u'Datu':'Data representation',
            u'Sinkronizatzea':'Synchronization',
-           u'Erabiltzailearen':'User',
-           u'Kontrol':'Flow',
+           u'Erabiltzailearen':'User interactivity',
+           u'Kontrol':'Flow control',
            u'Abstrakzioa':'Abstraction',
            u'Operadore matematikoak':'Math operators',
            u'Mugimendu-operadoreak': 'Motion operators'}
@@ -1197,30 +1198,30 @@ def skills_translation(request) -> dict:
         #page = unicodedata.normalize('NFKD',page).encode('ascii','ignore')
         dic = {u'Logica':'Logic',
            u'Parallelismo':'Parallelism',
-           u'Rappresentazione':'Data',
+           u'Rappresentazione':'Data representation',
            u'Sincronizzazione':'Synchronization',
-           u'Interattivita':'User',
-           u'Controllo':'Flow',
+           u'Interattivita':'User interactivity',
+           u'Controllo':'Flow control',
            u'Astrazione':'Abstraction',
            u'Operatori matematici':'Math operators',
            u'Operatori del movimento': 'Motion operators'}
     elif request.LANGUAGE_CODE == "ru":
         dic = {u'Логика': 'Logic',
                u'Параллельность': 'Parallelism',
-               u'Представление': 'Data',
+               u'Представление': 'Data representation',
                u'cинхронизация': 'Synchronization',
-               u'Интерактивность': 'User',
-               u'Управление': 'Flow',
+               u'Интерактивность': 'User interactivity',
+               u'Управление': 'Flow control',
                u'Абстракция': 'Abstraction',
                u'Математические операторы':'Math operators',
                u'Операторы движения': 'Motion operators'}
     else:
         dic = {u'Logica':'Logic',
                u'Paralelismo':'Parallelism',
-               u'Representacao':'Data',
+               u'Representacao':'Data representation',
                u'Sincronizacao':'Synchronization',
-               u'Interatividade':'User',
-               u'Controle':'Flow',
+               u'Interatividade':'User interactivity',
+               u'Controle':'Flow control',
                u'Abstracao':'Abstraction',
                u'Operadores matemáticos':'Math operators',
                u'Operadores de movimento': 'Motion operators'}
