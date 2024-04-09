@@ -27,6 +27,7 @@
     <!-- =========================
      FAV AND TOUCH ICONS AND FONT
     ============================== -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="icon" href="/static/app/images/favicon.ico">
     <link rel="stylesheet" href="static/app/icons/icons.css">
     <link type="text/css" rel="stylesheet" href="/static/app/content/css_002.css">
@@ -604,15 +605,22 @@
   
 </div>
 
+    <!-- FOOTER -->
     <footer class="footer grey-bg">
-        <div class="container">
-            <p><small>{% trans "© 2019 Dr. Scratch." %} Made with <span style="color: #e25555;">&#9829;</span> by <a href="/collaborators">Dr. Scratch Team</a></small></p>
+        {% trans "©2024 Dr. Scratch" %}
+            <!-- SOCIAL ICONS -->
             <ul class="social-icons">
-                <li><a href="https:/twitter.com/drscratchtool"><span class="icon-font-social-twitter transparent-text-dark"></span></a></li>
-                <li><a href="https://github.com/AngelaVargas/drscratchv3"><span class="icon-font-social-github transparent-text-dark"></span></a></li>
-                <!--<li><a href="mailto:drscratch@gsyc.urjc.es"><span class="icon-font-social-mail transparent-text-dark"></span></a></li>-->
+                <li>
+                    <a href="https://github.com/Daniesmor/Dr.Scratch-Northeastern"> 
+                    <i class="bi bi-github" style="color: black;"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://twitter.com/DrScratchTool">
+                    <i class="bi bi-twitter-x" style="color: black;"></i>
+                    </a>
+                </li>    
             </ul>
-        </div>
     </footer>
 
     
