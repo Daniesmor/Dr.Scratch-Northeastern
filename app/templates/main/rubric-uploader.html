@@ -26,6 +26,7 @@
     <!-- =========================
      FAV AND TOUCH ICONS AND FONT
     ============================== -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="icon" href="/static/app/images/favicon.ico">
     <link rel="stylesheet" href="static/app/icons/icons.css">
     <link type="text/css" rel="stylesheet" href="/static/app/content/css_002.css">
@@ -96,22 +97,15 @@
     
 </head>
 <body>
-    <!-- TOP BAR -->
 <div id="wrap">
+    <!-- TOP BAR -->
     <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top  sticky-navigation" role="navigation">
         <div class="container">
-            <div class="navbar-collapse collapse" id="stamp-navigation">
-                    <!-- NAVIGATION LINK -->
-                <a class="navbar-brand" href="/">
-                    <img src="static/app/images/logo_main.png" alt="">
-                </a>
-                <ul class="nav navbar-nav navbar-right main-navigation ">
-                        <li class="navbar-brand"><a class="navbar-brand pull-right" href="https://twitter.com/DrScratchTool"><span class="icon-social-twitter colored-text"></span></a></li>
-                        <li class="navbar-brand"><a class="navbar-brand pull-right" href="mailto:kgblll@gsyc.urjc.es"><span class="icon-basic-mail colored-text"></span></a></li>
-                        <li class="navbar-brand"><a class="btn btn-default" id="tour">{% trans "HELP" %}</a></li>
-                        <li class="navbar-brand"><a class="navbar-brand pull-right">{% trans "Dr. Scratch(Beta Version)" %}</a></li>
-                </ul>
-            </div>
+            <!-- NAVIGATION LINK -->
+            <a href="/">
+                <img src="static/app/images/logo_main.png" alt="" width="220" height="70.1667">
+            </a>
+
         </div>
     </div>
     <!-- /END TOP BAR -->
@@ -174,15 +168,22 @@
 </div>
 <br></br>
 
+    <!-- FOOTER -->
     <footer class="footer grey-bg">
-        <div class="container">
-            <p><small>{% trans "© 2019 Dr. Scratch." %} Made with <span style="color: #e25555;">&#9829;</span> by <a href="/collaborators">Dr. Scratch Team</a></small></p>
+        {% trans "©2024 Dr. Scratch" %}
+            <!-- SOCIAL ICONS -->
             <ul class="social-icons">
-                <li><a href="https:/twitter.com/drscratchtool"><span class="icon-font-social-twitter transparent-text-dark"></span></a></li>
-                <li><a href="https://github.com/AngelaVargas/drscratchv3"><span class="icon-font-social-github transparent-text-dark"></span></a></li>
-                <!--<li><a href="mailto:drscratch@gsyc.urjc.es"><span class="icon-font-social-mail transparent-text-dark"></span></a></li>-->
+                <li>
+                    <a href="https://github.com/Daniesmor/Dr.Scratch-Northeastern"> 
+                    <i class="bi bi-github" style="color: black;"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://twitter.com/DrScratchTool">
+                    <i class="bi bi-twitter-x" style="color: black;"></i>
+                    </a>
+                </li>    
             </ul>
-        </div>
     </footer>
 
     <script type="text/javascript" src="static/app/scripts/bootstrap-filestyle.js"> </script>
