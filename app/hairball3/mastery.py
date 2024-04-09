@@ -189,8 +189,10 @@ class Mastery(Plugin):
         """
         Extrapolate the points to the max points of skill rubric
         """
-        score = self.skill_points[dimension] * self.possible_scores[level]
-        score /= len(self.possible_scores.keys())
+        if self.possible_scores[level] >= self.skill_points[dimension]:
+            score = self.skill_points[dimension]
+        else:
+            score = self.possible_scores[level]
         return score
 
     def compute_logic(self):
