@@ -401,7 +401,7 @@
                     <form name="form" class="project-form" enctype="multipart/form-data" method="post" action="/show_dashboard/" style="margin-top: 50px;">
                         <h3><strong>Batch Mode</strong></h3>
                         <p><span class='colored-text'> {% trans "IMPORTANT!"  %}</span> Please upload a txt containing the URLs of the projects, with each URL on a separate line. (Max. 10)</p>                
-                        <input type="hidden" name="dashboard_mode" value="CSV">
+                        <input type="hidden" name="dashboard_mode" value="Default">
                         {% trans "<input  name='urlsFile' type='file' class='filestyle' data-buttonText='Choose txt'>" %}
                         <button id="urls" name='_urls' type="submit" class="btn btn-primary standard-button">{% trans "Analyze my projects" %}</button>
                         <br></br>
