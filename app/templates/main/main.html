@@ -496,16 +496,17 @@
             <div class="row">
 
                <!-- SINGLE SERVICE -->
-               <div style="height: 700px;" class="col-md-3" id="bg-personalized"></div>
+               <a href="{% url 'learn' "PersonalMode" %}"><div style="height: 700px;" class="col-md-3" id="bg-personalized"></div></a>
+               
                
                 <!-- SINGLE SERVICE -->
-                <div style="height: 700px;" class="col-md-3" id="bg-csv"></div>
+                <a href="{% url 'learn' "BatchMode" %}"><div style="height: 700px;" class="col-md-3" id="bg-csv"></div></a>
 
                 <!-- SINGLE SERVICE -->
-                <div style="height: 700px;" class="col-md-3" id="bg-classic"></div>
+                <a href="{% url 'learn' "DefaultMode" %}"><div style="height: 700px;" class="col-md-3" id="bg-classic"></div></a>
 
                 <!-- SINGLE SERVICE -->
-                <div style="height: 700px;" class="col-md-3" id="bg-coming"></div>
+                <a href=""><div style="height: 700px;" class="col-md-3" id="bg-coming"></div></a>
             
             </div>
         </div>
