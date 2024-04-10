@@ -113,7 +113,6 @@ def create_csv_main(request ,d: dict, folder_path: str) -> str:
                     row_to_write[clave] = d[project].get(clave, '')
                 elif clave in mastery_fields.keys():
                     clave_trans = mastery_fields[clave]
-                    print("clave trans: ", clave_trans)
                     mastery_list = d[project]['mastery'].get(clave_trans, [])
             
                     if type(mastery_list[0]) == list:
@@ -198,7 +197,6 @@ def create_csv_sprites(d: dict, folder_path: str):
             sprites = project['spriteNaming'].get('sprite', [])
             for i, sprite in enumerate(sprites, 1):
                 row_to_write[f'spriteNaming{i}'] = sprite
-
             # Write the row
             writer_csv.writerow(row_to_write)
   
@@ -323,7 +321,7 @@ def show_dashboard(request, skill_points=None):
         if len(d) > 1:
             csv_filepath = create_csv(request, d)
             summary = create_summary(request, d)   
-            print("Resumen:", summary)   
+            print("summary", summary)   
             return render(request, user + '/dashboard-bulk.html', {'summary': summary, 'csv_filepath': csv_filepath})
         else: 
             d = d[0]
@@ -456,8 +454,11 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
         
         urls_file = request.FILES['urlsFile']
 
-        # Iterate over the file object directly
-        for url in urls_file:
+                # Iterate over the first 10 URLs in the file
+        for i, url in enumerate(urls_file):
+            if i >= 10:
+                break
+                
             url = url.decode('utf-8')  # Decode bytes to string
             url = url.strip()  # Remove whitespace from the beginning and end of the string
             filename = url
@@ -466,11 +467,11 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
 
             # Update 'dict_metrics' with additional information
             dict_metrics[project_counter].update({
-                'url': url, 
+                'url': url,
                 'filename': filename,
                 'dashboard_mode': dashboard_mode,
             })
-            project_counter += 1  
+            project_counter += 1
     return dict_metrics
 
 

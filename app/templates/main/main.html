@@ -14,10 +14,6 @@
     <!-- SITE TITLE -->
     <title>Dr. Scratch</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
 
     <link rel="stylesheet" href="static/app/content/style.css">
     <!-- =========================
@@ -51,8 +47,7 @@
     <!-- DEFAULT COLOR/ CURRENTLY USING -->
     <link rel="stylesheet" href="static/app/content/red.css">
 
-    <!-- PARRALLAX EFFECTS -->
-    <script src="https://cdn.jsdelivr.net/npm/simple-parallax-js@5.5.1/dist/simpleParallax.min.js"></script>
+
 
     <style>
         /* Para el ancho y alto de las imagenes. Modificalo a gusto =)  */
@@ -124,7 +119,6 @@
             &nbsp;
         </div>
     </div>
-
     <!-- =========================
      SECTION: HOME / HEADER
     ============================== -->
@@ -136,14 +130,13 @@
         <!-- COLOR OVER IMAGE -->
         <div class="overlay-layer">
            
-            <!-- STICKY NAVIGATION -->
-            
-            <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top  sticky-navigation" role="navigation">
+             <!-- STICKY NAVIGATION -->
+             <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top  sticky-navigation" role="navigation">
                 <div class="container">
                     <!-- TOP BAR -->
                     <div class="navbar-collapse collapse" height="200px" id="stamp-navigation">
                    
-                      <a class="" href="/">
+                      <a class="text-center" href="/">
                         <img class="d-block img-fluid" height="100px" src="static/app/images/logo_main.png" alt="">
                       </a>
                       
@@ -151,7 +144,7 @@
                         
                         <ul class="nav navbar-nav navbar-right login-register small-text">
                             <li style="display: block;" class="login js-login dropdown ">
-                                <a aria-expanded="false" type="button" data-toggle="dropdown" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">
+                                <a aria-expanded="false" type="button" data-toggle="dropdown" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" style="padding-top: 100%;">
                                 <span class="glyphicon glyphicon-book"><span class="icon-basic-world"></span></span>
                                 </a>
                                 <ul role="menu" class="dropdown-menu">
@@ -160,7 +153,10 @@
                                 <form action="/i18n/setlang/" method="post" type="hidden">
                                     {% csrf_token %}
                                     <input name="next" type="hidden" value="{{ redirect_to }}" />
+                                    
+
                                     <select name="language" type="hidden">
+                                        
                                 {% get_language_info_list for LANGUAGES as languages %}
                                 {% for language in languages %}
                                 <option type="submit" class='btn-group btn-group-justified colored-text' value="{{ language.code }}">{{ language.name }} ({{ language.code }})</option>
@@ -171,83 +167,84 @@
                             </div>
                             </li>
                         </ul>
+                        
 
-                    
+     
 
-                 {% if flagUser %}
+                        
+
+
+
+
+                    {% if flagUser %}
                          <!-- NAVIGATION LINK -->
                          <ul class="nav navbar-nav navbar-left main-navigation ">
                              <li class="navbar-brand"><a class="navbar-brand pull-left" href="/{{page}}/{{username}}"><span class="icon-basic-home colored-text"></span><em>{{ username }}</em></a></li>
                         </ul>
 
+                    {% else %}
+                        <!-- LOGIN REGISTER 
 
-
-                     {% else %}
 
                     
-                     
-                    <!-- LOGIN REGISTER 
 
+                        <li style="display: block;" class="login js-login dropdown">
+                            <a aria-expanded="false" role="button" class="dropdown-toggle" data-toggle='modal' href='#modalSignUp'>{% trans "Sign up" %}</a>
 
-                   
-
-                      <li style="display: block;" class="login js-login dropdown">
-                        <a aria-expanded="false" role="button" class="dropdown-toggle" data-toggle='modal' href='#modalSignUp'>{% trans "Sign up" %}</a>
-
-                        </a>
-                        <ul role="menu" class="dropdown-menu">
-                          <li>
-                          <div style="padding: 15px; padding-bottom: 10px;">
-                            <form accept-charset="UTF-8" action="/sign_up_coder" method="post">
-                            {% csrf_token %}
-                              {% trans "<input type='text' name='username' id='username' placeholder='Username' style='margin-bottom: 15px;'>" %}
-                              {% trans "<input type='text' name='email' id='email' placeholder='Email' style='margin-bottom: 15px;'>" %}
-                              {% trans "<input type='password' name='password' id='password' placeholder='Password' style='margin-bottom: 15px;'>" %}
-                              {% trans "<input class='form-control' type='password' name='hashkey' id='hashkey' placeholder='Hashkey' style='margin-bottom: 15px;'>" %}
-                              {% trans "<input type='submit' value='Sign up' id='sign-up' class='btn-group btn-group-justified colored-text'>" %}
-                            </form>
-                          </div>
-                          </li>
-                          </ul>
-                        </li>
-
-
-
-                      <li style="display: block;" class="login js-login dropdown">
-                        <a aria-expanded="false" role="button" href="#" data-toggle="dropdown" class="dropdown-toggle">{% trans "Sign in" %}
-                          <span class="caret"></span>
-                        </a>
-                        <ul role="menu" class="dropdown-menu">
-                          <li>
-                          <div style="padding: 15px; padding-bottom: 10px;">
-                            <form accept-charset="UTF-8" action="/login_coder" method="post">
-                                          {% csrf_token %}
-                              {% trans "<input type='text' name='username' id='username' placeholder='Username' style='margin-bottom: 15px;'>" %}
-                              {% trans "<input type='password' name='password' id='password' placeholder='Password' style='margin-bottom: 15px;'>" %}
-                            <div>
-                                <a class="message" style="size: 5px;" href="/change_pwd">{% trans "I forgot my password" %}</a>
+                            </a>
+                            <ul role="menu" class="dropdown-menu">
+                            <li>
+                            <div style="padding: 15px; padding-bottom: 10px;">
+                                <form accept-charset="UTF-8" action="/sign_up_coder" method="post">
+                                {% csrf_token %}
+                                {% trans "<input type='text' name='username' id='username' placeholder='Username' style='margin-bottom: 15px;'>" %}
+                                {% trans "<input type='text' name='email' id='email' placeholder='Email' style='margin-bottom: 15px;'>" %}
+                                {% trans "<input type='password' name='password' id='password' placeholder='Password' style='margin-bottom: 15px;'>" %}
+                                {% trans "<input class='form-control' type='password' name='hashkey' id='hashkey' placeholder='Hashkey' style='margin-bottom: 15px;'>" %}
+                                {% trans "<input type='submit' value='Sign up' id='sign-up' class='btn-group btn-group-justified colored-text'>" %}
+                                </form>
                             </div>
-                              {% trans "<input type='submit' value='Sign in' id='sign-in' class='btn-group btn-group-justified colored-text'>" %}
-                            </form>
-                          </div>
-                          </li>
-                          </ul>
-                        </li>
+                            </li>
+                            </ul>
+                            </li>
 
-                        {% endif %}
 
-                        <li style="display: none;" class="register-button js-register inpage-scroll">
-                            <a href="#home" class="navbar-register-button">{% trans "Get Started" %}</a>
-                        </li>
-                    </ul>
-                     -->
-                  </div>
+
+                        <li style="display: block;" class="login js-login dropdown">
+                            <a aria-expanded="false" role="button" href="#" data-toggle="dropdown" class="dropdown-toggle">{% trans "Sign in" %}
+                            <span class="caret"></span>
+                            </a>
+                            <ul role="menu" class="dropdown-menu">
+                            <li>
+                            <div style="padding: 15px; padding-bottom: 10px;">
+                                <form accept-charset="UTF-8" action="/login_coder" method="post">
+                                            {% csrf_token %}
+                                {% trans "<input type='text' name='username' id='username' placeholder='Username' style='margin-bottom: 15px;'>" %}
+                                {% trans "<input type='password' name='password' id='password' placeholder='Password' style='margin-bottom: 15px;'>" %}
+                                <div>
+                                    <a class="message" style="size: 5px;" href="/change_pwd">{% trans "I forgot my password" %}</a>
+                                </div>
+                                {% trans "<input type='submit' value='Sign in' id='sign-in' class='btn-group btn-group-justified colored-text'>" %}
+                                </form>
+                            </div>
+                            </li>
+                            </ul>
+                            </li>
+
+                            {% endif %}
+
+                            <li style="display: none;" class="register-button js-register inpage-scroll">
+                                <a href="#home" class="navbar-register-button">{% trans "Get Started" %}</a>
+                            </li>
+                        </ul>
+                        -->
+                    </div>
                   
                   <!-- /END TOP BAR -->
-              </div>
+                </div>
               <!-- /END CONTAINER -->
-          </div>
-          <!-- /END STICKY NAVIGATION -->
+            </div>
+            <!-- /END STICKY NAVIGATION -->
 
 
             <!-- CONTAINER -->
@@ -399,8 +396,8 @@
                 </div>
                 <div class="col-md-4 align-self-center">
                     <form name="form" class="project-form" enctype="multipart/form-data" method="post" action="/show_dashboard/" style="margin-top: 50px;">
-                        <h3><strong>Batch Mode</strong></h3>
-                        <p><span class='colored-text'> {% trans "IMPORTANT!"  %}</span> Please upload a txt containing the URLs of the projects, with each URL on a separate line. (Max. 10)</p>                
+                        <h3><strong>{% trans "Batch Mode"  %}</strong></h3>
+                        <p><span class='colored-text'>{% trans "IMPORTANT!"  %}</span> {% trans "Please upload a txt containing the URLs of the projects, with each URL on a separate line. (Max. 10)" %}</p>                
                         <input type="hidden" name="dashboard_mode" value="Default">
                         {% trans "<input  name='urlsFile' type='file' class='filestyle' data-buttonText='Choose txt'>" %}
                         <button id="urls" name='_urls' type="submit" class="btn btn-primary standard-button">{% trans "Analyze my projects" %}</button>
@@ -422,11 +419,9 @@
             <div class="row">
                 
                 <div class="col-md-4 align-self-center" style="margin-top: 80px;">
-                    <h3><strong>Personalized Mode</strong></h3>
+                    <h3><strong>{% trans "Personalized Mode" %}</strong></h3>
                     <p class="h4">
-                        The personalized mode allows you to create a personalized
-                        rubric for evaluate projects by your own criteria, after this you
-                        can share a link associated to your rubric to evaluate your students.
+                        {% trans "The personalized mode allows you to create a personalized rubric for evaluate projects by your own criteria, after this you can share a link associated to your rubric to evaluate your students." %}
                     </p>
 
                     <a href="{% url 'rubric_creator' %}">
@@ -443,7 +438,7 @@
     </section>
     <br></br>
 
-    <h2>{% trans "A " %}<strong>{% trans "powerful " %}</strong>{% trans "tool to analyze your Scratch projects" %}</h2>
+    <h2>{% trans "A powerful tool to analyze your Scratch projects" %}</h2>
     <img src="static/app/images/main_screens.png" class="img-fluid" width="70%" alt="">
 
 
@@ -489,7 +484,7 @@
             <!-- SECTION HEADER -->
             <div class="section-header">
 
-                <h2 class="dark-text">Check the<strong>{% trans " wiki " %} </strong>{% trans "of Dr. Scratch." %}</h2>
+                <h2 class="dark-text">{% trans "Check the" %}<strong>{% trans " wiki " %} </strong>{% trans "of Dr.Scratch." %}</h2>
 
             </div>
 

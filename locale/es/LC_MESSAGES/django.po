@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-01 18:34+0000\n"
+"POT-Creation-Date: 2024-04-10 15:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -69,9 +69,12 @@ msgstr "Porcentaje de niveles"
 #: app/templates/coder/dashboard-default-master.html:470
 #: app/templates/coder/dashboard-developing.html:373
 #: app/templates/coder/dashboard-master.html:401
-#: app/templates/main/dashboard-default.html:510
-#: app/templates/main/dashboard-default.html:752
-#: app/templates/main/dashboard-personal.html:468
+#: app/templates/main/dashboard-default-old.html:532
+#: app/templates/main/dashboard-default-old.html:777
+#: app/templates/main/dashboard-default.html:239
+#: app/templates/main/dashboard-default.html:484
+#: app/templates/main/dashboard-personal-old.html:463
+#: app/templates/main/dashboard-personal.html:192
 #: app/templates/main/statistics.html:143
 #: app/templates/organization/base.html:154
 #: app/templates/organization/dashboard-basic.html:181
@@ -122,10 +125,13 @@ msgstr "Malos hábitos"
 #: app/templates/coder/dashboard-default-master.html:410
 #: app/templates/coder/dashboard-developing.html:310
 #: app/templates/coder/dashboard-master.html:320
-#: app/templates/learn/base.html:120 app/templates/learn/deadCode.html:4
-#: app/templates/main/dashboard-default.html:449
-#: app/templates/main/dashboard-default.html:691
-#: app/templates/main/dashboard-personal.html:407
+#: app/templates/learn/base.html:246
+#: app/templates/main/dashboard-default-old.html:461
+#: app/templates/main/dashboard-default-old.html:716
+#: app/templates/main/dashboard-default.html:168
+#: app/templates/main/dashboard-default.html:423
+#: app/templates/main/dashboard-personal-old.html:402
+#: app/templates/main/dashboard-personal.html:121
 #: app/templates/main/statistics.html:198
 #: app/templates/organization/base.html:209
 #: app/templates/organization/base.html:389
@@ -141,11 +147,13 @@ msgstr "Código Muerto"
 #: app/templates/coder/dashboard-default-master.html:364
 #: app/templates/coder/dashboard-developing.html:272
 #: app/templates/coder/dashboard-master.html:274
-#: app/templates/learn/base.html:118
-#: app/templates/learn/duplicatedScripts.html:4
-#: app/templates/main/dashboard-default.html:403
-#: app/templates/main/dashboard-default.html:645
-#: app/templates/main/dashboard-personal.html:361
+#: app/templates/learn/base.html:240
+#: app/templates/main/dashboard-default-old.html:415
+#: app/templates/main/dashboard-default-old.html:670
+#: app/templates/main/dashboard-default.html:122
+#: app/templates/main/dashboard-default.html:377
+#: app/templates/main/dashboard-personal-old.html:356
+#: app/templates/main/dashboard-personal.html:75
 #: app/templates/main/statistics.html:201
 #: app/templates/organization/base.html:212
 #: app/templates/organization/base.html:387
@@ -157,7 +165,7 @@ msgid "Duplicated scripts"
 msgstr "Programas duplicados"
 
 #: app/templates/coder/base.html:212 app/templates/coder/base.html:387
-#: app/templates/learn/base.html:121 app/templates/organization/base.html:215
+#: app/templates/learn/base.html:249 app/templates/organization/base.html:215
 #: app/templates/organization/base.html:390
 msgid "Attribute initialization"
 msgstr "Atributos no inicializados correctamente"
@@ -167,9 +175,12 @@ msgstr "Atributos no inicializados correctamente"
 #: app/templates/coder/dashboard-default-master.html:386
 #: app/templates/coder/dashboard-developing.html:293
 #: app/templates/coder/dashboard-master.html:296
-#: app/templates/main/dashboard-default.html:425
-#: app/templates/main/dashboard-default.html:667
-#: app/templates/main/dashboard-personal.html:383
+#: app/templates/main/dashboard-default-old.html:437
+#: app/templates/main/dashboard-default-old.html:692
+#: app/templates/main/dashboard-default.html:144
+#: app/templates/main/dashboard-default.html:399
+#: app/templates/main/dashboard-personal-old.html:378
+#: app/templates/main/dashboard-personal.html:97
 #: app/templates/main/statistics.html:207
 #: app/templates/organization/base.html:218
 #: app/templates/organization/dashboard-developing.html:199
@@ -197,7 +208,7 @@ msgid "Programming skill"
 msgstr "Habilidad de programación"
 
 #: app/templates/coder/base.html:263 app/templates/coder/base.html:378
-#: app/templates/learn/Parallelism.html:4 app/templates/learn/base.html:111
+#: app/templates/learn/Parallelism.html:6 app/templates/learn/base.html:215
 #: app/templates/main/statistics.html:255
 #: app/templates/organization/base.html:266
 #: app/templates/organization/base.html:381
@@ -206,7 +217,7 @@ msgid "Parallelism"
 msgstr "Paralelismo"
 
 #: app/templates/coder/base.html:266 app/templates/coder/base.html:376
-#: app/templates/learn/Logic.html:4 app/templates/learn/base.html:109
+#: app/templates/learn/Logic.html:5 app/templates/learn/base.html:209
 #: app/templates/main/statistics.html:258
 #: app/templates/organization/base.html:269
 #: app/templates/organization/base.html:379
@@ -215,16 +226,14 @@ msgid "Logic"
 msgstr "Lógica"
 
 #: app/templates/coder/base.html:269 app/templates/coder/base.html:381
-#: app/templates/learn/Flow.html:4 app/templates/learn/base.html:114
-#: app/templates/main/statistics.html:261
+#: app/templates/learn/base.html:224 app/templates/main/statistics.html:261
 #: app/templates/organization/base.html:272
 #: app/templates/organization/base.html:384
 msgid "Flow control"
 msgstr "Control de flujo"
 
 #: app/templates/coder/base.html:272 app/templates/coder/base.html:380
-#: app/templates/learn/User.html:5 app/templates/learn/base.html:113
-#: app/templates/main/statistics.html:264
+#: app/templates/learn/base.html:221 app/templates/main/statistics.html:264
 #: app/templates/organization/base.html:275
 #: app/templates/organization/base.html:383
 #: app/templates/statistics/statistics.html:263
@@ -232,7 +241,7 @@ msgid "User interactivity"
 msgstr "Interactividad del usuario"
 
 #: app/templates/coder/base.html:275 app/templates/coder/base.html:377
-#: app/templates/learn/base.html:110 app/templates/main/statistics.html:267
+#: app/templates/learn/base.html:212 app/templates/main/statistics.html:267
 #: app/templates/organization/base.html:278
 #: app/templates/organization/base.html:380
 #: app/templates/statistics/statistics.html:266
@@ -240,8 +249,8 @@ msgid "Data representation"
 msgstr "Representación de los datos"
 
 #: app/templates/coder/base.html:278 app/templates/coder/base.html:382
-#: app/templates/learn/Abstraction.html:4 app/templates/learn/base.html:115
-#: app/templates/main/main.html:286 app/templates/main/rubric-creator.html:405
+#: app/templates/learn/Abstraction.html:5 app/templates/learn/base.html:227
+#: app/templates/main/rubric-creator.html:399
 #: app/templates/main/statistics.html:270
 #: app/templates/organization/base.html:281
 #: app/templates/organization/base.html:385
@@ -250,8 +259,8 @@ msgid "Abstraction"
 msgstr "Abstracción"
 
 #: app/templates/coder/base.html:281 app/templates/coder/base.html:379
-#: app/templates/learn/Synchronization.html:5 app/templates/learn/base.html:112
-#: app/templates/main/main.html:292 app/templates/main/rubric-creator.html:466
+#: app/templates/learn/Synchronization.html:6 app/templates/learn/base.html:218
+#: app/templates/main/rubric-creator.html:460
 #: app/templates/main/statistics.html:273
 #: app/templates/organization/base.html:284
 #: app/templates/organization/base.html:382
@@ -299,14 +308,13 @@ msgstr "Análisis"
 msgid "Stats"
 msgstr "Gráficas"
 
-#: app/templates/coder/base.html:374 app/templates/main/main.html:258
+#: app/templates/coder/base.html:374 app/templates/main/main.html:273
 #: app/templates/main/main_new.html:202
 #: app/templates/organization/base.html:377
 msgid "Learn more"
 msgstr "Aprende más"
 
-#: app/templates/coder/base.html:385 app/templates/learn/base.html:119
-#: app/templates/learn/spriteNaming.html:5
+#: app/templates/coder/base.html:385 app/templates/learn/base.html:243
 #: app/templates/organization/base.html:388
 msgid "Incorrect names"
 msgstr "Nombres inadecuados"
@@ -321,9 +329,8 @@ msgstr "Ajustes"
 #: app/templates/coder/dashboard-basic.html:296
 #: app/templates/coder/dashboard-developing.html:456
 #: app/templates/discuss.html:139 app/templates/error/404.html:68
-#: app/templates/error/500.html:68 app/templates/learn/base.html:131
-#: app/templates/login/login.html:536 app/templates/main/collaborators.html:559
-#: app/templates/main/main.html:753 app/templates/main/main_new.html:654
+#: app/templates/error/500.html:68 app/templates/login/login.html:536
+#: app/templates/main/main_new.html:654
 #: app/templates/main/main_organization.html:246
 #: app/templates/main/statistics.html:351
 #: app/templates/organization/base.html:404
@@ -362,14 +369,14 @@ msgstr ""
 "Puedes escribir sólo el número de proyecto de tus estudiantes. Fácil, ¿no?"
 
 #: app/templates/coder/base.html:448 app/templates/login/login.html:563
-#: app/templates/main/main.html:784 app/templates/main/main_new.html:681
+#: app/templates/main/main.html:577 app/templates/main/main_new.html:681
 #: app/templates/organization/base.html:455
 #: app/templates/upload/dashboard-organization.html:239
 msgid "What is an url?"
 msgstr "¿Qué es una url?"
 
 #: app/templates/coder/base.html:450 app/templates/login/login.html:565
-#: app/templates/main/main.html:786 app/templates/main/main_new.html:683
+#: app/templates/main/main.html:579 app/templates/main/main_new.html:683
 #: app/templates/organization/base.html:457
 #: app/templates/upload/dashboard-organization.html:241
 msgid "How I can know my Scratch project's url?"
@@ -380,7 +387,7 @@ msgid "<img class='framed' src='../static/app/images/url-en.png' />"
 msgstr "<img class='framed' src='../static/app/images/url-es.png' />"
 
 #: app/templates/coder/base.html:473 app/templates/login/login.html:588
-#: app/templates/main/main.html:809 app/templates/main/main.html:833
+#: app/templates/main/main.html:602 app/templates/main/main.html:626
 #: app/templates/main/main_new.html:706
 #: app/templates/organization/base.html:480
 #: app/templates/upload/dashboard-organization.html:264
@@ -388,7 +395,7 @@ msgid "I want to download my project from Scratch!"
 msgstr "¡Quiero descargar mi proyecto de Scratch!"
 
 #: app/templates/coder/base.html:475 app/templates/login/login.html:590
-#: app/templates/main/main.html:811 app/templates/main/main.html:835
+#: app/templates/main/main.html:604 app/templates/main/main.html:628
 #: app/templates/main/main_new.html:708
 #: app/templates/organization/base.html:482
 #: app/templates/upload/dashboard-organization.html:266
@@ -399,14 +406,14 @@ msgstr "¿Cómo puedo descargar mi proyecto de Scratch a mi ordenador?"
 msgid "<img class='framed' src='../static/app/images/project-en.png' />"
 msgstr "<img class='framed' src='../static/app/images/project-es.png' />"
 
-#: app/templates/coder/base.html:499 app/templates/main/main.html:1518
+#: app/templates/coder/base.html:499 app/templates/main/main.html:1311
 #: app/templates/main/main_new.html:1421
 #: app/templates/organization/base.html:506
 msgid "Wait a moment, please."
 msgstr "Espere un momento, por favor."
 
 #: app/templates/coder/base.html:517 app/templates/login/login.html:632
-#: app/templates/main/main.html:1536 app/templates/main/main_new.html:1439
+#: app/templates/main/main.html:1329 app/templates/main/main_new.html:1439
 #: app/templates/main/main_organization.html:318
 #: app/templates/organization/base.html:524
 msgid "loading..."
@@ -415,7 +422,7 @@ msgstr "cargando..."
 #: app/templates/coder/dashboard-basic.html:65
 #: app/templates/coder/dashboard-developing.html:64
 #: app/templates/coder/dashboard-master.html:65
-#: app/templates/main/rubric-creator.html:68
+#: app/templates/main/rubric-creator.html:69
 #: app/templates/organization/dashboard-basic.html:64
 #: app/templates/organization/dashboard-developing.html:59
 #: app/templates/organization/dashboard-master.html:65
@@ -428,7 +435,7 @@ msgstr "Puntuación"
 #: app/templates/coder/dashboard-basic.html:66
 #: app/templates/coder/dashboard-developing.html:65
 #: app/templates/coder/dashboard-master.html:66
-#: app/templates/main/rubric-creator.html:69
+#: app/templates/main/rubric-creator.html:70
 #: app/templates/organization/dashboard-basic.html:65
 #: app/templates/organization/dashboard-developing.html:60
 #: app/templates/organization/dashboard-master.html:66
@@ -441,7 +448,7 @@ msgstr "Esta sección muestra la puntuación total."
 #: app/templates/coder/dashboard-basic.html:70
 #: app/templates/coder/dashboard-developing.html:74
 #: app/templates/coder/dashboard-master.html:75
-#: app/templates/main/rubric-creator.html:78
+#: app/templates/main/rubric-creator.html:79
 #: app/templates/organization/dashboard-basic.html:69
 #: app/templates/organization/dashboard-developing.html:69
 #: app/templates/organization/dashboard-master.html:75
@@ -451,7 +458,7 @@ msgstr "Diploma"
 #: app/templates/coder/dashboard-basic.html:71
 #: app/templates/coder/dashboard-developing.html:75
 #: app/templates/coder/dashboard-master.html:76
-#: app/templates/main/rubric-creator.html:79
+#: app/templates/main/rubric-creator.html:80
 #: app/templates/organization/dashboard-basic.html:70
 #: app/templates/organization/dashboard-developing.html:70
 #: app/templates/organization/dashboard-master.html:76
@@ -461,7 +468,7 @@ msgstr "¡Descarga tu diploma!"
 #: app/templates/coder/dashboard-basic.html:75
 #: app/templates/coder/dashboard-developing.html:79
 #: app/templates/coder/dashboard-master.html:80
-#: app/templates/main/rubric-creator.html:83
+#: app/templates/main/rubric-creator.html:84
 #: app/templates/organization/dashboard-basic.html:74
 #: app/templates/organization/dashboard-developing.html:74
 #: app/templates/organization/dashboard-master.html:80
@@ -474,7 +481,7 @@ msgstr "Puntuación en detalle:"
 #: app/templates/coder/dashboard-basic.html:76
 #: app/templates/coder/dashboard-developing.html:80
 #: app/templates/coder/dashboard-master.html:81
-#: app/templates/main/rubric-creator.html:84
+#: app/templates/main/rubric-creator.html:85
 #: app/templates/organization/dashboard-basic.html:75
 #: app/templates/organization/dashboard-developing.html:75
 #: app/templates/organization/dashboard-master.html:81
@@ -488,10 +495,6 @@ msgstr ""
 #: app/templates/coder/dashboard-basic.html:144
 #: app/templates/coder/dashboard-developing.html:215
 #: app/templates/coder/dashboard-master.html:228
-#: app/templates/main/contact-form.html:111
-#: app/templates/main/dashboard-bulk.html:97
-#: app/templates/main/rubric-creator.html:372
-#: app/templates/main/rubric-uploader.html:111
 #: app/templates/organization/dashboard-basic.html:114
 #: app/templates/organization/dashboard-developing.html:143
 #: app/templates/organization/dashboard-master.html:152
@@ -504,14 +507,7 @@ msgstr "AYUDA"
 #: app/templates/coder/dashboard-default-master.html:274
 #: app/templates/coder/dashboard-developing.html:216
 #: app/templates/coder/dashboard-master.html:229 app/templates/discuss.html:71
-#: app/templates/error/base.html:89 app/templates/learn/base.html:96
-#: app/templates/main/contact-form.html:112
-#: app/templates/main/dashboard-bulk.html:98
-#: app/templates/main/dashboard-default.html:284
-#: app/templates/main/dashboard-personal.html:286
-#: app/templates/main/rubric-creator.html:373
-#: app/templates/main/rubric-uploader.html:112
-#: app/templates/main/statistics.html:297
+#: app/templates/error/base.html:89 app/templates/main/statistics.html:297
 #: app/templates/organization/dashboard-basic.html:115
 #: app/templates/organization/dashboard-developing.html:144
 #: app/templates/organization/dashboard-master.html:153
@@ -529,9 +525,12 @@ msgstr "Dr. Scratch(Versión Beta)"
 #: app/templates/coder/dashboard-default-master.html:341
 #: app/templates/coder/dashboard-developing.html:231
 #: app/templates/coder/dashboard-master.html:245
-#: app/templates/main/dashboard-default.html:362
-#: app/templates/main/dashboard-default.html:600
-#: app/templates/main/dashboard-personal.html:316
+#: app/templates/main/dashboard-default-old.html:371
+#: app/templates/main/dashboard-default-old.html:625
+#: app/templates/main/dashboard-default.html:78
+#: app/templates/main/dashboard-default.html:332
+#: app/templates/main/dashboard-personal-old.html:311
+#: app/templates/main/dashboard-personal.html:27
 #: app/templates/organization/dashboard-basic.html:132
 #: app/templates/organization/dashboard-developing.html:159
 #: app/templates/organization/dashboard-master.html:169
@@ -547,9 +546,12 @@ msgstr "Puntuación:"
 #: app/templates/coder/dashboard-default-master.html:342
 #: app/templates/coder/dashboard-developing.html:232
 #: app/templates/coder/dashboard-master.html:246
-#: app/templates/main/dashboard-default.html:374
-#: app/templates/main/dashboard-default.html:612
-#: app/templates/main/dashboard-personal.html:328
+#: app/templates/main/dashboard-default-old.html:383
+#: app/templates/main/dashboard-default-old.html:637
+#: app/templates/main/dashboard-default.html:90
+#: app/templates/main/dashboard-default.html:344
+#: app/templates/main/dashboard-personal-old.html:323
+#: app/templates/main/dashboard-personal.html:39
 #: app/templates/organization/dashboard-basic.html:133
 #: app/templates/organization/dashboard-developing.html:160
 #: app/templates/organization/dashboard-master.html:170
@@ -576,9 +578,12 @@ msgstr ""
 
 #: app/templates/coder/dashboard-basic.html:168
 #: app/templates/coder/dashboard-default-basic.html:361
-#: app/templates/main/dashboard-default.html:380
-#: app/templates/main/dashboard-default.html:618
-#: app/templates/main/dashboard-personal.html:334
+#: app/templates/main/dashboard-default-old.html:389
+#: app/templates/main/dashboard-default-old.html:643
+#: app/templates/main/dashboard-default.html:96
+#: app/templates/main/dashboard-default.html:350
+#: app/templates/main/dashboard-personal-old.html:329
+#: app/templates/main/dashboard-personal.html:45
 #: app/templates/organization/dashboard-basic.html:138
 #: app/templates/upload/dashboard-unregistered-basic.html:123
 msgid "You're at the beginning of a <br>great adventure . . . Keep it up!"
@@ -590,9 +595,12 @@ msgstr "Estás al principio de una gran aventura. . . <br>¡Continúa así!"
 #: app/templates/coder/dashboard-default-master.html:352
 #: app/templates/coder/dashboard-developing.html:240
 #: app/templates/coder/dashboard-master.html:256
-#: app/templates/main/dashboard-default.html:390
-#: app/templates/main/dashboard-default.html:632
-#: app/templates/main/dashboard-personal.html:348
+#: app/templates/main/dashboard-default-old.html:399
+#: app/templates/main/dashboard-default-old.html:657
+#: app/templates/main/dashboard-default.html:106
+#: app/templates/main/dashboard-default.html:364
+#: app/templates/main/dashboard-personal-old.html:343
+#: app/templates/main/dashboard-personal.html:59
 #: app/templates/organization/dashboard-basic.html:141
 #: app/templates/organization/dashboard-developing.html:168
 #: app/templates/organization/dashboard-master.html:179
@@ -608,9 +616,12 @@ msgstr "Vuelve a tu proyecto Scratch"
 #: app/templates/coder/dashboard-default-master.html:447
 #: app/templates/coder/dashboard-developing.html:345
 #: app/templates/coder/dashboard-master.html:373
-#: app/templates/main/dashboard-default.html:487
-#: app/templates/main/dashboard-default.html:729
-#: app/templates/main/dashboard-personal.html:445
+#: app/templates/main/dashboard-default-old.html:500
+#: app/templates/main/dashboard-default-old.html:754
+#: app/templates/main/dashboard-default.html:207
+#: app/templates/main/dashboard-default.html:461
+#: app/templates/main/dashboard-personal-old.html:440
+#: app/templates/main/dashboard-personal.html:160
 #: app/templates/organization/dashboard-basic.html:152
 #: app/templates/organization/dashboard-developing.html:241
 #: app/templates/organization/dashboard-master.html:253
@@ -624,9 +635,12 @@ msgstr "Certificado del proyecto"
 #: app/templates/coder/dashboard-developing.html:350
 #: app/templates/coder/dashboard-master.html:378
 #: app/templates/coder/downloads.html:24
-#: app/templates/main/dashboard-default.html:492
-#: app/templates/main/dashboard-default.html:734
-#: app/templates/main/dashboard-personal.html:450
+#: app/templates/main/dashboard-default-old.html:507
+#: app/templates/main/dashboard-default-old.html:759
+#: app/templates/main/dashboard-default.html:214
+#: app/templates/main/dashboard-default.html:466
+#: app/templates/main/dashboard-personal-old.html:445
+#: app/templates/main/dashboard-personal.html:167
 #: app/templates/organization/dashboard-basic.html:157
 #: app/templates/organization/dashboard-developing.html:246
 #: app/templates/organization/dashboard-master.html:258
@@ -641,9 +655,12 @@ msgstr "Descargar"
 #: app/templates/coder/dashboard-default-master.html:469
 #: app/templates/coder/dashboard-developing.html:372
 #: app/templates/coder/dashboard-master.html:400
-#: app/templates/main/dashboard-default.html:509
-#: app/templates/main/dashboard-default.html:751
-#: app/templates/main/dashboard-personal.html:467
+#: app/templates/main/dashboard-default-old.html:526
+#: app/templates/main/dashboard-default-old.html:776
+#: app/templates/main/dashboard-default.html:233
+#: app/templates/main/dashboard-default.html:483
+#: app/templates/main/dashboard-personal-old.html:462
+#: app/templates/main/dashboard-personal.html:186
 #: app/templates/organization/dashboard-basic.html:180
 #: app/templates/organization/dashboard-developing.html:268
 #: app/templates/organization/dashboard-master.html:280
@@ -675,14 +692,20 @@ msgstr ""
 #: app/templates/coder/dashboard-developing.html:288
 #: app/templates/coder/dashboard-master.html:114
 #: app/templates/coder/dashboard-master.html:290
-#: app/templates/main/dashboard-default.html:86
-#: app/templates/main/dashboard-default.html:419
-#: app/templates/main/dashboard-default.html:661
-#: app/templates/main/dashboard-default.html:836
-#: app/templates/main/dashboard-personal.html:88
-#: app/templates/main/dashboard-personal.html:377
-#: app/templates/main/dashboard-personal.html:553
-#: app/templates/main/rubric-creator.html:117
+#: app/templates/main/dashboard-default-old.html:87
+#: app/templates/main/dashboard-default-old.html:431
+#: app/templates/main/dashboard-default-old.html:686
+#: app/templates/main/dashboard-default-old.html:861
+#: app/templates/main/dashboard-default.html:138
+#: app/templates/main/dashboard-default.html:393
+#: app/templates/main/dashboard-default.html:568
+#: app/templates/main/dashboard-personal-old.html:89
+#: app/templates/main/dashboard-personal-old.html:372
+#: app/templates/main/dashboard-personal-old.html:548
+#: app/templates/main/dashboard-personal.html:91
+#: app/templates/main/dashboard-personal.html:280
+#: app/templates/main/dashboard_template.html:88
+#: app/templates/main/rubric-creator.html:118
 #: app/templates/organization/dashboard-developing.html:100
 #: app/templates/organization/dashboard-master.html:105
 msgid "Your project does not have duplicated scripts, good job!"
@@ -691,35 +714,41 @@ msgstr "Tu proyecto no tiene código duplicado. ¡Buen trabajo!"
 #: app/templates/coder/dashboard-default-basic.html:298
 #: app/templates/coder/dashboard-default-developing.html:286
 #: app/templates/coder/dashboard-default-master.html:286
-#: app/templates/main/dashboard-default.html:296
+#: app/templates/main/dashboard-default-old.html:303
+#: app/templates/main/dashboard-default.html:10
 msgid "Rethinking Mode"
 msgstr ""
 
 #: app/templates/coder/dashboard-default-basic.html:299
 #: app/templates/coder/dashboard-default-developing.html:287
 #: app/templates/coder/dashboard-default-master.html:287
-#: app/templates/main/dashboard-default.html:297
+#: app/templates/main/dashboard-default-old.html:304
+#: app/templates/main/dashboard-default.html:11
 msgid "Vanilla Mode"
 msgstr ""
 
 #: app/templates/coder/dashboard-default-basic.html:300
 #: app/templates/coder/dashboard-default-developing.html:288
 #: app/templates/coder/dashboard-default-master.html:288
-#: app/templates/main/dashboard-default.html:298
+#: app/templates/main/dashboard-default-old.html:305
+#: app/templates/main/dashboard-default.html:12
 msgid "Extended Mode"
 msgstr ""
 
 #: app/templates/coder/dashboard-default-basic.html:309
 #: app/templates/coder/dashboard-default-developing.html:297
 #: app/templates/coder/dashboard-default-master.html:297
-#: app/templates/main/dashboard-default.html:307
+#: app/templates/main/dashboard-default-old.html:316
+#: app/templates/main/dashboard-default.html:23
 msgid "Bad Smells World"
 msgstr ""
 
 #: app/templates/coder/dashboard-default-basic.html:315
 #: app/templates/coder/dashboard-default-developing.html:303
 #: app/templates/coder/dashboard-default-master.html:303
-#: app/templates/main/dashboard-default.html:313
+#: app/templates/learn/spriteNaming.html:5
+#: app/templates/main/dashboard-default-old.html:322
+#: app/templates/main/dashboard-default.html:29
 #, fuzzy
 #| msgid "Sprite naming"
 msgid "Sprite Naming"
@@ -728,7 +757,8 @@ msgstr "Nombres de objetos"
 #: app/templates/coder/dashboard-default-basic.html:322
 #: app/templates/coder/dashboard-default-developing.html:310
 #: app/templates/coder/dashboard-default-master.html:310
-#: app/templates/main/dashboard-default.html:320
+#: app/templates/main/dashboard-default-old.html:329
+#: app/templates/main/dashboard-default.html:36
 #, fuzzy
 #| msgid "Backdrop naming"
 msgid "Backdrop Naming"
@@ -737,7 +767,9 @@ msgstr "Nombres de escenarios"
 #: app/templates/coder/dashboard-default-basic.html:329
 #: app/templates/coder/dashboard-default-developing.html:317
 #: app/templates/coder/dashboard-default-master.html:317
-#: app/templates/main/dashboard-default.html:327
+#: app/templates/learn/deadCode.html:5
+#: app/templates/main/dashboard-default-old.html:336
+#: app/templates/main/dashboard-default.html:43
 #: app/templates/upload/dashboard-unregistered.html:209
 #, fuzzy
 #| msgid "Dead code"
@@ -747,9 +779,12 @@ msgstr "Código Muerto"
 #: app/templates/coder/dashboard-default-basic.html:417
 #: app/templates/coder/dashboard-default-developing.html:488
 #: app/templates/coder/dashboard-default-master.html:488
-#: app/templates/main/dashboard-default.html:528
-#: app/templates/main/dashboard-default.html:770
-#: app/templates/main/dashboard-personal.html:487
+#: app/templates/main/dashboard-default-old.html:553
+#: app/templates/main/dashboard-default-old.html:795
+#: app/templates/main/dashboard-default.html:260
+#: app/templates/main/dashboard-default.html:502
+#: app/templates/main/dashboard-personal-old.html:482
+#: app/templates/main/dashboard-personal.html:214
 #, python-format
 msgid ""
 "\n"
@@ -765,10 +800,14 @@ msgstr ""
 #: app/templates/coder/dashboard-default-master.html:596
 #: app/templates/coder/dashboard-developing.html:297
 #: app/templates/coder/dashboard-master.html:303
-#: app/templates/main/dashboard-default.html:432
-#: app/templates/main/dashboard-default.html:674
-#: app/templates/main/dashboard-default.html:891
-#: app/templates/main/dashboard-personal.html:390
+#: app/templates/main/dashboard-default-old.html:444
+#: app/templates/main/dashboard-default-old.html:699
+#: app/templates/main/dashboard-default-old.html:916
+#: app/templates/main/dashboard-default.html:151
+#: app/templates/main/dashboard-default.html:406
+#: app/templates/main/dashboard-default.html:623
+#: app/templates/main/dashboard-personal-old.html:385
+#: app/templates/main/dashboard-personal.html:104
 #: app/templates/organization/dashboard-developing.html:203
 #: app/templates/organization/dashboard-master.html:203
 msgid "Your project does not have default sprite naming, good job!"
@@ -780,8 +819,10 @@ msgstr "Tu proyecto no tiene nombres de objectos inadecuados.¡Buen trabajo!"
 #: app/templates/coder/dashboard-default-developing.html:672
 #: app/templates/coder/dashboard-default-master.html:624
 #: app/templates/coder/dashboard-default-master.html:673
-#: app/templates/main/dashboard-default.html:919
-#: app/templates/main/dashboard-default.html:968
+#: app/templates/main/dashboard-default-old.html:944
+#: app/templates/main/dashboard-default-old.html:993
+#: app/templates/main/dashboard-default.html:651
+#: app/templates/main/dashboard-default.html:700
 msgid "Try to name them more according to the Function they make"
 msgstr ""
 
@@ -792,10 +833,14 @@ msgstr ""
 #: app/templates/coder/dashboard-default-master.html:645
 #: app/templates/coder/dashboard-developing.html:305
 #: app/templates/coder/dashboard-master.html:314
-#: app/templates/main/dashboard-default.html:443
-#: app/templates/main/dashboard-default.html:685
-#: app/templates/main/dashboard-default.html:940
-#: app/templates/main/dashboard-personal.html:401
+#: app/templates/main/dashboard-default-old.html:455
+#: app/templates/main/dashboard-default-old.html:710
+#: app/templates/main/dashboard-default-old.html:965
+#: app/templates/main/dashboard-default.html:162
+#: app/templates/main/dashboard-default.html:417
+#: app/templates/main/dashboard-default.html:672
+#: app/templates/main/dashboard-personal-old.html:396
+#: app/templates/main/dashboard-personal.html:115
 #: app/templates/organization/dashboard-developing.html:211
 #: app/templates/organization/dashboard-master.html:211
 msgid "Your project does not have default backdrop naming, good job!"
@@ -808,10 +853,14 @@ msgstr "Tu proyecto no tiene nombres de escenarios inadecuados.¡Buen trabajo!"
 #: app/templates/coder/dashboard-default-master.html:694
 #: app/templates/coder/dashboard-developing.html:330
 #: app/templates/coder/dashboard-master.html:340
-#: app/templates/main/dashboard-default.html:469
-#: app/templates/main/dashboard-default.html:711
-#: app/templates/main/dashboard-default.html:989
-#: app/templates/main/dashboard-personal.html:427
+#: app/templates/main/dashboard-default-old.html:481
+#: app/templates/main/dashboard-default-old.html:736
+#: app/templates/main/dashboard-default-old.html:1014
+#: app/templates/main/dashboard-default.html:188
+#: app/templates/main/dashboard-default.html:443
+#: app/templates/main/dashboard-default.html:721
+#: app/templates/main/dashboard-personal-old.html:422
+#: app/templates/main/dashboard-personal.html:141
 #: app/templates/organization/dashboard-developing.html:227
 #: app/templates/organization/dashboard-master.html:227
 #: app/templates/upload/dashboard-unregistered-master.html:250
@@ -821,7 +870,8 @@ msgstr "Tu proyecto no tiene código muerto. ¡Buen trabajo!"
 #: app/templates/coder/dashboard-default-basic.html:619
 #: app/templates/coder/dashboard-default-developing.html:731
 #: app/templates/coder/dashboard-default-master.html:732
-#: app/templates/main/dashboard-default.html:1027
+#: app/templates/main/dashboard-default-old.html:1052
+#: app/templates/main/dashboard-default.html:759
 msgid "Erase them in order to have a cleaner Code"
 msgstr ""
 
@@ -830,12 +880,6 @@ msgstr ""
 #: app/templates/coder/dashboard-default-master.html:750
 #: app/templates/coder/dashboard-master.html:540
 #: app/templates/error/analyzing.html:71
-#: app/templates/main/contact-form.html:182
-#: app/templates/main/dashboard-bulk.html:198
-#: app/templates/main/dashboard-default.html:1045
-#: app/templates/main/dashboard-personal.html:604
-#: app/templates/main/rubric-creator.html:616
-#: app/templates/main/rubric-uploader.html:179
 #, fuzzy
 #| msgid "©2014 Dr. Scratch is powered by "
 msgid "© 2019 Dr. Scratch."
@@ -843,7 +887,9 @@ msgstr "©2014 Dr. Scratch está implementado con "
 
 #: app/templates/coder/dashboard-default-developing.html:324
 #: app/templates/coder/dashboard-default-master.html:324
-#: app/templates/main/dashboard-default.html:334
+#: app/templates/learn/duplicatedScripts.html:5
+#: app/templates/main/dashboard-default-old.html:343
+#: app/templates/main/dashboard-default.html:50
 #: app/templates/upload/dashboard-unregistered.html:162
 #, fuzzy
 #| msgid "Duplicated scripts"
@@ -863,13 +909,20 @@ msgstr ""
 "<strong>¡MEDIO! </strong></h3>"
 
 #: app/templates/coder/dashboard-default-developing.html:347
-#: app/templates/main/dashboard-default.html:382
-#: app/templates/main/dashboard-default.html:620
-#: app/templates/main/dashboard-default.html:624
-#: app/templates/main/dashboard-default.html:626
-#: app/templates/main/dashboard-personal.html:336
-#: app/templates/main/dashboard-personal.html:340
-#: app/templates/main/dashboard-personal.html:342
+#: app/templates/main/dashboard-default-old.html:391
+#: app/templates/main/dashboard-default-old.html:645
+#: app/templates/main/dashboard-default-old.html:649
+#: app/templates/main/dashboard-default-old.html:651
+#: app/templates/main/dashboard-default.html:98
+#: app/templates/main/dashboard-default.html:352
+#: app/templates/main/dashboard-default.html:356
+#: app/templates/main/dashboard-default.html:358
+#: app/templates/main/dashboard-personal-old.html:331
+#: app/templates/main/dashboard-personal-old.html:335
+#: app/templates/main/dashboard-personal-old.html:337
+#: app/templates/main/dashboard-personal.html:47
+#: app/templates/main/dashboard-personal.html:51
+#: app/templates/main/dashboard-personal.html:53
 #, fuzzy
 #| msgid "You're doing a great job. Keep it up!!!"
 msgid "You're doing a great job. Keep it up!!! "
@@ -879,9 +932,12 @@ msgstr "Estás haciendo un gran trabajo. ¡Sigue así!"
 #: app/templates/coder/dashboard-default-master.html:360
 #: app/templates/coder/dashboard-developing.html:252
 #: app/templates/coder/dashboard-master.html:270
-#: app/templates/main/dashboard-default.html:399
-#: app/templates/main/dashboard-default.html:641
-#: app/templates/main/dashboard-personal.html:357
+#: app/templates/main/dashboard-default-old.html:409
+#: app/templates/main/dashboard-default-old.html:666
+#: app/templates/main/dashboard-default.html:116
+#: app/templates/main/dashboard-default.html:373
+#: app/templates/main/dashboard-personal-old.html:352
+#: app/templates/main/dashboard-personal.html:69
 #: app/templates/organization/dashboard-developing.html:180
 #: app/templates/organization/dashboard-master.html:194
 msgid "Bad habits"
@@ -891,9 +947,12 @@ msgstr "Malos hábitos"
 #: app/templates/coder/dashboard-default-master.html:366
 #: app/templates/coder/dashboard-developing.html:274
 #: app/templates/coder/dashboard-master.html:276
-#: app/templates/main/dashboard-default.html:405
-#: app/templates/main/dashboard-default.html:647
-#: app/templates/main/dashboard-personal.html:363
+#: app/templates/main/dashboard-default-old.html:417
+#: app/templates/main/dashboard-default-old.html:672
+#: app/templates/main/dashboard-default.html:124
+#: app/templates/main/dashboard-default.html:379
+#: app/templates/main/dashboard-personal-old.html:358
+#: app/templates/main/dashboard-personal.html:77
 #: app/templates/organization/dashboard-developing.html:197
 #: app/templates/organization/dashboard-master.html:197
 #: app/templates/upload/dashboard-unregistered-master.html:240
@@ -904,9 +963,12 @@ msgstr "programas duplicados."
 #: app/templates/coder/dashboard-default-master.html:396
 #: app/templates/coder/dashboard-developing.html:299
 #: app/templates/coder/dashboard-master.html:306
-#: app/templates/main/dashboard-default.html:435
-#: app/templates/main/dashboard-default.html:677
-#: app/templates/main/dashboard-personal.html:393
+#: app/templates/main/dashboard-default-old.html:447
+#: app/templates/main/dashboard-default-old.html:702
+#: app/templates/main/dashboard-default.html:154
+#: app/templates/main/dashboard-default.html:409
+#: app/templates/main/dashboard-personal-old.html:388
+#: app/templates/main/dashboard-personal.html:107
 #: app/templates/organization/dashboard-developing.html:205
 #: app/templates/organization/dashboard-master.html:205
 #: app/templates/upload/dashboard-unregistered-developing.html:208
@@ -918,9 +980,12 @@ msgstr "nombres de objetos inadecuados."
 #: app/templates/coder/dashboard-default-master.html:399
 #: app/templates/coder/dashboard-developing.html:301
 #: app/templates/coder/dashboard-master.html:309
-#: app/templates/main/dashboard-default.html:438
-#: app/templates/main/dashboard-default.html:680
-#: app/templates/main/dashboard-personal.html:396
+#: app/templates/main/dashboard-default-old.html:450
+#: app/templates/main/dashboard-default-old.html:705
+#: app/templates/main/dashboard-default.html:157
+#: app/templates/main/dashboard-default.html:412
+#: app/templates/main/dashboard-personal-old.html:391
+#: app/templates/main/dashboard-personal.html:110
 #: app/templates/organization/dashboard-developing.html:207
 #: app/templates/organization/dashboard-master.html:207
 msgid "Backdrop naming"
@@ -930,9 +995,12 @@ msgstr "Nombres de escenarios"
 #: app/templates/coder/dashboard-default-master.html:407
 #: app/templates/coder/dashboard-developing.html:307
 #: app/templates/coder/dashboard-master.html:317
-#: app/templates/main/dashboard-default.html:446
-#: app/templates/main/dashboard-default.html:688
-#: app/templates/main/dashboard-personal.html:404
+#: app/templates/main/dashboard-default-old.html:458
+#: app/templates/main/dashboard-default-old.html:713
+#: app/templates/main/dashboard-default.html:165
+#: app/templates/main/dashboard-default.html:420
+#: app/templates/main/dashboard-personal-old.html:399
+#: app/templates/main/dashboard-personal.html:118
 #: app/templates/organization/dashboard-developing.html:213
 #: app/templates/organization/dashboard-master.html:213
 msgid " backdrop naming."
@@ -942,9 +1010,12 @@ msgstr " nombres de escenarios inadecuados."
 #: app/templates/coder/dashboard-default-master.html:412
 #: app/templates/coder/dashboard-developing.html:312
 #: app/templates/coder/dashboard-master.html:322
-#: app/templates/main/dashboard-default.html:451
-#: app/templates/main/dashboard-default.html:693
-#: app/templates/main/dashboard-personal.html:409
+#: app/templates/main/dashboard-default-old.html:463
+#: app/templates/main/dashboard-default-old.html:718
+#: app/templates/main/dashboard-default.html:170
+#: app/templates/main/dashboard-default.html:425
+#: app/templates/main/dashboard-personal-old.html:404
+#: app/templates/main/dashboard-personal.html:123
 #: app/templates/organization/dashboard-developing.html:228
 #: app/templates/organization/dashboard-master.html:228
 #: app/templates/upload/dashboard-unregistered-master.html:257
@@ -953,9 +1024,12 @@ msgstr " código muerto."
 
 #: app/templates/coder/dashboard-default-developing.html:437
 #: app/templates/coder/dashboard-default-master.html:437
-#: app/templates/main/dashboard-default.html:476
-#: app/templates/main/dashboard-default.html:718
-#: app/templates/main/dashboard-personal.html:434
+#: app/templates/main/dashboard-default-old.html:488
+#: app/templates/main/dashboard-default-old.html:743
+#: app/templates/main/dashboard-default.html:195
+#: app/templates/main/dashboard-default.html:450
+#: app/templates/main/dashboard-personal-old.html:429
+#: app/templates/main/dashboard-personal.html:148
 msgid "Display all duplicates"
 msgstr ""
 
@@ -970,9 +1044,12 @@ msgstr ""
 
 #: app/templates/coder/dashboard-default-master.html:347
 #: app/templates/coder/dashboard-master.html:251
-#: app/templates/main/dashboard-default.html:384
-#: app/templates/main/dashboard-default.html:622
-#: app/templates/main/dashboard-personal.html:338
+#: app/templates/main/dashboard-default-old.html:393
+#: app/templates/main/dashboard-default-old.html:647
+#: app/templates/main/dashboard-default.html:100
+#: app/templates/main/dashboard-default.html:354
+#: app/templates/main/dashboard-personal-old.html:333
+#: app/templates/main/dashboard-personal.html:49
 #: app/templates/organization/dashboard-master.html:175
 #: app/templates/upload/dashboard-unregistered-master.html:171
 msgid "You're the master of the universe!!! "
@@ -980,7 +1057,7 @@ msgstr "¡¡¡Eres el master del universo!!!"
 
 #: app/templates/coder/dashboard-developing.html:69
 #: app/templates/coder/dashboard-master.html:70
-#: app/templates/main/rubric-creator.html:73
+#: app/templates/main/rubric-creator.html:74
 #: app/templates/organization/dashboard-developing.html:64
 #: app/templates/organization/dashboard-master.html:70
 #: app/templates/upload/dashboard-unregistered-developing.html:68
@@ -990,7 +1067,7 @@ msgstr "Malos hábitos en programación"
 
 #: app/templates/coder/dashboard-developing.html:70
 #: app/templates/coder/dashboard-master.html:71
-#: app/templates/main/rubric-creator.html:74
+#: app/templates/main/rubric-creator.html:75
 #: app/templates/organization/dashboard-developing.html:65
 #: app/templates/organization/dashboard-master.html:71
 #: app/templates/upload/dashboard-unregistered-developing.html:69
@@ -1094,21 +1171,21 @@ msgstr "¡Gracias por usar nuestra web!"
 msgid "The Dr. Scratch team"
 msgstr "El equipo de Dr. Scratch"
 
-#: app/templates/coder/main.html:12 app/templates/main/rubric-uploader.html:129
+#: app/templates/coder/main.html:12 app/templates/main/rubric-uploader.html:123
 #: app/templates/organization/main.html:12
 msgid "Do you want to analyze one project?"
 msgstr "¿Quieres analizar un proyecto?"
 
-#: app/templates/coder/main.html:14 app/templates/main/main.html:276
+#: app/templates/coder/main.html:14 app/templates/main/main.html:292
 #: app/templates/main/main_new.html:218
-#: app/templates/main/rubric-uploader.html:131
+#: app/templates/main/rubric-uploader.html:125
 #: app/templates/organization/main.html:14
 msgid "There are two options to analyze your Scratch project now!"
 msgstr "Hay dos opciones para analizar un proyecto de Scratch con Dr. Scratch"
 
-#: app/templates/coder/main.html:18 app/templates/main/main.html:302
+#: app/templates/coder/main.html:18 app/templates/main/main.html:301
 #: app/templates/main/main_new.html:223
-#: app/templates/main/rubric-uploader.html:136
+#: app/templates/main/rubric-uploader.html:130
 #: app/templates/organization/main.html:19
 msgid ""
 "1. Introduce the <span class='colored-text'><a data-toggle='modal' "
@@ -1119,9 +1196,9 @@ msgstr ""
 "href='#modalUrl'>url</a></span> de tu proyecto Scratch, no tendrás que "
 "descargarlo:"
 
-#: app/templates/coder/main.html:19 app/templates/main/main.html:303
+#: app/templates/coder/main.html:19 app/templates/main/main.html:302
 #: app/templates/main/main_new.html:224
-#: app/templates/main/rubric-uploader.html:137
+#: app/templates/main/rubric-uploader.html:131
 #: app/templates/organization/main.html:20
 msgid ""
 "<input name=\"urlProject\" id=\"cf-name\" class=\"form-control input-box "
@@ -1132,16 +1209,16 @@ msgstr ""
 "placeholder\" placeholder=\"http://scratch.mit.edu/projects/tu_número\" "
 "type=\"text\">"
 
-#: app/templates/coder/main.html:20 app/templates/main/main.html:304
+#: app/templates/coder/main.html:20 app/templates/main/main.html:303
 #: app/templates/main/main_new.html:225
-#: app/templates/main/rubric-uploader.html:138
+#: app/templates/main/rubric-uploader.html:132
 #: app/templates/organization/main.html:21
 msgid "Analyze by url"
 msgstr "Analizar por url"
 
-#: app/templates/coder/main.html:25 app/templates/main/main.html:308
+#: app/templates/coder/main.html:25 app/templates/main/main.html:307
 #: app/templates/main/main_new.html:230
-#: app/templates/main/rubric-uploader.html:142
+#: app/templates/main/rubric-uploader.html:136
 #: app/templates/organization/main.html:26
 msgid ""
 "2. If you have your <span class='colored-text'><a data-toggle='modal' "
@@ -1152,9 +1229,9 @@ msgstr ""
 "href='#modalProject'>proyecto</a></span> descargado en tu ordenador, podrás "
 "analizarlo aquí:"
 
-#: app/templates/coder/main.html:26 app/templates/main/main.html:309
+#: app/templates/coder/main.html:26 app/templates/main/main.html:308
 #: app/templates/main/main_new.html:231
-#: app/templates/main/rubric-uploader.html:143
+#: app/templates/main/rubric-uploader.html:137
 #: app/templates/organization/main.html:27
 msgid ""
 "<input  name='zipFile' type='file' class='filestyle' data-buttonText='Choose "
@@ -1163,22 +1240,22 @@ msgstr ""
 "<input  name='zipFile' type='file' class='filestyle' data-buttonText='Elige "
 "Proyecto'>"
 
-#: app/templates/coder/main.html:27 app/templates/main/main.html:310
+#: app/templates/coder/main.html:27 app/templates/main/main.html:309
 #: app/templates/main/main_new.html:232
-#: app/templates/main/rubric-uploader.html:144
+#: app/templates/main/rubric-uploader.html:138
 #: app/templates/organization/main.html:28
 msgid "Analyze my project"
 msgstr "Analiza mi proyecto"
 
 #: app/templates/coder/main.html:34 app/templates/coder/main.html:37
-#: app/templates/main/contact-form.html:159
-#: app/templates/main/contact-form.html:162 app/templates/main/main.html:323
-#: app/templates/main/main.html:327 app/templates/main/main_new.html:239
+#: app/templates/main/contact-form.html:153
+#: app/templates/main/contact-form.html:156 app/templates/main/main.html:318
+#: app/templates/main/main.html:322 app/templates/main/main_new.html:239
 #: app/templates/main/main_new.html:242
 #: app/templates/main/main_organization.html:190
 #: app/templates/main/main_organization.html:193
-#: app/templates/main/rubric-uploader.html:156
-#: app/templates/main/rubric-uploader.html:159
+#: app/templates/main/rubric-uploader.html:150
+#: app/templates/main/rubric-uploader.html:153
 #: app/templates/organization/main.html:35
 #: app/templates/organization/main.html:38
 #: app/templates/organization/main.html:67
@@ -1186,19 +1263,19 @@ msgstr "Analiza mi proyecto"
 msgid "Error! Please choose a .sb or .sb2 file or input an url"
 msgstr "¡Error! Por favor elige un fichero .sb o .sb2 o pon una url"
 
-#: app/templates/coder/main.html:41 app/templates/main/contact-form.html:166
-#: app/templates/main/main.html:332 app/templates/main/main_new.html:246
+#: app/templates/coder/main.html:41 app/templates/main/contact-form.html:160
+#: app/templates/main/main.html:327 app/templates/main/main_new.html:246
 #: app/templates/main/main_organization.html:197
-#: app/templates/main/rubric-uploader.html:163
+#: app/templates/main/rubric-uploader.html:157
 #: app/templates/organization/main.html:42
 #: app/templates/organization/main.html:74
 msgid "Error! Your project id is wrong"
 msgstr "¡Error! El identificador de tu proyecto es incorrecto"
 
-#: app/templates/coder/main.html:45 app/templates/main/contact-form.html:170
-#: app/templates/main/main.html:337 app/templates/main/main_new.html:250
+#: app/templates/coder/main.html:45 app/templates/main/contact-form.html:164
+#: app/templates/main/main.html:332 app/templates/main/main_new.html:250
 #: app/templates/main/main_organization.html:201
-#: app/templates/main/rubric-uploader.html:167
+#: app/templates/main/rubric-uploader.html:161
 #: app/templates/organization/main.html:46
 #: app/templates/organization/main.html:78
 msgid "Error! Your project doesn't exist in Scratch's servers"
@@ -1238,8 +1315,8 @@ msgstr ""
 msgid "Change my photo"
 msgstr "Cambiar mi foto"
 
-#: app/templates/coder/stats.html:6 app/templates/main/main.html:716
-#: app/templates/main/main_new.html:617 app/templates/main/statistics.html:307
+#: app/templates/coder/stats.html:6 app/templates/main/main_new.html:617
+#: app/templates/main/statistics.html:307
 #: app/templates/organization/stats.html:6
 #: app/templates/statistics/statistics.html:306
 msgid "Statistics"
@@ -1275,7 +1352,7 @@ msgstr "Hola "
 msgid "Message"
 msgstr "Mensaje"
 
-#: app/templates/discuss.html:175 app/templates/main/contact-form.html:151
+#: app/templates/discuss.html:175 app/templates/main/contact-form.html:145
 #: app/templates/password/new_password.html:25
 #: app/templates/password/password.html:19
 #: app/templates/sign-password/new-password.html:25
@@ -1298,9 +1375,9 @@ msgstr "Ops! Esta página no existe"
 
 #: app/templates/error/404.html:60 app/templates/error/500.html:60
 #: app/templates/error/analyzing.html:63 app/templates/login/login.html:104
-#: app/templates/login/login.html:525 app/templates/main/collaborators.html:84
-#: app/templates/main/main.html:223 app/templates/main/main.html:742
-#: app/templates/main/main_new.html:173 app/templates/main/main_new.html:643
+#: app/templates/login/login.html:525 app/templates/main/collaborators.html:159
+#: app/templates/main/main.html:237 app/templates/main/main_new.html:173
+#: app/templates/main/main_new.html:643
 #: app/templates/organization/organization.html:106
 #: app/templates/sign/createOrganization.html:81
 #: app/templates/sign/createUser.html:81
@@ -1365,7 +1442,7 @@ msgstr "Los dos emails deben coincidir."
 msgid "Retry"
 msgstr "Reintentar"
 
-#: app/templates/learn/Abstraction.html:10
+#: app/templates/learn/Abstraction.html:8
 msgid ""
 "The ability of abstraction and decomposition of problems helps you to "
 "<b>break a problem into smaller parts that are easier to understand, program "
@@ -1375,14 +1452,14 @@ msgstr ""
 "<b>dividir un problema en partes más pequeñas que serán más fáciles de "
 "comprender, programar y depurar.</b>"
 
-#: app/templates/learn/Abstraction.html:18 app/templates/learn/Data.html:19
-#: app/templates/learn/Flow.html:17 app/templates/learn/Logic.html:17
-#: app/templates/learn/Parallelism.html:17
-#: app/templates/learn/Synchronization.html:18 app/templates/learn/User.html:18
+#: app/templates/learn/Abstraction.html:14 app/templates/learn/Data.html:15
+#: app/templates/learn/Flow.html:14 app/templates/learn/Logic.html:14
+#: app/templates/learn/Parallelism.html:15
+#: app/templates/learn/Synchronization.html:15 app/templates/learn/User.html:15
 msgid "If you get 0 points..."
 msgstr "Si has sacado 0 puntos..."
 
-#: app/templates/learn/Abstraction.html:19
+#: app/templates/learn/Abstraction.html:15
 msgid ""
 "When you start programming with Scratch, sometimes it may seem that the "
 "simplest solution is to program all the behavior of a character in a single "
@@ -1396,88 +1473,88 @@ msgstr ""
 "personaje sea controlado por diferentes programas y que cada uno de estos "
 "programas se ocupe de una cuestión concreta.</b> Veamos un ejemplo:"
 
-#: app/templates/learn/Abstraction.html:21
-#: app/templates/learn/Abstraction.html:38
-#: app/templates/learn/Abstraction.html:44
-#: app/templates/learn/Abstraction.html:65
-#: app/templates/learn/Abstraction.html:95
-#: app/templates/learn/Abstraction.html:121 app/templates/learn/Data.html:87
-#: app/templates/learn/Data.html:107 app/templates/learn/Data.html:120
-#: app/templates/learn/Flow.html:20 app/templates/learn/Flow.html:40
-#: app/templates/learn/Flow.html:50 app/templates/learn/Flow.html:68
-#: app/templates/learn/Parallelism.html:20
-#: app/templates/learn/Synchronization.html:21
-#: app/templates/learn/Synchronization.html:27
-#: app/templates/learn/Synchronization.html:47 app/templates/learn/User.html:22
-#: app/templates/learn/attrInit.html:26
+#: app/templates/learn/Abstraction.html:17
+#: app/templates/learn/Abstraction.html:34
+#: app/templates/learn/Abstraction.html:40
+#: app/templates/learn/Abstraction.html:61
+#: app/templates/learn/Abstraction.html:91
+#: app/templates/learn/Abstraction.html:117 app/templates/learn/Data.html:83
+#: app/templates/learn/Data.html:103 app/templates/learn/Data.html:116
+#: app/templates/learn/Flow.html:17 app/templates/learn/Flow.html:37
+#: app/templates/learn/Flow.html:47 app/templates/learn/Flow.html:65
+#: app/templates/learn/Parallelism.html:18
+#: app/templates/learn/Synchronization.html:18
+#: app/templates/learn/Synchronization.html:24
+#: app/templates/learn/Synchronization.html:44 app/templates/learn/User.html:19
+#: app/templates/learn/attrInit.html:23
 msgid "when green flag clicked"
 msgstr "al presionar bandera verde"
 
-#: app/templates/learn/Abstraction.html:22
-#: app/templates/learn/Abstraction.html:39
-#: app/templates/learn/Abstraction.html:66
-#: app/templates/learn/Abstraction.html:96
+#: app/templates/learn/Abstraction.html:18
+#: app/templates/learn/Abstraction.html:35
+#: app/templates/learn/Abstraction.html:62
+#: app/templates/learn/Abstraction.html:92
 msgid "clear"
 msgstr "borrar todo"
 
-#: app/templates/learn/Abstraction.html:23
-#: app/templates/learn/Abstraction.html:40
+#: app/templates/learn/Abstraction.html:19
+#: app/templates/learn/Abstraction.html:36
 msgid "go to x:(-100) y:(30)"
 msgstr "ir a x:(-100) y:(30)"
 
-#: app/templates/learn/Abstraction.html:24
-#: app/templates/learn/Abstraction.html:41
-#: app/templates/learn/Abstraction.html:69
-#: app/templates/learn/Abstraction.html:75
-#: app/templates/learn/Abstraction.html:86
+#: app/templates/learn/Abstraction.html:20
+#: app/templates/learn/Abstraction.html:37
+#: app/templates/learn/Abstraction.html:65
+#: app/templates/learn/Abstraction.html:71
+#: app/templates/learn/Abstraction.html:82
 msgid "pen down"
 msgstr "bajar lápiz"
 
-#: app/templates/learn/Abstraction.html:25
-#: app/templates/learn/Abstraction.html:42
-#: app/templates/learn/Abstraction.html:76
+#: app/templates/learn/Abstraction.html:21
+#: app/templates/learn/Abstraction.html:38
+#: app/templates/learn/Abstraction.html:72
 msgid "move (200) steps"
 msgstr "mover (10) pasos"
 
-#: app/templates/learn/Abstraction.html:26
-#: app/templates/learn/Abstraction.html:31
-#: app/templates/learn/Abstraction.html:43
-#: app/templates/learn/Abstraction.html:49
-#: app/templates/learn/Abstraction.html:71
-#: app/templates/learn/Abstraction.html:77
-#: app/templates/learn/Abstraction.html:88
+#: app/templates/learn/Abstraction.html:22
+#: app/templates/learn/Abstraction.html:27
+#: app/templates/learn/Abstraction.html:39
+#: app/templates/learn/Abstraction.html:45
+#: app/templates/learn/Abstraction.html:67
+#: app/templates/learn/Abstraction.html:73
+#: app/templates/learn/Abstraction.html:84
 msgid "pen up"
 msgstr "subir lápiz"
 
-#: app/templates/learn/Abstraction.html:27
-#: app/templates/learn/Abstraction.html:45
-#: app/templates/learn/Abstraction.html:72
-#: app/templates/learn/Abstraction.html:99
-#: app/templates/learn/Synchronization.html:25
-#: app/templates/learn/duplicatedScripts.html:20
+#: app/templates/learn/Abstraction.html:23
+#: app/templates/learn/Abstraction.html:41
+#: app/templates/learn/Abstraction.html:68
+#: app/templates/learn/Abstraction.html:95
+#: app/templates/learn/Synchronization.html:22
+#: app/templates/learn/duplicatedScripts.html:17
 msgid "wait (1) secs"
 msgstr "esperar (1) segundos"
 
-#: app/templates/learn/Abstraction.html:28
-#: app/templates/learn/Abstraction.html:46
+#: app/templates/learn/Abstraction.html:24
+#: app/templates/learn/Abstraction.html:42
 msgid "go to x:(-44) y:(-24)"
 msgstr "ir a x:(-44) y:(-24)"
 
-#: app/templates/learn/Abstraction.html:29
-#: app/templates/learn/Abstraction.html:47
-#: app/templates/learn/Abstraction.html:68
-#: app/templates/learn/Abstraction.html:74
-#: app/templates/learn/Abstraction.html:85
+#: app/templates/learn/Abstraction.html:25
+#: app/templates/learn/Abstraction.html:43
+#: app/templates/learn/Abstraction.html:64
+#: app/templates/learn/Abstraction.html:70
+#: app/templates/learn/Abstraction.html:81
 msgid "set pen color to [#FFA500]"
 msgstr "fijar color de lápiz a [#FFA500]"
 
-#: app/templates/learn/Abstraction.html:30
-#: app/templates/learn/Abstraction.html:48
-#: app/templates/learn/Abstraction.html:70
+#: app/templates/learn/Abstraction.html:26
+#: app/templates/learn/Abstraction.html:44
+#: app/templates/learn/Abstraction.html:66
 msgid "move (100) steps"
 msgstr "mover (100) pasos"
 
-#: app/templates/learn/Abstraction.html:35
+#: app/templates/learn/Abstraction.html:31
 msgid ""
 "This project, which paints a picture on the screen, has been programmed in a "
 "single program that draws the two lines that make up the drawing. Although "
@@ -1491,7 +1568,7 @@ msgstr ""
 "dividir el programa en dos partes, de forma que tengamos dos programas "
 "diferentes, uno para pintar la primera línea y otro para pintar la segunda:"
 
-#: app/templates/learn/Abstraction.html:52
+#: app/templates/learn/Abstraction.html:48
 msgid ""
 "Thus, if we make any changes eg in one of the lines drawn, it is much easier "
 "to know which part of the program we need to go to carry out the changes."
@@ -1500,14 +1577,14 @@ msgstr ""
 "las líneas dibujadas, es mucho más sencillo saber a qué parte del programa "
 "tenemos que dirigirnos para llevar a cabo los cambios."
 
-#: app/templates/learn/Abstraction.html:62 app/templates/learn/Data.html:82
-#: app/templates/learn/Flow.html:37 app/templates/learn/Logic.html:35
-#: app/templates/learn/Parallelism.html:31
-#: app/templates/learn/Synchronization.html:44 app/templates/learn/User.html:35
+#: app/templates/learn/Abstraction.html:58 app/templates/learn/Data.html:78
+#: app/templates/learn/Flow.html:34 app/templates/learn/Logic.html:32
+#: app/templates/learn/Parallelism.html:29
+#: app/templates/learn/Synchronization.html:41 app/templates/learn/User.html:32
 msgid "If you get 1 point..."
 msgstr "Si has sacado 1 punto..."
 
-#: app/templates/learn/Abstraction.html:63
+#: app/templates/learn/Abstraction.html:59
 msgid ""
 "Scratch allows new user-defined blocks that consist of a sequence of "
 "instructions. These abstractions allow you to create simple programs to "
@@ -1518,17 +1595,17 @@ msgstr ""
 "crear programas más sencillos de leer, de programar y de mantener. Veamos un "
 "ejemplo:"
 
-#: app/templates/learn/Abstraction.html:67
-#: app/templates/learn/Abstraction.html:97
+#: app/templates/learn/Abstraction.html:63
+#: app/templates/learn/Abstraction.html:93
 msgid "go to x:(-200) y:(40)"
 msgstr "ir a x:(-200) y:(40)"
 
-#: app/templates/learn/Abstraction.html:73
-#: app/templates/learn/Abstraction.html:100
+#: app/templates/learn/Abstraction.html:69
+#: app/templates/learn/Abstraction.html:96
 msgid "go to x:(-200) y:(0)"
 msgstr "ir a x:(-200) y:(0)"
 
-#: app/templates/learn/Abstraction.html:80
+#: app/templates/learn/Abstraction.html:76
 msgid ""
 "This Scratch project draws two orange lines of different length  on the "
 "screen. Rather than repeat the code 2 times, as shown in the example, you "
@@ -1544,15 +1621,15 @@ msgstr ""
 "puede indicar cuál es la longitud de la línea. Para ello hay que irse a la "
 "categoría “Más Bloques” y pulsar en el botón Crear un bloque:"
 
-#: app/templates/learn/Abstraction.html:84
+#: app/templates/learn/Abstraction.html:80
 msgid "define PaintedOrange(length)"
 msgstr "definir PintaNaranja(longitud)"
 
-#: app/templates/learn/Abstraction.html:87
+#: app/templates/learn/Abstraction.html:83
 msgid "move (length) steps"
 msgstr "mover (longitud) pasos"
 
-#: app/templates/learn/Abstraction.html:92
+#: app/templates/learn/Abstraction.html:88
 msgid ""
 "Having defined the block <i>'DrawOrange'</i> it can be used in any program "
 "of the project, as we see below:"
@@ -1560,15 +1637,15 @@ msgstr ""
 "Una vez definido el bloque <i>“PintaNaranja”</i> es posible utilizarlo en "
 "cualquier programa del proyecto, tal como vemos a continuación:"
 
-#: app/templates/learn/Abstraction.html:98
+#: app/templates/learn/Abstraction.html:94
 msgid "PaintedOrange(100):: looks stack"
 msgstr "PintaNaranja(100):: looks stack"
 
-#: app/templates/learn/Abstraction.html:101
+#: app/templates/learn/Abstraction.html:97
 msgid "PaintedOrange(200):: looks stack"
 msgstr "PintaNaranja(200):: looks stack"
 
-#: app/templates/learn/Abstraction.html:105
+#: app/templates/learn/Abstraction.html:101
 msgid ""
 "In this way, we avoid repeating code, which makes our projects easier to "
 "program and maintain. As can be seen, the first time the block is used "
@@ -1581,14 +1658,14 @@ msgstr ""
 "indica una longitud de 100 pasos, mientras que la segunda vez la longitud es "
 "de 200 pasos."
 
-#: app/templates/learn/Abstraction.html:113 app/templates/learn/Data.html:102
-#: app/templates/learn/Flow.html:65 app/templates/learn/Logic.html:54
-#: app/templates/learn/Parallelism.html:65
-#: app/templates/learn/Synchronization.html:71 app/templates/learn/User.html:65
+#: app/templates/learn/Abstraction.html:109 app/templates/learn/Data.html:98
+#: app/templates/learn/Flow.html:62 app/templates/learn/Logic.html:51
+#: app/templates/learn/Parallelism.html:63
+#: app/templates/learn/Synchronization.html:68 app/templates/learn/User.html:62
 msgid "If you get 2 points..."
 msgstr "Si has sacado 2 puntos..."
 
-#: app/templates/learn/Abstraction.html:115
+#: app/templates/learn/Abstraction.html:111
 msgid ""
 "In some Scratch projects we have many identical characters that exactly "
 "perform the same actions. The first idea that comes to mind to do this is to "
@@ -1605,7 +1682,7 @@ msgstr ""
 "ocurriría si quiero realizar un cambio en un programa? Tendría que ir objeto "
 "por objeto realizando esa modificación."
 
-#: app/templates/learn/Abstraction.html:116
+#: app/templates/learn/Abstraction.html:112
 msgid ""
 "For such situations it is preferable to use <b>clones</b>, a type of "
 "abstraction that helps us to program a single object, and dynamically "
@@ -1615,7 +1692,7 @@ msgstr ""
 "de abstracción que nos ayuda a poder programar un solo objeto, y <b>crear de "
 "forma dinámica copias exactas con el mismo comportamiento.</b> "
 
-#: app/templates/learn/Abstraction.html:117
+#: app/templates/learn/Abstraction.html:113
 msgid ""
 "Let's see how it works with an example. Imagine you want to pretend that it "
 "is snowing on a project. We can draw an object that is a snowflake, and once "
@@ -1628,34 +1705,34 @@ msgstr ""
 "constantemente que aparezcan en la parte superior de la pantalla y vayan "
 "cayendo hasta la parte inferior:"
 
-#: app/templates/learn/Abstraction.html:122 app/templates/learn/Flow.html:51
-#: app/templates/learn/Parallelism.html:44
-#: app/templates/learn/Parallelism.html:49
-#: app/templates/learn/Synchronization.html:49
+#: app/templates/learn/Abstraction.html:118 app/templates/learn/Flow.html:48
+#: app/templates/learn/Parallelism.html:42
+#: app/templates/learn/Parallelism.html:47
+#: app/templates/learn/Synchronization.html:46
 msgid "forever"
 msgstr "por siempre"
 
-#: app/templates/learn/Abstraction.html:123
+#: app/templates/learn/Abstraction.html:119
 msgid "create clone of [myself v]"
 msgstr "crear clon de [yo v]"
 
-#: app/templates/learn/Abstraction.html:124
+#: app/templates/learn/Abstraction.html:120
 msgid "wait (0.2) secs"
 msgstr "esperar (0.2) segundos"
 
-#: app/templates/learn/Abstraction.html:125
+#: app/templates/learn/Abstraction.html:121
 msgid "go to x:(pick random(-200) to (200)) y:(200)"
 msgstr "ir a x:(número aleatorio entre (-200) y (200)) y:(200)"
 
-#: app/templates/learn/Abstraction.html:126
+#: app/templates/learn/Abstraction.html:122
 msgid "glide (3) secs to x:(x position) y:(-180)"
 msgstr "deslizar en (3) segs a x:(posicion en x) y:(-180)"
 
-#: app/templates/learn/Abstraction.html:127
+#: app/templates/learn/Abstraction.html:123
 msgid "delete this clone"
 msgstr "eliminar este clon"
 
-#: app/templates/learn/Abstraction.html:131
+#: app/templates/learn/Abstraction.html:127
 msgid ""
 "Thus, just by programming a character, we can have infinite clones  which "
 "are created at a particular time of project implementation and are deleted "
@@ -1665,12 +1742,56 @@ msgstr ""
 "clones, que se crean en un momento determinado de la ejecución del proyecto "
 "y se borran cuando ya no son necesarios."
 
-#: app/templates/learn/Data.html:5 app/templates/main/main.html:298
-#: app/templates/main/rubric-creator.html:520
+#: app/templates/learn/BatchMode.html:5 app/templates/learn/base.html:193
+#: app/templates/main/main.html:399
+msgid "Batch Mode"
+msgstr "Análisis por lotes"
+
+#: app/templates/learn/BatchMode.html:25
+msgid ""
+"You only have to upload a .txt file with the urls of the Scratch's Projects."
+msgstr ""
+
+#: app/templates/learn/BatchMode.html:34
+#: app/templates/learn/DefaultMode.html:37
+#: app/templates/learn/PersonalMode.html:39 app/templates/login/login.html:288
+#: app/templates/main/main_new.html:404
+msgid "It is extremely easy to use, both for begginers and expert programmers."
+msgstr ""
+"Es increiblemente fácil de usar, tanto si eres principiante como si eres un "
+"programador experto."
+
+#: app/templates/learn/BatchMode.html:38
+#: app/templates/learn/DefaultMode.html:41
+#: app/templates/learn/PersonalMode.html:43 app/templates/login/login.html:292
+#: app/templates/main/main_new.html:408
+msgid "You receive feedback to improve your coding skills."
+msgstr "Recibirás realimentación para mejorar tus habilidades de programación."
+
+#: app/templates/learn/BatchMode.html:46
+#: app/templates/learn/DefaultMode.html:49
+#: app/templates/learn/PersonalMode.html:51 app/templates/login/login.html:300
+#: app/templates/main/main_new.html:416
+msgid ""
+"You can keep on improving your programming skills by yourself even from home."
+msgstr ""
+"Puedes seguir mejorando tus habilidades como programador por ti mismo, "
+"incluso desde casa."
+
+#: app/templates/learn/BatchMode.html:50
+#: app/templates/learn/DefaultMode.html:53
+#: app/templates/learn/PersonalMode.html:55 app/templates/login/login.html:304
+#: app/templates/main/main_new.html:420
+msgid "You can track your progress through charts and stats."
+msgstr ""
+"Puedes realizar un seguimiento de tu progreso a través de gráficos y "
+"estadísticas."
+
+#: app/templates/learn/Data.html:6 app/templates/main/rubric-creator.html:514
 msgid "Data Representation"
 msgstr "Representación de los datos"
 
-#: app/templates/learn/Data.html:11
+#: app/templates/learn/Data.html:9
 msgid ""
 "Every Scratch project needs a set of information about the characters in "
 "order to run properly. For example, <b>we need to know the position of each "
@@ -1687,7 +1808,7 @@ msgstr ""
 "encontramos, el tiempo transcurrido, la puntación, las vidas, las "
 "recompensas recogidas... "
 
-#: app/templates/learn/Data.html:20
+#: app/templates/learn/Data.html:16
 msgid ""
 "Each character of a Scratch project has a number of features, or attributes, "
 "that every moment of the project have value, and can be modified by "
@@ -1704,112 +1825,112 @@ msgstr ""
 "continuación mostramos la lista de atributos que tiene cada personaje y los "
 "bloques que pueden utilizarse para modificarlos:"
 
-#: app/templates/learn/Data.html:24
+#: app/templates/learn/Data.html:20
 msgid "Position:"
 msgstr "Posición:"
 
-#: app/templates/learn/Data.html:28 app/templates/learn/Flow.html:22
-#: app/templates/learn/Flow.html:43 app/templates/learn/Flow.html:52
-#: app/templates/learn/Parallelism.html:45 app/templates/learn/User.html:39
+#: app/templates/learn/Data.html:24 app/templates/learn/Flow.html:19
+#: app/templates/learn/Flow.html:40 app/templates/learn/Flow.html:49
+#: app/templates/learn/Parallelism.html:43 app/templates/learn/User.html:36
 msgid "move (10) steps"
 msgstr "mover (10) pasos"
 
-#: app/templates/learn/Data.html:29 app/templates/learn/attrInit.html:27
+#: app/templates/learn/Data.html:25 app/templates/learn/attrInit.html:24
 msgid "go to x:(0) y:(0)"
 msgstr "ir a x:(0) y:(0)"
 
-#: app/templates/learn/Data.html:30
+#: app/templates/learn/Data.html:26
 msgid "glide (1) secs to x:(0) y:(0)"
 msgstr "deslizar en (1) segs a x:(0) y:(0)"
 
-#: app/templates/learn/Data.html:31
+#: app/templates/learn/Data.html:27
 msgid "set x to (0)"
 msgstr "dar a x el valor (0)"
 
-#: app/templates/learn/Data.html:32
+#: app/templates/learn/Data.html:28
 msgid "set y to (0)"
 msgstr "dar a y el valor (0)"
 
-#: app/templates/learn/Data.html:33
+#: app/templates/learn/Data.html:29
 msgid "change x by (0)"
 msgstr "sumar a x (0)"
 
-#: app/templates/learn/Data.html:34
+#: app/templates/learn/Data.html:30
 msgid "change y by (0)"
 msgstr "sumar a y (0)"
 
-#: app/templates/learn/Data.html:38
+#: app/templates/learn/Data.html:34
 msgid "Size:"
 msgstr "Tamaño:"
 
-#: app/templates/learn/Data.html:42
+#: app/templates/learn/Data.html:38
 msgid "change size by (10)"
 msgstr "cambiar tamaño por (-1)"
 
-#: app/templates/learn/Data.html:43
+#: app/templates/learn/Data.html:39
 #, fuzzy
 #| msgid "set size to (120) &percnt;"
 msgid "set size to (120)"
 msgstr "fijar tamaño a (120) %"
 
-#: app/templates/learn/Data.html:47
+#: app/templates/learn/Data.html:43
 msgid "Orientation:"
 msgstr "Orientación:"
 
-#: app/templates/learn/Data.html:51
+#: app/templates/learn/Data.html:47
 msgid "point in direction (90 v)"
 msgstr "apuntar en dirección (90 v)"
 
-#: app/templates/learn/Data.html:52
+#: app/templates/learn/Data.html:48
 msgid "point towards [v]"
 msgstr "apuntar hacia [v]"
 
-#: app/templates/learn/Data.html:53 app/templates/learn/Flow.html:23
-#: app/templates/learn/Flow.html:44
+#: app/templates/learn/Data.html:49 app/templates/learn/Flow.html:20
+#: app/templates/learn/Flow.html:41
 msgid "turn cw (15) degrees"
 msgstr "girar ↻ (15) grados"
 
-#: app/templates/learn/Data.html:54 app/templates/learn/Flow.html:25
-#: app/templates/learn/Flow.html:46
+#: app/templates/learn/Data.html:50 app/templates/learn/Flow.html:22
+#: app/templates/learn/Flow.html:43
 msgid "turn ccw (15) degrees"
 msgstr "girar ↺ (15) grados"
 
-#: app/templates/learn/Data.html:58
+#: app/templates/learn/Data.html:54
 msgid "Costume:"
 msgstr "Disfraz:"
 
-#: app/templates/learn/Data.html:62
+#: app/templates/learn/Data.html:58
 msgid "switch costume to [butterfly v]"
 msgstr "cambiar disfraz a [butterfly v]"
 
-#: app/templates/learn/Data.html:63
-#: app/templates/learn/duplicatedScripts.html:18
-#: app/templates/learn/duplicatedScripts.html:27
-#: app/templates/learn/duplicatedScripts.html:41
+#: app/templates/learn/Data.html:59
+#: app/templates/learn/duplicatedScripts.html:15
+#: app/templates/learn/duplicatedScripts.html:24
+#: app/templates/learn/duplicatedScripts.html:38
 msgid "next costume"
 msgstr "siguiente disfraz"
 
-#: app/templates/learn/Data.html:64
+#: app/templates/learn/Data.html:60
 msgid "change [color v] effect by (25)"
 msgstr "sumar al efecto [color v] (25)"
 
-#: app/templates/learn/Data.html:65
+#: app/templates/learn/Data.html:61
 msgid "set [color v] effect to (0)"
 msgstr "dar al efecto [color v] el valor (25)"
 
-#: app/templates/learn/Data.html:68
+#: app/templates/learn/Data.html:64
 msgid "Visibility:"
 msgstr "Visibilidad:"
 
-#: app/templates/learn/Data.html:72 app/templates/learn/Synchronization.html:80
+#: app/templates/learn/Data.html:68 app/templates/learn/Synchronization.html:77
 msgid "show"
 msgstr "mostrar"
 
-#: app/templates/learn/Data.html:73
+#: app/templates/learn/Data.html:69
 msgid "hide"
 msgstr "esconder"
 
-#: app/templates/learn/Data.html:83
+#: app/templates/learn/Data.html:79
 msgid ""
 "In addition to modifying the attributes of the characters, programmers can "
 "use other mechanisms to store information on a Scratch project. <b>One of "
@@ -1824,7 +1945,7 @@ msgstr ""
 "necesitar: en qué nivel nos encontramos</b>, cuántas vidas nos quedan, "
 "cuántos puntos llevamos, cómo se llama el usuario..."
 
-#: app/templates/learn/Data.html:84
+#: app/templates/learn/Data.html:80
 msgid ""
 "To create a variable you have to go to the category of data, click on "
 "'Create a variable' and give a name. In the example shown below we have "
@@ -1836,19 +1957,19 @@ msgstr ""
 "continuación le hemos dado el nombre “Puntos”, ya que la utilizaremos para "
 "guardar el número de puntos que consigue nuestro personaje."
 
-#: app/templates/learn/Data.html:88
+#: app/templates/learn/Data.html:84
 msgid "set [Points v] to [0]"
 msgstr "dar a [Puntos v] el valor [0]"
 
-#: app/templates/learn/Data.html:89
+#: app/templates/learn/Data.html:85
 msgid "if &lt;touching color [#0000FF]&gt; then"
 msgstr "si &lt;¿tocando el color [#0000FF]?&gt; entonces"
 
-#: app/templates/learn/Data.html:90
+#: app/templates/learn/Data.html:86
 msgid "change [Points v] by (1)"
 msgstr "sumar a [Puntos v] (1)"
 
-#: app/templates/learn/Data.html:94
+#: app/templates/learn/Data.html:90
 msgid ""
 "In the program of the top, we assign the number of points that we want the "
 "character has to the beginning of the game, in this case 0, for which we use "
@@ -1869,7 +1990,7 @@ msgstr ""
 "sumaría 1: si vale 0, le sumo 1 y ahora vale 1; si vale 1, le sumo 1 y ahora "
 "vale 2..."
 
-#: app/templates/learn/Data.html:103
+#: app/templates/learn/Data.html:99
 msgid ""
 "In addition to the variables, Scratch lets you use another data type to "
 "store project information: <b>The lists. The lists can store more than one "
@@ -1882,7 +2003,7 @@ msgstr ""
 "guardar las recompensas que han sido recuperadas por un personaje, o un "
 "conjunto de nombres, por plantear un par de ejemplos.</b>"
 
-#: app/templates/learn/Data.html:104
+#: app/templates/learn/Data.html:100
 msgid ""
 "To create a list, you have to go to the data category, click on 'Create a "
 "List' and give a name. In the example, we have named our 'Students' list:"
@@ -1891,24 +2012,24 @@ msgstr ""
 "“Crear una lista” y darle un nombre. En el ejemplo, nosotros hemos llamado a "
 "nuestra lista “Estudiantes”:"
 
-#: app/templates/learn/Data.html:108 app/templates/learn/Data.html:121
+#: app/templates/learn/Data.html:104 app/templates/learn/Data.html:117
 msgid "delete (all v) of [Students v]"
 msgstr "eliminar (todos v) de [Estudiantes v]"
 
-#: app/templates/learn/Data.html:109 app/templates/learn/Data.html:122
-#: app/templates/learn/Flow.html:42
+#: app/templates/learn/Data.html:105 app/templates/learn/Data.html:118
+#: app/templates/learn/Flow.html:39
 msgid "repeat (3)"
 msgstr "repetir (3)"
 
-#: app/templates/learn/Data.html:110 app/templates/learn/Data.html:123
+#: app/templates/learn/Data.html:106 app/templates/learn/Data.html:119
 msgid "ask [Introduce a student name] and wait"
 msgstr "preguntar [Introduce el nombre de un estudiante] y esperar"
 
-#: app/templates/learn/Data.html:111 app/templates/learn/Data.html:124
+#: app/templates/learn/Data.html:107 app/templates/learn/Data.html:120
 msgid "insert (answer) at (last v) of [Students v]"
 msgstr "insertar (respuesta) en [último v] de [Estudiantes v]"
 
-#: app/templates/learn/Data.html:115
+#: app/templates/learn/Data.html:111
 msgid ""
 "What have we done with this program? The first thing we do is, to start "
 "execution, <b>delete all items from the list Students</b>, to empty it "
@@ -1923,7 +2044,7 @@ msgstr ""
 "introduzca un nombre, y cada nombre introducido lo insertamos en la última "
 "posición de la lista Estudiantes."
 
-#: app/templates/learn/Data.html:116
+#: app/templates/learn/Data.html:112
 msgid ""
 "What we do with the list? We could, for example, use it to get a volunteer "
 "to carry out an exercise to the whiteboard. Look at the new instructions "
@@ -1933,27 +2054,27 @@ msgstr ""
 "sacar a un voluntario a realizar un ejercicio a la pizarra digital. Fijaos "
 "en las nuevas instrucciones que añadimos al programa:"
 
-#: app/templates/learn/Data.html:125 app/templates/learn/Flow.html:49
-#: app/templates/learn/Flow.html:71 app/templates/learn/Logic.html:61
-#: app/templates/learn/Logic.html:64 app/templates/learn/Logic.html:67
-#: app/templates/learn/Parallelism.html:47
-#: app/templates/learn/Parallelism.html:52
-#: app/templates/learn/Synchronization.html:52 app/templates/learn/User.html:49
-#: app/templates/learn/User.html:70
+#: app/templates/learn/Data.html:121 app/templates/learn/Flow.html:46
+#: app/templates/learn/Flow.html:68 app/templates/learn/Logic.html:58
+#: app/templates/learn/Logic.html:61 app/templates/learn/Logic.html:64
+#: app/templates/learn/Parallelism.html:45
+#: app/templates/learn/Parallelism.html:50
+#: app/templates/learn/Synchronization.html:49 app/templates/learn/User.html:46
+#: app/templates/learn/User.html:67
 msgid "end"
 msgstr "fin"
 
-#: app/templates/learn/Data.html:126
+#: app/templates/learn/Data.html:122
 msgid "say [Today's volunteer will be...] for (2) secs"
 msgstr "decir [El voluntario de hoy va a ser...] durante (2) segundos"
 
-#: app/templates/learn/Data.html:127
+#: app/templates/learn/Data.html:123
 msgid "say (item(pick random (1) to (3)) of [Students v]) for (2) secs"
 msgstr ""
 "decir(elemento(número aleatorio entre (1) y (3)) de [Estudiantes v]) durante "
 "(2) segundos"
 
-#: app/templates/learn/Data.html:131
+#: app/templates/learn/Data.html:127
 msgid ""
 "We generated a random number between 1 and 3, which are the elements in the "
 "list, we selected the element that occupies that position in the list. "
@@ -1965,7 +2086,7 @@ msgstr ""
 "lista. Unas veces cogeremos el nombre que está en la posición 1, otras al "
 "que está en la posición 2 y otras al de la posición 3."
 
-#: app/templates/learn/Data.html:132
+#: app/templates/learn/Data.html:128
 msgid ""
 "Lists have many possibilities and many available operations ... you dare to "
 "investigate how they work?"
@@ -1973,7 +2094,39 @@ msgstr ""
 "Las listas tienen muchas posibilidades y muchas operaciones disponibles... "
 "¿te animas a investigar cómo funcionan?"
 
-#: app/templates/learn/Flow.html:10
+#: app/templates/learn/DefaultMode.html:5 app/templates/learn/base.html:190
+msgid "Default Mode"
+msgstr ""
+
+#: app/templates/learn/DefaultMode.html:24 app/templates/login/login.html:276
+#: app/templates/main/main_new.html:392
+msgid "There are two options to analyze a Scratch project with Dr. Scratch"
+msgstr "Hay dos opciones para analizar un proyecto de Scratch con Dr. Scratch"
+
+#: app/templates/learn/DefaultMode.html:28
+#, fuzzy
+#| msgid ""
+#| "You can upload an sb2 file or just provide the project url, avoiding the "
+#| "need to previously download the project to your computer. By analyzing "
+#| "your projects with Dr. Scratch, you can easily check your Computational "
+#| "Thinking Score."
+msgid ""
+"You can upload an sb3 file or just provide the project url, avoiding the "
+"need to previously download the project to your computer. By analyzing your "
+"projects with Dr. Scratch, you can easily check your Computational Thinking "
+"Score."
+msgstr ""
+"Puedes subir un fichero de extensión sb2 o utilizar la url que Scratch "
+"facilita sin necesidad de bajar previamente el proyecto a tu ordenador. "
+"Mediante el análisis de Dr. Scratch, puedes conocer fácilmente tu Nivel de "
+"Pensamiento Computacional."
+
+#: app/templates/learn/Flow.html:5 app/templates/main/rubric-creator.html:478
+#: app/templates/statistics/statistics.html:260
+msgid "Flow Control"
+msgstr "Control de flujo"
+
+#: app/templates/learn/Flow.html:8
 msgid ""
 "Instructions related to algorithmic notions of flow control can help you to "
 "<b>control the behavior of your characters</b>, making, for example, certain "
@@ -1984,7 +2137,7 @@ msgstr ""
 "b>, haciendo, por ejemplo, que repitan ciertos bloques un número de veces "
 "concreto o que lo repitan hasta que se produzca una situación."
 
-#: app/templates/learn/Flow.html:18
+#: app/templates/learn/Flow.html:15
 msgid ""
 "The most basic way to control the behavior of your characters is creating a "
 "<b>program composed of a set of blocks are executed one after another</b>, "
@@ -1994,21 +2147,21 @@ msgstr ""
 "creando un <b>programa computesto por un conjunto de bloques que se ejecutan "
 "uno detrás de otro</b>, tal como vemos en la imagen:"
 
-#: app/templates/learn/Flow.html:21 app/templates/learn/Flow.html:41
+#: app/templates/learn/Flow.html:18 app/templates/learn/Flow.html:38
 msgid "say [I'm a dancer cat] for (2) secs"
 msgstr "decir [Soy un gato bailarin] durante (2) segundos"
 
-#: app/templates/learn/Flow.html:24 app/templates/learn/Flow.html:45
-#: app/templates/learn/Flow.html:48
-#: app/templates/learn/duplicatedScripts.html:29
+#: app/templates/learn/Flow.html:21 app/templates/learn/Flow.html:42
+#: app/templates/learn/Flow.html:45
+#: app/templates/learn/duplicatedScripts.html:26
 msgid "wait (0.5) secs"
 msgstr "esperar (0.5) segundos"
 
-#: app/templates/learn/Flow.html:26 app/templates/learn/Flow.html:47
+#: app/templates/learn/Flow.html:23 app/templates/learn/Flow.html:44
 msgid "move (-10) steps"
 msgstr "mover (-10) pasos"
 
-#: app/templates/learn/Flow.html:29
+#: app/templates/learn/Flow.html:26
 msgid ""
 "How does this program works? When the user click on the green flag run "
 "behind one another all blocks that have been included in the program. Start "
@@ -2023,7 +2176,7 @@ msgstr ""
 "<i>“girar 15 grados a la derecha”</i>, y así hasta llegar al último bloque "
 "del programa."
 
-#: app/templates/learn/Flow.html:38
+#: app/templates/learn/Flow.html:35
 msgid ""
 "Sometimes when we want a set of blocks is constantly repeated, instead of "
 "repeating the same blocks over and over again, you can use a repeat "
@@ -2035,18 +2188,18 @@ msgstr ""
 "posible utilizar instrucciones de repetición que permiten conseguir el mismo "
 "efecto, pero de forma más cómoda y manejable. Veamos un par de ejemplos:"
 
-#: app/templates/learn/Flow.html:53 app/templates/learn/Parallelism.html:46
-#: app/templates/learn/duplicatedScripts.html:19
-#: app/templates/learn/duplicatedScripts.html:28
-#: app/templates/learn/duplicatedScripts.html:42
+#: app/templates/learn/Flow.html:50 app/templates/learn/Parallelism.html:44
+#: app/templates/learn/duplicatedScripts.html:16
+#: app/templates/learn/duplicatedScripts.html:25
+#: app/templates/learn/duplicatedScripts.html:39
 msgid "if on edge, bounce"
 msgstr "si toca un borde, rebotar"
 
-#: app/templates/learn/Flow.html:56
+#: app/templates/learn/Flow.html:53
 msgid "How these control blocks works?"
 msgstr "¿Cómo funciona estos bloques de control?"
 
-#: app/templates/learn/Flow.html:57
+#: app/templates/learn/Flow.html:54
 msgid ""
 "In the block <i>'repeat'</i> when execution reaches this point is repeated "
 "as often as has been indicated in the parameter block 'repeat', in the "
@@ -2061,7 +2214,7 @@ msgstr ""
 "parte inferior que indica que <b>cuando se terminan de ejecutar los bloques "
 "se vuelve otra vez para arriba</b>."
 
-#: app/templates/learn/Flow.html:58
+#: app/templates/learn/Flow.html:55
 msgid ""
 "The block <i>'forever'</i> works like the 'repeat' but never finish "
 "executing the blocks containing in its interior."
@@ -2069,7 +2222,7 @@ msgstr ""
 "El bloque <i>“por siempre”</i> funciona igual que el 'repetir' pero sin "
 "terminar nunca de ejecutar los bloques que contiene en su interior."
 
-#: app/templates/learn/Flow.html:66
+#: app/templates/learn/Flow.html:63
 msgid ""
 "Sometimes we don't know previously  the number of times you want a set of "
 "blocks is executed, as this depends on a given situation. In these cases, "
@@ -2080,19 +2233,19 @@ msgstr ""
 "determinada situación. En estas ocasiones, el bloque 'repetir hasta que...' "
 "es realmente útil. Veamos un ejemplo:"
 
-#: app/templates/learn/Flow.html:69
+#: app/templates/learn/Flow.html:66
 msgid "repeat until &lt; touching [Enemy v] ?&gt;"
 msgstr "repetir hasta que  &lt; ¿tocando [Enemigo v]? &gt;"
 
-#: app/templates/learn/Flow.html:70
+#: app/templates/learn/Flow.html:67
 msgid "say [You don't catch me]"
 msgstr "decir [No me pillas]"
 
-#: app/templates/learn/Flow.html:72
+#: app/templates/learn/Flow.html:69
 msgid "say [You catch me]"
 msgstr "decir [Me has pillado]"
 
-#: app/templates/learn/Flow.html:75
+#: app/templates/learn/Flow.html:72
 msgid ""
 "In the example, the character will constantly repeat the instruction say "
 "'You don't caught me...' while he don't touch the enemy. At the time that "
@@ -2106,7 +2259,7 @@ msgstr ""
 "terminará de ejecutarse el bloque contenido en su interior y saltará a la "
 "siguiente instrucción, en este caso decir' Me pillaste!'."
 
-#: app/templates/learn/Logic.html:10
+#: app/templates/learn/Logic.html:8
 msgid ""
 "Instructions related to logical thinking can help your projects are dynamic, "
 "<b>so that they behave differently depending on the situation</b>. In the "
@@ -2123,22 +2276,22 @@ msgstr ""
 "en otro tipo de proyectos, como los videojuegos, son fundamentales para "
 "ejecutar acciones diferentes dependiendo de la situación."
 
-#: app/templates/learn/Logic.html:18
+#: app/templates/learn/Logic.html:15
 msgid "The most basic block you can start working logical thinking is this:"
 msgstr ""
 "El bloque más básico con el que puedes comenzar a trabajar el pensamiento "
 "lógico es éste:"
 
-#: app/templates/learn/Logic.html:21
+#: app/templates/learn/Logic.html:18
 msgid "if &lt; touching color [#0000FF]?  &gt;then"
 msgstr "si &lt;¿tocando el color [#0000FF] ?&gt; entonces"
 
-#: app/templates/learn/Logic.html:22 app/templates/learn/Logic.html:40
-#: app/templates/learn/Logic.html:42
+#: app/templates/learn/Logic.html:19 app/templates/learn/Logic.html:37
+#: app/templates/learn/Logic.html:39
 msgid "say [I have reached the goal!] for (2) secs"
 msgstr "decir [He alcanzado la meta!] durante (2) segundos"
 
-#: app/templates/learn/Logic.html:26
+#: app/templates/learn/Logic.html:23
 msgid ""
 "How this block works? When execution reaches this point, the condition on "
 "the block is evaluated, and if this is true, the set of blocks that are "
@@ -2148,7 +2301,7 @@ msgstr ""
 "evalúa la condición que aparece en el bloque, y si ésta es verdadera, se "
 "ejecuta el conjunto de bloques que están dentro del si."
 
-#: app/templates/learn/Logic.html:27
+#: app/templates/learn/Logic.html:24
 msgid ""
 "In the example, if the character is touching the blue color, he says 'I "
 "reached the goal.'"
@@ -2156,7 +2309,7 @@ msgstr ""
 "En el ejemplo, si el personaje está tocando el color azul diría “Llegué a la "
 "meta”."
 
-#: app/templates/learn/Logic.html:36
+#: app/templates/learn/Logic.html:33
 msgid ""
 "Now that you know the instructions <i>if</i>, perhaps you can start using "
 "blocks <i>if / else</i>, which can be very practical in many types of "
@@ -2168,15 +2321,15 @@ msgstr ""
 "tipos de proyectos. Los bloques <i>si/sino</i> son muy parecidos a los "
 "bloque si, pero contienen dos conjuntos de bloques en su interior."
 
-#: app/templates/learn/Logic.html:39
+#: app/templates/learn/Logic.html:36
 msgid "if &lt; touching color [#0000FF]? &gt;then"
 msgstr "si &lt;¿tocando el color [#0000FF]? &gt;entonces"
 
-#: app/templates/learn/Logic.html:41
+#: app/templates/learn/Logic.html:38
 msgid "else"
 msgstr "si no"
 
-#: app/templates/learn/Logic.html:45
+#: app/templates/learn/Logic.html:42
 msgid ""
 "How this block works? When execution reaches this point, the condition on "
 "the block is evaluated, and if this is true, the set of blocks that are "
@@ -2187,7 +2340,7 @@ msgstr ""
 "evalúa la condición que aparece en el bloque, y si ésta es verdadera, se "
 "ejecuta el conjunto de bloques que están dentro del si."
 
-#: app/templates/learn/Logic.html:46
+#: app/templates/learn/Logic.html:43
 msgid ""
 "In the example, if the character is touching the blue color, he says  'I "
 "reached the goal!', but ,if you are not touching the purple color, says 'I "
@@ -2197,7 +2350,7 @@ msgstr ""
 "meta”,pero si no está tocando el color morado diría “Aún no he llegado a la "
 "meta”"
 
-#: app/templates/learn/Logic.html:55
+#: app/templates/learn/Logic.html:52
 msgid ""
 "To make decisions on some projects sometimes is necessary to evaluate more "
 "than one condition at the same time to know what to execute. In these "
@@ -2211,40 +2364,40 @@ msgstr ""
 "permiten combinar las condiciones. Las operaciones lógicas disponibles en "
 "Scratch son <i>Y, O y No</i>."
 
-#: app/templates/learn/Logic.html:58
+#: app/templates/learn/Logic.html:55
 msgid "if &lt;&lt; touching [Enemy v]? &gt; and &lt;(lives) = [0]&gt;&gt; then"
 msgstr ""
 "si &lt;&lt; ¿tocando [Enemigo v]? &gt; y &lt; (vidas) = [0]&gt;&gt; entonces"
 
-#: app/templates/learn/Logic.html:59
+#: app/templates/learn/Logic.html:56
 msgid "say [Game over]"
 msgstr "decir [Has perdido]"
 
-#: app/templates/learn/Logic.html:60
-#: app/templates/learn/Synchronization.html:76
+#: app/templates/learn/Logic.html:57
+#: app/templates/learn/Synchronization.html:73
 msgid "stop [all v]"
 msgstr "detener [todos v]"
 
-#: app/templates/learn/Logic.html:62
+#: app/templates/learn/Logic.html:59
 msgid ""
 "if &lt;&lt; touching [edge v]? &gt; or &lt; touching [Enemy v]? &gt;&gt;then"
 msgstr ""
 "si &lt;&lt; ¿tocando [borde v]? &gt; o &lt; ¿tocando [Enemigo v]? &gt;&gt;"
 "entonces"
 
-#: app/templates/learn/Logic.html:63
+#: app/templates/learn/Logic.html:60
 msgid "change [lives v] by (-1)"
 msgstr "sumar a [vidas v] (-1)"
 
-#: app/templates/learn/Logic.html:65
+#: app/templates/learn/Logic.html:62
 msgid "if &lt; not &lt;(level)=(5)&gt;&gt;then"
 msgstr "si &lt;no&lt; (nivel) = (5)&gt;&gt;entonces"
 
-#: app/templates/learn/Logic.html:66
+#: app/templates/learn/Logic.html:63
 msgid "say [You still have undiscovered levels] for (2) secs"
 msgstr "decir [Aún tienes niveles por descubrir] durante (2) segundos"
 
-#: app/templates/learn/Logic.html:70
+#: app/templates/learn/Logic.html:67
 msgid ""
 "The operation <i>AND</i> is true when both conditions are true evaluated. "
 "The <i>OR</i> operation is true when one of two conditions are true "
@@ -2257,7 +2410,7 @@ msgstr ""
 "contrario de la condición, es decir, si la condición es verdadera, <i>No</i> "
 "devuelve falso y viceversa."
 
-#: app/templates/learn/Parallelism.html:10
+#: app/templates/learn/Parallelism.html:9
 msgid ""
 "In most Scratch creations a certain level of parallelism is required. But "
 "what means parallelism? <b>Parallelism is the possibility that several "
@@ -2270,7 +2423,7 @@ msgstr ""
 "que dos personajes realicen una acción al mismo tiempo, o que un personaje "
 "haga varias cosas a la vez."
 
-#: app/templates/learn/Parallelism.html:18
+#: app/templates/learn/Parallelism.html:16
 msgid ""
 "The most basic and most obvious way to achieve parallelism is to have "
 "several programs that start with <i>'When green flag is clicked'</i>:"
@@ -2278,7 +2431,7 @@ msgstr ""
 "La forma más básica y más evidente de conseguir paralelismo es tener varios "
 "programas que comienzan con <i>“Al presionar la bandera verde”</i>:"
 
-#: app/templates/learn/Parallelism.html:23
+#: app/templates/learn/Parallelism.html:21
 msgid ""
 "Thus, when the user clicking on the green flag, all programs that start with "
 "this block would begin to run simultaneously, or in parallel, as can also be "
@@ -2294,7 +2447,7 @@ msgstr ""
 "que haga varias cosas a la vez, o en programas de diferentes personajes, si "
 "quieres que todos comiencen a realizar una acción al comenzar la ejecución."
 
-#: app/templates/learn/Parallelism.html:32
+#: app/templates/learn/Parallelism.html:30
 msgid ""
 "Another way to achieve parallelism in your program is <b>doing several "
 "things occur when the user presses a key or clicks on an object</b>. "
@@ -2304,36 +2457,36 @@ msgstr ""
 "ocurran varias cosas cuando el usuario presiona una tecla o hace click sobre "
 "un objeto</b>.  Veamos un par de ejemplos:"
 
-#: app/templates/learn/Parallelism.html:35
-#: app/templates/learn/Parallelism.html:39
+#: app/templates/learn/Parallelism.html:33
+#: app/templates/learn/Parallelism.html:37
 msgid "when [a v] key pressed"
 msgstr "al presionar tecla [A v]"
 
-#: app/templates/learn/Parallelism.html:36
-#: app/templates/learn/Parallelism.html:40
+#: app/templates/learn/Parallelism.html:34
+#: app/templates/learn/Parallelism.html:38
 msgid "say [A] for (2) secs"
 msgstr "decir [A] durante (2) segundos"
 
-#: app/templates/learn/Parallelism.html:43
-#: app/templates/learn/Parallelism.html:48 app/templates/learn/User.html:41
+#: app/templates/learn/Parallelism.html:41
+#: app/templates/learn/Parallelism.html:46 app/templates/learn/User.html:38
 msgid "when this sprite clicked"
 msgstr "al hacer clic en este objeto"
 
-#: app/templates/learn/Parallelism.html:50
+#: app/templates/learn/Parallelism.html:48
 #, fuzzy
 #| msgid "if &lt;touching [the mouse pointer v]? &gt;"
 msgid "if &lt;touching [the mouse pointer v]? &gt; then"
 msgstr "si  &lt; ¿tocando [puntero del raton v]? &gt;"
 
-#: app/templates/learn/Parallelism.html:51
+#: app/templates/learn/Parallelism.html:49
 msgid "turn cw (30) degrees"
 msgstr "girar ↺ (30) grados"
 
-#: app/templates/learn/Parallelism.html:55
+#: app/templates/learn/Parallelism.html:53
 msgid "How these blocks works?"
 msgstr "¿Cómo funcionan estos bloques de control?"
 
-#: app/templates/learn/Parallelism.html:56
+#: app/templates/learn/Parallelism.html:54
 msgid ""
 "In the first example, we see two different characters that, when a key is "
 "pressed, perform a certain action. Therefore, when the user press the a key, "
@@ -2345,7 +2498,7 @@ msgstr ""
 "usuario pulse la tecla a, en este caso, tanto el gato como el niño "
 "ejecutarán al mismo tiempo <i>“decir A por 2 segundos”</i>."
 
-#: app/templates/learn/Parallelism.html:57
+#: app/templates/learn/Parallelism.html:55
 msgid ""
 "In the second example we see that a character has two programs that begin "
 "with <i>'when clicking this object'</i>. Therefore, when the user clicks on "
@@ -2356,32 +2509,32 @@ msgstr ""
 "haga click sobre este personaje, ambos programas comenzarán a ejecutarse al "
 "mismo tiempo, en paralelo."
 
-#: app/templates/learn/Parallelism.html:66
+#: app/templates/learn/Parallelism.html:64
 msgid "There are several events more that can achieve parallelism:"
 msgstr "Existen varios eventos más que permiten conseguir paralelismo:"
 
-#: app/templates/learn/Parallelism.html:68
+#: app/templates/learn/Parallelism.html:66
 msgid "when backdrop switches to [backdrop1 v]"
 msgstr "cuando el fondo cambie a [backdrop1 v]"
 
-#: app/templates/learn/Parallelism.html:69
-#: app/templates/learn/duplicatedScripts.html:14
+#: app/templates/learn/Parallelism.html:67
+#: app/templates/learn/duplicatedScripts.html:11
 msgid "when I receive [message1 v]"
 msgstr "al recibir [message1 v]"
 
-#: app/templates/learn/Parallelism.html:70
+#: app/templates/learn/Parallelism.html:68
 msgid "when [loudness v] &gt; (10)"
 msgstr "cuando [volumen del sonido v] &gt; (10)"
 
-#: app/templates/learn/Parallelism.html:71
+#: app/templates/learn/Parallelism.html:69
 msgid "when [video motion v] &gt; (2)"
 msgstr "cuando [movimiento del video v] &gt; (2)"
 
-#: app/templates/learn/Parallelism.html:72
+#: app/templates/learn/Parallelism.html:70
 msgid "when [timer v] &gt; (45)"
 msgstr "cuando [cronómetro v] &gt; (45)"
 
-#: app/templates/learn/Parallelism.html:75
+#: app/templates/learn/Parallelism.html:73
 msgid ""
 "As you see, you could create several programs that begin to run when "
 "changing the background to a given scenario, or to receive a particular "
@@ -2399,7 +2552,29 @@ msgstr ""
 "tanto, existen muchas posibilidades para conseguir que en tus programas "
 "ocurran cosas al mismo tiempo. ¿Te animas a probar algunas de ellas?"
 
-#: app/templates/learn/Synchronization.html:11
+#: app/templates/learn/PersonalMode.html:5 app/templates/learn/base.html:196
+msgid "Personal Mode"
+msgstr ""
+
+#: app/templates/learn/PersonalMode.html:24
+msgid "The functionality of this mode is divided in 3 steps:"
+msgstr ""
+
+#: app/templates/learn/PersonalMode.html:25
+msgid "1. Creation of the Rubric with the grades of each dimension."
+msgstr ""
+
+#: app/templates/learn/PersonalMode.html:26
+msgid "2. Sharing the link to the Rubric created in the previous step."
+msgstr ""
+
+#: app/templates/learn/PersonalMode.html:28
+msgid ""
+"3. Upload of the projects via an url, .sb3 file or a .txt file with multiple "
+"projects."
+msgstr ""
+
+#: app/templates/learn/Synchronization.html:9
 msgid ""
 "Instructions related to synchronization <b>allow our characters to organize "
 "things happen in the order we want</b>."
@@ -2408,7 +2583,7 @@ msgstr ""
 "nuestros personajes para que las cosas ocurran en el orden que nosotros "
 "deseamos</b>."
 
-#: app/templates/learn/Synchronization.html:19
+#: app/templates/learn/Synchronization.html:16
 msgid ""
 "The easiest way to synchronize the behavior of your characters is using a "
 "<i>'wait'</i> block, which makes the character waits the number of seconds "
@@ -2421,37 +2596,37 @@ msgstr ""
 "ejemplo de cómo puede utilizarse este bloque para sincronizar a dos "
 "personajes:"
 
-#: app/templates/learn/Synchronization.html:22
-#: app/templates/learn/Synchronization.html:48
+#: app/templates/learn/Synchronization.html:19
+#: app/templates/learn/Synchronization.html:45
 msgid "say [Hello, how are you?] for (2) secs"
 msgstr "decir [Hola, ¿cómo estás?] durante (2) segundos"
 
-#: app/templates/learn/Synchronization.html:23
-#: app/templates/learn/Synchronization.html:28
+#: app/templates/learn/Synchronization.html:20
+#: app/templates/learn/Synchronization.html:25
 msgid "wait (2) secs"
 msgstr "esperar (2) segundos"
 
-#: app/templates/learn/Synchronization.html:24
+#: app/templates/learn/Synchronization.html:21
 msgid "say [Well, do you want to play hide-and seek?] for (3) secs"
 msgstr "decir [Bien! ¿Quieres jugar al escondite?]"
 
-#: app/templates/learn/Synchronization.html:26
+#: app/templates/learn/Synchronization.html:23
 msgid "say [Let's go] for (2) secs"
 msgstr "decir [Vamos!] durante (2) segundos"
 
-#: app/templates/learn/Synchronization.html:29
+#: app/templates/learn/Synchronization.html:26
 msgid "say [I'm fine, thanks!] for (2) secs"
 msgstr "decir [Estoy bien, ¡gracias!] durante (2) segundos"
 
-#: app/templates/learn/Synchronization.html:30
+#: app/templates/learn/Synchronization.html:27
 msgid "wait (3) secs"
 msgstr "esperar (3) segundos"
 
-#: app/templates/learn/Synchronization.html:31
+#: app/templates/learn/Synchronization.html:28
 msgid "say [Yes] for (1) secs"
 msgstr "decir [Sí] durante (2) segundos"
 
-#: app/templates/learn/Synchronization.html:35
+#: app/templates/learn/Synchronization.html:32
 msgid ""
 "In this case it uses blocks <i>'wait'</i> to synchronize these two "
 "characters to maintain a conversation, so that while one speaks, the other "
@@ -2465,7 +2640,7 @@ msgstr ""
 "segundos que cada personaje espera, son iguales al número de segundos que el "
 "otro personaje habla, de manera que nunca hablan al mismo tiempo."
 
-#: app/templates/learn/Synchronization.html:45
+#: app/templates/learn/Synchronization.html:42
 msgid ""
 "Synchronization using blocks <i>'wait'</i> is very simple when programs are "
 "small and have few characters, but when are larger, or when we have several "
@@ -2479,27 +2654,27 @@ msgstr ""
 "generar una reacción no pueden ser medidas previamente, es más eficiente "
 "utilizar otros modos de sincronización como los mensajes. Veamos un ejemplo:"
 
-#: app/templates/learn/Synchronization.html:50
+#: app/templates/learn/Synchronization.html:47
 msgid "if &lt; touching [mouse pointer v]?&gt;then"
 msgstr "si  &lt; ¿tocando [puntero del raton v]? &gt;entonces"
 
-#: app/templates/learn/Synchronization.html:51
+#: app/templates/learn/Synchronization.html:48
 msgid "broadcast [catched! v]"
 msgstr "enviar [¡pillado! v]"
 
-#: app/templates/learn/Synchronization.html:56
+#: app/templates/learn/Synchronization.html:53
 msgid "when I receive [catched! v]"
 msgstr "al recibir [¡pillado! v]"
 
-#: app/templates/learn/Synchronization.html:57
+#: app/templates/learn/Synchronization.html:54
 msgid "say [You have catched my friend] for (2) secs"
 msgstr "decir [¡Has pillado a mi amigo!] durante (2) segundos"
 
-#: app/templates/learn/Synchronization.html:58
+#: app/templates/learn/Synchronization.html:55
 msgid "say [Now, you have to catch me!] for (2) secs"
 msgstr "decir [¡Ahora tienes que pillarme a mi!] durante (2) segundos"
 
-#: app/templates/learn/Synchronization.html:62
+#: app/templates/learn/Synchronization.html:59
 msgid ""
 "How do these syncblocks work? When a situation occurs in a character we want "
 "to cause a reaction in another character, we can use <b>messaging</b>. In "
@@ -2520,7 +2695,7 @@ msgstr ""
 "al gato, la mariposa dirá: “Has pillado a mi compañero. Ahora tienes que "
 "pillarme a mí”."
 
-#: app/templates/learn/Synchronization.html:72
+#: app/templates/learn/Synchronization.html:69
 msgid ""
 "In addition to sending messages, you can synchronize characters to make "
 "things happen in the order we want, using other blocks, such as <i>'wait "
@@ -2531,23 +2706,23 @@ msgstr ""
 "bloques, como <i>“esperar hasta que”</i> o <i>“cuando el fondo cambie a...”</"
 "i>."
 
-#: app/templates/learn/Synchronization.html:74
+#: app/templates/learn/Synchronization.html:71
 msgid "wait until &lt;(lives) =[0]&gt;"
 msgstr "esperar hasta que &lt;(vidas) =[0]&gt;"
 
-#: app/templates/learn/Synchronization.html:75
+#: app/templates/learn/Synchronization.html:72
 msgid "say [Game over] for (2) secs"
 msgstr "decir [Has perdido] durante (2) segundos"
 
-#: app/templates/learn/Synchronization.html:79
+#: app/templates/learn/Synchronization.html:76
 msgid "when backdrop switches to [Spring v]"
 msgstr "cuando el fondo cambie a [Primavera v]"
 
-#: app/templates/learn/Synchronization.html:81
+#: app/templates/learn/Synchronization.html:78
 msgid "say [Spring has come!] for (2) secs"
 msgstr "decir [La primavera ha llegado] durante (2) segundos"
 
-#: app/templates/learn/Synchronization.html:85
+#: app/templates/learn/Synchronization.html:82
 msgid ""
 "In the first example, when program execution reaches that point will stop "
 "until the condition is met in this case, until life is equal to 0. When "
@@ -2561,7 +2736,7 @@ msgstr ""
 "de bloques, en este caso <i>“decir Game Over”</i> y <i>“detener todos”</i>, "
 "lo que finalizará la ejecución del proyecto. "
 
-#: app/templates/learn/Synchronization.html:86
+#: app/templates/learn/Synchronization.html:83
 msgid ""
 "In the second example, the moment when the scene changes to the backdrop "
 "with the name 'Spring', the character will execute the blocks placed after "
@@ -2573,7 +2748,11 @@ msgstr ""
 "continuación de la instrucción “cuando el fondo cambia a Primavera”, es "
 "decir, que se mostrará y dirá “¡Ha llegado la primavera”."
 
-#: app/templates/learn/User.html:11
+#: app/templates/learn/User.html:6 app/templates/main/rubric-creator.html:496
+msgid "User Interactivity"
+msgstr "Interactividad del usuario"
+
+#: app/templates/learn/User.html:9
 msgid ""
 "The instructions related to user interactivity can <b>help your Scratch "
 "projects be more interactive</b>, ie the person who is running it can "
@@ -2588,7 +2767,7 @@ msgstr ""
 "teclado o el ratón para mover un personaje, puede contestar preguntas o "
 "jugar con la webcam del ordenador, entre otras muchas posibilidades."
 
-#: app/templates/learn/User.html:19
+#: app/templates/learn/User.html:16
 msgid ""
 "The most basic block you can start working interactivity with the user is "
 "<i>'when green flag clicked'</i>."
@@ -2596,7 +2775,7 @@ msgstr ""
 "El bloque más básico con el que puedes comenzar a trabajar la interactividad "
 "con el usuario es <i>“Al presionar la bandera verde”</i>"
 
-#: app/templates/learn/User.html:26
+#: app/templates/learn/User.html:23
 msgid ""
 "How this block works? When the user who wants to run your project Scratch "
 "clicks on the green flag, all blocks were placed under the block <i>'when "
@@ -2609,7 +2788,7 @@ msgstr ""
 "verde”</i>. Puedes tener tantos programas como necesites que comiencen con "
 "este bloque."
 
-#: app/templates/learn/User.html:36
+#: app/templates/learn/User.html:33
 msgid ""
 "Now that you have begun to interact with the user running your Scratch "
 "project, perhaps you can try some of the following blocks:"
@@ -2617,39 +2796,39 @@ msgstr ""
 "Ahora que has comenzado a interactuar con el usuario que ejecute tu proyecto "
 "Scratch, quizás puedes probar algunos de los siguientes bloques:"
 
-#: app/templates/learn/User.html:38
+#: app/templates/learn/User.html:35
 msgid " when [right arrow v] key pressed"
 msgstr "al presionar tecla [flecha derecha v]"
 
-#: app/templates/learn/User.html:42
+#: app/templates/learn/User.html:39
 msgid "say [Hello] for (2) secs"
 msgstr "decir [Hola] durante (2) segundos"
 
-#: app/templates/learn/User.html:44
+#: app/templates/learn/User.html:41
 msgid "ask [What's your name?] and wait"
 msgstr "preguntar [¿Cuál es tu nombre?] y esperar"
 
-#: app/templates/learn/User.html:45
+#: app/templates/learn/User.html:42
 msgid "say (join [Hello] [answer])"
 msgstr "decir (unir [Hola] [respuesta])"
 
-#: app/templates/learn/User.html:47
+#: app/templates/learn/User.html:44
 msgid "if &lt;touching [mouse-pointer v] &gt; then"
 msgstr "si  &lt; ¿tocando [puntero del raton v]? &gt; entonces"
 
-#: app/templates/learn/User.html:48
+#: app/templates/learn/User.html:45
 msgid "say [You caught me!]"
 msgstr "decir [¡Me has pillado!]"
 
-#: app/templates/learn/User.html:51
+#: app/templates/learn/User.html:48
 msgid "mouse down?"
 msgstr "¿ratón presionado?"
 
-#: app/templates/learn/User.html:53
+#: app/templates/learn/User.html:50
 msgid "go to [mouse-pointer v]"
 msgstr "ir a [puntero del ratón v]"
 
-#: app/templates/learn/User.html:57
+#: app/templates/learn/User.html:54
 msgid ""
 "As you see, you can allow users to interact with your characters by pressing "
 "keys to move, writing answers to questions and your characters use user "
@@ -2661,7 +2840,7 @@ msgstr ""
 "que tus personajes usen las respuestas del usuario, mover a los personajes "
 "con el ratón, o realizar acciones cuando el usuario pincha sobre un objeto."
 
-#: app/templates/learn/User.html:66
+#: app/templates/learn/User.html:63
 msgid ""
 "One of the funniest Scratch possibilities in terms of user interactivity is "
 "the possibility that <b>the user can use your webcam or microphone to "
@@ -2673,23 +2852,23 @@ msgstr ""
 "utilizar su webcam o el micrófono para interactuar con los personajes de "
 "Scratch o el sonido para provocar ciertas acciones.</b>"
 
-#: app/templates/learn/User.html:68
+#: app/templates/learn/User.html:65
 msgid "if &lt;(loudness) >[30]&gt; then"
 msgstr "si &lt;(volumen del sonido) >[30]&gt; entonces"
 
-#: app/templates/learn/User.html:69
+#: app/templates/learn/User.html:66
 msgid "say [There is much noise...]"
 msgstr "decir [Hay mucho ruido...]"
 
-#: app/templates/learn/User.html:72
+#: app/templates/learn/User.html:69
 msgid "video [motion v] on [sprite v]"
 msgstr "[movimiento v] de vídeo en [objeto v]"
 
-#: app/templates/learn/User.html:74
+#: app/templates/learn/User.html:71
 msgid "video [direction v] on [sprite v]"
 msgstr "[dirección v] de vídeo en [objeto v]"
 
-#: app/templates/learn/User.html:77
+#: app/templates/learn/User.html:74
 msgid ""
 "As you can see in the examples, we can make certain sets of blocks are "
 "executed when the ambient sound captured by the microphone is greater than a "
@@ -2704,12 +2883,12 @@ msgstr ""
 "permitirán que tus creaciones Scratch sean totalmente interactivas con los "
 "usuarios."
 
-#: app/templates/learn/attrInit.html:4 app/templates/main/statistics.html:204
+#: app/templates/learn/attrInit.html:5 app/templates/main/statistics.html:204
 #: app/templates/statistics/statistics.html:203
 msgid "Attribute Initialization"
 msgstr "Atributos no inicializados correctamente"
 
-#: app/templates/learn/attrInit.html:11
+#: app/templates/learn/attrInit.html:8
 msgid ""
 " One of the mistakes that many programmers repeat when they learn to program "
 "is not initialize correctly the objects's attributes. What are the "
@@ -2723,7 +2902,7 @@ msgstr ""
 "modificadas en la ejecución de un proyecto, como su posición, su tamaño, su "
 "color, su orientación..."
 
-#: app/templates/learn/attrInit.html:13
+#: app/templates/learn/attrInit.html:10
 msgid ""
 "When you have blocks than modify character's feature, you should always have "
 "a program which, when the program begins, asigns the value that we want to "
@@ -2737,28 +2916,59 @@ msgstr ""
 "posición de un personaje, deberíamos tener un bloque “ir a” bajo “al pulsar "
 "la bandera verde”, para colocar al personaje en su posición inicial."
 
-#: app/templates/learn/attrInit.html:16
+#: app/templates/learn/attrInit.html:13
 msgid "when [right arrow v] key pressed //Not initialized correctly."
 msgstr "al presionar tecla [flecha derecha v] //No inicializado correctamente."
 
-#: app/templates/learn/attrInit.html:17 app/templates/learn/attrInit.html:23
-#: app/templates/learn/deadCode.html:16
+#: app/templates/learn/attrInit.html:14 app/templates/learn/attrInit.html:20
+#: app/templates/learn/deadCode.html:13
 msgid "change x by (10)"
 msgstr "sumar a x (10)"
 
-#: app/templates/learn/attrInit.html:18 app/templates/learn/attrInit.html:24
+#: app/templates/learn/attrInit.html:15 app/templates/learn/attrInit.html:21
 msgid "when [left arrow v] key pressed"
 msgstr "al presionar tecla [flecha izquierda v]"
 
-#: app/templates/learn/attrInit.html:19 app/templates/learn/attrInit.html:25
+#: app/templates/learn/attrInit.html:16 app/templates/learn/attrInit.html:22
 msgid "change x by (-10)"
 msgstr "sumar a x (-10)"
 
-#: app/templates/learn/attrInit.html:22
+#: app/templates/learn/attrInit.html:19
 msgid "when [right arrow v] key pressed  //Initialized correctly."
 msgstr "al presionar tecla [flecha derecha v] // Inicializado correctamente"
 
-#: app/templates/learn/deadCode.html:11
+#: app/templates/learn/base.html:186
+#, fuzzy
+#| msgid "Stories"
+msgid "Tutorials"
+msgstr "Historias"
+
+#: app/templates/learn/base.html:205
+#, fuzzy
+#| msgid "Organizations"
+msgid "Dimensions"
+msgstr "Animaciones"
+
+#: app/templates/learn/base.html:236
+#, fuzzy
+#| msgid "Bad habits"
+msgid "Bad Habits"
+msgstr "Malos hábitos"
+
+#: app/templates/learn/base.html:268 app/templates/main/collaborators.html:687
+#: app/templates/main/contact-form.html:175
+#: app/templates/main/dashboard-bulk.html:190
+#: app/templates/main/dashboard-default-old.html:1069
+#: app/templates/main/dashboard-personal-old.html:598
+#: app/templates/main/dashboard_template.html:304
+#: app/templates/main/main.html:540 app/templates/main/rubric-creator.html:610
+#: app/templates/main/rubric-uploader.html:173
+#, fuzzy
+#| msgid "©2014 Dr. Scratch is powered by "
+msgid "©2024 Dr. Scratch"
+msgstr "©2014 Dr. Scratch está implementado con "
+
+#: app/templates/learn/deadCode.html:8
 msgid ""
 "Dead code are parts of programs that never are executed. How can it form? "
 "For example, when you have a program that isn't start with a hat block, or "
@@ -2769,27 +2979,27 @@ msgstr ""
 "un programa que no comienza con un bloque de tipo sombrero, o cuando hay un "
 "programa que está esperando a que le llegue un mensaje que nadie envía."
 
-#: app/templates/learn/deadCode.html:14
+#: app/templates/learn/deadCode.html:11
 msgid "forever //Blocks that do not start with a hat block."
 msgstr "por siempre //Bloques que no empiezan con un bloque sombrero."
 
-#: app/templates/learn/deadCode.html:15
+#: app/templates/learn/deadCode.html:12
 msgid "if &lt; key [left arrow v] pressed ? &gt; then"
 msgstr "si &lt; ¿tecla [flecha izquierda v] presionada?&gt; entonces"
 
-#: app/templates/learn/deadCode.html:19
+#: app/templates/learn/deadCode.html:16
 msgid "when I receive [startcc v] //Blocks that start with a hat block."
 msgstr "al recibir [startcc v] //Bloques que empiezan con un bloque sombrero."
 
-#: app/templates/learn/deadCode.html:20
+#: app/templates/learn/deadCode.html:17
 msgid "switch costume to [costume2 v]"
 msgstr "cambiar disfraz a [disfraz2 v]"
 
-#: app/templates/learn/deadCode.html:21
+#: app/templates/learn/deadCode.html:18
 msgid "say [Let's start] for (2) secs"
 msgstr "decir [Vamos!] durante (2) segundos"
 
-#: app/templates/learn/deadCode.html:26
+#: app/templates/learn/deadCode.html:23
 msgid ""
 "These situations usually causes that projects doesn't work as expected of "
 "them,so,try to avoid dead code in your programs!"
@@ -2797,7 +3007,7 @@ msgstr ""
 "Estas situaciones suelen ser la causa de proyectos que no funcionan como se "
 "espera de ellos, así que,¡trata de evitar código muerto en tus programas!"
 
-#: app/templates/learn/duplicatedScripts.html:11
+#: app/templates/learn/duplicatedScripts.html:8
 msgid ""
 "Imagine that in a project we have two programs formed by the same blocks and "
 "where only vary the parameters or values of the blocks."
@@ -2806,33 +3016,33 @@ msgstr ""
 "mismos bloques y en los que solo varían los parámetros o valores de los "
 "bloques."
 
-#: app/templates/learn/duplicatedScripts.html:15
-#: app/templates/learn/duplicatedScripts.html:24
-#: app/templates/learn/duplicatedScripts.html:38
+#: app/templates/learn/duplicatedScripts.html:12
+#: app/templates/learn/duplicatedScripts.html:21
+#: app/templates/learn/duplicatedScripts.html:35
 msgid "set rotation style [left-rigt v]"
 msgstr "fijar estilo de rotación a [izquierda-derecha v]"
 
-#: app/templates/learn/duplicatedScripts.html:16
+#: app/templates/learn/duplicatedScripts.html:13
 msgid "repeat (10)"
 msgstr "repetir (10)"
 
-#: app/templates/learn/duplicatedScripts.html:17
+#: app/templates/learn/duplicatedScripts.html:14
 msgid "move (2) steps"
 msgstr "mover (2) pasos"
 
-#: app/templates/learn/duplicatedScripts.html:23
+#: app/templates/learn/duplicatedScripts.html:20
 msgid "when I receive [message2 v]"
 msgstr "al recibir [message2 v]"
 
-#: app/templates/learn/duplicatedScripts.html:25
+#: app/templates/learn/duplicatedScripts.html:22
 msgid "repeat (5)"
 msgstr "repetir (5)"
 
-#: app/templates/learn/duplicatedScripts.html:26
+#: app/templates/learn/duplicatedScripts.html:23
 msgid "move (4) steps"
 msgstr "mover (4) pasos"
 
-#: app/templates/learn/duplicatedScripts.html:34
+#: app/templates/learn/duplicatedScripts.html:31
 msgid ""
 "What would happen if we make a small change? We would have to modify both "
 "programs, complicating the maintenance of the code. In these situations is "
@@ -2845,23 +3055,23 @@ msgstr ""
 "propio que defina este comportamiento y que utilice este nuevo bloque en "
 "todos los programas donde lo necesite."
 
-#: app/templates/learn/duplicatedScripts.html:37
+#: app/templates/learn/duplicatedScripts.html:34
 msgid "define walk (repetitions)(step)(pause)"
 msgstr "definir andar (repeticiones)(paso)(pausa)"
 
-#: app/templates/learn/duplicatedScripts.html:39
+#: app/templates/learn/duplicatedScripts.html:36
 msgid "repeat (repetitions)"
 msgstr "repetir (repeticiones)"
 
-#: app/templates/learn/duplicatedScripts.html:40
+#: app/templates/learn/duplicatedScripts.html:37
 msgid "move (step) steps"
 msgstr "mover (paso) pasos"
 
-#: app/templates/learn/duplicatedScripts.html:43
+#: app/templates/learn/duplicatedScripts.html:40
 msgid "wait (pause) secs"
 msgstr "esperar (pausa) segundos"
 
-#: app/templates/learn/duplicatedScripts.html:49
+#: app/templates/learn/duplicatedScripts.html:46
 msgid ""
 "Thus, if you want a change, you just have to go to the block defined by the "
 "programmer."
@@ -2869,7 +3079,7 @@ msgstr ""
 "De este modo, si se quiere realizar una modificación, tan solo hay que ir al "
 "bloque definido por el programador."
 
-#: app/templates/learn/spriteNaming.html:12
+#: app/templates/learn/spriteNaming.html:8
 msgid ""
 "When you start to programming with Scratch, is very usually to leave the "
 "default name of the new characters or scenarios(sprite 1, sprite2, "
@@ -2889,8 +3099,8 @@ msgstr ""
 "nuestros proyectos, ya que nuestros programas se leerán mejor y se "
 "programarán más rápidamente. ¡Evita los nombres por defecto!"
 
-#: app/templates/login/login.html:81 app/templates/main/main.html:200
-#: app/templates/main/main_new.html:150
+#: app/templates/login/login.html:81 app/templates/main/collaborators.html:136
+#: app/templates/main/main.html:214 app/templates/main/main_new.html:150
 #: app/templates/organization/organization.html:79
 #: app/templates/sign/organization.html:78
 msgid "Sign in"
@@ -2954,39 +3164,34 @@ msgstr ""
 msgid "Sign up!"
 msgstr "¡Regístrate!"
 
-#: app/templates/login/login.html:187 app/templates/main/main.html:402
-#: app/templates/main/main_new.html:303
+#: app/templates/login/login.html:187 app/templates/main/main_new.html:303
 msgid "WHY?"
 msgstr "¿Por qué?"
 
-#: app/templates/login/login.html:189 app/templates/main/main.html:404
-#: app/templates/main/main_new.html:305
+#: app/templates/login/login.html:189 app/templates/main/main_new.html:305
 #: app/templates/sign/createOrganization.html:165
 #: app/templates/sign/createUser.html:165
 #: app/templates/sign/registerOrganization.html:165
 msgid "Why "
 msgstr "Por qué "
 
-#: app/templates/login/login.html:189 app/templates/main/main.html:404
-#: app/templates/main/main_new.html:305
+#: app/templates/login/login.html:189 app/templates/main/main_new.html:305
 #: app/templates/sign/createOrganization.html:165
 #: app/templates/sign/createUser.html:165
 #: app/templates/sign/registerOrganization.html:165
 msgid "you’ll love Dr. Scratch"
 msgstr "te encantará Dr. Scratch"
 
-#: app/templates/login/login.html:193 app/templates/main/main.html:408
+#: app/templates/login/login.html:193 app/templates/main/main.html:441
 #: app/templates/main/main_new.html:309
 msgid "A powerful tool to analyze your Scratch projects"
 msgstr "Analiza tus proyectos de Scratch"
 
-#: app/templates/login/login.html:205 app/templates/main/main.html:420
-#: app/templates/main/main_new.html:321
+#: app/templates/login/login.html:205 app/templates/main/main_new.html:321
 msgid "Simple & Fun"
 msgstr "Fácil & Divertido"
 
-#: app/templates/login/login.html:207 app/templates/main/main.html:422
-#: app/templates/main/main_new.html:323
+#: app/templates/login/login.html:207 app/templates/main/main_new.html:323
 msgid ""
 "Your students can easily learn how to improve their programming skills in a "
 "fun way."
@@ -2994,13 +3199,11 @@ msgstr ""
 "Tus estudiantes pueden aprender fácilmente cómo mejorar sus habilidades de "
 "programación de una forma divertida."
 
-#: app/templates/login/login.html:218 app/templates/main/main.html:433
-#: app/templates/main/main_new.html:334
+#: app/templates/login/login.html:218 app/templates/main/main_new.html:334
 msgid "Improve your skills"
 msgstr "Mejora tus habilidades"
 
-#: app/templates/login/login.html:220 app/templates/main/main.html:435
-#: app/templates/main/main_new.html:336
+#: app/templates/login/login.html:220 app/templates/main/main_new.html:336
 msgid ""
 "We provide feedback on several aspects which are related to Computational "
 "Thinking."
@@ -3008,13 +3211,11 @@ msgstr ""
 "Dr. Scratch ofrece realimentación en aspectos relacionados con el "
 "Pensamiento Computacional ayudándote a mejorarlos."
 
-#: app/templates/login/login.html:231 app/templates/main/main.html:446
-#: app/templates/main/main_new.html:347
+#: app/templates/login/login.html:231 app/templates/main/main_new.html:347
 msgid "Always improving"
 msgstr "Mejorando constantemente"
 
-#: app/templates/login/login.html:233 app/templates/main/main.html:448
-#: app/templates/main/main_new.html:349
+#: app/templates/login/login.html:233 app/templates/main/main_new.html:349
 msgid ""
 "We're continually enhancing the features of Dr. Scratch, and we'd love to "
 "hear your thoughts"
@@ -3022,35 +3223,25 @@ msgstr ""
 "Intentamos mejorar continuamente, por lo que nos gustaría escuchar tus "
 "opiniones."
 
-#: app/templates/login/login.html:270 app/templates/main/main.html:485
-#: app/templates/main/main_new.html:386
+#: app/templates/login/login.html:270 app/templates/main/main_new.html:386
 msgid "How"
 msgstr "Cómo"
 
-#: app/templates/login/login.html:272 app/templates/main/main.html:487
-#: app/templates/main/main_new.html:388
+#: app/templates/login/login.html:272 app/templates/main/main_new.html:388
 #: app/templates/organization/organization.html:190
 #: app/templates/sign/organization.html:189
 msgid "How "
 msgstr "Cómo "
 
-#: app/templates/login/login.html:272 app/templates/main/main.html:487
-#: app/templates/main/main_new.html:388
+#: app/templates/login/login.html:272 app/templates/main/main_new.html:388
 msgid "it works"
 msgstr "funciona"
 
-#: app/templates/login/login.html:276 app/templates/main/main.html:491
-#: app/templates/main/main_new.html:392
-msgid "There are two options to analyze a Scratch project with Dr. Scratch"
-msgstr "Hay dos opciones para analizar un proyecto de Scratch con Dr. Scratch"
-
-#: app/templates/login/login.html:277 app/templates/main/main.html:492
-#: app/templates/main/main_new.html:393
+#: app/templates/login/login.html:277 app/templates/main/main_new.html:393
 msgid "project.png"
 msgstr "proyecto.png"
 
-#: app/templates/login/login.html:279 app/templates/main/main.html:494
-#: app/templates/main/main_new.html:395
+#: app/templates/login/login.html:279 app/templates/main/main_new.html:395
 msgid ""
 "You can upload an sb2 file or just provide the project url, avoiding the "
 "need to previously download the project to your computer. By analyzing your "
@@ -3062,50 +3253,19 @@ msgstr ""
 "Mediante el análisis de Dr. Scratch, puedes conocer fácilmente tu Nivel de "
 "Pensamiento Computacional."
 
-#: app/templates/login/login.html:288 app/templates/main/main.html:503
-#: app/templates/main/main_new.html:404
-msgid "It is extremely easy to use, both for begginers and expert programmers."
-msgstr ""
-"Es increiblemente fácil de usar, tanto si eres principiante como si eres un "
-"programador experto."
-
-#: app/templates/login/login.html:292 app/templates/main/main.html:507
-#: app/templates/main/main_new.html:408
-msgid "You receive feedback to improve your coding skills."
-msgstr "Recibirás realimentación para mejorar tus habilidades de programación."
-
-#: app/templates/login/login.html:300 app/templates/main/main.html:515
-#: app/templates/main/main_new.html:416
-msgid ""
-"You can keep on improving your programming skills by yourself even from home."
-msgstr ""
-"Puedes seguir mejorando tus habilidades como programador por ti mismo, "
-"incluso desde casa."
-
-#: app/templates/login/login.html:304 app/templates/main/main.html:519
-#: app/templates/main/main_new.html:420
-msgid "You can track your progress through charts and stats."
-msgstr ""
-"Puedes realizar un seguimiento de tu progreso a través de gráficos y "
-"estadísticas."
-
-#: app/templates/login/login.html:323 app/templates/main/main.html:538
-#: app/templates/main/main_new.html:439
+#: app/templates/login/login.html:323 app/templates/main/main_new.html:439
 msgid "NEW FEATURES"
 msgstr "NUEVAS FUNCIONALIDADES"
 
-#: app/templates/login/login.html:325 app/templates/main/main.html:540
-#: app/templates/main/main_new.html:441
+#: app/templates/login/login.html:325 app/templates/main/main_new.html:441
 msgid "Coming "
 msgstr "Próximas "
 
-#: app/templates/login/login.html:325 app/templates/main/main.html:540
-#: app/templates/main/main_new.html:441
+#: app/templates/login/login.html:325 app/templates/main/main_new.html:441
 msgid "Soon"
 msgstr "Funcionalidades"
 
-#: app/templates/login/login.html:329 app/templates/main/main.html:544
-#: app/templates/main/main_new.html:445
+#: app/templates/login/login.html:329 app/templates/main/main_new.html:445
 msgid "We are working on new features to improve Dr. Scratch"
 msgstr "Estamos trabajando en nuevas características que mejoren Dr. Scratch"
 
@@ -3115,8 +3275,8 @@ msgstr "Estamos trabajando en nuevas características que mejoren Dr. Scratch"
 msgid "Multilingual Website"
 msgstr "Web multilenguaje"
 
-#: app/templates/login/login.html:348 app/templates/main/collaborators.html:211
-#: app/templates/main/collaborators.html:327 app/templates/main/main.html:563
+#: app/templates/login/login.html:348 app/templates/main/collaborators.html:297
+#: app/templates/main/collaborators.html:455
 #: app/templates/main/main_new.html:464
 msgid ""
 "We know the importance of receiving feedback on your own language to "
@@ -3133,8 +3293,7 @@ msgstr ""
 msgid "Teacher Accounts"
 msgstr "Cuentas para profesores"
 
-#: app/templates/login/login.html:363 app/templates/main/main.html:578
-#: app/templates/main/main_new.html:479
+#: app/templates/login/login.html:363 app/templates/main/main_new.html:479
 msgid ""
 "Teachers will be able to group (and follow) their students to keep track of "
 "their progress in a fast and simple way."
@@ -3148,8 +3307,7 @@ msgstr ""
 msgid "Cloud Platform"
 msgstr "Plataforma en la nube"
 
-#: app/templates/login/login.html:378 app/templates/main/main.html:593
-#: app/templates/main/main_new.html:494
+#: app/templates/login/login.html:378 app/templates/main/main_new.html:494
 msgid ""
 "We are in the process of migrating our servers to the Cloud with the aim of "
 "providing a better performance."
@@ -3157,8 +3315,7 @@ msgstr ""
 "Estamos migrando nuestros servidores a la Nube con el objetivo de ofrecer un "
 "mejor rendimiento."
 
-#: app/templates/login/login.html:403 app/templates/main/main.html:618
-#: app/templates/main/main_new.html:519
+#: app/templates/login/login.html:403 app/templates/main/main_new.html:519
 msgid ""
 "With Dr. Scratch plug-ins for Chrome and Firefox, students will analyze "
 "their project WHILE programming on the Scratch website."
@@ -3166,13 +3323,11 @@ msgstr ""
 "Con los plugins de Dr. Scratch para Chrome y Firefox, los estudiantes podrán "
 "analizar sus proyectos MIENTRAS programan en la web de Scratch."
 
-#: app/templates/login/login.html:414 app/templates/main/main.html:629
-#: app/templates/main/main_new.html:530
+#: app/templates/login/login.html:414 app/templates/main/main_new.html:530
 msgid "Gamification"
 msgstr "Gamificación"
 
-#: app/templates/login/login.html:418 app/templates/main/main.html:633
-#: app/templates/main/main_new.html:534
+#: app/templates/login/login.html:418 app/templates/main/main_new.html:534
 msgid ""
 "We'd like to take learners curiosity one step further. Do you have cool "
 "ideas to gamify our platform?"
@@ -3186,8 +3341,7 @@ msgstr ""
 msgid "Social Network"
 msgstr "Red social"
 
-#: app/templates/login/login.html:433 app/templates/main/main.html:648
-#: app/templates/main/main_new.html:549
+#: app/templates/login/login.html:433 app/templates/main/main_new.html:549
 msgid ""
 "The new social network funcionalities will allow users to communicate with "
 "each other to exchange ideas and challenges."
@@ -3195,23 +3349,20 @@ msgstr ""
 "Las funcionalidades de red social que incluiremos permitirán a los usuarios "
 "comunicarse entre ellos e intercambiar ideas y retos. "
 
-#: app/templates/login/login.html:453 app/templates/main/main.html:668
-#: app/templates/main/main_new.html:569
+#: app/templates/login/login.html:453 app/templates/main/main_new.html:569
 msgid "Contact"
 msgstr "Contacto"
 
-#: app/templates/login/login.html:455 app/templates/main/main.html:670
+#: app/templates/login/login.html:455 app/templates/main/main.html:525
 #: app/templates/main/main_new.html:571
 msgid "<strong>Contact </strong> Dr. Scratch team</h2>"
 msgstr "<strong>Contacta </strong>con el equipo Dr. Scratch</h2>"
 
-#: app/templates/login/login.html:459 app/templates/main/main.html:674
-#: app/templates/main/main_new.html:575
+#: app/templates/login/login.html:459 app/templates/main/main_new.html:575
 msgid "We would be pleased to receive your feedback"
 msgstr "Nos gustaría conocer tu opinión y escuchar tus ideas"
 
-#: app/templates/login/login.html:498 app/templates/main/main.html:713
-#: app/templates/main/main_new.html:614
+#: app/templates/login/login.html:498 app/templates/main/main_new.html:614
 msgid ""
 "We would like to thank many people for their collaboration and we have done "
 "one special section."
@@ -3219,28 +3370,25 @@ msgstr ""
 "Nos gustaría agradecer a mucha gente su colaboración y hemos incluido una "
 "sección especial para ello."
 
-#: app/templates/login/login.html:501 app/templates/main/main.html:717
-#: app/templates/main/main_new.html:618
+#: app/templates/login/login.html:501 app/templates/main/main_new.html:618
 msgid "Collaborators"
 msgstr "Colaboradores"
 
-#: app/templates/login/login.html:520 app/templates/main/main.html:737
-#: app/templates/main/main_new.html:638
+#: app/templates/login/login.html:520 app/templates/main/main_new.html:638
 msgid "Are you a Dr. Scratch user?"
 msgstr "¿Eres usuario de Dr. Scratch?"
 
-#: app/templates/login/login.html:523 app/templates/main/main.html:740
-#: app/templates/main/main_new.html:641
+#: app/templates/login/login.html:523 app/templates/main/main_new.html:641
 msgid "Join now!"
 msgstr "¡Pruébalo!"
 
-#: app/templates/login/login.html:569 app/templates/main/main.html:790
+#: app/templates/login/login.html:569 app/templates/main/main.html:583
 #: app/templates/main/main_new.html:687
 msgid "<img class='framed' src='static/app/images/url-en.png' />"
 msgstr "<img class='framed' src='static/app/images/url-es.png' />"
 
-#: app/templates/login/login.html:594 app/templates/main/main.html:815
-#: app/templates/main/main.html:839 app/templates/main/main_new.html:712
+#: app/templates/login/login.html:594 app/templates/main/main.html:608
+#: app/templates/main/main.html:632 app/templates/main/main_new.html:712
 msgid "<img class='framed' src='static/app/images/project-en.png' />"
 msgstr "<img class='framed' src='static/app/images/project-es.png' />"
 
@@ -3249,30 +3397,89 @@ msgstr "<img class='framed' src='static/app/images/project-es.png' />"
 msgid "Wait a moment please"
 msgstr "Espere un momento, por favor."
 
-#: app/templates/main/collaborators.html:75
-#: app/templates/main/collaborators.html:162
-msgid "Who we are"
-msgstr "Quiénes somos"
+#: app/templates/main/collaborators.html:114 app/templates/main/main.html:192
+#: app/templates/main/main.html:650 app/templates/main/main_new.html:128
+#: app/templates/main/main_new.html:730
+msgid "Sign up"
+msgstr "Regístrate"
 
-#: app/templates/main/collaborators.html:76
-#: app/templates/main/collaborators.html:323
-msgid "Translations"
-msgstr "Traducciones"
+#: app/templates/main/collaborators.html:122
+#: app/templates/main/collaborators.html:144 app/templates/main/main.html:200
+#: app/templates/main/main.html:222 app/templates/main/main_new.html:136
+#: app/templates/main/main_new.html:158
+#: app/templates/organization/organization.html:89
+#: app/templates/sign/organization.html:88
+msgid ""
+"<input type='text' name='username' id='username' placeholder='Username' "
+"style='margin-bottom: 15px;'>"
+msgstr ""
+"<input type='text' name='username' id='username' placeholder='Nombre de "
+"usuario' style='margin-bottom: 15px;'>"
 
-#: app/templates/main/collaborators.html:77
-#: app/templates/main/collaborators.html:457
-msgid "Workshops"
-msgstr "Talleres"
+#: app/templates/main/collaborators.html:123 app/templates/main/main.html:201
+#: app/templates/main/main_new.html:137
+msgid ""
+"<input type='text' name='email' id='email' placeholder='Email' style='margin-"
+"bottom: 15px;'>"
+msgstr ""
+"<input type='text' name='email' id='email' placeholder='Email'style='margin-"
+"bottom: 15px;'>"
 
-#: app/templates/main/collaborators.html:78
-msgid "More thanks"
-msgstr "Más agradecimientos"
+#: app/templates/main/collaborators.html:124
+#: app/templates/main/collaborators.html:145 app/templates/main/main.html:202
+#: app/templates/main/main.html:223 app/templates/main/main_new.html:138
+#: app/templates/main/main_new.html:159
+#: app/templates/organization/organization.html:90
+#: app/templates/sign/organization.html:89
+msgid ""
+"<input type='password' name='password' id='password' placeholder='Password' "
+"style='margin-bottom: 15px;'>"
+msgstr ""
+"<input type='password' class='form-control' name='password' "
+"placeholder='Contraseña'>"
 
-#: app/templates/main/collaborators.html:104
+#: app/templates/main/collaborators.html:125 app/templates/main/main.html:203
+#: app/templates/main/main_new.html:139
+msgid ""
+"<input class='form-control' type='password' name='hashkey' id='hashkey' "
+"placeholder='Hashkey' style='margin-bottom: 15px;'>"
+msgstr ""
+"<input type='password' class='form-control' name='hashkey' id='hashkey' "
+"placeholder='Clave' style='margin-bottom: 15px;'>"
+
+#: app/templates/main/collaborators.html:126 app/templates/main/main.html:204
+#: app/templates/main/main.html:1272 app/templates/main/main_new.html:140
+#: app/templates/main/main_new.html:1391
+msgid ""
+"<input type='submit' value='Sign up' id='sign-up' class='btn-group btn-group-"
+"justified colored-text'>"
+msgstr ""
+"<input type='submit' value='Regístrate' id='sign-up' class='btn-group btn-"
+"group-justified colored-text'>"
+
+#: app/templates/main/collaborators.html:147 app/templates/main/main.html:225
+#: app/templates/main/main_new.html:161
+#: app/templates/organization/organization.html:94
+#: app/templates/sign/organization.html:93
+msgid "I forgot my password"
+msgstr "¿Has olvidado tu contraseña?"
+
+#: app/templates/main/collaborators.html:149 app/templates/main/main.html:227
+#: app/templates/main/main_new.html:163
+#: app/templates/organization/organization.html:97
+#: app/templates/sign/organization.html:96
+msgid ""
+"<input type='submit' value='Sign in' id='sign-in' class='btn-group btn-group-"
+"justified colored-text'>"
+msgstr ""
+"<input type='submit' value='Ingresar' id='sign-in' class='btn-group btn-"
+"group-justified colored-text'>"
+
+#: app/templates/main/collaborators.html:180
 msgid "Thanks all of you!"
 msgstr "¡Gracias a todos!"
 
-#: app/templates/main/collaborators.html:106
+#: app/templates/main/collaborators.html:182
 msgid ""
 "We are so pleased to receive so much help of you and we thought that the "
 "best way of show our appreciation is including your work in the website. In "
@@ -3283,22 +3490,26 @@ msgstr ""
 "web. En este espacio podrás ver la gente que nos ha ayudado a mejorar Dr. "
 "Scratch."
 
-#: app/templates/main/collaborators.html:166
+#: app/templates/main/collaborators.html:248
+msgid "Who we are"
+msgstr "Quiénes somos"
+
+#: app/templates/main/collaborators.html:252
 msgid "Dr. Scratch's team likes to thank you for your contributions."
 msgstr "El equipo de Dr. Scratch agradece vuestras contribuciones."
 
-#: app/templates/main/collaborators.html:182
+#: app/templates/main/collaborators.html:268
 msgid " "
 msgstr " "
 
-#: app/templates/main/collaborators.html:207
+#: app/templates/main/collaborators.html:293
 #, fuzzy
 #| msgid "Remember me"
 msgid "Team Members"
 msgstr "Recordarme"
 
-#: app/templates/main/collaborators.html:212
-#: app/templates/main/collaborators.html:328
+#: app/templates/main/collaborators.html:298
+#: app/templates/main/collaborators.html:456
 msgid ""
 "Would you like help us to translate Dr. Scratch to your language? Many "
 "people have already helped us! "
@@ -3306,49 +3517,55 @@ msgstr ""
 "¿Te gustaría ayudarnos a traducir Dr. Scratch a tu lengua? ¡Mucha gente "
 "nosha ayudado ya!"
 
-#: app/templates/main/collaborators.html:228
-#: app/templates/main/collaborators.html:250
-#: app/templates/main/collaborators.html:273
-#: app/templates/main/collaborators.html:296
+#: app/templates/main/collaborators.html:314
+#: app/templates/main/collaborators.html:336
+#: app/templates/main/collaborators.html:359
+#: app/templates/main/collaborators.html:382
+#: app/templates/main/collaborators.html:404
+#: app/templates/main/collaborators.html:425
 #, fuzzy
 #| msgid "Development"
 msgid "Developer"
 msgstr "Medio"
 
-#: app/templates/main/collaborators.html:270
+#: app/templates/main/collaborators.html:356
 msgid "Angela Vargas"
 msgstr ""
 
-#: app/templates/main/collaborators.html:271
+#: app/templates/main/collaborators.html:357
 msgid ""
 "Angela Vargas works as developer ..... She is an enthusiast. Also she loves "
 "sharing."
 msgstr ""
 
-#: app/templates/main/collaborators.html:293
+#: app/templates/main/collaborators.html:379
 msgid "Cristian Chushig"
 msgstr ""
 
-#: app/templates/main/collaborators.html:294
+#: app/templates/main/collaborators.html:380
 msgid ""
 "Cristian Chushig works as developer ..... He is an enthusiast. Also he loves "
 "sharing."
 msgstr ""
 
-#: app/templates/main/collaborators.html:344
-#: app/templates/main/collaborators.html:435 drScratch/settings.py:92
+#: app/templates/main/collaborators.html:451
+msgid "Translations"
+msgstr "Traducciones"
+
+#: app/templates/main/collaborators.html:472
+#: app/templates/main/collaborators.html:563 drScratch/settings.py:92
 msgid "Portuguese"
 msgstr "Portugués"
 
-#: app/templates/main/collaborators.html:366 drScratch/settings.py:93
+#: app/templates/main/collaborators.html:494 drScratch/settings.py:93
 msgid "Greek"
 msgstr "Griego"
 
-#: app/templates/main/collaborators.html:386
+#: app/templates/main/collaborators.html:514
 msgid "Pau Nin"
 msgstr ""
 
-#: app/templates/main/collaborators.html:387
+#: app/templates/main/collaborators.html:515
 msgid ""
 "Pau Nin works as Elementary School teacher and Masters degree in Innovation "
 "Pedagogical and Education Leadership in the XXI century. He's an enthusiast "
@@ -3362,23 +3579,27 @@ msgstr ""
 "robótica educativa y le gusta compartir con el resto de docentes las "
 "posibilidades de ambas como recursos motivadores para el aprendizaje."
 
-#: app/templates/main/collaborators.html:389 drScratch/settings.py:90
+#: app/templates/main/collaborators.html:517 drScratch/settings.py:90
 msgid "Catalan"
 msgstr "Catalán"
 
-#: app/templates/main/collaborators.html:409
+#: app/templates/main/collaborators.html:537
 msgid "Gonzalo García Fernández"
 msgstr ""
 
-#: app/templates/main/collaborators.html:411 drScratch/settings.py:91
+#: app/templates/main/collaborators.html:539 drScratch/settings.py:91
 msgid "Galician"
 msgstr "Gallego"
 
-#: app/templates/main/collaborators.html:433
+#: app/templates/main/collaborators.html:561
 msgid "Adelmo Eloy"
 msgstr ""
 
-#: app/templates/main/collaborators.html:461
+#: app/templates/main/collaborators.html:585
+msgid "Workshops"
+msgstr "Talleres"
+
+#: app/templates/main/collaborators.html:589
 msgid ""
 "We are collaborating with several schools where we can prove the website "
 "with children and see which features they need."
@@ -3386,64 +3607,64 @@ msgstr ""
 "Estamos colaborando con muchas escuelas donde pueden probar nuestrositio web "
 "y ver qué funcionalidades necesitan."
 
-#: app/templates/main/collaborators.html:462
+#: app/templates/main/collaborators.html:590
 msgid "Thanks all of children and teachers who help us with the development!"
 msgstr ""
 "¡Gracias a todos los niños y profesores que nos ayudan con el desarrollo!"
 
-#: app/templates/main/collaborators.html:491
+#: app/templates/main/collaborators.html:619
 msgid "CEIP Lope de Vega"
 msgstr "CEIP Lope de Vega"
 
-#: app/templates/main/collaborators.html:495
+#: app/templates/main/collaborators.html:623
 msgid "Teacher: Jorge Lobo"
 msgstr "Profesor: Jorge Lobo"
 
-#: app/templates/main/collaborators.html:527
+#: app/templates/main/collaborators.html:655
 msgid "CEIP Gonzalo Fernández de Córdoba"
 msgstr ""
 
-#: app/templates/main/collaborators.html:531
+#: app/templates/main/collaborators.html:659
 msgid "Teacher: Chema Gonzalez"
 msgstr "Profesor: Chema Gonzalez"
 
-#: app/templates/main/collaborators.html:550
+#: app/templates/main/collaborators.html:678
 msgid "<strong>More thanks</strong></h2>"
 msgstr "<strong>Más agradecimientos</strong></h2>"
 
-#: app/templates/main/contact-form.html:127
-#: app/templates/main/contact-form.html:146
+#: app/templates/main/contact-form.html:121
+#: app/templates/main/contact-form.html:140
 msgid "Tell us how your experience went..."
 msgstr "Cuéntanos cómo ha sido tu experiencia..."
 
-#: app/templates/main/contact-form.html:129
+#: app/templates/main/contact-form.html:123
 msgid "Fill out the form and we will contact you as soon as possible"
 msgstr ""
 "Rellena el formulario y nos pondremos en contacto contigo lo mas pronto "
 "posible"
 
-#: app/templates/main/contact-form.html:136
+#: app/templates/main/contact-form.html:130
 msgid "Your name"
 msgstr "Nombre: "
 
-#: app/templates/main/contact-form.html:137
+#: app/templates/main/contact-form.html:131
 msgid "Enter your name"
 msgstr "Introduce tu nombre: "
 
-#: app/templates/main/contact-form.html:138
-#: app/templates/main/contact-form.html:143
+#: app/templates/main/contact-form.html:132
+#: app/templates/main/contact-form.html:137
 msgid "Obligatory"
 msgstr "Obligatorio"
 
-#: app/templates/main/contact-form.html:141
+#: app/templates/main/contact-form.html:135
 msgid "Your email"
 msgstr "Correo electrónico: "
 
-#: app/templates/main/contact-form.html:142
+#: app/templates/main/contact-form.html:136
 msgid "Enter email"
 msgstr "Introduce tu correo: "
 
-#: app/templates/main/contact-form.html:149
+#: app/templates/main/contact-form.html:143
 msgid ""
 "<input  name='contact_media' type='file' class='filestyle' data-"
 "buttonText='Upload media'>"
@@ -3451,123 +3672,65 @@ msgstr ""
 "<input  name='contact_media' type='file' class='filestyle' data-"
 "buttonText='Adjuntar foto/video'>"
 
-#: app/templates/main/dashboard-bulk.html:127
+#: app/templates/main/dashboard-bulk.html:120
 msgid "Analysis Complete!!"
 msgstr "¡Análisis Completado!"
 
-#: app/templates/main/dashboard-bulk.html:131
+#: app/templates/main/dashboard-bulk.html:124
 msgid "You can download the csv clicking "
 msgstr "Puedes descargar el csv haciendo click "
 
-#: app/templates/main/dashboard-bulk.html:131
+#: app/templates/main/dashboard-bulk.html:124
 msgid "HERE"
 msgstr "AQUÍ"
 
-#: app/templates/main/dashboard-bulk.html:140
+#: app/templates/main/dashboard-bulk.html:133
 msgid "Summary: "
 msgstr "Resumen:"
 
-#: app/templates/main/dashboard-bulk.html:143
+#: app/templates/main/dashboard-bulk.html:136
 msgid "Average Score: "
 msgstr "Puntuación promedio: "
 
-#: app/templates/main/dashboard-bulk.html:177
+#: app/templates/main/dashboard-bulk.html:170
 msgid "Average Mastery: "
 msgstr "Maestría promedio: "
 
-#: app/templates/main/main.html:122 app/templates/main/main_new.html:76
-msgid "Why?"
-msgstr "¿Por qué?"
-
-#: app/templates/main/main.html:123 app/templates/main/main_new.html:77
-msgid "How?"
-msgstr "¿Cómo?"
-
-#: app/templates/main/main.html:124 app/templates/main/main_new.html:78
-msgid "Working on"
-msgstr "Próximamente"
-
-#: app/templates/main/main.html:125 app/templates/main/main_new.html:79
-msgid "Contact us"
-msgstr "Contacto"
-
-#: app/templates/main/main.html:128 app/templates/main/main_new.html:81
-msgid "Organizations"
-msgstr "Organizaciones"
-
-#: app/templates/main/main.html:178 app/templates/main/main.html:857
-#: app/templates/main/main_new.html:128 app/templates/main/main_new.html:730
-msgid "Sign up"
-msgstr "Regístrate"
-
-#: app/templates/main/main.html:186 app/templates/main/main.html:208
-#: app/templates/main/main_new.html:136 app/templates/main/main_new.html:158
-#: app/templates/organization/organization.html:89
-#: app/templates/sign/organization.html:88
+#: app/templates/main/dashboard-default-old.html:410
+#: app/templates/main/dashboard-default.html:117
+#: app/templates/main/dashboard-personal.html:70
 msgid ""
-"<input type='text' name='username' id='username' placeholder='Username' "
-"style='margin-bottom: 15px;'>"
+"Specific parts of the project that do not contribute to good programming "
+"practices"
 msgstr ""
-"<input type='text' name='username' id='username' placeholder='Nombre de "
-"usuario' style='margin-bottom: 15px;'>"
 
-#: app/templates/main/main.html:187 app/templates/main/main_new.html:137
-msgid ""
-"<input type='text' name='email' id='email' placeholder='Email' style='margin-"
-"bottom: 15px;'>"
+#: app/templates/main/dashboard-default-old.html:501
+#: app/templates/main/dashboard-default.html:208
+#: app/templates/main/dashboard-personal.html:161
+#, fuzzy
+#| msgid "Come back to your Scratch project."
+msgid "Certificate of the Evaluation of your Scratch Project"
+msgstr "Vuelve a tu proyecto Scratch"
+
+#: app/templates/main/dashboard-default-old.html:527
+#: app/templates/main/dashboard-default.html:234
+#: app/templates/main/dashboard-personal.html:187
+#, fuzzy
+#| msgid "Analyze your Scratch projects"
+msgid "Dimensions Evaluated in your Scratch Project"
+msgstr "Analiza tus proyectos de Scratch"
+
+#: app/templates/main/dashboard-default-old.html:533
+#: app/templates/main/dashboard-default.html:240
+#: app/templates/main/dashboard-personal.html:193
+msgid "Grade from 1 to 3 of each Dimension"
 msgstr ""
-"<input type='text' name='email' id='email' placeholder='Email'style='margin-"
-"bottom: 15px;'>"
 
-#: app/templates/main/main.html:188 app/templates/main/main.html:209
-#: app/templates/main/main_new.html:138 app/templates/main/main_new.html:159
-#: app/templates/organization/organization.html:90
-#: app/templates/sign/organization.html:89
-msgid ""
-"<input type='password' name='password' id='password' placeholder='Password' "
-"style='margin-bottom: 15px;'>"
-msgstr ""
-"<input type='password' class='form-control' name='password' "
-"placeholder='Contraseña'>"
-
-#: app/templates/main/main.html:189 app/templates/main/main_new.html:139
-msgid ""
-"<input class='form-control' type='password' name='hashkey' id='hashkey' "
-"placeholder='Hashkey' style='margin-bottom: 15px;'>"
-msgstr ""
-"<input type='password' class='form-control' name='hashkey' id='hashkey' "
-"placeholder='Clave' style='margin-bottom: 15px;'>"
-
-#: app/templates/main/main.html:190 app/templates/main/main.html:1479
-#: app/templates/main/main_new.html:140 app/templates/main/main_new.html:1391
-msgid ""
-"<input type='submit' value='Sign up' id='sign-up' class='btn-group btn-group-"
-"justified colored-text'>"
-msgstr ""
-"<input type='submit' value='Regístrate' id='sign-up' class='btn-group btn-"
-"group-justified colored-text'>"
-
-#: app/templates/main/main.html:211 app/templates/main/main_new.html:161
-#: app/templates/organization/organization.html:94
-#: app/templates/sign/organization.html:93
-msgid "I forgot my password"
-msgstr "¿Has olvidado tu contraseña?"
-
-#: app/templates/main/main.html:213 app/templates/main/main_new.html:163
-#: app/templates/organization/organization.html:97
-#: app/templates/sign/organization.html:96
-msgid ""
-"<input type='submit' value='Sign in' id='sign-in' class='btn-group btn-group-"
-"justified colored-text'>"
-msgstr ""
-"<input type='submit' value='Ingresar' id='sign-in' class='btn-group btn-"
-"group-justified colored-text'>"
-
-#: app/templates/main/main.html:247
+#: app/templates/main/main.html:263
 msgid "This is a Beta version"
 msgstr ""
 
-#: app/templates/main/main.html:249
+#: app/templates/main/main.html:265 app/templates/main/main.html:529
 msgid ""
 "We are still working on it. If you have any comments or ideas please contact "
 "us"
@@ -3575,11 +3738,11 @@ msgstr ""
 "Seguimos trabajando en ello. Si tienes algún comentario o idea por favor "
 "contáctanos"
 
-#: app/templates/main/main.html:249
+#: app/templates/main/main.html:265 app/templates/main/main.html:529
 msgid "here"
 msgstr "aquí"
 
-#: app/templates/main/main.html:254 app/templates/main/main_new.html:198
+#: app/templates/main/main.html:269 app/templates/main/main_new.html:198
 msgid ""
 "Welcome to the Dr. Scratch website, an analytical tool that evaluates your "
 "Scratch projects in a variety of computational areas. This analyzer is a "
@@ -3591,36 +3754,19 @@ msgstr ""
 "analizador es una herramienta muy útil tanto para evaluar tus proyectos "
 "Scratch como los de tus estudiantes."
 
-#: app/templates/main/main.html:288 app/templates/main/rubric-creator.html:432
-#, fuzzy
-#| msgid "Parallelism"
-msgid "Parallelization"
-msgstr "Paralelismo"
+#: app/templates/main/main.html:400
+msgid "IMPORTANT!"
+msgstr "¡IMPORATANTE!"
 
-#: app/templates/main/main.html:290 app/templates/main/rubric-creator.html:449
-msgid "Logic Thinking"
-msgstr "Pensamiento"
-
-#: app/templates/main/main.html:294 app/templates/main/rubric-creator.html:484
-#: app/templates/statistics/statistics.html:260
-msgid "Flow Control"
-msgstr "Control de flujo"
-
-#: app/templates/main/main.html:296 app/templates/main/rubric-creator.html:502
-msgid "User Interactivity"
-msgstr "Interactividad del usuario"
-
-#: app/templates/main/main.html:312
+#: app/templates/main/main.html:400
 msgid ""
-"<span class='colored-text'>NEW!! </span>3. Upload projects with a <span "
-"class='colored-text'><a data-toggle='modal' href='#modalBatch'>txt</a></"
-"span> file:"
+"Please upload a txt containing the URLs of the projects, with each URL on a "
+"separate line. (Max. 10)"
 msgstr ""
-"<span class='colored-text'>¡NUEVO! </span>3. Analizar proyectos de un "
-"archivo <span class='colored-text'><a data-toggle='modal' "
-"href='#modalBatch'>txt</a></span>"
+"Por favor sube un txt que contenga las URLs de los proyectos, solo una URL "
+"por linea. (Max. 10)"
 
-#: app/templates/main/main.html:313 app/templates/main/rubric-uploader.html:147
+#: app/templates/main/main.html:402 app/templates/main/rubric-uploader.html:141
 msgid ""
 "<input  name='urlsFile' type='file' class='filestyle' data-"
 "buttonText='Choose txt'>"
@@ -3628,66 +3774,84 @@ msgstr ""
 "<input  name='urlsFile' type='file' class='filestyle' data-buttonText='Elige "
 "Proyecto'>"
 
-#: app/templates/main/main.html:314
+#: app/templates/main/main.html:403
 #: app/templates/main/main_organization.html:183
-#: app/templates/main/rubric-uploader.html:148
+#: app/templates/main/rubric-uploader.html:142
 #: app/templates/organization/main.html:62
 #: app/templates/upload/dashboard-organization.html:155
 msgid "Analyze my projects"
 msgstr "Analiza mis proyectos"
 
-#: app/templates/main/main.html:318
-msgid ""
-"<span class='colored-text'>NEW!!</span> You also can create your own rubric "
-"with your own criteria:"
-msgstr ""
-"<span class='colored-text'>¡NUEVO!</span> También puedes crear tu propia "
-"rúbrica con tus propios criterios:"
+#: app/templates/main/main.html:422
+msgid "Personalized Mode"
+msgstr "Modo Personalizado"
 
-#: app/templates/main/main.html:319
+#: app/templates/main/main.html:424
+msgid ""
+"The personalized mode allows you to create a personalized rubric for "
+"evaluate projects by your own criteria, after this you can share a link "
+"associated to your rubric to evaluate your students."
+msgstr ""
+"El modo personalizado te permite crear rúbricas personalizadas para evaluar "
+"proyectos bajo tu propio criterio, después de esto puedes compartir un link "
+"asociado a tu rúbrica para evaluar tus estudiantes."
+
+#: app/templates/main/main.html:428
 msgid "Create rubric"
 msgstr "Crear rúbrica"
 
-#: app/templates/main/main.html:559 app/templates/main/main_new.html:460
-msgid "Multilingual website"
-msgstr "Web multilenguaje"
+#: app/templates/main/main.html:456
+msgid "Winner of "
+msgstr "Ha ganado..."
 
-#: app/templates/main/main.html:574 app/templates/main/main_new.html:475
-msgid "Teacher accounts"
-msgstr "Cuentas para profesores"
+#: app/templates/main/main.html:469
+msgid ""
+"For the first time, a Spanish team, made up of researchers from the Rey Juan "
+"Carlos University of Madrid and professors from the Sevillian association "
+"Programamos, has been awarded a Google RISE Award, for the project Dr. "
+"Scratch."
+msgstr ""
+"Por primera vez un equipo español, formado por investigadores de la "
+"Universidad Rey Juan Carlos de Madrid y docentes de la asociación sevillana "
+"Programamos, ha sido galardonado con un Google RISE Award, por el proyecto "
+"Dr. Scratch."
 
-#: app/templates/main/main.html:589 app/templates/main/main_new.html:490
-msgid "Cloud platform"
-msgstr "Plataforma en la nube"
-
-#: app/templates/main/main.html:644 app/templates/main/main_new.html:545
-msgid "Social network"
-msgstr "Red social"
-
-#: app/templates/main/main.html:718 app/templates/main/main_new.html:619
-msgid "Blog"
+#: app/templates/main/main.html:470
+msgid "Article of "
 msgstr ""
 
-#: app/templates/main/main.html:868 app/templates/main/main_new.html:747
+#: app/templates/main/main.html:487
+msgid "Check the"
+msgstr "Echa un vistazo a la"
+
+#: app/templates/main/main.html:487
+msgid " wiki "
+msgstr ""
+
+#: app/templates/main/main.html:487
+msgid "of Dr.Scratch."
+msgstr "de Dr.Scratch"
+
+#: app/templates/main/main.html:661 app/templates/main/main_new.html:747
 msgid "It's easy -and free- sign up an account in Dr. Scratch"
 msgstr "Es fácil -y gratis- registrarte en Dr. Scratch"
 
-#: app/templates/main/main.html:874 app/templates/main/main_new.html:753
+#: app/templates/main/main.html:667 app/templates/main/main_new.html:753
 msgid "Choose a Dr. Scratch Username"
 msgstr "Elige un nombre de usuario en Dr. Scratch"
 
-#: app/templates/main/main.html:876 app/templates/main/main_new.html:755
+#: app/templates/main/main.html:669 app/templates/main/main_new.html:755
 msgid ""
 "<input type='text' name='username' id='username' placeholder='Username' />"
 msgstr ""
 "<input type='text' name='username' id='username' placeholder='Nombre de "
 "usuario'>"
 
-#: app/templates/main/main.html:880 app/templates/main/main_new.html:758
+#: app/templates/main/main.html:673 app/templates/main/main_new.html:758
 msgid "Choose a Password"
 msgstr "Elige una contraseña"
 
-#: app/templates/main/main.html:882 app/templates/main/main_new.html:760
+#: app/templates/main/main.html:675 app/templates/main/main_new.html:760
 #: app/templates/main/main_new.html:765
 msgid ""
 "<input type='password' name='password' id='password' placeholder='Password'/>"
@@ -3695,11 +3859,11 @@ msgstr ""
 "<input type='password'  name='password' id='password' "
 "placeholder='Contraseña'>"
 
-#: app/templates/main/main.html:886 app/templates/main/main_new.html:763
+#: app/templates/main/main.html:679 app/templates/main/main_new.html:763
 msgid "Confirm Password"
 msgstr "Confirma tu contraseña"
 
-#: app/templates/main/main.html:889
+#: app/templates/main/main.html:682
 msgid ""
 "<input type='password' name='password_confirm' id='password_confirm' "
 "placeholder='Password'/>"
@@ -3707,7 +3871,7 @@ msgstr ""
 "<input type='password'  name='password_confirm' id='password_confirm' "
 "placeholder='Contraseña'/>"
 
-#: app/templates/main/main.html:894
+#: app/templates/main/main.html:687
 msgid ""
 "If you are minor of 16, enter your parent's or guardian's email address and "
 "we will send them an email to confirm this account."
@@ -3715,31 +3879,31 @@ msgstr ""
 "Si eres menor de 16, introduce la dirección de correo de tus padres o "
 "tutores y les enviaremos un email para confirmar esta cuenta."
 
-#: app/templates/main/main.html:901 app/templates/main/main_new.html:1354
+#: app/templates/main/main.html:694 app/templates/main/main_new.html:1354
 msgid "Email address"
 msgstr "Dirección de email"
 
-#: app/templates/main/main.html:902 app/templates/main/main_new.html:1355
+#: app/templates/main/main.html:695 app/templates/main/main_new.html:1355
 msgid "Parent's or guardian's email address"
 msgstr "Dirección de email del padre/madre/tutor/a"
 
-#: app/templates/main/main.html:909 app/templates/main/main_new.html:1361
+#: app/templates/main/main.html:702 app/templates/main/main_new.html:1361
 msgid "Confirm email address"
 msgstr "Confirma tu dirección de email"
 
-#: app/templates/main/main.html:919 app/templates/main/main_new.html:782
+#: app/templates/main/main.html:712 app/templates/main/main_new.html:782
 msgid "Your responses to these questions will be kept private."
 msgstr "Las respuestas a estas preguntas serán privadas."
 
-#: app/templates/main/main.html:922 app/templates/main/main_new.html:787
+#: app/templates/main/main.html:715 app/templates/main/main_new.html:787
 msgid "Why do we ask for this info?"
 msgstr "¿Por qué pedimos esta información?"
 
-#: app/templates/main/main.html:925 app/templates/main/main.html:938
+#: app/templates/main/main.html:718 app/templates/main/main.html:731
 msgid "Birth Month and Year"
 msgstr "Cumpleaños: mes y año"
 
-#: app/templates/main/main.html:927
+#: app/templates/main/main.html:720
 msgid ""
 "We use this information to calculate the age range of people who use Dr. "
 "Scratch, and to confirm that you are the owner of the account if you contact "
@@ -3749,11 +3913,11 @@ msgstr ""
 "utilizan Dr. Scratch, y confirmar que tu eres el propietario de la cuenta si "
 "nos contactas. Esto no será publico."
 
-#: app/templates/main/main.html:930 app/templates/main/main.html:962
+#: app/templates/main/main.html:723 app/templates/main/main.html:755
 msgid "Gender"
 msgstr "Género"
 
-#: app/templates/main/main.html:932
+#: app/templates/main/main.html:725
 msgid ""
 "This helps the Dr. Scratch design team understand who is using Dr. Scratch, "
 "and provides information that helps us broaden participation.  This "
@@ -3765,81 +3929,121 @@ msgstr ""
 "participación. Esta información no es visible en tu cuenta, y solo es "
 "utilizada para describir la participación."
 
-#: app/templates/main/main.html:940
+#: app/templates/main/main.html:733
 msgid "- Month -"
 msgstr "- Mes -"
 
-#: app/templates/main/main.html:941
+#: app/templates/main/main.html:734
 msgid "January"
 msgstr "Enero"
 
-#: app/templates/main/main.html:942
+#: app/templates/main/main.html:735
 msgid "February"
 msgstr "Febrero"
 
-#: app/templates/main/main.html:943
+#: app/templates/main/main.html:736
 msgid "March"
 msgstr "Marzo"
 
-#: app/templates/main/main.html:944
+#: app/templates/main/main.html:737
 msgid "April"
 msgstr "Abril"
 
-#: app/templates/main/main.html:945
+#: app/templates/main/main.html:738
 msgid "May"
 msgstr "Mayo"
 
-#: app/templates/main/main.html:946
+#: app/templates/main/main.html:739
 msgid "June"
 msgstr "Junio"
 
-#: app/templates/main/main.html:947
+#: app/templates/main/main.html:740
 msgid "July"
 msgstr "Julio"
 
-#: app/templates/main/main.html:948
+#: app/templates/main/main.html:741
 msgid "August"
 msgstr "Agosto"
 
-#: app/templates/main/main.html:949
+#: app/templates/main/main.html:742
 msgid "September"
 msgstr "Septiembre"
 
-#: app/templates/main/main.html:950
+#: app/templates/main/main.html:743
 msgid "October"
 msgstr "Octubre"
 
-#: app/templates/main/main.html:951
+#: app/templates/main/main.html:744
 msgid "November"
 msgstr "Noviembre"
 
-#: app/templates/main/main.html:952
+#: app/templates/main/main.html:745
 msgid "December"
 msgstr "Diciembre"
 
-#: app/templates/main/main.html:956
+#: app/templates/main/main.html:749
 msgid "- Year -"
 msgstr "- Año -"
 
-#: app/templates/main/main.html:963
+#: app/templates/main/main.html:756
 msgid "Male"
 msgstr "Hombre"
 
-#: app/templates/main/main.html:965
+#: app/templates/main/main.html:758
 msgid "Female"
 msgstr "Mujer"
 
-#: app/templates/main/main.html:975
+#: app/templates/main/main.html:768
 msgid "Country"
 msgstr "País"
 
-#: app/templates/main/main.html:977
+#: app/templates/main/main.html:770
 msgid "- Country -"
 msgstr "- Pais -"
+
+#: app/templates/main/main_new.html:76
+msgid "Why?"
+msgstr "¿Por qué?"
+
+#: app/templates/main/main_new.html:77
+msgid "How?"
+msgstr "¿Cómo?"
+
+#: app/templates/main/main_new.html:78
+msgid "Working on"
+msgstr "Próximamente"
+
+#: app/templates/main/main_new.html:79
+msgid "Contact us"
+msgstr "Contacto"
+
+#: app/templates/main/main_new.html:81
+msgid "Organizations"
+msgstr "Organizaciones"
 
 #: app/templates/main/main_new.html:196
 msgid "Analyze your Scratch projects"
 msgstr "Analiza tus proyectos de Scratch"
+
+#: app/templates/main/main_new.html:460
+msgid "Multilingual website"
+msgstr "Web multilenguaje"
+
+#: app/templates/main/main_new.html:475
+msgid "Teacher accounts"
+msgstr "Cuentas para profesores"
+
+#: app/templates/main/main_new.html:490
+msgid "Cloud platform"
+msgstr "Plataforma en la nube"
+
+#: app/templates/main/main_new.html:545
+msgid "Social network"
+msgstr "Red social"
+
+#: app/templates/main/main_new.html:619
+msgid "Blog"
+msgstr ""
 
 #: app/templates/main/main_new.html:739
 msgid "Step 1"
@@ -3936,11 +4140,11 @@ msgstr ""
 "<input  name='csvFile' type='file' class='filestyle' data-buttonText='Elige "
 "el fichero .csv'>"
 
-#: app/templates/main/rubric-creator.html:398
+#: app/templates/main/rubric-creator.html:392
 msgid "Build your rubric!"
 msgstr "¡Elabora tu rúbrica!"
 
-#: app/templates/main/rubric-creator.html:413
+#: app/templates/main/rubric-creator.html:407
 msgid ""
 "Abstraction is not relevant to me at this moment. I am focused on concrete "
 "and specific details of the program."
@@ -3948,7 +4152,7 @@ msgstr ""
 "La abstracción no es relevante para mí en este momento. Estoy enfocado en "
 "detalles concretos y específicos del programa."
 
-#: app/templates/main/rubric-creator.html:414
+#: app/templates/main/rubric-creator.html:408
 msgid ""
 "Abstraction is minimal. I prefer to stay close to the source code and do not "
 "need high levels of generalization."
@@ -3956,7 +4160,7 @@ msgstr ""
 "La abstracción es mínima. Prefiero mantenerme cerca del código fuente y no "
 "necesito altos niveles de generalización."
 
-#: app/templates/main/rubric-creator.html:415
+#: app/templates/main/rubric-creator.html:409
 msgid ""
 "Abstraction has some importance, but it is not essential. I am interested in "
 "understanding the overall functioning."
@@ -3964,7 +4168,7 @@ msgstr ""
 "La abstracción tiene cierta importancia, pero no es esencial. Estoy "
 "interesado en entender el funcionamiento general."
 
-#: app/templates/main/rubric-creator.html:416
+#: app/templates/main/rubric-creator.html:410
 msgid ""
 "Abstraction is important. I value patterns in the code to facilitate its "
 "maintenance and extension."
@@ -3972,7 +4176,7 @@ msgstr ""
 "La abstracción es importante. Valoro los patrones en el código para "
 "facilitar su mantenimiento y extensión."
 
-#: app/templates/main/rubric-creator.html:417
+#: app/templates/main/rubric-creator.html:411
 msgid ""
 "Abstraction is crucial. I value modular and reusable code, which abstracts "
 "concepts to improve clarity and efficiency."
@@ -3980,7 +4184,7 @@ msgstr ""
 "La abstracción es crucial. Valoro el código modular y reutilizable, que "
 "abstrae conceptos para mejorar la claridad y la eficiencia."
 
-#: app/templates/main/rubric-creator.html:418
+#: app/templates/main/rubric-creator.html:412
 msgid ""
 "Abstraction is absolutely vital. The code must be abstract and flexible to "
 "adapt to future changes and reuse."
@@ -3988,7 +4192,13 @@ msgstr ""
 "La abstracción es absolutamente vital. El código debe ser abstracto y "
 "flexible para adaptarse a cambios futuros y reutilización."
 
-#: app/templates/main/rubric-creator.html:437
+#: app/templates/main/rubric-creator.html:426
+#, fuzzy
+#| msgid "Parallelism"
+msgid "Parallelization"
+msgstr "Paralelismo"
+
+#: app/templates/main/rubric-creator.html:431
 msgid ""
 "Parallelization is not crucial at this moment. There is no need to execute "
 "tasks simultaneously in the code."
@@ -3996,7 +4206,7 @@ msgstr ""
 "La paralelización no es crucial en este momento. No hay necesidad de "
 "ejecutar tareas simultáneamente en el código."
 
-#: app/templates/main/rubric-creator.html:438
+#: app/templates/main/rubric-creator.html:432
 msgid ""
 "Parallelization is minimal. There is no significant need for parallel "
 "processing in the code."
@@ -4004,7 +4214,7 @@ msgstr ""
 "La paralelización es mínima. No hay una necesidad significativa de "
 "procesamiento paralelo en el código."
 
-#: app/templates/main/rubric-creator.html:439
+#: app/templates/main/rubric-creator.html:433
 msgid ""
 "Parallelization has some importance. There is a moderate need to execute "
 "tasks in parallel in the code."
@@ -4012,7 +4222,7 @@ msgstr ""
 "La paralelización tiene cierta importancia. Existe una necesidad moderada de "
 "ejecutar tareas en paralelo en el código."
 
-#: app/templates/main/rubric-creator.html:440
+#: app/templates/main/rubric-creator.html:434
 msgid ""
 "Parallelization is important. Proper parallel processing is required to "
 "enhance the code performance."
@@ -4020,7 +4230,7 @@ msgstr ""
 "La paralelización es importante. Se requiere un procesamiento paralelo "
 "adecuado para mejorar el rendimiento del código."
 
-#: app/templates/main/rubric-creator.html:441
+#: app/templates/main/rubric-creator.html:435
 msgid ""
 "Parallelization is crucial. Simultaneous execution of tasks is essential to "
 "optimize code performance and efficiency."
@@ -4028,7 +4238,7 @@ msgstr ""
 "La paralelización es crucial. La ejecución simultánea de tareas es esencial "
 "para optimizar el rendimiento y la eficiencia del código."
 
-#: app/templates/main/rubric-creator.html:442
+#: app/templates/main/rubric-creator.html:436
 msgid ""
 "Parallelization is absolutely vital. The ability to perform parallel "
 "processing is fundamental for system performance."
@@ -4036,7 +4246,11 @@ msgstr ""
 "La paralelización es absolutamente vital. La capacidad para realizar "
 "procesamiento paralelo es fundamental para el rendimiento del sistema."
 
-#: app/templates/main/rubric-creator.html:454
+#: app/templates/main/rubric-creator.html:443
+msgid "Logic Thinking"
+msgstr "Pensamiento"
+
+#: app/templates/main/rubric-creator.html:448
 msgid ""
 "Logical thinking is not relevant to me at this moment. I am focused on other "
 "aspects of the problem."
@@ -4044,7 +4258,7 @@ msgstr ""
 "El pensamiento lógico no es relevante para mí en este momento. Estoy "
 "enfocado en otros aspectos del problema."
 
-#: app/templates/main/rubric-creator.html:455
+#: app/templates/main/rubric-creator.html:449
 msgid ""
 "Logical thinking is minimal. I prefer to follow a more intuitive approach in "
 "my decisions and actions."
@@ -4052,7 +4266,7 @@ msgstr ""
 "El pensamiento lógico es mínimo. Prefiero seguir un enfoque más intuitivo en "
 "mis decisiones y acciones."
 
-#: app/templates/main/rubric-creator.html:456
+#: app/templates/main/rubric-creator.html:450
 msgid ""
 "Logical thinking has some importance, but it is not fundamental. Sometimes, "
 "I rely more on my instinct than on pure logic."
@@ -4060,7 +4274,7 @@ msgstr ""
 "El pensamiento lógico tiene cierta importancia, pero no es fundamental. A "
 "veces, confío más en mi instinto que en la lógica pura."
 
-#: app/templates/main/rubric-creator.html:457
+#: app/templates/main/rubric-creator.html:451
 msgid ""
 "Logical thinking is important. I use logic to solve problems and make "
 "decisions more efficiently."
@@ -4068,7 +4282,7 @@ msgstr ""
 "El pensamiento lógico es importante. Utilizo la lógica para resolver "
 "problemas y tomar decisiones de manera más eficiente."
 
-#: app/templates/main/rubric-creator.html:458
+#: app/templates/main/rubric-creator.html:452
 msgid ""
 "Logical thinking is crucial. I rely on logic to analyze complex situations "
 "and find effective solutions."
@@ -4076,7 +4290,7 @@ msgstr ""
 "El pensamiento lógico es crucial. Confío en la lógica para analizar "
 "situaciones complejas y encontrar soluciones efectivas."
 
-#: app/templates/main/rubric-creator.html:459
+#: app/templates/main/rubric-creator.html:453
 msgid ""
 "Logical thinking is absolutely vital. All code must follow strict logic for "
 "problem-solving."
@@ -4084,7 +4298,7 @@ msgstr ""
 "El pensamiento lógico es absolutamente vital. Todo el código debe seguir una "
 "lógica estricta para resolver problemas."
 
-#: app/templates/main/rubric-creator.html:471
+#: app/templates/main/rubric-creator.html:465
 msgid ""
 "Synchronization is not relevant at this moment. I am not concerned about "
 "coordinating activities in the code."
@@ -4092,7 +4306,7 @@ msgstr ""
 "La sincronización no es relevante en este momento. No me preocupa coordinar "
 "actividades en el código."
 
-#: app/templates/main/rubric-creator.html:472
+#: app/templates/main/rubric-creator.html:466
 msgid ""
 "Synchronization is minimal. I do not consider managing concurrency or "
 "process synchronization crucial."
@@ -4100,7 +4314,7 @@ msgstr ""
 "La sincronización es mínima. No considero crucial manejar la concurrencia o "
 "la sincronización de procesos."
 
-#: app/templates/main/rubric-creator.html:473
+#: app/templates/main/rubric-creator.html:467
 msgid ""
 "Synchronization has some importance. I can allow some operations to run "
 "asynchronously."
@@ -4108,7 +4322,7 @@ msgstr ""
 "La sincronización tiene cierta importancia. Puedo permitir que algunas "
 "operaciones se ejecuten de forma asincrónica."
 
-#: app/templates/main/rubric-creator.html:474
+#: app/templates/main/rubric-creator.html:468
 msgid ""
 "Synchronization is important. It is crucial to ensure that shared resources "
 "are handled correctly."
@@ -4116,7 +4330,7 @@ msgstr ""
 "La sincronización es importante. Es crucial asegurar que los recursos "
 "compartidos se manejen correctamente."
 
-#: app/templates/main/rubric-creator.html:475
+#: app/templates/main/rubric-creator.html:469
 msgid ""
 "Synchronization is crucial. It is essential to control concurrency to ensure "
 "data consistency and integrity in the code."
@@ -4124,7 +4338,7 @@ msgstr ""
 "La sincronización es crucial. Es esencial controlar la concurrencia para "
 "garantizar la consistencia e integridad de los datos en el código."
 
-#: app/templates/main/rubric-creator.html:476
+#: app/templates/main/rubric-creator.html:470
 msgid ""
 "Synchronization is absolutely vital. Efficient concurrency is fundamental "
 "for system performance and reliability."
@@ -4132,7 +4346,7 @@ msgstr ""
 "La sincronización es absolutamente vital. La concurrencia eficiente es "
 "fundamental para el rendimiento y la fiabilidad del sistema."
 
-#: app/templates/main/rubric-creator.html:489
+#: app/templates/main/rubric-creator.html:483
 msgid ""
 "Flow control is not relevant at this moment. I do not need control "
 "structures to direct code execution."
@@ -4140,7 +4354,7 @@ msgstr ""
 "El control de flujo no es relevante en este momento. No necesito estructuras "
 "de control para dirigir la ejecución del código."
 
-#: app/templates/main/rubric-creator.html:490
+#: app/templates/main/rubric-creator.html:484
 msgid ""
 "Flow control is minimal. I prefer to follow a more linear approach in code "
 "execution without many control structures."
@@ -4148,7 +4362,7 @@ msgstr ""
 "El control de flujo es mínimo. Prefiero seguir un enfoque más lineal en la "
 "ejecución del código sin muchas estructuras de control."
 
-#: app/templates/main/rubric-creator.html:491
+#: app/templates/main/rubric-creator.html:485
 msgid ""
 "Flow control has some importance. I can manage code execution with a few "
 "basic control structures."
@@ -4156,7 +4370,7 @@ msgstr ""
 "El control de flujo tiene cierta importancia. Puedo gestionar la ejecución "
 "del código con algunas estructuras de control básicas."
 
-#: app/templates/main/rubric-creator.html:492
+#: app/templates/main/rubric-creator.html:486
 msgid ""
 "Flow control is important. Code execution must be directed and decisions "
 "made based on different conditions."
@@ -4164,7 +4378,7 @@ msgstr ""
 "El control de flujo es importante. La ejecución del código debe ser dirigida "
 "y las decisiones tomadas en función de diferentes condiciones."
 
-#: app/templates/main/rubric-creator.html:493
+#: app/templates/main/rubric-creator.html:487
 msgid ""
 "Flow control is crucial. Ensuring logic and coherence of program execution "
 "flow is necessary."
@@ -4172,7 +4386,7 @@ msgstr ""
 "El control de flujo es crucial. Es necesario asegurar la lógica y coherencia "
 "del flujo de ejecución del programa."
 
-#: app/templates/main/rubric-creator.html:494
+#: app/templates/main/rubric-creator.html:488
 msgid ""
 "Flow control is absolutely vital. Proper flow control management determines "
 "the efficiency and effectiveness of the program."
@@ -4180,7 +4394,7 @@ msgstr ""
 "El control de flujo es absolutamente vital. La gestión adecuada del control "
 "de flujo determina la eficiencia y efectividad del programa."
 
-#: app/templates/main/rubric-creator.html:507
+#: app/templates/main/rubric-creator.html:501
 msgid ""
 "User interactivity is not relevant at this moment. I do not need the code to "
 "respond to user input."
@@ -4188,7 +4402,7 @@ msgstr ""
 "La interactividad del usuario no es relevante en este momento. No necesito "
 "que el código responda a la entrada del usuario."
 
-#: app/templates/main/rubric-creator.html:508
+#: app/templates/main/rubric-creator.html:502
 msgid ""
 "User interactivity is minimal. The code does not require much direct "
 "interaction with the user."
@@ -4196,7 +4410,7 @@ msgstr ""
 "La interactividad del usuario es mínima. El código no requiere mucha "
 "interacción directa con el usuario."
 
-#: app/templates/main/rubric-creator.html:509
+#: app/templates/main/rubric-creator.html:503
 msgid ""
 "User interactivity has some importance. The code can be executed without too "
 "much direct user interaction."
@@ -4204,7 +4418,7 @@ msgstr ""
 "La interactividad del usuario tiene cierta importancia. El código puede "
 "ejecutarse sin mucha interacción directa del usuario."
 
-#: app/templates/main/rubric-creator.html:510
+#: app/templates/main/rubric-creator.html:504
 msgid ""
 "User interactivity is important. The code must respond appropriately to user "
 "actions."
@@ -4212,7 +4426,7 @@ msgstr ""
 "La interactividad del usuario es importante. El código debe responder "
 "adecuadamente a las acciones del usuario."
 
-#: app/templates/main/rubric-creator.html:511
+#: app/templates/main/rubric-creator.html:505
 msgid ""
 "User interactivity is crucial. The code must be highly interactive with "
 "quick response to user actions."
@@ -4220,7 +4434,7 @@ msgstr ""
 "La interactividad del usuario es crucial. El código debe ser altamente "
 "interactivo con una respuesta rápida a las acciones del usuario."
 
-#: app/templates/main/rubric-creator.html:512
+#: app/templates/main/rubric-creator.html:506
 msgid ""
 "User interactivity is absolutely vital. The ability to interact effectively "
 "with the user is fundamental."
@@ -4228,7 +4442,7 @@ msgstr ""
 "La interactividad del usuario es absolutamente vital. La capacidad de "
 "interactuar de manera efectiva con el usuario es fundamental."
 
-#: app/templates/main/rubric-creator.html:525
+#: app/templates/main/rubric-creator.html:519
 msgid ""
 "Data representation is not crucial at this moment. It does not significantly "
 "affect code execution."
@@ -4236,7 +4450,7 @@ msgstr ""
 "La representación de datos no es crucial en este momento. No afecta "
 "significativamente la ejecución del código."
 
-#: app/templates/main/rubric-creator.html:526
+#: app/templates/main/rubric-creator.html:520
 msgid ""
 "Data representation is minimal. A complex structure for storing or "
 "manipulating data is not required."
@@ -4244,7 +4458,7 @@ msgstr ""
 "La representación de datos es mínima. No se requiere una estructura compleja "
 "para almacenar o manipular datos."
 
-#: app/templates/main/rubric-creator.html:527
+#: app/templates/main/rubric-creator.html:521
 msgid ""
 "Data representation has some importance. Basic structures are needed to "
 "manage the data."
@@ -4252,7 +4466,7 @@ msgstr ""
 "La representación de datos tiene cierta importancia. Se necesitan "
 "estructuras básicas para gestionar los datos."
 
-#: app/templates/main/rubric-creator.html:528
+#: app/templates/main/rubric-creator.html:522
 msgid ""
 "Data representation is important. Proper design of data structure "
 "facilitates code understanding and maintenance."
@@ -4260,7 +4474,7 @@ msgstr ""
 "La representación de datos es importante. Un diseño adecuado de la "
 "estructura de datos facilita la comprensión y el mantenimiento del código."
 
-#: app/templates/main/rubric-creator.html:529
+#: app/templates/main/rubric-creator.html:523
 msgid ""
 "Data representation is crucial. It is essential for optimizing code "
 "performance and scalability."
@@ -4268,7 +4482,7 @@ msgstr ""
 "La representación de datos es crucial. Es esencial para optimizar el "
 "rendimiento y la escalabilidad del código."
 
-#: app/templates/main/rubric-creator.html:530
+#: app/templates/main/rubric-creator.html:524
 msgid ""
 "Data representation is absolutely vital. Poor data representation can lead "
 "to critical errors."
@@ -4276,11 +4490,11 @@ msgstr ""
 "La representación de datos es absolutamente vital. Una representación "
 "deficiente de los datos puede provocar errores críticos."
 
-#: app/templates/main/rubric-creator.html:538
+#: app/templates/main/rubric-creator.html:532
 msgid "Math Operators"
 msgstr "Operadores Matemáticos"
 
-#: app/templates/main/rubric-creator.html:543
+#: app/templates/main/rubric-creator.html:537
 msgid ""
 "Mathematical operators are not crucial at this moment. Performing complex "
 "mathematical operations is not required."
@@ -4288,7 +4502,7 @@ msgstr ""
 "Los operadores matemáticos no son cruciales en este momento. No es necesario "
 "realizar operaciones matemáticas complejas."
 
-#: app/templates/main/rubric-creator.html:544
+#: app/templates/main/rubric-creator.html:538
 msgid ""
 "The use of mathematical operators is minimal. Only basic operations are "
 "needed for simple calculations."
@@ -4296,7 +4510,7 @@ msgstr ""
 "El uso de operadores matemáticos es mínimo. Solo se necesitan operaciones "
 "básicas para cálculos simples."
 
-#: app/templates/main/rubric-creator.html:545
+#: app/templates/main/rubric-creator.html:539
 msgid ""
 "Mathematical operators have some importance. Basic operations are required "
 "to perform some tasks."
@@ -4304,7 +4518,7 @@ msgstr ""
 "Los operadores matemáticos tienen cierta importancia. Se requieren "
 "operaciones básicas para realizar algunas tareas."
 
-#: app/templates/main/rubric-creator.html:546
+#: app/templates/main/rubric-creator.html:540
 msgid ""
 "Mathematical operators are important. They are used to perform essential "
 "calculations that directly affect functionality."
@@ -4312,7 +4526,7 @@ msgstr ""
 "Los operadores matemáticos son importantes. Se utilizan para realizar "
 "cálculos esenciales que afectan directamente a la funcionalidad."
 
-#: app/templates/main/rubric-creator.html:547
+#: app/templates/main/rubric-creator.html:541
 msgid ""
 "Mathematical operators are crucial. Their correct usage is fundamental to "
 "ensure accuracy and consistency in calculations."
@@ -4320,7 +4534,7 @@ msgstr ""
 "Los operadores matemáticos son cruciales. Su uso correcto es fundamental "
 "para garantizar la precisión y la consistencia en los cálculos."
 
-#: app/templates/main/rubric-creator.html:548
+#: app/templates/main/rubric-creator.html:542
 msgid ""
 "Mathematical operators are absolutely vital. They are indispensable for "
 "operations that determine the final result."
@@ -4328,11 +4542,11 @@ msgstr ""
 "Los operadores matemáticos son absolutamente vitales. Son indispensables "
 "para las operaciones que determinan el resultado final."
 
-#: app/templates/main/rubric-creator.html:555
+#: app/templates/main/rubric-creator.html:549
 msgid "Motion Operators"
 msgstr "Operadores de Movimiento"
 
-#: app/templates/main/rubric-creator.html:560
+#: app/templates/main/rubric-creator.html:554
 msgid ""
 "Motion operators are not crucial at this moment. Extensive manipulation of "
 "movements in the code is not required."
@@ -4340,7 +4554,7 @@ msgstr ""
 "Los operadores de movimiento no son cruciales en este momento. No se "
 "requiere una manipulación extensa de movimientos en el código."
 
-#: app/templates/main/rubric-creator.html:561
+#: app/templates/main/rubric-creator.html:555
 msgid ""
 "Motion operators are minimal. There is no significant need for motion "
 "control in the code."
@@ -4348,7 +4562,7 @@ msgstr ""
 "Los operadores de movimiento son mínimos. No hay una necesidad significativa "
 "de control de movimiento en el código."
 
-#: app/templates/main/rubric-creator.html:562
+#: app/templates/main/rubric-creator.html:556
 msgid ""
 "Motion operators have some importance. There is a moderate need for movement "
 "manipulation in the code."
@@ -4356,7 +4570,7 @@ msgstr ""
 "Los operadores de movimiento tienen cierta importancia. Existe una necesidad "
 "moderada de manipulación de movimiento en el código."
 
-#: app/templates/main/rubric-creator.html:563
+#: app/templates/main/rubric-creator.html:557
 msgid ""
 "Motion operators are important. Proper motion control is necessary for the "
 "functionality of the code."
@@ -4364,7 +4578,7 @@ msgstr ""
 "Los operadores de movimiento son importantes. Es necesario un control "
 "adecuado del movimiento para la funcionalidad del código."
 
-#: app/templates/main/rubric-creator.html:564
+#: app/templates/main/rubric-creator.html:558
 msgid ""
 "Motion operators are crucial. Precise motion control is essential for the "
 "proper functioning of the code."
@@ -4372,7 +4586,7 @@ msgstr ""
 "Los operadores de movimiento son cruciales. Un control preciso del "
 "movimiento es esencial para el funcionamiento adecuado del código."
 
-#: app/templates/main/rubric-creator.html:565
+#: app/templates/main/rubric-creator.html:559
 msgid ""
 "Motion operators are absolutely vital. The ability to manipulate movements "
 "effectively is fundamental."
@@ -4380,45 +4594,45 @@ msgstr ""
 "Los operadores de movimiento son absolutamente vitales. La capacidad de "
 "manipular movimientos de manera efectiva es fundamental."
 
-#: app/templates/main/rubric-creator.html:570
+#: app/templates/main/rubric-creator.html:564
 msgid "Generate rubric"
 msgstr "Generar rúbrica"
 
-#: app/templates/main/rubric-creator.html:585
+#: app/templates/main/rubric-creator.html:579
 msgid "You can share this url:"
 msgstr "Puedes compartir este link:"
 
-#: app/templates/main/rubric-creator.html:587
+#: app/templates/main/rubric-creator.html:581
 msgid "First fill the form"
 msgstr "Pulsa generar rúbrica."
 
-#: app/templates/main/rubric-creator.html:593
+#: app/templates/main/rubric-creator.html:587
 msgid "Here there are some rubrics examples:"
 msgstr "Estos son algunos ejemplos de evaluación:"
 
-#: app/templates/main/rubric-creator.html:595
+#: app/templates/main/rubric-creator.html:589
 msgid "Arts"
 msgstr "Artes"
 
-#: app/templates/main/rubric-creator.html:596
+#: app/templates/main/rubric-creator.html:590
 msgid "Music"
 msgstr "Música"
 
-#: app/templates/main/rubric-creator.html:597
+#: app/templates/main/rubric-creator.html:591
 #, fuzzy
 #| msgid "Organizations"
 msgid "Animations"
 msgstr "Animaciones"
 
-#: app/templates/main/rubric-creator.html:598
+#: app/templates/main/rubric-creator.html:592
 msgid "Stories"
 msgstr "Historias"
 
-#: app/templates/main/rubric-creator.html:599
+#: app/templates/main/rubric-creator.html:593
 msgid "Games"
 msgstr "Juegos"
 
-#: app/templates/main/rubric-uploader.html:146
+#: app/templates/main/rubric-uploader.html:140
 msgid ""
 "3. Upload projects with a <span class='colored-text'><a data-toggle='modal' "
 "href='#modalProject'>txt</a></span> file:"
@@ -4933,6 +5147,35 @@ msgstr ""
 #: drScratch/settings.py:96
 msgid "Russian"
 msgstr ""
+
+#, fuzzy
+#~| msgid " "
+#~ msgid "A "
+#~ msgstr " "
+
+#, fuzzy
+#~| msgid "A powerful tool to analyze your Scratch projects"
+#~ msgid "tool to analyze your Scratch projects"
+#~ msgstr "Una potente herramienta para analizar tus proyectos de Scratch"
+
+#~ msgid "More thanks"
+#~ msgstr "Más agradecimientos"
+
+#~ msgid ""
+#~ "<span class='colored-text'>NEW!! </span>3. Upload projects with a <span "
+#~ "class='colored-text'><a data-toggle='modal' href='#modalBatch'>txt</a></"
+#~ "span> file:"
+#~ msgstr ""
+#~ "<span class='colored-text'>¡NUEVO! </span>3. Analizar proyectos de un "
+#~ "archivo <span class='colored-text'><a data-toggle='modal' "
+#~ "href='#modalBatch'>txt</a></span>"
+
+#~ msgid ""
+#~ "<span class='colored-text'>NEW!!</span> You also can create your own "
+#~ "rubric with your own criteria:"
+#~ msgstr ""
+#~ "<span class='colored-text'>¡NUEVO!</span> También puedes crear tu propia "
+#~ "rúbrica con tus propios criterios:"
 
 #~ msgid ""
 #~ "<input type='password' class='form-control' name='hashkey' "
