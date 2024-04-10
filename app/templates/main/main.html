@@ -124,7 +124,6 @@
             &nbsp;
         </div>
     </div>
-
     <!-- =========================
      SECTION: HOME / HEADER
     ============================== -->
@@ -174,73 +173,8 @@
 
                     
 
-                 {% if flagUser %}
-                         <!-- NAVIGATION LINK -->
-                         <ul class="nav navbar-nav navbar-left main-navigation ">
-                             <li class="navbar-brand"><a class="navbar-brand pull-left" href="/{{page}}/{{username}}"><span class="icon-basic-home colored-text"></span><em>{{ username }}</em></a></li>
-                        </ul>
-
-
-
-                     {% else %}
 
                     
-                     
-                    <!-- LOGIN REGISTER 
-
-
-                   
-
-                      <li style="display: block;" class="login js-login dropdown">
-                        <a aria-expanded="false" role="button" class="dropdown-toggle" data-toggle='modal' href='#modalSignUp'>{% trans "Sign up" %}</a>
-
-                        </a>
-                        <ul role="menu" class="dropdown-menu">
-                          <li>
-                          <div style="padding: 15px; padding-bottom: 10px;">
-                            <form accept-charset="UTF-8" action="/sign_up_coder" method="post">
-                            {% csrf_token %}
-                              {% trans "<input type='text' name='username' id='username' placeholder='Username' style='margin-bottom: 15px;'>" %}
-                              {% trans "<input type='text' name='email' id='email' placeholder='Email' style='margin-bottom: 15px;'>" %}
-                              {% trans "<input type='password' name='password' id='password' placeholder='Password' style='margin-bottom: 15px;'>" %}
-                              {% trans "<input class='form-control' type='password' name='hashkey' id='hashkey' placeholder='Hashkey' style='margin-bottom: 15px;'>" %}
-                              {% trans "<input type='submit' value='Sign up' id='sign-up' class='btn-group btn-group-justified colored-text'>" %}
-                            </form>
-                          </div>
-                          </li>
-                          </ul>
-                        </li>
-
-
-
-                      <li style="display: block;" class="login js-login dropdown">
-                        <a aria-expanded="false" role="button" href="#" data-toggle="dropdown" class="dropdown-toggle">{% trans "Sign in" %}
-                          <span class="caret"></span>
-                        </a>
-                        <ul role="menu" class="dropdown-menu">
-                          <li>
-                          <div style="padding: 15px; padding-bottom: 10px;">
-                            <form accept-charset="UTF-8" action="/login_coder" method="post">
-                                          {% csrf_token %}
-                              {% trans "<input type='text' name='username' id='username' placeholder='Username' style='margin-bottom: 15px;'>" %}
-                              {% trans "<input type='password' name='password' id='password' placeholder='Password' style='margin-bottom: 15px;'>" %}
-                            <div>
-                                <a class="message" style="size: 5px;" href="/change_pwd">{% trans "I forgot my password" %}</a>
-                            </div>
-                              {% trans "<input type='submit' value='Sign in' id='sign-in' class='btn-group btn-group-justified colored-text'>" %}
-                            </form>
-                          </div>
-                          </li>
-                          </ul>
-                        </li>
-
-                        {% endif %}
-
-                        <li style="display: none;" class="register-button js-register inpage-scroll">
-                            <a href="#home" class="navbar-register-button">{% trans "Get Started" %}</a>
-                        </li>
-                    </ul>
-                     -->
                   </div>
                   
                   <!-- /END TOP BAR -->
