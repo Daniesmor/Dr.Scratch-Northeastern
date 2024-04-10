@@ -1,238 +1,305 @@
-{% load i18n %}
+{{% load i18n %}
 <html>
-    <head>
-        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-        <meta name="description" content="Analyze your Scratch projects to assess your Computational Thinking skills">
-        <meta name="keywords" content="Stamp, Startup, Multipurpose, Bootstrap, Landing page, Template, Registration, Landing">
-        <meta name="author" content="Programamos URJC Libresoft FECyT">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <link rel="stylesheet" href="../../static/app/content/scratchblocks2.css">
-        <!-- <script src="../../static/app/scripts/bootstrap-modal.js"></script> -->
-        <script src="../../static/app/scripts/translations.js"></script>
-        <!-- <script src="../../static/app/scripts/bootstrap.js"></script> -->
-        <link rel="stylesheet" href="../../static/app/content/bootstrap-tour.css">
-        <script src="../../static/app/scripts/bootstrap.min.js"></script>
-        <script src="../../static/app/scripts/bootstrap-tour.js"></script>
-        <script src="../../static/app/scripts/googleAnalytics.js"></script>
-        <script src="../../static/app/scripts/scratchblocks-v3.4-min.js"></script>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="description" content="Analyze your Scratch projects to assess your Computational Thinking skills">
+    <meta name="keywords" content="Stamp, Startup, Multipurpose, Bootstrap, Landing page, Template, Registration, Landing">
+    <meta name="author" content="Programamos URJC Libresoft FECyT">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <link rel="stylesheet" href="../../static/app/content/bootstrap-tour.css">
+    <script src="../../static/app/scripts/bootstrap.min.js"></script>
+    <script src="../../static/app/scripts/bootstrap-tour.js"></script>
+    <script src="../../static/app/scripts/googleAnalytics.js"></script>
+    <script src="../../static/app/scripts/scratchblocks-v3.4-min.js"></script>
+
+    <!-- SITE TITLE -->
+    <title>Dr. Scratch</title>
+
+
+    <link rel="stylesheet" href="../../static/app/content/style.css">
+    <!-- =========================
+     FAV AND TOUCH ICONS AND FONT
+    ============================== -->
+    <link rel="icon" href="../../static/app/images/favicon.ico">
+    <link rel="stylesheet" href="static/app/icons/icons.css">
+    <link type="text/css" rel="stylesheet" href="../../static/app/content/css_002.css">
+    <link type="text/css" rel="stylesheet" href="../../static/app/content/css.css">
+    <!-- =========================
+     STYLESHEETS
+    ============================== -->
+    <!-- BOOTSTRAP AND ANIMATION -->
+    <link rel="stylesheet" href="../../static/app/content/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/app/content/animate.css">
+
+    <!-- CAROUSEL AND LIGHTBOX -->
+    <link rel="stylesheet" href="../../static/app/content/owl_002.css">
+    <link rel="stylesheet" href="../../static/app/content/owl.css">
+    <link rel="stylesheet" href="../../static/app/content/nivo-lightbox.css">
+    <link rel="stylesheet" href="../../static/app/content/default.css">
+
+    <!-- CUSTOM STYLESHEETS -->
+    <link rel="stylesheet" href="../../static/app/content/styles.css">
+    <link rel="stylesheet" href="../../static/app/content/basic.css">
+    <!-- RESPONSIVE FIXES -->
+    <link rel="stylesheet" href="../../static/app/content/responsive.css">
+
+    <!-- DEFAULT COLOR/ CURRENTLY USING -->
+    <link rel="stylesheet" href="../../static/app/content/red.css">
+
+    <script>
+                    window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
+                    </script>
+
+    <script>
+    // Instance the tour
+    // Initialize the tour
+    $(document).ready(function(){
+     $("#tour").click(function(){
+    var tour = new Tour({
+      storage: false,
+      backdrop: true,
+     steps: [
+      {
+        element: "#stepone",
+        title: "{% trans 'Score' %}",
+        content: "{% trans 'This section shows the total score.' %}"
+      },
+      {
+        element: "#steptwo",
+        title: "{% trans 'Certificate' %}",
+        content:"{% trans 'Download your certificate!'%}"
+      },
+      {
+        element: "#stepthree",
+        title: "{% trans 'Score in detail'%}",
+        content: "{% trans 'Here we show the score in each programming skill as well as links to sites that can help you to level up.' %}",
+        placement:'left'
+      }
+    ]});
+            tour.init();
+            tour.start();
+
+        });
+});
+    </script>
+    <script>
+    $(document).ready(function(){
+
+    var filename = "{{ filename }}";
+    var level = "{{ mastery.points}}/{{ mastery.maxi }}";
+    var list =[filename,level];
+    $("#certificate").val(list.toString());
+    });
+
+    </script>
+    <script>
+        $(document).ready(function() {
+            scratchblocks.renderMatching('pre.blocks', {
+            style:     'scratch3',   // Optional, defaults to 'scratch2'.
+            languages: ['en'], // Optional, defaults to ['en'].
+            scale: 0.5,                // Optional, defaults to 1
+            });
+        })
+        
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.progress-bar').each(function() {
+                var progressBar = $(this);
+                var progressValue = parseFloat(progressBar.attr('aria-valuenow'));
+                var maxValue = parseFloat(progressBar.attr('aria-valuemax'));
+                var percentage = (progressValue / maxValue) * 100;
     
-        <!-- SITE TITLE -->
-        <title>Dr. Scratch</title>
-    
-        <link rel="stylesheet" href="static/app/content/style.css">
-        <!-- =========================
-        FAV AND TOUCH ICONS AND FONT
-        ============================== -->
-        <link rel="icon" href="static/app/images/favicon.ico">
-        <link rel="stylesheet" href="static/app/icons/icons.css">
-        <link type="text/css" rel="stylesheet" href="static/app/content/css_002.css">
-        <link type="text/css" rel="stylesheet" href="static/app/content/css.css">
-        <!-- =========================
-        STYLESHEETS
-        ============================== -->
-        <!-- BOOTSTRAP AND ANIMATION -->
-        <link rel="stylesheet" href="static/app/content/bootstrap-main.css">
-        <link rel="stylesheet" href="static/app/content/animate.css">
+                if (percentage <= 33) {
+                    progressBar.removeClass('progress-bar-success progress-bar-warning');
+                    progressBar.addClass('progress-bar-danger');
+                } else if (percentage > 33 && percentage <= 66) {
+                    progressBar.removeClass('progress-bar-success progress-bar-danger');
+                    progressBar.addClass('progress-bar-warning');
+                } else {
+                    progressBar.removeClass('progress-bar-danger progress-bar-warning');
+                    progressBar.addClass('progress-bar-success');
+                }
+            });
+        });
+    </script>
 
-        <!-- CAROUSEL AND LIGHTBOX -->
-        <link rel="stylesheet" href="static/app/content/owl_002.css">
-        <link rel="stylesheet" href="static/app/content/owl.css">
-        <link rel="stylesheet" href="static/app/content/nivo-lightbox.css">
-        <link rel="stylesheet" href="static/app/content/default.css">
-
-        <!-- CUSTOM STYLESHEETS -->
-        <link rel="stylesheet" href="static/app/content/styles.css">
-        <link rel="stylesheet" href="/static/app/content/master.css">
-
-
-        <!-- RESPONSIVE FIXES -->
-        <link rel="stylesheet" href="static/app/content/responsive.css">
-
-        <!-- DEFAULT COLOR/ CURRENTLY USING -->
-        <link rel="stylesheet" href="static/app/content/red.css">
-
-        <script>
-            window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
-        </script>
-
-        <script>
-            $(document).ready(function() {
-                scratchblocks.renderMatching('pre.blocks', {
-                style:     'scratch3',   // Optional, defaults to 'scratch2'.
-                languages: ['en'], // Optional, defaults to ['en'].
-                scale: 0.5,                // Optional, defaults to 1
-                });
-            })
-            
-        </script>
-
-        <style>
-            .btn-primary {
-                background-color: #1792A4;
-            }
-            .btn-primary:hover {
-                background-color: #4CA8A1;
-            }
-            .btn-primary:focus {
-                background-color: #4CA8A1;
-            }
-        </style>    
-    
-    </head>
-
-    <body>
-    <!-- TOP BAR -->
-    <div id="wrap">
-        <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top  sticky-navigation" role="navigation">
-            <div class="container">
-                <!-- NAVIGATION LINK -->
-                <a href="/">
-                    <img src="static/app/images/logo_main.png" alt="" width="220" height="70.1667">
-                </a>
-    
-            </div>
-        </div>
-        <!-- /END TOP BAR -->
-    
+</head>
+<body>
+<div id="wrap">
+    <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top sticky-navigation" role="navigation">
         <div class="container">
-            <section id="dashboard">
-            <div class="row d-flex align-items-center">
-                <!-- BAD SMELLS 1 -->
-                
-                <!-- CAT IMAGE -->
-                <div class="col-md-5 d-flex justify-content-center align-items-center" style="margin-bottom: 20px;">
-                        {% if summary.mastery == 'Master' %}
-                            <img src="static/app/images/cat.png" class="img-fluid" style="max-width: 100%; vertical-align: middle;">
-                        {% elif summary.mastery == 'Developing' %}
-                            <img src="static/app/images/monkey.png" class="img-fluid" style="max-width: 100%; vertical-align: middle;">
-                        {% else %}
-                            <img src="static/app/images/cat.png" class="img-fluid" style="max-width: 100%; vertical-align: middle;">
-                        {% endif %}
-                </div>
-                <!-- BAD SMELLS 2 -->
-                <div class="col-md-6">
-                        
-                        <div class="container-fluid" id="stepfour">
-                            <div class="row marketing">
-                                <div class="jumbotron">
-                                    <div class="table-responsive">
-                                        <h4>{% trans "Analysis Complete!!" %}</h4>
-                                        <table class="table tablesorter">
-                                            <thead>
-                                                <th></th>
-                                                <h5 class="text-primary">{% trans "You can download the csv clicking " %}<a href="{{ csv_filepath }}">{% trans "HERE" %}</a></h5>
-                                            </thead>
-                                            <tbody>
-                                                
-                                            
-                                                
-                                            </tbody>
-                                            
-                                        </table>
-                                        <h5 class="text-warning">{% trans "Summary: " %}</h5>
-                                  
-                                        <h5 class="text-info">Projects Analyzed: {{ summary.num_projects }}</h5>
-                                        <h6 class="text-warning">{% trans "Average Score: " %}</h6>
-                                            {% for skill, value in summary.items %}
-                                                {% if skill != 'num_projects' and skill != 'maxi' and skill != 'Mastery' %}
-                                                    {% if value.0 >= value.2 %}
-                                                        <h5><span class="text-info">{{ skill }}: </span><span class="text-success" style="font-size: 20px;">
-                                                            {% if value.0|floatformat:"-1" == value.0|floatformat:"0" %}
-                                                                {{ value.0|floatformat:"0" }}
-                                                            {% else %}
-                                                                {{ value.0 }}
-                                                            {% endif %}
-                                                            /
-                                                            {% if value.1|floatformat:"-1" == value.1|floatformat:"0" %}
-                                                                {{ value.1|floatformat:"0" }}
-                                                            {% else %}
-                                                                {{ value.1 }}
-                                                            {% endif %}
-                                                        </span></h5>
-                                                    {% else %}
-                                                        <h5><span class="text-info">{{ skill }}: </span><span class="text-danger" style="font-size: 20px;">
-                                                            {% if value.0|floatformat:"-1" == value.0|floatformat:"0" %}
-                                                                {{ value.0|floatformat:"0" }}
-                                                            {% else %}
-                                                                {{ value.0 }}
-                                                            {% endif %}
-                                                            /
-                                                            {% if value.1|floatformat:"-1" == value.1|floatformat:"0" %}
-                                                                {{ value.1|floatformat:"0" }}
-                                                            {% else %}
-                                                                {{ value.1 }}
-                                                            {% endif %}
-                                                        </span></h5>
-                                                    {% endif %}
-                                                {% endif %}
-                                            {% endfor %}
-                                        <h6 class="text-warning">{% trans "Average Mastery: " %}</h6>
-                                        {% if summary.Mastery == 'Master' %}
-                                            <h5 class="text-success">{{ summary.Mastery }}</h5>  
-                                        {% elif summary.Mastery == 'Developing' %}
-                                            <h5 class="text-warning">{{ summary.Mastery }}</h5>  
-                                        {% else %}
-                                            <h5 class="text-danger">{{ summary.Mastery }}</h5>  
-                                        {% endif %}
-                                                                                  
-                                        
-                                    </div>
-                                </div>
-                            </div>
+                    <!-- TOP BAR -->
+            <div class="navbar-collapse collapse" id="stamp-navigation">
+                    <!-- NAVIGATION LINK -->
+                <a class="navbar-brand" href="/">
+                    <img src="static/app/images/logo_main.png" alt="">
+                </a>
+
+                <ul class="nav navbar-nav navbar-right main-navigation ">
+                        <li class="navbar-brand"><a class="navbar-brand pull-right" href="https://twitter.com/DrScratchTool"><span class="icon-social-twitter colored-text"></span></a></li>
+                        <li class="navbar-brand"><a class="navbar-brand pull-right" href="mailto:team@drscratch.org"><span class="icon-basic-mail colored-text"></span></a></li>
+                         <li class="navbar-brand"><a class="btn btn-default" id="tour">{% trans "HELP" %}</a></li>
+                        <li class="navbar-brand"><a class="navbar-brand pull-right">{% trans "Dr. Scratch(Beta Version)" %}</a></li>
+                      </ul>
+            </div>
+                    <!-- /END TOP BAR -->
+        </div>
+                <!-- /END CONTAINER -->
+    </div>
+
+            <!-- /END STICKY NAVIGATION -->
+    <!-- JUMBOTRON -->
+<div class="container">
+            <section id="blackboard" class="services col-md-5">
+
+                <div class="devpanel">
+                    <div class="panel panel-success" id="devpanel">
+                        <div class="panel-heading" id="stepone">
+                            <img src="static/app/images/ferret.png" class="img-responsive col-md-5">
+                            <h2 id="score" class="panel-title dark-text"><strong>{% trans "Score:" %}</strong> {{ mastery.points }}/{{ mastery.maxi }}
+                            <a class="twitter-share-button" data-text="{% blocktrans with points=mastery.points %} I have just obtained {{ points }} points analyzing my project in Dr. Scratch! Beat it! @DrScratchTool {% endblocktrans %}"href="https://twitter.com/share">Tweet</a></h2>
                         </div>
+                        <div class="panel-body">
+                            <div class="container col-md-12">
+                            {% trans "<h3 class='text-left dark-text'>The average level of the projects is... <strong>BASIC! </strong></h3>" %}
+                            <p class='text-left dark-text'> {% trans "You're at the beginning of a <br>great adventure . . . Keep it up!" %}</br></p>
+                            </div>
+                            {% if url != "" %}
+                           <a href="{{ url }}" target="_blank"><span class="glyphicon glyphicon-hand-right"></span>{% trans "Come back to your Scratch project." %}</a>
+                           {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <!-- HOW TO IMPROVE -->
+                <div class="improve" >
+                
+
+                </div>
+
+
+            </section>
+
+
+  <!-- Score in detail -->
+    <div class="col-md-7">
+        <section id="dashboard">
+            <div class="container-fluid" id="stepfour">
+                <div class="row marketing">
+                    <div class="jumbotron">
+                        <div class="table-responsive">
+                            <h4>{% trans "Analysis Complete!!" %}</h4>
+                            <table class="table tablesorter">
+                                <thead>
+                                    <th></th>
+                                    <h5 class="text-primary">{% trans "You can download the csv clicking " %}<a href="{{ csv_filepath }}">{% trans "HERE" %}</a></h5>
+                                </thead>
+                                <tbody>
+                                    
+                                
+                                    
+                                </tbody>
+                                
+                            </table>
+                            <h5 class="text-warning">{% trans "Summary: " %}</h5>
+                      
+                            <h5 class="text-info">Projects Analyzed: {{ summary.num_projects }}</h5>
+                            <h6 class="text-warning">{% trans "Average Score: " %}</h6>
+                                {% for skill, value in summary.items %}
+                                    {% if skill != 'num_projects' and skill != 'maxi' and skill != 'Mastery' %}
+                                        {% if value.0 >= value.2 %}
+                                            <h5><span class="text-info">{{ skill }}: </span><span class="text-success" style="font-size: 20px;">
+                                                {% if value.0|floatformat:"-1" == value.0|floatformat:"0" %}
+                                                    {{ value.0|floatformat:"0" }}
+                                                {% else %}
+                                                    {{ value.0 }}
+                                                {% endif %}
+                                                /
+                                                {% if value.1|floatformat:"-1" == value.1|floatformat:"0" %}
+                                                    {{ value.1|floatformat:"0" }}
+                                                {% else %}
+                                                    {{ value.1 }}
+                                                {% endif %}
+                                            </span></h5>
+                                        {% else %}
+                                            <h5><span class="text-info">{{ skill }}: </span><span class="text-danger" style="font-size: 20px;">
+                                                {% if value.0|floatformat:"-1" == value.0|floatformat:"0" %}
+                                                    {{ value.0|floatformat:"0" }}
+                                                {% else %}
+                                                    {{ value.0 }}
+                                                {% endif %}
+                                                /
+                                                {% if value.1|floatformat:"-1" == value.1|floatformat:"0" %}
+                                                    {{ value.1|floatformat:"0" }}
+                                                {% else %}
+                                                    {{ value.1 }}
+                                                {% endif %}
+                                            </span></h5>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            <h6 class="text-warning">{% trans "Average Mastery: " %}</h6>
+                            {% if summary.Mastery == 'Master' %}
+                                <h5 class="text-success">{{ summary.Mastery }}</h5>  
+                            {% elif summary.Mastery == 'Developing' %}
+                                <h5 class="text-warning">{{ summary.Mastery }}</h5>  
+                            {% else %}
+                                <h5 class="text-danger">{{ summary.Mastery }}</h5>  
+                            {% endif %}
+                                                                      
+                            
+                        </div>
+                    </div>
                 </div>
             </div>
-            </section>
+        </section>
+        <div id="refactor">
+            {% for refactor_dict in refactor.refactor_list %}
+            <p>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#originalCollapse{{ forloop.counter }}" aria-expanded="false" aria-controls="originalCollapse{{ forloop.counter }}">
+                  Display Original Blocks!
+                </button>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#refactoredCollapse{{ forloop.counter }}" aria-expanded="false" aria-controls="refactoredCollapse{{ forloop.counter }}">
+                    Display Solution!
+                  </button>
+              </p>
+              <div class="collapse" id="originalCollapse{{ forloop.counter }}">
+                <div class="card card-body">
+                    <pre class="blocks">
+                        {{ refactor_dict.original }}
+                    </pre>
+                </div>
+              </div>
+              <div class="collapse" id="refactoredCollapse{{ forloop.counter }}">
+                <div class="card card-body">
+                    <pre class="blocks">
+                        {{ refactor_dict.refactored }}
+                    </pre>
+                </div>
+              </div>
+            {% endfor %}
+        </div>
+     </div>
+</div>
+
+    <footer class="footer grey-bg">
+        <div class="container">
+           {% trans "©2019 Dr. Scratch" %}
+
+            <!-- SOCIAL ICONS -->
+            <ul class="social-icons">
+                <li><a href="https:/twitter.com/drscratchtool"><span class="icon-social-twitter transparent-text-dark"></span></a>
+                </li>
+                <li><a href=""><span class="icon-social-github transparent-text-dark"></span></a>
+                </li>
+            </ul>
+
         </div>
 
-        <footer class="footer grey-bg">
-            {% trans "©2024 Dr. Scratch" %}
-        
-             <!-- SOCIAL ICONS -->
-             <ul class="social-icons">
-                 <a href="https://github.com/Daniesmor/Dr.Scratch-Northeastern">
-                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github transparent-text-dark" viewBox="0 0 16 16">
-                     <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/>
-                 </svg>            <li><span class="icon-social-github transparent-text-dark"></span></a>
-                 </a>
-                 <li>
-                    <a href="https://twitter.com/DrScratchTool">
-                        <span class="icon-social-twitter dark-text"></span>
-                    </a>
-                </li>
-        
-             </ul>
-        
-         </footer>
-    </div>
-    
-        <script>
-            // Función para establecer la misma altura en todas las columnas
-            function equalizeColumnHeight() {
-                var maxColumnHeight = 0;
-                // Iterar sobre todas las columnas
-                $('.col-md-4').each(function() {
-                    // Obtener la altura de la columna actual
-                    var columnHeight = $(this).height();
-                    // Comparar con la altura máxima encontrada hasta ahora
-                    if (columnHeight > maxColumnHeight) {
-                        maxColumnHeight = columnHeight;
-                    }
-                });
-                // Establecer la misma altura en todas las columnas
-                $('.col-md-4').height(maxColumnHeight);
-            }
-        
-            // Llamar a la función cuando el documento esté listo y cuando se redimensione la ventana
-            $(document).ready(equalizeColumnHeight);
-            $(window).resize(equalizeColumnHeight);
-        </script>
-        
-        <!-- Scripts de Bootstrap y jQuery -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    </body>
+    </footer>
 
 
+</body>
 </html>
