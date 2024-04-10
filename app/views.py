@@ -116,10 +116,10 @@ def create_csv_main(request ,d: dict, folder_path: str) -> str:
                     print("clave trans: ", clave_trans)
                     mastery_list = d[project]['mastery'].get(clave_trans, [])
             
-                    if type(mastery_list) == list:
+                    if type(mastery_list[0]) == list:
                         row_to_write[clave] = mastery_list[0]
                     else:
-                        row_to_write[clave] = mastery_list
+                        row_to_write[clave] = mastery_list[0]
                 elif clave == 'DuplicateScripts':
                     row_to_write[clave] = d[project]['duplicateScript'].get('number', '')
                 elif clave == 'DeadCode':
@@ -322,7 +322,8 @@ def show_dashboard(request, skill_points=None):
         print(skill_rubric)
         if len(d) > 1:
             csv_filepath = create_csv(request, d)
-            summary = create_summary(request, d)      
+            summary = create_summary(request, d)   
+            print("Resumen:", summary)   
             return render(request, user + '/dashboard-bulk.html', {'summary': summary, 'csv_filepath': csv_filepath})
         else: 
             d = d[0]
@@ -381,9 +382,9 @@ def create_summary(request, d: dict) -> dict:
         for skill in skills:
             if skill not in summary:
                 summary[skill] = 0
-            if type(d[project]["mastery"][skill]) == list:
-                if d[project]["mastery"][skill][1] != 0:
-                    summary[skill] += d[project]["mastery"][skill][0]
+            if type(d[project]["mastery"][skill][0]) == list:
+                if d[project]["mastery"][skill][0][1] != 0:
+                    summary[skill] += d[project]["mastery"][skill][0][0]
                 else:
                     summary[skill] = 0
     
@@ -398,8 +399,8 @@ def create_summary(request, d: dict) -> dict:
     mid_points = total_maxi_points / 2
     summary['Points'] = [average_mastery_points, total_maxi_points, mid_points]
     for skill in skills:
-        mid_points = d[0]["mastery"][skill][1] / 2
-        summary[skill] = [summary[skill], d[0]["mastery"][skill][1], mid_points]
+        mid_points = d[0]["mastery"][skill][0][1] / 2
+        summary[skill] = [summary[skill], d[0]["mastery"][skill][0][1], mid_points]
         
 
 
@@ -886,6 +887,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         dict_analysis.update(proc_sprite_naming(result_sprite_naming, file_obj))
         dict_analysis.update(proc_backdrop_naming(result_backdrop_naming, file_obj))
         dict_analysis.update(proc_refactored_code(refactored_code))
+        # dict_analysis.update(proc_urls(request, dict_mastery, file_obj))
         
         # dictionary.update(proc_initialization(resultInitialization, filename))
         return dict_analysis
@@ -915,6 +917,25 @@ def proc_dead_code(dict_dead_code, filename):
 
     return dict_dc
 
+def proc_urls(request, dict_mastery, file_obj):
+    dict_urls = {}
+    if request.POST.get('dashboard_mode') == 'Default':
+        dict_extended = dict_mastery['extended'].copy()
+        dict_vanilla = dict_mastery['vanilla'].copy()
+        dict_urls["url_extended"] = get_urls(dict_extended)
+        dict_urls["url_vanilla"] = get_urls(dict_vanilla)
+    elif request.POST.get('dashboard_mode') == 'Personalized':
+        dict_personal = dict_mastery['personalized'].copy()
+        print(dict_personal)
+        dict_urls["url_personal"] = get_urls(dict_personal)
+    return dict_urls
+
+def get_urls(dict_mastery):
+    list_urls = []
+    for key in dict_mastery.keys():
+        if key != 'total_points' and key!= 'competence' and key!= 'max_points' and key!= 'average_points':
+            list_urls.append(key)
+    return list_urls
 
 def proc_mastery(request, dict_mastery, file_obj):
 
@@ -924,12 +945,13 @@ def proc_mastery(request, dict_mastery, file_obj):
         set_file_obj(request, file_obj, dict_extended)
         set_file_obj(request, file_obj, dict_vanilla, 'Vanilla')
         d_extended_translated = translate(request, dict_extended, file_obj)
-        d_vanilla_translated = translate(request, dict_vanilla, file_obj)
+        d_vanilla_translated = translate(request, dict_vanilla, file_obj, vanilla=True)
         dic = {"mastery": d_extended_translated, "mastery_vanilla": d_vanilla_translated}
         dic["mastery"]["competence"] = dict_extended["competence"]
         dic["mastery"]["points"] = dict_extended["total_points"]
         dic["mastery_vanilla"]["competence"] = dict_vanilla["competence"]
         dic["mastery_vanilla"]["points"] = dict_vanilla["total_points"]
+        
     elif request.POST.get('dashboard_mode') == 'Personalized':
         dict_personal = dict_mastery['personalized'].copy()
         set_file_obj(request, file_obj, dict_personal)
@@ -937,6 +959,7 @@ def proc_mastery(request, dict_mastery, file_obj):
         dic = {"mastery": d_personal_translated}
         dic["mastery"]["competence"] = dict_personal["competence"]
         dic["mastery"]["points"] = dict_personal["total_points"]
+        print("Lista_Mastery:", dict_personal.keys())
     
     return dic
 
@@ -1006,111 +1029,111 @@ def proc_backdrop_naming(lines, file_obj):
     return dic
 
 
-def translate(request, d, filename):
+def translate(request, d, filename, vanilla=False):
     """
     Translate the output of Hairball
     """
 
     if request.LANGUAGE_CODE == "es":
-        d_translate_es = {'Abstracción': d['Abstraction'], 'Paralelismo': d['Parallelization'],
-                          'Pensamiento lógico': d['Logic'], 'Sincronización': d['Synchronization'],
-                          'Control de flujo': d['FlowControl'], 'Interactividad con el usuario': d['UserInteractivity'],
-                          'Representación de la información': d['DataRepresentation']}
-        if d['total_points'][1] > 21: # Check that not is Vanilla Mode
-            d_translate_es.update({'Operadores matemáticos': d['MathOperators'], 'Operadores de movimiento': d['MotionOperators']})
+        d_translate_es = {'Abstracción': [d['Abstraction'], 'Abstraction'], 'Paralelismo': [d['Parallelization'], 'Parallelization'],
+                          'Pensamiento lógico': [d['Logic'], 'Logic'], 'Sincronización': [d['Synchronization'], 'Synchronization'],
+                          'Control de flujo': [d['FlowControl'], 'FlowControl'], 'Interactividad con el usuario': [d['UserInteractivity'], 'UserInteractivity'],
+                          'Representación de la información': [d['DataRepresentation'], 'DataRepresentation']}
+        if not vanilla: # Check that not is Vanilla Mode
+            d_translate_es.update({'Operadores matemáticos': [d['MathOperators'], 'MathOperators'], 'Operadores de movimiento': [d['MotionOperators'], 'MotionOperators']})
         filename.language = "es"
         filename.save()
         return d_translate_es
     elif request.LANGUAGE_CODE == "en":
-        d_translate_en = {'Abstraction': d['Abstraction'], 'Parallelism': d['Parallelization'], 'Logic': d['Logic'],
-                          'Synchronization': d['Synchronization'], 'Flow control': d['FlowControl'],
-                          'User interactivity': d['UserInteractivity'], 'Data representation': d['DataRepresentation']}
-        if d['total_points'][1] > 21: 
-            d_translate_en.update({'Math operators': d['MathOperators'], 'Motion operators': d['MotionOperators']})
+        d_translate_en = {'Abstraction': [d['Abstraction'], 'Abstraction'], 'Parallelism': [d['Parallelization'], 'Parallelization'], 'Logic': [d['Logic'], 'Logic'],
+                          'Synchronization': [d['Synchronization'], 'Synchronization'], 'Flow control': [d['FlowControl'], 'FlowControl'],
+                          'User interactivity': [d['UserInteractivity'], 'UserInteractivity'], 'Data representation': [d['DataRepresentation'], 'DataRepresentation']}
+        if not vanilla: 
+            d_translate_en.update({'Math operators': [d['MathOperators'], 'MathOperators'], 'Motion operators': [d['MotionOperators'], 'MotionOperators']})
         filename.language = "en"
         filename.save()
         return d_translate_en
     elif request.LANGUAGE_CODE == "ca":
-        d_translate_ca = {'Abstracció': d['Abstraction'], 'Paral·lelisme': d['Parallelization'], 'Lògica': d['Logic'],
-                          'Sincronització': d['Synchronization'], 'Controls de flux': d['FlowControl'],
-                          "Interactivitat de l'usuari": d['UserInteractivity'],
-                          'Representació de dades': d['DataRepresentation']}
-        if d['total_points'][1] > 21: 
-            d_translate_ca.update({'Operadors matemàtics': d['MathOperators'], 'Operadors de moviment':  d['MotionOperators']})
+        d_translate_ca = {'Abstracció': [d['Abstraction'], 'Abstraction'], 'Paral·lelisme': [d['Parallelization'], 'Parallelization'], 'Lògica': [d['Logic'], 'Logic'],
+                          'Sincronització': [d['Synchronization'], 'Synchronization'], 'Controls de flux': [d['FlowControl'], 'FlowControl'],
+                          "Interactivitat de l'usuari": [d['UserInteractivity'], 'UserInteractivity'],
+                          'Representació de dades': [d['DataRepresentation'], 'DataRepresentation']}
+        if not vanilla: 
+            d_translate_ca.update({'Operadors matemàtics': [d['MathOperators'], 'MathOperators'], 'Operadors de moviment':  [d['MotionOperators'], 'MotionOperators']})
         filename.language = "ca"
         filename.save()
         return d_translate_ca
     elif request.LANGUAGE_CODE == "gl":
-        d_translate_gl = {'Abstracción': d['Abstraction'], 'Paralelismo': d['Parallelization'], 'Lóxica': d['Logic'],
-                          'Sincronización': d['Synchronization'], 'Control de fluxo': d['FlowControl'],
-                          "Interactividade do susario": d['UserInteractivity'],
-                          'Representación dos datos': d['DataRepresentation']}
-        if d['total_points'][1] > 21: 
-            d_translate_gl.update({'Operadores matemáticos': d['MathOperators'], 'Operadores de movemento': d['MotionOperators']})
+        d_translate_gl = {'Abstracción': [d['Abstraction'], 'Abstraction'], 'Paralelismo': [d['Parallelization'], 'Parallelization'], 'Lóxica': [d['Logic'], 'Logic'],
+                          'Sincronización': [d['Synchronization'], 'Synchronization'], 'Control de fluxo': [d['FlowControl'], 'FlowControl'],
+                          "Interactividade do susario": [d['UserInteractivity'], 'UserInteractivity'],
+                          'Representación dos datos': [d['DataRepresentation'], 'DataRepresentation']}
+        if not vanilla: 
+            d_translate_gl.update({'Operadores matemáticos': [d['MathOperators'], 'MathOperators'], 'Operadores de movemento': [d['MotionOperators'], 'MotionOperators']})
         filename.language = "gl"
         filename.save()
         return d_translate_gl
 
     elif request.LANGUAGE_CODE == "pt":
-        d_translate_pt = {'Abstração': d['Abstraction'], 'Paralelismo': d['Parallelization'], 'Lógica': d['Logic'],
-                          'Sincronização': d['Synchronization'], 'Controle de fluxo': d['FlowControl'],
-                          "Interatividade com o usuário": d['UserInteractivity'],
-                          'Representação de dados': d['DataRepresentation']}
-        if d['total_points'][1] > 21: 
-            d_translate_pt.update({'Operadores matemáticos': d['MathOperators'], 'Operadores de movimento': d['MotionOperators']})
+        d_translate_pt = {'Abstração': [d['Abstraction'], 'Abstraction'], 'Paralelismo': [d['Parallelization'], 'Parallelization'], 'Lógica': [d['Logic'], 'Logic'],
+                          'Sincronização': [d['Synchronization'], 'Synchronization'], 'Controle de fluxo': [d['FlowControl'], 'FlowControl'],
+                          "Interatividade com o usuário": [d['UserInteractivity'], 'UserInteractivity'],
+                          'Representação de dados': [d['DataRepresentation'], 'DataRepresentation']}
+        if not vanilla: 
+            d_translate_pt.update({'Operadores matemáticos': [d['MathOperators'], 'MathOperators'], 'Operadores de movimento': [d['MotionOperators'], 'MotionOperators']})
         filename.language = "pt"
         filename.save()
         return d_translate_pt
     
     elif request.LANGUAGE_CODE == "el":
-        d_translate_el = {'Αφαίρεση': d['Abstraction'], 'Παραλληλισμός': d['Parallelization'], 'Λογική': d['Logic'],
-                          'Συγχρονισμός': d['Synchronization'], 'Έλεγχος ροής': d['FlowControl'],
-                          'Αλληλεπίδραση χρήστη': d['UserInteractivity'],
-                          'Αναπαράσταση δεδομένων': d['DataRepresentation']}
-        if d['total_points'][1] > 21: 
-            d_translate_el.update({'Μαθηματικοί χειριστές': d['MathOperators'], 'Χειριστές κίνησης': d['MotionOperators']})
+        d_translate_el = {'Αφαίρεση': [d['Abstraction'], 'Abstraction'], 'Παραλληλισμός': [d['Parallelization'], 'Parallelization'], 'Λογική': [d['Logic'], 'Logic'],
+                          'Συγχρονισμός': [d['Synchronization'], 'Synchronization'], 'Έλεγχος ροής': [d['FlowControl'], 'FlowControl'],
+                          'Αλληλεπίδραση χρήστη': [d['UserInteractivity'], 'UserInteractivity'],
+                          'Αναπαράσταση δεδομένων': [d['DataRepresentation'], 'DataRepresentation']}
+        if not vanilla: 
+            d_translate_el.update({'Μαθηματικοί χειριστές': [d['MathOperators'], 'MathOperators'], 'Χειριστές κίνησης': [d['MotionOperators'], 'MotionOperators']})
         filename.language = "el"
         filename.save()
         return d_translate_el
 
     elif request.LANGUAGE_CODE == "eu":           
-        d_translate_eu = {'Abstrakzioa': d['Abstraction'], 'Paralelismoa': d['Parallelization'], 'Logika': d['Logic'],
-                          'Sinkronizatzea': d['Synchronization'], 'Kontrol fluxua': d['FlowControl'],
-                          'Erabiltzailearen elkarreragiletasuna': d['UserInteractivity'],
-                          'Datu adierazlea': d['DataRepresentation']}
-        if d['total_points'][1] > 21: 
-            d_translate_eu.update({'Eragile matematikoak': d['MathOperators'], 'Mugimendu-eragileak': d['MotionOperators']})
+        d_translate_eu = {'Abstrakzioa': [d['Abstraction'], 'Abstraction'], 'Paralelismoa': [d['Parallelization'], 'Parallelization'], 'Logika': [d['Logic'], 'Logic'],
+                          'Sinkronizatzea': [d['Synchronization'], 'Synchronization'], 'Kontrol fluxua': [d['FlowControl'], 'FlowControl'],
+                          'Erabiltzailearen elkarreragiletasuna': [d['UserInteractivity'], 'UserInteractivity'],
+                          'Datu adierazlea': [d['DataRepresentation'], 'DataRepresentation']}
+        if not vanilla: 
+            d_translate_eu.update({'Eragile matematikoak': [d['MathOperators'], 'MathOperators'], 'Mugimendu-eragileak': [d['MotionOperators'], 'MotionOperators']})
         filename.language = "eu"
         filename.save()
         return d_translate_eu
 
     elif request.LANGUAGE_CODE == "it":           
-        d_translate_it = {'Astrazione': d['Abstraction'], 'Parallelismo': d['Parallelization'], 'Logica': d['Logic'],
-                          'Sincronizzazione': d['Synchronization'], 'Controllo di flusso': d['FlowControl'],
-                          'Interattività utente': d['UserInteractivity'],
-                          'Rappresentazione dei dati': d['DataRepresentation']}
-        if d['total_points'][1] > 21: 
-            d_translate_it.update({'Operatori matematici':  d['MathOperators'], 'Operatori del movimento': d['MotionOperators']})
+        d_translate_it = {'Astrazione': [d['Abstraction'], 'Abstraction'], 'Parallelismo': [d['Parallelization'], 'Parallelization'], 'Logica': [d['Logic'], 'Logic'],
+                          'Sincronizzazione': [d['Synchronization'], 'Synchronization'], 'Controllo di flusso': [d['FlowControl'], 'FlowControl'],
+                          'Interattività utente': [d['UserInteractivity'], 'UserInteractivity'],
+                          'Rappresentazione dei dati': [d['DataRepresentation'], 'DataRepresentation']}
+        if not vanilla: 
+            d_translate_it.update({'Operatori matematici':  [d['MathOperators'], 'MathOperators'], 'Operatori del movimento': [d['MotionOperators'], 'MotionOperators']})
         filename.language = "it"
         filename.save()
         return d_translate_it
 
     elif request.LANGUAGE_CODE == "ru":
-        d_translate_ru = {'Абстракция': d['Abstraction'], 'Параллельность действий': d['Parallelization'],
-                          'Логика': d['Logic'], 'cинхронизация': d['Synchronization'],
-                          'Управление потоком': d['FlowControl'], 'Интерактивность': d['UserInteractivity'],
-                          'Представление данных': d['DataRepresentation']}
-        if d['total_points'][1] > 21: 
-            d_translate_ru.update({'Математические операторы': d['MathOperators'], 'Операторы движения': d['MotionOperators']})
+        d_translate_ru = {'Абстракция': [d['Abstraction'], 'Abstraction'], 'Параллельность действий': [d['Parallelization'], 'Parallelization'],
+                          'Логика': [d['Logic'], 'Logic'], 'cинхронизация': [d['Synchronization'], 'Synchronization'],
+                          'Управление потоком': [d['FlowControl'], 'FlowControl'], 'Интерактивность': [d['UserInteractivity'], 'UserInteractivity'],
+                          'Представление данных': [d['DataRepresentation'], 'DataRepresentation']}
+        if not vanilla: 
+            d_translate_ru.update({'Математические операторы': [d['MathOperators'], 'MathOperators'], 'Операторы движения': [d['MotionOperators'], 'MotionOperators']})
         filename.language = "ru"
         filename.save()
         return d_translate_ru
     else:
-        d_translate_en = {'Abstraction': d['Abstraction'], 'Parallelism': d['Parallelization'], 'Logic': d['Logic'],
-                          'Synchronization': d['Synchronization'], 'Flow control': d['FlowControl'],
-                          'User interactivity': d['UserInteractivity'], 'Data representation': d['DataRepresentation']}
-        if d['total_points'][1] > 21: 
-            d_translate_en.update({'Math Operators': d['MathOperators'], 'Motion Operators': d['MotionOperators']})
+        d_translate_en = {'Abstraction': [d['Abstraction'], 'Abstraction'], 'Parallelism': [d['Parallelization'], 'Parallelization'], 'Logic': [d['Logic'], 'Logic'],
+                          'Synchronization': [d['Synchronization'], 'Synchronization'], 'Flow control': [d['FlowControl'], 'FlowControl'],
+                          'User interactivity': [d['UserInteractivity'], 'UserInteractivity'], 'Data representation': [d['DataRepresentation'], 'DataRepresentation']}
+        if not vanilla: 
+            d_translate_en.update({'Math Operators': [d['MathOperators'], 'MathOperators'], 'Motion Operators': [d['MotionOperators'], 'MotionOperators']})
         filename.language = "any"
         filename.save()
         return d_translate_en
