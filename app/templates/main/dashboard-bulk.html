@@ -1,4 +1,4 @@
-{{% load i18n %}
+{% load i18n %}
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -41,6 +41,20 @@
     <!-- CUSTOM STYLESHEETS -->
     <link rel="stylesheet" href="../../static/app/content/styles.css">
     <link rel="stylesheet" href="../../static/app/content/basic.css">
+
+    <!-- CUSTOM STYLESHEETS -->
+    <link rel="stylesheet" href="../../static/app/content/styles.css">
+    {% if summary.Mastery == "Basic" %}
+        <link rel="stylesheet" href="/static/app/content/basic.css">
+    {% elif summary.Mastery == "Developing" %}
+        <link rel="stylesheet" href="/static/app/content/developing.css">
+    {% elif summary.Mastery == "Master" %}
+        <link rel="stylesheet" href="/static/app/content/master.css">
+    {% elif summary.Mastery == "Advanced" %}
+        <link rel="stylesheet" href="/static/app/content/advanced.css">
+    {% elif summary.Mastery == "Finesse" %}
+        <link rel="stylesheet" href="/static/app/content/finesse.css">
+    {% endif %}
     <!-- RESPONSIVE FIXES -->
     <link rel="stylesheet" href="../../static/app/content/responsive.css">
 
@@ -128,55 +142,56 @@
 
 </head>
 <body>
-<div id="wrap">
-    <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top sticky-navigation" role="navigation">
-        <div class="container">
-                    <!-- TOP BAR -->
-            <div class="navbar-collapse collapse" id="stamp-navigation">
-                    <!-- NAVIGATION LINK -->
-                <a class="navbar-brand" href="/">
-                    <img src="static/app/images/logo_main.png" alt="">
+    <div id="wrap">
+        <!-- TOP BAR -->
+        <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top  sticky-navigation" role="navigation">
+            <div class="container">
+                <!-- NAVIGATION LINK -->
+                <a href="/">
+                    <img src="static/app/images/logo_main.png" alt="" width="220" height="70.1667">
                 </a>
 
-                <ul class="nav navbar-nav navbar-right main-navigation ">
-                        <li class="navbar-brand"><a class="navbar-brand pull-right" href="https://twitter.com/DrScratchTool"><span class="icon-social-twitter colored-text"></span></a></li>
-                        <li class="navbar-brand"><a class="navbar-brand pull-right" href="mailto:team@drscratch.org"><span class="icon-basic-mail colored-text"></span></a></li>
-                         <li class="navbar-brand"><a class="btn btn-default" id="tour">{% trans "HELP" %}</a></li>
-                        <li class="navbar-brand"><a class="navbar-brand pull-right">{% trans "Dr. Scratch(Beta Version)" %}</a></li>
-                      </ul>
             </div>
-                    <!-- /END TOP BAR -->
         </div>
-                <!-- /END CONTAINER -->
-    </div>
+        <!-- /END TOP BAR -->
 
-            <!-- /END STICKY NAVIGATION -->
+            
     <!-- JUMBOTRON -->
 <div class="container">
             <section id="blackboard" class="services col-md-5">
 
                 <div class="devpanel">
                     <div class="panel panel-success" id="devpanel">
-                        <div class="panel-heading" id="stepone">
-                            <img src="static/app/images/ferret.png" class="img-responsive col-md-5">
-                            <h2 id="score" class="panel-title dark-text"><strong>{% trans "Score:" %}</strong> {{ mastery.points }}/{{ mastery.maxi }}
-                            <a class="twitter-share-button" data-text="{% blocktrans with points=mastery.points %} I have just obtained {{ points }} points analyzing my project in Dr. Scratch! Beat it! @DrScratchTool {% endblocktrans %}"href="https://twitter.com/share">Tweet</a></h2>
+                        <div class="panel-heading" id="steptwo" >
+                            {% if summary.Mastery == "Basic" %}
+                                <img src="static/app/images/ferret.png" class="img-responsive col-md-5">
+                            {% elif summary.Mastery == "Developing" %}
+                                <img src="static/app/images/monkey.png" class="img-responsive col-md-4">
+                            {% elif summary.Mastery == "Master" %}
+                                <img src="static/app/images/cat.png" class="img-responsive col-md-3">
+                            {% endif %}
+                            <h2 id="score" class="panel-title dark-text">
+                                <strong>{% trans "Score:" %}</strong>
+                                {{ summary.Points.0 }}
+                                /
+                                {{ summary.Points.1 }}                           
+                            <a class="twitter-share-button" data-text="{% blocktrans with points=mastery_vanilla.points.0 %} I have just obtained {{ points }} points analyzing my project in Dr. Scratch! Beat it! @DrScratchTool {% endblocktrans %}"href="https://twitter.com/share">Tweet</a></h2>
                         </div>
                         <div class="panel-body">
                             <div class="container col-md-12">
-                            {% trans "<h3 class='text-left dark-text'>The average level of the projects is... <strong>BASIC! </strong></h3>" %}
-                            <p class='text-left dark-text'> {% trans "You're at the beginning of a <br>great adventure . . . Keep it up!" %}</br></p>
+                                <h3 class='text-left dark-text'>The level of your project is... <strong> {{ summary.Mastery |upper }}! </strong></h3>
+                                {% if summary.Mastery == "Basic" %}
+                                    <p class='text-left dark-text'> {% trans "You're at the beginning of a <br>great adventure . . . Keep it up!" %}</br></p>
+                                {% elif summary.Mastery == "Developing" %}
+                                    <p class='text-left dark-text'> {% trans "You're doing a great job. Keep it up!!! " %}</p>
+                                {% elif summary.Mastery  == "Master" %}
+                                    <p class='text-left dark-text'> {% trans "You're the master of the universe!!! " %}</p>
+                                {% endif %}
                             </div>
-                            {% if url != "" %}
-                           <a href="{{ url }}" target="_blank"><span class="glyphicon glyphicon-hand-right"></span>{% trans "Come back to your Scratch project." %}</a>
-                           {% endif %}
-                        </div>
-                    </div>
-                </div>
-                <!-- HOW TO IMPROVE -->
-                <div class="improve" >
-                
 
+                        </div>
+                        
+                    </div>
                 </div>
 
 
