@@ -320,7 +320,8 @@ def show_dashboard(request, skill_points=None):
         print(skill_rubric)
         if len(d) > 1:
             csv_filepath = create_csv(request, d)
-            summary = create_summary(request, d)      
+            summary = create_summary(request, d)   
+            print("summary", summary)   
             return render(request, user + '/dashboard-bulk.html', {'summary': summary, 'csv_filepath': csv_filepath})
         else: 
             d = d[0]
