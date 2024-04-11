@@ -116,7 +116,7 @@ def create_csv_main(request ,d: dict, folder_path: str) -> str:
                     mastery_list = d[project]['mastery'].get(clave_trans, [])
             
                     if type(mastery_list[0]) == list:
-                        row_to_write[clave] = mastery_list[0]
+                        row_to_write[clave] = mastery_list[0][0]
                     else:
                         row_to_write[clave] = mastery_list[0]
                 elif clave == 'DuplicateScripts':
