@@ -1,19 +1,16 @@
 {% extends 'learn/base.html' %}
 {% load i18n %}
-
-    <!-- JUMBOTRON -->
-    <div id = "cloud"><h2>{% block title %}{% trans "Synchronization" %} {% endblock %}</h2><span class='shadow'></span></div>
-    <!-- /END JUMBOTRON -->
-    <!-- PANEL-->
 {% block content %}
+
+<div class="container" style="text-align: left;">
+    <h2> {% trans "Synchronization" %} </h2>
     <div class="panel panel-default">
-        <div class="panel-body col-lg-10 col-lg-offset-1">
+        <div class="panel-body col-lg-10">
     {% trans "Instructions related to synchronization <b>allow our characters to organize things happen in the order we want</b>." %}
         </div>
     </div>
-<div class="container">
     <div class="panel panel-default">
-        <div class="panel-body col-lg-10 col-lg-offset-1">
+        <div class="panel-body col-lg-10">
             <section id="level0">
                 <h3>{% trans "If you get 0 points..." %}</h3>
                 {% trans "The easiest way to synchronize the behavior of your characters is using a <i>'wait'</i> block, which makes the character waits the number of seconds you write as a parameter block. An example of how this block can be used to synchronize two characters:" %}<br><br>
@@ -31,7 +28,7 @@
                     {% trans "say [Yes] for (1) secs" %}
                 </pre>
                 <br><br>
-                <div class="col-lg-5 col-lg-offset-1">
+                <div class="col-lg-5">
                     {% trans "In this case it uses blocks <i>'wait'</i> to synchronize these two characters to maintain a conversation, so that while one speaks, the other character waits, and vice versa. Note that the number of seconds that each character expected, are equal to the number of seconds that the other character speaks, so they never talk at the same time." %}
                 </div>
             </section>
@@ -39,11 +36,11 @@
     </div>
 
     <div class="panel panel-default">
-        <div class="panel-body col-lg-10 col-lg-offset-1">
+        <div class="panel-body col-lg-10">
             <section id="level1">
                 <h3>{% trans "If you get 1 point..." %}</h3>
                 {% trans "Synchronization using blocks <i>'wait'</i> is very simple when programs are small and have few characters, but when are larger, or when we have several characters, or when conditions to generate a reaction can not be measured previously, it is more efficient to use other modes of synchronization and messages. Here's an example:" %} <br><br>
-                <pre class="blocks col-lg-5 col-lg-offset-1">
+                <pre class="blocks col-lg-5">
                     {% trans "when green flag clicked" %}
                     {% trans "say [Hello, how are you?] for (2) secs" %}
                     {% trans "forever" %}
@@ -52,7 +49,7 @@
                     {% trans "end" %}
                 </pre>
                 <br>
-                <pre class="blocks col-lg-5">
+                <pre class="blocks col-lg-5 col-lg-offset-1">
                     {% trans "when I receive [catched! v]" %}
                     {% trans "say [You have catched my friend] for (2) secs" %}
                     {% trans "say [Now, you have to catch me!] for (2) secs" %}
@@ -66,16 +63,16 @@
         </div>
     </div>
     <div class="panel panel-default">
-        <div class="panel-body col-lg-10 col-lg-offset-1">
+        <div class="panel-body col-lg-10">
             <section id="level2">
                 <h3>{% trans "If you get 2 points..." %}</h3>
                 {% trans "In addition to sending messages, you can synchronize characters to make things happen in the order we want, using other blocks, such as <i>'wait until'</i> or <i>'when the background changes to ...'</i>." %}<br><br>
-                <pre class="blocks col-lg-5 col-lg-offset-1">
+                <pre class="blocks col-lg-5 ">
                     {% trans "wait until &lt;(lives) =[0]&gt;" %}
                     {% trans "say [Game over] for (2) secs" %}
                     {% trans "stop [all v]" %}
                 </pre>
-                <pre class="blocks col-lg-5">
+                <pre class="blocks col-lg-5 col-lg-offset-1">
                     {% trans "when backdrop switches to [Spring v]" %}
                     {% trans "show" %}
                     {% trans "say [Spring has come!] for (2) secs" %}

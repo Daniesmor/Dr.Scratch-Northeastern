@@ -19,6 +19,7 @@
     <!-- =========================
      FAV AND TOUCH ICONS AND FONT
     ============================== -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="icon" href="static/app/images/favicon.ico">
     <link rel="stylesheet" href="static/app/icons/icons.css">
     <link type="text/css" rel="stylesheet" href="static/app/content/css_002.css">
@@ -45,6 +46,67 @@
 
     <!-- DEFAULT COLOR/ CURRENTLY USING -->
     <link rel="stylesheet" href="static/app/content/red.css">
+
+
+
+    <style>
+        /* Para el ancho y alto de las imagenes. Modificalo a gusto =)  */
+        .carousel-inner > .item > img,
+        .carousel-inner > .item > a > img {
+            width: 100%;
+            height: 500px;
+            margin: auto;
+        }
+        /* Para los margenes del contendor de las fotos. Podes cambiarle el ancho a gusto tambien! */
+        .carousel-control {
+            width: 10%;
+        }
+    </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var personalizedOptions = document.getElementById("personalized-options");
+    
+            // Manejador de eventos para el cambio en el campo dashboard_mode
+            document.querySelector("[name='dashboard_mode']").addEventListener("change", function () {
+                var selectedOption = this.value;
+                if (selectedOption === "Personalized") {
+                    personalizedOptions.style.display = "block";
+                } else {
+                    personalizedOptions.style.display = "none";
+                }
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var form = document.forms["form"];
+            var select = form.elements["dashboard_mode"];
+    
+            // Situation when you change the value of a Slider
+            var personalizedInputs = form.querySelectorAll('.form-range');
+            personalizedInputs.forEach(function(input) {
+                input.addEventListener('input', function() {
+                    if (select.value === "Personalized") {
+                        updateUrl();
+                    }
+                });
+            });
+    
+            // Update of the URL for the Sliders
+            function updateUrl() {
+                var personalizedValues = '';
+                // Collection of the Customized Input Fields
+                var personalizedInputs = form.querySelectorAll('.form-range');
+                personalizedInputs.forEach(function(input) {
+                    personalizedValues += input.value;
+                });
+                // Modification of the Action's URL
+                form.action = "/show_dashboard/" + personalizedValues;
+            }
+        });
+    </script>
 </head>
 
 <body>
@@ -57,127 +119,135 @@
             &nbsp;
         </div>
     </div>
-
     <!-- =========================
      SECTION: HOME / HEADER
     ============================== -->
     <header id="home" style="background-position: 50% 40.5px;" class="header" data-stellar-background-ratio="0.3">
+        <video autoplay muted loop id="video-background">
+            <source src="static/app/videos/Scratch!.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
         <!-- COLOR OVER IMAGE -->
         <div class="overlay-layer">
-            <!-- STICKY NAVIGATION -->
-            <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top  sticky-navigation" role="navigation">
+           
+             <!-- STICKY NAVIGATION -->
+             <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top  sticky-navigation" role="navigation">
                 <div class="container">
                     <!-- TOP BAR -->
-                    <div class="navbar-collapse collapse" id="stamp-navigation">
-                    <!-- NAVIGATION LINK -->
-                      <a class="navbar-brand" href="/">
-                        <img src="static/app/images/logo_main.png" alt="">
+                    <div class="navbar-collapse collapse" height="200px" id="stamp-navigation">
+                   
+                      <a class="text-center" href="/">
+                        <img class="d-block img-fluid ::before" height="100px" src="static/app/images/logo_main.png" alt="">
                       </a>
-                      <ul class="nav navbar-nav navbar-left main-navigation small-text">
-                        <li class="navbar-brand"><a href="#section1"><em>{% trans "Why?" %}</em></a></li>
-                        <li class="navbar-brand"><a href="#section2"><em>{% trans "How?" %}</em></a></li>
-                        <li class="navbar-brand"><a href="#section3"><em>{% trans "Working on" %}</em></a></li>
-                        <li class="navbar-brand"><a href="#section4"><em>{% trans "Contact us" %}</em></a></li>
-                        {% if not flagUser %}
-                        <li class="navbar-brand"><a href="/sign_up_organization"><em class="colored-text">{% trans "Organizations" %}</em></a></li>
-                        {% endif %}
-                      </ul>
+                        <!-- LANGUAGUES -->
+                        
+                        <ul class="nav navbar-nav navbar-right login-register small-text">
+                            <li style="display: block;" class="login dropdown">
+                                <a aria-expanded="false" type="button" data-toggle="dropdown" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" style="padding-top: 100%;">
+                                <span class="glyphicon glyphicon-book"><span class="icon-basic-world"></span></span>
+                                </a>
+                                <ul role="menu" class="dropdown-menu" style="padding: 20px;">
+                                <li style="padding-left: 20px;">
+                                <div>
+                                <form action="/i18n/setlang/" method="post" type="hidden">
+                                    {% csrf_token %}
+                                    <input name="next" type="hidden" value="{{ redirect_to }}" />
+                                    
+
+                                <select name="language" type="hidden">
+                                        
+                                {% get_language_info_list for LANGUAGES as languages %}
+                                {% for language in languages %}
+                                {% if language.code == request.LANGUAGE_CODE %}
+                                <option type="submit" class='btn-group btn-group-justified colored-text' value="{{ language.code }}" selected>{{ language.name }} ({{ language.code }})</option>
+                                {% else %}
+                                <option type="submit" class='btn-group btn-group-justified colored-text' value="{{ language.code }}">{{ language.name }} ({{ language.code }})</option>
+                                {% endif %}
+                                {% endfor %}
+                                </select>
+                                <input type="submit" value="Change language" class='btn-group btn-group-justified colored-text' style="margin-top: 5px;"/>
+                                </form>
+                            </div>
+                            </li>
+                        </ul>
+                        
+
+     
+
+                        
 
 
 
-                 {% if flagUser %}
+
+                    {% if flagUser %}
                          <!-- NAVIGATION LINK -->
                          <ul class="nav navbar-nav navbar-left main-navigation ">
                              <li class="navbar-brand"><a class="navbar-brand pull-left" href="/{{page}}/{{username}}"><span class="icon-basic-home colored-text"></span><em>{{ username }}</em></a></li>
                         </ul>
 
+                    {% else %}
+                        <!-- LOGIN REGISTER 
 
 
-                     {% else %}
-                    <!-- LOGIN REGISTER -->
-
-
-                    <ul class="nav navbar-nav navbar-right login-register small-text">
-                      <ul class="nav navbar-nav navbar-left main-navigation ">
+                    
 
                         <li style="display: block;" class="login js-login dropdown">
-                          <a aria-expanded="false" type="button" data-toggle="dropdown" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">
-                            <span class="glyphicon glyphicon-book"><span class="icon-basic-world"></span></span>
-                          </a>
-                          <ul role="menu" class="dropdown-menu">
+                            <a aria-expanded="false" role="button" class="dropdown-toggle" data-toggle='modal' href='#modalSignUp'>{% trans "Sign up" %}</a>
+
+                            </a>
+                            <ul role="menu" class="dropdown-menu">
                             <li>
                             <div style="padding: 15px; padding-bottom: 10px;">
-                            <form action="/i18n/setlang/" method="post" type="hidden">
-                              {% csrf_token %}
-                              <input name="next" type="hidden" value="{{ redirect_to }}" />
-                              <select name="language" type="hidden">
-                            {% get_language_info_list for LANGUAGES as languages %}
-                            {% for language in languages %}
-                             <option style="padding: 15px;" type="submit" class='btn-group btn-group-justified colored-text' value="{{ language.code }}">{{ language.name }} ({{ language.code }})</option>
-                            {% endfor %}
-                          </select>
-                          <input type="submit" value="Change language" class='btn-group btn-group-justified colored-text'/>
-                          </form>
-                        </div>
-                      </li>
-                    </ul>
-                      </li>
-                      <li style="display: block;" class="login js-login dropdown">
-                        <a aria-expanded="false" role="button" class="dropdown-toggle" data-toggle='modal' href='#modalSignUp'>{% trans "Sign up" %}</a>
-
-                        </a>
-                        <ul role="menu" class="dropdown-menu">
-                          <li>
-                          <div style="padding: 15px; padding-bottom: 10px;">
-                            <form accept-charset="UTF-8" action="/sign_up_coder" method="post">
-                            {% csrf_token %}
-                              {% trans "<input type='text' name='username' id='username' placeholder='Username' style='margin-bottom: 15px;'>" %}
-                              {% trans "<input type='text' name='email' id='email' placeholder='Email' style='margin-bottom: 15px;'>" %}
-                              {% trans "<input type='password' name='password' id='password' placeholder='Password' style='margin-bottom: 15px;'>" %}
-                              {% trans "<input class='form-control' type='password' name='hashkey' id='hashkey' placeholder='Hashkey' style='margin-bottom: 15px;'>" %}
-                              {% trans "<input type='submit' value='Sign up' id='sign-up' class='btn-group btn-group-justified colored-text'>" %}
-                            </form>
-                          </div>
-                          </li>
-                          </ul>
-                        </li>
-
-
-
-                      <li style="display: block;" class="login js-login dropdown">
-                        <a aria-expanded="false" role="button" href="#" data-toggle="dropdown" class="dropdown-toggle">{% trans "Sign in" %}
-                          <span class="caret"></span>
-                        </a>
-                        <ul role="menu" class="dropdown-menu">
-                          <li>
-                          <div style="padding: 15px; padding-bottom: 10px;">
-                            <form accept-charset="UTF-8" action="/login_coder" method="post">
-                                          {% csrf_token %}
-                              {% trans "<input type='text' name='username' id='username' placeholder='Username' style='margin-bottom: 15px;'>" %}
-                              {% trans "<input type='password' name='password' id='password' placeholder='Password' style='margin-bottom: 15px;'>" %}
-                            <div>
-                                <a class="message" style="size: 5px;" href="/change_pwd">{% trans "I forgot my password" %}</a>
+                                <form accept-charset="UTF-8" action="/sign_up_coder" method="post">
+                                {% csrf_token %}
+                                {% trans "<input type='text' name='username' id='username' placeholder='Username' style='margin-bottom: 15px;'>" %}
+                                {% trans "<input type='text' name='email' id='email' placeholder='Email' style='margin-bottom: 15px;'>" %}
+                                {% trans "<input type='password' name='password' id='password' placeholder='Password' style='margin-bottom: 15px;'>" %}
+                                {% trans "<input class='form-control' type='password' name='hashkey' id='hashkey' placeholder='Hashkey' style='margin-bottom: 15px;'>" %}
+                                {% trans "<input type='submit' value='Sign up' id='sign-up' class='btn-group btn-group-justified colored-text'>" %}
+                                </form>
                             </div>
-                              {% trans "<input type='submit' value='Sign in' id='sign-in' class='btn-group btn-group-justified colored-text'>" %}
-                            </form>
-                          </div>
-                          </li>
-                          </ul>
-                        </li>
+                            </li>
+                            </ul>
+                            </li>
 
-                        {% endif %}
 
-                        <li style="display: none;" class="register-button js-register inpage-scroll">
-                            <a href="#home" class="navbar-register-button">{% trans "Get Started" %}</a>
-                        </li>
-                    </ul>
 
-                  </div>
+                        <li style="display: block;" class="login js-login dropdown">
+                            <a aria-expanded="false" role="button" href="#" data-toggle="dropdown" class="dropdown-toggle">{% trans "Sign in" %}
+                            <span class="caret"></span>
+                            </a>
+                            <ul role="menu" class="dropdown-menu">
+                            <li>
+                            <div style="padding: 15px; padding-bottom: 10px;">
+                                <form accept-charset="UTF-8" action="/login_coder" method="post">
+                                            {% csrf_token %}
+                                {% trans "<input type='text' name='username' id='username' placeholder='Username' style='margin-bottom: 15px;'>" %}
+                                {% trans "<input type='password' name='password' id='password' placeholder='Password' style='margin-bottom: 15px;'>" %}
+                                <div>
+                                    <a class="message" style="size: 5px;" href="/change_pwd">{% trans "I forgot my password" %}</a>
+                                </div>
+                                {% trans "<input type='submit' value='Sign in' id='sign-in' class='btn-group btn-group-justified colored-text'>" %}
+                                </form>
+                            </div>
+                            </li>
+                            </ul>
+                            </li>
+
+                            {% endif %}
+
+                            <li style="display: none;" class="register-button js-register inpage-scroll">
+                                <a href="#home" class="navbar-register-button">{% trans "Get Started" %}</a>
+                            </li>
+                        </ul>
+                        -->
+                    </div>
+                  
                   <!-- /END TOP BAR -->
-              </div>
+                </div>
               <!-- /END CONTAINER -->
-          </div>
-          <!-- /END STICKY NAVIGATION -->
+            </div>
+            <!-- /END STICKY NAVIGATION -->
 
 
             <!-- CONTAINER -->
@@ -185,20 +255,20 @@
 
         <!-- ONLY LOGO ON HEADER -->
                 <div class="row">
+                    
+                      
                     <div class="col-md-6 text-left">
 
                         <!-- HEADING AND BUTTONS -->
                         <div class="intro-section">
-
+                            
                             <!-- WELCOM MESSAGE -->
                             <h1 class="intro white-text">{% trans "This is a Beta version" %}</h1>
 
-			                      <h3 align=center class="transparent-text"><strong>{% trans "We are working on it. If you have comments or ideas to share, please contact us on"%} <a href="https://twitter.com/DrScratchTool">Twitter</a>{% trans " or in our" %} <a href="https://drscratchblog.wordpress.com/"> Blog</a>{% trans "!" %} </strong><br>
-
+                            <h3 align=center class="transparent-text"><strong>{% trans "We are still working on it. If you have any comments or ideas please contact us" %} <a href="{% url 'contact' %}">{% trans "here" %}</a>. <br>
                                       <!-- OLD VERSION -->
-                                      <h4 align=center class="transparent-text"><strong><a href="http://www.drscratch.org/v2">You can still use the old version of DrScratch that analyzes Scratch 2.0 projects</a></strong></h4><br>
                                       <!-- END OLD VERSION -->
-
+                            <br></br>
                             <h4 align=justify class="transparent-text"><strong>{% trans "Welcome to the Dr. Scratch website, an analytical tool that evaluates your Scratch projects in a variety of computational areas. This analyzer is a helpful tool to evaluate your own projects, or those of your Scratch students." %} </strong></h4>
 
                             <!-- BUTTON -->
@@ -215,9 +285,10 @@
 
                     <div class="container">
                         <br></br>
+                    
                     <div class="col-md-5">
 
-                        <!-- VERTICAL PROJECT FORM -->
+                            <!-- VERTICAL PROJECT FORM -->
 
                             <div class="vertical-project-form">
 
@@ -227,32 +298,23 @@
                                     
 
                                     
-                                <form name="form" class="project-form" enctype="multipart/form-data" method="post" action="/show_dashboard">
+                                <form name="form" class="project-form" enctype="multipart/form-data" method="post" action="/show_dashboard/">
 
-                                    {% trans "Select a dashboard mode:" %}
-                                    <select class="form-select" aria-label="Default select example" name="dashboard_mode">
-                                        <option value="Vanilla" selected>Vanilla</option>
-                                        <option value="Resnick">Resnick Mode</option>
-                                        <option value="Personalized">Personalized</option>
-                                    </select>
-                                    <br>
-                                    {% trans "1. Introduce the <span class='colored-text'><a data-toggle='modal' href='#modalUrl'>url</a></span> of your Scratch project, you don't have to download it:" %}
+                                    <input type="hidden" name="dashboard_mode" value="Default">
+                                    <h5 class="text-input" style="font-weight: lighter;">{% trans "1. Introduce the <span class='colored-text'><a data-toggle='modal' href='#modalUrl'>url</a></span> of your Scratch project, you don't have to download it:" %}</h5>
                                     {% trans '<input name="urlProject" id="cf-name" class="form-control input-box placeholder" placeholder="http:/scratch.mit.edu/projects/your_number" type="text">' %}
                                     <button id="url" name='_url' type="submit" class="btn btn-primary standard-button">{% trans "Analyze by url" %}</button>
                                     {% csrf_token %}
                                     <br><br>
                                     {% csrf_token %}
-                                    {% trans "2. If you have your <span class='colored-text'><a data-toggle='modal' href='#modalProject'>project</a></span> downloaded in the computer you can analyze it here:" %}
+                                    <h5 class="text-input">{% trans "2. If you have your <span class='colored-text'><a data-toggle='modal' href='#modalProject'>project</a></span> downloaded in the computer you can analyze it here:" %}</h5>
                                     {% trans "<input  name='zipFile' type='file' class='filestyle' data-buttonText='Choose Project'>" %}
                                     <button id="upload" name='_upload' type="submit" class="btn btn-primary standard-button">{% trans "Analyze my project" %}</button>
-                                    <br></br>
-                                    {% trans "3. Upload projects with a <span class='colored-text'><a data-toggle='modal' href='#modalProject'>txt</a></span> file:" %}
-                                    {% trans "<input  name='urlsFile' type='file' class='filestyle' data-buttonText='Choose txt'>" %}
-                                    <button id="urls" name='_urls' type="submit" class="btn btn-primary standard-button">{% trans "Analyze my projects" %}</button>
-                                    {% csrf_token %}
                                     
-
+                                    <br></br>
+                                    {% csrf_token %}
                                 </form>
+                                
 
                                 <!-- FORM SUBMIT SUCCESS / ERROR MESSAGES -->
                                 <p class="file-error dark-text small-text">
@@ -300,6 +362,16 @@
                 </a>
             </li>
             <li>
+                <a href="https://www.us.es/">
+                <img src="static/app/images/logoUS.png" alt="">
+                </a>
+            </li>
+            <li>
+                <a href="https://www.northeastern.edu/">
+                <img src="static/app/images/logoNortheastern.png" alt="">
+                </a>
+            </li>
+            <li>
                 <a href="http://libresoft.es">
                 <img src="static/app/images/logoLibresoft.jpeg" alt="">
                 </a>
@@ -316,271 +388,134 @@
     </section>
     </header>
     <!-- =========================
+     SECTION: CSV
+    ============================== -->
+    <section id="section1" class="services">
+
+        <div class="container">            
+            <div class="row">
+                <div class="col-md-8 text-center">
+                    <img src="static/app/images/csvs.png" class="img-fluid mx-auto d-block" style="max-width: 90%; max-height: 90%;" alt=""> 
+                </div>
+                <div class="col-md-4 align-self-center">
+                    <form name="form" class="project-form" enctype="multipart/form-data" method="post" action="/show_dashboard/" style="margin-top: 50px;">
+                        <h3><strong>{% trans "Batch Mode"  %}</strong></h3>
+                        <p><span class='colored-text'>{% trans "IMPORTANT!"  %}</span> {% trans "Please upload a txt containing the URLs of the projects, with each URL on a separate line. (Max. 10)" %}</p>                
+                        <input type="hidden" name="dashboard_mode" value="Default">
+                        {% trans "<input  name='urlsFile' type='file' class='filestyle' data-buttonText='Choose txt'>" %}
+                        <button id="urls" name='_urls' type="submit" class="btn btn-primary standard-button">{% trans "Analyze my projects" %}</button>
+                        <br></br>
+                        {% csrf_token %}
+                    </form>
+                </div>
+            </div> 
+            
+        </div>
+    </section>
+
+        <!-- =========================
+     SECTION: PERSONALIZED
+    ============================== -->
+    <section id="section1" class="services">
+
+        <div class="container">            
+            <div class="row">
+                
+                <div class="col-md-4 align-self-center" style="margin-top: 80px;">
+                    <h3><strong>{% trans "Personalized Mode" %}</strong></h3>
+                    <p class="h4">
+                        {% trans "The personalized mode allows you to create a personalized rubric for evaluate projects by your own criteria, after this you can share a link associated to your rubric to evaluate your students." %}
+                    </p>
+
+                    <a href="{% url 'rubric_creator' %}">
+                        <button id="urls" name='_urls' type="submit" class="btn btn-primary standard-button">{% trans "Create rubric" %}</button>
+                    </a>
+                    
+                </div>
+                <div class="col-md-8 text-center">
+                    <img src="static/app/images/personalized.png" class="img-fluid mx-auto d-block" style="max-width: 90%; max-height: 90%;" alt=""> 
+                </div>
+            </div> 
+            
+        </div>
+    </section>
+    <br></br>
+
+    <h2>{% trans "A powerful tool to analyze your Scratch projects" %}</h2>
+    <img src="static/app/images/main_screens.png" class="img-fluid" width="70%" alt="">
+
+
+    <!-- =========================
      SECTION: Why
     ============================== -->
-    <section id="section1" class="services grey-bg">
+    <section id="section1" class="services">
 
         <div class="container">
-            <!-- SECTION HEADER -->
-            <div class="section-header">
+            
 
-                <div class="small-text-medium uppercase colored-text">
-                    {% trans "WHY?" %}
-                </div>
-                <h2 class="dark-text"><strong>{% trans "Why " %} </strong>{% trans "you’ll love Dr. Scratch" %}</h2>
-                <div class="colored-line">
-                </div>
-                <div class="sub-heading">
-                    <h3><em>{% trans "A powerful tool to analyze your Scratch projects" %}</em></h3>
+            <div class="container">
+                <div class="row align-items-right">
+                    <div class="col">
+                        <h1>{% trans "Winner of " %}</h1>
+                    </div>
+                    <div class="col">
+                        <img src="static/app/images/rise_award.png" class="img-fluid" alt="" width="40%">
+                    </div>
                 </div>
             </div>
-
-            <div class="row">
-
-                <!-- SINGLE SERVICE -->
-                <div style="visibility: visible; animation-duration: 1.75s; animation-name: fadeInLeft;" class="col-md-4 wow fadeInLeft animated" data-wow-offset="10" data-wow-duration="1.75s">
-                    <div class="single-service border-bottom-hover">
-                        <div class="service-icon colored-text">
-                            <span class="icon-social-dribbble-circle"></span>
-                        </div>
-                        <h3 class="colored-text">{% trans "Simple & Fun" %}</h3>
-                        <p>
-                            <h4>{% trans "Your students can easily learn how to improve their programming skills in a fun way." %}</h4>
-                        </p>
-                    </div>
-                </div>
-
-                <!-- SINGLE SERVICE -->
-                <div style="visibility: visible; animation-duration: 1s; animation-name: flipInY;" class="col-md-4 wow flipInY animated" data-wow-offset="10" data-wow-duration="1s">
-                    <div class="single-service border-bottom-hover">
-                        <div class="service-icon colored-text">
-                            <span class="icon-ecommerce-graph3"></span>
-                        </div>
-                        <h3 class="colored-text">{% trans "Improve your skills" %}</h3>
-                        <p>
-                            <h4>{% trans "We provide feedback on several aspects which are related to Computational Thinking." %}</h4>
-                        </p>
-                    </div>
-                </div>
-
-                <!-- SINGLE SERVICE -->
-                <div style="visibility: visible; animation-duration: 1.75s; animation-name: fadeInRight;" class="col-md-4 wow fadeInRight animated" data-wow-offset="10" data-wow-duration="1.75s">
-                    <div class="single-service border-bottom-hover">
-                        <div class="service-icon colored-text">
-                            <span class="icon-software-pen"></span>
-                        </div>
-                        <h3 class="colored-text">{% trans "Always improving" %}</h3>
-                        <p>
-                           <h4>{% trans "We're continually enhancing the features of Dr. Scratch, and we'd love to hear your thoughts" %}</h4>
-                        </p>
-                    </div>
-                </div>
-
-            </div>
+            
+            
+            
+            
+            
+            <blockquote class="blockquote text-center">
+                <p class="mb-0">{% trans "For the first time, a Spanish team, made up of researchers from the Rey Juan Carlos University of Madrid and professors from the Sevillian association Programamos, has been awarded a Google RISE Award, for the project Dr. Scratch." %}</p>
+                <footer class="blockquote-footer">{% trans "Article of " %}<cite title="Source Title">National Institute of Educational and Teacher Technologies</cite></footer>
+              </blockquote>
         </div>
+        <br></br>
             </section>
     </section>
 
-    <!-- =========================
-     SECTION: HOW (BRIEF LEFT)
-    ============================== -->
-    <section id="section2" class="brief white-bg-border text-left">
-        <div class="container">
-            <div class="row">
-
-                <!-- BRIEF IMAGE -->
-                <div style="visibility: visible; animation-duration: 1.75s; animation-name: fadeInLeft;" class="col-md-6 pull-right wow fadeInLeft animated" data-wow-offset="20" data-wow-duration="1.75s">
-
-     <div class="brief-image-right">
-
-                <div class="text-left dark-text">
-                    <br></br>
-                    <h3></h3>
-                    <br></br>
-                </div>
-                        <div class="js-video [vimeo, widescreen]">
-
-                            <iframe src="http://player.vimeo.com/video/114430745" width="500" height="333" frameborder="0" allowfullscreen="" mozallowfullscreen="" webkitallowfullscreen=""></iframe>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- BRIEF HEADING -->
-                <div style="visibility: visible; animation-duration: 1.75s; animation-name: fadeInRight;" class="col-md-6 content-section pull-left wow fadeInRight animated" data-wow-offset="20" data-wow-duration="1.75s">
-                    <div class="small-text-medium uppercase colored-text">
-                        {% trans "How" %}
-                    </div>
-                    <h2 class="text-left dark-text"><strong>{% trans "How " %} </strong>{% trans "it works" %} </h2>
-                    <div class="colored-line-left">
-                    </div>
-                    <p class="text-left">
-                        <p><em>{% trans "There are two options to analyze a Scratch project with Dr. Scratch" %}</em></p>
-                        <img src="static/app/images/{% trans 'project.png' %}"></img>
-                    <p align=justify>
-                        {% trans "You can upload an sb2 file or just provide the project url, avoiding the need to previously download the project to your computer. By analyzing your projects with Dr. Scratch, you can easily check your Computational Thinking Score." %}
-                    </p>
-                    </p>
-                    <!-- FEATURE LIST -->
-                    <div class="row">
-                        <div class="col-md-6 col-sm-6">
-                            <ul class="feature-list text-left">
-                              <li><p>
-                                <span class="icon-basic-clessidre colored-text"></span>
-                                {% trans "It is extremely easy to use, both for begginers and expert programmers." %}
-                              </p></li>
-                              <li><p>
-                                <span class="icon-basic-lightbulb colored-text"></span>
-                                {% trans "You receive feedback to improve your coding skills." %}
-                              <p></li>
-                            </ul>
-                        </div>
-                        <div class="col-md-6 col-sm-6">
-                          <ul class="feature-list text-left">
-                            <li><p>
-                              <span class="icon-basic-home colored-text"></span>
-                              {% trans "You can keep on improving your programming skills by yourself even from home." %}
-                            <p></li>
-                            <li><p>
-                              <span class="icon-ecommerce-graph3 colored-text"></span>
-                              {% trans "You can track your progress through charts and stats." %}
-                            <p></li>
-                          </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
 
     <!-- =========================
-     SECTION: BENEFITS
+     SECTION: Why
     ============================== -->
-    <section id="section3" class="unique-features white-bg">
+    <section id="section1" class="services">
+
         <div class="container">
             <!-- SECTION HEADER -->
             <div class="section-header">
-                <div class="small-text-medium uppercase colored-text">
-                    {% trans "NEW FEATURES" %}
-                </div>
-                <h2 class="dark-text"><strong>{% trans "Coming " %}</strong>{% trans "Soon" %}</h2>
-                <div class="colored-line">
-                </div>
-                <div class="sub-heading">
-                    <h3><em>{% trans "We are working on new features to improve Dr. Scratch" %}</em></h3>
-                </div>
+
+                <h2 class="dark-text">{% trans "Check the" %}<strong>{% trans " wiki " %} </strong>{% trans "of Dr.Scratch." %}</h2>
+
             </div>
 
-            <!-- FIRST ROW OF FEATURES -->
             <div class="row">
-                <div style="visibility: visible; animation-duration: 1.75s; animation-name: fadeInRight;" class="col-md-4 wow fadeInRight animated" data-wow-duration="1.75s" data-wow-offset="40">
 
+               <!-- SINGLE SERVICE -->
+               <a href="{% url 'learn' "PersonalMode/" %}" ><div style="height: 700px;" class="col-md-3" id="bg-personalized"></div></a>
+               
+               
+                <!-- SINGLE SERVICE -->
+                <a href="{% url 'learn' "BatchMode/" %}"><div style="height: 700px;" class="col-md-3" id="bg-csv"></div></a>
 
-                    <!-- SINGLE FEATURE -->
-                    <div class="feature">
-                        <div class="icon-container">
-                            <span class="icon-comment-alt colored-text"></span>
-                        </div>
-                        <div class="description text-left">
-                            <h4 class="dark-text">{% trans "Multilingual website" %}</h4>
-                            <div class="grey-line-short pull-left">
-                            </div>
-                            <p class="text-left">
-                               {% trans "We know the importance of receiving feedback on your own language to understand every little detail or hint, so we'll translate Dr. Scratch to facilitate coding learning to as many people as possible." %}
-                            </p>
-                        </div>
-                    </div>
+                <!-- SINGLE SERVICE -->
+                <a href="{% url 'learn' "DefaultMode/" %}"><div style="height: 700px;" class="col-md-3" id="bg-classic"></div></a>
 
-                    <!-- SINGLE FEATURE -->
-                    <div class="feature">
-                        <div class="icon-container">
-                            <span class="icon-icon-desktop colored-text"></span>
-                        </div>
-                        <div class="description text-left">
-                            <h4 class="dark-text">{% trans "Teacher accounts" %}</h4>
-                            <div class="grey-line-short pull-left">
-                            </div>
-                            <p class="text-left">
-                                {% trans "Teachers will be able to group (and follow) their students to keep track of their progress in a fast and simple way." %}
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- SINGLE FEATURE -->
-                    <div class="feature">
-                        <div class="icon-container">
-                            <span class="icon-cloud-alt colored-text"></span>
-                        </div>
-                        <div class="description text-left">
-                            <h4 class="dark-text">{% trans "Cloud platform" %}</h4>
-                            <div class="grey-line-short pull-left">
-                            </div>
-                            <p class="text-left">
-                                {% trans "We are in the process of migrating our servers to the Cloud with the aim of providing a better performance." %}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- DrScratch's working to improve -->
-                <div class="col-md-4">
-                    <div style="visibility: visible; animation-duration: 1.75s; animation-name: bounceIn;" class="ipad-image wow bounceIn animated" data-wow-duration="1.75s" data-wow-offset="20">
-                        <img src="static/app/images/bulb.png" alt="" height="406" width="360">
-                    </div>
-                </div>
-
-                <div style="visibility: visible; animation-duration: 1.75s; animation-name: fadeInLeft;" class="col-md-4 wow fadeInLeft animated" data-wow-duration="1.75s" data-wow-offset="20">
-
-                    <!-- SINGLE FEATURE -->
-                    <div class="feature">
-                        <div class="icon-container">
-                            <span class="icon-tools colored-text"></span>
-                        </div>
-                        <div class="description text-left">
-                            <h4 class="dark-text">Plug-ins</h4>
-                            <div class="grey-line-short pull-left">
-                            </div>
-                            <p class="text-left">
-                                {% trans "With Dr. Scratch plug-ins for Chrome and Firefox, students will analyze their project WHILE programming on the Scratch website." %}
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- SINGLE FEATURE -->
-                    <div class="feature">
-                        <div class="icon-container">
-                            <span class="icon-star-alt colored-text"></span>
-                        </div>
-                        <div class="description text-left">
-                            <h4 class="dark-text">{% trans "Gamification" %}</h4>
-                            <div class="grey-line-short pull-left">
-                            </div>
-                            <p class="text-left">
-                                {% trans "We'd like to take learners curiosity one step further. Do you have cool ideas to gamify our platform?" %}
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- SINGLE FEATURE -->
-                    <div class="feature">
-                        <div class="icon-container">
-                            <span class="icon-chat-alt colored-text"></span>
-                        </div>
-                        <div class="description text-left">
-                            <h4 class="dark-text">{% trans "Social network" %}</h4>
-                            <div class="grey-line-short pull-left">
-                            </div>
-                            <p class="text-left">
-                                {% trans "The new social network funcionalities will allow users to communicate with each other to exchange ideas and challenges." %}
-                            </p>
-                        </div>
-                    </div>
-
-                </div>
+                <!-- SINGLE SERVICE -->
+                <a href=""><div style="height: 700px;" class="col-md-3" id="bg-coming"></div></a>
+            
             </div>
         </div>
+        <br></br>
+            </section>
     </section>
 
+    
+
+
+    
 
 
     <!-- =========================
@@ -590,100 +525,35 @@
         <div class="container">
             <!-- SECTION HEADER -->
             <div class="section-header">
-                <div class="small-text-medium uppercase colored-text">
-                    {% trans "Contact" %}
-                </div>
                 <h2 class="dark-text">{% trans "<strong>Contact </strong> Dr. Scratch team</h2>" %}
                 <div class="colored-line">
+                    
                 </div>
-                <div class="sub-heading">
-                    <h3><em>{% trans "We would be pleased to receive your feedback" %}</em></h3>
-                </div>
+                <h3 align=center class="transparent-text-dark"><strong>{% trans "We are still working on it. If you have any comments or ideas please contact us" %} <a href="{% url 'contact' %}">{% trans "here" %}</a>. <br>
+
             </div>
 
 
-        <!-- =========================
-     SECTION: CONTACT INFO
-    ============================== -->
-    <div class="contact-info white-bg">
-        <div class="container">
-
-            <!-- CONTACT INFO -->
-            <div class="row contact-links">
-
-                <div class="col-sm-4">
-                    <div class="icon-container">
-                        <span class="icon-basic-mail colored-text"></span>
-                    </div>
-                    <a href="mailto:kgblll@gsyc.urjc.es" class="strong">kgblll@gsyc.urjc.es</a>
-                </div>
-
-                <div class="col-sm-4">
-                    <div class="icon-container">
-                        <span class="icon-social-twitter colored-text"></span>
-                    </div>
-                    <a href="https:/twitter.com/drscratchtool" class="strong">@DrScratchTool</a>
-                </div>
-
-                <div class="col-sm-4">
-                    <div class="icon-container">
-                        <span class="icon-basic-tablet colored-text"></span>
-                    </div>
-                    <a href="https:/github.com/jemole/drScratch/issues" class="strong">GitHub(issues)</a>
-                </div>
-            </div>
-        </div>
-</div>
-        <div class="jumbotron">
-                <div>
-                <!-- {% trans "We would like to thank many people for their collaboration and we have done one special section." %} -->
-                </div>
-                <div class="jumbotron">
-                    <a style="visibility: visible; animation-duration: 2s; animation-name: fadeInRight;" href="/statistics" class="btn btn-primary standard-button inpage-scroll wow fadeInRight animated col-md-3 col-md-offset-1" data-wow-duration="2s" data-wow-offset="10" type="button">{% trans "Statistics" %}</a>
-                    <a style="visibility: visible; animation-duration: 2s; animation-name: fadeInRight;" href="/collaborators" class="btn btn-primary standard-button inpage-scroll wow fadeInRight animated col-md-3 col-md-offset-1" data-wow-duration="2s" data-wow-offset="10" type="button">{% trans "Collaborators" %}</a>
-                    <a style="visibility: visible; animation-duration: 2s; animation-name: fadeInRight;" href="/blog" class="btn btn-primary standard-button inpage-scroll wow fadeInRight animated col-md-3 col-md-offset-1" data-wow-duration="2s" data-wow-offset="10" type="button">{% trans "Blog" %}</a>
-                </div>
-
-        </div>
+       
     </div>
-    </section>
-
-
-    <!-- =========================
-     SECTION: CALL TO ACTION
-    ============================== -->
-    <section style="background-position: 40% 827.245px;" class="call-to-action" id="section7" data-stellar-background-ratio="0.1">
-        <div class="overlay-layer-2">
-            <div class="container">
-                <div class="row">
-
-                    <div class="col-md-8 col-md-offset-2">
-
-                        <div class="uppercase colored-text strong">
-                            {% trans "Are you a Dr. Scratch user?" %}
-                        </div>
-
-                        <h3 style="visibility: visible; animation-duration: 2s; animation-name: fadeInLeft;" class="white-text strong wow fadeInLeft animated" data-wow-duration="2s" data-wow-offset="10">{% trans "Join now!" %}</h3>
-
-                        <a style="visibility: visible; animation-duration: 2s; animation-name: fadeInRight;" href="#home" class="btn btn-primary standard-button inpage-scroll wow fadeInRight animated" data-wow-duration="2s" data-wow-offset="10" type="button">{% trans "Get Started" %}</a>
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
     </section>
 
     <!-- FOOTER -->
     <footer class="footer grey-bg">
-       {% trans "©2019 Dr. Scratch" %}
+        <p>{% trans "©2024 Dr.Scratch Made with " %} <span style="color: #e25555;">&#9829;</span> {% trans "by " %} <a href="/collaborators">{% trans "Dr.Scratch Team." %}</a></p>
 
         <!-- SOCIAL ICONS -->
         <ul class="social-icons">
-            <li><a href="https:/twitter.com/drscratchtool"><span class="icon-social-twitter transparent-text-dark"></span></a>
+            <li>
+                <a href="https://github.com/Daniesmor/Dr.Scratch-Northeastern"> 
+                    <i class="bi bi-github" style="color: black;"></i>
+                </a>
             </li>
-            <li><a href=""><span class="icon-social-github transparent-text-dark"></span></a>
-            </li>
+            <li>
+                <a href="https://twitter.com/DrScratchTool">
+                    <i class="bi bi-twitter-x" style="color: black;"></i>
+                </a>
+            </li>    
 
         </ul>
 
@@ -1496,6 +1366,9 @@
     <script src="static/app/scripts/progress-bar.js"></script>
     <script src="../../static/app/scripts/googleAnalytics.js"></script>
     <script src="../../static/app/scripts/question.js"></script>
+    <script>
+        $('.carousel').carousel();
+    </script>
 
     <!-- GOGLE MAP -->
     <!--

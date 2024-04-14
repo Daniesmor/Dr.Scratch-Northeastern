@@ -1,0 +1,756 @@
+{% load i18n %}
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="description" content="Analyze your Scratch projects to assess your Computational Thinking skills">
+    <meta name="keywords" content="Stamp, Startup, Multipurpose, Bootstrap, Landing page, Template, Registration, Landing">
+    <meta name="author" content="Programamos URJC Libresoft FECyT">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+    <link rel="stylesheet" href="../../static/app/content/scratchblocks2.css">
+    <!-- <script src="../../static/app/scripts/bootstrap-modal.js"></script> -->
+    <script src="../../static/app/scripts/translations.js"></script>
+    <!-- <script src="../../static/app/scripts/bootstrap.js"></script> -->
+    <link rel="stylesheet" href="../../static/app/content/bootstrap-tour.css">
+    <script src="../../static/app/scripts/bootstrap.min.js"></script>
+    <script src="../../static/app/scripts/bootstrap-tour.js"></script>
+    <script src="../../static/app/scripts/googleAnalytics.js"></script>
+    <script src="../../static/app/scripts/scratchblocks-v3.4-min.js"></script>
+
+
+    <!-- SITE TITLE -->
+    <title>Dr. Scratch</title>
+
+
+    <link rel="stylesheet" href="/static/app/content/style.css">
+    <!-- =========================
+     FAV AND TOUCH ICONS AND FONT
+    ============================== -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="icon" href="/static/app/images/favicon.ico">
+    <link rel="stylesheet" href="static/app/icons/icons.css">
+    <link type="text/css" rel="stylesheet" href="/static/app/content/css_002.css">
+    <link type="text/css" rel="stylesheet" href="/static/app/content/css.css">
+    <!-- =========================
+     STYLESHEETS
+    ============================== -->
+    <!-- BOOTSTRAP AND ANIMATION -->
+    <link rel="stylesheet" href="/static/app/content/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/app/content/animate.css">
+
+    <!-- CAROUSEL AND LIGHTBOX -->
+    <link rel="stylesheet" href="../../static/app/content/owl_002.css">
+    <link rel="stylesheet" href="../../static/app/content/owl.css">
+    <link rel="stylesheet" href="../../static/app/content/nivo-lightbox.css">
+    <link rel="stylesheet" href="../../static/app/content/default.css">
+
+    <!-- CUSTOM STYLESHEETS -->
+    <link rel="stylesheet" href="../../static/app/content/styles.css">
+    <link rel="stylesheet" href="/static/app/content/master.css">
+    <!-- RESPONSIVE FIXES -->
+    <link rel="stylesheet" href="../../static/app/content/responsive.css">
+
+    <!-- DEFAULT COLOR/ CURRENTLY USING -->
+    <link rel="stylesheet" href="../../static/app/content/red.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+    <script>
+    // Instance the tour
+    $(document).ready(function(){
+        $("#tour").click(function(){
+    var tour = new Tour({
+      storage: false,
+      backdrop: true,
+      steps: [
+      {
+        element: "#stepone",
+        title: "{% trans 'Score' %}",
+        content: "{% trans 'This section shows the total score.' %}"
+      },
+      {
+        element: "#steptwo",
+        title: "{% trans 'Bad habits in programming' %}",
+        content:"{% trans 'If you correct your bad habits in programming, you will avoid problems in the future.'%}"
+      },
+      {
+        element: "#stepthree",
+        title: "{% trans 'Certificate' %}",
+        content:"{% trans 'Download your certificate!'%}"
+      },
+      {
+        element: "#stepfour",
+        title: "{% trans 'Score in detail'%}",
+        content: "{% trans 'Here we show the score in each programming skill as well as links to sites that can help you to level up.' %}",
+        placement:'left'
+      }
+    ]});
+     tour.init();
+    // Initialize the tour
+
+
+            tour.start();
+
+        });
+});
+    </script>
+    <script>
+        window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('.dropdown').popover();
+    });
+    </script>
+    <script>
+        $(document).ready(function() {
+            scratchblocks.renderMatching('pre.blocks', {
+            style:     'scratch3',   // Optional, defaults to 'scratch2'.
+            languages: ['en'], // Optional, defaults to ['en'].
+            scale: 0.5,                // Optional, defaults to 1
+            });
+        })
+    </script>
+    <script>
+        $(document).ready(function () {
+            if("{{ dupCode }}" == ""){
+                $("#dupCode").attr("data-content","{% trans 'Your project does not have duplicated scripts, good job!' %}");
+            }else{
+                str = "{{ dupCode }}".split(",");
+                for (n in str){
+
+                    if(n == 0){str[n] = str[n].slice(13,-11)}
+                    else if(n == str.length-1) { str[n] = str[n].slice(14,-12)}
+                    else{
+                    str[n] = str[n].slice(14,-11)};
+                };
+                $("#dupCode").attr("data-content",str.join("\n"));
+            }
+        });
+    </script>
+    <script>
+    $(document).ready(function(){
+
+    var filename = "{{ filename }}";
+    var level = "{{ mastery.points}}/{{ mastery.maxi }}";
+    var list =[filename,level];
+    $("#certificate").val(list.toString());
+    });
+
+    </script>
+
+    <script>
+        $(document).ready(function(){
+            var isMouseOverPopover = false;
+        
+            $('.dropdown').popover({
+                trigger: 'manual',
+                html: true,
+                animation: false
+            }).on('mouseenter', function () {
+                var contentId = $(this).attr('id');
+                if (contentId === 'dead-code') {
+                    var content = $(this).next('#dead-code-content').html();
+                    $(this).attr('data-content', content);
+                } else {
+                   var _this = this;
+                }
+                $(this).popover('show');
+                $('.popover').on('mouseenter', function () {
+                    isMouseOverPopover = true;
+                }).on('mouseleave', function () {
+                    isMouseOverPopover = false;
+                    $(_this).popover('hide');
+                });
+            }).on('mouseleave', function () {
+                var _this = this;
+                setTimeout(function () {
+                    if (!isMouseOverPopover) {
+                        $(_this).popover('hide');
+                    }
+                }, 100);
+            });
+        });
+        
+    </script>
+
+    <script>
+
+        
+
+        document.addEventListener("DOMContentLoaded", function() {
+            function hideDigits(digits) {
+                var base32 = digits.toString(32);
+                return base32;
+            }
+
+            document.getElementById("rubric-generator").addEventListener("submit", function(event) {
+                event.preventDefault(); 
+                
+
+
+                var abstractionInput = document.getElementById("Abstraction");
+                var parallelizationInput = document.getElementById("Parallelization");
+                var logicThinkingInput = document.getElementById("LogicThinking");
+                var synchronizationInput = document.getElementById("Synchronization");
+                var flowControlInput = document.getElementById("FlowControl");
+                var userInteractivityInput = document.getElementById("UserInteractivity");
+                var dataRepresentationInput = document.getElementById("DataRepresentation");
+                var mathOperators = document.getElementById("MathOperators");
+                var motionOperators = document.getElementById("MotionOperators");
+
+
+                var abstractionValue = abstractionInput.value;
+                var parallelizationValue = parallelizationInput.value;
+                var logicThinkingValue = logicThinkingInput.value;
+                var synchronizationValue = synchronizationInput.value;
+                var flowControlValue = flowControlInput.value;
+                var userInteractivityValue = userInteractivityInput.value;
+                var dataRepresentationValue = dataRepresentationInput.value;
+                var mathOperatorsValue = mathOperators.value;
+                var motionOperatorsValue = motionOperators.value;
+
+                var digits = abstractionValue +
+                        parallelizationValue +
+                        logicThinkingValue +
+                        synchronizationValue + 
+                        flowControlValue + 
+                        userInteractivityValue + 
+                        dataRepresentationValue +
+                        mathOperatorsValue +
+                        motionOperatorsValue;
+
+                
+                var digits = hideDigits(parseInt(digits))
+                var url = "http://127.0.0.1:8000/" + digits;
+                // document.getElementById("url-share").innerText = url;
+                var linkElement = document.createElement("a");
+                linkElement.setAttribute("href", url);
+                linkElement.textContent = url;
+
+                var urlShareElement = document.getElementById("url-share");
+                urlShareElement.innerHTML = ""; 
+                urlShareElement.appendChild(linkElement); 
+            });
+
+
+        });
+
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Obtener las barras deslizadoras
+            var sliders = document.querySelectorAll(".form-range");
+    
+            // Función para establecer los valores de las barras deslizadoras
+            function setSliderValues(abstraction, parallelization, logicThinking, synchronization, flowControl, userInteractivity, dataRepresentation) {
+                document.getElementById("Abstraction").value = abstraction;
+                document.getElementById("Parallelization").value = parallelization;
+                document.getElementById("LogicThinking").value = logicThinking;
+                document.getElementById("Synchronization").value = synchronization;
+                document.getElementById("FlowControl").value = flowControl;
+                document.getElementById("UserInteractivity").value = userInteractivity;
+                document.getElementById("DataRepresentation").value = dataRepresentation;
+            }
+    
+            // Evento clic en los elementos de texto
+            var textElements = document.querySelectorAll(".text-success");
+            textElements.forEach(function(element) {
+                element.addEventListener("click", function() {
+                    switch (element.textContent.trim()) {
+                        case "Games":
+                            setSliderValues(3, 5, 3, 5, 5, 3, 3); // Games's Rubric
+                            break;
+                        case "Stories":
+                            setSliderValues(2, 3, 2, 3, 3, 2, 2); // Stories's Rubric
+                            break;
+                        case "Animations":
+                            setSliderValues(2, 3, 2, 2, 3, 2, 2); // Animation's Rubric
+                            break;
+                        case "Music":
+                            setSliderValues(2, 2, 0, 5, 5, 2, 2); // Music's Rubric
+                            break;
+                        case "Arts":
+                            setSliderValues(2, 2, 0, 2, 5, 5, 2); // Art's Rubric
+                            break;
+                        default:
+                            break;
+
+
+                        
+                    }
+                });
+            });
+        });
+    </script>
+
+    <style>
+        .btn-primary {
+            background-color: #1792A4;
+        }
+        .btn-primary:hover {
+            background-color: #4CA8A1;
+        }
+        .btn-primary:focus {
+            background-color: #4CA8A1;
+        }
+        .text-success {
+            cursor: pointer; /* Cambiar el cursor a pointer cuando se pasa sobre el texto */
+        }
+        /* Cambiar el color azul por defecto a rojo en las barras deslizadoras en Firefox */
+        input[type="range"]::-moz-range-progress {
+            background-color: red; /* Color de la parte seleccionada */
+            height: 8px; /* Ajustar el grosor de la barra de progreso */
+        }
+        /* Completar la parte no seleccionada con color gris */
+        input[type="range"]::-moz-range-track {
+            background-color: lightgrey; /* Color de la parte no seleccionada */
+            height: 8px; /* Ajustar el grosor de la barra de progreso */
+        }
+        /* Cambiar el color del cursor cuando se manipula la barra deslizadora */
+        input[type="range"]:active::-moz-range-thumb {
+            background-color: red; /* Color del cursor cuando se está manipulando */
+        } 
+        /* Cambiar el estilo del puntero a uno más redondo */
+        input[type="range"]::-moz-range-thumb {
+            border-radius: 50%; /* Hacer el puntero redondo */
+        }
+
+        body p {
+            font-size: 10px;
+            color: #088CE3;
+        }
+
+        body .phrase {
+            font-size: 13px;
+        }
+
+        
+        .phrase {
+            display: none; 
+        }
+
+        .lightbulb-color {
+            color: #FBE259;
+            
+        }
+
+        .label-pair {
+            display: inline-block;
+            vertical-align: middle;
+            
+        }
+
+
+        /* Lightbulb zoom hover */
+        .zoomable {
+            transition: transform 0.3s ease;
+        }
+
+        .zoomable:hover {
+            transform: scale(1.2); /* El valor 1.1 puede ajustarse según el nivel de zoom deseado */
+        }
+
+
+    </style>
+    
+</head>
+<body>
+    <!-- TOP BAR -->
+    <div id="wrap">
+        <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top  sticky-navigation" role="navigation">
+            <div class="container">
+                <!-- NAVIGATION LINK -->
+                <a href="/">
+                    <img src="static/app/images/logo_main.png" alt="" width="220" height="70.1667">
+                </a>
+    
+            </div>
+        </div>
+    <!-- /END TOP BAR -->
+
+<div class="container">
+    
+    <!-- BODY -->
+    
+    <section id="blackboard" class="services">
+        <div class="display-center">
+            <!-- Score in detail -->
+
+            
+
+            
+            <div class="col-md-7">
+                <section id="dashboard">
+                    <div class="container-fluid" id="stepfour">
+                        <div class="row marketing">
+                            
+                            <div class="jumbotron">
+                                
+                                <h4>{% trans 'Build your rubric!' %}</h4>
+    
+                                                         
+                                <div id="personalized-options">
+                                    <form action="" id="rubric-generator">
+                                        <div class="form-group">
+                                            <label for="Abstraction" class="form-label text-primary label-pair">
+                                                {% trans 'Abstraction' %}: <span id="Abstraction-value"></span> 
+                                                <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                                            </label>
+                                        
+
+                                            
+                                            <div class="card border-success">
+                                                <div id="collapse1" class="collapse card-body bg-light" aria-labelledby="headingOne" data-parent="#accordion">
+                                                    <p id="Abstraction-phrase-0" class="phrase phrase-Abstraction card-body" >{% trans 'Abstraction is not relevant to me at this moment. I am focused on concrete and specific details of the program.' %}</p>
+                                                    <p id="Abstraction-phrase-1" class="phrase phrase-Abstraction card-body" >{% trans 'Abstraction is minimal. I prefer to stay close to the source code and do not need high levels of generalization.' %}</p>
+                                                    <p id="Abstraction-phrase-2" class="phrase phrase-Abstraction card-body" >{% trans 'Abstraction has some importance, but it is not essential. I am interested in understanding the overall functioning.' %}</p>
+                                                    <p id="Abstraction-phrase-3" class="phrase phrase-Abstraction card-body" >{% trans 'Abstraction is important. I value patterns in the code to facilitate its maintenance and extension.' %}</p>
+                                                    <p id="Abstraction-phrase-4" class="phrase phrase-Abstraction card-body" >{% trans 'Abstraction is crucial. I value modular and reusable code, which abstracts concepts to improve clarity and efficiency.' %}</p>
+                                                    <p id="Abstraction-phrase-5" class="phrase phrase-Abstraction card-body">{% trans 'Abstraction is absolutely vital. The code must be abstract and flexible to adapt to future changes and reuse.' %}</p>
+                                                    
+                                                </div>
+                                            </div>
+                                            
+                                                                                    
+                                            <input type="range" class="form-range" min="0" max="5" id="Abstraction" name="Abstraction">
+                                        </div>
+
+                                        
+                                        
+                                        <div class="form-group">
+
+                                            <label for="Parallelization" class="form-label text-primary label-pair">
+                                                {% trans 'Parallelization' %}: <span id="Parallelization-value"></span> 
+                                                <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                                            </label>
+
+                                            <div id="collapse2" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                                <p id="Parallelization-phrase-0" class="phrase phrase-Parallelization" >{% trans 'Parallelization is not crucial at this moment. There is no need to execute tasks simultaneously in the code.' %}</p>
+                                                <p id="Parallelization-phrase-1" class="phrase phrase-Parallelization" >{% trans 'Parallelization is minimal. There is no significant need for parallel processing in the code.' %}</p>
+                                                <p id="Parallelization-phrase-2" class="phrase phrase-Parallelization" >{% trans 'Parallelization has some importance. There is a moderate need to execute tasks in parallel in the code.' %}</p>
+                                                <p id="Parallelization-phrase-3" class="phrase phrase-Parallelization" >{% trans 'Parallelization is important. Proper parallel processing is required to enhance the code performance.' %}</p>
+                                                <p id="Parallelization-phrase-4" class="phrase phrase-Parallelization" >{% trans 'Parallelization is crucial. Simultaneous execution of tasks is essential to optimize code performance and efficiency.' %}</p>
+                                                <p id="Parallelization-phrase-5" class="phrase phrase-Parallelization" >{% trans 'Parallelization is absolutely vital. The ability to perform parallel processing is fundamental for system performance.' %}</p>
+                                            </div>                                            
+                                            <input type="range" class="form-range" min="0"s max="5" id="Parallelization" name="Parallelization">
+                                        </div>
+                                    
+                                        <div class="form-group">
+                                            <label for="LogicThinking" class="form-label text-primary label-pair">
+                                                {% trans 'Logic Thinking' %}: <span id="LogicThinking-value"></span> 
+                                                <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                                            </label>
+
+                                            <div id="collapse3" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                                <p id="LogicThinking-phrase-0" class="phrase phrase-LogicThinking" >{% trans 'Logical thinking is not relevant to me at this moment. I am focused on other aspects of the problem.' %}</p>
+                                                <p id="LogicThinking-phrase-1" class="phrase phrase-LogicThinking" >{% trans 'Logical thinking is minimal. I prefer to follow a more intuitive approach in my decisions and actions.' %}</p>
+                                                <p id="LogicThinking-phrase-2" class="phrase phrase-LogicThinking" >{% trans 'Logical thinking has some importance, but it is not fundamental. Sometimes, I rely more on my instinct than on pure logic.' %}</p>
+                                                <p id="LogicThinking-phrase-3" class="phrase phrase-LogicThinking" >{% trans 'Logical thinking is important. I use logic to solve problems and make decisions more efficiently.' %}</p>
+                                                <p id="LogicThinking-phrase-4" class="phrase phrase-LogicThinking" >{% trans 'Logical thinking is crucial. I rely on logic to analyze complex situations and find effective solutions.' %}</p>
+                                                <p id="LogicThinking-phrase-5" class="phrase phrase-LogicThinking" >{% trans 'Logical thinking is absolutely vital. All code must follow strict logic for problem-solving.' %}</p>
+                                            </div>
+                                            <input type="range" class="form-range" min="0"s max="5" id="LogicThinking" name="LogicThinking">
+                                        </div>
+                                    
+                                        <div class="form-group">
+                                            <label for="Synchronization" class="form-label text-primary label-pair">
+                                                {% trans 'Synchronization' %}: <span id="Synchronization-value"></span> 
+                                                <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                                            </label>
+
+                                            <div id="collapse4" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                                <p id="Synchronization-phrase-0" class="phrase phrase-Synchronization" >{% trans 'Synchronization is not relevant at this moment. I am not concerned about coordinating activities in the code.' %}</p>
+                                                <p id="Synchronization-phrase-1" class="phrase phrase-Synchronization" >{% trans 'Synchronization is minimal. I do not consider managing concurrency or process synchronization crucial.' %}</p>
+                                                <p id="Synchronization-phrase-2" class="phrase phrase-Synchronization" >{% trans 'Synchronization has some importance. I can allow some operations to run asynchronously.' %}</p>
+                                                <p id="Synchronization-phrase-3" class="phrase phrase-Synchronization" >{% trans 'Synchronization is important. It is crucial to ensure that shared resources are handled correctly.' %}</p>
+                                                <p id="Synchronization-phrase-4" class="phrase phrase-Synchronization" >{% trans 'Synchronization is crucial. It is essential to control concurrency to ensure data consistency and integrity in the code.' %}</p>
+                                                <p id="Synchronization-phrase-5" class="phrase phrase-Synchronization" >{% trans 'Synchronization is absolutely vital. Efficient concurrency is fundamental for system performance and reliability.' %}</p>
+                                            </div>                                            
+                                            
+                                            <input type="range" class="form-range" min="0"s max="5" id="Synchronization" name="Synchronization">
+                                        </div>
+                                    
+                                        <div class="form-group">
+                                            <label for="FlowControl" class="form-label text-primary label-pair">
+                                                {% trans 'Flow Control' %}: <span id="FlowControl-value"></span> 
+                                                <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+                                            </label>
+                                            
+                                            <div id="collapse5" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                                <p id="FlowControl-phrase-0" class="phrase phrase-FlowControl" >{% trans 'Flow control is not relevant at this moment. I do not need control structures to direct code execution.' %}</p>
+                                                <p id="FlowControl-phrase-1" class="phrase phrase-FlowControl" >{% trans 'Flow control is minimal. I prefer to follow a more linear approach in code execution without many control structures.' %}</p>
+                                                <p id="FlowControl-phrase-2" class="phrase phrase-FlowControl" >{% trans 'Flow control has some importance. I can manage code execution with a few basic control structures.' %}</p>
+                                                <p id="FlowControl-phrase-3" class="phrase phrase-FlowControl" >{% trans 'Flow control is important. Code execution must be directed and decisions made based on different conditions.' %}</p>
+                                                <p id="FlowControl-phrase-4" class="phrase phrase-FlowControl" >{% trans 'Flow control is crucial. Ensuring logic and coherence of program execution flow is necessary.' %}</p>
+                                                <p id="FlowControl-phrase-5" class="phrase phrase-FlowControl" >{% trans 'Flow control is absolutely vital. Proper flow control management determines the efficiency and effectiveness of the program.' %}</p>
+                                            </div>
+                                        
+                                            <input type="range" class="form-range" min="0"s max="5" id="FlowControl" name="FlowControl">
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="UserInteractivity" class="form-label text-primary label-pair">
+                                                {% trans 'User Interactivity' %}: <span id="UserInteractivity-value"></span> 
+                                                <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
+                                            </label>
+
+                                            <div id="collapse6" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                                <p id="UserInteractivity-phrase-0" class="phrase phrase-UserInteractivity" >{% trans 'User interactivity is not relevant at this moment. I do not need the code to respond to user input.' %}</p>
+                                                <p id="UserInteractivity-phrase-1" class="phrase phrase-UserInteractivity" >{% trans 'User interactivity is minimal. The code does not require much direct interaction with the user.' %}</p>
+                                                <p id="UserInteractivity-phrase-2" class="phrase phrase-UserInteractivity" >{% trans 'User interactivity has some importance. The code can be executed without too much direct user interaction.' %}</p>
+                                                <p id="UserInteractivity-phrase-3" class="phrase phrase-UserInteractivity" >{% trans 'User interactivity is important. The code must respond appropriately to user actions.' %}</p>
+                                                <p id="UserInteractivity-phrase-4" class="phrase phrase-UserInteractivity" >{% trans 'User interactivity is crucial. The code must be highly interactive with quick response to user actions.' %}</p>
+                                                <p id="UserInteractivity-phrase-5" class="phrase phrase-UserInteractivity" >{% trans 'User interactivity is absolutely vital. The ability to interact effectively with the user is fundamental.' %}</p>
+                                            </div>
+                                            
+                                            <input type="range" class="form-range" min="0"s max="5" id="UserInteractivity" name="UserInteractivity">
+                                        </div>
+                                    
+                                        <div class="form-group">
+                                            <label for="DataRepresentation" class="form-label text-primary label-pair">
+                                                {% trans 'Data Representation' %}: <span id="DataRepresentation-value"></span> 
+                                                <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
+                                            </label>
+
+                                            <div id="collapse7" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                                <p id="DataRepresentation-phrase-0" class="phrase phrase-DataRepresentation" >{% trans 'Data representation is not crucial at this moment. It does not significantly affect code execution.' %}</p>
+                                                <p id="DataRepresentation-phrase-1" class="phrase phrase-DataRepresentation" >{% trans 'Data representation is minimal. A complex structure for storing or manipulating data is not required.' %}</p>
+                                                <p id="DataRepresentation-phrase-2" class="phrase phrase-DataRepresentation" >{% trans 'Data representation has some importance. Basic structures are needed to manage the data.' %}</p>
+                                                <p id="DataRepresentation-phrase-3" class="phrase phrase-DataRepresentation" >{% trans 'Data representation is important. Proper design of data structure facilitates code understanding and maintenance.' %}</p>
+                                                <p id="DataRepresentation-phrase-4" class="phrase phrase-DataRepresentation" >{% trans 'Data representation is crucial. It is essential for optimizing code performance and scalability.' %}</p>
+                                                <p id="DataRepresentation-phrase-5" class="phrase phrase-DataRepresentation" >{% trans 'Data representation is absolutely vital. Poor data representation can lead to critical errors.' %}</p>
+                                            </div>
+                                            <input type="range" class="form-range" min="0"s max="5" id="DataRepresentation" name="DataRepresentation">
+                                        </div>
+                                        
+
+                                        <div class="form-group">
+                                            <label for="MathOperators" class="form-label text-primary label-pair">
+                                                {% trans 'Math Operators' %}: <span id="MathOperators-value"></span> 
+                                                <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse8" aria-expanded="false" aria-controls="collapse8">
+                                            </label>
+
+                                            <div id="collapse8" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                                <p id="MathOperators-phrase-0" class="phrase phrase-MathOperators" >{% trans 'Mathematical operators are not crucial at this moment. Performing complex mathematical operations is not required.' %}</p>
+                                                <p id="MathOperators-phrase-1" class="phrase phrase-MathOperators" >{% trans 'The use of mathematical operators is minimal. Only basic operations are needed for simple calculations.' %}</p>
+                                                <p id="MathOperators-phrase-2" class="phrase phrase-MathOperators" >{% trans 'Mathematical operators have some importance. Basic operations are required to perform some tasks.' %}</p>
+                                                <p id="MathOperators-phrase-3" class="phrase phrase-MathOperators" >{% trans 'Mathematical operators are important. They are used to perform essential calculations that directly affect functionality.' %}</p>
+                                                <p id="MathOperators-phrase-4" class="phrase phrase-MathOperators" >{% trans 'Mathematical operators are crucial. Their correct usage is fundamental to ensure accuracy and consistency in calculations.' %}</p>
+                                                <p id="MathOperators-phrase-5" class="phrase phrase-MathOperators" >{% trans 'Mathematical operators are absolutely vital. They are indispensable for operations that determine the final result.' %}</p>
+                                            </div>
+                                            <input type="range" class="form-range" min="0"s max="5" id="MathOperators" name="MathOperators">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="MotionOperators" class="form-label text-primary label-pair">
+                                                {% trans 'Motion Operators' %}: <span id="MotionOperators-value"></span> 
+                                                <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse9" aria-expanded="false" aria-controls="collapse9">
+                                            </label>
+
+                                            <div id="collapse9" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                                <p id="MotionOperators-phrase-0" class="phrase phrase-MotionOperators" >{% trans 'Motion operators are not crucial at this moment. Extensive manipulation of movements in the code is not required.' %}</p>
+                                                <p id="MotionOperators-phrase-1" class="phrase phrase-MotionOperators" >{% trans 'Motion operators are minimal. There is no significant need for motion control in the code.' %}</p>
+                                                <p id="MotionOperators-phrase-2" class="phrase phrase-MotionOperators" >{% trans 'Motion operators have some importance. There is a moderate need for movement manipulation in the code.' %}</p>
+                                                <p id="MotionOperators-phrase-3" class="phrase phrase-MotionOperators" >{% trans 'Motion operators are important. Proper motion control is necessary for the functionality of the code.' %}</p>
+                                                <p id="MotionOperators-phrase-4" class="phrase phrase-MotionOperators" >{% trans 'Motion operators are crucial. Precise motion control is essential for the proper functioning of the code.' %}</p>
+                                                <p id="MotionOperators-phrase-5" class="phrase phrase-MotionOperators" >{% trans 'Motion operators are absolutely vital. The ability to manipulate movements effectively is fundamental.' %}</p>
+                                            </div>
+                                            <input type="range" class="form-range" min="0"s max="5" id="MotionOperators" name="MotionOperators">
+                                        </div>
+                                    
+                                        <button id="url" name='_url' type="submit" class="btn btn-primary standard-button">{% trans "Generate rubric" %}</button>
+                                    </form>
+                                    
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="col-md-4">
+                <section id="dashboard">
+                        <div class="container-fluid" id="stepfour">
+                            <div class="row marketing">
+                                <div class="jumbotron">
+                                    <h4>{% trans 'You can share this url:' %}</h4>
+                                    <div id="personalized-options">
+                                        <h5 class="text-success" id="url-share">{% trans 'First fill the form' %}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row marketing">
+                                <div class="jumbotron">
+                                    <h4>{% trans 'Here there are some rubrics examples:' %}</h4>
+                                    <div id="personalized-options">
+                                        <h5 class="text-success">{% trans 'Arts' %}</h5>
+                                        <h5 class="text-success">{% trans 'Music' %}</h5>
+                                        <h5 class="text-success">{% trans 'Animations' %}</h5>
+                                        <h5 class="text-success">{% trans 'Stories' %}</h5>
+                                        <h5 class="text-success">{% trans 'Games' %}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </section>
+            </div>
+            
+        </div>
+
+    </section>
+
+  
+</div>
+
+    <!-- FOOTER -->
+    <footer class="footer grey-bg">
+        <p>{% trans "©2024 Dr.Scratch Made with " %} <span style="color: #e25555;">&#9829;</span> {% trans "by " %} <a href="/collaborators">{% trans "Dr.Scratch Team." %}</a></p>
+            <!-- SOCIAL ICONS -->
+            <ul class="social-icons">
+                <li>
+                    <a href="https://github.com/Daniesmor/Dr.Scratch-Northeastern"> 
+                    <i class="bi bi-github" style="color: black;"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://twitter.com/DrScratchTool">
+                    <i class="bi bi-twitter-x" style="color: black;"></i>
+                    </a>
+                </li>    
+            </ul>
+    </footer>
+
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var sliders = document.querySelectorAll("input[type='range']");
+            
+            sliders.forEach(function(slider) {
+                var sliderValue = document.getElementById(slider.id + "-value");
+                var initialValue = slider.value; // Obtener el valor inicial del slider
+    
+                // Ocultar todas las frases al cargar la página
+                // Ocultar todas las frases
+                document.querySelectorAll(".phrase").forEach(function(element) {
+                    element.style.display = "none";
+                });
+    
+                var initialPhrases = document.querySelectorAll("#" + slider.id + "-phrase-" + initialValue);
+
+                initialPhrases.forEach(function(phrase) {
+                    phrase.style.display = "block";
+                });
+    
+                slider.addEventListener("input", function() {
+                    updateSliderValue(slider, sliderValue);
+                });
+            });
+        });
+        
+        function updateSliderValue(slider, sliderValue) {
+            sliderValue.textContent = slider.value;
+
+            type_phrases = document.querySelectorAll("." + "phrase-" + slider.id)
+            type_phrases.forEach(function(type_phrase) {
+                type_phrase.style.display = "none";
+            });
+
+
+            var phrases = document.querySelectorAll("#" + slider.id + "-phrase-" + slider.value);
+            phrases.forEach(function(phrase) {                
+                phrase.style.display = "block";
+            });
+
+
+           
+        }
+    </script>
+    
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var sliders = document.querySelectorAll("input[type='range']");
+            
+            sliders.forEach(function(slider) {
+                var sliderValue = document.getElementById(slider.id + "-value");
+            
+                updateSliderValue(slider, sliderValue);
+            
+                slider.addEventListener("input", function() {
+                    updateSliderValue(slider, sliderValue);
+                });
+            });
+    
+            // Función para establecer los valores de los sliders y actualizar los span correspondientes
+            function setSliderAndSpanValues(sliderId, value) {
+                var slider = document.getElementById(sliderId);
+                slider.value = value;
+                updateSliderValue(slider, document.getElementById(sliderId + "-value"));
+            }
+    
+            // Evento clic en los elementos de texto para establecer los valores predefinidos
+            var textElements = document.querySelectorAll(".text-success");
+            textElements.forEach(function(element) {
+                element.addEventListener("click", function() {
+                    switch (element.textContent.trim()) {
+                        case "Games":
+                            setSliderAndSpanValues("Abstraction", 2);
+                            setSliderAndSpanValues("Parallelization", 3);
+                            setSliderAndSpanValues("LogicThinking", 2);
+                            setSliderAndSpanValues("Synchronization", 3);
+                            setSliderAndSpanValues("FlowControl", 3);
+                            setSliderAndSpanValues("UserInteractivity", 2);
+                            setSliderAndSpanValues("DataRepresentation", 2);
+                            break;
+                        case "Stories":
+                            setSliderAndSpanValues("Abstraction", 1);
+                            setSliderAndSpanValues("Parallelization", 2);
+                            setSliderAndSpanValues("LogicThinking", 1);
+                            setSliderAndSpanValues("Synchronization", 2);
+                            setSliderAndSpanValues("FlowControl", 2);
+                            setSliderAndSpanValues("UserInteractivity", 1);
+                            setSliderAndSpanValues("DataRepresentation", 1);
+                            break;
+                        case "Animations":
+                            setSliderAndSpanValues("Abstraction", 1);
+                            setSliderAndSpanValues("Parallelization", 2);
+                            setSliderAndSpanValues("LogicThinking", 1);
+                            setSliderAndSpanValues("Synchronization", 1);
+                            setSliderAndSpanValues("FlowControl", 2);
+                            setSliderAndSpanValues("UserInteractivity", 1);
+                            setSliderAndSpanValues("DataRepresentation", 1);
+                            break;                        
+                        case "Music":
+                            setSliderAndSpanValues("Abstraction", 1);
+                            setSliderAndSpanValues("Parallelization", 1);
+                            setSliderAndSpanValues("LogicThinking", 0);
+                            setSliderAndSpanValues("Synchronization", 2);
+                            setSliderAndSpanValues("FlowControl", 2);
+                            setSliderAndSpanValues("UserInteractivity", 1);
+                            setSliderAndSpanValues("DataRepresentation", 1);
+                            break;
+                        case "Arts":
+                            setSliderAndSpanValues("Abstraction", 1);
+                            setSliderAndSpanValues("Parallelization", 1);
+                            setSliderAndSpanValues("LogicThinking", 0);
+                            setSliderAndSpanValues("Synchronization", 1);
+                            setSliderAndSpanValues("FlowControl", 2);
+                            setSliderAndSpanValues("UserInteractivity", 2);
+                            setSliderAndSpanValues("DataRepresentation", 1);
+                            break;
+                        default:
+                            break;
+                    }
+                });
+            });
+        });
+    </script>
+    
+
+</body>
+</html>

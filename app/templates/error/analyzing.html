@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>{% trans "Error" %} </title>
-
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         <link rel="icon" href="../../static/app/images/favicon.ico">
 		<!-- Bootstrap core CSS -->
 	    <link href="../../static/app/content/bootstrap.min.css" rel="stylesheet">
@@ -55,8 +55,15 @@
             
                {% trans "Sometimes we have got problems analyzing some projects. We're working on this." %}
 
-              <a href="https://twitter.com/DrScratchTool"><span class="icon-social-twitter colored-text"></span></a>
-              <a href="mailto:drscratch@gsyc.urjc.es"><span class="icon-basic-mail colored-text"></span></a>
+               <a href="https://github.com/Daniesmor/Dr.Scratch-Northeastern"> 
+                  <i class="bi bi-github"></i>
+               </a>
+               <a href="https://twitter.com/DrScratchTool">
+                  <i class="bi bi-twitter-x"></i>
+               </a>
+               <a href="mailto:drscratch@gsyc.urjc.es">
+                  <i class="bi bi-envelope"></i>
+               </a>
         </h4>
 </div>
 <div class="pager">
@@ -67,8 +74,21 @@
 
 <!-- Footer -->
 <div id="footer" class="container">
-    <footer class="footer grey-bg text-center">
-        <p><small>{% trans "© 2019 Dr. Scratch." %} Made with <span style="color: #e25555;">&#9829;</span> by <a href="/collaborators">Dr. Scratch Team</a></small></p>
+    <footer class="footer grey-bg">
+        <p>{% trans "©2024 Dr.Scratch Made with " %} <span style="color: #e25555;">&#9829;</span> {% trans "by " %} <a href="/collaborators">{% trans "Dr.Scratch Team." %}</a></p>
+            <!-- SOCIAL ICONS -->
+            <ul class="social-icons">
+                <li>
+                    <a href="https://github.com/Daniesmor/Dr.Scratch-Northeastern"> 
+                    <i class="bi bi-github" style="color: black;"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://twitter.com/DrScratchTool">
+                    <i class="bi bi-twitter-x" style="color: black;"></i>
+                    </a>
+                </li>    
+            </ul>
     </footer>
 </div>
 <!-- End Footer -->
