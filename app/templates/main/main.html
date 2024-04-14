@@ -139,30 +139,33 @@
                       <a class="text-center" href="/">
                         <img class="d-block img-fluid ::before" height="100px" src="static/app/images/logo_main.png" alt="">
                       </a>
-                      
                         <!-- LANGUAGUES -->
                         
                         <ul class="nav navbar-nav navbar-right login-register small-text">
-                            <li style="display: block;" class="login js-login dropdown ">
+                            <li style="display: block;" class="login dropdown">
                                 <a aria-expanded="false" type="button" data-toggle="dropdown" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" style="padding-top: 100%;">
                                 <span class="glyphicon glyphicon-book"><span class="icon-basic-world"></span></span>
                                 </a>
-                                <ul role="menu" class="dropdown-menu">
-                                <li>
+                                <ul role="menu" class="dropdown-menu" style="padding: 20px;">
+                                <li style="padding-left: 20px;">
                                 <div>
                                 <form action="/i18n/setlang/" method="post" type="hidden">
                                     {% csrf_token %}
                                     <input name="next" type="hidden" value="{{ redirect_to }}" />
                                     
 
-                                    <select name="language" type="hidden">
+                                <select name="language" type="hidden">
                                         
                                 {% get_language_info_list for LANGUAGES as languages %}
                                 {% for language in languages %}
+                                {% if language.code == request.LANGUAGE_CODE %}
+                                <option type="submit" class='btn-group btn-group-justified colored-text' value="{{ language.code }}" selected>{{ language.name }} ({{ language.code }})</option>
+                                {% else %}
                                 <option type="submit" class='btn-group btn-group-justified colored-text' value="{{ language.code }}">{{ language.name }} ({{ language.code }})</option>
+                                {% endif %}
                                 {% endfor %}
                                 </select>
-                                <input type="submit" value="Change language" class='btn-group btn-group-justified colored-text'/>
+                                <input type="submit" value="Change language" class='btn-group btn-group-justified colored-text' style="margin-top: 5px;"/>
                                 </form>
                             </div>
                             </li>
