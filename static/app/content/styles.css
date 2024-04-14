@@ -572,6 +572,15 @@ strong,
 #bg-personalized {
 	background: url(../images/personalized_background.png) no-repeat center ;
 	background-size: contain;
+	transition-duration: 1s; /* Agrega una transición suave entre los cambios */
+  	cursor: pointer;
+}
+
+#bg-personalized:hover {
+	background: url(../images/personalized_background_hover.png) no-repeat center ;
+	background-size: contain;
+	transition-duration: 1s;
+
 }
 
 #bg-csv {
@@ -579,8 +588,18 @@ strong,
 	background-size: contain;
 }
 
+#bg-csv:hover {
+	background: url(../images/csv_background_hover.png) no-repeat center ;
+	background-size: contain;
+}
+
 #bg-classic {
 	background: url(../images/classic_background.png) no-repeat center ;
+	background-size: contain;
+}
+
+#bg-classic:hover {
+	background: url(../images/classic_background_hover.png) no-repeat center ;
 	background-size: contain;
 }
 
