@@ -78,12 +78,16 @@ def collaborators(request):
     return render(request, 'main/collaborators.html')
 
 
-def create_csv_main(d: dict, folder_path: str) -> str:
+def create_csv_main(request ,d: dict, folder_path: str) -> str:
     csv_name = "main.csv"
     csv_filepath = os.path.join(folder_path, csv_name)
     #fieldnames = list(d[0].keys())
     
-    # Lista de headers
+    
+    mastery_fields = skills_translation(request) 
+    mastery_fields = {skill_en: skill_trans for skill_trans, skill_en in mastery_fields.items()}
+    mastery_fields['points'] = 'points'
+
     headers = [
         'url', 'filename', 'points', 
         'Abstraction', 'Parallelism', 'Logic', 'Synchronization',
@@ -91,10 +95,9 @@ def create_csv_main(d: dict, folder_path: str) -> str:
         'DuplicateScripts', 'DeadCode', 'SpriteNaming', 'BackdropNaming', 
         'Error', 'dashboard_mode', 
     ]
-    mastery_fields = [
-        'points', 'Abstraction', 'Parallelism', 'Logic', 'Synchronization',
-        'Flow control', 'User interactivity', 'Data representation', 
-    ]                      
+      
+    
+                           
 
     # Abir el archivo csv en modo de escritura
     with open(csv_filepath, 'w') as csv_file:
@@ -105,10 +108,17 @@ def create_csv_main(d: dict, folder_path: str) -> str:
         for project in d:
 
             for clave in headers:
+                
                 if clave in d[project]:
                     row_to_write[clave] = d[project].get(clave, '')
-                elif clave in mastery_fields:
-                    row_to_write[clave] = d[project]['mastery'].get(clave, '')
+                elif clave in mastery_fields.keys():
+                    clave_trans = mastery_fields[clave]
+                    mastery_list = d[project]['mastery'].get(clave_trans, [])
+            
+                    if type(mastery_list[0]) == list:
+                        row_to_write[clave] = mastery_list[0][0]
+                    else:
+                        row_to_write[clave] = mastery_list[0]
                 elif clave == 'DuplicateScripts':
                     row_to_write[clave] = d[project]['duplicateScript'].get('number', '')
                 elif clave == 'DeadCode':
@@ -128,15 +138,18 @@ def create_csv_dups(d: dict, folder_path: str):
     
     # headers list
     headers = ['url', 'filename', 'number']
-
+    max_dup_scripts = 0
     # create headers
     for project in d.values():
-        duplicate_scripts = project.get('duplicateScript', {}).get('scripts', [])
+        duplicate_scripts = project.get('duplicateScript', {}).get('csv_format', [])
+        
         if duplicate_scripts:
-            max_dup_scripts = max(len(block) for block in project['duplicateScript'].get('scripts', []))
-            for i in range(1, max_dup_scripts + 1):
-                headers.append(f'duplicateScript_{i}')
-
+            for block in duplicate_scripts:
+                max_dup_scripts_temp = max(len(instruction_list) for instruction_list in block)
+                if max_dup_scripts < max_dup_scripts_temp:
+                    max_dup_scripts = max_dup_scripts_temp
+    for i in range(1, max_dup_scripts + 1):
+        headers.append(f'duplicateScript_{i}')
     # open csv file
     with open(csv_filepath, 'w') as csv_file:
         writer_csv = csv.DictWriter(csv_file, fieldnames=headers)
@@ -148,14 +161,17 @@ def create_csv_dups(d: dict, folder_path: str):
                 'filename': project_data.get('filename', ''),
                 'number': project_data['duplicateScript'].get('number', ''),
             }
-            scripts = project_data['duplicateScript'].get('scripts')
-            if scripts:
-                for i, script_list in enumerate(scripts, 1):
-                    for j, script in enumerate(script_list, 1):
-                        row_to_write[f'duplicateScript_{j}'] = script
+            duplicate_scripts = project_data.get('duplicateScript', {}).get('csv_format', [])
+            if duplicate_scripts:
+                script_number = 0
+                for block in duplicate_scripts:
+                    for instruction in block:
+                        script_number += 1
+                        row_to_write[f'duplicateScript_{script_number}'] = instruction
             else:
                 row_to_write.update({f'duplicateScript_{i}': 'N/A' for i in range(1, max_dup_scripts + 1)})        
             writer_csv.writerow(row_to_write)
+
 
 
 def create_csv_sprites(d: dict, folder_path: str):
@@ -181,7 +197,6 @@ def create_csv_sprites(d: dict, folder_path: str):
             sprites = project['spriteNaming'].get('sprite', [])
             for i, sprite in enumerate(sprites, 1):
                 row_to_write[f'spriteNaming{i}'] = sprite
-
             # Write the row
             writer_csv.writerow(row_to_write)
   
@@ -222,7 +237,6 @@ def create_csv_deadcode(d: dict, folder_path: str):
                 sprite_list_counter = len(value)
                 if sprite_list_counter > max_sprites:
                     max_sprites = sprite_list_counter
-
     
     headers.extend(f'deadCode{i}' for i in range(1, max_sprites+1))
             
@@ -260,37 +274,54 @@ def zip_folder(folder_path: str):
     shutil.rmtree(folder_path)
     return folder_path + '.zip'
     
-def create_csv(d):
-    
+def create_csv(request, d):
     now = datetime.now()
     folder_name = str(uuid.uuid4()) + '_' + now.strftime("%Y%m%d%H%M%S")
     base_dir = os.getcwd()
     folder_path = os.path.join(base_dir, 'csvs', 'Dr.Scratch', folder_name)
     os.mkdir(folder_path)
     
+   
     
-    create_csv_main(d, folder_path)
-    create_csv_dups(d, folder_path)
+    create_csv_main(request, d, folder_path)
+    #create_csv_dups(d, folder_path)
     create_csv_sprites(d, folder_path)
     create_csv_backdrops(d, folder_path)
     create_csv_deadcode(d, folder_path)
     csv_filepath = zip_folder(folder_path)
     return csv_filepath
     
+def rubric_creator(request):
+    user = str(identify_user_type(request))
+    return render(request, user + '/rubric-creator.html')
 
-def show_dashboard(request):
+def upload_personalized(request, skill_points=None):
+    user = str(identify_user_type(request))
+    return render(request, user + '/rubric-uploader.html')
 
+def base32_to_str(base32_str: str) -> str:
+    value = int(base32_str, 32)
+    return str(value).zfill(9)
+    
+def show_dashboard(request, skill_points=None):
+    
     if request.method == 'POST':
-        d = build_dictionary_with_automatic_analysis(request)
+        url = request.path.split('/')[-1]
+        if url != '':
+            numbers = base32_to_str(url)
+        else:
+            numbers = ''
+        skill_rubric = generate_rubric(numbers)
+        d = build_dictionary_with_automatic_analysis(request, skill_rubric)
         user = str(identify_user_type(request))
+        print("Context Dictionary:")
         print(d)
+        print("Skill rubric")
+        print(skill_rubric)
         if len(d) > 1:
-            
-            #creeate_csv_dups()
-            csv_filepath = create_csv(d)
-            
-                
-            summary = create_summary(d)      
+            csv_filepath = create_csv(request, d)
+            summary = create_summary(request, d)   
+            print("summary", summary)   
             return render(request, user + '/dashboard-bulk.html', {'summary': summary, 'csv_filepath': csv_filepath})
         else: 
             d = d[0]
@@ -303,65 +334,104 @@ def show_dashboard(request):
             elif d['Error'] == 'no_exists':
                 return render(request, user + '/main.html', {'no_exists': True})
             else:
-                if d["dashboard_mode"] == "Vanilla":
-                    if d["mastery"]["points"] >= 15:
-                        return render(request, user + '/dashboard-master.html', d)
-                    elif d["mastery"]["points"] > 7:
-                        return render(request, user + '/dashboard-developing.html', d)
-                    else:
-                        return render(request, user + '/dashboard-basic.html', d)
-                elif d["dashboard_mode"] == "Resnick":
-                    return render(request, user + '/dashboard_resnick.html', d)
-                else:
-                    return HttpResponse("¡Personalized Mode!")         
+                if d["dashboard_mode"] == 'Default':
+                    return render(request, user + '/dashboard-default.html', d)
+                elif d["dashboard_mode"] == 'Personalized':
+                    return render(request, user + '/dashboard-personal.html', d)               
     else:
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect('/')    
 
 
-def create_summary(d: dict) -> dict:
+def generate_rubric(skill_points: str) -> dict:
+    mastery = ['Abstraction', 'Parallelism', 'Logic', 'Synchronization', 
+               'FlowControl', 'UserInteractivity', 'DataRepresentation',
+               'MathOperators', 'MotionOperators']
+       
+    skill_rubric = {}
+    if skill_points != '':
+        for skill_name, points in zip(mastery, skill_points):
+            skill_rubric[skill_name] = int(points)   
+    else:
+        for skill_name in mastery:
+            skill_rubric[skill_name] = 5           
+    return skill_rubric  
+    
+     
+
+def create_summary(request, d: dict) -> dict:
     summary = {}
-    print(d)
     # NUM PROJECTS
+    total_maxi_points = d[0]['mastery']['points'][1]
     num_projects = len(d)
-    
-    
-    # TOTAL POINTS
-    total_points = 0
-    for project in d:
-        for skill in d[project]["mastery"]:
-            if skill not in summary:
-                summary[skill] = 0
-            summary[skill] += d[project]["mastery"][skill]
-    
-    # AVERAGE POINTS
-    for skill in summary:
-        summary[skill] = round(summary[skill] / num_projects, 2)
 
     summary['num_projects'] = num_projects
+    summary['Points'] = 0
     
-    if summary['points'] >= 15:
-        summary['mastery'] = 'Master'
-    elif summary['points'] > 7:
-        summary['mastery'] = 'Developing'
+
+    mastery_fields = skills_translation(request) 
+    mastery_fields = {skill_en: skill_trans for skill_trans, skill_en in mastery_fields.items()}
+    skills = list(mastery_fields.values())
+    print("traza de skills ----------------------------")
+    print(skills)
+
+
+    for project in d:
+        summary['Points'] += round(d[project]["mastery"]["points"][0], 2)
+        for skill in skills:
+            if skill not in summary:
+                summary[skill] = 0
+            if type(d[project]["mastery"][skill][0]) == list:
+                if d[project]["mastery"][skill][0][1] != 0:
+                    summary[skill] += d[project]["mastery"][skill][0][0]
+                else:
+                    summary[skill] = 0
+    
+    for skill in skills:
+        summary[skill] = round(summary[skill] / num_projects, 2)
+    
+    # AVERAGE MASTERY POINTS
+    average_mastery_points = round(summary['Points'] / num_projects, 2)
+    
+    
+    # SET A LIST WITH MAX AND MID POINTS
+    mid_points = total_maxi_points / 2
+    summary['Points'] = [average_mastery_points, total_maxi_points, mid_points]
+    for skill in skills:
+        mid_points = d[0]["mastery"][skill][0][1] / 2
+        summary[skill] = [summary[skill], d[0]["mastery"][skill][0][1], mid_points]
+        
+
+
+    # MASTERY LEVEL
+    master_limit = (total_maxi_points * 15)/21
+    developing_limit = (total_maxi_points * 7)/21
+    
+    if summary['Points'][0] >= master_limit:
+        summary['Mastery'] = 'Master'
+    elif summary['Points'][0] > developing_limit:
+        summary['Mastery'] = 'Developing'
     else:
-        summary['mastery'] = 'Basic'
-    #summary['average_points'] = average_points
+        summary['Mastery'] = 'Basic'
     return summary
 
-def build_dictionary_with_automatic_analysis(request) -> dict:
+
+def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dict:
     """
     Build dictionary with automatic analysis by distinguishing between URL or project
     """
-
     dict_metrics = {}
     url = None
     filename = None
-    dashboard_mode = request.POST['dashboard_mode']
     project_counter = 0
+    
+    if request.method == 'POST':
+        dashboard_mode = request.POST['dashboard_mode']
+    else:
+        dashboard_mode = "Personalized"
 
     if "_upload" in request.POST:
-        dict_metrics[project_counter] = _make_analysis_by_upload(request)
-        if dict_metrics['Error'] != 'None':
+        dict_metrics[project_counter] = _make_analysis_by_upload(request, skill_points)
+        if dict_metrics[project_counter]['Error'] != 'None':
             return dict_metrics
         filename = request.FILES['zipFile'].name.encode('utf-8')
         dict_metrics[project_counter].update({
@@ -371,7 +441,7 @@ def build_dictionary_with_automatic_analysis(request) -> dict:
             'multiproject': False
         })
     elif '_url' in request.POST:
-        dict_metrics[project_counter] = _make_analysis_by_url(request)
+        dict_metrics[project_counter] = _make_analysis_by_url(request, skill_points)
         url = request.POST['urlProject']
         filename = url
         dict_metrics[project_counter].update({
@@ -384,21 +454,24 @@ def build_dictionary_with_automatic_analysis(request) -> dict:
         
         urls_file = request.FILES['urlsFile']
 
-        # Iterate over the file object directly
-        for url in urls_file:
+                # Iterate over the first 10 URLs in the file
+        for i, url in enumerate(urls_file):
+            if i >= 10:
+                break
+                
             url = url.decode('utf-8')  # Decode bytes to string
             url = url.strip()  # Remove whitespace from the beginning and end of the string
             filename = url
             # Call _make_analysis_by_url function to process the URL and store the result
-            dict_metrics[project_counter] = _make_analysis_by_txt(request, url)
+            dict_metrics[project_counter] = _make_analysis_by_txt(request, url, skill_points)
 
             # Update 'dict_metrics' with additional information
             dict_metrics[project_counter].update({
-                'url': url, 
+                'url': url,
                 'filename': filename,
                 'dashboard_mode': dashboard_mode,
             })
-            project_counter += 1  
+            project_counter += 1
     return dict_metrics
 
 
@@ -471,7 +544,7 @@ def save_analysis_in_file_db(request, zip_filename):
     return filename_obj
 
 
-def _make_analysis_by_upload(request):
+def _make_analysis_by_upload(request, skill_points: dict):
     """
     Upload file from form POST for unregistered users
     """
@@ -512,7 +585,8 @@ def _make_analysis_by_upload(request):
                 destination.write(chunk)
 
         try:
-            dict_drscratch_analysis = analyze_project(request, file_name, filename_obj, ext_type_project=None)
+            ext_type_project=None
+            dict_drscratch_analysis = analyze_project(request, file_name, filename_obj, ext_type_project, skill_points)
             print(dict_drscratch_analysis)
         except Exception:
             traceback.print_exc()
@@ -531,11 +605,11 @@ def _make_analysis_by_upload(request):
         return HttpResponseRedirect('/')
 
 
-def _make_analysis_by_url(request):
+def _make_analysis_by_url(request, skill_points: dict):
     """
     Make the automatic analysis by URL
     """
-
+    
     if request.method == "POST":
         form = UrlForm(request.POST)
         if form.is_valid():
@@ -544,23 +618,22 @@ def _make_analysis_by_url(request):
             if id_project == "error":
                 return {'Error': 'id_error'}
             else:
-                return generator_dic(request, id_project)
+                return generator_dic(request, id_project, skill_points)
         else:
             return {'Error': 'MultiValueDict'}
     else:
         return HttpResponseRedirect('/')
 
-def _make_analysis_by_txt(request, url):
+def _make_analysis_by_txt(request, url, skill_points: dict):
     """
     Make the automatic analysis by URLS txt
     """
-  
     
     id_project = return_scratch_project_identifier(url)
     if id_project == "error":
         return {'Error': 'id_error'}
     else:
-        return generator_dic(request, id_project)
+        return generator_dic(request, id_project, skill_points)
         
     
 
@@ -592,7 +665,7 @@ def return_scratch_project_identifier(url) -> str:
     return id_project
 
 
-def generator_dic(request, id_project):
+def generator_dic(request, id_project, skill_points: dict):
     """
     Return a dictionary with static analysis and errors
     """
@@ -614,7 +687,7 @@ def generator_dic(request, id_project):
         return d
 
     try:
-        d = analyze_project(request, path_project, file_obj, ext_type_project)
+        d = analyze_project(request, path_project, file_obj, ext_type_project, skill_points)
     except Exception:
         logger.error('Impossible analyze project')
         traceback.print_exc()
@@ -794,20 +867,20 @@ def load_json_project(path_projectsb3):
         print('Bad zipfile')
 
 
-def analyze_project(request, path_projectsb3, file_obj, ext_type_project):
+def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_points: dict):
 
     dict_analysis = {}
-
+    
     if os.path.exists(path_projectsb3):
         json_scratch_project = load_json_project(path_projectsb3)
-        dict_mastery = Mastery(path_projectsb3, json_scratch_project).finalize()
+        dict_mastery = Mastery(path_projectsb3, json_scratch_project, skill_points, request.POST.get('dashboard_mode')).finalize()
         dict_duplicate_script = DuplicateScripts(path_projectsb3, json_scratch_project).finalize()
-        dict_dead_code = DeadCode(path_projectsb3, json_scratch_project).finalize()
+        dict_dead_code = DeadCode(path_projectsb3, json_scratch_project,).finalize()
         result_sprite_naming = SpriteNaming(path_projectsb3, json_scratch_project).finalize()
         result_backdrop_naming = BackdropNaming(path_projectsb3, json_scratch_project).finalize()
         
         #Refactorings
-        refactored_code = RefactorDuplicate(json_scratch_project).refactor_duplicates()
+        refactored_code = RefactorDuplicate(json_scratch_project, dict_duplicate_script).refactor_duplicates()
 
         dict_analysis.update(proc_mastery(request, dict_mastery, file_obj))
         dict_analysis.update(proc_duplicate_script(dict_duplicate_script, file_obj))
@@ -815,6 +888,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project):
         dict_analysis.update(proc_sprite_naming(result_sprite_naming, file_obj))
         dict_analysis.update(proc_backdrop_naming(result_backdrop_naming, file_obj))
         dict_analysis.update(proc_refactored_code(refactored_code))
+        # dict_analysis.update(proc_urls(request, dict_mastery, file_obj))
         
         # dictionary.update(proc_initialization(resultInitialization, filename))
         return dict_analysis
@@ -844,28 +918,67 @@ def proc_dead_code(dict_dead_code, filename):
 
     return dict_dc
 
+def proc_urls(request, dict_mastery, file_obj):
+    dict_urls = {}
+    if request.POST.get('dashboard_mode') == 'Default':
+        dict_extended = dict_mastery['extended'].copy()
+        dict_vanilla = dict_mastery['vanilla'].copy()
+        dict_urls["url_extended"] = get_urls(dict_extended)
+        dict_urls["url_vanilla"] = get_urls(dict_vanilla)
+    elif request.POST.get('dashboard_mode') == 'Personalized':
+        dict_personal = dict_mastery['personalized'].copy()
+        print(dict_personal)
+        dict_urls["url_personal"] = get_urls(dict_personal)
+    return dict_urls
+
+def get_urls(dict_mastery):
+    list_urls = []
+    for key in dict_mastery.keys():
+        if key != 'total_points' and key!= 'competence' and key!= 'max_points' and key!= 'average_points':
+            list_urls.append(key)
+    return list_urls
 
 def proc_mastery(request, dict_mastery, file_obj):
 
-    dict_result = dict_mastery['result'].copy()
-
-    file_obj.score = dict_result["total_points"]
-    file_obj.abstraction = dict_result["Abstraction"]
-    file_obj.parallelization = dict_result["Parallelization"]
-    file_obj.logic = dict_result["Logic"]
-    file_obj.synchronization = dict_result["Synchronization"]
-    file_obj.flow_control = dict_result["FlowControl"]
-    file_obj.userInteractivity = dict_result["UserInteractivity"]
-    file_obj.dataRepresentation = dict_result["DataRepresentation"]
-    file_obj.save()
-
-    d_translated = translate(request, dict_result, file_obj)
-
-    dic = {"mastery": d_translated}
-    dic["mastery"]["points"] = dict_result["total_points"]
-    dic["mastery"]["maxi"] = dict_result["max_points"]
-
+    if request.POST.get('dashboard_mode') == 'Default':
+        dict_extended = dict_mastery['extended'].copy()
+        dict_vanilla = dict_mastery['vanilla'].copy()
+        set_file_obj(request, file_obj, dict_extended)
+        set_file_obj(request, file_obj, dict_vanilla, 'Vanilla')
+        d_extended_translated = translate(request, dict_extended, file_obj)
+        d_vanilla_translated = translate(request, dict_vanilla, file_obj, vanilla=True)
+        dic = {"mastery": d_extended_translated, "mastery_vanilla": d_vanilla_translated}
+        dic["mastery"]["competence"] = dict_extended["competence"]
+        dic["mastery"]["points"] = dict_extended["total_points"]
+        dic["mastery_vanilla"]["competence"] = dict_vanilla["competence"]
+        dic["mastery_vanilla"]["points"] = dict_vanilla["total_points"]
+        
+    elif request.POST.get('dashboard_mode') == 'Personalized':
+        dict_personal = dict_mastery['personalized'].copy()
+        set_file_obj(request, file_obj, dict_personal)
+        d_personal_translated = translate(request, dict_personal, file_obj)
+        dic = {"mastery": d_personal_translated}
+        dic["mastery"]["competence"] = dict_personal["competence"]
+        dic["mastery"]["points"] = dict_personal["total_points"]
+        print("Lista_Mastery:", dict_personal.keys())
+    
     return dic
+
+def set_file_obj(request, file_obj, dict, mode=None):
+
+    file_obj.score = dict["total_points"][0]
+    file_obj.competence = dict["competence"]
+    file_obj.abstraction = dict["Abstraction"][0]
+    file_obj.parallelization = dict["Parallelization"][0]
+    file_obj.logic = dict["Logic"][0]
+    file_obj.synchronization = dict["Synchronization"][0]
+    file_obj.flow_control = dict["FlowControl"][0]
+    file_obj.userInteractivity = dict["UserInteractivity"][0]
+    file_obj.dataRepresentation = dict["DataRepresentation"][0]
+    if mode != 'Vanilla':
+        file_obj.mathOperators = dict["MathOperators"][0]
+        file_obj.mathOperators = dict["MotionOperators"][0]
+    file_obj.save()
 
 
 def proc_duplicate_script(dict_result, file_obj) -> dict:
@@ -874,6 +987,7 @@ def proc_duplicate_script(dict_result, file_obj) -> dict:
     dict_ds["duplicateScript"] = dict_ds
     dict_ds["duplicateScript"]["number"] = dict_result['result']['total_duplicate_scripts']
     dict_ds["duplicateScript"]["scripts"] = dict_result['result']['list_duplicate_scripts']
+    dict_ds["duplicateScript"]["csv_format"] = dict_result['result']['list_csv']
 
     file_obj.duplicateScript = dict_result['result']['total_duplicate_scripts']
     file_obj.save()
@@ -916,95 +1030,227 @@ def proc_backdrop_naming(lines, file_obj):
     return dic
 
 
-def translate(request, d, filename):
+def translate(request, d, filename, vanilla=False):
     """
     Translate the output of Hairball
     """
 
     if request.LANGUAGE_CODE == "es":
-        d_translate_es = {'Abstracción': d['Abstraction'], 'Paralelismo': d['Parallelization'],
-                          'Pensamiento lógico': d['Logic'], 'Sincronización': d['Synchronization'],
-                          'Control de flujo': d['FlowControl'], 'Interactividad con el usuario': d['UserInteractivity'],
-                          'Representación de la información': d['DataRepresentation']}
+        d_translate_es = {'Abstracción': [d['Abstraction'], 'Abstraction'], 'Paralelismo': [d['Parallelization'], 'Parallelization'],
+                          'Pensamiento lógico': [d['Logic'], 'Logic'], 'Sincronización': [d['Synchronization'], 'Synchronization'],
+                          'Control de flujo': [d['FlowControl'], 'FlowControl'], 'Interactividad con el usuario': [d['UserInteractivity'], 'UserInteractivity'],
+                          'Representación de la información': [d['DataRepresentation'], 'DataRepresentation']}
+        if not vanilla: # Check that not is Vanilla Mode
+            d_translate_es.update({'Operadores matemáticos': [d['MathOperators'], 'MathOperators'], 'Operadores de movimiento': [d['MotionOperators'], 'MotionOperators']})
         filename.language = "es"
         filename.save()
         return d_translate_es
     elif request.LANGUAGE_CODE == "en":
-        d_translate_en = {'Abstraction': d['Abstraction'], 'Parallelism': d['Parallelization'], 'Logic': d['Logic'],
-                          'Synchronization': d['Synchronization'], 'Flow control': d['FlowControl'],
-                          'User interactivity': d['UserInteractivity'], 'Data representation': d['DataRepresentation']}
+        d_translate_en = {'Abstraction': [d['Abstraction'], 'Abstraction'], 'Parallelism': [d['Parallelization'], 'Parallelization'], 'Logic': [d['Logic'], 'Logic'],
+                          'Synchronization': [d['Synchronization'], 'Synchronization'], 'Flow control': [d['FlowControl'], 'FlowControl'],
+                          'User interactivity': [d['UserInteractivity'], 'UserInteractivity'], 'Data representation': [d['DataRepresentation'], 'DataRepresentation']}
+        if not vanilla: 
+            d_translate_en.update({'Math operators': [d['MathOperators'], 'MathOperators'], 'Motion operators': [d['MotionOperators'], 'MotionOperators']})
         filename.language = "en"
         filename.save()
         return d_translate_en
     elif request.LANGUAGE_CODE == "ca":
-        d_translate_ca = {'Abstracció': d['Abstraction'], 'Paral·lelisme': d['Parallelization'], 'Lògica': d['Logic'],
-                          'Sincronització': d['Synchronization'], 'Controls de flux': d['FlowControl'],
-                          "Interactivitat de l'usuari": d['UserInteractivity'],
-                          'Representació de dades': d['DataRepresentation']}
+        d_translate_ca = {'Abstracció': [d['Abstraction'], 'Abstraction'], 'Paral·lelisme': [d['Parallelization'], 'Parallelization'], 'Lògica': [d['Logic'], 'Logic'],
+                          'Sincronització': [d['Synchronization'], 'Synchronization'], 'Controls de flux': [d['FlowControl'], 'FlowControl'],
+                          "Interactivitat de l'usuari": [d['UserInteractivity'], 'UserInteractivity'],
+                          'Representació de dades': [d['DataRepresentation'], 'DataRepresentation']}
+        if not vanilla: 
+            d_translate_ca.update({'Operadors matemàtics': [d['MathOperators'], 'MathOperators'], 'Operadors de moviment':  [d['MotionOperators'], 'MotionOperators']})
         filename.language = "ca"
         filename.save()
         return d_translate_ca
     elif request.LANGUAGE_CODE == "gl":
-        d_translate_gl = {'Abstracción': d['Abstraction'], 'Paralelismo': d['Parallelization'], 'Lóxica': d['Logic'],
-                          'Sincronización': d['Synchronization'], 'Control de fluxo': d['FlowControl'],
-                          "Interactividade do susario": d['UserInteractivity'],
-                          'Representación dos datos': d['DataRepresentation']}
+        d_translate_gl = {'Abstracción': [d['Abstraction'], 'Abstraction'], 'Paralelismo': [d['Parallelization'], 'Parallelization'], 'Lóxica': [d['Logic'], 'Logic'],
+                          'Sincronización': [d['Synchronization'], 'Synchronization'], 'Control de fluxo': [d['FlowControl'], 'FlowControl'],
+                          "Interactividade do susario": [d['UserInteractivity'], 'UserInteractivity'],
+                          'Representación dos datos': [d['DataRepresentation'], 'DataRepresentation']}
+        if not vanilla: 
+            d_translate_gl.update({'Operadores matemáticos': [d['MathOperators'], 'MathOperators'], 'Operadores de movemento': [d['MotionOperators'], 'MotionOperators']})
         filename.language = "gl"
         filename.save()
         return d_translate_gl
 
     elif request.LANGUAGE_CODE == "pt":
-        d_translate_pt = {'Abstração': d['Abstraction'], 'Paralelismo': d['Parallelization'], 'Lógica': d['Logic'],
-                          'Sincronização': d['Synchronization'], 'Controle de fluxo': d['FlowControl'],
-                          "Interatividade com o usuário": d['UserInteractivity'],
-                          'Representação de dados': d['DataRepresentation']}
+        d_translate_pt = {'Abstração': [d['Abstraction'], 'Abstraction'], 'Paralelismo': [d['Parallelization'], 'Parallelization'], 'Lógica': [d['Logic'], 'Logic'],
+                          'Sincronização': [d['Synchronization'], 'Synchronization'], 'Controle de fluxo': [d['FlowControl'], 'FlowControl'],
+                          "Interatividade com o usuário": [d['UserInteractivity'], 'UserInteractivity'],
+                          'Representação de dados': [d['DataRepresentation'], 'DataRepresentation']}
+        if not vanilla: 
+            d_translate_pt.update({'Operadores matemáticos': [d['MathOperators'], 'MathOperators'], 'Operadores de movimento': [d['MotionOperators'], 'MotionOperators']})
         filename.language = "pt"
         filename.save()
         return d_translate_pt
     
     elif request.LANGUAGE_CODE == "el":
-        d_translate_el = {'Αφαίρεση': d['Abstraction'], 'Παραλληλισμός': d['Parallelization'], 'Λογική': d['Logic'],
-                          'Συγχρονισμός': d['Synchronization'], 'Έλεγχος ροής': d['FlowControl'],
-                          'Αλληλεπίδραση χρήστη': d['UserInteractivity'],
-                          'Αναπαράσταση δεδομένων': d['DataRepresentation']}
+        d_translate_el = {'Αφαίρεση': [d['Abstraction'], 'Abstraction'], 'Παραλληλισμός': [d['Parallelization'], 'Parallelization'], 'Λογική': [d['Logic'], 'Logic'],
+                          'Συγχρονισμός': [d['Synchronization'], 'Synchronization'], 'Έλεγχος ροής': [d['FlowControl'], 'FlowControl'],
+                          'Αλληλεπίδραση χρήστη': [d['UserInteractivity'], 'UserInteractivity'],
+                          'Αναπαράσταση δεδομένων': [d['DataRepresentation'], 'DataRepresentation']}
+        if not vanilla: 
+            d_translate_el.update({'Μαθηματικοί χειριστές': [d['MathOperators'], 'MathOperators'], 'Χειριστές κίνησης': [d['MotionOperators'], 'MotionOperators']})
         filename.language = "el"
         filename.save()
         return d_translate_el
 
     elif request.LANGUAGE_CODE == "eu":           
-        d_translate_eu = {'Abstrakzioa': d['Abstraction'], 'Paralelismoa': d['Parallelization'], 'Logika': d['Logic'],
-                          'Sinkronizatzea': d['Synchronization'], 'Kontrol fluxua': d['FlowControl'],
-                          'Erabiltzailearen elkarreragiletasuna': d['UserInteractivity'],
-                          'Datu adierazlea': d['DataRepresentation']}
+        d_translate_eu = {'Abstrakzioa': [d['Abstraction'], 'Abstraction'], 'Paralelismoa': [d['Parallelization'], 'Parallelization'], 'Logika': [d['Logic'], 'Logic'],
+                          'Sinkronizatzea': [d['Synchronization'], 'Synchronization'], 'Kontrol fluxua': [d['FlowControl'], 'FlowControl'],
+                          'Erabiltzailearen elkarreragiletasuna': [d['UserInteractivity'], 'UserInteractivity'],
+                          'Datu adierazlea': [d['DataRepresentation'], 'DataRepresentation']}
+        if not vanilla: 
+            d_translate_eu.update({'Eragile matematikoak': [d['MathOperators'], 'MathOperators'], 'Mugimendu-eragileak': [d['MotionOperators'], 'MotionOperators']})
         filename.language = "eu"
         filename.save()
         return d_translate_eu
 
     elif request.LANGUAGE_CODE == "it":           
-        d_translate_it = {'Astrazione': d['Abstraction'], 'Parallelismo': d['Parallelization'], 'Logica': d['Logic'],
-                          'Sincronizzazione': d['Synchronization'], 'Controllo di flusso': d['FlowControl'],
-                          'Interattività utente': d['UserInteractivity'],
-                          'Rappresentazione dei dati': d['DataRepresentation']}
+        d_translate_it = {'Astrazione': [d['Abstraction'], 'Abstraction'], 'Parallelismo': [d['Parallelization'], 'Parallelization'], 'Logica': [d['Logic'], 'Logic'],
+                          'Sincronizzazione': [d['Synchronization'], 'Synchronization'], 'Controllo di flusso': [d['FlowControl'], 'FlowControl'],
+                          'Interattività utente': [d['UserInteractivity'], 'UserInteractivity'],
+                          'Rappresentazione dei dati': [d['DataRepresentation'], 'DataRepresentation']}
+        if not vanilla: 
+            d_translate_it.update({'Operatori matematici':  [d['MathOperators'], 'MathOperators'], 'Operatori del movimento': [d['MotionOperators'], 'MotionOperators']})
         filename.language = "it"
         filename.save()
         return d_translate_it
 
     elif request.LANGUAGE_CODE == "ru":
-        d_translate_ru = {'Абстракция': d['Abstraction'], 'Параллельность действий': d['Parallelization'],
-                          'Логика': d['Logic'], 'cинхронизация': d['Synchronization'],
-                          'Управление потоком': d['FlowControl'], 'Интерактивность': d['UserInteractivity'],
-                          'Представление данных': d['DataRepresentation']}
+        d_translate_ru = {'Абстракция': [d['Abstraction'], 'Abstraction'], 'Параллельность действий': [d['Parallelization'], 'Parallelization'],
+                          'Логика': [d['Logic'], 'Logic'], 'cинхронизация': [d['Synchronization'], 'Synchronization'],
+                          'Управление потоком': [d['FlowControl'], 'FlowControl'], 'Интерактивность': [d['UserInteractivity'], 'UserInteractivity'],
+                          'Представление данных': [d['DataRepresentation'], 'DataRepresentation']}
+        if not vanilla: 
+            d_translate_ru.update({'Математические операторы': [d['MathOperators'], 'MathOperators'], 'Операторы движения': [d['MotionOperators'], 'MotionOperators']})
         filename.language = "ru"
         filename.save()
         return d_translate_ru
     else:
-        d_translate_en = {'Abstraction': d['Abstraction'], 'Parallelism': d['Parallelization'], 'Logic': d['Logic'],
-                          'Synchronization': d['Synchronization'], 'Flow control': d['FlowControl'],
-                          'User interactivity': d['UserInteractivity'], 'Data representation': d['DataRepresentation']}
+        d_translate_en = {'Abstraction': [d['Abstraction'], 'Abstraction'], 'Parallelism': [d['Parallelization'], 'Parallelization'], 'Logic': [d['Logic'], 'Logic'],
+                          'Synchronization': [d['Synchronization'], 'Synchronization'], 'Flow control': [d['FlowControl'], 'FlowControl'],
+                          'User interactivity': [d['UserInteractivity'], 'UserInteractivity'], 'Data representation': [d['DataRepresentation'], 'DataRepresentation']}
+        if not vanilla: 
+            d_translate_en.update({'Math Operators': [d['MathOperators'], 'MathOperators'], 'Motion Operators': [d['MotionOperators'], 'MotionOperators']})
         filename.language = "any"
         filename.save()
         return d_translate_en
 
+def skills_translation(request) -> dict:
+    """
+    Create a dict with the skills name translated
+    """
+    if request.LANGUAGE_CODE == "en":
+        dic = {u'Logic': 'Logic',
+               u'Parallelism':'Parallelism',
+               u'Data representation':'Data representation',
+               u'Synchronization':'Synchronization',
+               u'User interactivity':'User interactivity',
+               u'Flow control':'Flow control',
+               u'Abstraction':'Abstraction',
+               u'Math operators':'Math operators',
+               u'Motion operators': 'Motion operators'}
+    elif request.LANGUAGE_CODE == "es":
+        #page = unicodedata.normalize('NFKD',page).encode('ascii', 'ignore')
+        dic = {'Pensamiento lógico':'Logic',
+               'Paralelismo':'Parallelism',
+               'Representación de la información':'Data representation',
+               'Sincronización':'Synchronization',
+               'Interactividad con el usuario':'User',
+               'Control de flujo':'Flow control',
+               'Abstracción':'Abstraction',
+               'Operadores matemáticos':'Math operators',
+               'Operadores de movimiento': 'Motion operators'}
+    elif request.LANGUAGE_CODE == "ca":
+        #page = unicodedata.normalize('NFKD', page).encode('ascii', 'ignore')
+        dic = {u'Logica':'Logic',
+               u'Paral':'Parallelism',
+               u'Representacio':'Data representation',
+               u'Sincronitzacio':'Synchronization',
+               u'Interactivitat':'User interactivity',
+               u'Controls':'Flow control',
+               u'Abstraccio':'Abstraction',
+               u'Operadors matemàtics':'Math operators',
+               u'Operadors de moviment': 'Motion operators'}
+    elif request.LANGUAGE_CODE == "gl":
+        #page = unicodedata.normalize('NFKD',page).encode('ascii', 'ignore')
+        dic = {'Loxica':'Logic',
+               'Paralelismo':'Parallelism',
+               'Representacion':'Data representation',
+               'Sincronizacion':'Synchronization',
+               'Interactividade':'User interactivity',
+               'Control':'Flow control',
+               'Abstraccion':'Abstraction',
+               'Operadores matemáticos':'Math operators',
+               'Operadores de movemento': 'Motion operators'}
+    elif request.LANGUAGE_CODE == "pt":
+        #page = unicodedata.normalize('NFKD',page).encode('ascii', 'ignore')
+        dic = {'Logica':'Logic',
+               'Paralelismo':'Parallelism',
+               'Representacao':'Data representation',
+               'Sincronizacao':'Synchronization',
+               'Interatividade':'User interactivity',
+               'Controle':'Flow control',
+               'Abstracao':'Abstraction',
+               'Operadores matemáticos':'Math operators',
+               'Operadores de movimento': 'Motion operators'}
+    elif request.LANGUAGE_CODE == "el":
+        dic = {u'Λογική':'Logic',
+           u'Παραλληλισμός':'Parallelism',
+           u'Αναπαράσταση':'Data representation',
+           u'Συγχρονισμός':'Synchronization',
+           u'Αλληλεπίδραση':'User interactivity',
+           u'Έλεγχος':'Flow control',
+           u'Αφαίρεση':'Abstraction',
+           u'Μαθηματικοί τελεστές':'Math operators',
+           u'Χειριστές κίνησης': 'Motion operators'}
+    elif request.LANGUAGE_CODE == "eu":
+        #page = unicodedata.normalize('NFKD',page).encode('ascii', 'ignore')
+        dic = {u'Logika':'Logic',
+           u'Paralelismoa':'Parallelism',
+           u'Datu':'Data representation',
+           u'Sinkronizatzea':'Synchronization',
+           u'Erabiltzailearen':'User interactivity',
+           u'Kontrol':'Flow control',
+           u'Abstrakzioa':'Abstraction',
+           u'Operadore matematikoak':'Math operators',
+           u'Mugimendu-operadoreak': 'Motion operators'}
+    elif request.LANGUAGE_CODE == "it":
+        #page = unicodedata.normalize('NFKD',page).encode('ascii','ignore')
+        dic = {u'Logica':'Logic',
+           u'Parallelismo':'Parallelism',
+           u'Rappresentazione':'Data representation',
+           u'Sincronizzazione':'Synchronization',
+           u'Interattivita':'User interactivity',
+           u'Controllo':'Flow control',
+           u'Astrazione':'Abstraction',
+           u'Operatori matematici':'Math operators',
+           u'Operatori del movimento': 'Motion operators'}
+    elif request.LANGUAGE_CODE == "ru":
+        dic = {u'Логика': 'Logic',
+               u'Параллельность': 'Parallelism',
+               u'Представление': 'Data representation',
+               u'cинхронизация': 'Synchronization',
+               u'Интерактивность': 'User interactivity',
+               u'Управление': 'Flow control',
+               u'Абстракция': 'Abstraction',
+               u'Математические операторы':'Math operators',
+               u'Операторы движения': 'Motion operators'}
+    else:
+        dic = {u'Logica':'Logic',
+               u'Paralelismo':'Parallelism',
+               u'Representacao':'Data representation',
+               u'Sincronizacao':'Synchronization',
+               u'Interatividade':'User interactivity',
+               u'Controle':'Flow control',
+               u'Abstracao':'Abstraction',
+               u'Operadores matemáticos':'Math operators',
+               u'Operadores de movimento': 'Motion operators'}
+    
+    return dic
 
 def learn(request, page):
     """
@@ -1017,92 +1263,7 @@ def learn(request, page):
         user = request.user.username
         flag_user = 1
 
-    if request.LANGUAGE_CODE == "en":
-        dic = {u'Logic': 'Logic',
-               u'Parallelism':'Parallelism',
-               u'Data':'Data',
-               u'Synchronization':'Synchronization',
-               u'User':'User',
-               u'Flow':'Flow',
-               u'Abstraction':'Abstraction'}
-    elif request.LANGUAGE_CODE == "es":
-        page = unicodedata.normalize('NFKD',page).encode('ascii', 'ignore')
-        dic = {'Pensamiento':'Logic',
-               'Paralelismo':'Parallelism',
-               'Representacion':'Data',
-               'Sincronizacion':'Synchronization',
-               'Interactividad':'User',
-               'Control':'Flow',
-               'Abstraccion':'Abstraction'}
-    elif request.LANGUAGE_CODE == "ca":
-        page = unicodedata.normalize('NFKD', page).encode('ascii', 'ignore')
-        dic = {u'Logica':'Logic',
-               u'Paral':'Parallelism',
-               u'Representacio':'Data',
-               u'Sincronitzacio':'Synchronization',
-               u'Interactivitat':'User',
-               u'Controls':'Flow',
-               u'Abstraccio':'Abstraction'}
-    elif request.LANGUAGE_CODE == "gl":
-        page = unicodedata.normalize('NFKD',page).encode('ascii', 'ignore')
-        dic = {'Loxica':'Logic',
-               'Paralelismo':'Parallelism',
-               'Representacion':'Data',
-               'Sincronizacion':'Synchronization',
-               'Interactividade':'User',
-               'Control':'Flow',
-               'Abstraccion':'Abstraction'}
-    elif request.LANGUAGE_CODE == "pt":
-        page = unicodedata.normalize('NFKD',page).encode('ascii', 'ignore')
-        dic = {'Logica':'Logic',
-               'Paralelismo':'Parallelism',
-               'Representacao':'Data',
-               'Sincronizacao':'Synchronization',
-               'Interatividade':'User',
-               'Controle':'Flow',
-               'Abstracao':'Abstraction'}
-    elif request.LANGUAGE_CODE == "el":
-        dic = {u'Λογική':'Logic',
-           u'Παραλληλισμός':'Parallelism',
-           u'Αναπαράσταση':'Data',
-           u'Συγχρονισμός':'Synchronization',
-           u'Αλληλεπίδραση':'User',
-           u'Έλεγχος':'Flow',
-           u'Αφαίρεση':'Abstraction'}
-    elif request.LANGUAGE_CODE == "eu":
-        page = unicodedata.normalize('NFKD',page).encode('ascii', 'ignore')
-        dic = {u'Logika':'Logic',
-           u'Paralelismoa':'Parallelism',
-           u'Datu':'Data',
-           u'Sinkronizatzea':'Synchronization',
-           u'Erabiltzailearen':'User',
-           u'Kontrol':'Flow',
-           u'Abstrakzioa':'Abstraction'}
-    elif request.LANGUAGE_CODE == "it":
-        page = unicodedata.normalize('NFKD',page).encode('ascii','ignore')
-        dic = {u'Logica':'Logic',
-           u'Parallelismo':'Parallelism',
-           u'Rappresentazione':'Data',
-           u'Sincronizzazione':'Synchronization',
-           u'Interattivita':'User',
-           u'Controllo':'Flow',
-           u'Astrazione':'Abstraction'}
-    elif request.LANGUAGE_CODE == "ru":
-        dic = {u'Логика': 'Logic',
-               u'Параллельность': 'Parallelism',
-               u'Представление': 'Data',
-               u'cинхронизация': 'Synchronization',
-               u'Интерактивность': 'User',
-               u'Управление': 'Flow',
-               u'Абстракция': 'Abstraction'}
-    else:
-        dic = {u'Logica':'Logic',
-               u'Paralelismo':'Parallelism',
-               u'Representacao':'Data',
-               u'Sincronizacao':'Synchronization',
-               u'Interatividade':'User',
-               u'Controle':'Flow',
-               u'Abstracao':'Abstraction'}
+    dic = skills_translation(request)
 
     if page in dic:
         page = dic[page]
@@ -1115,6 +1276,13 @@ def learn(request, page):
         return render(request, page, {'flagUser': flag_user, 'user': user, 'username': username})
     else:
         return render(request, page)
+
+def contact(request):
+    """
+    Shows contact form
+    """
+    user = "main"
+    return render(request, user + '/contact-form.html') 
 
 
 def download_certificate(request):

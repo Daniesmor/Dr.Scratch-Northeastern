@@ -36,10 +36,17 @@ urlpatterns = [
     # Blog
     url(r'^blog$', 
         RedirectView.as_view(url='https://drscratchblog.wordpress.com')),
-
+    
+    # Rubric personalized
+    url(r'^rubric_creator', app_views.rubric_creator, name='rubric_creator'),
+    url(r'^(?P<skill_points>.{1,6})$', app_views.upload_personalized, name='upload_personalized'),
+        
     # Dashboards
-    url(r'^show_dashboard', app_views.show_dashboard, name='show_dashboard'),
+    url(r'^show_dashboard/(?P<skill_points>.{1,6})?$', app_views.show_dashboard, name='show_dashboard'),
     url(r'^download_certificate', app_views.download_certificate, name='certificate'),
+
+    # Conact form
+    url(r'^contact', app_views.contact, name='contact'),
 
     # Translation
     url(r'^i18n/', include('django.conf.urls.i18n'), name="translation"),
@@ -68,7 +75,7 @@ urlpatterns = [
     url(r'^coder/(.*)', app_views.coder, name='coder'),
     url(r'^login_coder$', app_views.login_coder, name='coder_login'),
     url(r'^logout_coder$', app_views.logout_coder, name='coder_logout'),
-
+    
     # Upload a .CSV
     url(r'^analyze_CSV$', app_views.analyze_csv, name='csv'),
 

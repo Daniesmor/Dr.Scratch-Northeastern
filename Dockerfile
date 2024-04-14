@@ -14,6 +14,7 @@ ADD . /var/www/
 # Install dependencies
 RUN apt-get update && apt-get upgrade -y && apt-get autoclean
 
+
 RUN apt-get install -y \
     default-libmysqlclient-dev \
     texlive-latex-recommended \

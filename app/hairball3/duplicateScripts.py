@@ -1,4 +1,5 @@
 from app.hairball3.plugin import Plugin
+from app.hairball3.scriptObject import Script
 import logging
 import coloredlogs
 
@@ -14,71 +15,86 @@ class DuplicateScripts(Plugin):
     def __init__(self, filename, json_project, verbose=False):
         super().__init__(filename, json_project, verbose)
         self.total_duplicate = 0
-        self.blocks_dicc = {}
-        self.total_blocks = []
+        self.sprite_dict = {}
+        self.duplicates = {}
         self.list_duplicate = []
+        self.list_csv = []
 
-    def analyze(self):
+    def get_blocks(self, dict_target):
+        """
+        Gets all the blocks in json format into a dictionary
+        """
+        out = {}
 
-        json_scratch_project = self.json_project.copy()
-        scripts_set = set()
 
-        for key, list_dict_targets in json_scratch_project.items():
+        for dict_key, dicc_value in dict_target.items():
+            if dict_key == "blocks":
+                for blocks, blocks_value in dicc_value.items():
+                    if type(blocks_value) is dict:
+                        out[blocks] = blocks_value
+        
+        return out
+    
+    def set_sprite_dict(self):
+        """
+        Sets a dictionary containing the scripts of each sprite in Script() format
+        """
+
+        for key, list_dict_targets in self.json_project.items():
             if key == "targets":
                 for dict_target in list_dict_targets:
-                    block_name = dict_target['name']
-                    for dict_key, dicc_value in dict_target.items():
-                        if dict_key == "blocks":
-                            for blocks, blocks_value in dicc_value.items():
-                                if type(blocks_value) is dict:
-                                    self.blocks_dicc[blocks] = blocks_value
-                                    self.total_blocks.append(blocks_value)
+                    sprite_name = dict_target['name']
+                    sprite_blocks = self.get_blocks(dict_target)
 
-        for key_block in self.blocks_dicc:
-            block = self.blocks_dicc[key_block]
+                    sprite_scripts = []
 
-            if block["topLevel"]:
-                block_list = []
-                block_list.append(block["opcode"])
-                next = block["next"]
-                aux_next = None
-                self._search_next(next, block_list, key_block, aux_next)
+                    for key, block in sprite_blocks.items():
+                        if block["topLevel"]:
+                            new_script = Script()
+                            new_script.set_script_dict(block_dict=sprite_blocks, start=key)
+                            sprite_scripts.append(new_script)
 
-                blocks_tuple = tuple(block_list)
+                    self.sprite_dict[sprite_name] = sprite_scripts
 
-                if blocks_tuple in scripts_set:
-                    if len(block_list) > 5:
-                        if not block_list in self.list_duplicate:
-                            self.total_duplicate += 1
-                            self.list_duplicate.append(block_list)
+
+    def analyze(self):
+        """
+        Searches for intra duplicates of each sprite and outputs them
+        """
+        self.set_sprite_dict()
+        
+        for sprite, scripts in self.sprite_dict.items():
+            seen = set()
+            sprite_duplicates = {}
+            for script in scripts:
+                blocks = tuple(script.get_blocks())
+
+                if blocks not in sprite_duplicates.keys():
+                    if len(blocks) > 5:
+                        sprite_duplicates[blocks] = [(script, sprite)]
                 else:
-                    scripts_set.add(blocks_tuple)
+                    sprite_duplicates[blocks].append((script, sprite))
 
-    def _search_next(self, next, block_list, key_block, aux_next):
-        if next is None:
-            try:
-                next = self.blocks_dicc[key_block]["inputs"]["SUBSTACK"][1]
-                if next is None:
-                    return
-            except:
-                if aux_next is not None:
-                    next = aux_next
-                    aux_next = None
-                else:
-                    next = None
-                    return
-        else: # loop block
-            if "SUBSTACK" in self.blocks_dicc[key_block]["inputs"]:
-                loop_block = self.blocks_dicc[key_block]["inputs"]["SUBSTACK"][1]
-                if loop_block is not None: #Check if is a loop block but EMPTY
-                    aux_next = next          #Save the real next until the end of the loop
-                    next = loop_block
+                seen.add(blocks)
 
-        block = self.blocks_dicc[next]
-        block_list.append(block["opcode"])
-        key_block = next
-        next = block["next"]
-        self._search_next(next, block_list, key_block, aux_next)
+
+            for key in seen:
+                if key in sprite_duplicates:
+                    if len(sprite_duplicates[key]) <= 1:
+                        sprite_duplicates.pop(key, None)
+
+            self.duplicates.update(sprite_duplicates)
+
+        print(self.duplicates)
+        for key, value in self.duplicates.items():
+            duplicated_scripts = [pair[0] for pair in value]
+            csv_text = [script.get_blocks() for script in duplicated_scripts]
+            script_text = "\n".join([script.convert_to_text() for script in duplicated_scripts])
+            self.total_duplicate += sum(1 for _ in duplicated_scripts)
+            self.list_duplicate.append(script_text)
+            self.list_csv.append(csv_text)
+
+        return self.duplicates
 
     def finalize(self) -> dict:
 
@@ -93,6 +109,8 @@ class DuplicateScripts(Plugin):
         self.dict_mastery['description'] = result
         self.dict_mastery['total_duplicate_scripts'] = self.total_duplicate
         self.dict_mastery['list_duplicate_scripts'] = self.list_duplicate
+        self.dict_mastery['duplicates'] = self.duplicates
+        self.dict_mastery['list_csv'] =  self.list_csv
 
         if self.verbose:
             logger.info(self.dict_mastery['description'])
@@ -102,8 +120,4 @@ class DuplicateScripts(Plugin):
         dict_result = {'plugin': 'duplicate_scripts', 'result': self.dict_mastery}
 
         return dict_result
-
-
-
-
 
