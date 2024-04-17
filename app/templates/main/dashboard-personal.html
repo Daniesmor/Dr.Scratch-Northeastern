@@ -40,7 +40,7 @@
                             </div>
                             <div class="panel-body">
                                 <div class="container col-md-12">
-                                    <h3 class='text-left dark-text'>The level of your project is... <strong> {{ mastery.competence|upper }}! </strong></h3>
+                                    <h3 class='text-left dark-text'>{% trans 'The level of your project is...' %} <strong> {{ mastery.competence|upper }}! </strong></h3>
                                     {% if mastery.competence == "Basic" %}
                                         <p class='text-left dark-text'> {% trans "You're at the beginning of a <br>great adventure . . . Keep it up!" %}</br></p>
                                     {% elif mastery.competence == "Developing" %}
@@ -270,7 +270,7 @@
 
         <div id="duplicated-scripts-content-r" style="display: none;">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Duplicates</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{% trans 'Duplicates' %}</h5>
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
@@ -283,12 +283,12 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#originalCollapse{{ forloop.counter }}" aria-expanded="false" aria-controls="originalCollapse{{ forloop.counter }}">
-                                        Display Original Blocks!
+                                        {% trans 'Display Original Blocks!' %}
                                     </button>
                                 </div>
                                 <div class="col-md-6">
                                     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#refactoredCollapse{{ forloop.counter }}" aria-expanded="false" aria-controls="refactoredCollapse{{ forloop.counter }}">
-                                        Display Solution!
+                                        {% trans 'Display Solution!' %}
                                     </button>
                                 </div>
                             </div>
@@ -319,7 +319,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans 'Close' %}</button>
             </div>
         </div>
 
