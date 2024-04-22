@@ -526,17 +526,6 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-#: templates/coder/dashboard-basic.html:180
-#: templates/coder/dashboard-developing.html:218
-#: templates/coder/dashboard-master.html:260
-#: templates/main/dashboard-basic.html:179
-#: templates/main/dashboard-developing.html:215
-#: templates/main/dashboard-master.html:258
-#: templates/organization/dashboard-basic.html:180
-#: templates/organization/dashboard-developing.html:218
-#: templates/organization/dashboard-master.html:265
-msgid "Level up"
-msgstr ""
 
 #: templates/coder/dashboard-basic.html:196
 #: templates/coder/dashboard-developing.html:234
@@ -2296,6 +2285,7 @@ msgid ""
 "execution of a project, like their position, their size, their color, their "
 "orientation..."
 msgstr ""
+"Un dos erros máis comúns que cometemos todos os programadores á hora de aprender a programar é non inicializar correctamente todos os atributos dos obxectos. Que son os atributos? Son características dun personaxe que poden ser modificadas na execución dun proxecto, como a súa posición, o seu tamaño, a súa cor, a súa orientación..."
 
 #: templates/learn/attrInit.html:13
 msgid ""
@@ -2305,6 +2295,7 @@ msgid ""
 "have the block 'go to' under the block 'when green flag clicked', in order "
 "to place the character in its initial position."
 msgstr ""
+"Cando tes bloques que modifican un atributo dun personaxe, sempre deberías ter un programa que ao comezar a executar o proxecto asignara o valor co que queremos que comece. Por exemplo, se se modifica a posición dun personaxe, deberiamos ter un bloque \"ir a\" despois de \"cando a bandeira verde é premida\", para así colocar o personaxe na súa posición inicial."
 
 #: templates/learn/attrInit.html:15
 msgid "when [right arrow v] key pressed //Not initialized correctly."
@@ -2333,6 +2324,7 @@ msgid ""
 "For example, when you have a program that isn't start with a hat block, or "
 "when there is a program that is waiting for a message that never is sent."
 msgstr ""
+"O código mort son partes dos programas que nunca chegan a executarse. Como pode formarse código mort? Por exemplo, cando tes un programa que non comeza cun bloque de inicio, ou cando hai un programa que está esperando a que chegue un mensaxe que ninguén envía."
 
 #: templates/learn/deadCode.html:14
 msgid "forever //Blocks that do not start with a hat block."
@@ -2359,12 +2351,14 @@ msgid ""
 "These situations usually causes that projects doesn't work as expected of "
 "them,so,try to avoid dead code in your programs!"
 msgstr ""
+"Estas situacións adoitan ser a causa de proxectos que non funcionan como se espera deles, así que: trata de evitar código morto nos teus programas!"
 
 #: templates/learn/duplicatedScripts.html:11
 msgid ""
 "Imagine that in a project we have two programs formed by the same blocks and "
 "where only vary the parameters or values of the blocks."
 msgstr ""
+"Imagina que nun proxecto temos dous programas que se compoñen dos mesmos bloques e nos que só varían os parámetros ou valores dos bloques."
 
 #: templates/learn/duplicatedScripts.html:15
 #: templates/learn/duplicatedScripts.html:23
@@ -2399,6 +2393,7 @@ msgid ""
 "more appropriate that the programmer make his own block that defines this "
 "behaviour and use this new block in all programs where needed."
 msgstr ""
+"Que pasaría se quisésemos facer unha pequena modificación? Teríamos que modificar ambos programas, o que complica o mantemento do código. Nestas situacións é moito máis axeitado que o programador crie un bloque propio que defina ese comportamento e que utilice este novo bloque en todos os programas onde sexa necesario facelo."
 
 #: templates/learn/duplicatedScripts.html:36
 msgid "define walk (repetitions)(step)(pause)"
@@ -2421,6 +2416,8 @@ msgid ""
 "Thus, if you want a change, you just have to go to the block defined by the "
 "programmer."
 msgstr ""
+"Desta maneira, se queremos realizar unha modificación, só é necesario ir ao bloque definido polo programador."
+
 
 #: templates/learn/spriteNaming.html:12
 msgid ""
@@ -2432,26 +2429,32 @@ msgid ""
 "practice naming(to recognize easily) each character and scenario of our "
 "projects, because our programs can be read more fast. Avoid default names!"
 msgstr ""
+"Cando comezamos a programar con Scratch, é frecuente deixar o nome que Scratch asigna por defecto aos novos personaxes ou cenários (sprite1, sprite2, fondo1, fondo2...). Cando temos poucos personaxes ou cenários, é bastante sinxelo saber que nome ten asignado cada personaxe ou cenário; non obstante, cando o número de personaxes ou cenários crece, a cousa complica. Por iso, é moi acertado acostumarse a poñer un nome representativo (que recoñezamos facilmente) a cada personaxe e cenário dos nosos proxectos, xa que así os programas leranse mellor e programaranse máis rapidamente. Fuxe dos nomes por defecto!"
 
 #: templates/main/collaborators.html:75 templates/main/collaborators.html:162
 msgid "Who we are"
 msgstr ""
+"Quen somos"
 
 #: templates/main/collaborators.html:76 templates/main/collaborators.html:207
 msgid "Translations"
 msgstr ""
+"Traducións"
 
 #: templates/main/collaborators.html:77 templates/main/collaborators.html:341
 msgid "Workshops"
 msgstr ""
+"Talleres"
 
 #: templates/main/collaborators.html:78
 msgid "More thanks"
 msgstr ""
+"Máis agradecementos"
 
 #: templates/main/collaborators.html:104
 msgid "Thanks all of you!"
 msgstr ""
+"Grazas a todos!"
 
 #: templates/main/collaborators.html:106
 msgid ""
@@ -2459,14 +2462,16 @@ msgid ""
 "best way of show our appreciation is including your work in the website. In "
 "this space you can see who people help us to improve Dr. Scratch!"
 msgstr ""
+"Estamos moi agradecidos de recibir a vosa axuda e pensamos que a mellor maneira de mostrar o noso aprecio é incluíndo o voso traballo na web. Neste espazo podedes ver a xente que nos axudou a mellorar Dr. Scratch."
 
 #: templates/main/collaborators.html:166
 msgid "Dr. Scratch's team likes to thank you for your contributions."
 msgstr ""
+"O equipo de Dr. Scratch agradece as vosas contribucións."
 
 #: templates/main/collaborators.html:182
 msgid " "
-msgstr ""
+msgstr " "
 
 #: templates/main/collaborators.html:211 templates/main/main.html:460
 #: templates/main/main_new.html:464
@@ -2485,6 +2490,7 @@ msgid ""
 "Would you like help us to translate Dr. Scratch to your language? Many "
 "people have already helped us! "
 msgstr ""
+"M'agradaría axudarvos a traducir Dr. Scratch á túa lingua? Moita xente xa nos axudou!"
 
 #: templates/main/collaborators.html:270
 msgid "Pau Nin"
@@ -2513,10 +2519,12 @@ msgid ""
 "We are collaborating with several schools where we can prove the website "
 "with children and see which features they need."
 msgstr ""
+"Estamos colaborando con moitas escolas onde se pode probar o noso sitio web e ver qué funcionalidades necesitan."
 
 #: templates/main/collaborators.html:346
 msgid "Thanks all of children and teachers who help us with the development!"
 msgstr ""
+"Gracias a todos os nenos e profesores que nos axudan co desenvolvemento!"
 
 #: templates/main/collaborators.html:375
 msgid "CEIP Lope de Vega"
@@ -2524,7 +2532,7 @@ msgstr ""
 
 #: templates/main/collaborators.html:379
 msgid "Teacher: Jorge Lobo"
-msgstr ""
+msgstr "Profesor: Jorge Lobo"
 
 #: templates/main/collaborators.html:411
 msgid "CEIP Gonzalo Fernández de Córdoba"
@@ -2532,7 +2540,7 @@ msgstr ""
 
 #: templates/main/collaborators.html:415
 msgid "Teacher: Chema Gonzalez"
-msgstr ""
+msgstr "Profesor: Chema Gonzalez"
 
 #: templates/main/collaborators.html:434
 msgid "<strong>More thanks</strong></h2>"
@@ -3237,6 +3245,747 @@ msgstr ""
 msgid "You must to complete all the fields."
 msgstr ""
 
+#: app/templates/main/main.html:266
+msgid ""
+"This is a Beta version"
+msgstr ""
+"Esto é unha versión Beta"
+
+#: app/templates/main/main.html:265 app/templates/main/main.html:529
+msgid ""
+"We are still working on it. If you have any comments or ideas please contact "
+"us"
+msgstr ""
+"Continuamos traballando niso. Se tes algún comentario ou idea, por favor, ponte en contacto connosco."
+
+#: app/templates/main/main.html:265 app/templates/main/main.html:529
+msgid "here"
+msgstr "aquí"
+
+#: app/templates/learn/BatchMode.html:5 app/templates/learn/base.html:193
+#: app/templates/main/main.html:399
+msgid "Batch Mode"
+msgstr "Análise por lotes"
+
+#: app/templates/main/main.html:400
+msgid "IMPORTANT!"
+msgstr "¡IMPORTANTE!"
+
+#: app/templates/main/main.html:400
+msgid ""
+"Please upload a txt containing the URLs of the projects, with each URL on a "
+"separate line. (Max. 10)"
+msgstr ""
+"Por favor, sobe un ficheiro de texto que conteña as URLs dos proxectos, só unha URL por liña. (Máx. 10)"
+
+#: app/templates/main/main.html:402 app/templates/main/rubric-uploader.html:141
+msgid ""
+"<input  name='urlsFile' type='file' class='filestyle' data-"
+"buttonText='Choose txt'>"
+msgstr ""
+"<input  name='urlsFile' type='file' class='filestyle' data-buttonText='Escolle un ficheiro de texto'>"
+
+#: app/templates/main/main.html:422
+#: app/templates/learn/PersonalMode.html:5 app/templates/learn/base.html:196
+msgid "Personalized Mode"
+msgstr "Modo Personalizado"
+
+#: app/templates/main/main.html:424
+msgid ""
+"The personalized mode allows you to create a personalized rubric for "
+"evaluate projects by your own criteria, after this you can share a link "
+"associated to your rubric to evaluate your students."
+msgstr ""
+"O modo personalizado permite crear rúbricas personalizadas para avaliar proxectos baixo o teu propio criterio. Despois diso, podes compartir unha ligazón asociada á túa rúbrica para avaliar os teus estudantes."
+
+#: app/templates/main/main.html:428
+msgid "Create rubric"
+msgstr "Crear rúbrica"
+
+#: app/templates/main/main.html:543
+msgid "©2024 Dr.Scratch Made with "
+msgstr "©2024 Dr.Scratch Feito con "
+
+#: app/templates/main/main.html:543
+msgid "by "
+msgstr "pola "
+
+#: app/templates/main/main.html:543
+msgid "Dr.Scratch Team."
+msgstr "Equip de Dr.Scratch."
+
+#: app/templates/main/main.html:456
+msgid "Winner of "
+msgstr "Gañou..."
+
+#: app/templates/main/main.html:469
+msgid ""
+"For the first time, a Spanish team, made up of researchers from the Rey Juan "
+"Carlos University of Madrid and professors from the Sevillian association "
+"Programamos, has been awarded a Google RISE Award, for the project Dr. "
+"Scratch."
+msgstr ""
+"Pola primeira vez, un equipo español, formado por investigadores da Universidade Rey Juan Carlos de Madrid e profesores da asociación sevillana Programamos, foi galardoado cun Premio Google RISE polo proxecto Dr. Scratch."
+
+#: app/templates/main/main.html:470
+msgid "Article of "
+msgstr "Artigo de "
+
+#: app/templates/main/main.html:487
+msgid "Check the"
+msgstr "Echa unha ollada á"
+
+#: app/templates/main/main.html:487
+msgid " wiki "
+msgstr ""
+
+#: app/templates/main/main.html:487
+msgid "of Dr.Scratch."
+msgstr "de Dr.Scratch"
+
+#: app/templates/main/dashboard-default.html:94
+#: app/templates/main/dashboard-default.html:346
+#: app/templates/main/dashboard-personal.html:43
+msgid "The level of your project is..."
+msgstr "O nivel do teu proxecto é..."
+
+#: app/templates/coder/dashboard-default-developing.html:347
+#: app/templates/main/dashboard-default-old.html:391
+#: app/templates/main/dashboard-default-old.html:645
+#: app/templates/main/dashboard-default-old.html:649
+#: app/templates/main/dashboard-default-old.html:651
+#: app/templates/main/dashboard-default.html:98
+#: app/templates/main/dashboard-default.html:352
+#: app/templates/main/dashboard-default.html:356
+#: app/templates/main/dashboard-default.html:358
+#: app/templates/main/dashboard-personal-old.html:331
+#: app/templates/main/dashboard-personal-old.html:335
+#: app/templates/main/dashboard-personal-old.html:337
+#: app/templates/main/dashboard-personal.html:47
+#: app/templates/main/dashboard-personal.html:51
+#: app/templates/main/dashboard-personal.html:53
+msgid "You're doing a great job. Keep it up!!! "
+msgstr "Estás a facer un gran traballo. Continúa así!"
+
+#: app/templates/coder/dashboard-basic.html:212
+#: app/templates/coder/dashboard-default-basic.html:397
+#: app/templates/coder/dashboard-default-developing.html:469
+#: app/templates/coder/dashboard-default-master.html:469
+#: app/templates/coder/dashboard-developing.html:372
+#: app/templates/coder/dashboard-master.html:400
+#: app/templates/main/dashboard-default-old.html:526
+#: app/templates/main/dashboard-default-old.html:776
+#: app/templates/main/dashboard-default.html:233
+#: app/templates/main/dashboard-default.html:483
+#: app/templates/main/dashboard-personal-old.html:462
+#: app/templates/main/dashboard-personal.html:186
+#: app/templates/organization/dashboard-basic.html:180
+#: app/templates/organization/dashboard-developing.html:268
+#: app/templates/organization/dashboard-master.html:280
+msgid "Level up"
+msgstr "Mellora o teu nivel"
+
+#: app/templates/main/dashboard-default-old.html:410
+#: app/templates/main/dashboard-default.html:117
+#: app/templates/main/dashboard-personal.html:70
+msgid ""
+"Specific parts of the project that do not contribute to good programming "
+"practices"
+msgstr "Partes específicas do proxecto que non contribúen a boas prácticas de programación"
+
+#: app/templates/main/dashboard-default-old.html:501
+#: app/templates/main/dashboard-default.html:208
+#: app/templates/main/dashboard-personal.html:161
+msgid "Certificate of the Evaluation of your Scratch Project"
+msgstr "Certificado da Avaliación do teu proxecto de Scratch"
+
+#: app/templates/main/dashboard-default-old.html:527
+#: app/templates/main/dashboard-default.html:234
+#: app/templates/main/dashboard-personal.html:187
+msgid "Dimensions Evaluated in your Scratch Project"
+msgstr "Dimensións avaliadas no teu proxecto de Scratch"
+
+
+#: app/templates/main/dashboard-default-old.html:533
+#: app/templates/main/dashboard-default.html:240
+msgid "Grade from 1 to 3 of each Dimension"
+msgstr "Escala de 1 a 3 da puntuación de cada Dimensión"
+
+#: app/templates/main/dashboard-personal.html:193
+msgid "Grade of each Dimension"
+msgstr "Escala de puntuación de cada dimensión"
+
+#: app/templates/main/contact-form.html:121
+#: app/templates/main/contact-form.html:140
+msgid "Tell us how your experience went..."
+msgstr "Explícanos como foi a túa experiencia..."
+
+#: app/templates/main/contact-form.html:123
+msgid "Fill out the form and we will contact you as soon as possible"
+msgstr ""
+"Preenche o formulario e poñerémonos en contacto contigo o antes posible."
+
+#: app/templates/main/contact-form.html:130
+msgid "Your name"
+msgstr "Nome: "
+
+#: app/templates/main/contact-form.html:131
+msgid "Enter your name"
+msgstr "Introduce o teu nome: "
+
+#: app/templates/main/contact-form.html:132
+#: app/templates/main/contact-form.html:137
+msgid "Obligatory"
+msgstr "Obrigatorio"
+
+#: app/templates/main/contact-form.html:135
+msgid "Your email"
+msgstr "Correo electrónico: "
+
+#: app/templates/main/contact-form.html:136
+msgid "Enter email"
+msgstr "Introduce o teu correo electrónico: "
+
+#: app/templates/main/contact-form.html:143
+msgid ""
+"<input  name='contact_media' type='file' class='filestyle' data-"
+"buttonText='Upload media'>"
+msgstr ""
+"<input  name='contact_media' type='file' class='filestyle' data-"
+"buttonText='Anexar foto/vídeo'>"
+
+#: app/templates/main/rubric-creator.html:392
+msgid "Build your rubric!"
+msgstr "Elabora a túa rúbrica!"
+
+#: app/templates/main/rubric-creator.html:407
+msgid ""
+"Abstraction is not relevant to me at this moment. I am focused on concrete "
+"and specific details of the program."
+msgstr ""
+"A abstracción non é relevante para min neste momento. Estou enfocado en detalles concretos e específicos do programa."
+
+#: app/templates/main/rubric-creator.html:408
+msgid ""
+"Abstraction is minimal. I prefer to stay close to the source code and do not "
+"need high levels of generalization."
+msgstr ""
+"A abstracción é mínima. Prefiro manterme preto do código fonte e non necesito niveis altos de xeneralización."
+
+#: app/templates/main/rubric-creator.html:409
+msgid ""
+"Abstraction has some importance, but it is not essential. I am interested in "
+"understanding the overall functioning."
+msgstr ""
+"A abstracción ten certa importancia, pero non é esencial. Estou interesado en entender o funcionamento xeral."
+
+#: app/templates/main/rubric-creator.html:410
+msgid ""
+"Abstraction is important. I value patterns in the code to facilitate its "
+"maintenance and extension."
+msgstr ""
+"A abstracción é importante. Valorizo os patróns no código para facilitar o seu mantemento e extensión.""A abstracción é importante. Valorizo os patróns no código para facilitar o seu mantemento e extensión."
+
+#: app/templates/main/rubric-creator.html:411
+msgid ""
+"Abstraction is crucial. I value modular and reusable code, which abstracts "
+"concepts to improve clarity and efficiency."
+msgstr ""
+"A abstracción é crucial. Valorizo o código modular e reutilizable, que abstrai conceptos para mellorar a claridade e a eficiencia."
+
+#: app/templates/main/rubric-creator.html:412
+msgid ""
+"Abstraction is absolutely vital. The code must be abstract and flexible to "
+"adapt to future changes and reuse."
+msgstr ""
+"A abstracción é absolutamente vital. O código debe ser abstracto e flexible para adaptarse a cambios futuros e reutilización."
+
+#: app/templates/main/rubric-creator.html:426
+msgid "Parallelization"
+msgstr "Paralelismo"
+
+#: app/templates/main/rubric-creator.html:431
+msgid ""
+"Parallelization is not crucial at this moment. There is no need to execute "
+"tasks simultaneously in the code."
+msgstr ""
+"A paralelización non é crucial neste momento. Non hai necesidade de executar tarefas simultaneamente no código."
+
+#: app/templates/main/rubric-creator.html:432
+msgid ""
+"Parallelization is minimal. There is no significant need for parallel "
+"processing in the code."
+msgstr ""
+"A paralelización é mínima. Non hai unha necesidade significativa de procesamento paralelo no código."
+
+#: app/templates/main/rubric-creator.html:433
+msgid ""
+"Parallelization has some importance. There is a moderate need to execute "
+"tasks in parallel in the code."
+msgstr ""
+"A paralelización ten certa importancia. Hai unha necesidade moderada de executar tarefas en paralelo no código."
+
+
+#: app/templates/main/rubric-creator.html:434
+msgid ""
+"Parallelization is important. Proper parallel processing is required to "
+"enhance the code performance."
+msgstr ""
+"A paralelización é importante. Requírese un procesamento paralelo adecuado para mellorar o rendemento do código."
+
+#: app/templates/main/rubric-creator.html:435
+msgid ""
+"Parallelization is crucial. Simultaneous execution of tasks is essential to "
+"optimize code performance and efficiency."
+msgstr ""
+"A paralelización é crucial. A execución simultánea de tarefas é esencial para optimizar o rendemento e a eficiencia do código."
+
+#: app/templates/main/rubric-creator.html:436
+msgid ""
+"Parallelization is absolutely vital. The ability to perform parallel "
+"processing is fundamental for system performance."
+msgstr ""
+"A paralelización é absolutamente vital. A capacidade para realizar procesamento paralelo é fundamental para o rendemento do sistema."
+
+
+#: app/templates/main/rubric-creator.html:443
+msgid "Logic Thinking"
+msgstr "Pensamento Lóxico"
+
+#: app/templates/main/rubric-creator.html:448
+msgid ""
+"Logical thinking is not relevant to me at this moment. I am focused on other "
+"aspects of the problem."
+msgstr ""
+"O pensamento lóxico non é relevante para min neste momento. Estou enfocado noutros aspectos do problema."
+
+#: app/templates/main/rubric-creator.html:449
+msgid ""
+"Logical thinking is minimal. I prefer to follow a more intuitive approach in "
+"my decisions and actions."
+msgstr ""
+"O pensamento lóxico é mínimo. Prefiro seguir un enfoque máis intuitivo nas miñas decisións e accións."
+
+#: app/templates/main/rubric-creator.html:450
+msgid ""
+"Logical thinking has some importance, but it is not fundamental. Sometimes, "
+"I rely more on my instinct than on pure logic."
+msgstr ""
+"O pensamento lóxico ten certa importancia, pero non é fundamental. Ás veces, confío máis no meu instinto que na lóxica pura."
+
+#: app/templates/main/rubric-creator.html:451
+msgid ""
+"Logical thinking is important. I use logic to solve problems and make "
+"decisions more efficiently."
+msgstr ""
+"O pensamento lóxico é importante. Utilizo a lóxica para resolver problemas e tomar decisións de maneira máis eficiente."
+
+#: app/templates/main/rubric-creator.html:452
+msgid ""
+"Logical thinking is crucial. I rely on logic to analyze complex situations "
+"and find effective solutions."
+msgstr ""
+"O pensamento lóxico é crucial. Confío na lóxica para analizar situacións complexas e atopar solucións efectivas."
+
+#: app/templates/main/rubric-creator.html:453
+msgid ""
+"Logical thinking is absolutely vital. All code must follow strict logic for "
+"problem-solving."
+msgstr ""
+"O pensamento lóxico é absolutamente vital. Todo o código debe seguir unha lóxica estrita para resolver problemas."
+
+#: app/templates/main/rubric-creator.html:465
+msgid ""
+"Synchronization is not relevant at this moment. I am not concerned about "
+"coordinating activities in the code."
+msgstr ""
+"A sincronización non é relevante neste momento. Non me preocupa coordinar actividades no código."
+
+#: app/templates/main/rubric-creator.html:466
+msgid ""
+"Synchronization is minimal. I do not consider managing concurrency or "
+"process synchronization crucial."
+msgstr ""
+"A sincronización é mínima. Non considero crucial xestionar a concorrencia ou a sincronización de procesos."
+
+#: app/templates/main/rubric-creator.html:467
+msgid ""
+"Synchronization has some importance. I can allow some operations to run "
+"asynchronously."
+msgstr ""
+"A sincronización ten certa importancia. Podo permitir que algunhas operacións se executen de forma asíncrona."
+
+#: app/templates/main/rubric-creator.html:468
+msgid ""
+"Synchronization is important. It is crucial to ensure that shared resources "
+"are handled correctly."
+msgstr ""
+"A sincronización é importante. É crucial asegurar que os recursos compartidos se xestionen correctamente."
+
+#: app/templates/main/rubric-creator.html:469
+msgid ""
+"Synchronization is crucial. It is essential to control concurrency to ensure "
+"data consistency and integrity in the code."
+msgstr ""
+"A sincronización é crucial. É esencial controlar a concorrencia para garantir a consistencia e integridade dos datos no código."
+
+#: app/templates/main/rubric-creator.html:470
+msgid ""
+"Synchronization is absolutely vital. Efficient concurrency is fundamental "
+"for system performance and reliability."
+msgstr ""
+"A sincronización é absolutamente vital. A concorrencia eficiente é fundamental para o rendemento e a fiabilidade do sistema."
+
+#: app/templates/main/rubric-creator.html:483
+msgid ""
+"Flow control is not relevant at this moment. I do not need control "
+"structures to direct code execution."
+msgstr ""
+"O control de fluxo non é relevante neste momento. Non necesito estruturas de control para dirixir a execución do código."
+
+#: app/templates/main/rubric-creator.html:484
+msgid ""
+"Flow control is minimal. I prefer to follow a more linear approach in code "
+"execution without many control structures."
+msgstr ""
+"O control de fluxo é mínimo. Prefiro seguir un enfoque máis linear na execución do código sen moitas estruturas de control."
+
+#: app/templates/main/rubric-creator.html:485
+msgid ""
+"Flow control has some importance. I can manage code execution with a few "
+"basic control structures."
+msgstr ""
+"O control de fluxo ten certa importancia. Podo xestionar a execución do código con algunhas estruturas de control básicas."
+
+#: app/templates/main/rubric-creator.html:486
+msgid ""
+"Flow control is important. Code execution must be directed and decisions "
+"made based on different conditions."
+msgstr ""
+"O control de fluxo é importante. A execución do código debe ser dirixida e as decisións tomadas en función de diferentes condicións."
+
+#: app/templates/main/rubric-creator.html:487
+msgid ""
+"Flow control is crucial. Ensuring logic and coherence of program execution "
+"flow is necessary."
+msgstr ""
+"O control de fluxo é crucial. É necesario asegurar a lóxica e coherencia do fluxo de execución do programa."
+
+#: app/templates/main/rubric-creator.html:488
+msgid ""
+"Flow control is absolutely vital. Proper flow control management determines "
+"the efficiency and effectiveness of the program."
+msgstr ""
+"O control de fluxo é absolutamente vital. A xestión adecuada do control de fluxo determina a eficiencia e efectividade do programa."
+
+#: app/templates/main/rubric-creator.html:501
+msgid ""
+"User interactivity is not relevant at this moment. I do not need the code to "
+"respond to user input."
+msgstr ""
+"La interactividade do usuario non é relevante neste momento. Non necesito que o código responda á entrada do usuario."
+
+#: app/templates/main/rubric-creator.html:502
+msgid ""
+"User interactivity is minimal. The code does not require much direct "
+"interaction with the user."
+msgstr ""
+"La interactividade do usuario é mínima. O código non require moita interacción directa co usuario."
+
+#: app/templates/main/rubric-creator.html:503
+msgid ""
+"User interactivity has some importance. The code can be executed without too "
+"much direct user interaction."
+msgstr ""
+"A interactividade do usuario ten certa importancia. O código pode executarse sen moita interacción directa do usuario."
+
+#: app/templates/main/rubric-creator.html:504
+msgid ""
+"User interactivity is important. The code must respond appropriately to user "
+"actions."
+msgstr ""
+"A interactividade do usuario é importante. O código debe responder axeitadamente ás accións do usuario."
+
+#: app/templates/main/rubric-creator.html:505
+msgid ""
+"User interactivity is crucial. The code must be highly interactive with "
+"quick response to user actions."
+msgstr ""
+"A interactividade do usuario é crucial. O código debe ser altamente interactivo cunha resposta rápida ás accións do usuario."
+
+#: app/templates/main/rubric-creator.html:506
+msgid ""
+"User interactivity is absolutely vital. The ability to interact effectively "
+"with the user is fundamental."
+msgstr ""
+"A interactividade do usuario é absolutamente vital. A capacidade de interactuar de maneira efectiva co usuario é fundamental."
+
+#: app/templates/main/rubric-creator.html:519
+msgid ""
+"Data representation is not crucial at this moment. It does not significantly "
+"affect code execution."
+msgstr ""
+"La representación dos datos non é crucial neste momento. Non afecta significativamente á execución do código."
+
+#: app/templates/main/rubric-creator.html:520
+msgid ""
+"Data representation is minimal. A complex structure for storing or "
+"manipulating data is not required."
+msgstr ""
+"La representación dos datos é mínima. Non se require unha estrutura complexa para almacenar ou manipular datos."
+
+#: app/templates/main/rubric-creator.html:521
+msgid ""
+"Data representation has some importance. Basic structures are needed to "
+"manage the data."
+msgstr ""
+"La representación dos datos ten certa importancia. Necesítanse estruturas básicas para xestionar os datos."
+
+#: app/templates/main/rubric-creator.html:522
+msgid ""
+"Data representation is important. Proper design of data structure "
+"facilitates code understanding and maintenance."
+msgstr ""
+"A representación dos datos é importante. Un deseño adecuado da estrutura de datos facilita a comprensión e o mantemento do código."
+
+#: app/templates/main/rubric-creator.html:523
+msgid ""
+"Data representation is crucial. It is essential for optimizing code "
+"performance and scalability."
+msgstr ""
+"A representación dos datos é crucial. É esencial para optimizar o rendemento e a escalabilidade do código."
+
+#: app/templates/main/rubric-creator.html:524
+msgid ""
+"Data representation is absolutely vital. Poor data representation can lead "
+"to critical errors."
+msgstr ""
+"A representación dos datos é absolutamente vital. Unha representación deficiente dos datos pode provocar erros críticos."
+
+#: app/templates/main/rubric-creator.html:532
+msgid "Math Operators"
+msgstr "Operadores Matemáticos"
+
+#: app/templates/main/rubric-creator.html:537
+msgid ""
+"Mathematical operators are not crucial at this moment. Performing complex "
+"mathematical operations is not required."
+msgstr ""
+"Os operadores matemáticos non son cruciais neste momento. Non é necesario realizar operacións matemáticas complexas."
+
+#: app/templates/main/rubric-creator.html:538
+msgid ""
+"The use of mathematical operators is minimal. Only basic operations are "
+"needed for simple calculations."
+msgstr ""
+"O uso de operadores matemáticos é mínimo. Só se necesitan operacións básicas para cálculos sinxelos."
+
+#: app/templates/main/rubric-creator.html:539
+msgid ""
+"Mathematical operators have some importance. Basic operations are required "
+"to perform some tasks."
+msgstr ""
+"Os operadores matemáticos teñen certa importancia. Requírense operacións básicas para realizar algunhas tarefas."
+
+#: app/templates/main/rubric-creator.html:540
+msgid ""
+"Mathematical operators are important. They are used to perform essential "
+"calculations that directly affect functionality."
+msgstr ""
+"Os operadores matemáticos son importantes. Utilízanse para realizar cálculos esenciais que afectan directamente á funcionalidade."
+
+#: app/templates/main/rubric-creator.html:541
+msgid ""
+"Mathematical operators are crucial. Their correct usage is fundamental to "
+"ensure accuracy and consistency in calculations."
+msgstr ""
+"Os operadores matemáticos son cruciais. O seu uso correcto é fundamental para garantir a precisión e a consistencia nos cálculos."
+
+#: app/templates/main/rubric-creator.html:542
+msgid ""
+"Mathematical operators are absolutely vital. They are indispensable for "
+"operations that determine the final result."
+msgstr ""
+"Os operadores matemáticos son absolutamente vitais. Son indispensables para as operacións que determinan o resultado final."
+
+#: app/templates/main/rubric-creator.html:549
+msgid "Motion Operators"
+msgstr "Operadores de Movemento"
+
+#: app/templates/main/rubric-creator.html:554
+msgid ""
+"Motion operators are not crucial at this moment. Extensive manipulation of "
+"movements in the code is not required."
+msgstr ""
+"Os operadores de movemento non son cruciais neste momento. Non se require unha manipulación extensa de movementos no código."
+
+#: app/templates/main/rubric-creator.html:555
+msgid ""
+"Motion operators are minimal. There is no significant need for motion "
+"control in the code."
+msgstr ""
+"Os operadores de movemento son mínimos. Non hai unha necesidade significativa de control de movemento no código."
+
+#: app/templates/main/rubric-creator.html:556
+msgid ""
+"Motion operators have some importance. There is a moderate need for movement "
+"manipulation in the code."
+msgstr ""
+"Os operadores de movemento teñen certa importancia. Hai unha necesidade moderada de manipulación de movemento no código."
+
+#: app/templates/main/rubric-creator.html:557
+msgid ""
+"Motion operators are important. Proper motion control is necessary for the "
+"functionality of the code."
+msgstr ""
+"Os operadores de movemento son importantes. É necesario un control adecuado do movemento para a funcionalidade do código."
+
+#: app/templates/main/rubric-creator.html:558
+msgid ""
+"Motion operators are crucial. Precise motion control is essential for the "
+"proper functioning of the code."
+msgstr ""
+"Os operadores de movemento son cruciais. Un control preciso do movemento é esencial para o funcionamento adecuado do código."
+
+#: app/templates/main/rubric-creator.html:559
+msgid ""
+"Motion operators are absolutely vital. The ability to manipulate movements "
+"effectively is fundamental."
+msgstr ""
+"Os operadores de movemento son absolutamente vitais. A capacidade de manipular movementos de maneira efectiva é fundamental."
+
+#: app/templates/main/rubric-creator.html:564
+msgid "Generate rubric"
+msgstr "Xerar rúbrica"
+
+#: app/templates/main/rubric-creator.html:579
+msgid "You can share this url:"
+msgstr "Podes compartir este enlace:"
+
+#: app/templates/main/rubric-creator.html:581
+msgid "First fill the form"
+msgstr "Primeiro é necesario xerar a rúbrica."
+
+#: app/templates/main/rubric-creator.html:587
+msgid "Here there are some rubrics examples:"
+msgstr "Estes son algúns exemplos de rúbricas de avaliación:"
+
+#: app/templates/main/rubric-creator.html:589
+msgid "Arts"
+msgstr "Artes"
+
+#: app/templates/main/rubric-creator.html:590
+msgid "Music"
+msgstr "Música"
+
+#: app/templates/main/rubric-creator.html:591
+msgid "Animations"
+msgstr "Animacións"
+
+#: app/templates/main/rubric-creator.html:592
+msgid "Stories"
+msgstr "Historias"
+
+#: app/templates/main/rubric-creator.html:593
+msgid "Games"
+msgstr "Xogos"
+
+#: app/templates/main/rubric-uploader.html:140
+msgid ""
+"3. Upload projects with a <span class='colored-text'><a data-toggle='modal' "
+"href='#modalProject'>txt</a></span> file:"
+msgstr ""
+"3. Analizar proxectos dun ficheiro <span class='colored-text'><a data-"
+"toggle='modal' href='#modalProject'>txt</a></span>:"
+
+#: app/templates/learn/Flow.html:5 app/templates/main/rubric-creator.html:478
+#: app/templates/statistics/statistics.html:260
+msgid "Flow Control"
+msgstr "Control de fluxo"
+
+#: app/templates/learn/User.html:6 app/templates/main/rubric-creator.html:496
+msgid "User Interactivity"
+msgstr "Interactividade do susario"
+
+#: app/templates/coder/dashboard-default-basic.html:315
+#: app/templates/coder/dashboard-default-developing.html:303
+#: app/templates/coder/dashboard-default-master.html:303
+#: app/templates/learn/spriteNaming.html:5
+#: app/templates/main/dashboard-default-old.html:322
+#: app/templates/main/dashboard-default.html:29
+#: app/templates/learn/base.html:243
+msgid "Sprite Naming"
+msgstr "Nomes de obxectos"
+
+#: app/templates/coder/dashboard-default-developing.html:324
+#: app/templates/coder/dashboard-default-master.html:324
+#: app/templates/learn/duplicatedScripts.html:5
+#: app/templates/main/dashboard-default-old.html:343
+#: app/templates/main/dashboard-default.html:50
+#: app/templates/upload/dashboard-unregistered.html:162
+msgid "Duplicated Scripts"
+msgstr "Programas duplicados"
+
+#: app/templates/learn/base.html:186
+msgid "Tutorials"
+msgstr "Tutoriais"
+
+#: app/templates/learn/base.html:205
+msgid "Dimensions"
+msgstr "Dimensións"
+
+#: app/templates/learn/base.html:236
+msgid "Bad Habits"
+msgstr "Malos hábitos"
+
+#: app/templates/learn/deadCode.html:5
+msgid "Dead Code"
+msgstr "Código morto"
+
+#: app/templates/learn/BatchMode.html:5 app/templates/learn/base.html:190
+msgid "Default Mode"
+msgstr "Mode Vanilla"
+
+#: app/templates/learn/BatchMode.html:25
+msgid ""
+"You only have to upload a .txt file with the urls of the Scratch's Projects."
+msgstr "Tan só debes cargar un ficheiro .txt coas URL dos proxectos de Scratch."
+
+#: app/templates/learn/PersonalMode.html:24
+msgid "The functionality of this mode is divided in 3 steps:"
+msgstr "O funcionamento deste modo está dividido en 3 pasos:"
+
+#: app/templates/learn/PersonalMode.html:25
+msgid "1. Creation of the Rubric with the grades of each dimension."
+msgstr "1. Creación da Rúbrica cos graos de cada dimensión."
+
+#: app/templates/learn/PersonalMode.html:26
+msgid "2. Sharing the link to the Rubric created in the previous step."
+msgstr "2. Compartir a ligazón á rúbrica creada no paso anterior."
+
+#: app/templates/learn/PersonalMode.html:28
+msgid ""
+"3. Upload of the projects via an url, .sb3 file or a .txt file with multiple "
+"projects."
+msgstr "3. Cargar o proxecto a través dunha ligazón, un ficheiro .sb3 ou analizar múltiples proxectos mediante un ficheiro .txt."
+
+#: app/templates/main/collaborators.html:266
+msgid "Dr. Scratch Team"
+msgstr "Equipo de Dr. Scratch"
+
+#: app/templates/main/collaborators.html:293
+msgid "Team Members"
+msgstr "Membros do Equipo"
+
+#: app/templates/main/collaborators.html:314
+#: app/templates/main/collaborators.html:336
+#: app/templates/main/collaborators.html:359
+#: app/templates/main/collaborators.html:382
+#: app/templates/main/collaborators.html:404
+#: app/templates/main/collaborators.html:425
+msgid "Developer"
+msgstr "Desenvolvedor"
+
 #~ msgid "Want to level up?"
 #~ msgstr "¿Quere subir de nivel?"
 
@@ -3333,9 +4082,6 @@ msgstr ""
 #~ msgid "Well done!!!"
 #~ msgstr "Ben feito!!!"
 
-#~ msgid "Duplicated Scripts"
-#~ msgstr "Programas duplicados"
-
 #, fuzzy
 #~| msgid "Sprite naming"
 #~ msgid "Sprites naming"
@@ -3343,11 +4089,6 @@ msgstr ""
 
 #~ msgid "Incorrect name:"
 #~ msgstr "Nome incorrecto:"
-
-#, fuzzy
-#~| msgid "Dead code"
-#~ msgid "Dead Code"
-#~ msgstr "Código morto"
 
 #~ msgid "blocks"
 #~ msgstr "bloques"
@@ -3375,8 +4116,6 @@ msgstr ""
 #~ msgid "Learn More"
 #~ msgstr "Aprende máis"
 
-#~ msgid "Flow Control"
-#~ msgstr "Control de fluxo"
 
 #~ msgid "©2014 Dr.Scratch is powered by"
 #~ msgstr "©2014 Dr.Scratch implementado con"
