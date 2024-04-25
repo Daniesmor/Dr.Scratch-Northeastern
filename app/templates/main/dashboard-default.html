@@ -27,28 +27,28 @@
                     <div class="col-md-3">
                         <div class="island">
                             <h4> {% trans "Sprite Naming" %} </h4>
-                            <img src="static/app/images/Isla_1.jpg" alt="Isla 1" onclick="modalContentChange('sprite-naming-content-r')">
+                            <img src="/static/app/images/Isla_1.jpg" alt="Isla 1" onclick="modalContentChange('sprite-naming-content-r')">
                         </div>
                     </div>
                     <!-- World 2: Backdrop Naming -->
                     <div class="col-md-3">
                         <div class="island">
                             <h4> {% trans 'Backdrop Naming' %} </h4>
-                            <img src="static/app/images/Isla_2.jpg" alt="Isla 2" onclick="modalContentChange('backdrop-naming-content-r')">
+                            <img src="/static/app/images/Isla_2.jpg" alt="Isla 2" onclick="modalContentChange('backdrop-naming-content-r')">
                         </div>
                     </div>
                     <!-- World 3: Dead Code -->
                     <div class="col-md-3">
                         <div class="island">
                             <h4>  {% trans 'Dead Code' %} </h4>
-                            <img src="static/app/images/Isla_3.jpg" alt="Isla 3" onclick="modalContentChange('dead-code-content-r')">
+                            <img src="/static/app/images/Isla_3.jpg" alt="Isla 3" onclick="modalContentChange('dead-code-content-r')">
                         </div>
                     </div>
                     <!-- World 4: Duplicated Scripts -->
                     <div class="col-md-3">
                         <div class="island">
                             <h4>  {% trans 'Duplicated Scripts' %} </h4>
-                            <img src="static/app/images/Isla_4.jpg" alt="Isla 4" onclick="modalContentChange('duplicated-scripts-content-r')">
+                            <img src="/static/app/images/Isla_4.jpg" alt="Isla 4" onclick="modalContentChange('duplicated-scripts-content-r')">
                         </div>
                     </div>
                 </div>
@@ -68,11 +68,11 @@
                         <div class="panel panel-success" id="devpanel">
                             <div class="panel-heading" id="steptwo" >
                                 {% if mastery_vanilla.competence == "Basic" %}
-                                    <img src="static/app/images/ferret.png" class="img-responsive col-md-5">
+                                    <img src="/static/app/images/ferret.png" class="img-responsive col-md-5">
                                 {% elif mastery_vanilla.competence == "Developing" %}
-                                    <img src="static/app/images/monkey.png" class="img-responsive col-md-4">
+                                    <img src="/static/app/images/monkey.png" class="img-responsive col-md-4">
                                 {% elif mastery_vanilla.competence == "Master" %}
-                                    <img src="static/app/images/cat.png" class="img-responsive col-md-3">
+                                    <img src="/static/app/images/cat.png" class="img-responsive col-md-3">
                                 {% endif %}
                                 <h2 id="score" class="panel-title dark-text">
                                     <strong>{% trans "Score:" %}</strong>
@@ -255,7 +255,7 @@
                                                         {% if value.0.0 == value.0.1 %}
                                                         <span class="glyphicon glyphicon-star" id="star"></span>
                                                         {% else %}
-                                                        <img src="static/app/images/little_bulb.png" alt="">
+                                                        <img src="/static/app/images/little_bulb.png" alt="">
                                                         {% endif %}
                                                         <a href="/learn/{{ value.1 }}/">{{ key }}</a>
                                                     </td>
@@ -316,15 +316,15 @@
                         <div class="panel panel-success" id="devpanel">
                             <div class="panel-heading" id="steptwo" >
                                 {% if mastery.competence == "Basic" %}
-                                    <img src="static/app/images/ferret.png" class="img-responsive col-md-5">
+                                    <img src="/static/app/images/ferret.png" class="img-responsive col-md-5">
                                 {% elif mastery.competence == "Developing" %}
-                                    <img src="static/app/images/monkey.png" class="img-responsive col-md-4">
+                                    <img src="/static/app/images/monkey.png" class="img-responsive col-md-4">
                                 {% elif mastery.competence == "Master" %}
-                                    <img src="static/app/images/cat.png" class="img-responsive col-md-3">
+                                    <img src="/static/app/images/cat.png" class="img-responsive col-md-3">
                                 {% elif mastery.competence == "Advanced" %}
-                                    <img src="static/app/images/cat.png" class="img-responsive col-md-3">
+                                    <img src="/static/app/images/cat.png" class="img-responsive col-md-3">
                                 {% elif mastery.competence == "Finesse" %}
-                                    <img src="static/app/images/cat.png" class="img-responsive col-md-3">
+                                    <img src="/static/app/images/cat.png" class="img-responsive col-md-3">
                                 {% endif %}
                                 <h2 id="score" class="panel-title dark-text">
                                     <strong>{% trans "Score:" %}</strong>
@@ -495,7 +495,7 @@
                                                         {% if value.0.0 == value.0.1 %}
                                                         <span class="glyphicon glyphicon-star" id="star"></span>
                                                         {% else %}
-                                                        <img src="static/app/images/little_bulb.png" alt="">
+                                                        <img src="/static/app/images/little_bulb.png" alt="">
                                                         {% endif %}
                                                         <a href="/learn/{{ value.1 }}/">{{ key }}</a>
                                                     </td>
