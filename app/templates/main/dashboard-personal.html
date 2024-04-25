@@ -164,7 +164,7 @@
                                 <div class="panel-success" style="word-break: break-word;" >
                                     <h5>{{ filename }} <form name="form" class="project-form" enctype="multipart/form-data" method="post" action="/download_certificate">
                                     {% csrf_token %}
-                                    <button value="{{ filename }}" name="certificate" type="submit" id ="certificate">{% trans "Download" %}</button>
+                                    <button value="{{ filename }}" name="certificate" type="submit" data-mode="personalized" id ="certificate">{% trans "Download" %}</button>
                                   </form></h5>
                                 </div>
                             </div>
