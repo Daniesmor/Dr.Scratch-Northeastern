@@ -91,7 +91,7 @@
                             </div>
                             <div class="panel-body">
                                 <div class="container col-md-12">
-                                    <h3 class='text-left dark-text'>The level of your project is... <strong> {{ mastery_vanilla.competence|upper }}! </strong></h3>
+                                    <h3 class='text-left dark-text'>{% trans 'The level of your project is...' %} <strong> {{ mastery_vanilla.competence|upper }}! </strong></h3>
                                     {% if mastery_vanilla.competence == "Basic" %}
                                         <p class='text-left dark-text'> {% trans "You're at the beginning of a <br>great adventure . . . Keep it up!" %}</br></p>
                                     {% elif mastery_vanilla.competence == "Developing" %}
@@ -343,7 +343,7 @@
                             </div>
                             <div class="panel-body">
                                 <div class="container col-md-12">
-                                    <h3 class='text-left dark-text'>The level of your project is... <strong> {{ mastery.competence|upper }}! </strong></h3>
+                                    <h3 class='text-left dark-text'>{% trans 'The level of your project is...' %} <strong> {{ mastery.competence|upper }}! </strong></h3>
                                     {% if mastery.competence == "Basic" %}
                                         <p class='text-left dark-text'> {% trans "You're at the beginning of a <br>great adventure . . . Keep it up!" %}</br></p>
                                     {% elif mastery.competence == "Developing" %}
@@ -556,7 +556,7 @@
 
         <div id="duplicated-scripts-content-r" style="display: none;">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Duplicates</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{% trans 'Duplicates' %}</h5>
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
@@ -569,12 +569,12 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#originalCollapse{{ forloop.counter }}" aria-expanded="false" aria-controls="originalCollapse{{ forloop.counter }}">
-                                        Display Original Blocks!
+                                        {% trans 'Display Original Blocks!' %}
                                     </button>
                                 </div>
                                 <div class="col-md-6">
                                     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#refactoredCollapse{{ forloop.counter }}" aria-expanded="false" aria-controls="refactoredCollapse{{ forloop.counter }}">
-                                        Display Solution!
+                                        {% trans 'Display Solution!' %}
                                     </button>
                                 </div>
                             </div>
@@ -605,13 +605,13 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans 'Close' %}</button>
             </div>
         </div>
 
         <div id="sprite-naming-content-r" style="display: none;">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Sprite Naming</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{% trans 'Sprite Naming' %}</h5>
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
@@ -622,12 +622,12 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#originalCollapse" aria-expanded="false" aria-controls="originalCollapse">
-                                        Display Original Names!
+                                        {% trans 'Display Original Names!' %}
                                     </button>
                                 </div>
                                 <div class="col-md-6">
                                     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#refactoredCollapse" aria-expanded="false" aria-controls="refactoredCollapse">
-                                        Display Solution!
+                                        {% trans 'Display Solution!' %}
                                     </button>
                                 </div>
                             </div>
@@ -654,13 +654,13 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans 'Close' %}</button>
             </div>
         </div>
 
         <div id="backdrop-naming-content-r" style="display: none;">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Backdrop Naming</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{% trans 'Backdrop Naming' %}</h5>
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
@@ -671,12 +671,12 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#originalCollapse" aria-expanded="false" aria-controls="originalCollapse">
-                                        Display Original Names!
+                                        {% trans 'Display Original Names!' %}
                                     </button>
                                 </div>
                                 <div class="col-md-6">
                                     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#refactoredCollapse" aria-expanded="false" aria-controls="refactoredCollapse">
-                                        Display Solution!
+                                        {% trans 'Display Solution!' %}
                                     </button>
                                 </div>
                             </div>
@@ -703,13 +703,13 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans 'Close' %}</button>
             </div>
         </div>
 
         <div id="dead-code-content-r" style="display: none;">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Dead Code</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{% trans 'Dead Code' %}</h5>
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
@@ -720,12 +720,12 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#originalCollapse" aria-expanded="false" aria-controls="originalCollapse">
-                                        Display Original Blocks!
+                                        {% trans 'Display Original Blocks!' %}
                                     </button>
                                 </div>
                                 <div class="col-md-6">
                                     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#refactoredCollapse" aria-expanded="false" aria-controls="refactoredCollapse">
-                                        Display Solution!
+                                        {% trans 'Display Solution!' %}
                                     </button>
                                 </div>
                             </div>
@@ -763,7 +763,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans 'Close' %}</button>
             </div>
         </div>
         <script>

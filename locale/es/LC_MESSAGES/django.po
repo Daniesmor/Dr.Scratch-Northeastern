@@ -749,8 +749,7 @@ msgstr ""
 #: app/templates/learn/spriteNaming.html:5
 #: app/templates/main/dashboard-default-old.html:322
 #: app/templates/main/dashboard-default.html:29
-#, fuzzy
-#| msgid "Sprite naming"
+#: app/templates/learn/base.html:243
 msgid "Sprite Naming"
 msgstr "Nombres de objetos"
 
@@ -771,8 +770,6 @@ msgstr "Nombres de escenarios"
 #: app/templates/main/dashboard-default-old.html:336
 #: app/templates/main/dashboard-default.html:43
 #: app/templates/upload/dashboard-unregistered.html:209
-#, fuzzy
-#| msgid "Dead code"
 msgid "Dead Code"
 msgstr "Código Muerto"
 
@@ -891,8 +888,6 @@ msgstr "©2014 Dr. Scratch está implementado con "
 #: app/templates/main/dashboard-default-old.html:343
 #: app/templates/main/dashboard-default.html:50
 #: app/templates/upload/dashboard-unregistered.html:162
-#, fuzzy
-#| msgid "Duplicated scripts"
 msgid "Duplicated Scripts"
 msgstr "Programas duplicados"
 
@@ -923,8 +918,6 @@ msgstr ""
 #: app/templates/main/dashboard-personal.html:47
 #: app/templates/main/dashboard-personal.html:51
 #: app/templates/main/dashboard-personal.html:53
-#, fuzzy
-#| msgid "You're doing a great job. Keep it up!!!"
 msgid "You're doing a great job. Keep it up!!! "
 msgstr "Estás haciendo un gran trabajo. ¡Sigue así!"
 
@@ -1750,7 +1743,7 @@ msgstr "Análisis por lotes"
 #: app/templates/learn/BatchMode.html:25
 msgid ""
 "You only have to upload a .txt file with the urls of the Scratch's Projects."
-msgstr ""
+msgstr "Solamente tienes que subir un archivo .txt con las urls de los proyectos de Scratch."
 
 #: app/templates/learn/BatchMode.html:34
 #: app/templates/learn/DefaultMode.html:37
@@ -2094,9 +2087,9 @@ msgstr ""
 "Las listas tienen muchas posibilidades y muchas operaciones disponibles... "
 "¿te animas a investigar cómo funcionan?"
 
-#: app/templates/learn/DefaultMode.html:5 app/templates/learn/base.html:190
+#: app/templates/learn/BatchMode.html:5 app/templates/learn/base.html:190
 msgid "Default Mode"
-msgstr ""
+msgstr "Modo Vanilla"
 
 #: app/templates/learn/DefaultMode.html:24 app/templates/login/login.html:276
 #: app/templates/main/main_new.html:392
@@ -2104,19 +2097,13 @@ msgid "There are two options to analyze a Scratch project with Dr. Scratch"
 msgstr "Hay dos opciones para analizar un proyecto de Scratch con Dr. Scratch"
 
 #: app/templates/learn/DefaultMode.html:28
-#, fuzzy
-#| msgid ""
-#| "You can upload an sb2 file or just provide the project url, avoiding the "
-#| "need to previously download the project to your computer. By analyzing "
-#| "your projects with Dr. Scratch, you can easily check your Computational "
-#| "Thinking Score."
 msgid ""
 "You can upload an sb3 file or just provide the project url, avoiding the "
 "need to previously download the project to your computer. By analyzing your "
 "projects with Dr. Scratch, you can easily check your Computational Thinking "
 "Score."
 msgstr ""
-"Puedes subir un fichero de extensión sb2 o utilizar la url que Scratch "
+"Puedes subir un fichero de extensión sb3 o utilizar la url que Scratch "
 "facilita sin necesidad de bajar previamente el proyecto a tu ordenador. "
 "Mediante el análisis de Dr. Scratch, puedes conocer fácilmente tu Nivel de "
 "Pensamiento Computacional."
@@ -2558,21 +2545,21 @@ msgstr ""
 
 #: app/templates/learn/PersonalMode.html:24
 msgid "The functionality of this mode is divided in 3 steps:"
-msgstr ""
+msgstr "El funcionamiento de este modo está dividio en 3 pasos:"
 
 #: app/templates/learn/PersonalMode.html:25
 msgid "1. Creation of the Rubric with the grades of each dimension."
-msgstr ""
+msgstr "1. Creación de la Rúbrica con los grados de cada dimensión."
 
 #: app/templates/learn/PersonalMode.html:26
 msgid "2. Sharing the link to the Rubric created in the previous step."
-msgstr ""
+msgstr "2. Compartir el enlace a la rúbrica creada en el paso anterior."
 
 #: app/templates/learn/PersonalMode.html:28
 msgid ""
 "3. Upload of the projects via an url, .sb3 file or a .txt file with multiple "
 "projects."
-msgstr ""
+msgstr "3. Subir el proyecto via una url, un fichero .sb3 o analizar múltiples proyectos mediante un fichero .txt."
 
 #: app/templates/learn/Synchronization.html:9
 msgid ""
@@ -2938,20 +2925,14 @@ msgid "when [right arrow v] key pressed  //Initialized correctly."
 msgstr "al presionar tecla [flecha derecha v] // Inicializado correctamente"
 
 #: app/templates/learn/base.html:186
-#, fuzzy
-#| msgid "Stories"
 msgid "Tutorials"
-msgstr "Historias"
+msgstr "Tutoriales"
 
 #: app/templates/learn/base.html:205
-#, fuzzy
-#| msgid "Organizations"
 msgid "Dimensions"
-msgstr "Animaciones"
+msgstr "Dimensiones"
 
 #: app/templates/learn/base.html:236
-#, fuzzy
-#| msgid "Bad habits"
 msgid "Bad Habits"
 msgstr "Malos hábitos"
 
@@ -3498,15 +3479,13 @@ msgstr "Quiénes somos"
 msgid "Dr. Scratch's team likes to thank you for your contributions."
 msgstr "El equipo de Dr. Scratch agradece vuestras contribuciones."
 
-#: app/templates/main/collaborators.html:268
-msgid " "
-msgstr " "
+#: app/templates/main/collaborators.html:266
+msgid "Dr. Scratch Team"
+msgstr "Equipo de Dr. Scratch"
 
 #: app/templates/main/collaborators.html:293
-#, fuzzy
-#| msgid "Remember me"
 msgid "Team Members"
-msgstr "Recordarme"
+msgstr "Miembros del Equipo"
 
 #: app/templates/main/collaborators.html:298
 #: app/templates/main/collaborators.html:456
@@ -3515,7 +3494,7 @@ msgid ""
 "people have already helped us! "
 msgstr ""
 "¿Te gustaría ayudarnos a traducir Dr. Scratch a tu lengua? ¡Mucha gente "
-"nosha ayudado ya!"
+"nos ha ayudado ya!"
 
 #: app/templates/main/collaborators.html:314
 #: app/templates/main/collaborators.html:336
@@ -3523,10 +3502,8 @@ msgstr ""
 #: app/templates/main/collaborators.html:382
 #: app/templates/main/collaborators.html:404
 #: app/templates/main/collaborators.html:425
-#, fuzzy
-#| msgid "Development"
 msgid "Developer"
-msgstr "Medio"
+msgstr "Desarrollador"
 
 #: app/templates/main/collaborators.html:356
 msgid "Angela Vargas"
@@ -3702,33 +3679,41 @@ msgstr "Maestría promedio: "
 msgid ""
 "Specific parts of the project that do not contribute to good programming "
 "practices"
-msgstr ""
+msgstr "Partes Específicas del proyecto que no contribuyen a buenas prácticas de programación"
+
+#: app/templates/main/dashboard-default.html:94
+#: app/templates/main/dashboard-default.html:346
+#: app/templates/main/dashboard-personal.html:43
+msgid "The level of your project is..."
+msgstr "El nivel de tu proyecto es..."
 
 #: app/templates/main/dashboard-default-old.html:501
 #: app/templates/main/dashboard-default.html:208
 #: app/templates/main/dashboard-personal.html:161
-#, fuzzy
-#| msgid "Come back to your Scratch project."
 msgid "Certificate of the Evaluation of your Scratch Project"
-msgstr "Vuelve a tu proyecto Scratch"
+msgstr "Certificado de la Evaluación de tu proyecto de Scratch"
 
 #: app/templates/main/dashboard-default-old.html:527
 #: app/templates/main/dashboard-default.html:234
 #: app/templates/main/dashboard-personal.html:187
-#, fuzzy
-#| msgid "Analyze your Scratch projects"
 msgid "Dimensions Evaluated in your Scratch Project"
-msgstr "Analiza tus proyectos de Scratch"
+msgstr "Dimensiones evaluadas en tu proyecto de Scratch"
+
 
 #: app/templates/main/dashboard-default-old.html:533
 #: app/templates/main/dashboard-default.html:240
-#: app/templates/main/dashboard-personal.html:193
 msgid "Grade from 1 to 3 of each Dimension"
-msgstr ""
+msgstr "Escala de 1 a 3 de la nota de cada Dimensión"
 
-#: app/templates/main/main.html:263
-msgid "This is a Beta version"
+#: app/templates/main/dashboard-personal.html:193
+msgid "Grade of each Dimension"
+msgstr "Escala de la nota de cada Dimensión"
+
+#: app/templates/main/main.html:266
+msgid ""
+"This is a Beta version"
 msgstr ""
+"Esto es una versión Beta"
 
 #: app/templates/main/main.html:265 app/templates/main/main.html:529
 msgid ""
@@ -3756,7 +3741,7 @@ msgstr ""
 
 #: app/templates/main/main.html:400
 msgid "IMPORTANT!"
-msgstr "¡IMPORATANTE!"
+msgstr "¡IMPORTANTE!"
 
 #: app/templates/main/main.html:400
 msgid ""
@@ -3783,6 +3768,7 @@ msgid "Analyze my projects"
 msgstr "Analiza mis proyectos"
 
 #: app/templates/main/main.html:422
+#: app/templates/learn/PersonalMode.html:5 app/templates/learn/base.html:196
 msgid "Personalized Mode"
 msgstr "Modo Personalizado"
 
@@ -3796,9 +3782,23 @@ msgstr ""
 "proyectos bajo tu propio criterio, después de esto puedes compartir un link "
 "asociado a tu rúbrica para evaluar tus estudiantes."
 
+
+
 #: app/templates/main/main.html:428
 msgid "Create rubric"
 msgstr "Crear rúbrica"
+
+#: app/templates/main/main.html:543
+msgid "©2024 Dr.Scratch Made with "
+msgstr "©2024 Dr.Scratch Hecho con "
+
+#: app/templates/main/main.html:543
+msgid "by "
+msgstr "por el "
+
+#: app/templates/main/main.html:543
+msgid "Dr.Scratch Team."
+msgstr "Equipo de Dr.Scratch. "
 
 #: app/templates/main/main.html:456
 msgid "Winner of "
@@ -3818,7 +3818,7 @@ msgstr ""
 
 #: app/templates/main/main.html:470
 msgid "Article of "
-msgstr ""
+msgstr "Artículo de "
 
 #: app/templates/main/main.html:487
 msgid "Check the"
@@ -4659,13 +4659,7 @@ msgstr "Puntuación de 2019"
 msgid "Number of projects analyzed in 2015"
 msgstr "Número de proyectos analizados en 2019"
 
-#: app/templates/organization/dashboard-master.html:174
-msgid ""
-"<h3 class='text-left dark-text'>The level of your project is...  <strong> "
-"MASTER! </strong></h3>"
-msgstr ""
-"<h3 class='text-left dark-text'>El nivel de tu proyecto es...  <strong>¡ALTO!"
-"</strong></h3>"
+
 
 #: app/templates/organization/email-sign-up.html:5
 #: app/templates/sign/email.html:5
