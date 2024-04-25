@@ -125,7 +125,7 @@
     <header id="home" style="background-position: 50% 40.5px;" class="header" data-stellar-background-ratio="0.3">
         <video autoplay muted loop id="video-background">
             <source src="static/app/videos/Scratch!.mp4" type="video/mp4">
-            Your browser does not support the video tag.
+            {% trans 'Your browser does not support the video tag.' %}
         </video>
         <!-- COLOR OVER IMAGE -->
         <div class="overlay-layer">
@@ -322,7 +322,7 @@
 
                                 {% if error %}
                                     <br></br>
-                                    <p><span class="icon icon-close-alt2"></span> {% trans "Error! Please choose a .sb or .sb2 file or input an url" %}</p>
+                                    <p><span class="icon icon-close-alt2"></span> {% trans "Error! Please choose a .sb or .sb3 file or input an url" %}</p>
                                 {% endif %}
 
                                 {% if id_error %}
