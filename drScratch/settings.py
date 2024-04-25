@@ -34,7 +34,9 @@ TEMPLATES = [{
     },
 }]
 
-ALLOWED_HOSTS = os.environ.get('DRSCRATCH_ALLOWED_HOSTS').split(",")
+ALLOWED_HOSTS = ['localhost', '127.0.0.1','drscratch.org']
+CSRF_TRUSTED_ORIGINS = ['https://drscratch.org','https://www.drscratch.org']
+
 
 INSTALLED_APPS = (
     'app',
