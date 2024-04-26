@@ -13,15 +13,15 @@
                         <div class="panel panel-success" id="devpanel">
                             <div class="panel-heading" id="steptwo" >
                                 {% if mastery.competence == "Basic" %}
-                                    <img src="static/app/images/ferret.png" class="img-responsive col-md-5">
+                                    <img src="/static/app/images/ferret.png" class="img-responsive col-md-5">
                                 {% elif mastery.competence == "Developing" %}
-                                    <img src="static/app/images/monkey.png" class="img-responsive col-md-4">
+                                    <img src="/static/app/images/monkey.png" class="img-responsive col-md-4">
                                 {% elif mastery.competence == "Master" %}
-                                    <img src="static/app/images/cat.png" class="img-responsive col-md-3">
+                                    <img src="/static/app/images/cat.png" class="img-responsive col-md-3">
                                 {% elif mastery.competence == "Advanced" %}
-                                    <img src="static/app/images/cat.png" class="img-responsive col-md-3">
+                                    <img src="/static/app/images/cat.png" class="img-responsive col-md-3">
                                 {% elif mastery.competence == "Finesse" %}
-                                    <img src="static/app/images/cat.png" class="img-responsive col-md-3">
+                                    <img src="/static/app/images/cat.png" class="img-responsive col-md-3">
                                 {% endif %}
                                 <h2 id="score" class="panel-title dark-text">
                                     <strong>{% trans "Score:" %}</strong>
@@ -73,7 +73,7 @@
                                     <div class="panel-body text-left typ">
                                         <a class="glyphicon glyphicon-repeat"/>
                                         <a id="duplicated-scripts" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Duplicated scripts' %}" 
-                                        data-trigger="manual" href="learn/duplicatedScripts"> 
+                                        data-trigger="manual" href="/learn/duplicatedScripts/"> 
                                             {{ duplicateScript.number }} {% trans " duplicated scripts." %}
                                         </a>
                                         <div id="duplicated-scripts-content" class="collapse">
@@ -103,7 +103,7 @@
                                         {% if spriteNaming.number == 0 %}
                                             {% trans 'Your project does not have default sprite naming, good job!' %}
                                         {% endif %}
-                                        " data-trigger="manual" href="learn/spriteNaming"> 
+                                        " data-trigger="manual" href="/learn/spriteNaming/"> 
                                             {{ spriteNaming.number }} {% trans " sprite naming." %}
                                         </a><br>
                                         <a class="glyphicon glyphicon-pencil"/> 
@@ -114,12 +114,12 @@
                                         {% if backdropNaming.number == 0 %}
                                                 {% trans 'Your project does not have default backdrop naming, good job!' %}
                                         {% endif %}
-                                            " data-trigger="manual" href="learn/spriteNaming"> 
+                                            " data-trigger="manual" href="/learn/spriteNaming/"> 
                                                 {{ backdropNaming.number }} {% trans " backdrop naming." %}
                                         </a><br>
                                         <a class="glyphicon glyphicon-remove-sign"/>
                                         <a id="dead-code" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Dead code' %}" 
-                                        data-trigger="manual" href="learn/deadCode"> 
+                                        data-trigger="manual" href="/learn/deadCode/"> 
                                             {{ deadCode.number }} {% trans " dead code." %}
                                         </a>
                                         <div id="dead-code-content" class="collapse">
@@ -209,7 +209,7 @@
                                                         {% if value.0.0 == value.0.1 %}
                                                         <span class="glyphicon glyphicon-star" id="star"></span>
                                                         {% else %}
-                                                        <img src="static/app/images/little_bulb.png" alt="">
+                                                        <img src="/static/app/images/little_bulb.png" alt="">
                                                         {% endif %}
                                                         <a href="/learn/{{ value.1 }}/">{{ key }}</a>
                                                     </td>
