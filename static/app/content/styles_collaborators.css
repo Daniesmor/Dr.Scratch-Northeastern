@@ -1095,16 +1095,10 @@ strong,
 
 .member-pic img {
 	width: 100%;
+	object-fit: cover;
     
 }
 
-.member-pic img:hover {
-	filter: sepia(10%) hue-rotate(50deg);
-	-webkit-filter: sepia(10%) hue-rotate(50deg);
-	-moz-filter: sepia(10%) hue-rotate(50deg);
-	-o-filter: sepia(10%) hue-rotate(50deg);
-	-ms-filter: sepia(10%) hue-rotate(50deg);
-}
 
 .member-details {
 	padding-top: 10px;
