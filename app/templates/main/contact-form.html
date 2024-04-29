@@ -59,28 +59,7 @@
         window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
     </script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var form = document.forms["form"];
 
-            function updateUrl(number) {
-                form.action = "/show_dashboard/" + number;
-                console.log(form.action);
-            }
-
-            function obtainNumbersOfUrl(url) {
-                var urlObj = new URL(url);
-                var path = urlObj.pathname;
-                var parts = path.split('/');
-                var number = parts.pop();
-                updateUrl(number);
-            }
-
-            // Update of the URL for the Sliders
-            var url = window.location.href;
-            obtainNumbersOfUrl(url);
-        });
-    </script>
 
 
     <style>
@@ -121,32 +100,27 @@
             <h4>{% trans "Tell us how your experience went..." %}</h4>
 
             <h5 class="dark-text form-heading"><strong>{% trans "Fill out the form and we will contact you as soon as possible" %}</strong></h5>
-            <form name="form" id="form-personalized" class="project-form" enctype="multipart/form-data" method="post" action="/show_dashboard/">
-
-                <input type="hidden" name="dashboard_mode" value="Personalized">
-                <br>
-                <form>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">*{% trans "Your name" %}</label>
-                        <input type="text" class="form-control" id="conact_name" aria-describedby="nameHelp" placeholder="{% trans "Enter your name"  %}"  ">
-                        <small id="emailHelp" class="form-text text-muted">{% trans "Obligatory" %}</small>
-                      </div>
-                    <div class="form-group">
-                      <label for="exampleInputEmail1">*{% trans "Your email" %}</label>
-                      <input type="email" class="form-control" id="contact_email" aria-describedby="emailHelp" placeholder="{% trans "Enter email"  %}" >
-                      <small id="emailHelp" class="form-text text-muted">{% trans "Obligatory" %}</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleFormControlTextarea1">*{% trans "Tell us how your experience went..." %}</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                    </div>
-                    {% trans "<input  name='contact_media' type='file' class='filestyle' data-buttonText='Upload media'>" %}
-                  </form>
-                <button id="urls" name='_urls' type="submit" class="btn btn-primary standard-button">{% trans "Send" %}</button>
+            <form name="form" id="form-personalized" class="project-form" enctype="multipart/form-data" method="post" action="{% url 'contact_form' %}">
                 {% csrf_token %}
-                
-
+                {% load i18n %}
+                <div class="form-group">
+                    <label for="contact_name">*{% trans "Your name" %}</label>
+                    <input type="text" class="form-control" name="contact_name" aria-describedby="nameHelp" placeholder="{% trans "Enter your name"  %}">
+                    <small id="nameHelp" class="form-text text-muted">{% trans "Obligatory" %}</small>
+                </div>
+                <div class="form-group">
+                    <label for="contact_email">*{% trans "Your email" %}</label>
+                    <input type="email" class="form-control" name="contact_email" aria-describedby="emailHelp" placeholder="{% trans "Enter email"  %}" >
+                    <small id="emailHelp" class="form-text text-muted">{% trans "Obligatory" %}</small>
+                </div>
+                <div class="form-group">
+                    <label for="contact_text">*{% trans "Tell us how your experience went..." %}</label>
+                    <textarea class="form-control" name="contact_text" rows="3"></textarea>
+                </div>
+                {% trans "<input  name='contact_media' type='file' class='filestyle' data-buttonText='Upload media'>" %}
+                <button type="submit" class="btn btn-primary standard-button">{% trans "Send" %}</button>
             </form>
+
 
             <!-- FORM SUBMIT SUCCESS / ERROR MESSAGES -->
             <p class="file-error dark-text small-text">
