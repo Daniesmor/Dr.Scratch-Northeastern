@@ -92,6 +92,7 @@ BLOCK_TEXT = {
     "LOOKS_GOFORWARDBACKWARDLAYERS_BACKWARD": "backward",
     "LOOKS_BACKDROPNUMBERNAME": "backdrop [%1 v]",
     "LOOKS_COSTUMENUMBERNAME": "costume [%1 v]",
+    "LOOKS_COSTUME": "costume",
     "LOOKS_NUMBERNAME_NUMBER": "number",
     "LOOKS_NUMBERNAME_NAME": "name",
     "LOOKS_SWITCHBACKDROPTOANDWAIT": "switch backdrop to (%1 v) and wait",
@@ -441,6 +442,7 @@ class Script():
         Converts an unique block into a text format using the syntax from scratchblocks (https://en.scratch-wiki.info/wiki/Block_Plugin/Syntax)
         """
         name = str(block_name["opcode"]).upper()
+        print("name:", block_name)
         if name not in BLOCK_TEXT and name not in STARTER_BLOCKS:
             block_text = block_name["mutation"]["proccode"]
         else:
