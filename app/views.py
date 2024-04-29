@@ -915,6 +915,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         result_sprite_naming = SpriteNaming(path_projectsb3, json_scratch_project).finalize()
         result_backdrop_naming = BackdropNaming(path_projectsb3, json_scratch_project).finalize()
         
+        print("Duplicate Script: ", dict_duplicate_script['result']['list_duplicate_scripts'])
         #Refactorings
         refactored_code = RefactorDuplicate(json_scratch_project, dict_duplicate_script).refactor_duplicates()
 

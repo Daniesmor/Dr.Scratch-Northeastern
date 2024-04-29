@@ -89,7 +89,7 @@ class DuplicateScripts(Plugin):
         for key, value in self.duplicates.items():
             duplicated_scripts = [pair[0] for pair in value]
             csv_text = [script.get_blocks() for script in duplicated_scripts]
-            script_text = "\n".join([script.convert_to_text() for script in duplicated_scripts])
+            script_text = "\n\n".join([script.convert_to_text() for script in duplicated_scripts])
             self.total_duplicate += sum(1 for _ in duplicated_scripts)
             self.list_duplicate.append(script_text)
             self.list_csv.append(csv_text)

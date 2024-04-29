@@ -2,6 +2,7 @@ from app.hairball3.scriptObject import Script
 from app.hairball3.duplicateScripts import DuplicateScripts
 
 N_VARIABLES_IN_STARTER_BLOCK = {"EVENT_WHENFLAGCLICKED":0,
+    "EVENT_WHENKEYPRESSED":1,
     "EVENT_WHENTHISSPRITECLICKED":0,
     "EVENT_WHENSTAGECLICKED":0,
     "EVENT_WHENTOUCHINGOBJECT":1,
@@ -102,7 +103,7 @@ class RefactorDuplicate():
 
             duplicated_scripts = [pair[0] for pair in value]
 
-            original_text = "\n".join([script.convert_to_text() for script in duplicated_scripts])
+            original_text = "\n\n".join([script.convert_to_text() for script in duplicated_scripts])
 
             # Top Blocks (like when green flag clicked)
             starting_blocks = [script.convert_to_text().split("\n")[1] for script in duplicated_scripts]
@@ -112,8 +113,12 @@ class RefactorDuplicate():
             var_dict = {}
 
             for i, k in enumerate(list_script_variables[0].keys()):
-                if i < N_VARIABLES_IN_STARTER_BLOCK[starting_block_type]:
-                    continue
+
+                try:
+                    if i < N_VARIABLES_IN_STARTER_BLOCK[starting_block_type.upper()]:
+                        continue
+                except KeyError:
+                    pass
 
                 var_dict[k] = [d[k] for d in list_script_variables]
             
@@ -126,7 +131,10 @@ class RefactorDuplicate():
 
             func_text_list = func_script.convert_to_text().split('\n')
 
-            func_text_list[1] = f"define function{func_counter}" + "".join([f" (arg{i})" for i in range(1, len(arguments)+1)])
+            if (starting_block_type.upper() not in N_VARIABLES_IN_STARTER_BLOCK.keys()):
+                func_text_list.insert(0,f"define function{func_counter}" + "".join([f" (arg{i})" for i in range(1, len(arguments)+1)]))
+            else:
+                func_text_list[1] = f"define function{func_counter}" + "".join([f" (arg{i})" for i in range(1, len(arguments)+1)])
 
             calling_text_list = []
 
