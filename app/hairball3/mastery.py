@@ -50,6 +50,8 @@ class Mastery(Plugin):
         self.process()
         self.analyze()
 
+        # print("Dict:", self.dict_total_blocks)
+
         total_points = 0
         active_dimensions = sum(1 for value in self.skill_points.values() if value > 0)
 
