@@ -25,9 +25,6 @@ from app.models import File, CSVs, Organization, OrganizationHash, Coder, Discus
 from urllib.request import urlopen
 from urllib.error import HTTPError, URLError
 from zipfile import ZipFile, BadZipfile
-from django.core.mail import send_mail
-from mailmanclient import Client
-from smtplib import SMTP, SMTPException
 import shutil
 import unicodedata
 import csv
