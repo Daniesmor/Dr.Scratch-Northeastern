@@ -25,13 +25,15 @@ from app.models import File, CSVs, Organization, OrganizationHash, Coder, Discus
 from urllib.request import urlopen
 from urllib.error import HTTPError, URLError
 from zipfile import ZipFile, BadZipfile
+from django.core.mail import send_mail
+from mailmanclient import Client
+from smtplib import SMTP, SMTPException
 import shutil
 import unicodedata
 import csv
 from datetime import datetime, timedelta, date
 import traceback
 import re
-
 import app.consts_drscratch as consts
 from app.scratchclient import ScratchSession
 from app.pyploma import generate_certificate
@@ -340,6 +342,40 @@ def show_dashboard(request, skill_points=None):
                     return render(request, user + '/dashboard-personal.html', d)               
     else:
         return HttpResponseRedirect('/')    
+
+
+def process_contact_form(request):
+    if request.method == 'POST':
+        # Recopilar datos del formulario
+        contact_name = request.POST.get('contact_name')
+        contact_email = request.POST.get('contact_email')
+        contact_text = request.POST.get('contact_text')
+        contact_media = request.FILES.get('contact_media')
+
+        # Construir el mensaje de correo electrónico
+        message = f'''
+        Name: {contact_name},
+        Email: {contact_email},
+        Text: {contact_text},
+        '''
+
+        # Asunto del correo electrónico
+        subject = '[CONTACT FORM]'
+
+        email = EmailMessage(subject, message, settings.EMAIL_HOST_USER, ['drscratch@gsyc.urjc.es'])
+        if contact_media:
+            email.attach(contact_media.name, contact_media.read(), contact_media.content_type)
+
+        email.send()
+
+
+        # Renderizar la plantilla de respuesta
+        return HttpResponseRedirect('/')    
+    else:
+        return HttpResponse('METHOD NOT ALLOW', status=405)
+
+
+    
 
 
 def generate_rubric(skill_points: str) -> dict:
@@ -1679,7 +1715,7 @@ def stats(request, username):
     return render(request, page + '/stats.html', dic)
 
 
-def settings(request,username):
+def account_settings(request,username):
     """Allow to Coders and Organizations change the image and password"""
 
 
