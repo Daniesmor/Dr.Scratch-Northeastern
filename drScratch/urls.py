@@ -20,6 +20,10 @@ urlpatterns = [
     # url(r'^/v3/static/(?P<path>.*)$' , serve,
     #                              {'document_root': settings.MEDIA_ROOT}),
     url(r'^(.*)/static/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+    
+    # CONTACT FORM
+    url(r'^process_contact_form/$', app_views.process_contact_form, name='contact_form'),
+
 
     # CSVS (BATCH)
     url(r'^(.*)/csvs/(?P<path>.*)$',serve, {'document_root': settings.BASE_DIR + '/csvs'}),
@@ -61,7 +65,7 @@ urlpatterns = [
     url(r'^sign_up_organization$', app_views.sign_up_organization, name='sign_up_organizations'),
     url(r'^organization/stats/(\w+)', app_views.stats, name='organization_stats'),
     url(r'^organization/downloads/(.*)', app_views.downloads, name='organization_downloads'),
-    url(r'^organization/settings/(\w+)', app_views.settings, name='organization_settings'),
+    #url(r'^organization/settings/(\w+)', app_views.account_settings, name='organization_settings'),
     url(r'^organization/(.*)', app_views.organization, name='organization'),
     url(r'^login_organization$', app_views.login_organization, name='organization_login'),
     url(r'^logout_organization$', app_views.logout_organization, name='organization_logout'),
@@ -71,7 +75,7 @@ urlpatterns = [
     url(r'^sign_up_coder$', app_views.sign_up_coder, name='sign_up_coder'),
     url(r'^coder/stats/(\w+)', app_views.stats, name='coder_stats'),
     url(r'^coder/downloads/(.*)', app_views.downloads, name='coder_downloads'),
-    url(r'^coder/settings/(\w+)', app_views.settings, name='coder_settings'),
+    #url(r'^coder/settings/(\w+)', app_views.account_settings, name='coder_settings'),
     url(r'^coder/(.*)', app_views.coder, name='coder'),
     url(r'^login_coder$', app_views.login_coder, name='coder_login'),
     url(r'^logout_coder$', app_views.logout_coder, name='coder_logout'),

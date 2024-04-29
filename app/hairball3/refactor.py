@@ -113,6 +113,7 @@ class RefactorDuplicate():
             var_dict = {}
 
             for i, k in enumerate(list_script_variables[0].keys()):
+
                 try:
                     if i < N_VARIABLES_IN_STARTER_BLOCK[starting_block_type.upper()]:
                         continue
