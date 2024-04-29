@@ -1,4 +1,7 @@
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -34,9 +37,8 @@ TEMPLATES = [{
     },
 }]
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1','drscratch.org']
-CSRF_TRUSTED_ORIGINS = ['https://drscratch.org','https://www.drscratch.org']
-
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(',')
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS').split(',')
 
 INSTALLED_APPS = (
     'app',
@@ -104,9 +106,9 @@ LOCALE_PATHS = (os.path.join(BASE_DIR, 'locale'),)
 # Send Email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
