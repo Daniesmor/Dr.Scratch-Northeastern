@@ -1,8 +1,15 @@
 import datetime
 from django.db import models
 from django.contrib.auth.models import User
+import uuid
 
 
+class TokenCoder(models.Model):
+    username = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100, null=True)
+    surname = models.CharField(max_length=100, null=True)
+    token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+        
 class File(models.Model):
     filename = models.CharField(max_length=100)
     organization = models.CharField(max_length=100, default='drscratch')
@@ -23,6 +30,9 @@ class File(models.Model):
     initialization = models.IntegerField()
     deadCode = models.IntegerField()
     duplicateScript = models.IntegerField()
+    coder_username = models.ForeignKey(TokenCoder, on_delete=models.CASCADE, to_field='username', related_name='files_as_coder_username')
+    coder_token = models.ForeignKey(TokenCoder, on_delete=models.CASCADE, to_field='token', related_name='files_as_coder_token')
+    
 
 
 class CSVs(models.Model):

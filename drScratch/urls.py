@@ -15,7 +15,11 @@ admin.autodiscover()
 urlpatterns = [
     # url(r'^admin/', include(admin.site.urls)),
     url(r'^admin/', admin.site.urls),
-
+    
+    # Token coder
+    url(r'^token_coder_register', app_views.token_coder_register, name='token_coder_register'),
+    path('token_coder_show/<str:username>/', app_views.token_coder_show, name='token_coder_show'),
+    
     # Statics
     # url(r'^/v3/static/(?P<path>.*)$' , serve,
     #                              {'document_root': settings.MEDIA_ROOT}),

@@ -18,7 +18,7 @@ from django.utils import timezone
 from django.db.models import Avg
 from django.contrib.auth.models import User
 from django.utils.encoding import smart_str
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.conf import settings
 from app.forms import UrlForm, OrganizationForm, OrganizationHashForm, LoginOrganizationForm, CoderForm, DiscussForm
 from app.models import File, CSVs, Organization, OrganizationHash, Coder, Discuss, Stats
@@ -41,9 +41,11 @@ from app.hairball3.duplicateScripts import DuplicateScripts
 from app.hairball3.deadCode import DeadCode
 from app.hairball3.refactor import RefactorDuplicate
 from app.exception import DrScratchException
+from .models import TokenCoder
 
 import logging
 import coloredlogs
+
 
 logger = logging.getLogger(__name__)
 coloredlogs.install(level='DEBUG', logger=logger)
@@ -2507,3 +2509,42 @@ def proc_initialization(lines, filename):
     return dic
 
 """
+
+#########################################
+##                                     ##
+##      token based system             ##
+##                                     ##
+#########################################
+
+
+def token_coder_register(request):
+    if request.method == 'GET':
+        return render(request, 'coder_token/token_registration.html')
+    else:
+        username = request.POST['username']
+        name = request.POST['name']
+        surname = request.POST['surname']
+       
+        new_coder = TokenCoder.objects.create(username=username, name=name, surname=surname)
+        new_coder.save()
+        
+        # Redirigir a la vista token_coder_show con el nombre de usuario
+        return redirect('token_coder_show/'+username)
+            
+def token_coder_show(request, username):
+    coder = get_object_or_404(TokenCoder, username=username)
+    
+    context = {
+        'name': coder.name,
+        'surname': coder.surname,
+        'username': coder.username,
+        'token': coder.token
+    }
+    return render(request, 'coder_token/token_show.html', context)
+    
+    """
+    if request.method == 'GET':
+        return render(request, 'coder_token/token_show.html')
+    else:
+        return HttpResponseRedirect('/')    
+    """
