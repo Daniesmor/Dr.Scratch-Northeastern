@@ -524,18 +524,6 @@ msgstr ""
 msgid "Download"
 msgstr "Κατεβάστε"
 
-#: templates/coder/dashboard-basic.html:180
-#: templates/coder/dashboard-developing.html:218
-#: templates/coder/dashboard-master.html:260
-#: templates/main/dashboard-basic.html:179
-#: templates/main/dashboard-developing.html:215
-#: templates/main/dashboard-master.html:258
-#: templates/organization/dashboard-basic.html:180
-#: templates/organization/dashboard-developing.html:218
-#: templates/organization/dashboard-master.html:265
-msgid "Level up"
-msgstr ""
-
 #: templates/coder/dashboard-basic.html:196
 #: templates/coder/dashboard-developing.html:234
 #: templates/coder/dashboard-master.html:276
@@ -2762,12 +2750,12 @@ msgstr "project.png"
 
 #: templates/main/main.html:391 templates/main/main_new.html:395
 msgid ""
-"You can upload an sb2 file or just provide the project url, avoiding the "
+"You can upload an sb3 file or just provide the project url, avoiding the "
 "need to previously download the project to your computer. By analyzing your "
 "projects with Dr. Scratch, you can easily check your Computational Thinking "
 "Score."
 msgstr ""
-"Μπορείτε να ανεβάσετε ένα sb2 αρχείο ή απλώς να δώσετε το url του έργου στην "
+"Μπορείτε να ανεβάσετε ένα sb3 αρχείο ή απλώς να δώσετε το url του έργου στην "
 "κοινότητα του Scratch, χωρίς προηγουμένως να κατεβάσετε το έργο στον "
 "υπολογιστή σας. Αναλύοντας τα έργα σας με το Dr. Scratch, μπορείτε νε δείτε "
 "το Σκορ σας στην Υπολογιστική Σκέψη."
@@ -3317,11 +3305,747 @@ msgstr "Ο χρήστης δεν υπάρχει ή ο κωδικός είναι 
 msgid "You must to complete all the fields."
 msgstr "Πρέπει να συμπληρώσετε όλα τα πεδία."
 
+#: app/templates/main/main.html:266
+msgid ""
+"This is a Beta version"
+msgstr ""
+"Αυτή είναι μια έκδοση Βήτα."
+
+#: app/templates/main/main.html:265 app/templates/main/main.html:529
+msgid ""
+"We are still working on it. If you have any comments or ideas please contact "
+"us"
+msgstr ""
+"Ακόμα δουλεύουμε πάνω σε αυτό. Αν έχετε οποιαδήποτε σχόλια ή ιδέες, παρακαλούμε επικοινωνήστε μαζί μας."
+
+#: app/templates/main/main.html:265 app/templates/main/main.html:529
+msgid "here"
+msgstr "εδώ"
+
+#: app/templates/learn/BatchMode.html:5 app/templates/learn/base.html:193
+#: app/templates/main/main.html:399
+msgid "Batch Mode"
+msgstr "Λειτουργία παρτίδας"
+
+#: app/templates/main/main.html:400
+msgid "IMPORTANT!"
+msgstr  "ΣΠΟΥΔΑΙΟΣ!"
+
+#: app/templates/main/main.html:400
+msgid ""
+"Please upload a txt containing the URLs of the projects, with each URL on a "
+"separate line. (Max. 10)"
+msgstr ""
+"Παρακαλώ ανεβάστε ένα αρχείο κειμένου που περιέχει τις διευθύνσεις URL των έργων, με κάθε URL σε ξεχωριστή γραμμή. (Μέγιστος αριθμός 10)"
+
+#: app/templates/main/main.html:402 app/templates/main/rubric-uploader.html:141
+msgid ""
+"<input  name='urlsFile' type='file' class='filestyle' data-"
+"buttonText='Choose txt'>"
+msgstr ""
+"<input  name='urlsFile' type='file' class='filestyle' data-buttonText='Επιλέξτε το αρχείο κειμένου'>"
+
+#: app/templates/main/main.html:422
+#: app/templates/learn/PersonalMode.html:5 app/templates/learn/base.html:196
+msgid "Personalized Mode"
+msgstr "Προσωπικοποιημένη Λειτουργία"
+
+#: app/templates/main/main.html:424
+msgid ""
+"The personalized mode allows you to create a personalized rubric for "
+"evaluate projects by your own criteria, after this you can share a link "
+"associated to your rubric to evaluate your students."
+msgstr ""
+"Η προσωποποιημένη λειτουργία σας επιτρέπει να δημιουργήσετε ένα εξατομικευμένο κριτήριο αξιολόγησης για την αξιολόγηση έργων με βάση τα δικά σας κριτήρια. Στη συνέχεια, μπορείτε να μοιραστείτε έναν σύνδεσμο που συσχετίζεται με το κριτήριο αξιολόγησης σας για να αξιολογήσετε τους μαθητές σας."
+
+#: app/templates/main/main.html:428
+msgid "Create rubric"
+msgstr "Δημιουργία κριτηρίων αξιολόγησης"
+
+#: app/templates/main/main.html:543
+msgid "©2024 Dr.Scratch Made with "
+msgstr "©2024 Dr.Scratch Φτιαγμένο με "
+
+#: app/templates/main/main.html:543
+msgid "by "
+msgstr "από την "
+
+#: app/templates/main/main.html:543
+msgid "Dr.Scratch Team."
+msgstr "Ομάδα Dr.Scratch."
+
+#: app/templates/main/main.html:456
+msgid "Winner of "
+msgstr "Νικητής του "
+
+#: app/templates/main/main.html:469
+msgid ""
+"For the first time, a Spanish team, made up of researchers from the Rey Juan "
+"Carlos University of Madrid and professors from the Sevillian association "
+"Programamos, has been awarded a Google RISE Award, for the project Dr. "
+"Scratch."
+msgstr ""
+"Για πρώτη φορά, μια ισπανική ομάδα, αποτελούμενη από ερευνητές του Πανεπιστημίου Rey Juan Carlos της Μαδρίτης και καθηγητές του συλλόγου της Σεβίλλης Programamos, έλαβε το βραβείο Google RISE για το έργο Dr. Scratch."
+
+#: app/templates/main/main.html:470
+msgid "Article of "
+msgstr "Άρθρο του "
+
+#: app/templates/main/main.html:487
+msgid "Check the"
+msgstr "Ελέγξτε το"
+
+#: app/templates/main/main.html:487
+msgid " wiki "
+msgstr " wiki "
+
+#: app/templates/main/main.html:487
+msgid "of Dr.Scratch."
+msgstr "του Dr. Scratch."
+
+#: app/templates/main/dashboard-default.html:94
+#: app/templates/main/dashboard-default.html:346
+#: app/templates/main/dashboard-personal.html:43
+msgid "The level of your project is..."
+msgstr "Το επίπεδο του έργου σας είναι..."
+
+#: app/templates/coder/dashboard-default-developing.html:347
+#: app/templates/main/dashboard-default-old.html:391
+#: app/templates/main/dashboard-default-old.html:645
+#: app/templates/main/dashboard-default-old.html:649
+#: app/templates/main/dashboard-default-old.html:651
+#: app/templates/main/dashboard-default.html:98
+#: app/templates/main/dashboard-default.html:352
+#: app/templates/main/dashboard-default.html:356
+#: app/templates/main/dashboard-default.html:358
+#: app/templates/main/dashboard-personal-old.html:331
+#: app/templates/main/dashboard-personal-old.html:335
+#: app/templates/main/dashboard-personal-old.html:337
+#: app/templates/main/dashboard-personal.html:47
+#: app/templates/main/dashboard-personal.html:51
+#: app/templates/main/dashboard-personal.html:53
+msgid "You're doing a great job. Keep it up!!! "
+msgstr "Κάνετε εξαιρετική δουλειά. Συνεχίστε έτσι!!! "
+
+#: app/templates/coder/dashboard-basic.html:212
+#: app/templates/coder/dashboard-default-basic.html:397
+#: app/templates/coder/dashboard-default-developing.html:469
+#: app/templates/coder/dashboard-default-master.html:469
+#: app/templates/coder/dashboard-developing.html:372
+#: app/templates/coder/dashboard-master.html:400
+#: app/templates/main/dashboard-default-old.html:526
+#: app/templates/main/dashboard-default-old.html:776
+#: app/templates/main/dashboard-default.html:233
+#: app/templates/main/dashboard-default.html:483
+#: app/templates/main/dashboard-personal-old.html:462
+#: app/templates/main/dashboard-personal.html:186
+#: app/templates/organization/dashboard-basic.html:180
+#: app/templates/organization/dashboard-developing.html:268
+#: app/templates/organization/dashboard-master.html:280
+msgid "Level up"
+msgstr "Αναβαθμίστε το επίπεδο"
+
+#: app/templates/main/dashboard-default-old.html:410
+#: app/templates/main/dashboard-default.html:117
+#: app/templates/main/dashboard-personal.html:70
+msgid ""
+"Specific parts of the project that do not contribute to good programming "
+"practices"
+msgstr "Συγκεκριμένα τμήματα του έργου που δεν συμβάλλουν σε καλές πρακτικές προγραμματισμού"
+
+#: app/templates/main/dashboard-default-old.html:501
+#: app/templates/main/dashboard-default.html:208
+#: app/templates/main/dashboard-personal.html:161
+msgid "Certificate of the Evaluation of your Scratch Project"
+msgstr "Πιστοποιητικό Αξιολόγησης του Έργου σας στο Scratch"
+
+#: app/templates/main/dashboard-default-old.html:527
+#: app/templates/main/dashboard-default.html:234
+#: app/templates/main/dashboard-personal.html:187
+msgid "Dimensions Evaluated in your Scratch Project"
+msgstr "Διαστάσεις που Αξιολογήθηκαν στο Έργο σας στο Scratch"
+
+
+#: app/templates/main/dashboard-default-old.html:533
+#: app/templates/main/dashboard-default.html:240
+msgid "Grade from 1 to 3 of each Dimension"
+msgstr "Βαθμολογία από 1 έως 3 για κάθε Διάσταση"
+
+#: app/templates/main/dashboard-personal.html:193
+msgid "Grade of each Dimension"
+msgstr "Βαθμολογία κάθε Διάστασης"
+
+#: app/templates/main/contact-form.html:121
+#: app/templates/main/contact-form.html:140
+msgid "Tell us how your experience went..."
+msgstr "Πείτε μας πώς πήγε η εμπειρία σας..."
+
+#: app/templates/main/contact-form.html:123
+msgid "Fill out the form and we will contact you as soon as possible"
+msgstr ""
+"Συμπληρώστε τη φόρμα και θα επικοινωνήσουμε μαζί σας το συντομότερο δυνατόν."
+
+#: app/templates/main/contact-form.html:130
+msgid "Your name"
+msgstr "Το όνομά σας"
+
+#: app/templates/main/contact-form.html:131
+msgid "Enter your name"
+msgstr "Εισάγετε το όνομά σας"
+
+#: app/templates/main/contact-form.html:132
+#: app/templates/main/contact-form.html:137
+msgid "Obligatory"
+msgstr "Υποχρεωτικός"
+
+#: app/templates/main/contact-form.html:135
+msgid "Your email"
+msgstr "Το email σας"
+
+#: app/templates/main/contact-form.html:136
+msgid "Enter email"
+msgstr "Εισάγετε το email σας"
+
+#: app/templates/main/contact-form.html:143
+msgid ""
+"<input  name='contact_media' type='file' class='filestyle' data-"
+"buttonText='Upload media'>"
+msgstr ""
+"<input  name='contact_media' type='file' class='filestyle' data-"
+"buttonText='Ανεβάστε πολυμέσα'>"
+
+#: app/templates/main/rubric-creator.html:392
+msgid "Build your rubric!"
+msgstr "Δημιουργήστε το κριτήριό σας!"
+
+#: app/templates/main/rubric-creator.html:407
+msgid ""
+"Abstraction is not relevant to me at this moment. I am focused on concrete "
+"and specific details of the program."
+msgstr ""
+"Η αφαίρεση δεν είναι σχετική για μένα αυτή τη στιγμή. Είμαι εστιασμένος σε συγκεκριμένες λεπτομέρειες του προγράμματος."
+
+#: app/templates/main/rubric-creator.html:408
+msgid ""
+"Abstraction is minimal. I prefer to stay close to the source code and do not "
+"need high levels of generalization."
+msgstr ""
+"Η αφαίρεση είναι ελάχιστη. Προτιμώ να παραμείνω κοντά στον πηγαίο κώδικα και δεν χρειάζομαι υψηλά επίπεδα γενίκευσης."
+
+#: app/templates/main/rubric-creator.html:409
+msgid ""
+"Abstraction has some importance, but it is not essential. I am interested in "
+"understanding the overall functioning."
+msgstr ""
+"Η αφαίρεση έχει κάποια σημασία, αλλά δεν είναι απαραίτητη. Ενδιαφέρομαι να κατανοήσω την συνολική λειτουργία."
+
+#: app/templates/main/rubric-creator.html:410
+msgid ""
+"Abstraction is important. I value patterns in the code to facilitate its "
+"maintenance and extension."
+msgstr ""
+"Η αφαίρεση είναι σημαντική. Εκτιμώ τα πρότυπα στον κώδικα για να διευκολύνω τη συντήρηση και την επέκτασή του."
+
+#: app/templates/main/rubric-creator.html:411
+msgid ""
+"Abstraction is crucial. I value modular and reusable code, which abstracts "
+"concepts to improve clarity and efficiency."
+msgstr ""
+"Η αφαίρεση είναι κρίσιμη. Εκτιμώ το modulαr και επαναχρησιμοποιήσιμο κώδικα, ο οποίος αφαιρεί έννοιες για να βελτιώσει τη σαφήνεια και την αποδοτικότητα."
+
+#: app/templates/main/rubric-creator.html:412
+msgid ""
+"Abstraction is absolutely vital. The code must be abstract and flexible to "
+"adapt to future changes and reuse."
+msgstr ""
+"Η αφαίρεση είναι απολύτως ζωτική. Ο κώδικας πρέπει να είναι αφαιρετικός και ευέλικτος για να προσαρμοστεί σε μελλοντικές αλλαγές και επαναχρησιμοποίηση."
+
+#: app/templates/main/rubric-creator.html:426
+msgid "Parallelization"
+msgstr "Παραλληλισμός"
+
+#: app/templates/main/rubric-creator.html:431
+msgid ""
+"Parallelization is not crucial at this moment. There is no need to execute "
+"tasks simultaneously in the code."
+msgstr ""
+"Η παραλληλοποίηση δεν είναι κρίσιμη αυτή τη στιγμή. Δεν υπάρχει ανάγκη για την ταυτόχρονη εκτέλεση εργασιών στον κώδικα."
+
+#: app/templates/main/rubric-creator.html:432
+msgid ""
+"Parallelization is minimal. There is no significant need for parallel "
+"processing in the code."
+msgstr ""
+"Η παραλληλοποίηση είναι ελάχιστη. Δεν υπάρχει σημαντική ανάγκη για παράλληλη επεξεργασία στον κώδικα."
+
+#: app/templates/main/rubric-creator.html:433
+msgid ""
+"Parallelization has some importance. There is a moderate need to execute "
+"tasks in parallel in the code."
+msgstr ""
+"Η παραλληλοποίηση έχει κάποια σημασία. Υπάρχει μέτρια ανάγκη για εκτέλεση εργασιών παράλληλα στον κώδικα."
+
+#: app/templates/main/rubric-creator.html:434
+msgid ""
+"Parallelization is important. Proper parallel processing is required to "
+"enhance the code performance."
+msgstr ""
+"Η παραλληλοποίηση είναι σημαντική. Απαιτείται κατάλληλη παράλληλη επεξεργασία για να βελτιωθεί η απόδοση του κώδικα."
+
+#: app/templates/main/rubric-creator.html:435
+msgid ""
+"Parallelization is crucial. Simultaneous execution of tasks is essential to "
+"optimize code performance and efficiency."
+msgstr ""
+"Η παραλληλοποίηση είναι κρίσιμη. Η ταυτόχρονη εκτέλεση των εργασιών είναι ουσιώδης για τη βελτιστοποίηση της απόδοσης και της αποδοτικότητας του κώδικα."
+
+#: app/templates/main/rubric-creator.html:436
+msgid ""
+"Parallelization is absolutely vital. The ability to perform parallel "
+"processing is fundamental for system performance."
+msgstr ""
+"Η παραλληλοποίηση είναι απολύτως ζωτική. Η δυνατότητα να πραγματοποιείται παράλληλη επεξεργασία είναι θεμελιώδης για την απόδοση του συστήματος."
+
+#: app/templates/main/rubric-creator.html:443
+msgid "Logic Thinking"
+msgstr "Λογική σκέψη"
+
+#: app/templates/main/rubric-creator.html:448
+msgid ""
+"Logical thinking is not relevant to me at this moment. I am focused on other "
+"aspects of the problem."
+msgstr ""
+"Η λογική σκέψη δεν είναι σχετική για μένα αυτή τη στιγμή. Είμαι εστιασμένος σε άλλες πτυχές του προβλήματος."
+
+#: app/templates/main/rubric-creator.html:449
+msgid ""
+"Logical thinking is minimal. I prefer to follow a more intuitive approach in "
+"my decisions and actions."
+msgstr ""
+"Η λογική σκέψη είναι ελάχιστη. Προτιμώ να ακολουθώ μια πιο ενστικτώδη προσέγγιση στις αποφάσεις και τις ενέργειές μου."
+
+#: app/templates/main/rubric-creator.html:450
+msgid ""
+"Logical thinking has some importance, but it is not fundamental. Sometimes, "
+"I rely more on my instinct than on pure logic."
+msgstr ""
+"Η λογική σκέψη έχει κάποια σημασία, αλλά δεν είναι θεμελιώδης. Μερικές φορές, βασίζομαι περισσότερο στο ένστικτό μου παρά στην απόλυτη λογική."
+
+#: app/templates/main/rubric-creator.html:451
+msgid ""
+"Logical thinking is important. I use logic to solve problems and make "
+"decisions more efficiently."
+msgstr ""
+"Η λογική σκέψη είναι σημαντική. Χρησιμοποιώ τη λογική για να επιλύω προβλήματα και να προβαίνω σε αποφάσεις με μεγαλύτερη αποτελεσματικότητα."
+
+#: app/templates/main/rubric-creator.html:452
+msgid ""
+"Logical thinking is crucial. I rely on logic to analyze complex situations "
+"and find effective solutions."
+msgstr ""
+"Η λογική σκέψη είναι κρίσιμη. Βασίζομαι στη λογική για να αναλύω πολύπλοκες καταστάσεις και να βρίσκω αποτελεσματικές λύσεις."
+
+#: app/templates/main/rubric-creator.html:453
+msgid ""
+"Logical thinking is absolutely vital. All code must follow strict logic for "
+"problem-solving."
+msgstr ""
+"Η λογική σκέψη είναι απολύτως ζωτική. Όλος ο κώδικας πρέπει να ακολουθεί αυστηρή λογική για την επίλυση προβλημάτων."
+
+#: app/templates/main/rubric-creator.html:465
+msgid ""
+"Synchronization is not relevant at this moment. I am not concerned about "
+"coordinating activities in the code."
+msgstr ""
+"Synchronisation δεν είναι σχετική αυτή τη στιγμή. Δεν ανησυχώ για τον συντονισμό δραστηριοτήτων στον κώδικα."
+
+#: app/templates/main/rubric-creator.html:466
+msgid ""
+"Synchronization is minimal. I do not consider managing concurrency or "
+"process synchronization crucial."
+msgstr ""
+"Η συγχρονισμός είναι ελάχιστη. Δεν θεωρώ τη διαχείριση της ταυτόχρονης εκτέλεσης ή τον συγχρονισμό διεργασιών ως κρίσιμη."
+
+#: app/templates/main/rubric-creator.html:467
+msgid ""
+"Synchronization has some importance. I can allow some operations to run "
+"asynchronously."
+msgstr ""
+"Ο συγχρονισμός έχει κάποια σημασία. Μπορώ να επιτρέψω ορισμένες λειτουργίες να τρέχουν ασύγχρονα."
+
+#: app/templates/main/rubric-creator.html:468
+msgid ""
+"Synchronization is important. It is crucial to ensure that shared resources "
+"are handled correctly."
+msgstr ""
+"Ο συγχρονισμός είναι σημαντικός. Είναι κρίσιμο να διασφαλίζεται ότι οι κοινόχρηστοι πόροι χειρίζονται σωστά."
+
+#: app/templates/main/rubric-creator.html:469
+msgid ""
+"Synchronization is crucial. It is essential to control concurrency to ensure "
+"data consistency and integrity in the code."
+msgstr ""
+"Ο συγχρονισμός είναι κρίσιμος. Είναι απαραίτητος για τον έλεγχο της ταυτόχρονης εκτέλεσης για να διασφαλιστεί η συνέπεια και η ακεραιότητα των δεδομένων στον κώδικα."
+
+#: app/templates/main/rubric-creator.html:470
+msgid ""
+"Synchronization is absolutely vital. Efficient concurrency is fundamental "
+"for system performance and reliability."
+msgstr ""
+"Ο συγχρονισμός είναι απολύτως ζωτικός. Η αποτελεσματική ταυτόχρονη εκτέλεση είναι θεμελιώδης για την απόδοση και την αξιοπιστία του συστήματος."
+
+#: app/templates/main/rubric-creator.html:483
+msgid ""
+"Flow control is not relevant at this moment. I do not need control "
+"structures to direct code execution."
+msgstr ""
+"Ο έλεγχος ροής δεν είναι σχετικός αυτήν τη στιγμή. Δεν χρειάζομαι δομές ελέγχου για να κατευθύνω την εκτέλεση του κώδικα."
+
+#: app/templates/main/rubric-creator.html:484
+msgid ""
+"Flow control is minimal. I prefer to follow a more linear approach in code "
+"execution without many control structures."
+msgstr ""
+"Ο έλεγχος ροής είναι ελάχιστος. Προτιμώ να ακολουθώ μια πιο γραμμική προσέγγιση στην εκτέλεση του κώδικα χωρίς πολλές δομές ελέγχου."
+
+#: app/templates/main/rubric-creator.html:485
+msgid ""
+"Flow control has some importance. I can manage code execution with a few "
+"basic control structures."
+msgstr ""
+"Ο έλεγχος ροής έχει κάποια σημασία. Μπορώ να διαχειριστώ την εκτέλεση του κώδικα με μερικές βασικές δομές ελέγχου."
+
+#: app/templates/main/rubric-creator.html:486
+msgid ""
+"Flow control is important. Code execution must be directed and decisions "
+"made based on different conditions."
+msgstr ""
+"Ο έλεγχος ροής είναι σημαντικός. Η εκτέλεση του κώδικα πρέπει να κατευθύνεται και οι αποφάσεις πρέπει να λαμβάνονται με βάση διάφορες συνθήκες."
+
+#: app/templates/main/rubric-creator.html:487
+msgid ""
+"Flow control is crucial. Ensuring logic and coherence of program execution "
+"flow is necessary."
+msgstr ""
+"Ο έλεγχος ροής είναι κρίσιμος. Η διασφάλιση της λογικής και συνοχής της ροής εκτέλεσης του προγράμματος είναι απαραίτητη."
+
+#: app/templates/main/rubric-creator.html:488
+msgid ""
+"Flow control is absolutely vital. Proper flow control management determines "
+"the efficiency and effectiveness of the program."
+msgstr ""
+"Ο έλεγχος ροής είναι απολύτως ζωτικός. Η κατάλληλη διαχείριση του έλεγχου ροής καθορίζει την αποδοτικότητα και την αποτελεσματικότητα του προγράμματος."
+
+#: app/templates/main/rubric-creator.html:501
+msgid ""
+"User interactivity is not relevant at this moment. I do not need the code to "
+"respond to user input."
+msgstr ""
+"Η διαδραστικότητα του χρήστη δεν είναι σχετική αυτήν τη στιγμή. Δεν χρειάζομαι τον κώδικα να ανταποκρίνεται στην είσοδο του χρήστη."
+
+#: app/templates/main/rubric-creator.html:502
+msgid ""
+"User interactivity is minimal. The code does not require much direct "
+"interaction with the user."
+msgstr ""
+"Η διαδραστικότητα του χρήστη είναι ελάχιστη. Ο κώδικας δεν απαιτεί πολλή άμεση αλληλεπίδραση με τον χρήστη."
+
+#: app/templates/main/rubric-creator.html:503
+msgid ""
+"User interactivity has some importance. The code can be executed without too "
+"much direct user interaction."
+msgstr ""
+"Η διαδραστικότητα του χρήστη έχει κάποια σημασία. Ο κώδικας μπορεί να εκτελεστεί χωρίς πολλή άμεση αλληλεπίδραση με τον χρήστη."
+
+#: app/templates/main/rubric-creator.html:504
+msgid ""
+"User interactivity is important. The code must respond appropriately to user "
+"actions."
+msgstr ""
+"Η διαδραστικότητα του χρήστη είναι σημαντική. Ο κώδικας πρέπει να ανταποκρίνεται κατάλληλα στις ενέργειες του χρήστη."
+
+#: app/templates/main/rubric-creator.html:505
+msgid ""
+"User interactivity is crucial. The code must be highly interactive with "
+"quick response to user actions."
+msgstr ""
+"Η διαδραστικότητα του χρήστη είναι κρίσιμη. Ο κώδικας πρέπει να είναι υψηλά διαδραστικός με γρήγορη αντίδραση στις ενέργειες του χρήστη."
+
+#: app/templates/main/rubric-creator.html:506
+msgid ""
+"User interactivity is absolutely vital. The ability to interact effectively "
+"with the user is fundamental."
+msgstr ""
+"Η διαδραστικότητα του χρήστη είναι απολύτως ζωτική. Η ικανότητα να αλληλεπιδρά επιτυχώς με τον χρήστη είναι θεμελιώδης."
+
+#: app/templates/main/rubric-creator.html:519
+msgid ""
+"Data representation is not crucial at this moment. It does not significantly "
+"affect code execution."
+msgstr ""
+"Η αναπαράσταση δεδομένων δεν είναι κρίσιμη αυτήν τη στιγμή. Δεν επηρεάζει σημαντικά την εκτέλεση του κώδικα."
+
+#: app/templates/main/rubric-creator.html:520
+msgid ""
+"Data representation is minimal. A complex structure for storing or "
+"manipulating data is not required."
+msgstr ""
+"Η αναπαράσταση δεδομένων είναι ελάχιστη. Δεν απαιτείται ένα πολύπλοκο σχήμα για την αποθήκευση ή την επεξεργασία δεδομένων."
+
+#: app/templates/main/rubric-creator.html:521
+msgid ""
+"Data representation has some importance. Basic structures are needed to "
+"manage the data."
+msgstr ""
+"Η αναπαράσταση δεδομένων έχει κάποια σημασία. Βασικές δομές χρειάζονται για τη διαχείριση των δεδομένων."
+
+#: app/templates/main/rubric-creator.html:522
+msgid ""
+"Data representation is important. Proper design of data structure "
+"facilitates code understanding and maintenance."
+msgstr ""
+"Η αναπαράσταση δεδομένων είναι σημαντική. Η κατάλληλη σχεδίαση της δομής δεδομένων διευκολύνει την κατανόηση και τη συντήρηση του κώδικα."
+
+#: app/templates/main/rubric-creator.html:523
+msgid ""
+"Data representation is crucial. It is essential for optimizing code "
+"performance and scalability."
+msgstr ""
+"Η αναπαράσταση δεδομένων είναι κρίσιμη. Είναι απαραίτητη για τη βελτιστοποίηση της απόδοσης και την επεκτασιμότητα του κώδικα."
+
+#: app/templates/main/rubric-creator.html:524
+msgid ""
+"Data representation is absolutely vital. Poor data representation can lead "
+"to critical errors."
+msgstr ""
+"Η αναπαράσταση δεδομένων είναι απολύτως ζωτική. Η κακή αναπαράσταση δεδομένων μπορεί να οδηγήσει σε κρίσιμα σφάλματα."
+
+#: app/templates/main/rubric-creator.html:532
+msgid "Math Operators"
+msgstr "Μαθηματικοί χειριστές"
+
+#: app/templates/main/rubric-creator.html:537
+msgid ""
+"Mathematical operators are not crucial at this moment. Performing complex "
+"mathematical operations is not required."
+msgstr ""
+"Οι μαθηματικοί τελεστές δεν είναι κρίσιμοι αυτήν τη στιγμή. Δεν απαιτείται η εκτέλεση πολύπλοκων μαθηματικών λειτουργιών."
+
+#: app/templates/main/rubric-creator.html:538
+msgid ""
+"The use of mathematical operators is minimal. Only basic operations are "
+"needed for simple calculations."
+msgstr ""
+"Η χρήση μαθηματικών τελεστών είναι ελάχιστη. Απαιτούνται μόνο βασικές λειτουργίες για απλούς υπολογισμούς."
+
+#: app/templates/main/rubric-creator.html:539
+msgid ""
+"Mathematical operators have some importance. Basic operations are required "
+"to perform some tasks."
+msgstr ""
+"Οι μαθηματικοί τελεστές έχουν κάποια σημασία. Βασικές λειτουργίες απαιτούνται για την εκτέλεση ορισμένων εργασιών."
+
+#: app/templates/main/rubric-creator.html:540
+msgid ""
+"Mathematical operators are important. They are used to perform essential "
+"calculations that directly affect functionality."
+msgstr ""
+"Οι μαθηματικοί τελεστές είναι σημαντικοί. Χρησιμοποιούνται για την εκτέλεση απαραίτητων υπολογισμών που επηρεάζουν άμεσα τη λειτουργικότητα."
+
+#: app/templates/main/rubric-creator.html:541
+msgid ""
+"Mathematical operators are crucial. Their correct usage is fundamental to "
+"ensure accuracy and consistency in calculations."
+msgstr ""
+"Οι μαθηματικοί τελεστές είναι κρίσιμοι. Η σωστή τους χρήση είναι θεμελιώδης για να εξασφαλιστεί η ακρίβεια και η συνέπεια στους υπολογισμούς."
+
+#: app/templates/main/rubric-creator.html:542
+msgid ""
+"Mathematical operators are absolutely vital. They are indispensable for "
+"operations that determine the final result."
+msgstr ""
+"Οι μαθηματικοί τελεστές είναι απολύτως ζωτικοί. Είναι αναπόσπαστοι για λειτουργίες που καθορίζουν τον τελικό αποτέλεσμα."
+
+#: app/templates/main/rubric-creator.html:549
+msgid "Motion Operators"
+msgstr "Χειριστές κίνησης"
+
+#: app/templates/main/rubric-creator.html:554
+msgid ""
+"Motion operators are not crucial at this moment. Extensive manipulation of "
+"movements in the code is not required."
+msgstr ""
+"Οι τελεστές κίνησης δεν είναι κρίσιμοι αυτήν τη στιγμή. Δεν απαιτείται εκτεταμένη επεξεργασία κινήσεων στον κώδικα."
+
+#: app/templates/main/rubric-creator.html:555
+msgid ""
+"Motion operators are minimal. There is no significant need for motion "
+"control in the code."
+msgstr ""
+"Οι τελεστές κίνησης είναι ελάχιστοι. Δεν υπάρχει σημαντική ανάγκη για έλεγχο κίνησης στον κώδικα."
+
+#: app/templates/main/rubric-creator.html:556
+msgid ""
+"Motion operators have some importance. There is a moderate need for movement "
+"manipulation in the code."
+msgstr ""
+"Οι τελεστές κίνησης έχουν κάποια σημασία. Υπάρχει μέτρια ανάγκη για επεξεργασία κινήσεων στον κώδικα."
+
+#: app/templates/main/rubric-creator.html:557
+msgid ""
+"Motion operators are important. Proper motion control is necessary for the "
+"functionality of the code."
+msgstr ""
+"Οι τελεστές κίνησης είναι σημαντικοί. Ο σωστός έλεγχος κίνησης είναι απαραίτητος για τη λειτουργικότητα του κώδικα."
+
+#: app/templates/main/rubric-creator.html:558
+msgid ""
+"Motion operators are crucial. Precise motion control is essential for the "
+"proper functioning of the code."
+msgstr ""
+"Οι τελεστές κίνησης είναι κρίσιμοι. Η ακριβής έλεγχος κίνησης είναι ουσιώδης για την ορθή λειτουργία του κώδικα."
+
+#: app/templates/main/rubric-creator.html:559
+msgid ""
+"Motion operators are absolutely vital. The ability to manipulate movements "
+"effectively is fundamental."
+msgstr ""
+"Οι τελεστές κίνησης είναι απολύτως ζωτικοί. Η ικανότητα να διαχειρίζεστε τις κινήσεις αποτελεσματικά είναι θεμελιώδης."
+
+#: app/templates/main/rubric-creator.html:564
+msgid "Generate rubric"
+msgstr "Δημιουργία βαθμολογίου"
+
+#: app/templates/main/rubric-creator.html:579
+msgid "You can share this url:"
+msgstr "Μπορείτε να μοιραστείτε αυτό το URL:"
+
+#: app/templates/main/rubric-creator.html:581
+msgid "First fill the form"
+msgstr "Πρώτα συμπληρώστε τη φόρμα"
+
+#: app/templates/main/rubric-creator.html:587
+msgid "Here there are some rubrics examples:"
+msgstr "Εδώ υπάρχουν μερικά παραδείγματα βαθμολογίων:"
+
+#: app/templates/main/rubric-creator.html:589
+msgid "Arts"
+msgstr "Τέχνες"
+
+#: app/templates/main/rubric-creator.html:590
+msgid "Music"
+msgstr "ΜΟΥΣΙΚΗ"
+
+#: app/templates/main/rubric-creator.html:591
+msgid "Animations"
+msgstr "Κινούμενα σχέδια"
+
+#: app/templates/main/rubric-creator.html:592
+msgid "Stories"
+msgstr "Ιστορίες"
+
+#: app/templates/main/rubric-creator.html:593
+msgid "Games"
+msgstr "Παιχνίδια"
+
+#: app/templates/main/rubric-uploader.html:140
+msgid ""
+"3. Upload projects with a <span class='colored-text'><a data-toggle='modal' "
+"href='#modalProject'>txt</a></span> file:"
+msgstr ""
+"3. Μεταφορτώστε τα έργα με ένα αρχείο  <span class='colored-text'><a data-"
+"toggle='modal' href='#modalProject'>txt</a></span>:"
+
+#: app/templates/learn/Flow.html:5 app/templates/main/rubric-creator.html:478
+#: app/templates/statistics/statistics.html:260
+msgid "Flow Control"
+msgstr "Έλεγχος Ροής"
+
+#: app/templates/learn/User.html:6 app/templates/main/rubric-creator.html:496
+msgid "User Interactivity"
+msgstr "Interattività dell'utente"
+
+#: app/templates/coder/dashboard-default-basic.html:315
+#: app/templates/coder/dashboard-default-developing.html:303
+#: app/templates/coder/dashboard-default-master.html:303
+#: app/templates/learn/spriteNaming.html:5
+#: app/templates/main/dashboard-default-old.html:322
+#: app/templates/main/dashboard-default.html:29
+#: app/templates/learn/base.html:243
+msgid "Sprite Naming"
+msgstr "Προεπιλογή Ονομασίας"
+
+#: app/templates/coder/dashboard-default-developing.html:324
+#: app/templates/coder/dashboard-default-master.html:324
+#: app/templates/learn/duplicatedScripts.html:5
+#: app/templates/main/dashboard-default-old.html:343
+#: app/templates/main/dashboard-default.html:50
+#: app/templates/upload/dashboard-unregistered.html:162
+msgid "Duplicated Scripts"
+msgstr "Διπλότυπα Σενάρια"
+
+#: app/templates/learn/base.html:186
+msgid "Tutorials"
+msgstr "Φροντιστήρια"
+
+#: app/templates/learn/base.html:205
+msgid "Dimensions"
+msgstr "Διαστάσεις"
+
+#: app/templates/learn/base.html:236
+msgid "Bad Habits"
+msgstr "Κακές συνήθειες"
+
+#: app/templates/learn/deadCode.html:5
+msgid "Dead Code"
+msgstr "Νεκρός Κώδικας"
+
+#: app/templates/learn/BatchMode.html:5 app/templates/learn/base.html:190
+msgid "Default Mode"
+msgstr "Προεπιλεγμένη Λειτουργία"
+
+#: app/templates/learn/BatchMode.html:25
+msgid ""
+"You only have to upload a .txt file with the urls of the Scratch's Projects."
+msgstr "Πρέπει απλά να μεταφορτώσετε ένα αρχείο .txt με τα URLs των Έργων Scratch."
+
+#: app/templates/learn/PersonalMode.html:24
+msgid "The functionality of this mode is divided in 3 steps:"
+msgstr "Η λειτουργικότητα αυτής της λειτουργίας είναι χωρισμένη σε 3 βήματα:"
+
+#: app/templates/learn/PersonalMode.html:25
+msgid "1. Creation of the Rubric with the grades of each dimension."
+msgstr "1. Δημιουργία του Βαθμολογίου με τις βαθμολογίες κάθε διάστασης."
+
+#: app/templates/learn/PersonalMode.html:26
+msgid "2. Sharing the link to the Rubric created in the previous step."
+msgstr "2. Κοινοποίηση του συνδέσμου προς το Βαθμολόγιο που δημιουργήθηκε στο προηγούμενο βήμα."
+
+#: app/templates/learn/PersonalMode.html:28
+msgid ""
+"3. Upload of the projects via an url, .sb3 file or a .txt file with multiple "
+"projects."
+msgstr "3. Μεταφόρτωση των έργων μέσω ενός συνδέσμου, αρχείου .sb3 ή αρχείου .txt με πολλά έργα."
+
+#: app/templates/main/collaborators.html:266
+msgid "Dr. Scratch Team"
+msgstr "Ομάδα Dr. Scratch"
+
+#: app/templates/main/collaborators.html:293
+msgid "Team Members"
+msgstr "Μέλη της Ομάδας"
+
+#: app/templates/main/collaborators.html:314
+#: app/templates/main/collaborators.html:336
+#: app/templates/main/collaborators.html:359
+#: app/templates/main/collaborators.html:382
+#: app/templates/main/collaborators.html:404
+#: app/templates/main/collaborators.html:425
+msgid "Developer"
+msgstr "Προγραμματιστής"
+
 #~ msgid "if &lt; touching color [#0000FF]? &gt;"
 #~ msgstr "εάν &lt; αγγίζει το χρώμα[#00000FF]? &gt; τότε"
-
-#~ msgid "Duplicated Scripts"
-#~ msgstr "Διπλασιασμένα Προγράμματα"
 
 #~ msgid "set rotation style to [left-rigt v]"
 #~ msgstr "όρισε τον άξονα περιστροφής σε [οριζόντιο v]"
