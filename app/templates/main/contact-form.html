@@ -123,7 +123,17 @@
                 {% trans "<input  name='contact_media' type='file' class='filestyle' data-buttonText='Upload media'>" %}
                 <div class="g-recaptcha" data-sitekey="{{ captcha_pubkey }}"></div>
                 <br>
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }} text-danger"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <br>
+
                 <button type="submit" class="btn btn-primary standard-button">{% trans "Send" %}</button>
+                
             </form>
 
 
