@@ -1316,7 +1316,11 @@ def contact(request):
     Shows contact form
     """
     user = "main"
-    return render(request, user + '/contact-form.html') 
+    captcha_pubkey = settings.RECAPTCHA_PUBLIC_KEY
+    context = {
+        'captcha_pubkey' : captcha_pubkey
+    }
+    return render(request, user + '/contact-form.html', context) 
 
 
 def download_certificate(request):
