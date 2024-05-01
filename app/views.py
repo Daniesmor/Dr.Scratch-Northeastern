@@ -6,9 +6,11 @@ import os
 import ast
 import json
 import uuid
+import requests
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
+from django.contrib import messages
 from django.contrib.auth import logout, login, authenticate,get_user_model
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
@@ -343,31 +345,52 @@ def show_dashboard(request, skill_points=None):
 
 def process_contact_form(request):
     if request.method == 'POST':
-        # Recopilar datos del formulario
-        contact_name = request.POST.get('contact_name')
-        contact_email = request.POST.get('contact_email')
-        contact_text = request.POST.get('contact_text')
-        contact_media = request.FILES.get('contact_media')
+        required_fields = {
+            'contact_name': 'Please, fill your name.',
+            'contact_email': 'Please, fill your email.',
+            'contact_text': 'Please, fill the text area.'
+        }
+        recaptcha_response = request.POST.get('g-recaptcha-response')
+        
+        for field, error_message in required_fields.items():
+            if not request.POST.get(field, ''):
+                messages.error(request, error_message)
+                request.session['form_data'] = request.POST
+                return HttpResponseRedirect('/contact')
+        
+        if recaptcha_response:
+            secret_key = settings.RECAPTCHA_PRIVATE_KEY
+            response = requests.post('https://www.google.com/recaptcha/api/siteverify', {
+                'secret': secret_key,
+                'response': recaptcha_response
+            })
+            data = response.json()
+            if data['success']:
+                contact_name = request.POST.get('contact_name')
+                contact_email = request.POST.get('contact_email')
+                contact_text = request.POST.get('contact_text')
+                contact_media = request.FILES.get('contact_media')
 
-        # Construir el mensaje de correo electrónico
-        message = f'''
-        Name: {contact_name},
-        Email: {contact_email},
-        Text: {contact_text},
-        '''
+                message = f'''
+                Name: {contact_name},
+                Email: {contact_email},
+                Text: {contact_text},
+                Media: {contact_media}
+                '''
 
-        # Asunto del correo electrónico
-        subject = '[CONTACT FORM]'
+                # Asunto del correo electrónico
+                subject = '[CONTACT FORM]'
 
-        email = EmailMessage(subject, message, settings.EMAIL_HOST_USER, ['drscratch@gsyc.urjc.es'])
-        if contact_media:
-            email.attach(contact_media.name, contact_media.read(), contact_media.content_type)
+                email = EmailMessage(subject, message, settings.EMAIL_HOST_USER, ['drscratch@gsyc.urjc.es'])
+                if contact_media:
+                    email.attach(contact_media.name, contact_media.read(), contact_media.content_type)
 
-        email.send()
-
-
-        # Renderizar la plantilla de respuesta
-        return HttpResponseRedirect('/')    
+                email.send()
+                # Renderizar la plantilla de respuesta
+                return HttpResponseRedirect('/')    
+        else:
+            messages.error(request, 'Please, fill the captcha first.')
+            return HttpResponseRedirect('/contact')
     else:
         return HttpResponse('METHOD NOT ALLOW', status=405)
 
