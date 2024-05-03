@@ -1,0 +1,250 @@
+{% load i18n %}
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="description" content="Analyze your Scratch projects to assess your Computational Thinking skills">
+    <meta name="keywords" content="Stamp, Startup, Multipurpose, Bootstrap, Landing page, Template, Registration, Landing">
+    <meta name="author" content="Programamos URJC Libresoft FECyT">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../../static/app/content/scratchblocks2.css">
+    <!-- <script src="../../static/app/scripts/bootstrap-modal.js"></script> -->
+    <script src="../../static/app/scripts/translations.js"></script>
+    <!-- <script src="../../static/app/scripts/bootstrap.js"></script> -->
+    <link rel="stylesheet" href="../../static/app/content/bootstrap-tour.css">
+    <script src="../../static/app/scripts/bootstrap.min.js"></script>
+    <script src="../../static/app/scripts/bootstrap-tour.js"></script>
+    <script src="../../static/app/scripts/googleAnalytics.js"></script>
+    <script src="../../static/app/scripts/scratchblocks-v3.4-min.js"></script>
+
+
+    <!-- SITE TITLE -->
+    <title>Dr. Scratch</title>
+
+
+    <link rel="stylesheet" href="/static/app/content/style.css">
+    <!-- =========================
+     FAV AND TOUCH ICONS AND FONT
+    ============================== -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="icon" href="/static/app/images/favicon.ico">
+    <link rel="stylesheet" href="static/app/icons/icons.css">
+    <link type="text/css" rel="stylesheet" href="/static/app/content/css_002.css">
+    <link type="text/css" rel="stylesheet" href="/static/app/content/css.css">
+    <!-- =========================
+     STYLESHEETS
+    ============================== -->
+    <!-- BOOTSTRAP AND ANIMATION -->
+    <link rel="stylesheet" href="/static/app/content/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/app/content/animate.css">
+
+    <!-- CAROUSEL AND LIGHTBOX -->
+    <link rel="stylesheet" href="../../static/app/content/owl_002.css">
+    <link rel="stylesheet" href="../../static/app/content/owl.css">
+    <link rel="stylesheet" href="../../static/app/content/nivo-lightbox.css">
+    <link rel="stylesheet" href="../../static/app/content/default.css">
+
+    <!-- CUSTOM STYLESHEETS -->
+    <link rel="stylesheet" href="../../static/app/content/styles.css">
+    <link rel="stylesheet" href="/static/app/content/master.css">
+    <!-- RESPONSIVE FIXES -->
+    <link rel="stylesheet" href="../../static/app/content/responsive.css">
+
+    <!-- DEFAULT COLOR/ CURRENTLY USING -->
+    <link rel="stylesheet" href="../../static/app/content/red.css">
+
+    
+
+    <script>
+        window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var form = document.forms["form"];
+
+            function updateUrl(number) {
+                form.action = "/show_dashboard/" + number;
+                console.log(form.action);
+            }
+
+            function obtainNumbersOfUrl(url) {
+                var urlObj = new URL(url);
+                var path = urlObj.pathname;
+                var parts = path.split('/');
+                var number = parts.pop();
+                updateUrl(number);
+            }
+
+            // Update of the URL for the Sliders
+            var url = window.location.href;
+            obtainNumbersOfUrl(url);
+        });
+    </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var form = document.forms["form"];
+
+        function updateUrl(number) {
+            form.action = "/show_dashboard/";
+            console.log(form.action);
+        }
+
+
+        updateUrl(number);
+
+    });
+</script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Encuentra el formulario por su ID
+            var form = document.forms["form"];
+
+            // Agrega un event listener para el evento submit del formulario
+            form.addEventListener("submit", function(event) {
+                // Detén el envío del formulario para poder modificar la URL
+                event.preventDefault();
+
+                // Obtiene la URL actual del formulario
+                var url = form.getAttribute("action");
+
+                // Elimina "ranking_projects" de la URL si está presente
+                url = url.replace("ranking_projects", "");
+
+                // Asigna la nueva URL al atributo action del formulario
+                form.setAttribute("action", url);
+
+                // Envía el formulario
+                form.submit();
+            });
+        });
+    </script>
+
+
+
+    <style>
+        .btn-primary {
+            background-color: #1792A4;
+        }
+        .btn-primary:hover {
+            background-color: #4CA8A1;
+        }
+        .btn-primary:focus {
+            background-color: #4CA8A1;
+        }
+        .bg-challenge {
+            background-image: url('/static/app/images/pacman_challenge.png');
+            background-size: cover; /* Para que la imagen cubra todo el div */
+            background-position: center; /* Para centrar la imagen dentro del div */
+            width: 100%; /* Ancho del div */
+            height: 300px; /* Altura del div */
+        }
+    </style>
+    
+</head>
+<body>
+<div id="wrap">
+    <!-- TOP BAR -->
+    <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top  sticky-navigation" role="navigation">
+        <div class="container">
+            <!-- NAVIGATION LINK -->
+            <a href="/">
+                <img src="static/app/images/logo_main.png" alt="" width="220" height="70.1667">
+            </a>
+
+        </div>
+    </div>
+    <!-- /END TOP BAR -->
+    <div class="container-fluid bg-primary" style="background-color: #4CA8A1;" height="100px">
+        
+    </div>
+
+    <div class="container">
+        <div class="row bg-challenge" style="margin-top: 90px;">
+            <div class="col-md-8"> <!-- Col 8 para que ocupe el 60% -->
+                <!-- Contenido de la primera columna -->
+            </div>
+            <div class="col-md-4"> <!-- Col 4 para que ocupe el 40% -->
+                <form name="form" id="form-personalized" class="project-form" enctype="multipart/form-data" method="post" action="http://127.0.0.1:8000/show_dashboard/">
+                    <input type="hidden" name="dashboard_mode" value="Default">
+                    <br>
+                    <input id="urlProject" class="form-control input-box placeholder" placeholder="http:/scratch.mit.edu/projects/your_number" type="text">
+                    <input id="coderToken" class="form-control input-box placeholder" placeholder="Put your token here" type="text">
+                    <button id="url" name="_url" type="submit" class="btn btn-primary standard-button">{% trans "Analyze by url" %}</button>
+                    {% csrf_token %}
+                    <br><br>
+                   
+                    {% csrf_token %}
+                </form>
+            </div>
+        </div>
+        
+        
+        <div class="row">
+            <div class="col-12 mb-3 mb-lg-5">
+                <div class="overflow-hidden card table-nowrap table-card">
+                    <br>
+                    <div class="table-responsive">
+                        <table class="table mb-0">
+                            <thead class="small text-uppercase bg-body text-muted">
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Score</th>
+                                    <th>Abstraction</th>
+                                    <th>Parallelization</th>
+                                    <th>Logic</th>
+                                    <th class="text-end">Synchronization</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for file in files %}
+                                    {% if forloop.counter0 == 2 %}
+                                        <tr class="align-middle" style="background-color: #ffbb00;"> <!-- Color de fondo para las primeras 3 entradas -->
+                                    {% elif forloop.counter0 == 1 %}
+                                        <tr class="align-middle" style="background-color: #cacaca;"> <!-- Color de fondo para las primeras 3 entradas -->
+                                    {% elif forloop.counter0 == 0 %}
+                                        <tr class="align-middle" style="background-color: #ffd000;"> <!-- Color de fondo para las primeras 3 entradas -->
+                                    {% endif %}
+                                        <td>{{ file.coder_token.username }}</td>    
+                                        <td><span class="d-inline-block align-middle">{{ file.score }}</span></td>
+                                        <td><span>{{ file.abstraction }}</span></td>
+                                        <td>{{ file.parallelization }}</td>
+                                        <td>{{ file.logic }}</td>
+                                        <td class="text-end">{{ file.synchronization }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<br></br>
+
+    <!-- FOOTER -->
+    <footer class="footer grey-bg">
+        <p>{% trans "©2024 Dr.Scratch Made with " %} <span style="color: #e25555;">&#9829;</span> {% trans "by " %} <a href="/collaborators">{% trans "Dr.Scratch Team." %}</a></p>
+            <!-- SOCIAL ICONS -->
+            <ul class="social-icons">
+                <li>
+                    <a href="https://github.com/Daniesmor/Dr.Scratch-Northeastern"> 
+                    <i class="bi bi-github" style="color: black;"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://twitter.com/DrScratchTool">
+                    <i class="bi bi-twitter-x" style="color: black;"></i>
+                    </a>
+                </li>    
+            </ul>
+    </footer>
+
+    <script type="text/javascript" src="static/app/scripts/bootstrap-filestyle.js"> </script>
+
+</body>
+</html>

@@ -20,6 +20,9 @@ urlpatterns = [
     url(r'^token_coder_register', app_views.token_coder_register, name='token_coder_register'),
     path('token_coder_show/<str:username>/', app_views.token_coder_show, name='token_coder_show'),
     
+    # Rankings project
+    url(r'^ranking_projects', app_views.ranking_projects, name='ranking_projects'),
+    
     # Statics
     # url(r'^/v3/static/(?P<path>.*)$' , serve,
     #                              {'document_root': settings.MEDIA_ROOT}),

@@ -2554,3 +2554,20 @@ def token_coder_show(request, username):
     else:
         return HttpResponseRedirect('/')    
     """
+    
+    
+#########################################
+##                                     ##
+##      ranking projects               ##
+##                                     ##
+#########################################
+
+def ranking_projects(request):
+    
+    files = File.objects.all().order_by('-score')
+    
+    context = {
+        'files' : files
+    }
+    
+    return render(request, 'main/ranking-projects.html', context)
