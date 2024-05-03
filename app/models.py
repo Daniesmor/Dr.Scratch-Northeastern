@@ -30,8 +30,7 @@ class File(models.Model):
     initialization = models.IntegerField()
     deadCode = models.IntegerField()
     duplicateScript = models.IntegerField()
-    coder_username = models.ForeignKey(TokenCoder, on_delete=models.CASCADE, to_field='username', related_name='files_as_coder_username')
-    coder_token = models.ForeignKey(TokenCoder, on_delete=models.CASCADE, to_field='token', related_name='files_as_coder_token')
+    coder_token = models.OneToOneField(TokenCoder, on_delete=models.CASCADE)
     
 
 

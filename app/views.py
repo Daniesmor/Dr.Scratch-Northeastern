@@ -307,13 +307,17 @@ def base32_to_str(base32_str: str) -> str:
 def show_dashboard(request, skill_points=None):
     
     if request.method == 'POST':
+        coder_token = request.POST.get('coderToken')
+        coder = get_object_or_404(TokenCoder, token=coder_token)
+        print("coder_token-------------", coder_token)
+        print("coder------------", coder)
         url = request.path.split('/')[-1]
         if url != '':
             numbers = base32_to_str(url)
         else:
             numbers = ''
         skill_rubric = generate_rubric(numbers)
-        d = build_dictionary_with_automatic_analysis(request, skill_rubric)
+        d = build_dictionary_with_automatic_analysis(request, skill_rubric, coder)
         user = str(identify_user_type(request))
         print("Context Dictionary:")
         print(d)
@@ -450,7 +454,7 @@ def create_summary(request, d: dict) -> dict:
     return summary
 
 
-def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dict:
+def build_dictionary_with_automatic_analysis(request, skill_points: dict, coder) -> dict:
     """
     Build dictionary with automatic analysis by distinguishing between URL or project
     """
@@ -476,7 +480,7 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
             'multiproject': False
         })
     elif '_url' in request.POST:
-        dict_metrics[project_counter] = _make_analysis_by_url(request, skill_points)
+        dict_metrics[project_counter] = _make_analysis_by_url(request, skill_points, coder)
         url = request.POST['urlProject']
         filename = url
         dict_metrics[project_counter].update({
@@ -507,6 +511,7 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
                 'dashboard_mode': dashboard_mode,
             })
             project_counter += 1
+        
     return dict_metrics
 
 
@@ -640,7 +645,7 @@ def _make_analysis_by_upload(request, skill_points: dict):
         return HttpResponseRedirect('/')
 
 
-def _make_analysis_by_url(request, skill_points: dict):
+def _make_analysis_by_url(request, skill_points: dict, coder):
     """
     Make the automatic analysis by URL
     """
@@ -653,7 +658,7 @@ def _make_analysis_by_url(request, skill_points: dict):
             if id_project == "error":
                 return {'Error': 'id_error'}
             else:
-                return generator_dic(request, id_project, skill_points)
+                return generator_dic(request, id_project, skill_points, coder)
         else:
             return {'Error': 'MultiValueDict'}
     else:
@@ -700,7 +705,7 @@ def return_scratch_project_identifier(url) -> str:
     return id_project
 
 
-def generator_dic(request, id_project, skill_points: dict):
+def generator_dic(request, id_project, skill_points: dict, coder):
     """
     Return a dictionary with static analysis and errors
     """
@@ -710,7 +715,7 @@ def generator_dic(request, id_project, skill_points: dict):
             username = request.user.username
         else:
             username = None
-        path_project, file_obj, ext_type_project = send_request_getsb3(id_project, username, method="url")
+        path_project, file_obj, ext_type_project = send_request_getsb3(id_project, username, coder, method="url")
     except DrScratchException:
         logger.error('DrScratchException')
         d = {'Error': 'no_exists'}
@@ -830,7 +835,7 @@ def download_scratch_project_from_servers(path_project, id_project):
     return path_json_file
 
 
-def send_request_getsb3(id_project, username, method):
+def send_request_getsb3(id_project, username, coder, method):
     """
     Send request to getsb3 app
     """
@@ -869,6 +874,7 @@ def send_request_getsb3(id_project, username, method):
                         spriteNaming=0, initialization=0,
                         deadCode=0, duplicateScript=0)
     
+    file_obj.coder_token = coder
     file_obj.save()
 
     write_activity_in_logfile(file_obj)

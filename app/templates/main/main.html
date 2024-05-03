@@ -303,6 +303,7 @@
                                     <input type="hidden" name="dashboard_mode" value="Default">
                                     <h5 class="text-input" style="font-weight: lighter;">{% trans "1. Introduce the <span class='colored-text'><a data-toggle='modal' href='#modalUrl'>url</a></span> of your Scratch project, you don't have to download it:" %}</h5>
                                     {% trans '<input name="urlProject" id="cf-name" class="form-control input-box placeholder" placeholder="http:/scratch.mit.edu/projects/your_number" type="text">' %}
+                                    {% trans '<input name="coderToken" id="cf-name" class="form-control input-box placeholder" placeholder="Put your token here" type="text">' %}
                                     <button id="url" name='_url' type="submit" class="btn btn-primary standard-button">{% trans "Analyze by url" %}</button>
                                     {% csrf_token %}
                                     <br><br>
