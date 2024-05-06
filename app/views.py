@@ -399,7 +399,7 @@ def process_contact_form(request):
 
 
 def generate_rubric(skill_points: str) -> dict:
-    mastery = ['Abstraction', 'Parallelism', 'Logic', 'Synchronization', 
+    mastery = ['Abstraction', 'Parallelization', 'Logic', 'Synchronization', 
                'FlowControl', 'UserInteractivity', 'DataRepresentation',
                'MathOperators', 'MotionOperators']
        
