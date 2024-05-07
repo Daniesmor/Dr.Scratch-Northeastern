@@ -17,6 +17,8 @@ class Mastery(Plugin):
 
     def process(self):
 
+        # print(self.json_project.items())
+
         for key, list_info in self.json_project.items():
             if key == "targets":
                 for dict_target in list_info:
@@ -285,6 +287,9 @@ class Mastery(Plugin):
     def compute_user_interactivity(self):
         """Assign the User Interactivity skill result"""
 
+        # ----------- ADVANCED ------------------------
+        advanced = self.check_ui_advanced()
+
         # ----------- PROFIENCY --------------
         proficient = self.check_ui_proficiency()
         
@@ -294,9 +299,19 @@ class Mastery(Plugin):
         # ----------- BASIC -------------------------------------
         basic = self.check_list({'event_whenflagclicked'})
 
-        scale_dict = {"proficient": proficient, "developing": developing, "basic": basic}
+        scale_dict = {"advanced": advanced, "proficient": proficient, "developing": developing, "basic": basic}
 
         self.set_dimension_score(scale_dict, "UserInteractivity")
+    
+    def check_ui_advanced(self):
+        """
+        Check the advanced user interactivity skills
+        """
+        if len(self.json_project['extensions']) != 0:
+            return True
+        else:
+            return False
+
         
     def compute_parallelization(self):
         """
@@ -304,6 +319,9 @@ class Mastery(Plugin):
         """
         
         dict_parall = self.parallelization_dict()
+
+        # ---------- ADVANCED ----------------------------
+        advanced = self.check_p_advanced(dict_parall)
 
         # ---------- PROFICIENT ----------------------------
         proficient = self.check_p_proficiency(dict_parall)
@@ -314,9 +332,34 @@ class Mastery(Plugin):
         # ----------- BASIC ----------------------------
         basic = self.check_scripts_flag(n_scripts=2)
         
-        scale_dict = {"proficient": proficient, "developing": developing, "basic": basic}
+        scale_dict = {"advanced": advanced, "proficient": proficient, "developing": developing, "basic": basic}
 
         self.set_dimension_score(scale_dict, "Parallelization")
+    
+    def check_p_advanced(self, dict_parall):
+        """
+        Check the advanced parallelization skills
+        """
+        counter = 0
+        list_conditions = {self.check_scripts(n_scripts=3), self.check_scripts_media(dict_parall, n_scripts=3), self.check_scripts_backdrop(dict_parall, n_scripts=3), self.check_list({'control_create_clone_of'}), self.check_scripts_msg(dict_parall, n_scripts=3), self.check_scripts_video(n_scripts=3)}
+
+        for cond in list_conditions:
+            if cond:
+                counter += 1
+
+        print("Counter:", counter)
+        
+        if counter >= 2:
+            return True
+        else:
+            return False
+
+    def check_p_proficiency(self, dict_parall):
+        if (self.check_scripts(n_scripts=2) or self.check_scripts_media(dict_parall, n_scripts=2) or self.check_scripts_backdrop(dict_parall, n_scripts=2) 
+            or self.check_list({'control_create_clone_of'}) or self.check_scripts_msg(dict_parall, n_scripts=2) or self.check_scripts_video(n_scripts=2)):
+            return True
+        return False
+        
     
     def parallelization_dict(self):
         dict_parallelization = {}
