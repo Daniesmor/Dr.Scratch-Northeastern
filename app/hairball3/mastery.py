@@ -336,31 +336,6 @@ class Mastery(Plugin):
 
         self.set_dimension_score(scale_dict, "Parallelization")
     
-    def check_p_advanced(self, dict_parall):
-        """
-        Check the advanced parallelization skills
-        """
-        counter = 0
-        list_conditions = {self.check_scripts(n_scripts=3), self.check_scripts_media(dict_parall, n_scripts=3), self.check_scripts_backdrop(dict_parall, n_scripts=3), self.check_list({'control_create_clone_of'}), self.check_scripts_msg(dict_parall, n_scripts=3), self.check_scripts_video(n_scripts=3)}
-
-        for cond in list_conditions:
-            if cond:
-                counter += 1
-
-        print("Counter:", counter)
-        
-        if counter >= 2:
-            return True
-        else:
-            return False
-
-    def check_p_proficiency(self, dict_parall):
-        if (self.check_scripts(n_scripts=2) or self.check_scripts_media(dict_parall, n_scripts=2) or self.check_scripts_backdrop(dict_parall, n_scripts=2) 
-            or self.check_list({'control_create_clone_of'}) or self.check_scripts_msg(dict_parall, n_scripts=2) or self.check_scripts_video(n_scripts=2)):
-            return True
-        return False
-        
-    
     def parallelization_dict(self):
         dict_parallelization = {}
 
@@ -505,6 +480,17 @@ class Mastery(Plugin):
             return True
         
         return False
+    
+        
+    def check_p_advanced(self, dict_parall):
+        """
+        Check the advanced parallelization skills
+        """
+        if (self.check_scripts(n_scripts=3) or self.check_scripts_media(dict_parall, n_scripts=3) or self.check_scripts_backdrop(dict_parall, n_scripts=3) 
+            or self.check_scripts_msg(dict_parall, n_scripts=3) or self.check_scripts_video(n_scripts=3)):
+            return True
+        return False
+        
     
     def check_p_proficiency(self, dict_parall):
         if (self.check_scripts(n_scripts=2) or self.check_scripts_media(dict_parall, n_scripts=2) or self.check_scripts_backdrop(dict_parall, n_scripts=2) 
