@@ -22,6 +22,7 @@ from django.contrib.auth.models import User
 from django.utils.encoding import smart_str
 from django.shortcuts import render
 from django.conf import settings
+from django.http import JsonResponse
 from app.forms import UrlForm, OrganizationForm, OrganizationHashForm, LoginOrganizationForm, CoderForm, DiscussForm
 from app.models import File, CSVs, Organization, OrganizationHash, Coder, Discuss, Stats
 from urllib.request import urlopen
@@ -499,6 +500,7 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
     elif '_url' in request.POST:
         dict_metrics[project_counter] = _make_analysis_by_url(request, skill_points)
         url = request.POST['urlProject']
+        print("mi url ------------------------", url)
         filename = url
         dict_metrics[project_counter].update({
             'url': url, 
@@ -2534,3 +2536,40 @@ def proc_initialization(lines, filename):
     return dic
 
 """
+
+
+###################################
+#
+#       API PETITIONS
+#
+#
+###################################
+
+
+def get_analysis_d(request, skill_points=None) -> dict:
+    
+    if request.method == 'POST':
+        print("Aqui hemos llegado")
+        url = request.path.split('/')[-1]
+        if url != '':
+            numbers = base32_to_str(url)
+        else:
+            numbers = ''
+        skill_rubric = generate_rubric(numbers)
+        
+        if '_url' in request.POST:
+            print("url detected")
+            
+        print(request.POST.get('urlProject'))
+        d = build_dictionary_with_automatic_analysis(request, skill_rubric)
+        
+        user = str(identify_user_type(request))
+        print("peticiion")
+        print(d)
+        print(JsonResponse(d))
+        
+    return JsonResponse(d)
+
+
+
+

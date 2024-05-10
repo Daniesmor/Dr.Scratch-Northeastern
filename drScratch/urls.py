@@ -21,6 +21,10 @@ urlpatterns = [
     #                              {'document_root': settings.MEDIA_ROOT}),
     url(r'^(.*)/static/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
     
+    # API ANALYSIS
+    url(r'^get_analysis_d/(?P<skill_points>.{1,6})?$', app_views.get_analysis_d, name='get_analysis_d'),
+    
+    
     # CONTACT FORM
     url(r'^process_contact_form/$', app_views.process_contact_form, name='contact_form'),
 
