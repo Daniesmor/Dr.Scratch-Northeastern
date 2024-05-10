@@ -293,7 +293,7 @@ BLOCK_TEXT = {
     "PEN_PENUP": "pen up",
     "PEN_CLEAR": "erase all",
     "PEN_STAMP": "stamp",
-    "SOUND_SOUNDS_MENU": "sound_sounds_menu (%1)",
+    "SOUND_SOUNDS_MENU": "start sound (%1)",
     "LOOKS_BACKDROPS": "looks_backdrops (%1)"
 }
 
