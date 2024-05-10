@@ -292,7 +292,9 @@ BLOCK_TEXT = {
     "PEN_PENDOWN": "pen down",
     "PEN_PENUP": "pen up",
     "PEN_CLEAR": "erase all",
-    "PEN_STAMP": "stamp"
+    "PEN_STAMP": "stamp",
+    "SOUND_SOUNDS_MENU": "sound_sounds_menu (%1)",
+    "LOOKS_BACKDROPS": "looks_backdrops (%1)"
 }
 
 STARTER_BLOCKS = {"EVENT_WHENFLAGCLICKED",
@@ -480,6 +482,7 @@ class Script():
             n_input = 0
 
             for i in range(1, 4):
+                sub_text =""
                 if f'%{i}' not in block_text:
                     continue
 
