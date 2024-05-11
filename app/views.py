@@ -28,6 +28,7 @@ from app.models import File, CSVs, Organization, OrganizationHash, Coder, Discus
 from urllib.request import urlopen
 from urllib.error import HTTPError, URLError
 from zipfile import ZipFile, BadZipfile
+import pickle
 import shutil
 import unicodedata
 import csv
@@ -499,8 +500,6 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
         })
     elif '_url' in request.POST:
         dict_metrics[project_counter] = _make_analysis_by_url(request, skill_points)
-        url = request.POST['urlProject']
-        print("mi url ------------------------", url)
         filename = url
         dict_metrics[project_counter].update({
             'url': url, 
@@ -575,7 +574,7 @@ def save_analysis_in_file_db(request, zip_filename):
         filename_obj = File(filename=zip_filename,
                         organization=username,
                         method=method, time=now,
-                        score=0, abstraction=0, parallelization=0,
+                        score=0, abstraction=0, Parallelism=0,
                         logic=0, synchronization=0, flowControl=0,
                         userInteractivity=0, dataRepresentation=0,
                         spriteNaming=0, initialization=0,
@@ -584,7 +583,7 @@ def save_analysis_in_file_db(request, zip_filename):
         filename_obj = File(filename=zip_filename,
                         coder=username,
                         method=method, time=now,
-                        score=0, abstraction=0, parallelization=0,
+                        score=0, abstraction=0, Parallelism=0,
                         logic=0, synchronization=0, flowControl=0,
                         userInteractivity=0, dataRepresentation=0,
                         spriteNaming=0, initialization=0,
@@ -592,7 +591,7 @@ def save_analysis_in_file_db(request, zip_filename):
     else:
         filename_obj = File(filename=zip_filename,
                         method=method, time=now,
-                        score=0, abstraction=0, parallelization=0,
+                        score=0, abstraction=0, Parallelism=0,
                         logic=0, synchronization=0, flowControl=0,
                         userInteractivity=0, dataRepresentation=0,
                         spriteNaming=0, initialization=0,
@@ -869,7 +868,7 @@ def send_request_getsb3(id_project, username, method):
         file_obj = File(filename=file_url,
                         organization=username,
                         method=method, time=now,
-                        score=0, abstraction=0, parallelization=0,
+                        score=0, abstraction=0, parallelism=0,
                         logic=0, synchronization=0, flowControl=0,
                         userInteractivity=0, dataRepresentation=0,
                         spriteNaming=0, initialization=0,
@@ -878,7 +877,7 @@ def send_request_getsb3(id_project, username, method):
         file_obj = File(filename=file_url,
                         coder=username,
                         method=method, time=now,
-                        score=0, abstraction=0, parallelization=0,
+                        score=0, abstraction=0, parallelism=0,
                         logic=0, synchronization=0, flowControl=0,
                         userInteractivity=0, dataRepresentation=0,
                         spriteNaming=0, initialization=0,
@@ -886,7 +885,7 @@ def send_request_getsb3(id_project, username, method):
     else:
         file_obj = File(filename=file_url,
                         method=method, time=now,
-                        score=0, abstraction=0, parallelization=0,
+                        score=0, abstraction=0, parallelism=0,
                         logic=0, synchronization=0, flowControl=0,
                         userInteractivity=0, dataRepresentation=0,
                         spriteNaming=0, initialization=0,
@@ -1028,7 +1027,7 @@ def set_file_obj(request, file_obj, dict, mode=None):
     file_obj.score = dict["total_points"][0]
     file_obj.competence = dict["competence"]
     file_obj.abstraction = dict["Abstraction"][0]
-    file_obj.parallelization = dict["Parallelization"][0]
+    file_obj.Parallelism = dict["Parallelism"][0]
     file_obj.logic = dict["Logic"][0]
     file_obj.synchronization = dict["Synchronization"][0]
     file_obj.flow_control = dict["FlowControl"][0]
@@ -1095,7 +1094,7 @@ def translate(request, d, filename, vanilla=False):
     """
 
     if request.LANGUAGE_CODE == "es":
-        d_translate_es = {'Abstracción': [d['Abstraction'], 'Abstraction'], 'Paralelismo': [d['Parallelization'], 'Parallelization'],
+        d_translate_es = {'Abstracción': [d['Abstraction'], 'Abstraction'], 'Paralelismo': [d['Parallelism'], 'Parallelism'],
                           'Pensamiento lógico': [d['Logic'], 'Logic'], 'Sincronización': [d['Synchronization'], 'Synchronization'],
                           'Control de flujo': [d['FlowControl'], 'FlowControl'], 'Interactividad con el usuario': [d['UserInteractivity'], 'UserInteractivity'],
                           'Representación de la información': [d['DataRepresentation'], 'DataRepresentation']}
@@ -1105,7 +1104,7 @@ def translate(request, d, filename, vanilla=False):
         filename.save()
         return d_translate_es
     elif request.LANGUAGE_CODE == "en":
-        d_translate_en = {'Abstraction': [d['Abstraction'], 'Abstraction'], 'Parallelism': [d['Parallelization'], 'Parallelization'], 'Logic': [d['Logic'], 'Logic'],
+        d_translate_en = {'Abstraction': [d['Abstraction'], 'Abstraction'], 'Parallelism': [d['Parallelism'], 'Parallelism'], 'Logic': [d['Logic'], 'Logic'],
                           'Synchronization': [d['Synchronization'], 'Synchronization'], 'Flow control': [d['FlowControl'], 'FlowControl'],
                           'User interactivity': [d['UserInteractivity'], 'UserInteractivity'], 'Data representation': [d['DataRepresentation'], 'DataRepresentation']}
         if not vanilla: 
@@ -1114,7 +1113,7 @@ def translate(request, d, filename, vanilla=False):
         filename.save()
         return d_translate_en
     elif request.LANGUAGE_CODE == "ca":
-        d_translate_ca = {'Abstracció': [d['Abstraction'], 'Abstraction'], 'Paral·lelisme': [d['Parallelization'], 'Parallelization'], 'Lògica': [d['Logic'], 'Logic'],
+        d_translate_ca = {'Abstracció': [d['Abstraction'], 'Abstraction'], 'Paral·lelisme': [d['Parallelism'], 'Parallelism'], 'Lògica': [d['Logic'], 'Logic'],
                           'Sincronització': [d['Synchronization'], 'Synchronization'], 'Controls de flux': [d['FlowControl'], 'FlowControl'],
                           "Interactivitat de l'usuari": [d['UserInteractivity'], 'UserInteractivity'],
                           'Representació de dades': [d['DataRepresentation'], 'DataRepresentation']}
@@ -1124,7 +1123,7 @@ def translate(request, d, filename, vanilla=False):
         filename.save()
         return d_translate_ca
     elif request.LANGUAGE_CODE == "gl":
-        d_translate_gl = {'Abstracción': [d['Abstraction'], 'Abstraction'], 'Paralelismo': [d['Parallelization'], 'Parallelization'], 'Lóxica': [d['Logic'], 'Logic'],
+        d_translate_gl = {'Abstracción': [d['Abstraction'], 'Abstraction'], 'Paralelismo': [d['Parallelism'], 'Parallelism'], 'Lóxica': [d['Logic'], 'Logic'],
                           'Sincronización': [d['Synchronization'], 'Synchronization'], 'Control de fluxo': [d['FlowControl'], 'FlowControl'],
                           "Interactividade do susario": [d['UserInteractivity'], 'UserInteractivity'],
                           'Representación dos datos': [d['DataRepresentation'], 'DataRepresentation']}
@@ -1135,7 +1134,7 @@ def translate(request, d, filename, vanilla=False):
         return d_translate_gl
 
     elif request.LANGUAGE_CODE == "pt":
-        d_translate_pt = {'Abstração': [d['Abstraction'], 'Abstraction'], 'Paralelismo': [d['Parallelization'], 'Parallelization'], 'Lógica': [d['Logic'], 'Logic'],
+        d_translate_pt = {'Abstração': [d['Abstraction'], 'Abstraction'], 'Paralelismo': [d['Parallelism'], 'Parallelism'], 'Lógica': [d['Logic'], 'Logic'],
                           'Sincronização': [d['Synchronization'], 'Synchronization'], 'Controle de fluxo': [d['FlowControl'], 'FlowControl'],
                           "Interatividade com o usuário": [d['UserInteractivity'], 'UserInteractivity'],
                           'Representação de dados': [d['DataRepresentation'], 'DataRepresentation']}
@@ -1146,7 +1145,7 @@ def translate(request, d, filename, vanilla=False):
         return d_translate_pt
     
     elif request.LANGUAGE_CODE == "el":
-        d_translate_el = {'Αφαίρεση': [d['Abstraction'], 'Abstraction'], 'Παραλληλισμός': [d['Parallelization'], 'Parallelization'], 'Λογική': [d['Logic'], 'Logic'],
+        d_translate_el = {'Αφαίρεση': [d['Abstraction'], 'Abstraction'], 'Παραλληλισμός': [d['Parallelism'], 'Parallelism'], 'Λογική': [d['Logic'], 'Logic'],
                           'Συγχρονισμός': [d['Synchronization'], 'Synchronization'], 'Έλεγχος ροής': [d['FlowControl'], 'FlowControl'],
                           'Αλληλεπίδραση χρήστη': [d['UserInteractivity'], 'UserInteractivity'],
                           'Αναπαράσταση δεδομένων': [d['DataRepresentation'], 'DataRepresentation']}
@@ -1157,7 +1156,7 @@ def translate(request, d, filename, vanilla=False):
         return d_translate_el
 
     elif request.LANGUAGE_CODE == "eu":           
-        d_translate_eu = {'Abstrakzioa': [d['Abstraction'], 'Abstraction'], 'Paralelismoa': [d['Parallelization'], 'Parallelization'], 'Logika': [d['Logic'], 'Logic'],
+        d_translate_eu = {'Abstrakzioa': [d['Abstraction'], 'Abstraction'], 'Paralelismoa': [d['Parallelism'], 'Parallelism'], 'Logika': [d['Logic'], 'Logic'],
                           'Sinkronizatzea': [d['Synchronization'], 'Synchronization'], 'Kontrol fluxua': [d['FlowControl'], 'FlowControl'],
                           'Erabiltzailearen elkarreragiletasuna': [d['UserInteractivity'], 'UserInteractivity'],
                           'Datu adierazlea': [d['DataRepresentation'], 'DataRepresentation']}
@@ -1168,7 +1167,7 @@ def translate(request, d, filename, vanilla=False):
         return d_translate_eu
 
     elif request.LANGUAGE_CODE == "it":           
-        d_translate_it = {'Astrazione': [d['Abstraction'], 'Abstraction'], 'Parallelismo': [d['Parallelization'], 'Parallelization'], 'Logica': [d['Logic'], 'Logic'],
+        d_translate_it = {'Astrazione': [d['Abstraction'], 'Abstraction'], 'Parallelismo': [d['Parallelism'], 'Parallelism'], 'Logica': [d['Logic'], 'Logic'],
                           'Sincronizzazione': [d['Synchronization'], 'Synchronization'], 'Controllo di flusso': [d['FlowControl'], 'FlowControl'],
                           'Interattività utente': [d['UserInteractivity'], 'UserInteractivity'],
                           'Rappresentazione dei dati': [d['DataRepresentation'], 'DataRepresentation']}
@@ -1179,7 +1178,7 @@ def translate(request, d, filename, vanilla=False):
         return d_translate_it
 
     elif request.LANGUAGE_CODE == "ru":
-        d_translate_ru = {'Абстракция': [d['Abstraction'], 'Abstraction'], 'Параллельность действий': [d['Parallelization'], 'Parallelization'],
+        d_translate_ru = {'Абстракция': [d['Abstraction'], 'Abstraction'], 'Параллельность действий': [d['Parallelism'], 'Parallelism'],
                           'Логика': [d['Logic'], 'Logic'], 'cинхронизация': [d['Synchronization'], 'Synchronization'],
                           'Управление потоком': [d['FlowControl'], 'FlowControl'], 'Интерактивность': [d['UserInteractivity'], 'UserInteractivity'],
                           'Представление данных': [d['DataRepresentation'], 'DataRepresentation']}
@@ -1189,7 +1188,7 @@ def translate(request, d, filename, vanilla=False):
         filename.save()
         return d_translate_ru
     else:
-        d_translate_en = {'Abstraction': [d['Abstraction'], 'Abstraction'], 'Parallelism': [d['Parallelization'], 'Parallelization'], 'Logic': [d['Logic'], 'Logic'],
+        d_translate_en = {'Abstraction': [d['Abstraction'], 'Abstraction'], 'Parallelism': [d['Parallelism'], 'Parallelism'], 'Logic': [d['Logic'], 'Logic'],
                           'Synchronization': [d['Synchronization'], 'Synchronization'], 'Flow control': [d['FlowControl'], 'FlowControl'],
                           'User interactivity': [d['UserInteractivity'], 'UserInteractivity'], 'Data representation': [d['DataRepresentation'], 'DataRepresentation']}
         if not vanilla: 
@@ -1689,8 +1688,8 @@ def stats(request, username):
     if f:
 
         #If the org has analyzed projects
-        parallelism = f.aggregate(Avg("parallelization"))
-        parallelism = int(parallelism["parallelization__avg"])
+        Parallelism = f.aggregate(Avg("Parallelism"))
+        Parallelism = int(Parallelism["Parallelism__avg"])
         abstraction = f.aggregate(Avg("abstraction"))
         abstraction = int(abstraction["abstraction__avg"])
         logic = f.aggregate(Avg("logic"))
@@ -1715,7 +1714,7 @@ def stats(request, username):
     else:
 
         #If the org hasn't analyzed projects yet
-        parallelism,abstraction,logic=[0],[0],[0]
+        Parallelism,abstraction,logic=[0],[0],[0]
         synchronization,flowControl,userInteractivity=[0],[0],[0]
         dataRepresentation,deadCode,duplicateScript=[0],[0],[0]
         spriteNaming,initialization =[0],[0]
@@ -1726,7 +1725,7 @@ def stats(request, username):
         "username": username,
         "img": user.img,
         "daily_score":daily_score,
-        "skillRate":{"parallelism":parallelism,
+        "skillRate":{"Parallelism":Parallelism,
                  "abstraction":abstraction,
                  "logic": logic,
                  "synchronization":synchronization,
@@ -1985,7 +1984,7 @@ def generate_csv(request, dictionary, filename, type_csv):
 
     if type_csv == "2_row":
         writer.writerow([dic["code"], dic["url"], dic["mastery"],
-                        dic["abstraction"], dic["parallelism"],
+                        dic["abstraction"], dic["Parallelism"],
                         dic["logic"], dic["sync"],
                         dic["flow_control"], dic["user_inter"], dic["data_rep"],
                         dic["dup_scripts"],dic["sprite_naming"],
@@ -1993,7 +1992,7 @@ def generate_csv(request, dictionary, filename, type_csv):
 
     elif type_csv == "1_row":
         writer.writerow([dic["url"], dic["mastery"],
-                        dic["abstraction"], dic["parallelism"],
+                        dic["abstraction"], dic["Parallelism"],
                         dic["logic"], dic["sync"],
                         dic["flow_control"], dic["user_inter"], dic["data_rep"],
                         dic["dup_scripts"],dic["sprite_naming"],
@@ -2041,7 +2040,7 @@ def generate_csv(request, dictionary, filename, type_csv):
                 if key == "mastery":
                     for key, subvalue in value.items():
                         if key!="maxi" and key!="points":
-                            if key == dic["parallelism"]:
+                            if key == dic["Parallelism"]:
                                 row5 = subvalue
                             elif key == dic["abstraction"]:
                                 row4 = subvalue
@@ -2466,7 +2465,7 @@ def statistics(request):
         },
         "totalProjects": obj.daily_projects,
         "skillRate": {
-            "parallelism": obj.parallelism,
+            "Parallelism": obj.Parallelism,
             "abstraction": obj.abstraction,
             "logic": obj.logic,
             "synchronization": obj.synchronization,
@@ -2546,29 +2545,21 @@ def proc_initialization(lines, filename):
 ###################################
 
 
-def get_analysis_d(request, skill_points=None) -> dict:
-    
+def get_analysis_d(request, skill_points=None):
     if request.method == 'POST':
-        print("Aqui hemos llegado")
+        print("GET_ANALYSIS_D---------------------------------------------------")
         url = request.path.split('/')[-1]
         if url != '':
             numbers = base32_to_str(url)
         else:
             numbers = ''
         skill_rubric = generate_rubric(numbers)
-        
-        if '_url' in request.POST:
-            print("url detected")
             
-        print(request.POST.get('urlProject'))
-        d = build_dictionary_with_automatic_analysis(request, skill_rubric)
-        
+        d = build_dictionary_with_automatic_analysis(request, skill_rubric) 
         user = str(identify_user_type(request))
-        print("peticiion")
-        print(d)
-        print(JsonResponse(d))
-        
-    return JsonResponse(d)
+        dict = d[0]['mastery_vanilla']
+        print(d[0]['mastery_vanilla'])
+    return JsonResponse(dict)
 
 
 
