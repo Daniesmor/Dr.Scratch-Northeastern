@@ -39,7 +39,7 @@ class Mastery(Plugin):
         self.compute_abstraction()
         self.compute_data_representation()
         self.compute_user_interactivity()
-        self.compute_parallelization()
+        self.compute_parallelism()
         self.compute_math_operators()
         self.compute_motion_operators()
 
@@ -108,7 +108,7 @@ class Mastery(Plugin):
         Extrapolate the points of the extended mode to the vanilla mode.
         """
         mastery = {'Logic', 'FlowControl', 'Synchronization', 'Abstraction', 'DataRepresentation', 
-                'UserInteractivity', 'Parallelization'}
+                'UserInteractivity', 'Parallelism'}
         
         new_dict = {}
         for skill in dict_mastery:
@@ -321,33 +321,33 @@ class Mastery(Plugin):
 
         self.dict_mastery['UserInteractivity'] = [score, self.skill_points['UserInteractivity']]
         
-    def compute_parallelization(self):
+    def compute_parallelism(self):
         """
-        Assign the Parallelization skill result
+        Assign the Parallelism skill result
         """
         
-        parallelization_score = 0
-        dict_parall = self.parallelization_dict()
+        parallelism_score = 0
+        dict_parall = self.parallelism_dict()
 
         # ---------- PROFICIENT ----------------------------
-        score_proficient = self.calc_parallelization_proficient(dict_parall)
+        score_proficient = self.calc_parallelism_proficient(dict_parall)
         if score_proficient != None:
             score_proficient = self.extrapolate_to_rubric('Parallelism', 'proficient')
-            self.dict_mastery['Parallelization'] = [score_proficient, self.skill_points['Parallelism']]
+            self.dict_mastery['Parallelism'] = [score_proficient, self.skill_points['Parallelism']]
             return
 
         # ---------- DEVELOPING ----------------------------     
-        score_developing = self.calc_parallelization_developing(dict_parall)
+        score_developing = self.calc_parallelism_developing(dict_parall)
         if score_proficient != None:
             score_developing = self.extrapolate_to_rubric('Parallelism', 'developing')
-            self.dict_mastery['Parallelization'] = [score_developing, self.skill_points['Parallelism']]
+            self.dict_mastery['Parallelism'] = [score_developing, self.skill_points['Parallelism']]
             return
         
         # ----------- BASIC ----------------------------
-        if self.dict_blocks['event_whenflagclicked'] > 1 and parallelization_score == 0:  # 2 scripts on green flag
-            parallelization_score = self.possible_scores["basic"]
+        if self.dict_blocks['event_whenflagclicked'] > 1 and parallelism_score == 0:  # 2 scripts on green flag
+            parallelism_score = self.possible_scores["basic"]
         
-        self.dict_mastery['Parallelization'] = [parallelization_score, self.skill_points['Parallelism']]
+        self.dict_mastery['Parallelism'] = [parallelism_score, self.skill_points['Parallelism']]
         
         
     def compute_math_operators(self):
@@ -423,29 +423,29 @@ class Mastery(Plugin):
                 score = self.skill_points['User interactivity']
                 return score 
         
-    def calc_parallelization_developing(self, dict_parall):
+    def calc_parallelism_developing(self, dict_parall):
         if self.dict_blocks['event_whenkeypressed'] > 1:  # 2 Scripts start on the same key pressed
             if dict_parall['KEY_OPTION']:
                 var_list = set(dict_parall['KEY_OPTION'])
                 for var in var_list:
                     if dict_parall['KEY_OPTION'].count(var) > 1:
                         print("PARALLELISM MASTERY: Scripts start on the same key pressed")
-                        parallelization_score = self.possible_scores['developing']
-                        return parallelization_score
+                        parallelism_score = self.possible_scores['developing']
+                        return parallelism_score
 
         if self.dict_blocks['event_whenthisspriteclicked'] > 1:  # Sprite with 2 scripts on clicked
             print("PARALLELISM MASTERY: Sprite with 2 scripts on clicked")
-            parallelization_score = self.possible_scores['developing']
-            return parallelization_score
+            parallelism_score = self.possible_scores['developing']
+            return parallelism_score
         
-    def calc_parallelization_proficient(self, dict_parall):                
+    def calc_parallelism_proficient(self, dict_parall):                
         if self.dict_blocks['event_whengreaterthan'] > 1:  # 2 Scripts start on the same multimedia (audio, timer) event
             if dict_parall['WHENGREATERTHANMENU']:
                 var_list = set(dict_parall['WHENGREATERTHANMENU'])
                 for var in var_list:
                     if dict_parall['WHENGREATERTHANMENU'].count(var) > 1:
-                        parallelization_score = self.possible_scores['proficient']
-                        return parallelization_score
+                        parallelism_score = self.possible_scores['proficient']
+                        return parallelism_score
     
         
         coincidences = 0
@@ -456,8 +456,8 @@ class Mastery(Plugin):
                     coincidences += 1
         if coincidences > 1:
             print("PARALLELISM MASTERY: 2 scripts when %s is > %s,")
-            parallelization_score = self.possible_scores['proficient']
-            return parallelization_score
+            parallelism_score = self.possible_scores['proficient']
+            return parallelism_score
           
         if self.dict_blocks['event_whenbackdropswitchesto'] > 1:  # 2 Scripts start on the same backdrop change
             if dict_parall['BACKDROP']:
@@ -465,13 +465,13 @@ class Mastery(Plugin):
                 for var in backdrop_list:
                     if dict_parall['BACKDROP'].count(var) > 1:
                         print("PARALLELISM MASTERY: 2 Scripts start on the same received message")
-                        parallelization_score = self.possible_scores['proficient']
-                        return parallelization_score
+                        parallelism_score = self.possible_scores['proficient']
+                        return parallelism_score
                        
         if self.dict_blocks['control_create_clone_of']: # Create clone of
             print("PARALLELISM MASTERY: Create clone of")
-            parallelization_score = self.possible_scores['proficient']
-            return parallelization_score
+            parallelism_score = self.possible_scores['proficient']
+            return parallelism_score
                                  
         
         if self.dict_blocks['event_whenbroadcastreceived'] > 1:  # 2 Scripts start on the same received message
@@ -480,26 +480,26 @@ class Mastery(Plugin):
                 for var in var_list:
                     if dict_parall['BROADCAST_OPTION'].count(var) > 1:
                         print("PARALLELISM MASTERY: 2 Scripts start on the same received message")
-                        parallelization_score = self.possible_scores['proficient']
-                        return parallelization_score
+                        parallelism_score = self.possible_scores['proficient']
+                        return parallelism_score
 
         if self.dict_blocks['videoSensing_whenMotionGreaterThan'] > 1:  # 2 Scripts start on the same multimedia (video) event
-            parallelization_score = self.possible_scores['master']
-            return parallelization_score
+            parallelism_score = self.possible_scores['master']
+            return parallelism_score
 
-    def parallelization_dict(self):
-        dict_parallelization = {}
+    def parallelism_dict(self):
+        dict_parallelism = {}
 
         for block in self.list_total_blocks:
             for key, value in block.items():
                 if key == 'fields':
                     for key_pressed, val_pressed in value.items():
-                        if key_pressed in dict_parallelization:
-                            dict_parallelization[key_pressed].append(val_pressed[0])
+                        if key_pressed in dict_parallelism:
+                            dict_parallelism[key_pressed].append(val_pressed[0])
                         else:
-                            dict_parallelization[key_pressed] = val_pressed
+                            dict_parallelism[key_pressed] = val_pressed
 
-        return dict_parallelization
+        return dict_parallelism
     
     def check_more_than_one(self):
         

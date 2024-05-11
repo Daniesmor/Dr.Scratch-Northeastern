@@ -13,7 +13,7 @@ class File(models.Model):
     language = models.TextField(default="en")
     score = models.IntegerField()
     abstraction = models.IntegerField()
-    parallelization = models.IntegerField()
+    parallelism = models.IntegerField()
     logic = models.IntegerField()
     synchronization = models.IntegerField()
     flowControl = models.IntegerField()
