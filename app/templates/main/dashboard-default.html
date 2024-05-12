@@ -91,9 +91,48 @@
                                     }
                                     // Agregamops la barra al contenedor existente
                                     $(`#${key}`).append(progressBarHtml);
+
+                                    
                                 };
                                 
                             });
+
+                            var points = response['points']
+                            var competence = response['competence']
+                         
+                            var image_panel;
+                            console.log(competence)
+                            switch(competence) {
+                                case "Basic":
+                                    image_panel = `<img src="/static/app/images/ferret.png" class="img-responsive col-md-5">`;
+                                    break;
+                                case "Developing":
+                                    image_panel = `<img src="/static/app/images/monkey.png" class="img-responsive col-md-4">`;
+                                    break;
+                                case "Master":
+                                    image_panel = `<img src="/static/app/images/cat.png" class="img-responsive col-md-3">`;
+                                    break;
+                            }
+                            console.log(image_panel)
+                            // Ahora añadimos el devpanel modificado
+                            var devpanel = `
+                                    <div class="panel-heading" id="steptwo" >
+                                        <h2 id="score" class="panel-title dark-text" style="font-size:28px;">
+                                            <strong>{% trans "New Score:" %}</strong>
+                                            
+                                                ${points[0]}/${points[1]}
+                                        ${image_panel}
+                                                   
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="container col-md-12">
+                                            <h3 class='text-left dark-text'>{% trans 'The new level of your project is...' %} <strong> ${competence.toUpperCase()}! </strong></h3>
+                                        
+                                        </div>
+
+                                    </div>
+                                    `;
+                                    $(`#devpanel`).append(devpanel);
                         },
                         error: function(xhr, status, error) {
                             // Maneja los errores si es necesario
@@ -198,6 +237,7 @@
                             {% endif %}
                         </div>
                     </div>
+                    
                     {% if mastery_vanilla.competence == "Developing" or mastery_vanilla.competence == "Master" %}
                         <div class="improve">
                             <div class="panel panel-success" id="improve">
