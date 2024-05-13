@@ -44,6 +44,7 @@ from app.hairball3.backdropNaming import BackdropNaming
 from app.hairball3.duplicateScripts import DuplicateScripts
 from app.hairball3.deadCode import DeadCode
 from app.hairball3.refactor import RefactorDuplicate
+from app.hairball3.comparsionMode import ComparsionMode
 from app.exception import DrScratchException
 
 import logging
@@ -733,6 +734,7 @@ def generator_dic(request, id_project, skill_points: dict):
         else:
             username = None
         path_project, file_obj, ext_type_project = send_request_getsb3(id_project, username, method="url")
+        request.session['current_project_path'] = path_project
     except DrScratchException:
         logger.error('DrScratchException')
         d = {'Error': 'no_exists'}
@@ -744,6 +746,7 @@ def generator_dic(request, id_project, skill_points: dict):
         return d
 
     try:
+        
         d = analyze_project(request, path_project, file_obj, ext_type_project, skill_points)
     except Exception:
         logger.error('Impossible analyze project')
@@ -861,6 +864,7 @@ def send_request_getsb3(id_project, username, method):
 
     path_project = os.path.dirname(os.path.dirname(__file__))
     path_json_file_temporary = download_scratch_project_from_servers(path_project, id_project)
+    
 
     now = datetime.now()
 
@@ -2554,8 +2558,29 @@ def get_analysis_d(request, skill_points=None):
         else:
             numbers = ''
         skill_rubric = generate_rubric(numbers)
-            
+        
+        
+        print("accediendoa la variable de contexto antigua")
+        path_original_project = request.session.get('current_project_path', None)
+        
+        if path_original_project != None:
+            print(path_original_project)
+            json_scratch_original = load_json_project(path_original_project)
+        
+
         d = build_dictionary_with_automatic_analysis(request, skill_rubric) 
+        
+        print("accediendoa la variable de contexto nueva")
+        path_compare_project = request.session.get('current_project_path', None)
+        
+        if path_compare_project != None:
+            print(path_compare_project)
+            json_scratch_compare = load_json_project(path_compare_project)
+            
+            
+        dict_comparsion_mode = ComparsionMode(json_scratch_original, json_scratch_compare).finalize()
+
+        
         user = str(identify_user_type(request))
         dict = d[0]['mastery_vanilla']
         print(d[0]['mastery_vanilla'])
