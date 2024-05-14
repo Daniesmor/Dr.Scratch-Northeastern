@@ -14,6 +14,35 @@
             </section>
         </div>
         -->
+        <style>
+            /* Estilos para la sección */
+            .bg-success {
+              background-color: #E6F0FF; /* Establece el color de fondo gris */
+              height: 600px; /* Establece la altura en 500px */
+              width: 100%; /* Establece el ancho al 100% de la pantalla */
+            }
+
+            .square-container {
+                margin-top: 20px;
+                width: 100px; /* Establece el ancho del contenedor en 50px */
+                height: 100px; /* Establece la altura del contenedor en 50px */
+                background-color: white; /* Establece el color de fondo blanco */
+                border-radius: 10px; /* Establece el radio del borde en 10px */
+                text-align: center; /* Centra el texto horizontalmente */
+                line-height: 50px; /* Alinea verticalmente el texto */
+            }
+
+            .square-screen {
+                margin-top: 20px;
+                width: 100%; /* Establece el ancho del contenedor en 50px */
+                height: 500px; /* Establece la altura del contenedor en 50px */
+                background-color: #F9F9F9; /* Establece el color de fondo blanco */
+                border-radius: 10px; /* Establece el radio del borde en 10px */
+                text-align: center; /* Centra el texto horizontalmente */
+                line-height: 50px; /* Alinea verticalmente el texto */
+            }
+        </style>
+
 
         <script>
             $(document).ready(function() {
@@ -258,7 +287,9 @@
                                             <div class="container-fluid">
                                                 {% for k, list_duplicate_blocks in duplicateScript.items %}
                                                 {% if k == 'scripts' %}
+                                                   
                                                     {% for list_blocks in list_duplicate_blocks %}
+                                                        <h1>{{ list_blocks }}</h1>
                                                         <pre class="blocks">
                                                             {{ list_blocks }}
                                                         </pre>
@@ -702,6 +733,49 @@
             </div>
         </div>
 
+        <br></br>
+        <section class="bg-success">
+            <div class="container">
+                <div class="row justify-content-center">
+                        <div class="col-md-2">
+                            <div class="square-container">
+                                Pie de foto
+                            </div>
+                  
+                  
+                            <div class="square-container">
+                                <!-- Contenido del segundo contenedor aquí -->
+                            </div>
+                            
+                            <div class="square-container">
+                                <!-- Contenido del segundo contenedor aquí -->
+                            </div>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="square-screen">
+                                {% for k, list_duplicate_blocks in duplicateScript.items %}
+                                                {% if k == 'scripts' %}
+                                                   
+                                                    {% for list_blocks in list_duplicate_blocks %}
+                                                        <pre class="blocks">
+                                                            {{ list_blocks }}
+                                                        </pre>
+                                                    {% endfor %}
+                                                {% endif %}
+                                                {% endfor %}
+                                                {% if duplicateScript.number == 0 %}
+                                                    {% trans 'Your project does not have duplicated scripts, good job!' %}
+                                                {% endif %}
+
+                            </div>
+                  
+                        </div>
+
+                        
+                </div>
+            </div>
+        </section>
+        
         
 
         <!-- MODAL -->
