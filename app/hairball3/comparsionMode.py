@@ -36,16 +36,13 @@ class ComparsionMode(Plugin):
                 for blocks, blocks_value in dicc_value.items():
                     if type(blocks_value) is dict:
                         out[blocks] = blocks_value
-        print("Estos son los bloques que contiene el sprite-->")
-        print(out)
-        print("----------------------------------")
         return out
     
     def set_sprite_dict(self):
         """
         Sets a dictionary containing the scripts of each sprite in Script() format
         """
-        print(self.json_original_project)
+        
         projects = [self.json_original_project, self.json_compare_project]
         for project_num, project in enumerate(projects):
             for key, list_dict_targets in project.items():
@@ -53,7 +50,7 @@ class ComparsionMode(Plugin):
                     for dict_target in list_dict_targets:
                         project_name = project
                         sprite_name = dict_target['name']
-                        print("Estamos en el sprite", sprite_name)
+                        
                         sprite_blocks = self.get_blocks(dict_target)
 
                         sprite_scripts = []
@@ -64,7 +61,7 @@ class ComparsionMode(Plugin):
                                 new_script.set_script_dict(block_dict=sprite_blocks, start=key)
                                 sprite_scripts.append(new_script)
 
-                        print("Prueba sprite scripts dentro de get_blocks", sprite_scripts)
+                        
                         self.sprite_dict[project_num][sprite_name] = sprite_blocks
     
     
@@ -74,39 +71,39 @@ class ComparsionMode(Plugin):
         """
         self.set_sprite_dict()
         
-        print("Aqui comienza la logica del analisis--->")
         # Almacenamos scipts del mismo sprite que no estaban antes
         self.d_changes = {} #Dict que contiene cambios respectoa al proyecto original
         projects = [self.json_original_project, self.json_compare_project]
-        print("Prueba sprite_dict")
-        print(self.sprite_dict[1]['Sort'])
-        # Buscamos bloques del proyecto nuevo que se han añadido al original
+
         for sprite, scripts in self.sprite_dict[1].items():
-            print(self.sprite_dict[0][sprite])
+            self.d_changes["new_sprites"] = []
             self.d_changes[sprite] = []
-            for block in scripts:
-                print("prueba traza")
-                
-                if (block not in self.sprite_dict[0][sprite]):
-                    self.d_changes[sprite].append((self.sprite_dict[1][sprite][block], 'added'))
+            if (sprite not in self.sprite_dict[0].items()):
+                print("nuevo sprite")
+                self.d_changes["new_sprites"].append(sprite)  
+                for block in scripts:
+                    pass
+                    
+            else:
+                for block in scripts:
+                    
+                    if (block not in self.sprite_dict[0][sprite]):
+                        self.d_changes[sprite].append((self.sprite_dict[1][sprite][block], 'added'))
         
         # Buscamos bloques del proyecto original que se han borrado en el nuevo
         for sprite, scripts in self.sprite_dict[0].items():
             print(self.sprite_dict[0][sprite])
             for script in scripts:
-                print("prueba traza")
                 
                 if (script not in self.sprite_dict[1][sprite]):
                     if self.d_changes[sprite]:
                         self.d_changes[sprite].append((self.sprite_dict[0][sprite][script], 'removed'))      
                     else:
-                        self.d_changes[sprite] = [(self.sprite_dict[0][sprite][script], 'removed')]   
+                        self.d_changes[sprite] = [(self.sprite_dict[0][sprite][script], 'removed')]     
+                           
         
         # Borramos listas vacias (sprites en los que no se ha añadido ni eliminado bloques)
         for sprite_key, sprite_value in list(self.d_changes.items()):
-            print(list(self.d_changes.items()))
-            print("Traza de borrado")
-            print(sprite_key, sprite_value)
             if sprite_value == []:
                 del self.d_changes[sprite_key]
                     
@@ -114,39 +111,7 @@ class ComparsionMode(Plugin):
             print("No se ha añadido ni quitado ningun bloque")
         else:
             print(self.d_changes)
-                
-        """
-        for sprite, scripts in self.sprite_dict.items():
-            seen = set()
-            sprite_duplicates = {}
-            for script in scripts:
-                blocks = tuple(script.get_blocks())
-
-                if blocks not in sprite_duplicates.keys():
-                    if len(blocks) > 5:
-                        sprite_duplicates[blocks] = [(script, sprite)]
-                else:
-                    sprite_duplicates[blocks].append((script, sprite))
-
-                seen.add(blocks)
-
-
-            for key in seen:
-                if key in sprite_duplicates:
-                    if len(sprite_duplicates[key]) <= 1:
-                        sprite_duplicates.pop(key, None)
-
-            self.duplicates.update(sprite_duplicates)
-
-        print(self.duplicates)
-        for key, value in self.duplicates.items():
-            duplicated_scripts = [pair[0] for pair in value]
-            csv_text = [script.get_blocks() for script in duplicated_scripts]
-            script_text = "\n\n".join([script.convert_to_text() for script in duplicated_scripts])
-            self.total_duplicate += sum(1 for _ in duplicated_scripts)
-            self.list_duplicate.append(script_text)
-            self.list_csv.append(csv_text)
-        """
+        
         return self.d_changes
     
     
