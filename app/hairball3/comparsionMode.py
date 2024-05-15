@@ -15,6 +15,7 @@ class ComparsionMode(Plugin):
         super().__init__(json_original_project, json_compare_project, verbose)
         self.total_duplicate = 0
         self.sprite_dict = [{}, {}] 
+        self.sprite_dict_format = [{}, {}] 
         self.duplicates = {}
         self.list_duplicate = []
         self.list_csv = []
@@ -46,13 +47,13 @@ class ComparsionMode(Plugin):
         projects = [self.json_original_project, self.json_compare_project]
         for project_num, project in enumerate(projects):
             for key, list_dict_targets in project.items():
+
                 if key == "targets":
                     for dict_target in list_dict_targets:
                         project_name = project
                         sprite_name = dict_target['name']
                         
                         sprite_blocks = self.get_blocks(dict_target)
-                        
                         sprite_scripts = []
 
                         for key, block in sprite_blocks.items():
@@ -61,8 +62,19 @@ class ComparsionMode(Plugin):
                                 new_script.set_script_dict(block_dict=sprite_blocks, start=key)
                                 sprite_scripts.append(new_script)
 
+
+                        self.sprite_dict[project_num][sprite_name] = sprite_blocks # contiene bloques y parametros
+                        #self.sprite_dict_format[project_num][sprite_name] = sprite_scripts # formato <app.Hairball.scriptObject...
                         
-                        self.sprite_dict[project_num][sprite_name] = sprite_blocks
+                        
+                        #csv_text = [script.get_blocks() for script in sprite_scripts]
+                        script_text = "\n\n".join([script.convert_to_text() for script in sprite_scripts])
+                        print("script_text", script_text)
+                        self.sprite_dict_format[project_num][sprite_name] = script_text
+                        
+                        #print("mi sprite scripts")
+                        #print(self.sprite_dict[project_num][sprite_name])
+                        #self.sprite_dict[project_num][sprite_name] = sprite_scripts # formato <app.Hairball.scriptObject...
     
     
     def analyze(self):
@@ -80,7 +92,6 @@ class ComparsionMode(Plugin):
             self.d_changes["removed_sprites"] = []
             self.d_changes[sprite] = []
             if (sprite not in self.sprite_dict[0].keys()):
-                print("nuevo sprite")
                 if (sprite not in self.d_changes["new_sprites"]):
                     self.d_changes["new_sprites"].append(sprite)  
                 for block in scripts:
@@ -94,7 +105,6 @@ class ComparsionMode(Plugin):
         
         # Buscamos bloques del proyecto original que se han borrado en el nuevo
         for sprite, scripts in self.sprite_dict[0].items():
-            print(self.sprite_dict[0][sprite])
             if (sprite not in self.sprite_dict[1].keys()):
                 self.d_changes[sprite] = []
                 if (sprite not in self.d_changes["removed_sprites"]):
@@ -119,8 +129,66 @@ class ComparsionMode(Plugin):
         if self.d_changes == {}:
             print("No se ha añadido ni quitado ningun bloque")
         else:
-            print(self.d_changes)
+            pass
+            #print(self.d_changes)
         
+        #script_text = "\n\n".join([script.convert_to_text() for script in duplicated_scripts])
+        #print(script_text)
+        ########################################################################
+        #
+        #
+        #   ------------------------- REPETIMOS PROCESO PERO EN FORMATO BUENO
+        #
+        #########################################################################
+        self.d_changes_scripts = {} #Dict que contiene cambios respectoa al proyecto original
+        projects = [self.json_original_project, self.json_compare_project]
+
+        for sprite, scripts in self.sprite_dict_format[1].items():
+            self.d_changes_scripts["new_sprites"] = []
+            self.d_changes_scripts["removed_sprites"] = []
+            self.d_changes_scripts[sprite] = []
+            if (sprite not in self.sprite_dict_format[0].keys()):
+                if (sprite not in self.d_changes_scripts["new_sprites"]):
+                    self.d_changes_scripts["new_sprites"].append(sprite)  
+                for block in scripts:
+                    self.d_changes_scripts[sprite].append((block, 'added'))
+                    
+            else:
+                for block in scripts:
+                    
+                    if (block not in self.sprite_dict_format[0][sprite]):
+                        self.d_changes_scripts[sprite].append((block, 'added'))
+        
+        # Buscamos bloques del proyecto original que se han borrado en el nuevo
+        for sprite, scripts in self.sprite_dict_format[0].items():
+            if (sprite not in self.sprite_dict_format[1].keys()):
+                self.d_changes_scripts[sprite] = []
+                if (sprite not in self.d_changes_scripts["removed_sprites"]):
+                    self.d_changes_scripts["removed_sprites"].append(sprite)  
+                for block in scripts:
+                    self.d_changes_scripts[sprite].append((block, 'removed'))
+            else:
+                for script in scripts:
+                    
+                    if (script not in self.sprite_dict_format[1][sprite]):
+                        if self.d_changes_scripts[sprite]:
+                            self.d_changes_scripts[sprite].append((script, 'removed'))      
+                        else:
+                            self.d_changes_scripts[sprite] = [(script, 'removed')]     
+                           
+        
+        # Borramos listas vacias (sprites en los que no se ha añadido ni eliminado bloques)
+        for sprite_key, sprite_value in list(self.d_changes_scripts.items()):
+            if sprite_value == []:
+                del self.d_changes_scripts[sprite_key]
+                    
+        if self.d_changes_scripts == {}:
+            print("No se ha añadido ni quitado ningun bloque")
+        else:
+            pass
+            #print(self.d_changes_scripts)
+            
+            
         return self.d_changes
     
     
@@ -141,14 +209,16 @@ class ComparsionMode(Plugin):
         #self.dict_mastery['list_duplicate_scripts'] = self.list_duplicate
         #self.dict_mastery['duplicates'] = self.duplicates
         #self.dict_mastery['list_csv'] =  self.list_csv
+        self.dict_mastery['list_changes_scripts'] = self.d_changes_scripts
         self.dict_mastery['changes'] = self.d_changes
 
-        """
+        print(self.dict_mastery)
+        
         if self.verbose:
-            logger.info(self.dict_mastery['description'])
-            logger.info(self.dict_mastery['total_duplicate_scripts'])
-            logger.info(self.dict_mastery['list_duplicate_scripts'])
-        """
+            #logger.info(self.dict_mastery['description'])
+            logger.info(self.dict_mastery['list_changes_scripts'])
+            logger.info(self.dict_mastery['changes'])
+        
         dict_result = {'plugin': 'ComparsionMode', 'result': self.dict_mastery}
 
         return dict_result
