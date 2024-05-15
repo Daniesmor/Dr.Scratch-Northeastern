@@ -52,7 +52,7 @@ class ComparsionMode(Plugin):
                         sprite_name = dict_target['name']
                         
                         sprite_blocks = self.get_blocks(dict_target)
-
+                        
                         sprite_scripts = []
 
                         for key, block in sprite_blocks.items():
@@ -77,12 +77,14 @@ class ComparsionMode(Plugin):
 
         for sprite, scripts in self.sprite_dict[1].items():
             self.d_changes["new_sprites"] = []
+            self.d_changes["removed_sprites"] = []
             self.d_changes[sprite] = []
-            if (sprite not in self.sprite_dict[0].items()):
+            if (sprite not in self.sprite_dict[0].keys()):
                 print("nuevo sprite")
-                self.d_changes["new_sprites"].append(sprite)  
+                if (sprite not in self.d_changes["new_sprites"]):
+                    self.d_changes["new_sprites"].append(sprite)  
                 for block in scripts:
-                    pass
+                    self.d_changes[sprite].append((self.sprite_dict[1][sprite][block], 'added'))
                     
             else:
                 for block in scripts:
@@ -93,13 +95,20 @@ class ComparsionMode(Plugin):
         # Buscamos bloques del proyecto original que se han borrado en el nuevo
         for sprite, scripts in self.sprite_dict[0].items():
             print(self.sprite_dict[0][sprite])
-            for script in scripts:
-                
-                if (script not in self.sprite_dict[1][sprite]):
-                    if self.d_changes[sprite]:
-                        self.d_changes[sprite].append((self.sprite_dict[0][sprite][script], 'removed'))      
-                    else:
-                        self.d_changes[sprite] = [(self.sprite_dict[0][sprite][script], 'removed')]     
+            if (sprite not in self.sprite_dict[1].keys()):
+                self.d_changes[sprite] = []
+                if (sprite not in self.d_changes["removed_sprites"]):
+                    self.d_changes["removed_sprites"].append(sprite)  
+                for block in scripts:
+                    self.d_changes[sprite].append((self.sprite_dict[0][sprite][block], 'removed'))
+            else:
+                for script in scripts:
+                    
+                    if (script not in self.sprite_dict[1][sprite]):
+                        if self.d_changes[sprite]:
+                            self.d_changes[sprite].append((self.sprite_dict[0][sprite][script], 'removed'))      
+                        else:
+                            self.d_changes[sprite] = [(self.sprite_dict[0][sprite][script], 'removed')]     
                            
         
         # Borramos listas vacias (sprites en los que no se ha añadido ni eliminado bloques)
