@@ -48,6 +48,7 @@
             $(document).ready(function() {
                 // Agregar un event listener para el evento 'click' en el botón
                 $('#url').click(function(event) {
+                    
                     // Evitar el comportamiento predeterminado del botón (que sería recargar la página)
                     event.preventDefault();
                     
@@ -70,13 +71,14 @@
                         processData: false, // Desactiva el procesamiento de datos
                         contentType: false, // Desactiva el tipo de contenido
                         success: function(response) {
+                            var added = false
                             // Maneja la respuesta si es necesario
                             console.log(response);
 
-                            var dict = response;
+                            var dict_mastery = response['mastery'];
 
                             // Iterar en cada entrada del diccionario
-                            $.each(dict, function(key, value) {
+                            $.each(dict_mastery, function(key, value) {
                                 
                                 
                                 non_keys = ["competence", "points"];
@@ -126,14 +128,15 @@
                                 
                             });
 
-                            var points = response['points']
-                            var competence = response['competence']
+                            var points = response['mastery']['points']
+                            var competence = response['mastery']['competence']
                          
                             var image_panel;
                             console.log(competence)
                             switch(competence) {
                                 case "Basic":
                                     image_panel = `<img src="/static/app/images/ferret.png" class="img-responsive col-md-5">`;
+                                    
                                     break;
                                 case "Developing":
                                     image_panel = `<img src="/static/app/images/monkey.png" class="img-responsive col-md-4">`;
@@ -144,32 +147,227 @@
                             }
                             console.log(image_panel)
                             // Ahora añadimos el devpanel modificado
-                            var devpanel = `
-                                    <div class="panel-heading" id="steptwo" >
-                                        <h2 id="score" class="panel-title dark-text" style="font-size:28px;">
-                                            <strong>{% trans "New Score:" %}</strong>
-                                            
-                                                ${points[0]}/${points[1]}
-                                        ${image_panel}
-                                                   
-                                    </div>
-                                    <div class="panel-body">
-                                        <div class="container col-md-12">
-                                            <h3 class='text-left dark-text'>{% trans 'The new level of your project is...' %} <strong> ${competence.toUpperCase()}! </strong></h3>
-                                        
-                                        </div>
+                            var style_basic = `
+                                <style>
+                                    #newdev {
+                                        background-color: #CCDD91;
+                                        border-color: #CCDD91;
+                                        -webkit-box-shadow: 0px 0px 13px -2px rgba(0, 0, 0, 0.75);
+                                        -moz-box-shadow: 0px 0px 13px -2px rgba(0, 0, 0, 0.75);
+                                        box-shadow: 0px 0px 13px -2px rgba(0, 0, 0, 0.75);
+                                    }
 
+                                    #dashboard {
+                                        padding-top: 90px;
+                                    }
+
+                                   
+
+                                    #newscore {
+                                        font-weight: bold;
+                                        color: #91C470;
+                                        font-size: 34px;
+                                    }
+                                </style>`;
+
+                            var style_developping = `
+                            <style>
+                                #newdev {
+                                    background-color: #FFEDBE;
+                                    border-color:#FFEDBE;
+                                    -webkit-box-shadow: 0px 0px 13px -2px rgba(0,0,0,0.75);
+                                    -moz-box-shadow: 0px 0px 13px -2px rgba(0,0,0,0.75);
+                                    box-shadow: 0px 0px 13px -2px rgba(0,0,0,0.75);
+                                }
+
+                                #dashboard{
+
+                                padding-top:90px;
+                                }
+
+                            
+
+                                #dashboard .jumbotron h4{
+                                    color:black;
+                                    font-size: 24px;
+                                    font-weight: bold;
+                                    
+                                }
+
+                                #CT{
+
+                                    font-weight:bold;
+                                    font-size: 34px;
+                                }
+
+                                #issues{
+                                    color: #DD5D26;
+                                    font-weight:bold;
+                                    font-size:34px;
+                                }
+
+                                #newscore{
+                                    font-weight:bold;
+                                    color: #FFBF00;
+                                    font-size:34px;
+                                }
+                            </style>`;
+
+                            var style_master = `
+                            <style>
+                                #newdev{
+                                        background-color: #A3D5D1;
+                                        border-color:#A3D5D1;
+                                        -webkit-box-shadow: 0px 0px 13px -2px rgba(0,0,0,0.75);
+                                    -moz-box-shadow: 0px 0px 13px -2px rgba(0,0,0,0.75);
+                                    box-shadow: 0px 0px 13px -2px rgba(0,0,0,0.75);
+                                }
+
+                                #dashboard{
+
+                                padding-top:90px;
+                                }
+
+                               
+
+                                #dashboard .jumbotron h4{
+                                    color:black;
+                                    font-size: 24px;
+                                    font-weight: bold;
+                                    
+                                }
+
+                                #CT{
+
+                                    font-weight:bold;
+                                    font-size: 34px;
+                                }
+
+                                #issues{
+                                    color: #DD5D26;
+                                    font-weight:bold;
+                                    font-size:34px;
+                                }
+
+                                #newscore{
+                                    font-weight:bold;
+                                    color: #1792A4;
+                                    font-size:34px;
+                                }
+                            </style>`;
+
+
+                            var devpanel = `
+                                
+
+                                <div id="newdev">
+                                    <div class="panel-heading" id="steptwo">
+                                        <h2 id="newscore" class="panel-title dark-text" style="font-size:28px;">
+                                            <strong>{% trans "New Score:" %}</strong>
+                                            ${points[0]}/${points[1]}
+                                            ${image_panel}
+                                        </h2>
                                     </div>
-                                    `;
-                                    $(`#devpanel`).append(devpanel);
+                                    <div id="hola" class="panel-body">
+                                        <div class="container col-md-12">
+                                            <h3 class='text-left dark-text'>{% trans 'The new level of your project is...' %} <strong>${competence.toUpperCase()}!</strong></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                            `;
+
+                            var panel = ``;
+                            switch(competence) {
+                                case "Basic":
+                                    panel = style_basic + devpanel;
+                                    break;
+                                case "Developing":
+                                    panel = style_basic + devpanel;
+                                    break;
+                                case "Master":
+                                    panel = style_master + devpanel;
+                                    break;
+                            }
+
+                            console.log(panel)
+                            
+
+                            $(`#devpanels`).append(panel);
+
+
+                            
+
+                            bad_habits = `
+                                <div class="improve">
+                                <div class="panel panel-success" id="improve">
+                                    <div id="stepthree">
+                                        <div class="panel-heading" >
+                                            <h2 id="score" class="panel-title dark-text">
+                                                {% trans "New Bad habits"%} 
+                                                <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Specific parts of the project that do not contribute to good programming practices' %}"></i>
+                                            </h2>
+                                        </div>
+                                        <div class="panel-body text-left typ">
+                                            <a class="glyphicon glyphicon-repeat"/>
+                                            <a id="duplicated-scripts" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Duplicated scripts' %}" 
+                                            data-trigger="manual" href="/learn/duplicatedScripts/"> 
+                                                ${response['duplicateScript']['number']} {% trans " duplicated scripts." %}
+                                            </a>
+                                            
+                                            <br>
+                                            <a class="glyphicon glyphicon-pencil"/>
+                                            <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Sprite naming' %}" 
+                                            data-content="
+                                            {% for value in spriteNaming.sprite %}
+                                                {{ value }}
+                                                <br>
+                                            {% endfor %}
+                                            {% if spriteNaming.number == 0 %}
+                                                {% trans 'Your project does not have default sprite naming, good job!' %}
+                                            {% endif %}
+                                            " data-trigger="manual" href="/learn/spriteNaming/"> 
+                                                ${response['spriteNaming']['number']} {% trans " sprite naming." %}
+                                            </a><br>
+                                            <a class="glyphicon glyphicon-pencil"/> 
+                                            <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Backdrop naming' %}" data-content="
+                                            {% for value in backdropNaming.backdrop %}
+                                                    {{ value }} <br>
+                                            {% endfor %}
+                                            {% if backdropNaming.number == 0 %}
+                                                    {% trans 'Your project does not have default backdrop naming, good job!' %}
+                                            {% endif %}
+                                                " data-trigger="manual" href="/learn/spriteNaming/"> 
+                                                ${response['spriteNaming']['number']} {% trans " backdrop naming." %}
+                                            </a><br>
+                                            <a class="glyphicon glyphicon-remove-sign"/>
+                                            <a id="dead-code" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Dead code' %}" 
+                                            data-trigger="manual" href="/learn/deadCode/"> 
+                                                ${response['backdropNaming']['number']} {% trans " dead code." %}
+                                            </a>
+                                           
+                                        </div>
+                                            
+                                            </div>
+                                        </div>
+                                    </div>
+                        `;
+
+                        $(`#bad-habits`).append(bad_habits);
+
+                        added = true;
+
                         },
                         error: function(xhr, status, error) {
                             // Maneja los errores si es necesario
                             console.error(error);
                         }
+                        
                     });
                 });
             });
+
+            
         </script>
         
 
@@ -223,51 +421,55 @@
             <div class="container">
                 <section id="blackboard" class="services col-md-5">
                     <!-- POINTS PANEL -->
-                    <div class="devpanel">
-                        <div class="panel panel-success" id="devpanel">
-                            <div class="panel-heading" id="steptwo" >
-                                {% if mastery_vanilla.competence == "Basic" %}
-                                    <img src="/static/app/images/ferret.png" class="img-responsive col-md-5">
-                                {% elif mastery_vanilla.competence == "Developing" %}
-                                    <img src="/static/app/images/monkey.png" class="img-responsive col-md-4">
-                                {% elif mastery_vanilla.competence == "Master" %}
-                                    <img src="/static/app/images/cat.png" class="img-responsive col-md-3">
-                                {% endif %}
-                                <h2 id="score" class="panel-title dark-text">
-                                    <strong>{% trans "Score:" %}</strong>
-                                    {% if mastery_vanilla.points.0|floatformat:"-1" == mastery_vanilla.points.0|floatformat:"0" %}
-                                        {{ mastery_vanilla.points.0|floatformat:"0" }}
-                                    {% else %}
-                                        {{ mastery_vanilla.points.0 }}
-                                    {% endif %}
-                                    /
-                                    {% if mastery_vanilla.points.1|floatformat:"-1" == mastery_vanilla.points.1|floatformat:"0" %}
-                                        {{ mastery_vanilla.points.1|floatformat:"0" }}
-                                    {% else %}
-                                        {{ mastery_vanilla.points.1 }}
-                                    {% endif %}                              
-                                <a class="twitter-share-button" data-text="{% blocktrans with points=mastery_vanilla.points.0 %} I have just obtained {{ points }} points analyzing my project in Dr. Scratch! Beat it! @DrScratchTool {% endblocktrans %}"href="https://twitter.com/share">Tweet</a></h2>
-                            </div>
-                            <div class="panel-body">
-                                <div class="container col-md-12">
-                                    <h3 class='text-left dark-text'>{% trans 'The level of your project is...' %} <strong> {{ mastery_vanilla.competence|upper }}! </strong></h3>
+                    <div id="devpanels">
+                        <div class="devpanel">
+                            <div class="panel panel-success" id="devpanel">
+                                <div class="panel-heading" id="steptwo" >
                                     {% if mastery_vanilla.competence == "Basic" %}
-                                        <p class='text-left dark-text'> {% trans "You're at the beginning of a <br>great adventure . . . Keep it up!" %}</br></p>
+                                        <img src="/static/app/images/ferret.png" class="img-responsive col-md-5">
                                     {% elif mastery_vanilla.competence == "Developing" %}
-                                        <p class='text-left dark-text'> {% trans "You're doing a great job. Keep it up!!! " %}</p>
+                                        <img src="/static/app/images/monkey.png" class="img-responsive col-md-4">
                                     {% elif mastery_vanilla.competence == "Master" %}
-                                        <p class='text-left dark-text'> {% trans "You're the master of the universe!!! " %}</p>
+                                        <img src="/static/app/images/cat.png" class="img-responsive col-md-3">
                                     {% endif %}
+                                    <h2 id="score" class="panel-title dark-text">
+                                        <strong>{% trans "Score:" %}</strong>
+                                        {% if mastery_vanilla.points.0|floatformat:"-1" == mastery_vanilla.points.0|floatformat:"0" %}
+                                            {{ mastery_vanilla.points.0|floatformat:"0" }}
+                                        {% else %}
+                                            {{ mastery_vanilla.points.0 }}
+                                        {% endif %}
+                                        /
+                                        {% if mastery_vanilla.points.1|floatformat:"-1" == mastery_vanilla.points.1|floatformat:"0" %}
+                                            {{ mastery_vanilla.points.1|floatformat:"0" }}
+                                        {% else %}
+                                            {{ mastery_vanilla.points.1 }}
+                                        {% endif %}                              
+                                    <a class="twitter-share-button" data-text="{% blocktrans with points=mastery_vanilla.points.0 %} I have just obtained {{ points }} points analyzing my project in Dr. Scratch! Beat it! @DrScratchTool {% endblocktrans %}"href="https://twitter.com/share">Tweet</a></h2>
                                 </div>
-
+                                <div class="panel-body">
+                                    <div class="container col-md-12">
+                                        <h3 class='text-left dark-text'>{% trans 'The level of your project is...' %} <strong> {{ mastery_vanilla.competence|upper }}! </strong></h3>
+                                        {% if mastery_vanilla.competence == "Basic" %}
+                                            <p class='text-left dark-text'> {% trans "You're at the beginning of a <br>great adventure . . . Keep it up!" %}</br></p>
+                                        {% elif mastery_vanilla.competence == "Developing" %}
+                                            <p class='text-left dark-text'> {% trans "You're doing a great job. Keep it up!!! " %}</p>
+                                        {% elif mastery_vanilla.competence == "Master" %}
+                                            <p class='text-left dark-text'> {% trans "You're the master of the universe!!! " %}</p>
+                                        {% endif %}
+                                    </div>
+    
+                                </div>
+                                {% if url != "" %}
+                                    <a href="{{ url }}" target="_blank"><span class="glyphicon glyphicon-hand-right"></span>{% trans "Come back to your Scratch project." %}</a>
+                                {% endif %}
                             </div>
-                            {% if url != "" %}
-                                <a href="{{ url }}" target="_blank"><span class="glyphicon glyphicon-hand-right"></span>{% trans "Come back to your Scratch project." %}</a>
-                            {% endif %}
                         </div>
                     </div>
                     
-                    {% if mastery_vanilla.competence == "Developing" or mastery_vanilla.competence == "Master" %}
+                    
+                    <div id="bad-habits">
+                        {% if mastery_vanilla.competence == "Developing" or mastery_vanilla.competence == "Master" %}
                         <div class="improve">
                             <div class="panel panel-success" id="improve">
                                 <div id="stepthree">
@@ -343,9 +545,9 @@
                                                                 </pre>
                                                             {% endfor %}
                                                             <br>
-                                                        {% endif%}
-                                                    {% endif%}
-                                                {% endfor%}
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endfor %}
                                                 {% if deadCode.number == 0 %}
                                                     {% trans 'Your project does not have dead code, good job!' %}
                                                 {% endif %}
@@ -360,7 +562,9 @@
                                 </div>
                             </div>
                         </div>
-                    {% endif %}
+                        {% endif %}
+                    </div>
+                    
                     <div class="improve">
                         <div class="panel panel-success" id="improve">
                             <div id="stepfour">
@@ -753,19 +957,11 @@
                         </div>
                         <div class="col-md-10">
                             <div class="square-screen">
-                                {% for k, list_duplicate_blocks in duplicateScript.items %}
-                                                {% if k == 'scripts' %}
-                                                   
-                                                    {% for list_blocks in list_duplicate_blocks %}
-                                                        <pre class="blocks">
-                                                            {{ list_blocks }}
-                                                        </pre>
-                                                    {% endfor %}
-                                                {% endif %}
-                                                {% endfor %}
-                                                {% if duplicateScript.number == 0 %}
-                                                    {% trans 'Your project does not have duplicated scripts, good job!' %}
-                                                {% endif %}
+                                
+                                <pre id="c_mode_blocks" class="blocks">
+                                    
+                                </pre>
+               
 
                             </div>
                   
