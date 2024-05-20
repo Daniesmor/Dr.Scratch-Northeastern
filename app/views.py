@@ -2582,9 +2582,36 @@ def get_analysis_d(request, skill_points=None):
 
         
         user = str(identify_user_type(request))
-        dict = d[0]['mastery_vanilla']
-        print(d[0]['mastery_vanilla'])
-    return JsonResponse(dict)
+        print(d[0])
+        print("dupplicated")
+        print(d[0]['deadCode'])
+        print("------------------------")
+        dict_mastery = d[0]['mastery_vanilla']
+        dict_dups = d[0]['duplicateScript']
+        dict_dead_code = d[0]['deadCode']
+        dict_sprite = d[0]['spriteNaming']
+        dict_backdrop = d[0]['backdropNaming']
+        
+        #keys_to_remove = [key for value, key in dict_dups.items() if value == {...}]
+        
+        #for key in keys_to_remove:
+        del dict_dups['duplicateScript']
+        del dict_dead_code['deadCode']
+        del dict_sprite['spriteNaming']
+        del dict_backdrop['backdropNaming']
+            
+       
+        
+        context = {
+            'mastery': dict_mastery,
+            'duplicateScript': dict_dups,
+            'deadCode': dict_dead_code,
+            'spriteNaming': dict_sprite,
+            'backdropNaming': dict_backdrop,
+            'comparsion_data' : dict_comparsion_mode,
+        }
+        print(context)
+    return JsonResponse(context)
 
 
 
