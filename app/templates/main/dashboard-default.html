@@ -263,7 +263,7 @@
                                 <div id="newdev">
                                     <div class="panel-heading" id="steptwo">
                                         <h2 id="newscore" class="panel-title dark-text" style="font-size:28px;">
-                                            <strong>{% trans "New Score:" %}</strong>
+                                            <span class='colored-text'><strong>{% trans "New Score:" %}</strong></span>
                                             ${points[0]}/${points[1]}
                                             ${image_panel}
                                         </h2>
@@ -291,11 +291,22 @@
                             }
 
                             console.log(panel)
+
                             
+
+                            var motivational_text = document.getElementById("motivational-text")
+                            motivational_text.remove();
+                            var back_to_project = document.getElementById("back-to-project");
+                            back_to_project.remove();
+                            var originalBadHabits = document.getElementsByName("original-bad-habits");
+                            if (originalBadHabits.length > 0) {
+                                // Cambiar el contenido del primer elemento
+                                originalBadHabits[0].textContent = "Original bad habits";
+                            }
 
                             $(`#devpanels`).append(panel);
 
-
+                            
                             
 
                             bad_habits = `
@@ -447,21 +458,28 @@
                                         {% endif %}                              
                                     <a class="twitter-share-button" data-text="{% blocktrans with points=mastery_vanilla.points.0 %} I have just obtained {{ points }} points analyzing my project in Dr. Scratch! Beat it! @DrScratchTool {% endblocktrans %}"href="https://twitter.com/share">Tweet</a></h2>
                                 </div>
-                                <div class="panel-body">
+                                <div class="panel-body" id="original-panel-body">
                                     <div class="container col-md-12">
-                                        <h3 class='text-left dark-text'>{% trans 'The level of your project is...' %} <strong> {{ mastery_vanilla.competence|upper }}! </strong></h3>
-                                        {% if mastery_vanilla.competence == "Basic" %}
+                                        <div id="motivational-text">
+                                            <h3 class='text-left dark-text'>{% trans 'The level of your project is...' %} <strong> {{ mastery_vanilla.competence|upper }}! </strong></h3>
+                                        
+                                            {% if mastery.competence == "Basic" %}
                                             <p class='text-left dark-text'> {% trans "You're at the beginning of a <br>great adventure . . . Keep it up!" %}</br></p>
-                                        {% elif mastery_vanilla.competence == "Developing" %}
-                                            <p class='text-left dark-text'> {% trans "You're doing a great job. Keep it up!!! " %}</p>
-                                        {% elif mastery_vanilla.competence == "Master" %}
-                                            <p class='text-left dark-text'> {% trans "You're the master of the universe!!! " %}</p>
-                                        {% endif %}
+                                            {% elif mastery.competence == "Developing" %}
+                                                <p class='text-left dark-text' > {% trans "You're doing a great job. Keep it up!!! " %}</p>
+                                            {% elif mastery.competence == "Master" %}
+                                                <p class='text-left dark-text' > {% trans "You're the master of the universe!!! " %}</p>
+                                            {% elif mastery.competence == "Advanced" %}
+                                                <p class='text-left dark-text' > {% trans "You're doing a great job. Keep it up!!! " %}</p>
+                                            {% elif mastery.competence == "Finesse" %}
+                                                <p class='text-left dark-text'> {% trans "You're doing a great job. Keep it up!!! " %}</p>
+                                            {% endif %}
+                                        </div> 
                                     </div>
     
                                 </div>
                                 {% if url != "" %}
-                                    <a href="{{ url }}" target="_blank"><span class="glyphicon glyphicon-hand-right"></span>{% trans "Come back to your Scratch project." %}</a>
+                                    <a href="{{ url }}" target="_blank" id="back-to-project"><span class="glyphicon glyphicon-hand-right"></span>{% trans "Come back to your Scratch project." %}</a>
                                 {% endif %}
                             </div>
                         </div>
@@ -474,7 +492,7 @@
                             <div class="panel panel-success" id="improve">
                                 <div id="stepthree">
                                     <div class="panel-heading" >
-                                        <h2 id="score" class="panel-title dark-text">
+                                        <h2 id="score" class="panel-title dark-text" name="original-bad-habits">
                                             {% trans "Bad habits"%} 
                                             <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Specific parts of the project that do not contribute to good programming practices' %}"></i>
                                         </h2>
@@ -689,6 +707,40 @@
                             </div>
                         </div>
                     </section>
+
+                    <!--c_mode flashcard-->
+                    <section id="dashboard">
+                        <div class="container-fluid">
+                            <div class="row marketing">
+                                <div class="jumbotron">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true" style="font-size: 50px;">&times;</span>
+                                        </button>
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <img src="/static/app/images/cat.png" class="img-responsive col-md-3" style="margin-left: 30px;">                                            </div>
+                                            <div class="col-4">
+                                                <h2 class="dark-text" style="font-size: 50px;">Congratts!!</h2>
+                                                <h4 class="dark-text">You have improved this project in <span class="colored-text">5 points</span></h4>
+                                            </div>
+                                        </div>
+                                        <div class="row align-items-center vh-100">
+                                            <div class="col-4 text-center">
+                                                <h3 class="dark-text">Before:</h3>
+                                                <h2 class="dark-text">16/21</h2>
+                                            </div>
+                                            <div class="col-4 text-center">
+                                                <h3 class="dark-text">Now:</h3>
+                                                <h2 class="text-success" style="font-size: 70px;">16/21</h2>
+                                            </div>
+                                        </div>
+                                
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+
                 </div>
             </div>
         </div>
@@ -732,24 +784,27 @@
                             </div>
                             <div class="panel-body">
                                 <div class="container col-md-12">
-                                    <h3 class='text-left dark-text'>{% trans 'The level of your project is...' %} <strong> {{ mastery.competence|upper }}! </strong></h3>
-                                    {% if mastery.competence == "Basic" %}
+                                    <div id="motivational-text"></div>
+                                        <h3 class='text-left dark-text'>{% trans 'The level of your project is...' %} <strong> {{ mastery.competence|upper }}! </strong></h3>
+                                    
+                                        {% if mastery.competence == "Basic" %}
                                         <p class='text-left dark-text'> {% trans "You're at the beginning of a <br>great adventure . . . Keep it up!" %}</br></p>
-                                    {% elif mastery.competence == "Developing" %}
-                                        <p class='text-left dark-text'> {% trans "You're doing a great job. Keep it up!!! " %}</p>
-                                    {% elif mastery.competence == "Master" %}
-                                        <p class='text-left dark-text'> {% trans "You're the master of the universe!!! " %}</p>
-                                    {% elif mastery.competence == "Advanced" %}
-                                        <p class='text-left dark-text'> {% trans "You're doing a great job. Keep it up!!! " %}</p>
-                                    {% elif mastery.competence == "Finesse" %}
-                                        <p class='text-left dark-text'> {% trans "You're doing a great job. Keep it up!!! " %}</p>
-                                    {% endif %}
+                                        {% elif mastery.competence == "Developing" %}
+                                            <p class='text-left dark-text' > {% trans "You're doing a great job. Keep it up!!! " %}</p>
+                                        {% elif mastery.competence == "Master" %}
+                                            <p class='text-left dark-text' > {% trans "You're the master of the universe!!! " %}</p>
+                                        {% elif mastery.competence == "Advanced" %}
+                                            <p class='text-left dark-text' > {% trans "You're doing a great job. Keep it up!!! " %}</p>
+                                        {% elif mastery.competence == "Finesse" %}
+                                            <p class='text-left dark-text'> {% trans "You're doing a great job. Keep it up!!! " %}</p>
+                                        {% endif %}
+                                    </div>       
                                 </div>
 
                             </div>
                             
                             {% if url != "" %}
-                                <a href="{{ url }}" target="_blank"><span class="glyphicon glyphicon-hand-right"></span>{% trans "Come back to your Scratch project." %}</a>
+                                <a href="{{ url }}" target="_blank" id="back-to-project"><span class="glyphicon glyphicon-hand-right"></span>{% trans "Come back to your Scratch project." %}</a>
                             {% endif %}
                         </div>
                     </div>
@@ -933,6 +988,10 @@
                             </div>
                         </div>
                     </section>
+
+                    <div class="jumbotron">
+                        <h1>hola</h1>
+                    </div>
                 </div>
             </div>
         </div>
