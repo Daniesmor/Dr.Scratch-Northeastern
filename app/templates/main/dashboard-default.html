@@ -73,7 +73,6 @@
                         success: function(response) {
                             var added = false
                             // Maneja la respuesta si es necesario
-                            console.log(response);
 
                             var dict_mastery = response['mastery'];
 
@@ -96,9 +95,7 @@
                                         key = "DataRepresentation"
                                     }
                                     
-                                    console.log(key)
-                                    console.log(value)
-                                    console.log(element)
+
                                         // Verificamos si el valor es cero
                                     if (value[0][0] == 0) {
                                         console.log("Hemos entrado a0")
@@ -132,7 +129,6 @@
                             var competence = response['mastery']['competence']
                          
                             var image_panel;
-                            console.log(competence)
                             switch(competence) {
                                 case "Basic":
                                     image_panel = `<img src="/static/app/images/ferret.png" class="img-responsive col-md-5">`;
@@ -145,7 +141,6 @@
                                     image_panel = `<img src="/static/app/images/cat.png" class="img-responsive col-md-3">`;
                                     break;
                             }
-                            console.log(image_panel)
                             // Ahora añadimos el devpanel modificado
                             var style_basic = `
                                 <style>
@@ -264,7 +259,7 @@
                                     <div class="panel-heading" id="steptwo">
                                         <h2 id="newscore" class="panel-title dark-text" style="font-size:28px;">
                                             <span class='colored-text'><strong>{% trans "New Score:" %}</strong></span>
-                                            ${points[0]}/${points[1]}
+                                            <span id="new_score0">${points[0]}</span>/<span id="new_score1">${points[1]}</span>
                                             ${image_panel}
                                         </h2>
                                     </div>
@@ -290,9 +285,7 @@
                                     break;
                             }
 
-                            console.log(panel)
-
-                            
+    
 
                             var motivational_text = document.getElementById("motivational-text")
                             motivational_text.remove();
@@ -305,8 +298,8 @@
                             }
 
                             $(`#devpanels`).append(panel);
-
-                            
+                            $('#score-text').text('Original score')
+                            $('#score').css('font-size', '26px'); 
                             
 
                             bad_habits = `
@@ -366,6 +359,36 @@
 
                         $(`#bad-habits`).append(bad_habits);
 
+                        // CONFIGURAMOS EL MODAL
+                        var original_score = parseInt($('#score0').text());
+                        var original_max_score = parseInt($('#score1').text());
+
+                        var new_score = parseInt($('#new_score0').text());
+                        var new_max_score = parseInt($('#new_score1').text());
+
+                        $('#modal_score').text(`${original_score}/${original_max_score}`);
+
+                        var improvement = Math.abs(new_score - original_score);
+                        if (improvement != 0) {
+                            if (new_score > original_score) {
+                                $('#modal_title').text('Congrats!!');
+                                var feedback = `<h4 class="dark-text" id="modal_feedback">You have improved this project by <span class="text-success">${improvement} points</span></h4>`;
+                                $('#modal_new_score').append(`<h2 class="text-success" style="font-size: 70px;">${new_score}/${new_max_score}</h2>`)
+                                $('#modal-feedback-img').append('<img src="/static/app/images/cat.png" class="img-responsive col-md-3" style="margin-left: 30px;">');
+                            } else {
+                                $('#modal_title').text('Oops...');
+                                var feedback = `<h4 class="dark-text" id="modal_feedback">You have dropped this project by <span class="colored-text">${improvement} points</span></h4>`;
+                                $('#modal_new_score').append(`<h2 class="text-danger" style="font-size: 70px;">${new_score}/${new_max_score}</h2>`)
+                                $('#modal-feedback-img').append('<img src="/static/app/images/monkey.png" class="img-responsive col-md-3" style="margin-left: 30px;">');
+                            }
+                            $('#modal-feedback').append(feedback);
+
+                            $('#exampleModal').modal('show');
+                            $('html, body').animate({ scrollTop: 0 }, 'slow');
+
+                        }
+                        
+                        
                         added = true;
 
                         },
@@ -444,18 +467,23 @@
                                         <img src="/static/app/images/cat.png" class="img-responsive col-md-3">
                                     {% endif %}
                                     <h2 id="score" class="panel-title dark-text">
-                                        <strong>{% trans "Score:" %}</strong>
-                                        {% if mastery_vanilla.points.0|floatformat:"-1" == mastery_vanilla.points.0|floatformat:"0" %}
-                                            {{ mastery_vanilla.points.0|floatformat:"0" }}
-                                        {% else %}
-                                            {{ mastery_vanilla.points.0 }}
-                                        {% endif %}
+                                        <strong id="score-text">{% trans "Score:" %}</strong>
+                                        <span id="score0">
+                                            {% if mastery_vanilla.points.0|floatformat:"-1" == mastery_vanilla.points.0|floatformat:"0" %}
+                                                {{ mastery_vanilla.points.0|floatformat:"0" }}
+                                            {% else %}
+                                                {{ mastery_vanilla.points.0 }}
+                                            {% endif %}
+                                        </span>
                                         /
-                                        {% if mastery_vanilla.points.1|floatformat:"-1" == mastery_vanilla.points.1|floatformat:"0" %}
-                                            {{ mastery_vanilla.points.1|floatformat:"0" }}
-                                        {% else %}
-                                            {{ mastery_vanilla.points.1 }}
-                                        {% endif %}                              
+                                        <span id="score1">
+                                            {% if mastery_vanilla.points.1|floatformat:"-1" == mastery_vanilla.points.1|floatformat:"0" %}
+                                                {{ mastery_vanilla.points.1|floatformat:"0" }}
+                                            {% else %}
+                                                {{ mastery_vanilla.points.1 }}
+                                            {% endif %}                          
+                                        </span>
+                                            
                                     <a class="twitter-share-button" data-text="{% blocktrans with points=mastery_vanilla.points.0 %} I have just obtained {{ points }} points analyzing my project in Dr. Scratch! Beat it! @DrScratchTool {% endblocktrans %}"href="https://twitter.com/share">Tweet</a></h2>
                                 </div>
                                 <div class="panel-body" id="original-panel-body">
@@ -614,14 +642,20 @@
                                     <form id="myForm" name="form" class="project-form" enctype="multipart/form-data" method="post" style="margin: 10px">
                                         <input type="hidden" name="dashboard_mode" value="Default">
                                         {% trans '<input name="urlProject" id="cf-name" class="form-control input-box placeholder" placeholder="http:/scratch.mit.edu/projects/your_number" type="text">' %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" style="width: 20px; height: 20px;">                                           
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                This project has the same functionality.
+                                            </label>
+                                        </div>
                                         <button id="url" name="_url" type="submit" class="btn btn-primary standard-button">{% trans "Analyze by url" %}</button>
                                         {% csrf_token %}
                                     </form>
-                                    
                                 </div>
                             </div>
                         </div>
                     </div>
+                    </section>
                 </section>
                 <div class="col-md-7">
                     <section id="dashboard">
@@ -708,38 +742,38 @@
                         </div>
                     </section>
 
-                    <!--c_mode flashcard-->
-                    <section id="dashboard">
-                        <div class="container-fluid">
-                            <div class="row marketing">
-                                <div class="jumbotron">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true" style="font-size: 50px;">&times;</span>
-                                        </button>
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <img src="/static/app/images/cat.png" class="img-responsive col-md-3" style="margin-left: 30px;">                                            </div>
-                                            <div class="col-4">
-                                                <h2 class="dark-text" style="font-size: 50px;">Congratts!!</h2>
-                                                <h4 class="dark-text">You have improved this project in <span class="colored-text">5 points</span></h4>
-                                            </div>
-                                        </div>
-                                        <div class="row align-items-center vh-100">
-                                            <div class="col-4 text-center">
-                                                <h3 class="dark-text">Before:</h3>
-                                                <h2 class="dark-text">16/21</h2>
-                                            </div>
-                                            <div class="col-4 text-center">
-                                                <h3 class="dark-text">Now:</h3>
-                                                <h2 class="text-success" style="font-size: 70px;">16/21</h2>
-                                            </div>
-                                        </div>
-                                
-                                </div>
-                            </div>
-                        </div>
-                    </section>
 
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                          <div class="modal-content" style="padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px;border-bottom-width: 0px;border-top-width: 0px;border-left-width: 0px;border-right-width: 0px;">
+                            <!--c_mode flashcard-->
+                            <section id="dashboard" style="padding-top: 0px;">
+                                <div class="container-fluid" style="padding-left: 0px;padding-right: 0px;">
+                                    <div class="jumbotron" style="margin-bottom: 0px; display: flex; flex-direction: column; align-items: center;">
+                                        <div class="row">
+                                            <div class="col-4" id="modal-feedback-img">
+                                            </div>
+                                            <div class="col-4" id="modal-feedback">
+                                                <h2 class="dark-text" style="font-size: 50px;" id="modal_title"></h2>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="display: flex; align-items: center;">
+                                            <div class="col-4 text-center" style="margin-right: 20%;">
+                                                <h3 class="dark-text">Before:</h3>
+                                                <h2 class="dark-text" id="modal_score"></h2>
+                                            </div>
+                                            <div class="col-4 text-center" id="modal_new_score">
+                                                <h3 class="dark-text">Now:</h3>
+                                                <h2 class="text-success" style="font-size: 70px;"></h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            
+                        </div>
+                    </div>
+                  </div>
 
                 </div>
             </div>
@@ -996,40 +1030,6 @@
             </div>
         </div>
 
-        <br></br>
-        <section class="bg-success">
-            <div class="container">
-                <div class="row justify-content-center">
-                        <div class="col-md-2">
-                            <div class="square-container">
-                                Pie de foto
-                            </div>
-                  
-                  
-                            <div class="square-container">
-                                <!-- Contenido del segundo contenedor aquí -->
-                            </div>
-                            
-                            <div class="square-container">
-                                <!-- Contenido del segundo contenedor aquí -->
-                            </div>
-                        </div>
-                        <div class="col-md-10">
-                            <div class="square-screen">
-                                
-                                <pre id="c_mode_blocks" class="blocks">
-                                    
-                                </pre>
-               
-
-                            </div>
-                  
-                        </div>
-
-                        
-                </div>
-            </div>
-        </section>
         
         
 
@@ -1252,6 +1252,7 @@
                 <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans 'Close' %}</button>
             </div>
         </div>
+        <br></br>
         <script>
             function openMode(evt, ModeName) {
                 // Declare all variables
