@@ -46,6 +46,7 @@ from app.hairball3.deadCode import DeadCode
 from app.hairball3.refactor import RefactorDuplicate
 from app.hairball3.comparsionMode import ComparsionMode
 from app.exception import DrScratchException
+from app.hairball3.scratchGolfing import ScratchGolfing
 
 import logging
 import coloredlogs
@@ -2551,7 +2552,6 @@ def proc_initialization(lines, filename):
 
 def get_analysis_d(request, skill_points=None):
     if request.method == 'POST':
-        print("GET_ANALYSIS_D---------------------------------------------------")
         url = request.path.split('/')[-1]
         if url != '':
             numbers = base32_to_str(url)
@@ -2560,32 +2560,28 @@ def get_analysis_d(request, skill_points=None):
         skill_rubric = generate_rubric(numbers)
         
         
-        print("accediendoa la variable de contexto antigua")
         path_original_project = request.session.get('current_project_path', None)
         
         if path_original_project != None:
-            print(path_original_project)
             json_scratch_original = load_json_project(path_original_project)
         
 
         d = build_dictionary_with_automatic_analysis(request, skill_rubric) 
         
-        print("accediendoa la variable de contexto nueva")
         path_compare_project = request.session.get('current_project_path', None)
         
         if path_compare_project != None:
-            print(path_compare_project)
             json_scratch_compare = load_json_project(path_compare_project)
             
-            
-        dict_comparsion_mode = ComparsionMode(json_scratch_original, json_scratch_compare).finalize()
+
+        dict_scratch_golfing = ScratchGolfing(json_scratch_original, json_scratch_compare).finalize()
+        print("Estando en views")
+        print(dict_scratch_golfing)
+        #dict_comparsion_mode = ComparsionMode(json_scratch_original, json_scratch_compare).finalize()
 
         
         user = str(identify_user_type(request))
-        print(d[0])
-        print("dupplicated")
-        print(d[0]['deadCode'])
-        print("------------------------")
+        
         dict_mastery = d[0]['mastery_vanilla']
         dict_dups = d[0]['duplicateScript']
         dict_dead_code = d[0]['deadCode']
@@ -2600,7 +2596,6 @@ def get_analysis_d(request, skill_points=None):
         del dict_sprite['spriteNaming']
         del dict_backdrop['backdropNaming']
             
-       
         
         context = {
             'mastery': dict_mastery,
@@ -2608,9 +2603,9 @@ def get_analysis_d(request, skill_points=None):
             'deadCode': dict_dead_code,
             'spriteNaming': dict_sprite,
             'backdropNaming': dict_backdrop,
-            'comparsion_data' : dict_comparsion_mode,
+            'scratchGolfing': dict_scratch_golfing,
         }
-        print(context)
+        
     return JsonResponse(context)
 
 

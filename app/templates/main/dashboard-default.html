@@ -44,365 +44,371 @@
         </style>
 
 
+        <!-- C_MODE SCRIPT -->
         <script>
-            $(document).ready(function() {
-                // Agregar un event listener para el evento 'click' en el botón
-                $('#url').click(function(event) {
-                    
-                    // Evitar el comportamiento predeterminado del botón (que sería recargar la página)
-                    event.preventDefault();
-                    
-                    // Obtener el valor del campo _url del botón
-                    var urlValue = $(this).attr('name');
-                    
-                    // Obtener el formulario
-                    var form = document.getElementById('myForm');                    
-                    // Crear un nuevo objeto FormData y agregar el formulario a él
-                    var formData = new FormData(form);
-                    
-                    // Agregar el valor del campo _url al FormData
-                    formData.append('_url', urlValue);
-                    
-                    // Realizar una solicitud AJAX para enviar el formulario
-                    $.ajax({
-                        url: '{% url "get_analysis_d" %}', // Especifica la URL de tu vista en Django
-                        type: 'POST', // Especifica el método HTTP
-                        data: formData, // Pasa el objeto FormData como datos de la solicitud
-                        processData: false, // Desactiva el procesamiento de datos
-                        contentType: false, // Desactiva el tipo de contenido
-                        success: function(response) {
-                            var added = false
-                            // Maneja la respuesta si es necesario
 
-                            var dict_mastery = response['mastery'];
+        $(document).ready(function() {
+            // Agregar un event listener para el evento 'click' en el botón
+            $('#url').click(function(event) {
+                
+                // Evitar el comportamiento predeterminado del botón (que sería recargar la página)
+                event.preventDefault();
+                
+                var djangoUrl = $('#url-container').data('url');
+                // Obtener el valor del campo _url del botón
+                var urlValue = $(this).attr('name');
+                
 
-                            // Iterar en cada entrada del diccionario
-                            $.each(dict_mastery, function(key, value) {
-                                
-                                
-                                non_keys = ["competence", "points"];
-                                if (non_keys.indexOf(key)===-1) {
-                                    var element = document.getElementById(key)
-                                    if (key == "Flow control") {
-                                        key = "FlowControl"
-                                    }
+                // Obtener el formulario
+                var form = document.getElementById('myForm');                    
+                // Crear un nuevo objeto FormData y agregar el formulario a él
+                var formData = new FormData(form);
+                
+                // Agregar el valor del campo _url al FormData
+                formData.append('_url', urlValue);
+                
+                // Realizar una solicitud AJAX para enviar el formulario
+                $.ajax({
+                    url: djangoUrl, // Especifica la URL de tu vista en Django
+                    type: 'POST', // Especifica el método HTTP
+                    data: formData, // Pasa el objeto FormData como datos de la solicitud
+                    processData: false, // Desactiva el procesamiento de datos
+                    contentType: false, // Desactiva el tipo de contenido
+                    success: function(response) {
+                        var added = false
+                        // Maneja la respuesta si es necesario
 
-                                    if (key == "User interactivity") {
-                                        key = "UserInteractivity"
-                                    }
+                        var dict_mastery = response['mastery'];
 
-                                    if (key == "Data representation") {
-                                        key = "DataRepresentation"
-                                    }
-                                    
-
-                                        // Verificamos si el valor es cero
-                                    if (value[0][0] == 0) {
-                                        console.log("Hemos entrado a0")
-                                        // Creamos la barra en caso de valor cero
-                                        var progressBarHtml = `
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="${value[0][1]}" style="width: 0%">
-                                                    <span style="color: grey;"><strong>${value[0][0]}/${value[0][1]}</strong></span>
-                                                </div>
-                                            </div>
-                                        `;
-                                    } else {
-                                        // Creamos la barra progresos para valores distintos de 0
-                                        var progressBarHtml = `
-                                        <div class="progress">
-                                            <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="${value[0][0]}" aria-valuemin="0" aria-valuemax="${value[0][1]}" style="width: ${value[0][0] / value[0][1] * 100}%;">
-                                                <span><strong>${value[0][0]}/${value[0][1]}</strong></span>
-                                            </div>
-                                        </div>
-                                        `;
-                                    }
-                                    // Agregamops la barra al contenedor existente
-                                    $(`#${key}`).append(progressBarHtml);
-
-                                    
-                                };
-                                
-                            });
-
-                            var points = response['mastery']['points']
-                            var competence = response['mastery']['competence']
-                         
-                            var image_panel;
-                            switch(competence) {
-                                case "Basic":
-                                    image_panel = `<img src="/static/app/images/ferret.png" class="img-responsive col-md-5">`;
-                                    
-                                    break;
-                                case "Developing":
-                                    image_panel = `<img src="/static/app/images/monkey.png" class="img-responsive col-md-4">`;
-                                    break;
-                                case "Master":
-                                    image_panel = `<img src="/static/app/images/cat.png" class="img-responsive col-md-3">`;
-                                    break;
-                            }
-                            // Ahora añadimos el devpanel modificado
-                            var style_basic = `
-                                <style>
-                                    #newdev {
-                                        background-color: #CCDD91;
-                                        border-color: #CCDD91;
-                                        -webkit-box-shadow: 0px 0px 13px -2px rgba(0, 0, 0, 0.75);
-                                        -moz-box-shadow: 0px 0px 13px -2px rgba(0, 0, 0, 0.75);
-                                        box-shadow: 0px 0px 13px -2px rgba(0, 0, 0, 0.75);
-                                    }
-
-                                    #dashboard {
-                                        padding-top: 90px;
-                                    }
-
-                                   
-
-                                    #newscore {
-                                        font-weight: bold;
-                                        color: #91C470;
-                                        font-size: 34px;
-                                    }
-                                </style>`;
-
-                            var style_developping = `
-                            <style>
-                                #newdev {
-                                    background-color: #FFEDBE;
-                                    border-color:#FFEDBE;
-                                    -webkit-box-shadow: 0px 0px 13px -2px rgba(0,0,0,0.75);
-                                    -moz-box-shadow: 0px 0px 13px -2px rgba(0,0,0,0.75);
-                                    box-shadow: 0px 0px 13px -2px rgba(0,0,0,0.75);
+                        // Iterar en cada entrada del diccionario
+                        $.each(dict_mastery, function(key, value) {
+                            
+                            
+                            non_keys = ["competence", "points"];
+                            if (non_keys.indexOf(key)===-1) {
+                                var element = document.getElementById(key)
+                                if (key == "Flow control") {
+                                    key = "FlowControl"
                                 }
 
-                                #dashboard{
+                                if (key == "User interactivity") {
+                                    key = "UserInteractivity"
+                                }
 
-                                padding-top:90px;
+                                if (key == "Data representation") {
+                                    key = "DataRepresentation"
+                                }
+                                
+
+                                    // Verificamos si el valor es cero
+                                if (value[0][0] == 0) {
+                                    console.log("Hemos entrado a0")
+                                    // Creamos la barra en caso de valor cero
+                                    var progressBarHtml = `
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="${value[0][1]}" style="width: 0%">
+                                                <span style="color: grey;"><strong>${value[0][0]}/${value[0][1]}</strong></span>
+                                            </div>
+                                        </div>
+                                    `;
+                                } else {
+                                    // Creamos la barra progresos para valores distintos de 0
+                                    var progressBarHtml = `
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="${value[0][0]}" aria-valuemin="0" aria-valuemax="${value[0][1]}" style="width: ${value[0][0] / value[0][1] * 100}%;">
+                                            <span><strong>${value[0][0]}/${value[0][1]}</strong></span>
+                                        </div>
+                                    </div>
+                                    `;
+                                }
+                                // Agregamops la barra al contenedor existente
+                                $(`#${key}`).append(progressBarHtml);
+
+                                
+                            };
+                            
+                        });
+
+                        var points = response['mastery']['points']
+                        var competence = response['mastery']['competence']
+                    
+                        var image_panel;
+                        switch(competence) {
+                            case "Basic":
+                                image_panel = `<img src="/static/app/images/ferret.png" class="img-responsive col-md-5">`;
+                                
+                                break;
+                            case "Developing":
+                                image_panel = `<img src="/static/app/images/monkey.png" class="img-responsive col-md-4">`;
+                                break;
+                            case "Master":
+                                image_panel = `<img src="/static/app/images/cat.png" class="img-responsive col-md-3">`;
+                                break;
+                        }
+                        // Ahora añadimos el devpanel modificado
+                        var style_basic = `
+                            <style>
+                                #newdev {
+                                    background-color: #CCDD91;
+                                    border-color: #CCDD91;
+                                    -webkit-box-shadow: 0px 0px 13px -2px rgba(0, 0, 0, 0.75);
+                                    -moz-box-shadow: 0px 0px 13px -2px rgba(0, 0, 0, 0.75);
+                                    box-shadow: 0px 0px 13px -2px rgba(0, 0, 0, 0.75);
+                                }
+
+                                #dashboard {
+                                    padding-top: 90px;
                                 }
 
                             
 
-                                #dashboard .jumbotron h4{
-                                    color:black;
-                                    font-size: 24px;
+                                #newscore {
                                     font-weight: bold;
-                                    
-                                }
-
-                                #CT{
-
-                                    font-weight:bold;
+                                    color: #91C470;
                                     font-size: 34px;
-                                }
-
-                                #issues{
-                                    color: #DD5D26;
-                                    font-weight:bold;
-                                    font-size:34px;
-                                }
-
-                                #newscore{
-                                    font-weight:bold;
-                                    color: #FFBF00;
-                                    font-size:34px;
                                 }
                             </style>`;
 
-                            var style_master = `
-                            <style>
-                                #newdev{
-                                        background-color: #A3D5D1;
-                                        border-color:#A3D5D1;
-                                        -webkit-box-shadow: 0px 0px 13px -2px rgba(0,0,0,0.75);
-                                    -moz-box-shadow: 0px 0px 13px -2px rgba(0,0,0,0.75);
-                                    box-shadow: 0px 0px 13px -2px rgba(0,0,0,0.75);
-                                }
+                        var style_developping = `
+                        <style>
+                            #newdev {
+                                background-color: #FFEDBE;
+                                border-color:#FFEDBE;
+                                -webkit-box-shadow: 0px 0px 13px -2px rgba(0,0,0,0.75);
+                                -moz-box-shadow: 0px 0px 13px -2px rgba(0,0,0,0.75);
+                                box-shadow: 0px 0px 13px -2px rgba(0,0,0,0.75);
+                            }
 
-                                #dashboard{
+                            #dashboard{
 
-                                padding-top:90px;
-                                }
+                            padding-top:90px;
+                            }
 
-                               
+                        
 
-                                #dashboard .jumbotron h4{
-                                    color:black;
-                                    font-size: 24px;
-                                    font-weight: bold;
-                                    
-                                }
-
-                                #CT{
-
-                                    font-weight:bold;
-                                    font-size: 34px;
-                                }
-
-                                #issues{
-                                    color: #DD5D26;
-                                    font-weight:bold;
-                                    font-size:34px;
-                                }
-
-                                #newscore{
-                                    font-weight:bold;
-                                    color: #1792A4;
-                                    font-size:34px;
-                                }
-                            </style>`;
-
-
-                            var devpanel = `
+                            #dashboard .jumbotron h4{
+                                color:black;
+                                font-size: 24px;
+                                font-weight: bold;
                                 
+                            }
 
-                                <div id="newdev">
-                                    <div class="panel-heading" id="steptwo">
-                                        <h2 id="newscore" class="panel-title dark-text" style="font-size:28px;">
-                                            <span class='colored-text'><strong>{% trans "New Score:" %}</strong></span>
-                                            <span id="new_score0">${points[0]}</span>/<span id="new_score1">${points[1]}</span>
-                                            ${image_panel}
+                            #CT{
+
+                                font-weight:bold;
+                                font-size: 34px;
+                            }
+
+                            #issues{
+                                color: #DD5D26;
+                                font-weight:bold;
+                                font-size:34px;
+                            }
+
+                            #newscore{
+                                font-weight:bold;
+                                color: #FFBF00;
+                                font-size:34px;
+                            }
+                        </style>`;
+
+                        var style_master = `
+                        <style>
+                            #newdev{
+                                    background-color: #A3D5D1;
+                                    border-color:#A3D5D1;
+                                    -webkit-box-shadow: 0px 0px 13px -2px rgba(0,0,0,0.75);
+                                -moz-box-shadow: 0px 0px 13px -2px rgba(0,0,0,0.75);
+                                box-shadow: 0px 0px 13px -2px rgba(0,0,0,0.75);
+                            }
+
+                            #dashboard{
+
+                            padding-top:90px;
+                            }
+
+                        
+
+                            #dashboard .jumbotron h4{
+                                color:black;
+                                font-size: 24px;
+                                font-weight: bold;
+                                
+                            }
+
+                            #CT{
+
+                                font-weight:bold;
+                                font-size: 34px;
+                            }
+
+                            #issues{
+                                color: #DD5D26;
+                                font-weight:bold;
+                                font-size:34px;
+                            }
+
+                            #newscore{
+                                font-weight:bold;
+                                color: #1792A4;
+                                font-size:34px;
+                            }
+                        </style>`;
+
+
+                        var devpanel = `
+                            
+
+                            <div id="newdev">
+                                <div class="panel-heading" id="steptwo">
+                                    <h2 id="newscore" class="panel-title dark-text" style="font-size:28px;">
+                                        <span class='colored-text'><strong>{% trans "New Score:" %}</strong></span>
+                                        <span id="new_score0">${points[0]}</span>/<span id="new_score1">${points[1]}</span>
+                                        ${image_panel}
+                                    </h2>
+                                </div>
+                                <div id="hola" class="panel-body">
+                                    <div class="container col-md-12">
+                                        <h3 class='text-left dark-text'>{% trans 'The new level of your project is...' %} <strong>${competence.toUpperCase()}!</strong></h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                        `;
+
+                        var panel = ``;
+                        switch(competence) {
+                            case "Basic":
+                                panel = style_basic + devpanel;
+                                break;
+                            case "Developing":
+                                panel = style_basic + devpanel;
+                                break;
+                            case "Master":
+                                panel = style_master + devpanel;
+                                break;
+                        }
+
+
+
+                        var motivational_text = document.getElementById("motivational-text")
+                        motivational_text.remove();
+                        var back_to_project = document.getElementById("back-to-project");
+                        back_to_project.remove();
+                        var originalBadHabits = document.getElementsByName("original-bad-habits");
+                        if (originalBadHabits.length > 0) {
+                            // Cambiar el contenido del primer elemento
+                            originalBadHabits[0].textContent = "Original bad habits";
+                        }
+
+                        $(`#devpanels`).append(panel);
+                        $('#score-text').text('Original score')
+                        $('#score').css('font-size', '26px'); 
+                        
+
+                        bad_habits = `
+                            <div class="improve">
+                            <div class="panel panel-success" id="improve">
+                                <div id="stepthree">
+                                    <div class="panel-heading" >
+                                        <h2 id="score" class="panel-title dark-text">
+                                            {% trans "New Bad habits"%} 
+                                            <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Specific parts of the project that do not contribute to good programming practices' %}"></i>
                                         </h2>
                                     </div>
-                                    <div id="hola" class="panel-body">
-                                        <div class="container col-md-12">
-                                            <h3 class='text-left dark-text'>{% trans 'The new level of your project is...' %} <strong>${competence.toUpperCase()}!</strong></h3>
+                                    <div class="panel-body text-left typ">
+                                        <a class="glyphicon glyphicon-repeat"/>
+                                        <a id="duplicated-scripts" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Duplicated scripts' %}" 
+                                        data-trigger="manual" href="/learn/duplicatedScripts/"> 
+                                            ${response['duplicateScript']['number']} {% trans " duplicated scripts." %}
+                                        </a>
+                                        
+                                        <br>
+                                        <a class="glyphicon glyphicon-pencil"/>
+                                        <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Sprite naming' %}" 
+                                        data-content="
+                                        {% for value in spriteNaming.sprite %}
+                                            {{ value }}
+                                            <br>
+                                        {% endfor %}
+                                        {% if spriteNaming.number == 0 %}
+                                            {% trans 'Your project does not have default sprite naming, good job!' %}
+                                        {% endif %}
+                                        " data-trigger="manual" href="/learn/spriteNaming/"> 
+                                            ${response['spriteNaming']['number']} {% trans " sprite naming." %}
+                                        </a><br>
+                                        <a class="glyphicon glyphicon-pencil"/> 
+                                        <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Backdrop naming' %}" data-content="
+                                        {% for value in backdropNaming.backdrop %}
+                                                {{ value }} <br>
+                                        {% endfor %}
+                                        {% if backdropNaming.number == 0 %}
+                                                {% trans 'Your project does not have default backdrop naming, good job!' %}
+                                        {% endif %}
+                                            " data-trigger="manual" href="/learn/spriteNaming/"> 
+                                            ${response['spriteNaming']['number']} {% trans " backdrop naming." %}
+                                        </a><br>
+                                        <a class="glyphicon glyphicon-remove-sign"/>
+                                        <a id="dead-code" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Dead code' %}" 
+                                        data-trigger="manual" href="/learn/deadCode/"> 
+                                            ${response['backdropNaming']['number']} {% trans " dead code." %}
+                                        </a>
+                                    
+                                    </div>
+                                        
                                         </div>
                                     </div>
                                 </div>
-                                <br>
-                            `;
+                    `;
 
-                            var panel = ``;
-                            switch(competence) {
-                                case "Basic":
-                                    panel = style_basic + devpanel;
-                                    break;
-                                case "Developing":
-                                    panel = style_basic + devpanel;
-                                    break;
-                                case "Master":
-                                    panel = style_master + devpanel;
-                                    break;
-                            }
+                    $(`#bad-habits`).append(bad_habits);
 
-    
+                    // CONFIGURAMOS EL MODAL
+                    var original_score = parseInt($('#score0').text());
+                    var original_max_score = parseInt($('#score1').text());
 
-                            var motivational_text = document.getElementById("motivational-text")
-                            motivational_text.remove();
-                            var back_to_project = document.getElementById("back-to-project");
-                            back_to_project.remove();
-                            var originalBadHabits = document.getElementsByName("original-bad-habits");
-                            if (originalBadHabits.length > 0) {
-                                // Cambiar el contenido del primer elemento
-                                originalBadHabits[0].textContent = "Original bad habits";
-                            }
+                    var new_score = parseInt($('#new_score0').text());
+                    var new_max_score = parseInt($('#new_score1').text());
 
-                            $(`#devpanels`).append(panel);
-                            $('#score-text').text('Original score')
-                            $('#score').css('font-size', '26px'); 
-                            
+                    $('#modal_score').text(`${original_score}/${original_max_score}`);
 
-                            bad_habits = `
-                                <div class="improve">
-                                <div class="panel panel-success" id="improve">
-                                    <div id="stepthree">
-                                        <div class="panel-heading" >
-                                            <h2 id="score" class="panel-title dark-text">
-                                                {% trans "New Bad habits"%} 
-                                                <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Specific parts of the project that do not contribute to good programming practices' %}"></i>
-                                            </h2>
-                                        </div>
-                                        <div class="panel-body text-left typ">
-                                            <a class="glyphicon glyphicon-repeat"/>
-                                            <a id="duplicated-scripts" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Duplicated scripts' %}" 
-                                            data-trigger="manual" href="/learn/duplicatedScripts/"> 
-                                                ${response['duplicateScript']['number']} {% trans " duplicated scripts." %}
-                                            </a>
-                                            
-                                            <br>
-                                            <a class="glyphicon glyphicon-pencil"/>
-                                            <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Sprite naming' %}" 
-                                            data-content="
-                                            {% for value in spriteNaming.sprite %}
-                                                {{ value }}
-                                                <br>
-                                            {% endfor %}
-                                            {% if spriteNaming.number == 0 %}
-                                                {% trans 'Your project does not have default sprite naming, good job!' %}
-                                            {% endif %}
-                                            " data-trigger="manual" href="/learn/spriteNaming/"> 
-                                                ${response['spriteNaming']['number']} {% trans " sprite naming." %}
-                                            </a><br>
-                                            <a class="glyphicon glyphicon-pencil"/> 
-                                            <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Backdrop naming' %}" data-content="
-                                            {% for value in backdropNaming.backdrop %}
-                                                    {{ value }} <br>
-                                            {% endfor %}
-                                            {% if backdropNaming.number == 0 %}
-                                                    {% trans 'Your project does not have default backdrop naming, good job!' %}
-                                            {% endif %}
-                                                " data-trigger="manual" href="/learn/spriteNaming/"> 
-                                                ${response['spriteNaming']['number']} {% trans " backdrop naming." %}
-                                            </a><br>
-                                            <a class="glyphicon glyphicon-remove-sign"/>
-                                            <a id="dead-code" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Dead code' %}" 
-                                            data-trigger="manual" href="/learn/deadCode/"> 
-                                                ${response['backdropNaming']['number']} {% trans " dead code." %}
-                                            </a>
-                                           
-                                        </div>
-                                            
-                                            </div>
-                                        </div>
-                                    </div>
-                        `;
-
-                        $(`#bad-habits`).append(bad_habits);
-
-                        // CONFIGURAMOS EL MODAL
-                        var original_score = parseInt($('#score0').text());
-                        var original_max_score = parseInt($('#score1').text());
-
-                        var new_score = parseInt($('#new_score0').text());
-                        var new_max_score = parseInt($('#new_score1').text());
-
-                        $('#modal_score').text(`${original_score}/${original_max_score}`);
-
-                        var improvement = Math.abs(new_score - original_score);
-                        if (improvement != 0) {
-                            if (new_score > original_score) {
-                                $('#modal_title').text('Congrats!!');
-                                var feedback = `<h4 class="dark-text" id="modal_feedback">You have improved this project by <span class="text-success">${improvement} points</span></h4>`;
-                                $('#modal_new_score').append(`<h2 class="text-success" style="font-size: 70px;">${new_score}/${new_max_score}</h2>`)
-                                $('#modal-feedback-img').append('<img src="/static/app/images/cat.png" class="img-responsive col-md-3" style="margin-left: 30px;">');
-                            } else {
-                                $('#modal_title').text('Oops...');
-                                var feedback = `<h4 class="dark-text" id="modal_feedback">You have dropped this project by <span class="colored-text">${improvement} points</span></h4>`;
-                                $('#modal_new_score').append(`<h2 class="text-danger" style="font-size: 70px;">${new_score}/${new_max_score}</h2>`)
-                                $('#modal-feedback-img').append('<img src="/static/app/images/monkey.png" class="img-responsive col-md-3" style="margin-left: 30px;">');
-                            }
-                            $('#modal-feedback').append(feedback);
-
-                            $('#exampleModal').modal('show');
-                            $('html, body').animate({ scrollTop: 0 }, 'slow');
-
+                    var improvement = Math.abs(new_score - original_score);
+                    if (improvement != 0) {
+                        if (new_score > original_score) {
+                            $('#modal_title').text('Congrats!!');
+                            var feedback = `<h4 class="dark-text" id="modal_feedback">You have improved this project by <span class="text-success">${improvement} points</span></h4>`;
+                            $('#modal_new_score').append(`<h2 class="text-success" style="font-size: 70px;">${new_score}/${new_max_score}</h2>`)
+                            $('#modal-feedback-img').append('<img src="/static/app/images/cat.png" class="img-responsive col-md-3" style="margin-left: 30px;">');
+                        } else {
+                            $('#modal_title').text('Oops...');
+                            var feedback = `<h4 class="dark-text" id="modal_feedback">You have dropped this project by <span class="colored-text">${improvement} points</span></h4>`;
+                            $('#modal_new_score').append(`<h2 class="text-danger" style="font-size: 70px;">${new_score}/${new_max_score}</h2>`)
+                            $('#modal-feedback-img').append('<img src="/static/app/images/monkey.png" class="img-responsive col-md-3" style="margin-left: 30px;">');
                         }
-                        
-                        
-                        added = true;
+                        $('#modal-feedback').append(feedback);
 
-                        },
-                        error: function(xhr, status, error) {
-                            // Maneja los errores si es necesario
-                            console.error(error);
-                        }
-                        
-                    });
+                        $('#exampleModal').modal('show');
+                        $('html, body').animate({ scrollTop: 0 }, 'slow');
+
+                    }
+                    
+                    
+                    added = true;
+
+                    },
+                    error: function(xhr, status, error) {
+                        // Maneja los errores si es necesario
+                        console.error(error);
+                    }
+                    
                 });
             });
+        });
 
-            
+
+
         </script>
+        <!-- END OF C_MODE SCRIPT -->
         
 
 
@@ -453,6 +459,7 @@
             {% endif %}
             
             <div class="container">
+                
                 <section id="blackboard" class="services col-md-5">
                     <!-- POINTS PANEL -->
                     <div id="devpanels">
@@ -655,7 +662,11 @@
                             </div>
                         </div>
                     </div>
+
+
+                   
                     </section>
+                    
                 </section>
                 <div class="col-md-7">
                     <section id="dashboard">
@@ -730,9 +741,26 @@
                                                 {% endif %}
                                                 {% endif %}
                                                 {% if forloop.counter|divisibleby:1 or forloop.last %}
-                                                </tr>{% endif %}
-                                 
+                                                </tr>
+                                                {% endif %}
                                                 {% endfor %}
+
+                                                <div class="progress">
+                                                    <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                                                  </div>
+                                                  <div class="progress">
+                                                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                  </div>
+                                                  <div class="progress">
+                                                    <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                                  </div>
+                                                  <div class="progress">
+                                                    <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                                  </div>
+                                                  <div class="progress">
+                                                    <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                
                                                 </tbody>
                                              </table>
                                         </div>
@@ -777,6 +805,7 @@
 
                 </div>
             </div>
+            
         </div>
 
         <!-- EXTENDED MODE -->
