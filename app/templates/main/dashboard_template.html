@@ -65,6 +65,8 @@
         <!-- DEFAULT COLOR/ CURRENTLY USING -->
         <link rel="stylesheet" href="../../static/app/content/red.css">
 
+
+
         <script>
                 window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
         </script>
@@ -196,6 +198,8 @@
             });
         </script>
 
+        
+
 
         <style>
             .btn-primary {
@@ -307,7 +311,7 @@
                 </div>
             </div>
             <!-- /END TOP BAR -->
-
+            <div id="url-container" data-url="{% url 'get_analysis_d' %}"></div>
             <!-- MAIN CONTENT -->
             {% block content %} {% endblock %}
 
@@ -331,19 +335,7 @@
 
     </div>
 
-    <script>
-        // Crear el efecto de confeti
-        const confetiContainer = document.getElementById('confeti-container');
-        const partyFinesse = new Party(confetiContainer);
 
-        // Configurar el efecto de confeti
-        partyFinesse.colors = ['#FF0000', '#00FF00', '#0000FF'];
-        partyFinesse.confettiCount = 200;
-        partyFinesse.velocity = 3;
-
-        // Lanzar el efecto de confeti
-        partyFinesse.start();
-    </script>
     
     </body>
 </html>
