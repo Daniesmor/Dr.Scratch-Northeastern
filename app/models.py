@@ -74,7 +74,7 @@ class Stats(models.Model):
     development = models.TextField(default="")
     master = models.TextField(default="")
     daily_projects = models.TextField(default="")
-    parallelism = models.IntegerField(default=int(0))
+    parallelization = models.IntegerField(default=int(0))
     abstraction = models.IntegerField(default=int(0))
     logic = models.IntegerField(default=int(0))
     synchronization = models.IntegerField(default=int(0))
