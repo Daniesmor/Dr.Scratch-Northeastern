@@ -330,13 +330,14 @@ class Script():
         self.blocks.append(block["opcode"])
         self.counter_block += 1
 
-        # For custom blocks
         if "mutation" in block and "proccode" in block["mutation"]:
             func_name = block["mutation"]["proccode"]
 
             n_args = func_name.count('%s')
-
-            func_name = func_name % tuple(f'(%{i})' for i in range(1, n_args+1))
+            
+            # Reemplaza %s por (%1), (%2), ..., (%n)
+            if (n_args != 0):
+                func_name = func_name % tuple(f'(%{i})' for i in range(1, n_args+1))
 
             new_block[f'block_{current_counter}']['func_name'] = func_name
 
@@ -349,7 +350,7 @@ class Script():
 
                     self.counter_vars += 1
 
-                return new_block
+            return new_block
 
         #For fields (variables)
         n_input = 0
