@@ -2575,6 +2575,7 @@ def get_analysis_d(request, skill_points=None):
             
 
         dict_scratch_golfing = ScratchGolfing(json_scratch_original, json_scratch_compare).finalize()
+        dict_scratch_golfing = dict_scratch_golfing['result']['scratch_golfing']
         print("Estando en views")
         print(dict_scratch_golfing)
         #dict_comparsion_mode = ComparsionMode(json_scratch_original, json_scratch_compare).finalize()

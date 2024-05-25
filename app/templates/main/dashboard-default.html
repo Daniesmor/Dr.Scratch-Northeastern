@@ -387,10 +387,77 @@
                         }
                         $('#modal-feedback').append(feedback);
 
+
+
+                        // SCRATCH GOLFING
+
+                        scratch_golfing = response['scratchGolfing'];
+                        console.log(scratch_golfing);
+                        original_total_blocks = parseInt(scratch_golfing['original']['total_blocks']);
+                        original_total_sprites = parseInt(scratch_golfing['original']['total_sprites']);
+
+                        new_total_blocks = parseInt(scratch_golfing['new']['total_blocks']);
+                        new_total_sprites = parseInt(scratch_golfing['new']['total_sprites']);
+
+                        $('#original_total_blocks').text(`${original_total_blocks} blocks`);
+                        $('#original_total_sprites').text(`${original_total_sprites} sprites`);
+
+
+                        $('#new_total_blocks').text(`${new_total_blocks} blocks`);
+                        $('#new_total_sprites').text(`${new_total_sprites} sprites`);
+
+                    
+                        var blocks_improvement = Math.abs(new_total_blocks - original_total_blocks);
+                        var sprites_improvement = Math.abs(new_total_sprites - original_total_sprites)
+                        if ((new_total_blocks > original_total_blocks) && (new_total_sprites > original_total_sprites)) {
+                            golfing_feedback = `${blocks_improvement} blocks and ${sprites_improvement} sprites more than the original`;
+                        } else {
+                            if (blocks_improvement != 0) {
+                                if (new_total_blocks > original_total_blocks) {
+                                    blocks_feedback = `${blocks_improvement} blocks more`;
+                                } else {
+                                    blocks_feedback = `${blocks_improvement} blocks less`;
+                                }
+                            } 
+                            
+                            if (sprites_improvement != 0) {
+                                if (new_total_sprites > original_total_sprites) {
+                                    sprites_feedback = `${sprites_improvement} sprites more`;
+                                } else {
+                                    sprites_feedback = `${sprites_improvement} sprites less`;
+                                }
+                            }
+                            
+                            if ((blocks_improvement!=0) && (sprites_improvement!=0)) {
+                                golfing_feedback = `${blocks_feedback} and ${sprites_feedback} than the original`;
+                            } 
+
+                            if ((blocks_improvement==0) && (sprites_improvement!=0)) {
+                                golfing_feedback = `${sprites_feedback} than the original`;
+                            }
+
+                            if ((blocks_improvement!=0) && (sprites_improvement==0)) {
+                                golfing_feedback = `${blocks_feedback} than the original`;
+                            }
+
+                            if ((blocks_improvement == 0) && (sprites_improvement == 0)) {
+                                golfing_feedback = `There are the same amount of blocks on both projects`;
+                            }
+                            
+                        }
+                        
+                        $('#golfing_feedback').text(golfing_feedback);
+
+
+
+
+
                         $('#exampleModal').modal('show');
                         $('html, body').animate({ scrollTop: 0 }, 'slow');
 
                     }
+
+
                     
                     
                     added = true;
@@ -451,6 +518,7 @@
                 </div>
             </div>
         </div>
+        
 
         <!-- VANILLA MODE -->
         <div id="Vanilla" class="tabcontent">
@@ -668,6 +736,7 @@
                     </section>
                     
                 </section>
+
                 <div class="col-md-7">
                     <section id="dashboard">
                         <div class="container-fluid">
@@ -675,6 +744,7 @@
                                 <div class="jumbotron">
                                     <div class="table-responsive">
                                         <div id="stepfive">
+                                            
                                             <table class="table tablesorter">
                                                 <thead>
                                                     <tr>
@@ -745,31 +815,19 @@
                                                 {% endif %}
                                                 {% endfor %}
 
-                                                <div class="progress">
-                                                    <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                                                  </div>
-                                                  <div class="progress">
-                                                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                  </div>
-                                                  <div class="progress">
-                                                    <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                                  </div>
-                                                  <div class="progress">
-                                                    <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                                  </div>
-                                                  <div class="progress">
-                                                    <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
+                                                
                                                 
                                                 </tbody>
                                              </table>
                                         </div>
+                                        
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </section>
 
+                    
 
                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -795,6 +853,59 @@
                                                 <h2 class="text-success" style="font-size: 70px;"></h2>
                                             </div>
                                         </div>
+
+
+                       
+                                                    <div class="row">
+                                                        <!-- Primera columna -->
+                                                        <div class="row">
+                                                            <!-- Primera columna -->
+                                                            <div class="col-sm-6 border border-primary rounded">
+                                                                <div class="row">
+                                                                    <h2 class="dark-text" style="font-size: 20px;">Before:</h2>
+                                                                <div class="col-6 d-flex align-items-center">
+                                                                    <div class="col-sm-6 d-flex align-items-center" style="padding-left: 0px;">
+                                                                    <img src="/static/app/images/golfing_blocks.png" height="70px" class="mr-3">
+                                                                    <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="original_total_blocks"></h2>
+                                                                    </div>
+                                                            
+                                                                    <div class="col-sm-6 d-flex align-items-center">
+                                                                    <img src="/static/app/images/golfing_sprites.png" height="70px" class="display-flex">
+                                                                    <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="original_total_sprites"></h2>
+                                                                    </div>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                            <!-- Segunda columna -->
+
+                                                            <div class="col-sm-6" style="padding-left: 70px;">
+                                                                <div class="row" >
+                                                                    <h2 class="dark-text" style="font-size: 20px;">Now:</h2>
+                                                                    <div class="col-6 d-flex align-items-center">
+                                                                        <div class="col-sm-6 d-flex align-items-center">
+                                                                            <img src="/static/app/images/golfing_blocks.png" height="70px" class="mr-3">
+                                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="new_total_blocks"></h2>
+                                                                        </div>
+
+                                                                        <div class="col-sm-6 d-flex align-items-center">
+                                                                            <img src="/static/app/images/golfing_sprites.png" height="70px" class="display-flex">
+                                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="new_total_sprites"></h2>
+                                                                        </div>
+                                                                    
+                                                                    </div>
+                                                                                                                        
+                                                                </div>
+                                                            </div>  
+                                                            
+                                                        </div>
+                                                            <div class="row">
+                                                                <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="golfing_feedback"></h2>                    
+                                                            </div>
+                                                        <!-- Segunda columna -->
+
+                                                        
+                                                    </div>
+                                              
                                     </div>
                                 </div>
                             </section>
