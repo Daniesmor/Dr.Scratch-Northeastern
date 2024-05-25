@@ -627,12 +627,10 @@ class Mastery(Plugin):
         
         
         for _,value in self.dict_total_blocks.items():
-            print(value)
-            if 'parent' in value:
-                if value['parent'] is None:
-                    counter = 0
+            if value.get('parent') is None:
+                counter = 0
             else:
-                if value['opcode'] in list:
+                if value.get('opcode') in list:
                     counter += 1
                     if counter >= min_motion_blocks:
                         check = True
@@ -648,7 +646,7 @@ class Mastery(Plugin):
         min_msg = 3
 
         for block in self.list_total_blocks:
-            if block['opcode'] == "event_broadcast" or block['opcode'] == "event_broadcastandwait":
+            if block.get('opcode') == "event_broadcast" or block.get('opcode') == "event_broadcastandwait":
                 msg = block['inputs']['BROADCAST_INPUT'][1][2]
                 if self.has_conditional_or_loop(msg):
                     counter += 1
@@ -662,7 +660,7 @@ class Mastery(Plugin):
         check = False
 
         for block in self.list_total_blocks:
-            if block['opcode'] == 'event_whenbroadcastreceived' and block['fields']['BROADCAST_OPTION'][1] == msg:
+            if block.get('opcode') == 'event_whenbroadcastreceived' and block['fields']['BROADCAST_OPTION'][1] == msg:
                 next = self.dict_total_blocks.get(block['next'])
                 while next is not None:
                     if self.check_conditional(next) or self.check_loops(next):
@@ -681,7 +679,7 @@ class Mastery(Plugin):
         check = False
 
         for _, block_dict in self.dict_total_blocks.items():
-            if block_dict['opcode'] == 'control_if':
+            if block_dict.get('opcode') == 'control_if':
                 try:
                     substack =  self.dict_total_blocks.get(block_dict['inputs']['SUBSTACK'][1])
                     if self.has_nested_conditional(substack):
@@ -689,7 +687,7 @@ class Mastery(Plugin):
                         break
                 except KeyError:
                     pass
-            elif block_dict['opcode'] == 'control_if_else':
+            elif block_dict.get('opcode') == 'control_if_else':
                 try:
                     substack =  self.dict_total_blocks.get(block_dict['inputs']['SUBSTACK'][1])
                     substack_2 = self.dict_total_blocks.get(block_dict['inputs']['SUBSTACK2'][1])
@@ -708,7 +706,7 @@ class Mastery(Plugin):
         """
 
         while substack is not None:
-            if substack['opcode'] == 'control_if' or substack['opcode'] == 'control_if_else':
+            if substack.get('opcode') == 'control_if' or substack.get('opcode') == 'control_if_else':
                 return True
             substack = self.dict_total_blocks.get(substack['next'])
 
