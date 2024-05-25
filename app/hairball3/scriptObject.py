@@ -323,21 +323,28 @@ class Script():
         Searches through each block and outputs a dictionary with all the contents inside the block
         """
         block = block_dict[block_name]
-
+        
         current_counter = self.counter_block
 
         new_block = {f'block_{self.counter_block}': {"name":block["opcode"]}}
         self.blocks.append(block["opcode"])
         self.counter_block += 1
-
+        
+        # For custom blocks
         if "mutation" in block and "proccode" in block["mutation"]:
             func_name = block["mutation"]["proccode"]
 
-            n_args = func_name.count('%s')
-            
-            # Reemplaza %s por (%1), (%2), ..., (%n)
-            if (n_args != 0):
-                func_name = func_name % tuple(f'(%{i})' for i in range(1, n_args+1))
+            n_args = func_name.count('%s') + func_name.count('%n')
+
+            # Create a List with the arguments spots
+            args = [f'({i})' for i in range(1, n_args + 1)]
+
+            # Replace the arguments in the function name
+            for arg in args:
+                if '%s' in func_name:
+                    func_name = func_name.replace('%s', arg, 1)
+                elif '%n' in func_name:
+                    func_name = func_name.replace('%n', arg, 1)
 
             new_block[f'block_{current_counter}']['func_name'] = func_name
 
