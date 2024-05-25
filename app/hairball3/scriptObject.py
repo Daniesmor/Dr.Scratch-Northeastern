@@ -329,8 +329,7 @@ class Script():
         new_block = {f'block_{self.counter_block}': {"name":block["opcode"]}}
         self.blocks.append(block["opcode"])
         self.counter_block += 1
-
-        print("Block:", block)
+        
         # For custom blocks
         if "mutation" in block and "proccode" in block["mutation"]:
             func_name = block["mutation"]["proccode"]
@@ -358,7 +357,7 @@ class Script():
 
                     self.counter_vars += 1
 
-                return new_block
+            return new_block
 
         #For fields (variables)
         n_input = 0
