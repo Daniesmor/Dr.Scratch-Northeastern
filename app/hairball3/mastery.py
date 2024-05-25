@@ -625,9 +625,12 @@ class Mastery(Plugin):
                 'motion_pointindirection', 'motion_pointtowards', 'motion_turnright', 'motion_turnleft', 
                 'motion_goto', 'motion_ifonedgebounce', 'motion_setrotationstyles'}
         
+        
         for _,value in self.dict_total_blocks.items():
-            if value['parent'] is None:
-                counter = 0
+            print(value)
+            if 'parent' in value:
+                if value['parent'] is None:
+                    counter = 0
             else:
                 if value['opcode'] in list:
                     counter += 1
