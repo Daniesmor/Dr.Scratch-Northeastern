@@ -55,6 +55,17 @@ logger = logging.getLogger(__name__)
 coloredlogs.install(level='DEBUG', logger=logger)
 supported_languages = ['es', 'ca', 'gl', 'pt']
 
+
+# Obtén la dirección del proxy Tor desde la variable de entorno
+tor_proxy = os.getenv('TOR_PROXY', None)
+
+# Define la URL de la API a la que deseas realizar la solicitud
+
+
+# Configura las opciones del proxy si se proporciona la dirección del proxy Tor
+proxies = {'http': tor_proxy, 'https': tor_proxy} if tor_proxy else None
+
+
 def main(request):
 
     user = None
@@ -824,10 +835,15 @@ def download_scratch_project_from_servers(path_project, id_project):
     url_json_scratch = "{}/{}?token={}".format(consts.URL_SCRATCH_SERVER, id_project, scratch_project_inf.project_token)
     path_utemp = '{}/utemp/{}'.format(path_project, id_project)
     path_json_file = path_utemp + '_new_project.json'
+    print("url_json_scratch:---------------")
+    print(url_json_scratch)
 
     try:
         logger.info(url_json_scratch)
         response_from_scratch = urlopen(url_json_scratch)
+        #response_from_scratch = requests.get(url_json_scratch, proxies=proxies)
+        print("trazon:------------------")
+        print(response_from_scratch)
     except HTTPError:
         # Two ways, id does not exist in servers or id is in other server
         logger.error('HTTPError')

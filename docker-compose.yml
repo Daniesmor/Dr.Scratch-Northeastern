@@ -24,11 +24,12 @@ services:
     build: .
     volumes:
       - .:/var/www
-    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    command: bash -c "tor & python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     container_name: drscratchv3_django
     user: root
     ports:
       - "8000:8000"
+      - "9050:9050"
     env_file:
       - ./.env
     stdin_open: true
@@ -36,5 +37,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    environment:
+      - TOR_PROXY=tor:9050
 volumes:
   dbdata:
