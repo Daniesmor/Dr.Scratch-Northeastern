@@ -39,9 +39,16 @@ class ScratchSession:
         self.logged_in = False
         self.username = username
         self.csrf_token = None
+        
+        self.proxies = {
+      
+            'http': 'socks5://127.0.0.1:9050',
+            'https': 'socks5://127.0.0.1:9050'
+
+        }
 
     def get_project(self, project):
         project_id = (project.id if isinstance(project, (RemixtreeProject, Project)) else project)
         return Project(
-            requests.get('{}/{}/'.format(consts.URL_SCRATCH_API, project_id)).json(),
+            requests.get('{}/{}/'.format(consts.URL_SCRATCH_API, project_id), proxies=self.proxies).json(),
         )
