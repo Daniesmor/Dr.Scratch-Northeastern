@@ -40,16 +40,16 @@ class ScratchSession:
         self.username = username
         self.csrf_token = None
         
-   
+        self.proxies = {
+      
+            'http': 'socks5h://tor_proxy:9050',
+            'https': 'socks5h://tor_proxy:9050'
+
+        }
+        #requests.get('{}/{}/'.format(consts.URL_SCRATCH_API, project_id), proxies=self.proxies).json(),
 
     def get_project(self, project):
         project_id = (project.id if isinstance(project, (RemixtreeProject, Project)) else project)
-        project_url = '{}/{}/'.format(consts.URL_SCRATCH_API, project_id)
-        print("TRAZA CONST API------------------------")
-        print(consts.URL_SCRATCH_API)
-        print("TRAZA DE URL:----------------------------")
-        print(project_url)
-        print('http://0.0.0.0:9050/scratch_requests/handle-request/{}'.format(project_id))
-        return Project(
-            requests.get('http://0.0.0.0:9050/scratch_requests/handle-request/{}'.format(project_id))
+        return Project( 
+            requests.get(f'{consts.URL_SCRATCH_API}/{project_id}/', proxies=self.proxies).json()
         )
