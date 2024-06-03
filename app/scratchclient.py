@@ -46,8 +46,7 @@ class ScratchSession:
             'https': 'socks5h://tor_proxy:9050'
 
         }
-        #requests.get('{}/{}/'.format(consts.URL_SCRATCH_API, project_id), proxies=self.proxies).json(),
-
+        
     def get_project(self, project):
         project_id = (project.id if isinstance(project, (RemixtreeProject, Project)) else project)
         return Project( 
