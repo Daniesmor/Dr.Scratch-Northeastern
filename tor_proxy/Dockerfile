@@ -9,8 +9,8 @@ RUN apk update && \
     rm -rf /var/cache/apk/
 
 
-# Configurar Tor
+# Setting up Tor
 COPY torrc /etc/tor/torrc
 
-# Exponer el puerto de control de Tor
+# Expose Tor (listen) port
 EXPOSE 9050
