@@ -9,5 +9,3 @@ BandwidthRate 10 MB
 BandwidthBurst 20 MB
 
 Log notice stdout
-
-HTTPTunnelPort 9080
