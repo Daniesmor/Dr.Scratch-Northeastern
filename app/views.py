@@ -47,6 +47,10 @@ from app.exception import DrScratchException
 import logging
 import coloredlogs
 
+
+# Celery imports
+from .tasks import init_batch
+
 logger = logging.getLogger(__name__)
 coloredlogs.install(level='DEBUG', logger=logger)
 supported_languages = ['es', 'ca', 'gl', 'pt']
@@ -501,6 +505,8 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
             'multiproject': False
         })
     elif '_urls' in request.POST:
+
+        init_batch.delay(request, skill_points: dict)
         
         urls_file = request.FILES['urlsFile']
 
