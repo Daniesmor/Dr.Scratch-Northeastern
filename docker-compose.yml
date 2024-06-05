@@ -35,7 +35,7 @@ services:
     build: .
     command: celery -A drScratch worker --loglevel=info
     volumes:
-      - .:/code
+      - .:/var/www
     depends_on:
       - rabbitmq
   web:
