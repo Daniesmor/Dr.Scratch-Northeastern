@@ -235,10 +235,10 @@ def generator_dic(request, id_project, skill_points: dict):
     """
 
     try:
-        if request.user.is_authenticated:
-            username = request.user.username
-        else:
-            username = None
+        
+      
+        username = None
+
         path_project, file_obj, ext_type_project = send_request_getsb3(id_project, username, method="url")
     except DrScratchException:
         logger.error('DrScratchException')
@@ -541,10 +541,17 @@ def translate(request, d, filename, vanilla=False):
 def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_points: dict):
 
     dict_analysis = {}
+
+    print("mi request::------------------------", request)
+
+    try: 
+        dashboard = request.POST.get('dashboard_mode', 'Default')
+    except:
+        dashboard = 'Default'
     
     if os.path.exists(path_projectsb3):
         json_scratch_project = load_json_project(path_projectsb3)
-        dict_mastery = Mastery(path_projectsb3, json_scratch_project, skill_points, request.POST.get('dashboard_mode')).finalize()
+        dict_mastery = Mastery(path_projectsb3, json_scratch_project, skill_points, dashboard).finalize()
         dict_duplicate_script = DuplicateScripts(path_projectsb3, json_scratch_project).finalize()
         dict_dead_code = DeadCode(path_projectsb3, json_scratch_project,).finalize()
         result_sprite_naming = SpriteNaming(path_projectsb3, json_scratch_project).finalize()
@@ -652,7 +659,6 @@ def _make_analysis_by_txt(request, url, skill_points: dict):
     """
     Make the automatic analysis by URLS txt
     """
-    
     id_project = return_scratch_project_identifier(url)
     if id_project == "error":
         return {'Error': 'id_error'}
