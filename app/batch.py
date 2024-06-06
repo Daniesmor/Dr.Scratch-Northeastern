@@ -6,7 +6,7 @@ import os
 import shutil
 import uuid
 from zipfile import ZipFile
-
+from .models import BatchCSV
 
 def skills_translation(request) -> dict:
     """
@@ -299,7 +299,6 @@ def create_csv_deadcode(d: dict, folder_path: str):
                             row_to_write[f'deadCode{j}'] = 'N/A'
                     writer_csv.writerow(row_to_write)    
         
-    
 def zip_folder(folder_path: str):
     with ZipFile(folder_path + '.zip', 'w') as zipObj:
         for folderName, subfolders, filenames in os.walk(folder_path):
@@ -311,26 +310,6 @@ def zip_folder(folder_path: str):
     shutil.rmtree(folder_path)
     return folder_path + '.zip'
     
-def create_csv(request, d):
-    now = datetime.now()
-    folder_name = str(uuid.uuid4()) + '_' + now.strftime("%Y%m%d%H%M%S")
-    base_dir = os.getcwd()
-    folder_path = os.path.join(base_dir, 'csvs', 'Dr.Scratch', folder_name)
-    os.mkdir(folder_path)
-    
-   
-    
-    create_csv_main(request, d, folder_path)
-    #create_csv_dups(d, folder_path)
-    create_csv_sprites(d, folder_path)
-    create_csv_backdrops(d, folder_path)
-    create_csv_deadcode(d, folder_path)
-    csv_filepath = zip_folder(folder_path)
-    return csv_filepath
-
-
-
-
 def create_summary(request, d: dict) -> dict:
     summary = {}
     # NUM PROJECTS
@@ -371,7 +350,7 @@ def create_summary(request, d: dict) -> dict:
     summary['Points'] = [average_mastery_points, total_maxi_points, mid_points]
     for skill in skills:
         mid_points = d[0]["mastery"][skill][0][1] / 2
-        summary[skill] = [summary[skill], d[0]["mastery"][skill][0][1], mid_points]
+        summary[skill] = [summary[skill], d[0]["mastery"][skill][0][1]]
         
 
 
@@ -385,4 +364,55 @@ def create_summary(request, d: dict) -> dict:
         summary['Mastery'] = 'Developing'
     else:
         summary['Mastery'] = 'Basic'
+
     return summary
+
+def create_obj(data: dict, csv_filepath: str) -> uuid.UUID:
+    cs_data = BatchCSV.objects.create(
+        filepath= csv_filepath,
+        num_projects=data['num_projects'],
+        points=data['Points'][0],
+        max_points=data['Points'][1],
+        logic=data['Logic'][0],
+        max_logic=data['Logic'][1],
+        parallelization=data['Parallelism'][0],
+        max_parallelization=data['Parallelism'][1],
+        data=data['Data representation'][0],
+        max_data=data['Data representation'][1],
+        synchronization=data['Synchronization'][0],
+        max_synchronization=data['Synchronization'][1],
+        userInteractivity=data['User interactivity'][0],
+        max_userInteractivity=data['User interactivity'][1],
+        flowControl=data['Flow control'][0],
+        max_flowControl=data['Flow control'][1],
+        abstraction=data['Abstraction'][0],
+        max_abstraction=data['Abstraction'][1],
+        math_operators=data['Math operators'][0],
+        max_math_operators=data['Math operators'][1],
+        motion_operators=data['Motion operators'][0],
+        max_motion_operators=data['Motion operators'][1],
+        mastery=data['Mastery']
+    )
+
+    return cs_data.id
+
+
+
+def create_csv(request, d: dict) -> uuid.UUID:
+    summary = {}
+    now = datetime.now()
+    folder_name = str(uuid.uuid4()) + '_' + now.strftime("%Y%m%d%H%M%S")
+    base_dir = os.getcwd()
+    folder_path = os.path.join(base_dir, 'csvs', 'Dr.Scratch', folder_name)
+    os.mkdir(folder_path)
+    
+    create_csv_main(request, d, folder_path)
+    #create_csv_dups(d, folder_path)
+    create_csv_sprites(d, folder_path)
+    create_csv_backdrops(d, folder_path)
+    create_csv_deadcode(d, folder_path)
+    summary = create_summary(request, d) 
+    csv_filepath = zip_folder(folder_path)
+    id = create_obj(summary, csv_filepath)
+
+    return id
