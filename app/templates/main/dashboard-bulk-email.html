@@ -1,0 +1,228 @@
+{% load i18n %}
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="description" content="Analyze your Scratch projects to assess your Computational Thinking skills">
+    <meta name="keywords" content="Stamp, Startup, Multipurpose, Bootstrap, Landing page, Template, Registration, Landing">
+    <meta name="author" content="Programamos URJC Libresoft FECyT">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <link rel="stylesheet" href="../../static/app/content/bootstrap-tour.css">
+    <script src="../../static/app/scripts/bootstrap.min.js"></script>
+    <script src="../../static/app/scripts/bootstrap-tour.js"></script>
+    <script src="../../static/app/scripts/googleAnalytics.js"></script>
+    <script src="../../static/app/scripts/scratchblocks-v3.4-min.js"></script>
+
+    <!-- SITE TITLE -->
+    <title>Dr. Scratch</title>
+
+
+    <link rel="stylesheet" href="../../static/app/content/style.css">
+    <!-- =========================
+     FAV AND TOUCH ICONS AND FONT
+    ============================== -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="icon" href="../../static/app/images/favicon.ico">
+    <link rel="stylesheet" href="static/app/icons/icons.css">
+    <link type="text/css" rel="stylesheet" href="../../static/app/content/css_002.css">
+    <link type="text/css" rel="stylesheet" href="../../static/app/content/css.css">
+    <!-- =========================
+     STYLESHEETS
+    ============================== -->
+    <!-- BOOTSTRAP AND ANIMATION -->
+    <link rel="stylesheet" href="../../static/app/content/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/app/content/animate.css">
+
+    <!-- CAROUSEL AND LIGHTBOX -->
+    <link rel="stylesheet" href="../../static/app/content/owl_002.css">
+    <link rel="stylesheet" href="../../static/app/content/owl.css">
+    <link rel="stylesheet" href="../../static/app/content/nivo-lightbox.css">
+    <link rel="stylesheet" href="../../static/app/content/default.css">
+
+    <!-- CUSTOM STYLESHEETS -->
+    <link rel="stylesheet" href="../../static/app/content/styles.css">
+    <link rel="stylesheet" href="../../static/app/content/basic.css">
+
+    <!-- CUSTOM STYLESHEETS -->
+    <link rel="stylesheet" href="../../static/app/content/styles.css">
+    {% if summary.Mastery == "Basic" %}
+        <link rel="stylesheet" href="/static/app/content/basic.css">
+    {% elif summary.Mastery == "Developing" %}
+        <link rel="stylesheet" href="/static/app/content/developing.css">
+    {% elif summary.Mastery == "Master" %}
+        <link rel="stylesheet" href="/static/app/content/master.css">
+    {% elif summary.Mastery == "Advanced" %}
+        <link rel="stylesheet" href="/static/app/content/advanced.css">
+    {% elif summary.Mastery == "Finesse" %}
+        <link rel="stylesheet" href="/static/app/content/finesse.css">
+    {% endif %}
+    <!-- RESPONSIVE FIXES -->
+    <link rel="stylesheet" href="../../static/app/content/responsive.css">
+
+    <!-- DEFAULT COLOR/ CURRENTLY USING -->
+    <link rel="stylesheet" href="../../static/app/content/red.css">
+
+    <script>
+                    window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
+                    </script>
+
+    <script>
+    // Instance the tour
+    // Initialize the tour
+    $(document).ready(function(){
+     $("#tour").click(function(){
+    var tour = new Tour({
+      storage: false,
+      backdrop: true,
+     steps: [
+      {
+        element: "#stepone",
+        title: "{% trans 'Score' %}",
+        content: "{% trans 'This section shows the total score.' %}"
+      },
+      {
+        element: "#steptwo",
+        title: "{% trans 'Certificate' %}",
+        content:"{% trans 'Download your certificate!'%}"
+      },
+      {
+        element: "#stepthree",
+        title: "{% trans 'Score in detail'%}",
+        content: "{% trans 'Here we show the score in each programming skill as well as links to sites that can help you to level up.' %}",
+        placement:'left'
+      }
+    ]});
+            tour.init();
+            tour.start();
+
+        });
+});
+    </script>
+    <script>
+    $(document).ready(function(){
+
+    var filename = "{{ filename }}";
+    var level = "{{ mastery.points}}/{{ mastery.maxi }}";
+    var list =[filename,level];
+    $("#certificate").val(list.toString());
+    });
+
+    </script>
+    <script>
+        $(document).ready(function() {
+            scratchblocks.renderMatching('pre.blocks', {
+            style:     'scratch3',   // Optional, defaults to 'scratch2'.
+            languages: ['en'], // Optional, defaults to ['en'].
+            scale: 0.5,                // Optional, defaults to 1
+            });
+        })
+        
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.progress-bar').each(function() {
+                var progressBar = $(this);
+                var progressValue = parseFloat(progressBar.attr('aria-valuenow'));
+                var maxValue = parseFloat(progressBar.attr('aria-valuemax'));
+                var percentage = (progressValue / maxValue) * 100;
+    
+                if (percentage <= 33) {
+                    progressBar.removeClass('progress-bar-success progress-bar-warning');
+                    progressBar.addClass('progress-bar-danger');
+                } else if (percentage > 33 && percentage <= 66) {
+                    progressBar.removeClass('progress-bar-success progress-bar-danger');
+                    progressBar.addClass('progress-bar-warning');
+                } else {
+                    progressBar.removeClass('progress-bar-danger progress-bar-warning');
+                    progressBar.addClass('progress-bar-success');
+                }
+            });
+        });
+    </script>
+
+</head>
+<body>
+    <div id="wrap">
+        <!-- TOP BAR -->
+        <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top  sticky-navigation" role="navigation">
+            <div class="container">
+                <!-- NAVIGATION LINK -->
+                <a href="/">
+                    <img src="static/app/images/logo_main.png" alt="" width="220" height="70.1667">
+                </a>
+
+            </div>
+        </div>
+        <!-- /END TOP BAR -->
+
+            
+    <!-- JUMBOTRON -->
+<div class="container">
+
+    <div class="col-md-7 justify-content-center d-flex">
+        <section id="dashboard" class="text-center">
+            <div class="container-fluid" id="stepfour">
+                <div class="row marketing">
+                    <div class="jumbotron mx-auto">
+                        <div class="table-responsive">
+                            <h4>{% trans "Thanks for using Dr.Scratch!!" %}</h4>
+                            <h5 class="dark-text">{% trans "Our servers are processing each of your projects. When finished, we will notify your email with a full report including the CSV with the results." %}</h5>
+                            <h2 class="dark-text" style="font-size: 27px;">Estimated time: ~2h</h2>
+                            <img src="/static/app/images/logo_main.png" alt="" width="220" height="70.1667">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+        <!-- FOOTER -->
+        <footer class="footer grey-bg">
+            <p>{% trans "©2024 Dr.Scratch Made with " %} <span style="color: #e25555;">&#9829;</span> {% trans "by " %} <a href="/collaborators">{% trans "Dr.Scratch Team." %}</a></p>
+                <!-- SOCIAL ICONS -->
+                <ul class="social-icons">
+                    <li>
+                        <a href="https://github.com/Daniesmor/Dr.Scratch-Northeastern"> 
+                        <i class="bi bi-github" style="color: black;"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/DrScratchTool">
+                        <i class="bi bi-twitter-x" style="color: black;"></i>
+                        </a>
+                    </li>    
+                </ul>
+        </footer>
+    </div>
+    
+        <script>
+            // Función para establecer la misma altura en todas las columnas
+            function equalizeColumnHeight() {
+                var maxColumnHeight = 0;
+                // Iterar sobre todas las columnas
+                $('.col-md-4').each(function() {
+                    // Obtener la altura de la columna actual
+                    var columnHeight = $(this).height();
+                    // Comparar con la altura máxima encontrada hasta ahora
+                    if (columnHeight > maxColumnHeight) {
+                        maxColumnHeight = columnHeight;
+                    }
+                });
+                // Establecer la misma altura en todas las columnas
+                $('.col-md-4').height(maxColumnHeight);
+            }
+        
+            // Llamar a la función cuando el documento esté listo y cuando se redimensione la ventana
+            $(document).ready(equalizeColumnHeight);
+            $(window).resize(equalizeColumnHeight);
+        </script>
+        
+        <!-- Scripts de Bootstrap y jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>

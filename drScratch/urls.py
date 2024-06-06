@@ -28,6 +28,9 @@ urlpatterns = [
     # CSVS (BATCH)
     url(r'^(.*)/csvs/(?P<path>.*)$',serve, {'document_root': settings.BASE_DIR + '/csvs'}),
 
+    # BATCH)
+    url(r'^batch/(?P<csv_identifier>.*)$',app_views.batch, name='batch'),
+
     # Statistics
     url(r'^statistics$', app_views.statistics, name='statistics'),
 

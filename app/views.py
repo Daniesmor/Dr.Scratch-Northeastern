@@ -22,9 +22,10 @@ from django.contrib.auth.models import User
 from django.utils.encoding import smart_str
 from django.shortcuts import render
 from django.conf import settings
+from django.shortcuts import get_object_or_404
 from app import org
 from app.forms import UrlForm, OrganizationForm, OrganizationHashForm, LoginOrganizationForm, CoderForm, DiscussForm
-from app.models import File, CSVs, Organization, OrganizationHash, Coder, Discuss, Stats
+from app.models import File, CSVs, Organization, OrganizationHash, Coder, Discuss, Stats, BatchCSV
 from urllib.request import urlopen
 from urllib.error import HTTPError, URLError
 from zipfile import ZipFile, BadZipfile
@@ -120,7 +121,7 @@ def show_dashboard(request, skill_points=None):
             print("summary", summary)   
             
             return render(request, user + '/dashboard-bulk.html', {'summary': summary, 'csv_filepath': csv_filepath})"""
-            return HttpResponse("You have call batch mode.")
+            return render(request, user + '/dashboard-bulk-email.html')
         else: 
             if d['Error'] == 'analyzing':
                 return render(request, 'error/analyzing.html')
@@ -138,6 +139,27 @@ def show_dashboard(request, skill_points=None):
     else:
         return HttpResponseRedirect('/')    
 
+def batch(request, csv_identifier):
+    user = str(identify_user_type(request))
+    csv = get_object_or_404(BatchCSV, id=csv_identifier)
+
+    csv_filepath = csv.filepath
+
+    summary = {
+        'Points': [csv.points, csv.max_points],
+        'Logic': [csv.logic, csv.max_logic],
+        'Parallelism': [csv.parallelization, csv.max_parallelization],
+        'Data representation': [csv.data, csv.max_data],
+        'Synchronization': [csv.synchronization, csv.max_synchronization],
+        'User interactivity': [csv.userInteractivity, csv.max_userInteractivity],
+        'Flow control': [csv.flowControl, csv.max_flowControl],
+        'Abstraction': [csv.abstraction, csv.max_abstraction],
+        'Math operators': [csv.math_operators, csv.max_math_operators],
+        'Motion operators': [csv.motion_operators, csv.max_motion_operators],
+        'Mastery': csv.mastery
+    }
+
+    return render(request, user + '/dashboard-bulk.html', {'summary': summary, 'csv_filepath': csv_filepath})
 
 def process_contact_form(request):
     if request.method == 'POST':
@@ -247,13 +269,13 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
             'LANGUAGE_CODE': request.LANGUAGE_CODE,
             'POST': {
                 'urlsFile': request.FILES['urlsFile'].readlines(),
-                'dashboard_mode': dashboard_mode,        
+                'dashboard_mode': dashboard_mode, 
+                'email': request.POST['batch-email']       
             }
         }
       
         init_batch.delay(request_data, skill_points) # Call to analyzer task
         
-        print("Ya se ha llamado a la tarea----------------------------------")
         dict_metrics[project_counter] = {
             'multiproject': True,
             }
