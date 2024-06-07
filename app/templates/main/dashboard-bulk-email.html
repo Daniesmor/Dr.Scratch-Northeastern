@@ -45,17 +45,6 @@
 
     <!-- CUSTOM STYLESHEETS -->
     <link rel="stylesheet" href="../../static/app/content/styles.css">
-    {% if summary.Mastery == "Basic" %}
-        <link rel="stylesheet" href="/static/app/content/basic.css">
-    {% elif summary.Mastery == "Developing" %}
-        <link rel="stylesheet" href="/static/app/content/developing.css">
-    {% elif summary.Mastery == "Master" %}
-        <link rel="stylesheet" href="/static/app/content/master.css">
-    {% elif summary.Mastery == "Advanced" %}
-        <link rel="stylesheet" href="/static/app/content/advanced.css">
-    {% elif summary.Mastery == "Finesse" %}
-        <link rel="stylesheet" href="/static/app/content/finesse.css">
-    {% endif %}
     <!-- RESPONSIVE FIXES -->
     <link rel="stylesheet" href="../../static/app/content/responsive.css">
 
@@ -143,7 +132,7 @@
 
 </head>
 <body>
-    <div id="wrap">
+    <div id="wrap" class="content" style="min-height: 100%;">
         <!-- TOP BAR -->
         <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top  sticky-navigation" role="navigation">
             <div class="container">
@@ -156,27 +145,26 @@
         </div>
         <!-- /END TOP BAR -->
 
-            
-    <!-- JUMBOTRON -->
-<div class="container">
-
-    <div class="col-md-7 justify-content-center d-flex">
-        <section id="dashboard" class="text-center">
-            <div class="container-fluid" id="stepfour">
-                <div class="row marketing">
-                    <div class="jumbotron mx-auto">
-                        <div class="table-responsive">
-                            <h4>{% trans "Thanks for using Dr.Scratch!!" %}</h4>
-                            <h5 class="dark-text">{% trans "Our servers are processing each of your projects. When finished, we will notify your email with a full report including the CSV with the results." %}</h5>
-                            <h2 class="dark-text" style="font-size: 27px;">Estimated time: ~2h</h2>
-                            <img src="/static/app/images/logo_main.png" alt="" width="220" height="70.1667">
+                    
+        <!-- JUMBOTRON -->
+        <div class="container d-flex justify-content-center align-items-center" style="width: 40%;">
+            <div class="row justify-content-center">
+                    <section id="dashboard" class="text-center">
+                        <div class="container-fluid" id="stepfour">
+                            <div class="jumbotron">
+                                <div class="table-responsive">
+                                    <h4>{% trans "Thanks for using Dr.Scratch!!" %}</h4>
+                                    <h5 class="dark-text">{% trans "Our servers are processing each of your projects. When finished, we will notify your email with a full report including the CSV with the results." %}</h5>
+                                    <h2 class="dark-text" style="font-size: 27px;">Estimated time: ~{{ ETA }}</h2>
+                                    <img src="/static/app/images/logo_main.png" alt="" width="220" height="70.1667">
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    </section>
             </div>
-        </section>
-    </div>
-</div>
+        </div>
+        <br></br>
+
 
         <!-- FOOTER -->
         <footer class="footer grey-bg">

@@ -17,6 +17,7 @@ STATIC_ROOT = '/static/'
 SECRET_KEY = os.environ.get('DRSCRATCH_SECRET_KEY', 'not-secret-key')
 
 DEBUG = os.environ.get('DRSCRATCH_DEBUG', False)
+PRODUCTION = os.environ.get('PRODUCTION_MODE', True)
 
 TEMPLATE_DEBUG = True
 TEMPLATES = [{

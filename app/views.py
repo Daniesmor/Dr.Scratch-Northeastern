@@ -23,6 +23,7 @@ from django.utils.encoding import smart_str
 from django.shortcuts import render
 from django.conf import settings
 from django.shortcuts import get_object_or_404
+from .models import BatchCSV
 from app import org
 from app.forms import UrlForm, OrganizationForm, OrganizationHashForm, LoginOrganizationForm, CoderForm, DiscussForm
 from app.models import File, CSVs, Organization, OrganizationHash, Coder, Discuss, Stats, BatchCSV
@@ -98,6 +99,23 @@ def upload_personalized(request, skill_points=None):
 def base32_to_str(base32_str: str) -> str:
     value = int(base32_str, 32)
     return str(value).zfill(9)
+
+def calc_eta(num_projects: int) -> str:
+    """
+    Calc mean of each url timestamp analysis, and multyply
+    to the current number of projects.
+    """
+    last_ten = BatchCSV.objects.all().order_by('-date')[:10]
+
+    anal_time = sum(batch.task_time/batch.num_projects for batch in last_ten)/10
+    mean_tm = anal_time * num_projects
+    eta_h = mean_tm // 3600
+    eta_m = (mean_tm % 3600) // 60
+    eta_s = (mean_tm % 60)
+
+    eta_format = f'{int(eta_h)}h: {int(eta_m)}min: {round(eta_s,2)}s'
+    return eta_format
+
     
 def show_dashboard(request, skill_points=None):
     
@@ -116,12 +134,10 @@ def show_dashboard(request, skill_points=None):
         print(skill_rubric)
         d = d[0]
         if d['multiproject']:
-            """csv_filepath = create_csv(request, d)
-            summary = create_summary(request, d)   
-            print("summary", summary)   
-            
-            return render(request, user + '/dashboard-bulk.html', {'summary': summary, 'csv_filepath': csv_filepath})"""
-            return render(request, user + '/dashboard-bulk-email.html')
+            context = {
+                'ETA': calc_eta(d['num_projects'])
+            }
+            return render(request, user + '/dashboard-bulk-email.html', context)
         else: 
             if d['Error'] == 'analyzing':
                 return render(request, 'error/analyzing.html')
@@ -264,11 +280,11 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
             'multiproject': False
         })
     elif '_urls' in request.POST:
-        print("mi dashoard mode:", dashboard_mode)
+        urls_file = request.FILES['urlsFile'].readlines()
         request_data = {
             'LANGUAGE_CODE': request.LANGUAGE_CODE,
             'POST': {
-                'urlsFile': request.FILES['urlsFile'].readlines(),
+                'urlsFile': urls_file,
                 'dashboard_mode': dashboard_mode, 
                 'email': request.POST['batch-email']       
             }
@@ -278,7 +294,8 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
         
         dict_metrics[project_counter] = {
             'multiproject': True,
-            }
+            'num_projects': len(urls_file)
+        }
 
     return dict_metrics
 
