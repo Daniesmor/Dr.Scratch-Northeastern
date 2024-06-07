@@ -4,57 +4,80 @@ import types
 from .batch import create_csv, create_summary
 from email.message import EmailMessage
 from django.core.mail import EmailMessage as DjangoEmailMessage
+from django.shortcuts import get_object_or_404
 from django.conf import settings
+from uuid import UUID
+from .models import BatchCSV
+from datetime import datetime
+
+def proccess_url(request_data_obj: object, skill_points: dict) -> dict:
+    # Obtain request data
+    urls = request_data_obj.POST['urlsFile']
+    dashboard_mode = request_data_obj.POST['dashboard_mode']
+
+    # Initialize dicts for metrics
+    dict_metrics = {} 
+
+    # Proccess each URL of the list
+    for i, url in enumerate(urls):
+        if i >= 10:
+            break 
+        url = url.decode('utf-8').strip()
+        dict_metrics[i] = _make_analysis_by_txt(request_data_obj, url, skill_points)
+        dict_metrics[i].update({
+            'url': url,
+            'filename': url,
+            'dashboard_mode': dashboard_mode,
+        })
+    return dict_metrics
+
+def mk_url(csv_id: UUID) -> str:
+    url = ''
+    if settings.PRODUCTION:
+        url = '{}/{}'.format('https://www.drscratch.org/batch',csv_id)
+    else:
+        url = '{}/{}'.format('http://0.0.0.0:8000/batch',csv_id)
+    print("The link of the batch analysis is:", url) 
+    return url
+
+def send_mail(email: str, csv_id: UUID) -> None:
+    url = mk_url(csv_id)
+    message = f'''
+    Thanks for using Dr.Scratch for analyze your projects!, you can download your csv by clicking here: {url}
+    '''
+
+    subject = '[Dr.Scratch Batch Analysis Finish]'
+    email = DjangoEmailMessage(subject, message, settings.EMAIL_HOST_USER, [email])
+    try:
+        email.send()
+    except:
+        print(f"Error seding mail: {email}")
+
+def register_timestamp(csv_id: UUID, start_time, end_endtime: datetime) -> None:
+    timestamp = (end_endtime- start_time).total_seconds()
+
+    obj = get_object_or_404(BatchCSV, id=csv_id)
+    obj.task_time = timestamp
+    obj.save()
 
 @app.task(bind=True)
 def init_batch(self, request_data, skill_points):
-    print("----------------------- BATCH MODE CELERY ----------------------------------------------")
-    urls_file = request_data['POST']['urlsFile']
+    # Start task counter for ETA
+    start_time = datetime.now()
 
-    dict_metrics = {}
-    url = None
-    filename = None
-    project_counter = 0
-    dashboard_mode = request_data['POST']['dashboard_mode']
-    email = request_data['POST']['email']
-    print("mi email", email)
     request_data_obj = types.SimpleNamespace(**request_data)
+    re_email = request_data_obj.POST ['email']
+
+    dict_metrics = proccess_url(request_data_obj, skill_points)
+    csv_id = create_csv(request_data_obj, dict_metrics) 
+
+    # Stop and register time for ETA
+    end_time = datetime.now()
+    register_timestamp(csv_id, start_time, end_time)
+
+    send_mail(re_email, csv_id)
+
 
     
-    for i, url in enumerate(urls_file):
-        if i >= 10:
-            break
-            
-        url = url.decode('utf-8').strip()
-        filename = url
-        dict_metrics[project_counter] = _make_analysis_by_txt(request_data_obj, url, skill_points)
-        dict_metrics[project_counter].update({
-            'url': url,
-            'filename': filename,
-            'dashboard_mode': dashboard_mode,
-        })
-        project_counter += 1
-
-    # CREATE CSV
-    csv_id = create_csv(request_data_obj, dict_metrics)
-    url = '{}/{}'.format('https://www.drscratch.org/batch',csv_id)
-    local_url = '{}/{}'.format('http://0.0.0.0:8000/batch',csv_id)
-    print("mi url", local_url) 
-
-
-    # SEND MAIL
-
-    message = f'''
-    Thanks for using Dr.Scratch for analyze your projects!, you can download your csv by clicking here: {local_url}
-    '''
-
-    # Asunto del correo electrónico
-    subject = '[Dr.Scratch Batch Analysis Finish]'
-
-    # Crear el objeto EmailMessage
-    email = DjangoEmailMessage(subject, message, settings.EMAIL_HOST_USER, [email])
-
-    # Envíar el correo electrónico
-    email.send()
 
         

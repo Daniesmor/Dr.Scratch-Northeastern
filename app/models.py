@@ -25,9 +25,9 @@ class File(models.Model):
     deadCode = models.IntegerField()
     duplicateScript = models.IntegerField()
 
-
 class BatchCSV(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    task_time = models.FloatField(default=0)
     filepath = models.CharField(max_length=100)
     num_projects = models.IntegerField()
     max_points = models.FloatField()
@@ -52,7 +52,6 @@ class BatchCSV(models.Model):
     motion_operators = models.FloatField()
     mastery = models.CharField(max_length=50)
     date = models.DateTimeField(default=datetime.datetime.now)
-
 
 class CSVs(models.Model):
     filename = models.CharField(max_length=100)
