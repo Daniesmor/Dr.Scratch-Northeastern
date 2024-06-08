@@ -48,6 +48,9 @@ urlpatterns = [
     # Rubric personalized
     url(r'^rubric_creator', app_views.rubric_creator, name='rubric_creator'),
     url(r'^(?P<skill_points>.{1,6})$', app_views.upload_personalized, name='upload_personalized'),
+
+    # C_Mode
+    url(r'^compare_uploader', app_views.compare_uploader, name='compare_uploader'),
         
     # Dashboards
     url(r'^show_dashboard/(?P<skill_points>.{1,6})?$', app_views.show_dashboard, name='show_dashboard'),
