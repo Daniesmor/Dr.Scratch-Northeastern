@@ -1,0 +1,696 @@
+{% load i18n %}
+<!doctype html>
+
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta name="description" content="Analyze your Scratch projects to assess your Computational Thinking skills">
+        <meta name="keywords" content="Stamp, Startup, Multipurpose, Bootstrap, Landing page, Template, Registration, Landing">
+        <meta name="author" content="Programamos URJC Libresoft FECyT">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+        <link rel="stylesheet" href="../../static/app/content/scratchblocks2.css">
+        <!-- <script src="../../static/app/scripts/bootstrap-modal.js"></script> -->
+        <script src="../../static/app/scripts/translations.js"></script>
+        <!-- <script src="../../static/app/scripts/bootstrap.js"></script> -->
+        <link rel="stylesheet" href="../../static/app/content/bootstrap-tour.css">
+        <script src="../../static/app/scripts/bootstrap.min.js"></script>
+        <script src="../../static/app/scripts/bootstrap-tour.js"></script>
+        <script src="../../static/app/scripts/googleAnalytics.js"></script>
+        <script src="../../static/app/scripts/scratchblocks-v3.4-min.js"></script>
+
+        <!-- SITE TITLE -->
+        <title>Dr. Scratch</title>
+
+
+        <link rel="stylesheet" href="/static/app/content/style.css">
+        <!-- =========================
+            FAV AND TOUCH ICONS AND FONT
+        ============================== -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link rel="icon" href="/static/app/images/favicon.ico">
+        <link rel="stylesheet" href="static/app/icons/icons.css">
+        <link type="text/css" rel="stylesheet" href="/static/app/content/css_002.css">
+        <link type="text/css" rel="stylesheet" href="/static/app/content/css.css">
+        <!-- =========================
+            STYLESHEETS
+        ============================== -->
+        <!-- BOOTSTRAP AND ANIMATION -->
+        <link rel="stylesheet" href="/static/app/content/bootstrap.min.css">
+        <link rel="stylesheet" href="/static/app/content/animate.css">
+
+        <!-- CAROUSEL AND LIGHTBOX -->
+        <link rel="stylesheet" href="../../static/app/content/owl_002.css">
+        <link rel="stylesheet" href="../../static/app/content/owl.css">
+        <link rel="stylesheet" href="../../static/app/content/nivo-lightbox.css">
+        <link rel="stylesheet" href="../../static/app/content/default.css">
+
+        <!-- CUSTOM STYLESHEETS -->
+        <link rel="stylesheet" href="../../static/app/content/styles.css">
+        {% if Project.mastery.competence == "Basic" %}
+            <link rel="stylesheet" href="/static/app/content/basic.css">
+        {% elif Project.mastery.competence == "Developing" %}
+            <link rel="stylesheet" href="/static/app/content/developing.css">
+        {% elif Project.mastery.competence == "Master" %}
+            <link rel="stylesheet" href="/static/app/content/master.css">
+        {% elif Project.mastery.competence == "Advanced" %}
+            <link rel="stylesheet" href="/static/app/content/advanced.css">
+        {% elif Project.mastery.competence == "Finesse" %}
+            <link rel="stylesheet" href="/static/app/content/finesse.css">
+        {% endif %}
+
+        <!-- RESPONSIVE FIXES -->
+        <link rel="stylesheet" href="../../static/app/content/responsive.css">
+
+        <!-- DEFAULT COLOR/ CURRENTLY USING -->
+        <link rel="stylesheet" href="../../static/app/content/red.css">
+
+
+
+        <script>
+                window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
+        </script>
+        <script>
+            $(document).ready(function () {
+                $('.dropdown').popover();
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                scratchblocks.renderMatching('pre.blocks', {
+                style:     'scratch3',   // Optional, defaults to 'scratch2'.
+                languages: ['en'], // Optional, defaults to ['en'].
+                scale: 0.5,                // Optional, defaults to 1
+                });
+            })
+        </script>
+        <script>
+            $(document).ready(function () {
+                if("{{ dupCode }}" == ""){
+                    $("#dupCode").attr("data-content","{% trans 'Your project does not have duplicated scripts, good job!' %}");
+                }else{
+                    str = "{{ dupCode }}".split(",");
+                    for (n in str){
+
+                        if(n == 0){str[n] = str[n].slice(13,-11)}
+                        else if(n == str.length-1) { str[n] = str[n].slice(14,-12)}
+                        else{
+                        str[n] = str[n].slice(14,-11)};
+                    };
+                    $("#dupCode").attr("data-content",str.join("\n"));
+                }
+            });
+        </script>
+        <script>
+            $(document).ready(function(){
+
+                var mode = $("#certificate").data("mode");
+
+                if (mode == "vanilla") {
+                    var filename = "{{ filename }}";
+                    var level = "{{ mastery_vanilla.points.0}}/{{ mastery_vanilla.points.1 }}";
+                } else if (mode == "personalized") {
+                    var filename = "{{ filename }}";
+                    var level = "{{ mastery.points.0}}/{{ mastery.points.1 }}";
+                } else if (mode == "extended") {
+                    var filename = "{{ filename }}";
+                    var level = "{{ mastery.points.0}}/{{ mastery.points.1 }}";
+                }
+        
+
+                var list =[filename,level];
+                $("#certificate").val(list.toString());
+            });
+        
+        </script>
+        
+        <script>
+            $(document).ready(function(){
+                var isMouseOverPopover = false;
+            
+                $('.dropdown').popover({
+                    trigger: 'manual',
+                    html: true,
+                    animation: false
+                }).on('mouseenter', function () {
+                    var contentId = $(this).attr('id');
+                    if (contentId === 'dead-code') {
+                        var content = $(this).next('#dead-code-content').html();
+                        $(this).attr('data-content', content);
+                    } else if (contentId === 'duplicated-scripts') {
+                        var content = $(this).next('#duplicated-scripts-content').html();
+                        $(this).attr('data-content', content);
+                    } else {
+                        var _this = this;
+                    }
+                    $(this).popover('show');
+                    $('.popover').on('mouseenter', function () {
+                        isMouseOverPopover = true;
+                    }).on('mouseleave', function () {
+                        isMouseOverPopover = false;
+                        $(_this).popover('hide');
+                    });
+                }).on('mouseleave', function () {
+                    var _this = this;
+                    setTimeout(function () {
+                        if (!isMouseOverPopover) {
+                            $(_this).popover('hide');
+                        }
+                    }, 100);
+                });
+            });
+                
+        </script>
+
+        <script>
+            function modalContentChange(contentId) {
+                var content = document.getElementById(contentId).innerHTML;
+                document.getElementById("modalContentChange").innerHTML = content;
+                $('#exampleModal').modal('show');
+            }
+        </script>
+
+        <script>
+            $(document).ready(function() {
+                $('.progress-bar').each(function() {
+                    var progressBar = $(this);
+                    var progressValue = parseFloat(progressBar.attr('aria-valuenow'));
+                    var maxValue = parseFloat(progressBar.attr('aria-valuemax'));
+                    var percentage = (progressValue / maxValue) * 100;
+        
+                    if (percentage <= 33) {
+                        progressBar.removeClass('progress-bar-success progress-bar-warning');
+                        progressBar.addClass('progress-bar-danger');
+                    } else if (percentage > 33 && percentage <= 66) {
+                        progressBar.removeClass('progress-bar-success progress-bar-danger');
+                        progressBar.addClass('progress-bar-warning');
+                    } else {
+                        progressBar.removeClass('progress-bar-danger progress-bar-warning');
+                        progressBar.addClass('progress-bar-success');
+                    }
+                });
+            });
+        </script>
+
+        <script>
+            $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+            });
+        </script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', (event) => {
+                // Function to handle link click
+                function handleLinkClick(event, urlProjectValue) {
+                    event.preventDefault();  // Prevent the default link click behavior
+
+                    // Define the data to be sent
+                    const data = {
+                        dashboard_mode: 'Default',
+                        urlProject: urlProjectValue,
+                        _url: 'url' // Assuming you handle file uploads differently
+                    };
+
+                    // Create a hidden form element
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = event.currentTarget.href;
+                    form.target = '_blank';
+
+                    // Append CSRF token
+                    const csrfToken = '{{ csrf_token }}';
+                    const csrfInput = document.createElement('input');
+                    csrfInput.type = 'hidden';
+                    csrfInput.name = 'csrfmiddlewaretoken';
+                    csrfInput.value = csrfToken;
+                    form.appendChild(csrfInput);
+
+                    // Append data to the form
+                    for (const key in data) {
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = key;
+                        input.value = data[key];
+                        form.appendChild(input);
+                    }
+
+                    // Append form to the body and submit
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+
+                // Add event listeners to the links
+                document.getElementById('back-to-vanilla-base').addEventListener('click', function(event) {
+                    handleLinkClick(event, '{{ Base.url }}');
+                });
+
+                document.getElementById('back-to-vanilla-project').addEventListener('click', function(event) {
+                    handleLinkClick(event, '{{ Project.url }}');
+                });
+            });
+        </script>
+
+        <style>
+            .btn-primary {
+                background-color: #1792A4;
+            }
+            .btn-primary:hover {
+                background-color: #4CA8A1;
+            }
+            .btn-primary:focus {
+                background-color: #4CA8A1;
+            }
+            .tab {
+                overflow: hidden;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            /* Style the buttons that are used to open the tab content */
+            .tab button {
+            background-color: #fc3b3b;
+            color: white;
+            font-family: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 6px; 
+            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 0.1)); 
+            margin-right: 20px;
+            }
+            /* Change background color of buttons on hover */
+            .tab button:hover {
+            background-color: #d63031;
+            }
+            /* Create an active/current tablink class */
+            .tab button.active {
+            background-color: #FF8B8B;
+            }
+            .bad-smells-title {
+                font-size: 3rem;
+                font-weight: bold;
+                color: #fc3b3b;
+                text-align: center;
+                padding: 30px 0;
+                position: relative;
+            }
+            .bad-smells-title::before {
+                content: "";
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: -10px;
+                height: 10px;
+            }
+            .bad-smells-title::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: -10px;
+                height: 10px;
+            }
+            .island {
+                margin-bottom: 20px;
+            }
+            .content {
+                display: none;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                background-color: rgba(0, 0, 0, 0.8);
+                color: white;
+                z-index: 999;
+                overflow-y: auto;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+            .island img {
+                max-width: 100%;
+                height: auto;
+                cursor: pointer;
+            }
+            #dashboard .row {
+                position: relative;
+            }
+            .small-icon {
+                font-size: 1rem;
+                vertical-align: middle;
+            }
+            .modal-dialog {
+                max-width: 50px; /* Ajusta el tamaño máximo del modal */
+            }
+            .modal-dialog-centered {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: auto;
+            }
+
+        </style>    
+
+    </head>
+    <body>
+        <div id="wrap">
+            <!-- TOP BAR -->
+            <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top  sticky-navigation" role="navigation">
+                <div class="container">
+                    <!-- NAVIGATION LINK -->
+                    <a href="/">
+                        <img src="static/app/images/logo_main.png" alt="" width="220" height="70.1667">
+                    </a>
+
+                </div>
+            </div>
+            <!-- /END TOP BAR -->
+            <div id="url-container" data-url="{% url 'get_analysis_d' %}"></div>
+            <!-- MAIN CONTENT -->
+            <!-- C MODE -->
+        <div id="Compare" class="tabcontent">
+            <div class="container">
+                <section id="dashboard" style="display: flex; align-items: center;">
+                    <div class="col-md-6" style="padding-left: 5%;">
+                        <div class="container">
+                            <section id="dashboard" class="services col-md-5" style="padding-top: 0px;">
+                                <!-- POINTS PANEL -->
+                                <div class="jumbotron" style="padding-top: 5px; padding-left: 10%;">
+                                    <div class="panel ">
+                                        <div class="panel-heading" id="steptwo" >
+                                            <h2 id="score" class="panel-title dark-text">
+                                                <strong>
+                                                    {% if Comparison.same_functionality %}
+                                                        {% trans "BEFORE" %}
+                                                    {% else %}
+                                                        {{ Base.filename }}
+                                                    {% endif %}
+                                                </strong>
+                                            </h2>
+                                        </div>
+                                        <div class="panel-body" style="display: flex; align-items: center;">
+                                            <div class="container col-md-12">
+                                                <div class="row" style="display: flex; align-items: center;">
+                                                    <div class="col-12 text-center" id="modal_new_score" style="margin-left: 27%;">
+                                                        <h3 class="dark-text"><strong> {% trans "Score:" %} </strong></h3>
+                                                        <h2 id="original-score" class="dark-text" style="font-size: 70px;"> {{ Base.mastery_vanilla.points.0 }}/{{ Base.mastery_vanilla.points.1 }}</h2>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <h3 class="dark-text" style="font-size: 20px;"><strong> {% trans "Blocks and Sprites Usage:" %} </strong></h3>
+                                                    <div class="col-12 d-flex align-items-center">
+                                                        <div class="col-sm-6 d-flex align-items-center">
+                                                            <img src="/static/app/images/golfing_blocks.png" height="70px" class="mr-3">
+                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="original-total-blocks">{{ Comparison.original.total_blocks }} {% trans ' blocks' %}</h2>
+                                                        </div>
+            
+                                                        <div class="col-sm-6 d-flex align-items-center">
+                                                            <img src="/static/app/images/golfing_sprites.png" height="70px" class="display-flex">
+                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="original-total-sprites">{{ Comparison.original.total_sprites }} {% trans ' sprites' %}</h2>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <h3 class="dark-text" style="font-size: 20px;"><strong> {% trans "Bad Smells:" %} </strong></h3>
+                                                    <div class="col-12 d-flex align-items-center">
+                                                        <div class="col-sm-6 d-flex align-items-center">
+                                                            <img src="/static/app/images/golfing_blocks.png" height="70px" class="mr-3">
+                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="original-duplicate">{{ Base.duplicateScript.number }} {% trans ' duplicated' %}</h2>
+                                                        </div>
+                                                        <div class="col-sm-6 d-flex align-items-center">
+                                                            <img src="/static/app/images/golfing_sprites.png" height="70px" class="display-flex">
+                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="original-dead">{{ Base.deadCode.number }} {% trans ' dead blocks' %}</h2>
+                                                        </div>
+                                                        <div class="col-sm-6 d-flex align-items-center">
+                                                            <img src="/static/app/images/member.jpg" height="70px" class="mr-3">
+                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="original-sprite">{{ Base.spriteNaming.number }} {% trans ' sprites' %}</h2>
+                                                        </div>
+                                                        <div class="col-sm-6 d-flex align-items-center">
+                                                            <img src="/static/app/images/backdrop_naming.jpeg" height="70px" class="display-flex">
+                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="original-backdrop">{{ Base.backdropNaming.number }} {% trans ' backdrops' %}</h2>
+                                                        </div>
+                                                    </div>                 
+                                                </div>
+                                                <div class="row" style="padding-top: 5%;">
+                                                    <a href="/show_dashboard/" id="back-to-vanilla-base" style="margin-bottom: 10%;"><span class="glyphicon glyphicon-hand-right"></span>{% trans " Go to Vanilla Mode." %}</a>
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="container">
+                            <section id="dashboard" class="services col-md-5" style="padding-top: 0px;">
+                                <!-- POINTS PANEL -->
+                                <div class="jumbotron" style="padding-top: 5px; padding-left: 10%;">
+                                    <div class="panel ">
+                                        <div class="panel-heading" id="steptwo" >
+                                            <h2 id="score" class="panel-title dark-text">
+                                                <strong>
+                                                    {% if Comparison.same_functionality %}
+                                                        {% trans "AFTER" %}
+                                                    {% else %}
+                                                        {{ Project.filename }}
+                                                    {% endif %}
+                                                </strong>
+                                            </h2>
+                                        </div>
+                                        <div class="panel-body" style="display: flex; align-items: center;">
+                                            <div class="container col-md-12">
+                                                <div class="row" style="display: flex; align-items: center;">
+                                                    <div class="col-12 text-center" id="modal_new_score" style="margin-left: 27%;">
+                                                        <h3 class="dark-text"><strong> {% trans "Score:" %} </strong></h3>
+                                                        <h2 id="new-score" class="text-success" style="font-size: 70px;"> {{ Project.mastery_vanilla.points.0 }}/{{ Project.mastery_vanilla.points.1 }}</h2>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <h3 class="dark-text" style="font-size: 20px;"><strong> {% trans "Blocks and Sprites Usage:" %} </strong></h3>
+                                                    <div class="col-12 d-flex align-items-center">
+                                                        <div class="col-sm-6 d-flex align-items-center">
+                                                            <img src="/static/app/images/golfing_blocks.png" height="70px" class="mr-3">
+                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="new-total-blocks">{{ Comparison.new.total_blocks }} {% trans ' blocks ' %}</h2>
+                                                        </div>
+            
+                                                        <div class="col-sm-6 d-flex align-items-center">
+                                                            <img src="/static/app/images/golfing_sprites.png" height="70px" class="display-flex">
+                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="new-total-sprites">{{ Comparison.new.total_sprites }} {% trans ' sprites ' %}</h2>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <h3 class="dark-text" style="font-size: 20px;"><strong> {% trans "Bad Smells:" %} </strong></h3>
+                                                    <div class="col-12 d-flex align-items-center">
+                                                        <div class="col-sm-6 d-flex align-items-center">
+                                                            <img src="/static/app/images/golfing_blocks.png" height="70px" class="mr-3">
+                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="new-duplicate">{{ Project.duplicateScript.number }} {% trans ' duplicated ' %}</h2>
+                                                        </div>
+                                                        <div class="col-sm-6 d-flex align-items-center">
+                                                            <img src="/static/app/images/golfing_sprites.png" height="70px" class="display-flex">
+                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="new-dead">{{ Project.deadCode.number }} {% trans ' dead blocks ' %}</h2>
+                                                        </div>
+                                                        <div class="col-sm-6 d-flex align-items-center">
+                                                            <img src="/static/app/images/member.jpg" height="70px" class="mr-3">
+                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="new-sprite">{{ Project.spriteNaming.number }} {% trans ' sprites ' %}</h2>
+                                                        </div>
+                                                        <div class="col-sm-6 d-flex align-items-center">
+                                                            <img src="/static/app/images/backdrop_naming.jpeg" height="70px" class="display-flex">
+                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="new-backdrop">{{ Project.backdropNaming.number }} {% trans ' backdrops ' %}</h2>
+                                                        </div>
+                                                    </div>                 
+                                                </div>
+                                                <div class="row" style="padding-top: 5%;">
+                                                    <a href="/show_dashboard/" id="back-to-vanilla-project" style="margin-bottom: 10%;"><span class="glyphicon glyphicon-hand-right"></span>{% trans " Go to Vanilla Mode." %}</a>
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <a href="/compare_uploader" id="back-to-project" style="margin-bottom: 10%;"><span class="glyphicon glyphicon-hand-right"></span>{% trans " Come back to the uploader." %}</a>
+        <br>
+        <!-- Modal HTML -->
+        <div id="scoreChangeModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="scoreChangeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content" style="padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px;border-bottom-width: 0px;border-top-width: 0px;border-left-width: 0px;border-right-width: 0px;">
+                    <section id="dashboard" style="padding-top: 0px; width: auto;">
+                        <div class="container" style="padding-left: 0px; padding-right: 0px; width: 550px;">
+                            <div class="jumbotron" style="width: auto;margin-bottom: 0px; display: flex; flex-direction: column; align-items: center;">
+                                <div class="row">
+                                    <div class="col-4" id="modal-feedback-img">
+                                    </div>
+                                    <div class="col-4" id="modal-feedback">
+                                        <h2 class="dark-text" style="font-size: 50px; " id="scoreChangeModalLabel"></h2>
+                                        <h4 class="dark-text" id="modal-feedback-content"></h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="footer grey-bg">
+            <p>{% trans "©2024 Dr.Scratch Made with " %} <span style="color: #e25555;">&#9829;</span> {% trans "by " %} <a href="/collaborators">{% trans "Dr.Scratch Team." %}</a></p>
+                <!-- SOCIAL ICONS -->
+                <ul class="social-icons">
+                    <li>
+                        <a href="https://github.com/Daniesmor/Dr.Scratch-Northeastern"> 
+                        <i class="bi bi-github" style="color: black;"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/DrScratchTool">
+                        <i class="bi bi-twitter-x" style="color: black;"></i>
+                        </a>
+                    </li>    
+                </ul>
+        </footer>
+
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            var baseScore = {{ Base.mastery_vanilla.points.0 }};
+            var projectScore = {{ Project.mastery_vanilla.points.0 }};
+            
+            if (baseScore !== projectScore) {
+                var modalTitle = '';
+                var modalMessage = '';
+                var imageUrl = '';
+                var diffPoints = Math.abs(baseScore - projectScore);
+        
+                if (baseScore < projectScore) {
+                    modalTitle = '{% trans "Congrats!!" %}';
+                    modalMessage = '{% trans "You have improved this project by " %}' + '<span class="text-success"><strong>' + diffPoints + '</strong></span>' + '{% trans " points" %}';
+                    imageUrl = '/static/app/images/cat.png';
+                } else {
+                    modalTitle = '{% trans "Oops..." %}';
+                    modalMessage = '{% trans "You have dropped this project by " %}' + '<span class="colored-text"><strong>' + diffPoints + '</strong></span>' + '{% trans " points" %}';
+                    imageUrl = '/static/app/images/monkey.png'
+                }
+    
+                var imgElement = $('<img>', {
+                    src: imageUrl,
+                    class: 'img-responsive col-md-4',
+                    style: 'margin-left: 30px;'
+                });
+                
+                $('#modal-feedback-img').append(imgElement);
+                $('#scoreChangeModalLabel').text(modalTitle);
+                $('#modal-feedback-content').html(modalMessage);
+                $('#scoreChangeModal').modal('show');
+            }
+        });
+    </script>
+
+    <script>
+        var num1 = {{ Base.mastery_vanilla.points.0 }};
+        var num2 = {{ Project.mastery_vanilla.points.0 }};
+
+        var resultado = Math.abs(num1 - num2);
+        console.log(resultado);
+        document.getElementById('diff-points').textContent = resultado;
+
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // Obtenemos los valores de bloques y sprites de "BEFORE"
+            var scoreBefore = parseInt($("#original-score").text());
+            var blocksBefore = parseInt($("#original-total-blocks").text());
+            var spritesBefore = parseInt($("#original-total-sprites").text());
+            var duplicateBefore = parseInt($("#original-duplicate").text());
+            var deadBefore = parseInt($("#original-dead").text());
+            var spriteBefore = parseInt($("#original-sprite").text());
+            var backdropBefore = parseInt($("#original-backdrop").text());
+            
+            // Obtenemos los valores de bloques y sprites de "AFTER"
+            var scoreAfter = parseInt($("#new-score").text());
+            var blocksAfter = parseInt($("#new-total-blocks").text());
+            var spritesAfter = parseInt($("#new-total-sprites").text());
+            var duplicateAfter = parseInt($("#new-duplicate").text());
+            var deadAfter = parseInt($("#new-dead").text());
+            var spriteAfter = parseInt($("#new-sprite").text());
+            var backdropAfter = parseInt($("#new-backdrop").text());
+            
+            // Función para actualizar la clase del texto
+            function updateTextClass(element, valueBefore, valueAfter) {
+                if (valueAfter < valueBefore) {
+                    element.removeClass('dark-text colored-text').addClass('text-success');
+                    element.append('<i class="bi bi-check-circle-fill"></i>');
+                } else if (valueAfter > valueBefore) {
+                    element.removeClass('dark-text text-success').addClass('colored-text');
+                    element.append('<i class="bi bi-exclamation-triangle-fill"></i>');
+                } else {
+                    element.removeClass('text-success colored-text').addClass('dark-text');
+                }
+            }
+
+            // Función para actualizar la clase del texto
+            function updateTextScore(element, valueBefore, valueAfter) {
+                if (valueAfter > valueBefore) {
+                    element.removeClass('dark-text colored-text').addClass('text-success');
+                } else if (valueAfter < valueBefore) {
+                    element.removeClass('dark-text text-success').addClass('colored-text');
+                } else {
+                    element.removeClass('text-success colored-text').addClass('dark-text');
+                }
+            }
+            
+            // Actualizamos las clases de los elementos
+            updateTextScore($("#new-score"), scoreBefore, scoreAfter);
+            updateTextClass($("#new-total-blocks"), blocksBefore, blocksAfter);
+            updateTextClass($("#new-total-sprites"), spritesBefore, spritesAfter);
+            updateTextClass($("#new-duplicate"), duplicateBefore, duplicateAfter);
+            updateTextClass($("#new-dead"), deadBefore, deadAfter);
+            updateTextClass($("#new-sprite"), spriteBefore, spriteAfter);
+            updateTextClass($("#new-backdrop"), backdropBefore, backdropAfter);
+        }); 
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('global-submit-original').addEventListener('click', function() {
+                var moreContent = document.getElementById('more-content-original');
+                if (moreContent.style.display === 'none' || moreContent.style.display === '') {
+                    moreContent.style.display = 'block';
+                    this.innerText = "{% trans 'Show Less' %}";
+                } else {
+                    moreContent.style.display = 'none';
+                    this.innerText = "{% trans 'Show More' %}";
+                }
+            });
+        });
+    </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('global-submit-new').addEventListener('click', function() {
+            var moreContent = document.getElementById('more-content-new');
+            if (moreContent.style.display === 'none' || moreContent.style.display === '') {
+                moreContent.style.display = 'block';
+                this.innerText = "{% trans 'Show Less' %}";
+            } else {
+                moreContent.style.display = 'none';
+                this.innerText = "{% trans 'Show More' %}";
+            }
+        });
+    });
+</script>
+
+    </body>
+</html>
+        
