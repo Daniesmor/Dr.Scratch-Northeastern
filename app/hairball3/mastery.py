@@ -110,7 +110,7 @@ class Mastery(Plugin):
         Extrapolate the points of the extended mode to the vanilla mode.
         """
         mastery = {'Logic', 'FlowControl', 'Synchronization', 'Abstraction', 'DataRepresentation', 
-                'UserInteractivity', 'Parallelism'}
+                'UserInteractivity', 'Parallelization'}
         
         new_dict = {}
         for skill in dict_mastery:

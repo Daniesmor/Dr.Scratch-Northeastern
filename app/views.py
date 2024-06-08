@@ -1217,7 +1217,7 @@ def set_file_obj(request, file_obj, dict, mode=None):
     file_obj.score = dict["total_points"][0]
     file_obj.competence = dict["competence"]
     file_obj.abstraction = dict["Abstraction"][0]
-    file_obj.Parallelism = dict["Parallelism"][0]
+    file_obj.parallelization = dict["Parallelization"][0]
     file_obj.logic = dict["Logic"][0]
     file_obj.synchronization = dict["Synchronization"][0]
     file_obj.flow_control = dict["FlowControl"][0]
@@ -1284,7 +1284,7 @@ def translate(request, d, filename, vanilla=False):
     """
 
     if request.LANGUAGE_CODE == "es":
-        d_translate_es = {'Abstracción': [d['Abstraction'], 'Abstraction'], 'Paralelismo': [d['Parallelism'], 'Parallelism'],
+        d_translate_es = {'Abstracción': [d['Abstraction'], 'Abstraction'], 'Paralelismo': [d['Parallelization'], 'Parallelism'],
                           'Pensamiento lógico': [d['Logic'], 'Logic'], 'Sincronización': [d['Synchronization'], 'Synchronization'],
                           'Control de flujo': [d['FlowControl'], 'FlowControl'], 'Interactividad con el usuario': [d['UserInteractivity'], 'UserInteractivity'],
                           'Representación de la información': [d['DataRepresentation'], 'DataRepresentation']}
@@ -1294,7 +1294,7 @@ def translate(request, d, filename, vanilla=False):
         filename.save()
         return d_translate_es
     elif request.LANGUAGE_CODE == "en":
-        d_translate_en = {'Abstraction': [d['Abstraction'], 'Abstraction'], 'Parallelism': [d['Parallelism'], 'Parallelism'], 'Logic': [d['Logic'], 'Logic'],
+        d_translate_en = {'Abstraction': [d['Abstraction'], 'Abstraction'], 'Parallelism': [d['Parallelization'], 'Parallelism'], 'Logic': [d['Logic'], 'Logic'],
                           'Synchronization': [d['Synchronization'], 'Synchronization'], 'Flow control': [d['FlowControl'], 'FlowControl'],
                           'User interactivity': [d['UserInteractivity'], 'UserInteractivity'], 'Data representation': [d['DataRepresentation'], 'DataRepresentation']}
         if not vanilla: 
@@ -1303,7 +1303,7 @@ def translate(request, d, filename, vanilla=False):
         filename.save()
         return d_translate_en
     elif request.LANGUAGE_CODE == "ca":
-        d_translate_ca = {'Abstracció': [d['Abstraction'], 'Abstraction'], 'Paral·lelisme': [d['Parallelism'], 'Parallelism'], 'Lògica': [d['Logic'], 'Logic'],
+        d_translate_ca = {'Abstracció': [d['Abstraction'], 'Abstraction'], 'Paral·lelisme': [d['Parallelization'], 'Parallelism'], 'Lògica': [d['Logic'], 'Logic'],
                           'Sincronització': [d['Synchronization'], 'Synchronization'], 'Controls de flux': [d['FlowControl'], 'FlowControl'],
                           "Interactivitat de l'usuari": [d['UserInteractivity'], 'UserInteractivity'],
                           'Representació de dades': [d['DataRepresentation'], 'DataRepresentation']}
@@ -1313,7 +1313,7 @@ def translate(request, d, filename, vanilla=False):
         filename.save()
         return d_translate_ca
     elif request.LANGUAGE_CODE == "gl":
-        d_translate_gl = {'Abstracción': [d['Abstraction'], 'Abstraction'], 'Paralelismo': [d['Parallelism'], 'Parallelism'], 'Lóxica': [d['Logic'], 'Logic'],
+        d_translate_gl = {'Abstracción': [d['Abstraction'], 'Abstraction'], 'Paralelismo': [d['Parallelization'], 'Parallelism'], 'Lóxica': [d['Logic'], 'Logic'],
                           'Sincronización': [d['Synchronization'], 'Synchronization'], 'Control de fluxo': [d['FlowControl'], 'FlowControl'],
                           "Interactividade do susario": [d['UserInteractivity'], 'UserInteractivity'],
                           'Representación dos datos': [d['DataRepresentation'], 'DataRepresentation']}
@@ -1324,7 +1324,7 @@ def translate(request, d, filename, vanilla=False):
         return d_translate_gl
 
     elif request.LANGUAGE_CODE == "pt":
-        d_translate_pt = {'Abstração': [d['Abstraction'], 'Abstraction'], 'Paralelismo': [d['Parallelism'], 'Parallelism'], 'Lógica': [d['Logic'], 'Logic'],
+        d_translate_pt = {'Abstração': [d['Abstraction'], 'Abstraction'], 'Paralelismo': [d['Parallelization'], 'Parallelism'], 'Lógica': [d['Logic'], 'Logic'],
                           'Sincronização': [d['Synchronization'], 'Synchronization'], 'Controle de fluxo': [d['FlowControl'], 'FlowControl'],
                           "Interatividade com o usuário": [d['UserInteractivity'], 'UserInteractivity'],
                           'Representação de dados': [d['DataRepresentation'], 'DataRepresentation']}
@@ -1335,7 +1335,7 @@ def translate(request, d, filename, vanilla=False):
         return d_translate_pt
     
     elif request.LANGUAGE_CODE == "el":
-        d_translate_el = {'Αφαίρεση': [d['Abstraction'], 'Abstraction'], 'Παραλληλισμός': [d['Parallelism'], 'Parallelism'], 'Λογική': [d['Logic'], 'Logic'],
+        d_translate_el = {'Αφαίρεση': [d['Abstraction'], 'Abstraction'], 'Παραλληλισμός': [d['Parallelization'], 'Parallelism'], 'Λογική': [d['Logic'], 'Logic'],
                           'Συγχρονισμός': [d['Synchronization'], 'Synchronization'], 'Έλεγχος ροής': [d['FlowControl'], 'FlowControl'],
                           'Αλληλεπίδραση χρήστη': [d['UserInteractivity'], 'UserInteractivity'],
                           'Αναπαράσταση δεδομένων': [d['DataRepresentation'], 'DataRepresentation']}
@@ -1346,7 +1346,7 @@ def translate(request, d, filename, vanilla=False):
         return d_translate_el
 
     elif request.LANGUAGE_CODE == "eu":           
-        d_translate_eu = {'Abstrakzioa': [d['Abstraction'], 'Abstraction'], 'Paralelismoa': [d['Parallelism'], 'Parallelism'], 'Logika': [d['Logic'], 'Logic'],
+        d_translate_eu = {'Abstrakzioa': [d['Abstraction'], 'Abstraction'], 'Paralelismoa': [d['Parallelization'], 'Parallelism'], 'Logika': [d['Logic'], 'Logic'],
                           'Sinkronizatzea': [d['Synchronization'], 'Synchronization'], 'Kontrol fluxua': [d['FlowControl'], 'FlowControl'],
                           'Erabiltzailearen elkarreragiletasuna': [d['UserInteractivity'], 'UserInteractivity'],
                           'Datu adierazlea': [d['DataRepresentation'], 'DataRepresentation']}
@@ -1357,7 +1357,7 @@ def translate(request, d, filename, vanilla=False):
         return d_translate_eu
 
     elif request.LANGUAGE_CODE == "it":           
-        d_translate_it = {'Astrazione': [d['Abstraction'], 'Abstraction'], 'Parallelismo': [d['Parallelism'], 'Parallelism'], 'Logica': [d['Logic'], 'Logic'],
+        d_translate_it = {'Astrazione': [d['Abstraction'], 'Abstraction'], 'Parallelismo': [d['Parallelization'], 'Parallelism'], 'Logica': [d['Logic'], 'Logic'],
                           'Sincronizzazione': [d['Synchronization'], 'Synchronization'], 'Controllo di flusso': [d['FlowControl'], 'FlowControl'],
                           'Interattività utente': [d['UserInteractivity'], 'UserInteractivity'],
                           'Rappresentazione dei dati': [d['DataRepresentation'], 'DataRepresentation']}
@@ -1368,7 +1368,7 @@ def translate(request, d, filename, vanilla=False):
         return d_translate_it
 
     elif request.LANGUAGE_CODE == "ru":
-        d_translate_ru = {'Абстракция': [d['Abstraction'], 'Abstraction'], 'Параллельность действий': [d['Parallelism'], 'Parallelism'],
+        d_translate_ru = {'Абстракция': [d['Abstraction'], 'Abstraction'], 'Параллельность действий': [d['Parallelization'], 'Parallelism'],
                           'Логика': [d['Logic'], 'Logic'], 'cинхронизация': [d['Synchronization'], 'Synchronization'],
                           'Управление потоком': [d['FlowControl'], 'FlowControl'], 'Интерактивность': [d['UserInteractivity'], 'UserInteractivity'],
                           'Представление данных': [d['DataRepresentation'], 'DataRepresentation']}
@@ -1378,7 +1378,7 @@ def translate(request, d, filename, vanilla=False):
         filename.save()
         return d_translate_ru
     else:
-        d_translate_en = {'Abstraction': [d['Abstraction'], 'Abstraction'], 'Parallelism': [d['Parallelism'], 'Parallelism'], 'Logic': [d['Logic'], 'Logic'],
+        d_translate_en = {'Abstraction': [d['Abstraction'], 'Abstraction'], 'Parallelism': [d['Parallelization'], 'Parallelism'], 'Logic': [d['Logic'], 'Logic'],
                           'Synchronization': [d['Synchronization'], 'Synchronization'], 'Flow control': [d['FlowControl'], 'FlowControl'],
                           'User interactivity': [d['UserInteractivity'], 'UserInteractivity'], 'Data representation': [d['DataRepresentation'], 'DataRepresentation']}
         if not vanilla: 
@@ -2174,7 +2174,7 @@ def generate_csv(request, dictionary, filename, type_csv):
 
     if type_csv == "2_row":
         writer.writerow([dic["code"], dic["url"], dic["mastery"],
-                        dic["abstraction"], dic["Parallelism"],
+                        dic["abstraction"], dic["Parallelization"],
                         dic["logic"], dic["sync"],
                         dic["flow_control"], dic["user_inter"], dic["data_rep"],
                         dic["dup_scripts"],dic["sprite_naming"],
@@ -2655,7 +2655,7 @@ def statistics(request):
         },
         "totalProjects": obj.daily_projects,
         "skillRate": {
-            "Parallelism": obj.Parallelism,
+            "Parallelism": obj.parallelization,
             "abstraction": obj.abstraction,
             "logic": obj.logic,
             "synchronization": obj.synchronization,
