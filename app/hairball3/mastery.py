@@ -77,7 +77,7 @@ class Mastery(Plugin):
 
         if self.mode == 'Personalized':
             dict_result = {'plugin': 'mastery', 'personalized': self.dict_mastery}
-        elif self.mode == 'Default':
+        elif self.mode == 'Default' or self.mode == 'Comparison':
             vanilla_dict = self.calc_extrapolation(self.dict_mastery)
             vanilla_points = sum(points[0] for points in vanilla_dict.values())
             average_points = vanilla_points / 7
