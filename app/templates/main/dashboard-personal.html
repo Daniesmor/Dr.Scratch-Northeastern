@@ -144,7 +144,7 @@
                                         </div>
                                     </div>
                                     {% if refactor.refactor_list %}
-                                        <button type="button" class="btn btn-primary" onclick="modalContentChange('duplicated-scripts-content-r')">
+                                        <button type="button" class="btn btn-primary" onclick="modalContentChange('duplicated-scripts-content-r')" style="margin-bottom: 2%;">
                                             {% trans 'Display all duplicates' %}
                                         </button>
                                     {% endif %}
@@ -164,7 +164,8 @@
                                 <div class="panel-success" style="word-break: break-word;" >
                                     <h5>{{ filename }} <form name="form" class="project-form" enctype="multipart/form-data" method="post" action="/download_certificate">
                                     {% csrf_token %}
-                                    <button value="{{ filename }}" name="certificate" type="submit" data-mode="personalized" id ="certificate">{% trans "Download" %}</button>
+                                    <input type="hidden" name="level" value="{{ mastery.points.0 }}/{{ mastery.points.1 }}">
+                                    <button value="{{ filename }}" name="filename" type="submit" id ="certificate" style="margin-top: 3%;">{% trans "Download" %}</button>
                                   </form></h5>
                                 </div>
                             </div>
