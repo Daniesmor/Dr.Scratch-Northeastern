@@ -28,9 +28,11 @@ urlpatterns = [
     # CSVS (BATCH)
     url(r'^(.*)/csvs/(?P<path>.*)$',serve, {'document_root': settings.BASE_DIR + '/csvs'}),
 
+    # BATCH RAW html -> str
+    #url(r'^batch/raw/(?P<csv_identifier>[-\w]+)$', app_views.batch_email, name='batch_raw'),
     # BATCH)
     url(r'^batch/(?P<csv_identifier>.*)$',app_views.batch, name='batch'),
-
+    
     # Statistics
     url(r'^statistics$', app_views.statistics, name='statistics'),
 

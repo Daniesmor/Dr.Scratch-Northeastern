@@ -23,6 +23,8 @@ from django.utils.encoding import smart_str
 from django.shortcuts import render
 from django.conf import settings
 from django.shortcuts import get_object_or_404
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 from .models import BatchCSV
 from app import org
 from app.forms import UrlForm, OrganizationForm, OrganizationHashForm, LoginOrganizationForm, CoderForm, DiscussForm
@@ -137,7 +139,7 @@ def show_dashboard(request, skill_points=None):
             context = {
                 'ETA': calc_eta(d['num_projects'])
             }
-            return render(request, user + '/dashboard-bulk-email.html', context)
+            return render(request, user + '/dashboard-bulk-landing.html', context)
         else: 
             if d['Error'] == 'analyzing':
                 return render(request, 'error/analyzing.html')
@@ -174,8 +176,14 @@ def batch(request, csv_identifier):
         'Motion operators': [csv.motion_operators, csv.max_motion_operators],
         'Mastery': csv.mastery
     }
+    
+    context = {
+        'summary': summary,
+        'csv_filepath': csv_filepath
+    }
 
-    return render(request, user + '/dashboard-bulk.html', {'summary': summary, 'csv_filepath': csv_filepath})
+    return render(request, user + '/dashboard-bulk.html', context)
+    
 
 def process_contact_form(request):
     if request.method == 'POST':
