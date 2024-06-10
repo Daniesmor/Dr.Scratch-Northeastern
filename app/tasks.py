@@ -1,6 +1,7 @@
 from drScratch.celery import app
 from .analyzer import _make_analysis_by_txt
 import types
+import requests
 from .batch import create_csv, create_summary
 from email.message import EmailMessage
 from django.core.mail import EmailMessage as DjangoEmailMessage
@@ -9,6 +10,8 @@ from django.conf import settings
 from uuid import UUID
 from .models import BatchCSV
 from datetime import datetime
+from django.template.loader import render_to_string
+
 
 def proccess_url(request_data_obj: object, skill_points: dict) -> dict:
     # Obtain request data
@@ -33,21 +36,59 @@ def proccess_url(request_data_obj: object, skill_points: dict) -> dict:
 
 def mk_url(csv_id: UUID) -> str:
     url = ''
-    if settings.PRODUCTION:
-        url = '{}/{}'.format('https://www.drscratch.org/batch',csv_id)
+    if (settings.PRODUCTION == True):
+        url = '{}/{}'.format('https://www.drscratch.org/batch/raw',csv_id)
     else:
-        url = '{}/{}'.format('http://0.0.0.0:8000/batch',csv_id)
+        url = '{}/{}'.format('http://127.0.0.1:8000/batch/raw',csv_id)
     print("The link of the batch analysis is:", url) 
     return url
 
+def get_csv_sum(csv) -> dict:
+    summary = {}
+    summary = {
+        'Points': [csv.points, csv.max_points],
+        'Logic': [csv.logic, csv.max_logic],
+        'Parallelism': [csv.parallelization, csv.max_parallelization],
+        'Data representation': [csv.data, csv.max_data],
+        'Synchronization': [csv.synchronization, csv.max_synchronization],
+        'User interactivity': [csv.userInteractivity, csv.max_userInteractivity],
+        'Flow control': [csv.flowControl, csv.max_flowControl],
+        'Abstraction': [csv.abstraction, csv.max_abstraction],
+        'Math operators': [csv.math_operators, csv.max_math_operators],
+        'Motion operators': [csv.motion_operators, csv.max_motion_operators],
+        'Mastery': csv.mastery
+    }
+    return summary
+
+def mk_html(csv_id: UUID) -> str:
+    csv = get_object_or_404(BatchCSV, id=csv_id)
+
+    csv_filepath = csv.filepath
+
+    summary = get_csv_sum(csv)
+    
+    context = {
+        'summary': summary,
+        'csv_filepath': csv_filepath
+    }
+
+    html_message = render_to_string('main' + '/dashboard-bulk-emailv.html', context)
+    #plain_message = strip_tags(html_message)
+    print("traza en views", html_message)
+    return html_message
+    return ehtml
+
 def send_mail(email: str, csv_id: UUID) -> None:
     url = mk_url(csv_id)
+    ehtml = mk_html(csv_id)
+
     message = f'''
     Thanks for using Dr.Scratch for analyze your projects!, you can download your csv by clicking here: {url}
     '''
 
     subject = '[Dr.Scratch Batch Analysis Finish]'
-    email = DjangoEmailMessage(subject, message, settings.EMAIL_HOST_USER, [email])
+    email = DjangoEmailMessage(subject, ehtml, settings.EMAIL_HOST_USER, [email])
+    email.content_subtype = 'html'
     try:
         email.send()
     except:
