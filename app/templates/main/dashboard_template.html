@@ -101,28 +101,6 @@
                 }
             });
         </script>
-        <script>
-            $(document).ready(function(){
-
-                var mode = $("#certificate").data("mode");
-
-                if (mode == "vanilla") {
-                    var filename = "{{ filename }}";
-                    var level = "{{ mastery_vanilla.points.0}}/{{ mastery_vanilla.points.1 }}";
-                } else if (mode == "personalized") {
-                    var filename = "{{ filename }}";
-                    var level = "{{ mastery.points.0}}/{{ mastery.points.1 }}";
-                } else if (mode == "extended") {
-                    var filename = "{{ filename }}";
-                    var level = "{{ mastery.points.0}}/{{ mastery.points.1 }}";
-                }
-        
-
-                var list =[filename,level];
-                $("#certificate").val(list.toString());
-            });
-        
-        </script>
         
         <script>
             $(document).ready(function(){
