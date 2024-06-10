@@ -418,7 +418,7 @@ def generate_rubric(skill_points: str) -> dict:
             skill_rubric[skill_name] = int(points)   
     else:
         for skill_name in mastery:
-            skill_rubric[skill_name] = 5           
+            skill_rubric[skill_name] = 4 # Falta añadir Finesse           
     return skill_rubric  
     
      
@@ -502,7 +502,7 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
             dict_metrics[project_counter] = _make_analysis_by_upload(request, skill_points)
             if dict_metrics[project_counter]['Error'] != 'None':
                 return dict_metrics
-            filename = request.FILES['zipFile'].name.encode('utf-8')
+            filename = request.FILES['zipFile'].name
             dict_metrics[project_counter].update({
                 'url': url, 
                 'filename': filename,
@@ -511,6 +511,7 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
             })
         elif '_url' in request.POST:
             dict_metrics[project_counter] = _make_analysis_by_url(request, skill_points)
+            url = request.POST['urlProject']
             filename = url
             dict_metrics[project_counter].update({
                 'url': url, 
@@ -613,9 +614,9 @@ def save_analysis_in_file_db(request, zip_filename):
 
 def check_project(counter):
     if counter == 0:
-        project = "Base"
+        project = "Original"
     else:
-        project = "Project"
+        project = "New"
     return project
 
 def _make_comparison(request, skill_points: dict):
@@ -712,15 +713,11 @@ def _make_comparison(request, skill_points: dict):
     else:
         return HttpResponseRedirect('/')
     
-    print("Path:", path)
     for key,value in path.items():
         print(key, value)
         json[key] = load_json_project(value)    
-    print("Json:", json.keys())
-    dict_scratch_golfing = ScratchGolfing(json.get('Base'), json.get('Project')).finalize()
+    dict_scratch_golfing = ScratchGolfing(json.get('Original'), json.get('New')).finalize()
     dict_scratch_golfing = dict_scratch_golfing['result']['scratch_golfing']
-    print("Estando en views")
-    print(dict_scratch_golfing)
     d['Comparison'] = dict_scratch_golfing
     if "same_functionality" in request.POST:
         d['Comparison'].update({
@@ -1543,14 +1540,13 @@ def download_certificate(request):
     """
 
     if request.method == "POST":
-        data = request.POST["certificate"]
+        filename = request.POST["filename"]
         # Encode to make sure that cotains utf-8 chars
-        data = unicodedata.normalize('NFKD', data).encode('ascii', 'ignore')
+        filename = unicodedata.normalize('NFKD', filename).encode('ascii', 'ignore')
         # Decode again for manipulate the str
-        data = data.decode('utf-8') 
-        filename = data.split(",")[0]
+        filename = filename.decode('utf-8') 
         filename = clean_filename(filename)
-        level = data.split(",")[1]
+        level = request.POST["level"]
 
         if is_supported_language(request.LANGUAGE_CODE):
             language = request.LANGUAGE_CODE
