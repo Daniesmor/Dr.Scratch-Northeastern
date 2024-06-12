@@ -1,4 +1,4 @@
-import os
+import os, shutil
 
 
 def generate_certificate(filename, level, language):
@@ -31,5 +31,9 @@ def generate_certificate(filename, level, language):
 
     salida.write(text_final) # guarda los cambio en el fichero creado
     salida.close() # cierra el fichero creado
-    os.system(str("pdflatex " + "output.tex")) # compila el fichero LaTeX a pdf (opcional)
+    
+    if shutil.which("pdflatex"): # comprueba que pdflatex está instalado
+        os.system(str("pdflatex " + "output.tex")) # compila el fichero LaTeX a pdf (opcional)
+    else:
+        print("pdflatex not found") # si no está instalado, muestra un mensaje
     os.chdir(base_dir)
