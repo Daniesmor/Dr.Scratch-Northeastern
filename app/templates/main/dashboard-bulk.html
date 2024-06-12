@@ -180,7 +180,7 @@
                         </div>
                         <div class="panel-body">
                             <div class="container col-md-12">
-                                <h3 class='text-left dark-text'>{% trans 'The level of your project is...' %} <strong> {{ summary.Mastery |upper }}! </strong></h3>
+                                <h3 class='text-left dark-text'>{% trans 'The mean level of your projects is...' %} <strong> {{ summary.Mastery |upper }}! </strong></h3>
                                 {% if summary.Mastery == "Basic" %}
                                     <p class='text-left dark-text'> {% trans "You're at the beginning of a <br>great adventure . . . Keep it up!" %}</br></p>
                                 {% elif summary.Mastery == "Developing" %}
