@@ -1,0 +1,295 @@
+{% load i18n %}
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="description" content="Analyze your Scratch projects to assess your Computational Thinking skills">
+    <meta name="keywords" content="Stamp, Startup, Multipurpose, Bootstrap, Landing page, Template, Registration, Landing">
+    <meta name="author" content="Programamos URJC Libresoft FECyT">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../../static/app/content/scratchblocks2.css">
+    <!-- <script src="../../static/app/scripts/bootstrap-modal.js"></script> -->
+    <script src="../../static/app/scripts/translations.js"></script>
+    <!-- <script src="../../static/app/scripts/bootstrap.js"></script> -->
+    <link rel="stylesheet" href="../../static/app/content/bootstrap-tour.css">
+    <script src="../../static/app/scripts/bootstrap.min.js"></script>
+    <script src="../../static/app/scripts/bootstrap-tour.js"></script>
+    <script src="../../static/app/scripts/googleAnalytics.js"></script>
+    <script src="../../static/app/scripts/scratchblocks-v3.4-min.js"></script>
+
+
+    <!-- SITE TITLE -->
+    <title>Dr. Scratch</title>
+
+
+    <link rel="stylesheet" href="/static/app/content/style.css">
+    <!-- =========================
+     FAV AND TOUCH ICONS AND FONT
+    ============================== -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="icon" href="/static/app/images/favicon.ico">
+    <link rel="stylesheet" href="static/app/icons/icons.css">
+    <link type="text/css" rel="stylesheet" href="/static/app/content/css_002.css">
+    <link type="text/css" rel="stylesheet" href="/static/app/content/css.css">
+    <!-- =========================
+     STYLESHEETS
+    ============================== -->
+    <!-- BOOTSTRAP AND ANIMATION -->
+    <link rel="stylesheet" href="/static/app/content/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/app/content/animate.css">
+
+    <!-- CAROUSEL AND LIGHTBOX -->
+    <link rel="stylesheet" href="../../static/app/content/owl_002.css">
+    <link rel="stylesheet" href="../../static/app/content/owl.css">
+    <link rel="stylesheet" href="../../static/app/content/nivo-lightbox.css">
+    <link rel="stylesheet" href="../../static/app/content/default.css">
+
+    <!-- CUSTOM STYLESHEETS -->
+    <link rel="stylesheet" href="../../static/app/content/styles.css">
+    <link rel="stylesheet" href="/static/app/content/master.css">
+    <!-- RESPONSIVE FIXES -->
+    <link rel="stylesheet" href="../../static/app/content/responsive.css">
+
+    <!-- DEFAULT COLOR/ CURRENTLY USING -->
+    <link rel="stylesheet" href="../../static/app/content/red.css">
+
+    <script>
+        window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
+    </script>
+    <style>
+        .btn-primary {
+            background-color: #1792A4;
+        }
+        .btn-primary:hover {
+            background-color: #4CA8A1;
+        }
+        .btn-primary:focus {
+            background-color: #4CA8A1;
+        }
+    </style>
+    <script>
+        function addHiddenInputs() {
+            const form = document.getElementById('form-comparison');
+
+            // Remover inputs hidden existentes para evitar duplicados
+            const existingUrlInputs = document.querySelectorAll('.url-hidden-input');
+            existingUrlInputs.forEach(input => input.remove());
+
+            // Obtener los valores de los inputs
+            const urlProject = Array.from(document.querySelectorAll('input[name="urlProject"]'))
+                                .map(input => input.value)
+                                .filter(url => url.trim().length > 0);  // Filtrar entradas vacías
+            const zipFile = Array.from(document.querySelectorAll('input[name="zipFile"]'))
+                                .map(input => input.value)
+                                .filter(file => file.trim().length > 0);  // Filtrar entradas vacías
+            // Verificar los valores del "Base Project"
+            const baseProjectUrl = document.getElementById('cf-name-base').value.trim();
+            const baseProjectZip = document.getElementById('file-base').value.trim();
+
+            if (urlProject.length == 1 && zipFile.length == 1) {
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = '_mix';
+                hiddenInput.value = 'mix';
+                hiddenInput.classList.add('mixed-hidden-input');
+                form.appendChild(hiddenInput);
+
+                // Añadir hidden input para especificar si el Base Project es URL o ZIP
+                const hiddenBaseInput = document.createElement('input');
+                hiddenBaseInput.type = 'hidden';
+                hiddenBaseInput.name = 'baseProjectType';
+                hiddenBaseInput.value = baseProjectUrl ? 'urlProject' : 'zipFile';
+                hiddenBaseInput.classList.add('mixed-hidden-input');
+                form.appendChild(hiddenBaseInput);
+            } else if (urlProject.length == 2) {
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = '_urls';
+                hiddenInput.value = 'urls';
+                hiddenInput.classList.add('url-hidden-input');
+                form.appendChild(hiddenInput);
+            } else if (zipFile.length == 2) {
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = '_uploads';
+                hiddenInput.value = 'uploads';
+                hiddenInput.classList.add('file-hidden-input');
+                form.appendChild(hiddenInput);
+            }
+        }
+
+        // Función para mostrar el modal de error
+        function mostrarModalError() {
+            // Mostrar el modal
+            $('#exampleModal').modal('show');
+        }
+
+        // Función para validar el formulario antes de enviarlo
+        function validarFormulario(event) {
+            // Obtener los valores de los campos
+            const urlProjectBase = document.getElementById('cf-name-base').value.trim();
+            const zipFileBase = document.getElementById('file-base').value.trim();
+            const urlProject = document.getElementById('cf-name').value.trim();
+            const zipFile = document.getElementById('file').value.trim();
+
+            // Verificar si ambos campos tienen valor
+            if (urlProjectBase && zipFileBase) {
+                // Limpiar los campos de texto
+                document.getElementById('cf-name-base').value = '';
+                // Reiniciar el formulario para limpiar el campo de archivo
+                document.getElementById('form-comparison').reset();
+                // Mostrar el modal de error
+                mostrarModalError();
+                // Evitar que el formulario se envíe
+                event.preventDefault();
+            }
+        }
+
+        // Asignar la función al evento submit del formulario
+        window.onload = function() {
+            const form = document.getElementById('form-comparison');
+            form.onsubmit = function(event) {
+                validarFormulario(event);
+                addHiddenInputs();
+            };
+        }
+
+
+    </script>
+</head>
+<body>
+<div id="wrap">
+    <!-- TOP BAR -->
+    <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top  sticky-navigation" role="navigation">
+        <div class="container">
+            <!-- NAVIGATION LINK -->
+            <a href="/">
+                <img src="static/app/images/logo_main.png" alt="" width="220" height="70.1667">
+            </a>
+        </div>
+    </div>
+    <!-- /END TOP BAR -->
+
+    <div class="container">
+        <!-- BODY -->
+        <!-- BASE PROJECT FORM -->
+        <div class="col-md-12" style="padding-right: 17%;">
+            <br></br>
+            <div class="vertical-project-form">
+                <h4>{% trans "Do you want to compare two projects?" %}</h4>
+                <h5 class="dark-text form-heading"><strong>{% trans "Upload your two projects to compare them now!" %}</strong></h5>
+                <form name="form" id="form-comparison" class="project-form" enctype="multipart/form-data" method="post" action="/show_dashboard/">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3> <strong> {% trans "Original Project" %} </strong> </h3>
+                            <br>
+                        </div>
+                        <div class="col-md-6">
+                            <h3> <strong> {% trans "New Project" %} </strong> </h3>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {% trans "1. Introduce the <span class='colored-text'><a data-toggle='modal' href='#modalUrl'>url</a></span> of your Scratch project, you don't have to download it:" %}
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            {% trans '<input name="urlProject" id="cf-name-base" class="form-control input-box placeholder" placeholder="http:/scratch.mit.edu/projects/your_number" type="text">' %}
+                            <br><br>
+                        </div>
+                        <div class="col-md-6">
+                            {% trans '<input name="urlProject" id="cf-name" class="form-control input-box placeholder" placeholder="http:/scratch.mit.edu/projects/your_number" type="text">' %}
+                            <br><br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {% trans "2. If you have your <span class='colored-text'><a data-toggle='modal' href='#modalProject'>project</a></span> downloaded in the computer you can analyze it here:" %}
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            {% trans "<input name='zipFile' id='file-base' type='file' class='filestyle' data-buttonText='Choose Project'>" %}
+                            <br></br>
+                        </div>
+                        <div class="col-md-6">
+                            {% trans "<input name='zipFile' id='file' type='file' class='filestyle' data-buttonText='Choose Project'>" %}
+                            <br></br>
+                        </div>
+                    </div>
+                    <input type="hidden" name="dashboard_mode" value="Comparison">
+                    <div class="row">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            {% trans "Is the new project an update from the original?" %}
+                        </label>
+                        <div class="col-md-6" style="padding-left: 25%; padding-top: 8px;">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="same_functionality" id="inlineRadio1" value="True" required>
+                                <label class="form-check-label" for="inlineRadio1">{% trans 'Yes' %}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6" style="padding-right: 25%; padding-top: 8px;">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="same_functionality" id="inlineRadio1" value="False" required>
+                                <label class="form-check-label" for="inlineRadio1">{% trans 'No' %}</label>
+                            </div>
+                        </div>
+                    </div>     
+                    <br>                                     
+                    <button id="global-submit" type="submit" class="btn btn-primary standard-button" style="width: auto;">{% trans "Compare Projects" %}</button>
+                </form>
+                <p class="file-error dark-text small-text">
+                {% trans "Error! Please choose a .sb or .sb3 file or input an url" %}</p>
+                {% if error %}
+                <br></br>
+                <p><span class="icon icon-close-alt2"></span> {% trans "Error! Please choose a .sb or .sb3 file or input an url" %}</p>
+                {% endif %}
+                {% if id_error %}
+                <br></br>
+                <p><span class="icon icon-close-alt2"></span> {% trans "Error! Your project id is wrong" %}</p>
+                {% endif %}
+                {% if no_exists %}
+                <br></br>
+                <p><span class="icon icon-close-alt2"></span> {% trans "Error! Your project doesn't exist in Scratch's servers" %}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <br></br>
+
+    <!-- MODAL -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header"> 
+                    <h5 class="modal-title" id="exampleModalLabel">{% trans 'Error' %}</h5>
+                </div>
+                <div class="modal-body">
+                    <p>{% trans 'You can only submit a URL or a File, not both at the same time.' %}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans 'Close' %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer grey-bg">
+        <p>{% trans "©2024 Dr.Scratch Made with " %} <span style="color: #e25555;">&#9829;</span> {% trans "by " %} <a href="/collaborators">{% trans "Dr.Scratch Team." %}</a></p>
+            <ul class="social-icons">
+                <li>
+                    <a href="https://github.com/Daniesmor/Dr.Scratch-Northeastern"> 
+                    <i class="bi bi-github" style="color: black;"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://twitter.com/DrScratchTool">
+                    <i class="bi bi-twitter-x" style="color: black;"></i>
+                    </a>
+                </li>    
+            </ul>
+    </footer>
+
+    <script type="text/javascript" src="static/app/scripts/bootstrap-filestyle.js"> </script>
+</body>
+</html>

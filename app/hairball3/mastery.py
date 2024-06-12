@@ -12,7 +12,7 @@ class Mastery(Plugin):
 
     def __init__(self, filename: str, json_project, skill_points: dict, mode: str ,verbose=False):
         super().__init__(filename, json_project, skill_points, mode , verbose)
-        self.possible_scores = {"finesse": 5, "advanced": 4, "proficient": 3, "developing": 2, "basic": 1}
+        self.possible_scores = {"advanced": 4, "proficient": 3, "developing": 2, "basic": 1} # Falta añadir Finesse
         self.dict_total_blocks = {}
 
     def process(self):
@@ -79,7 +79,7 @@ class Mastery(Plugin):
 
         if self.mode == 'Personalized':
             dict_result = {'plugin': 'mastery', 'personalized': self.dict_mastery}
-        elif self.mode == 'Default':
+        elif self.mode == 'Default' or self.mode == 'Comparison':
             vanilla_dict = self.calc_extrapolation(self.dict_mastery)
             vanilla_points = sum(points[0] for points in vanilla_dict.values())
             average_points = vanilla_points / 7
@@ -126,7 +126,7 @@ class Mastery(Plugin):
 
         competence = ''
 
-        finesse_lvl = max_points*36/45
+        # finesse_lvl = max_points*36/45
         advanced_lvl = max_points*27/45
         proficient_lvl = max_points*18/45
         developing_lvl = max_points*9/45
@@ -142,10 +142,10 @@ class Mastery(Plugin):
                 # result = "Overall programming competence: Basic"
                 competence = 'Basic'
         else:
-            if points > finesse_lvl:
+            #if points > finesse_lvl: --> FALTA POR AÑADIR
                 # result = "Overall programming competence: Finesse"
-                competence = 'Finesse'
-            elif points > advanced_lvl:
+                # competence = 'Finesse'
+            if points > advanced_lvl:
                 # result = "Overall programming competence: Advanced"
                 competence = 'Advanced'
             elif points > proficient_lvl:
@@ -315,9 +315,9 @@ class Mastery(Plugin):
         
     def compute_parallelization(self):
         """
-        Assign the Parallelization skill result
+        Assign the Parallelism skill result
         """
-        
+
         dict_parall = self.parallelization_dict()
 
         # ---------- ADVANCED ----------------------------
@@ -502,7 +502,6 @@ class Mastery(Plugin):
         if self.check_scripts_key(dict_parall, n_scripts=2) or self.check_scripts_sprite(n_scripts=2):
             return True
         return False
-
     
     def check_more_than_one(self):
         
