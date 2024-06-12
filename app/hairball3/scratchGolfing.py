@@ -2,6 +2,7 @@ import logging
 import app.consts_drscratch as consts
 from app.hairball3.plugin import Plugin
 from app.hairball3.scriptObject import Script
+from collections import Counter
 logger = logging.getLogger(__name__)
 
 
@@ -95,8 +96,11 @@ class ScratchGolfing(Plugin):
     
     def calc_percent(self):
         """
-        This function calc the percent of difference
+        This function calc the percent of difference and similarity between two projectss
         """
+
+        # Versión 1 -> Difference
+
         original_total = self.golfing_summary['original']['total_blocks'] + self.golfing_summary['original']['total_sprites']
         new_total = self.golfing_summary['new']['total_blocks'] + self.golfing_summary['new']['total_sprites']
 
@@ -105,7 +109,24 @@ class ScratchGolfing(Plugin):
         percent_difference = (absolute_difference / base_value) * 100
         percent_difference = round(percent_difference, 2)
 
-        self.golfing_summary['difference'] = f'{percent_difference}'
+        self.golfing_summary['difference'] = f'{round(percent_difference, 2)}'
+
+        # Versión 2 -> Similarity
+
+        original_blocks = [block.get('opcode') for blocks in self.sprite_dict[0].values() for block in blocks.values()]
+        new_blocks = [block.get('opcode') for blocks in self.sprite_dict[1].values() for block in blocks.values()]
+
+        original_counter = Counter(original_blocks)
+        new_counter = Counter(new_blocks)
+
+        common_blocks = original_counter & new_counter
+
+        common_blocks_counter = sum(common_blocks.values())  
+        total_blocks_counter = sum(original_counter.values()) + sum(new_counter.values())
+
+        similarity = (2*common_blocks_counter / total_blocks_counter) * 100 if total_blocks_counter!= 0 else 0
+
+        self.golfing_summary['similarity'] = f'{round(similarity, 2)}'
     
     def finalize(self) -> dict:
 
