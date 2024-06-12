@@ -20,6 +20,12 @@ services:
     build: ./scratchapi
     ports:
       - "3000:3000"
+  tor_proxy:
+    build: ./tor_proxy
+    command: sh -c "tor"
+    container_name: tor_proxy
+    ports:
+      - "9050:9050"
   web:
     build: .
     volumes:
@@ -36,5 +42,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      tor_proxy:
+        condition: service_started
 volumes:
   dbdata:

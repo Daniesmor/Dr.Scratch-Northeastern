@@ -1,0 +1,13 @@
+SocksPort 0.0.0.0:9050
+
+EntryNodes {US},{DE},{FR}
+ExitNodes {US},{DE},{FR}
+
+StrictNodes 1
+
+BandwidthRate 10 MB
+BandwidthBurst 20 MB
+
+Log notice stdout
+
+SocksPort 9050
