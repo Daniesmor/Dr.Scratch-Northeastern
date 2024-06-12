@@ -8,8 +8,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Instalar dependencias del sistema
-RUN apt-get update 
-
+RUN apt-get update && apt-get install -y gettext && apt-get clean 
 
 # Instalar dependencias de Python
 WORKDIR /var/www
