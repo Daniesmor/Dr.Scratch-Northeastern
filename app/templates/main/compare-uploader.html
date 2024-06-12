@@ -173,7 +173,7 @@
     <div class="container">
         <!-- BODY -->
         <!-- BASE PROJECT FORM -->
-        <div class="col-md-10">
+        <div class="col-md-12" style="padding-right: 17%;">
             <br></br>
             <div class="vertical-project-form">
                 <h4>{% trans "Do you want to compare two projects?" %}</h4>
@@ -218,10 +218,21 @@
                     </div>
                     <input type="hidden" name="dashboard_mode" value="Comparison">
                     <div class="row">
-                        <input class="form-check-input" name="same_functionality" type="checkbox" value="" id="flexCheckDefault" style="width: 20px; height: 20px;">
                         <label class="form-check-label" for="flexCheckDefault">
-                            {% trans "These projects have the same functionality." %}
+                            {% trans "Is the new project an update from the original?" %}
                         </label>
+                        <div class="col-md-6" style="padding-left: 25%; padding-top: 8px;">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="same_functionality" id="inlineRadio1" value="True" required>
+                                <label class="form-check-label" for="inlineRadio1">{% trans 'Yes' %}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6" style="padding-right: 25%; padding-top: 8px;">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="same_functionality" id="inlineRadio1" value="False" required>
+                                <label class="form-check-label" for="inlineRadio1">{% trans 'No' %}</label>
+                            </div>
+                        </div>
                     </div>     
                     <br>                                     
                     <button id="global-submit" type="submit" class="btn btn-primary standard-button" style="width: auto;">{% trans "Compare Projects" %}</button>

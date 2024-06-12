@@ -47,6 +47,7 @@ from app.hairball3.refactor import RefactorDuplicate
 from app.hairball3.comparsionMode import ComparsionMode
 from app.exception import DrScratchException
 from app.hairball3.scratchGolfing import ScratchGolfing
+from app.hairball3.categoriesBlocks import CategoriesBlocks
 
 import logging
 import coloredlogs
@@ -719,16 +720,26 @@ def _make_comparison(request, skill_points: dict):
     dict_scratch_golfing = ScratchGolfing(json.get('Original'), json.get('New')).finalize()
     dict_scratch_golfing = dict_scratch_golfing['result']['scratch_golfing']
     d['Comparison'] = dict_scratch_golfing
-    if "same_functionality" in request.POST:
-        d['Comparison'].update({
-            'same_functionality': True
-        })
+    check_same_functionality(request, d)
+    
+    
+    return d
+
+def check_same_functionality(request, d):
+    """
+    Check if the projects have the same functionality
+    """
+    same_functionality = request.POST.get('same_functionality') == "True"
+    print("Same functionality:", same_functionality)
+    if same_functionality:
+            d['Comparison'].update({
+                'same_functionality': True
+            })
     else: 
         d['Comparison'].update({
             'same_functionality': False
         })
-    
-    return d
+
     
 def analysis_by_upload(request, skill_points: dict, upload):
     """
@@ -1121,6 +1132,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         dict_dead_code = DeadCode(path_projectsb3, json_scratch_project,).finalize()
         result_sprite_naming = SpriteNaming(path_projectsb3, json_scratch_project).finalize()
         result_backdrop_naming = BackdropNaming(path_projectsb3, json_scratch_project).finalize()
+        result_block_categories = CategoriesBlocks(path_projectsb3, json_scratch_project).finalize()
         
         print("Duplicate Script: ", dict_duplicate_script['result']['list_duplicate_scripts'])
         #Refactorings
@@ -1131,6 +1143,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         dict_analysis.update(proc_dead_code(dict_dead_code, file_obj))
         dict_analysis.update(proc_sprite_naming(result_sprite_naming, file_obj))
         dict_analysis.update(proc_backdrop_naming(result_backdrop_naming, file_obj))
+        dict_analysis.update(proc_block_categories(result_block_categories, file_obj))
         dict_analysis.update(proc_refactored_code(refactored_code))
         # dict_analysis.update(proc_urls(request, dict_mastery, file_obj))
         
@@ -1146,6 +1159,15 @@ def proc_refactored_code(refactor):
     dict_refactor["refactor"]["refactor_list"] = refactor
 
     return dict_refactor
+
+def proc_block_categories(result_block_categories, filename):
+    dict_block_categories = {}
+    dict_block_categories["block_categories"] = dict_block_categories
+    dict_block_categories["block_categories"] = result_block_categories
+
+    print("Block Categories: ", dict_block_categories)
+
+    return dict_block_categories
 
 
 def proc_dead_code(dict_dead_code, filename):
@@ -1546,7 +1568,9 @@ def download_certificate(request):
         # Decode again for manipulate the str
         filename = filename.decode('utf-8') 
         filename = clean_filename(filename)
+        print("Filename: ", filename)
         level = request.POST["level"]
+        print("Level: ", level)
 
         if is_supported_language(request.LANGUAGE_CODE):
             language = request.LANGUAGE_CODE
