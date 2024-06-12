@@ -21,6 +21,10 @@ urlpatterns = [
     #                              {'document_root': settings.MEDIA_ROOT}),
     url(r'^(.*)/static/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
     
+    # API ANALYSIS
+    url(r'^get_analysis_d/(?P<skill_points>.{1,6})?$', app_views.get_analysis_d, name='get_analysis_d'),
+    
+    
     # CONTACT FORM
     url(r'^process_contact_form/$', app_views.process_contact_form, name='contact_form'),
 
@@ -49,6 +53,9 @@ urlpatterns = [
     # Rubric personalized
     url(r'^rubric_creator', app_views.rubric_creator, name='rubric_creator'),
     url(r'^(?P<skill_points>.{1,6})$', app_views.upload_personalized, name='upload_personalized'),
+
+    # C_Mode
+    url(r'^compare_uploader', app_views.compare_uploader, name='compare_uploader'),
         
     # Dashboards
     url(r'^show_dashboard/(?P<skill_points>.{1,6})?$', app_views.show_dashboard, name='show_dashboard'),

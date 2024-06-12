@@ -27,11 +27,13 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from .models import BatchCSV
 from app import org
+from django.http import JsonResponse
 from app.forms import UrlForm, OrganizationForm, OrganizationHashForm, LoginOrganizationForm, CoderForm, DiscussForm
 from app.models import File, CSVs, Organization, OrganizationHash, Coder, Discuss, Stats, BatchCSV
 from urllib.request import urlopen
 from urllib.error import HTTPError, URLError
 from zipfile import ZipFile, BadZipfile
+import pickle
 import shutil
 import unicodedata
 import csv
@@ -47,7 +49,10 @@ from app.hairball3.backdropNaming import BackdropNaming
 from app.hairball3.duplicateScripts import DuplicateScripts
 from app.hairball3.deadCode import DeadCode
 from app.hairball3.refactor import RefactorDuplicate
+from app.hairball3.comparsionMode import ComparsionMode
 from app.exception import DrScratchException
+from app.hairball3.scratchGolfing import ScratchGolfing
+from app.hairball3.categoriesBlocks import CategoriesBlocks
 
 import logging
 import coloredlogs
@@ -98,6 +103,10 @@ def upload_personalized(request, skill_points=None):
     user = str(identify_user_type(request))
     return render(request, user + '/rubric-uploader.html')
 
+def compare_uploader(request):
+    user = str(identify_user_type(request))
+    return render(request, user + '/compare-uploader.html')
+
 def base32_to_str(base32_str: str) -> str:
     value = int(base32_str, 32)
     return str(value).zfill(9)
@@ -128,8 +137,14 @@ def show_dashboard(request, skill_points=None):
         else:
             numbers = ''
         skill_rubric = generate_rubric(numbers)
-        d = build_dictionary_with_automatic_analysis(request, skill_rubric)
         user = str(identify_user_type(request))
+        if request.POST.get('dashboard_mode') == 'Comparison':
+            print("Comparison mode:", request.POST)
+            d = build_dictionary_with_automatic_analysis(request, skill_rubric)
+            print("Context Dictionary:", d)
+            return render(request, user + '/dashboard-compare-1.html', d)   
+        print("Mode:", request.POST)
+        d = build_dictionary_with_automatic_analysis(request, skill_rubric)
         print("Context Dictionary:")
         print(d)
         print("Skill rubric")
@@ -248,7 +263,7 @@ def generate_rubric(skill_points: str) -> dict:
             skill_rubric[skill_name] = int(points)   
     else:
         for skill_name in mastery:
-            skill_rubric[skill_name] = 5           
+            skill_rubric[skill_name] = 4 # Falta añadir Finesse           
     return skill_rubric  
     
 
@@ -263,45 +278,48 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
     else:
         dashboard_mode = "Personalized"
 
-    if "_upload" in request.POST:
-        dict_metrics[project_counter] = _make_analysis_by_upload(request, skill_points)
-        if dict_metrics[project_counter]['Error'] != 'None':
-            return dict_metrics
-        filename = request.FILES['zipFile'].name.encode('utf-8')
-        dict_metrics[project_counter].update({
-            'url': url,
-            'filename': filename,
-            'dashboard_mode': dashboard_mode,
-            'multiproject': False
-        })
-    elif '_url' in request.POST:
-        dict_metrics[project_counter] = _make_analysis_by_url(request, skill_points)
-        url = request.POST['urlProject']
-        filename = url
-        dict_metrics[project_counter].update({
-            'url': url,
-            'filename': filename,
-            'dashboard_mode': dashboard_mode,
-            'multiproject': False
-        })
-    elif '_urls' in request.POST:
-        urls_file = request.FILES['urlsFile'].readlines()
-        request_data = {
-            'LANGUAGE_CODE': request.LANGUAGE_CODE,
-            'POST': {
-                'urlsFile': urls_file,
-                'dashboard_mode': dashboard_mode, 
-                'email': request.POST['batch-email']       
-            }
-        }
-      
-        init_batch.delay(request_data, skill_points) # Call to analyzer task
-        
-        dict_metrics[project_counter] = {
-            'multiproject': True,
-            'num_projects': len(urls_file)
-        }
+    if request.POST.get('dashboard_mode') == 'Comparison':
+        dict_metrics = _make_comparison(request, skill_points)
 
+    else:
+      if "_upload" in request.POST:
+          dict_metrics[project_counter] = _make_analysis_by_upload(request, skill_points)
+          if dict_metrics[project_counter]['Error'] != 'None':
+              return dict_metrics
+          filename = request.FILES['zipFile'].name.encode('utf-8')
+          dict_metrics[project_counter].update({
+              'url': url,
+              'filename': filename,
+              'dashboard_mode': dashboard_mode,
+              'multiproject': False
+          })
+      elif '_url' in request.POST:
+          dict_metrics[project_counter] = _make_analysis_by_url(request, skill_points)
+          url = request.POST['urlProject']
+          filename = url
+          dict_metrics[project_counter].update({
+              'url': url,
+              'filename': filename,
+              'dashboard_mode': dashboard_mode,
+              'multiproject': False
+          })
+      elif '_urls' in request.POST:
+          urls_file = request.FILES['urlsFile'].readlines()
+          request_data = {
+              'LANGUAGE_CODE': request.LANGUAGE_CODE,
+              'POST': {
+                  'urlsFile': urls_file,
+                  'dashboard_mode': dashboard_mode, 
+                  'email': request.POST['batch-email']       
+              }
+          }
+
+          init_batch.delay(request_data, skill_points) # Call to analyzer task
+
+          dict_metrics[project_counter] = {
+              'multiproject': True,
+              'num_projects': len(urls_file)
+          }
     return dict_metrics
 
 
@@ -332,10 +350,6 @@ def identify_admin(user_type):
     if (user_type == 'superuser' or user_type == 'staff'):
         is_admin = 1
     return is_admin
-
-
-
-
 
 def learn(request, page):
     """
@@ -380,14 +394,15 @@ def download_certificate(request):
     """
 
     if request.method == "POST":
-        data = request.POST["certificate"]
+        filename = request.POST["filename"]
         # Encode to make sure that cotains utf-8 chars
-        data = unicodedata.normalize('NFKD', data).encode('ascii', 'ignore')
+        filename = unicodedata.normalize('NFKD', filename).encode('ascii', 'ignore')
         # Decode again for manipulate the str
-        data = data.decode('utf-8') 
-        filename = data.split(",")[0]
+        filename = filename.decode('utf-8') 
         filename = clean_filename(filename)
-        level = data.split(",")[1]
+        print("Filename: ", filename)
+        level = request.POST["level"]
+        print("Level: ", level)
 
         if is_supported_language(request.LANGUAGE_CODE):
             language = request.LANGUAGE_CODE
@@ -715,8 +730,8 @@ def stats(request, username):
     if f:
 
         #If the org has analyzed projects
-        parallelism = f.aggregate(Avg("parallelization"))
-        parallelism = int(parallelism["parallelization__avg"])
+        Parallelism = f.aggregate(Avg("Parallelism"))
+        Parallelism = int(Parallelism["Parallelism__avg"])
         abstraction = f.aggregate(Avg("abstraction"))
         abstraction = int(abstraction["abstraction__avg"])
         logic = f.aggregate(Avg("logic"))
@@ -741,7 +756,7 @@ def stats(request, username):
     else:
 
         #If the org hasn't analyzed projects yet
-        parallelism,abstraction,logic=[0],[0],[0]
+        Parallelism,abstraction,logic=[0],[0],[0]
         synchronization,flowControl,userInteractivity=[0],[0],[0]
         dataRepresentation,deadCode,duplicateScript=[0],[0],[0]
         spriteNaming,initialization =[0],[0]
@@ -752,7 +767,7 @@ def stats(request, username):
         "username": username,
         "img": user.img,
         "daily_score":daily_score,
-        "skillRate":{"parallelism":parallelism,
+        "skillRate":{"Parallelism":Parallelism,
                  "abstraction":abstraction,
                  "logic": logic,
                  "synchronization":synchronization,
@@ -1011,7 +1026,7 @@ def generate_csv(request, dictionary, filename, type_csv):
 
     if type_csv == "2_row":
         writer.writerow([dic["code"], dic["url"], dic["mastery"],
-                        dic["abstraction"], dic["parallelism"],
+                        dic["abstraction"], dic["Parallelization"],
                         dic["logic"], dic["sync"],
                         dic["flow_control"], dic["user_inter"], dic["data_rep"],
                         dic["dup_scripts"],dic["sprite_naming"],
@@ -1019,7 +1034,7 @@ def generate_csv(request, dictionary, filename, type_csv):
 
     elif type_csv == "1_row":
         writer.writerow([dic["url"], dic["mastery"],
-                        dic["abstraction"], dic["parallelism"],
+                        dic["abstraction"], dic["Parallelism"],
                         dic["logic"], dic["sync"],
                         dic["flow_control"], dic["user_inter"], dic["data_rep"],
                         dic["dup_scripts"],dic["sprite_naming"],
@@ -1067,7 +1082,7 @@ def generate_csv(request, dictionary, filename, type_csv):
                 if key == "mastery":
                     for key, subvalue in value.items():
                         if key!="maxi" and key!="points":
-                            if key == dic["parallelism"]:
+                            if key == dic["Parallelism"]:
                                 row5 = subvalue
                             elif key == dic["abstraction"]:
                                 row4 = subvalue
@@ -1492,7 +1507,7 @@ def statistics(request):
         },
         "totalProjects": obj.daily_projects,
         "skillRate": {
-            "parallelism": obj.parallelism,
+            "Parallelism": obj.parallelization,
             "abstraction": obj.abstraction,
             "logic": obj.logic,
             "synchronization": obj.synchronization,
@@ -1562,3 +1577,75 @@ def proc_initialization(lines, filename):
     return dic
 
 """
+
+
+###################################
+#
+#       API PETITIONS
+#
+#
+###################################
+
+
+def get_analysis_d(request, skill_points=None):
+    if request.method == 'POST':
+        url = request.path.split('/')[-1]
+        if url != '':
+            numbers = base32_to_str(url)
+        else:
+            numbers = ''
+        skill_rubric = generate_rubric(numbers)
+        
+        
+        path_original_project = request.session.get('current_project_path', None)
+        
+        if path_original_project != None:
+            json_scratch_original = load_json_project(path_original_project)
+        
+
+        d = build_dictionary_with_automatic_analysis(request, skill_rubric) 
+        
+        path_compare_project = request.session.get('current_project_path', None)
+        
+        if path_compare_project != None:
+            json_scratch_compare = load_json_project(path_compare_project)
+            
+
+        dict_scratch_golfing = ScratchGolfing(json_scratch_original, json_scratch_compare).finalize()
+        dict_scratch_golfing = dict_scratch_golfing['result']['scratch_golfing']
+        print("Estando en views")
+        print(dict_scratch_golfing)
+        #dict_comparsion_mode = ComparsionMode(json_scratch_original, json_scratch_compare).finalize()
+
+        
+        user = str(identify_user_type(request))
+        
+        dict_mastery = d[0]['mastery_vanilla']
+        dict_dups = d[0]['duplicateScript']
+        dict_dead_code = d[0]['deadCode']
+        dict_sprite = d[0]['spriteNaming']
+        dict_backdrop = d[0]['backdropNaming']
+        
+        #keys_to_remove = [key for value, key in dict_dups.items() if value == {...}]
+        
+        #for key in keys_to_remove:
+        del dict_dups['duplicateScript']
+        del dict_dead_code['deadCode']
+        del dict_sprite['spriteNaming']
+        del dict_backdrop['backdropNaming']
+            
+        
+        context = {
+            'mastery': dict_mastery,
+            'duplicateScript': dict_dups,
+            'deadCode': dict_dead_code,
+            'spriteNaming': dict_sprite,
+            'backdropNaming': dict_backdrop,
+            'scratchGolfing': dict_scratch_golfing,
+        }
+        
+    return JsonResponse(context)
+
+
+
+

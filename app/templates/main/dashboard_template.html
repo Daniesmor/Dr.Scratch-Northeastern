@@ -65,6 +65,8 @@
         <!-- DEFAULT COLOR/ CURRENTLY USING -->
         <link rel="stylesheet" href="../../static/app/content/red.css">
 
+
+
         <script>
                 window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
         </script>
@@ -98,28 +100,6 @@
                     $("#dupCode").attr("data-content",str.join("\n"));
                 }
             });
-        </script>
-        <script>
-            $(document).ready(function(){
-
-                var mode = $("#certificate").data("mode");
-
-                if (mode == "vanilla") {
-                    var filename = "{{ filename }}";
-                    var level = "{{ mastery_vanilla.points.0}}/{{ mastery_vanilla.points.1 }}";
-                } else if (mode == "personalized") {
-                    var filename = "{{ filename }}";
-                    var level = "{{ mastery.points.0}}/{{ mastery.points.1 }}";
-                } else if (mode == "extended") {
-                    var filename = "{{ filename }}";
-                    var level = "{{ mastery.points.0}}/{{ mastery.points.1 }}";
-                }
-        
-
-                var list =[filename,level];
-                $("#certificate").val(list.toString());
-            });
-        
         </script>
         
         <script>
@@ -195,6 +175,8 @@
             $('[data-toggle="tooltip"]').tooltip();
             });
         </script>
+
+        
 
 
         <style>
@@ -307,12 +289,12 @@
                 </div>
             </div>
             <!-- /END TOP BAR -->
-
+            <div id="url-container" data-url="{% url 'get_analysis_d' %}"></div>
             <!-- MAIN CONTENT -->
             {% block content %} {% endblock %}
 
         <!-- FOOTER -->
-        <footer class="footer grey-bg" style="position: absolute; bottom: 0; width: 100%;">
+        <footer class="footer grey-bg">
             <p>{% trans "©2024 Dr.Scratch Made with " %} <span style="color: #e25555;">&#9829;</span> {% trans "by " %} <a href="/collaborators">{% trans "Dr.Scratch Team." %}</a></p>
                 <!-- SOCIAL ICONS -->
                 <ul class="social-icons">
@@ -331,19 +313,7 @@
 
     </div>
 
-    <script>
-        // Crear el efecto de confeti
-        const confetiContainer = document.getElementById('confeti-container');
-        const partyFinesse = new Party(confetiContainer);
 
-        // Configurar el efecto de confeti
-        partyFinesse.colors = ['#FF0000', '#00FF00', '#0000FF'];
-        partyFinesse.confettiCount = 200;
-        partyFinesse.velocity = 3;
-
-        // Lanzar el efecto de confeti
-        partyFinesse.start();
-    </script>
     
     </body>
 </html>
