@@ -1,5 +1,5 @@
 from drScratch.celery import app
-from .analyzer import _make_analysis_by_txt
+from .analyzer import analysis_by_url
 import types
 import requests
 from .batch import create_csv, create_summary
@@ -26,7 +26,7 @@ def proccess_url(request_data_obj: object, skill_points: dict) -> dict:
         if i >= 10:
             break 
         url = url.decode('utf-8').strip()
-        dict_metrics[i] = _make_analysis_by_txt(request_data_obj, url, skill_points)
+        dict_metrics[i] = analysis_by_url(request_data_obj, url, skill_points)
         dict_metrics[i].update({
             'url': url,
             'filename': url,
