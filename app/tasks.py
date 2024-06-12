@@ -37,9 +37,9 @@ def proccess_url(request_data_obj: object, skill_points: dict) -> dict:
 def mk_url(csv_id: UUID) -> str:
     url = ''
     if (settings.PRODUCTION == True):
-        url = '{}/{}'.format('https://www.drscratch.org/batch/raw',csv_id)
+        url = '{}/{}'.format('https://www.drscratch.org/batch',csv_id)
     else:
-        url = '{}/{}'.format('http://127.0.0.1:8000/batch/raw',csv_id)
+        url = '{}/{}'.format('http://127.0.0.1:8000/batch',csv_id)
     print("The link of the batch analysis is:", url) 
     return url
 
@@ -73,10 +73,7 @@ def mk_html(csv_id: UUID) -> str:
     }
 
     html_message = render_to_string('main' + '/dashboard-bulk-emailv.html', context)
-    #plain_message = strip_tags(html_message)
-    print("traza en views", html_message)
     return html_message
-    return ehtml
 
 def send_mail(email: str, csv_id: UUID) -> None:
     url = mk_url(csv_id)
@@ -87,7 +84,7 @@ def send_mail(email: str, csv_id: UUID) -> None:
     '''
 
     subject = '[Dr.Scratch Batch Analysis Finish]'
-    email = DjangoEmailMessage(subject, ehtml, settings.EMAIL_HOST_USER, [email])
+    email = DjangoEmailMessage(subject, message, settings.EMAIL_HOST_USER, [email])
     email.content_subtype = 'html'
     try:
         email.send()
@@ -95,7 +92,7 @@ def send_mail(email: str, csv_id: UUID) -> None:
         print(f"Error seding mail: {email}")
 
 def register_timestamp(csv_id: UUID, start_time, end_endtime: datetime) -> None:
-    timestamp = (end_endtime- start_time).total_seconds()
+    timestamp = (end_endtime - start_time).total_seconds()
 
     obj = get_object_or_404(BatchCSV, id=csv_id)
     obj.task_time = timestamp

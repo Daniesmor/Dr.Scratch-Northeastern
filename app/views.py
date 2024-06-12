@@ -237,9 +237,6 @@ def process_contact_form(request):
         return HttpResponse('METHOD NOT ALLOW', status=405)
 
 
-    
-
-
 def generate_rubric(skill_points: str) -> dict:
     mastery = ['Abstraction', 'Parallelization', 'Logic', 'Synchronization', 
                'FlowControl', 'UserInteractivity', 'DataRepresentation',
