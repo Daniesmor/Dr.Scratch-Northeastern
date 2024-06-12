@@ -9,6 +9,7 @@ ENV PYTHONUNBUFFERED 1
 
 # Instalar dependencias del sistema
 RUN apt-get update && apt-get install -y \
+    gettext \
     texlive-latex-base \
     texlive-latex-extra \
     texlive-fonts-recommended \
