@@ -116,6 +116,45 @@
             }
         });
     </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Selecciona el formulario con la ID 'batch-form' y agrega un evento 'submit'
+            document.querySelector('#batch-form').addEventListener('submit', function(event) {
+                // Selecciona el campo de entrada del email por su nombre
+                var emailInput = document.querySelector('input[name="batch-email"]');
+                // Selecciona el campo de entrada del archivo por su nombre
+                var fileInput = document.querySelector('input[name="urlsFile"]');
+                // Selecciona los elementos de advertencia por sus IDs
+                var emailWarning = document.getElementById('email-warning');
+                var txtWarning = document.getElementById('txt-warning');
+                // Inicializa una variable de validez
+                var valid = true;
+            
+                // Verifica si el campo de email está vacío
+                if (!emailInput.value.trim()) {
+                    emailWarning.style.display = 'block'; // Muestra la advertencia
+                    valid = false; // Marca el formulario como inválido
+                } else {
+                    emailWarning.style.display = 'none'; // Oculta la advertencia
+                }
+            
+                // Verifica si no se ha seleccionado ningún archivo
+                if (!fileInput.files.length) {
+                    txtWarning.style.display = 'block'; // Muestra la advertencia
+                    valid = false; // Marca el formulario como inválido
+                } else {
+                    txtWarning.style.display = 'none'; // Oculta la advertencia
+                }
+            
+                // Si el formulario no es válido, previene el envío
+                if (!valid) {
+                    event.preventDefault(); // Prevenir el envío del formulario
+                }
+            });
+        });
+    </script>
+
 </head>
 
 <body>
@@ -407,12 +446,14 @@
                     <img src="/static/app/images/csvs.png" class="img-fluid mx-auto d-block" style="max-width: 90%; max-height: 90%;" alt=""> 
                 </div>
                 <div class="col-md-4 align-self-center">
-                    <form name="form" class="project-form" enctype="multipart/form-data" method="post" action="/show_dashboard/" style="margin-top: 50px;">
-                        <h3><strong>{% trans "Batch Mode"  %}</strong></h3>
-                        <p><span class='colored-text'>{% trans "IMPORTANT!"  %}</span> {% trans "Please upload a txt containing the URLs of the projects, with each URL on a separate line. (Max. 10)" %}</p>                
+                    <form name="form" class="project-form" id="batch-form" enctype="multipart/form-data" method="post" action="/show_dashboard/" style="margin-top: 50px;">
+                        <h3><strong>{% trans "Batch Mode" %}</strong></h3>
+                        <p><span class='colored-text'>{% trans "IMPORTANT!" %}</span> {% trans "Please upload a txt containing the URLs of the projects, with each URL on a separate line. (Max. 10)" %}</p>
                         <input type="hidden" name="dashboard_mode" value="Default">
-                        {% trans "<input  name='urlsFile' type='file' class='filestyle' data-buttonText='Choose txt'>" %}
+                        {% trans "<input name='urlsFile' type='file' class='filestyle' data-buttonText='Choose txt'>" %}
                         {% trans '<input name="batch-email" class="form-control input-box placeholder" placeholder="your@email.com" type="text">' %}
+                        <p id="email-warning" style="display: none;"><span class='colored-text'>{% trans "Please enter an email!" %}</span></p>
+                        <p id="txt-warning" style="display: none;"><span class='colored-text'>{% trans "Please upload a txt file!" %}</span></p>
                         <button id="urls" name='_urls' type="submit" class="btn btn-primary standard-button">{% trans "Analyze my projects" %}</button>
                         <br></br>
                         {% csrf_token %}
