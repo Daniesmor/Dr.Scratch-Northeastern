@@ -179,6 +179,7 @@ def batch(request, csv_identifier):
     csv_filepath = csv.filepath
 
     summary = {
+        'num_projects': csv.num_projects,
         'Points': [csv.points, csv.max_points],
         'Logic': [csv.logic, csv.max_logic],
         'Parallelism': [csv.parallelization, csv.max_parallelization],
@@ -1580,12 +1581,18 @@ def proc_initialization(lines, filename):
 
 
 ###################################
-#
-#       API PETITIONS
-#
-#
+##
+##      API PETITIONS
+##
 ###################################
 
+def load_json_project(path_projectsb3):
+    try:
+        zip_file = ZipFile(path_projectsb3, "r")
+        json_project = json.loads(zip_file.open("project.json").read())
+        return json_project
+    except BadZipfile:
+        print('Bad zipfile')
 
 def get_analysis_d(request, skill_points=None):
     if request.method == 'POST':

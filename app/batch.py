@@ -324,6 +324,7 @@ def create_summary(request, d: dict) -> dict:
     mastery_fields = {skill_en: skill_trans for skill_trans, skill_en in mastery_fields.items()}
     skills = list(mastery_fields.values())
     print("---------------------------- Traza de skills ----------------------------")
+    print(summary['num_projects'])
     print(skills)
 
 
