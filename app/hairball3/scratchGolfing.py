@@ -104,9 +104,8 @@ class ScratchGolfing(Plugin):
         base_value = max(original_total, new_total)
         percent_difference = (absolute_difference / base_value) * 100
         percent_difference = round(percent_difference, 2)
-        
+
         self.golfing_summary['difference'] = f'{percent_difference}'
-    
     
     def finalize(self) -> dict:
 
