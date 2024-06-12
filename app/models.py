@@ -1,4 +1,5 @@
 import datetime
+import uuid
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -24,6 +25,33 @@ class File(models.Model):
     deadCode = models.IntegerField()
     duplicateScript = models.IntegerField()
 
+class BatchCSV(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    task_time = models.FloatField(default=0)
+    filepath = models.CharField(max_length=100)
+    num_projects = models.IntegerField()
+    max_points = models.FloatField()
+    points = models.FloatField()
+    max_logic = models.FloatField()
+    logic = models.FloatField()
+    max_parallelization = models.FloatField()
+    parallelization = models.FloatField()
+    max_data = models.FloatField()
+    data = models.FloatField()
+    max_synchronization = models.FloatField()
+    synchronization = models.FloatField()
+    max_userInteractivity = models.FloatField()
+    userInteractivity = models.FloatField()
+    max_flowControl = models.FloatField()
+    flowControl = models.FloatField()
+    max_abstraction = models.FloatField()
+    abstraction = models.FloatField()
+    max_math_operators = models.FloatField()
+    math_operators = models.FloatField()
+    max_motion_operators = models.FloatField()
+    motion_operators = models.FloatField()
+    mastery = models.CharField(max_length=50)
+    date = models.DateTimeField(default=datetime.datetime.now)
 
 class CSVs(models.Model):
     filename = models.CharField(max_length=100)

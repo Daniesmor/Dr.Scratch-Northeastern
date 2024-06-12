@@ -1,4 +1,4 @@
-/* --------------------------------------
+width/* --------------------------------------
 =========================================
 Stamp - Landing Page Template
 Version: 1.0 (Initial Release)
@@ -70,6 +70,8 @@ TO CHANGE PRE_DEFINED COLORS. PLEASE CHECK css/colors/your_selected_color.css
 -----------------------------------------*/
 html {
 	font-size: 100%;
+	min-height: 100%;
+    margin: 0;
 }
 
 body {
@@ -81,8 +83,14 @@ body {
 	text-align: center;
 	overflow-x: hidden !important;
 	margin: auto !important;
+	display: flex;
+    flex-direction: column;
+	min-height: 100%;
 }
 
+.content {
+	flex: 1;
+}
 /*---------------------------------------
    1.2 PRE-LOADER              
 -----------------------------------------*/
