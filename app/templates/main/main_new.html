@@ -44,6 +44,34 @@
     <!-- DEFAULT COLOR/ CURRENTLY USING -->
     <link rel="stylesheet" href="static/app/content/red.css">
 
+    <script>
+        document.querySelector('.project-form').addEventListener('submit', function(event) {
+            var emailInput = document.querySelector('input[name="batch-email"]');
+            var fileInput = document.querySelector('input[name="urlsFile"]');
+            var emailWarning = document.getElementById('email-warning');
+            var txtWarning = document.getElementById('txt-warning');
+            var valid = true;
+        
+            if (!emailInput.value.trim()) {
+                emailWarning.style.display = 'block';
+                valid = false;
+            } else {
+                emailWarning.style.display = 'none';
+            }
+        
+            if (!fileInput.files.length) {
+                txtWarning.style.display = 'block';
+                valid = false;
+            } else {
+                txtWarning.style.display = 'none';
+            }
+        
+            if (!valid) {
+                event.preventDefault();
+            }
+        });
+    </script>
+
 </head>
 
 <body>
