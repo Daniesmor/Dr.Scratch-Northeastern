@@ -63,6 +63,185 @@ def save_analysis_in_file_db(request, zip_filename):
     filename_obj.save()
     return filename_obj
 
+def check_project(counter):
+    if counter == 0:
+        project = "Original"
+    else:
+        project = "New"
+    return project
+
+
+def _make_comparison(request, skill_points: dict):
+    """
+    Make comparison of two projects
+    """
+    counter = 0
+    d = {}
+    path = {}
+    json = {}
+    if "_urls" in request.POST:
+        for url in request.POST.getlist('urlProject'):
+            project = check_project(counter)
+            id_project = return_scratch_project_identifier(url)
+            if id_project == "error":
+                return {'Error': 'id_error'}
+            else:
+                d[project] = generator_dic(request, id_project, skill_points)
+                d[project].update({
+                    'url': url, 
+                    'filename': url,
+                    'dashboard_mode': "Comparison",
+                    'multiproject': False
+                })
+                path[project] = request.session.get('current_project_path')
+                counter += 1
+    elif "_uploads" in request.POST:
+        for upload in request.FILES.getlist('zipFile'):
+            project = check_project(counter)
+            print("Upload:", upload)
+            d[project] = analysis_by_upload(request, skill_points, upload)
+            d[project].update({
+                'url': None,
+                'filename': upload,
+                'dashboard_mode': "Comparison",
+                'multiproject': False
+            })
+            path[project] = request.session.get('current_project_path')
+            counter += 1
+    elif "_mix" in request.POST:
+        project = check_project(counter)
+        base_type = request.POST.get('baseProjectType')
+        if base_type == "urlProject":
+            url = request.POST.getlist('urlProject')[0]
+            print("Url:", url)
+            id_project = return_scratch_project_identifier(url)
+            if id_project == "error":
+                return {'Error': 'id_error'}
+            else:
+                d[project] = generator_dic(request, id_project, skill_points)
+                d[project].update({
+                    'url': url, 
+                    'filename': url,
+                    'dashboard_mode': "Comparison",
+                    'multiproject': False
+                })
+            path[project] = request.session.get('current_project_path')
+            counter += 1
+            upload = request.FILES.get('zipFile')
+            project = check_project(counter)
+            d[project] = analysis_by_upload(request, skill_points, upload)
+            d[project].update({
+                'url': None,
+                'filename': upload,
+                'dashboard_mode': "Comparison",
+                'multiproject': False
+            })
+            path[project] = request.session.get('current_project_path')
+        else:
+            upload = request.FILES.get('zipFile')
+            project = check_project(counter)
+            d[project] = analysis_by_upload(request, skill_points, upload)
+            d[project].update({
+                'url': None,
+                'filename': upload,
+                'dashboard_mode': "Comparison",
+                'multiproject': False
+            })
+            path[project] = request.session.get('current_project_path')
+            counter += 1
+            url = request.POST.getlist('urlProject')[1]
+            id_project = return_scratch_project_identifier(url)
+            if id_project == "error":
+                return {'Error': 'id_error'}
+            else:
+                d[project] = generator_dic(request, id_project, skill_points)
+                d[project].update({
+                    'url': url, 
+                    'filename': url,
+                    'dashboard_mode': "Comparison",
+                    'multiproject': False
+                })
+                path[project] = request.session.get('current_project_path')
+    else:
+        return HttpResponseRedirect('/')
+    
+    for key,value in path.items():
+        print(key, value)
+        json[key] = load_json_project(value)    
+    dict_scratch_golfing = ScratchGolfing(json.get('Original'), json.get('New')).finalize()
+    dict_scratch_golfing = dict_scratch_golfing['result']['scratch_golfing']
+    d['Comparison'] = dict_scratch_golfing
+    check_same_functionality(request, d)
+    
+    
+    return d
+
+def check_same_functionality(request, d):
+    """
+    Check if the projects have the same functionality
+    """
+    same_functionality = request.POST.get('same_functionality') == "True"
+    print("Same functionality:", same_functionality)
+    if same_functionality:
+            d['Comparison'].update({
+                'same_functionality': True
+            })
+    else: 
+        d['Comparison'].update({
+            'same_functionality': False
+        })
+    
+def analysis_by_upload(request, skill_points: dict, upload):
+    """
+    Upload file from form POST for unregistered users
+    """
+
+    zip_filename = upload.name.encode('utf-8')
+    filename_obj = save_analysis_in_file_db(request, zip_filename)
+
+    dir_zips = os.path.dirname(os.path.dirname(__file__)) + "/uploads/"
+    project_name = str(uuid.uuid4())
+    unique_id = '{}_{}{}'.format(project_name, datetime.now().strftime("%Y_%m_%d_%H_%M_%S_"), datetime.now().microsecond)
+    zip_filename = zip_filename.decode('utf-8')
+    version = check_version(zip_filename)
+
+    if version == "1.4":
+        file_saved = dir_zips + unique_id + ".sb"
+    elif version == "2.0":
+        file_saved = dir_zips + unique_id + ".sb2"
+    else:
+        file_saved = dir_zips + unique_id + ".sb3"
+
+    # Create log
+    path_log = os.path.dirname(os.path.dirname(__file__)) + "/log/"
+    log_file = open(path_log + "logFile.txt", "a")
+    log_file.write("FileName: " + str(zip_filename) + "\t\t\t" + "ID: " + str(filename_obj.id) + "\t\t\t" + \
+                "Method: " + str(filename_obj.method) + "\t\t\tTime: " + str(filename_obj.time) + "\n")
+
+    # Save file in server
+    file_name = os.path.join("uploads", file_saved)
+    request.session['current_project_path'] = file_name
+    with open(file_name, 'wb+') as destination:
+        for chunk in upload.chunks():
+            destination.write(chunk)
+
+    try:
+        ext_type_project=None
+        dict_drscratch_analysis = analyze_project(request, file_name, filename_obj, ext_type_project, skill_points)
+        print(dict_drscratch_analysis)
+    except Exception:
+        traceback.print_exc()
+        filename_obj.method = 'project/error'
+        filename_obj.save()
+        old_path_project = file_saved
+        new_path_project = file_saved.split("/uploads/")[0] + "/error_analyzing/" + file_saved.split("/uploads/")[1]
+        shutil.copy(old_path_project, new_path_project)
+        dict_drscratch_analysis = {'Error': 'analyzing'}
+        return dict_drscratch_analysis
+
+    # Redirect to dashboard for unregistered user
+    dict_drscratch_analysis['Error'] = 'None'
+    return dict_drscratch_analysis
 
 def return_scratch_project_identifier(url) -> str:
     """
@@ -541,8 +720,6 @@ def translate(request, d, filename, vanilla=False):
 def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_points: dict):
 
     dict_analysis = {}
-
-    print("mi request::------------------------", request)
 
     try: 
         dashboard = request.POST.get('dashboard_mode', 'Default')
