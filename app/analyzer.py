@@ -1,0 +1,666 @@
+from datetime import datetime
+import json
+import os
+import shutil
+import traceback
+from urllib.error import HTTPError, URLError
+from urllib.request import urlopen
+import uuid
+from venv import logger
+from zipfile import BadZipfile, ZipFile
+from django.utils.datastructures import MultiValueDictKeyError
+from django.http import HttpResponseRedirect, HttpResponse
+
+from app.exception import DrScratchException
+from app.forms import UrlForm
+from app.hairball3.backdropNaming import BackdropNaming
+from app.hairball3.deadCode import DeadCode
+from app.hairball3.duplicateScripts import DuplicateScripts
+from app.hairball3.mastery import Mastery
+from app.hairball3.refactor import RefactorDuplicate
+from app.hairball3.spriteNaming import SpriteNaming
+from app.models import Coder, File, Organization
+from app.scratchclient import ScratchSession
+import app.consts_drscratch as consts
+
+
+def save_analysis_in_file_db(request, zip_filename):
+    now = datetime.now()
+    method = "project"
+
+    if request.user.is_authenticated:
+        username = request.user.username
+    else:
+        username = None
+
+    if Organization.objects.filter(username=username):
+        filename_obj = File(filename=zip_filename,
+                        organization=username,
+                        method=method, time=now,
+                        score=0, abstraction=0, parallelization=0,
+                        logic=0, synchronization=0, flowControl=0,
+                        userInteractivity=0, dataRepresentation=0,
+                        spriteNaming=0, initialization=0,
+                        deadCode=0, duplicateScript=0)
+    elif Coder.objects.filter(username=username):
+        filename_obj = File(filename=zip_filename,
+                        coder=username,
+                        method=method, time=now,
+                        score=0, abstraction=0, parallelization=0,
+                        logic=0, synchronization=0, flowControl=0,
+                        userInteractivity=0, dataRepresentation=0,
+                        spriteNaming=0, initialization=0,
+                        deadCode=0, duplicateScript=0)
+    else:
+        filename_obj = File(filename=zip_filename,
+                        method=method, time=now,
+                        score=0, abstraction=0, parallelization=0,
+                        logic=0, synchronization=0, flowControl=0,
+                        userInteractivity=0, dataRepresentation=0,
+                        spriteNaming=0, initialization=0,
+                        deadCode=0, duplicateScript=0)
+
+    filename_obj.save()
+    return filename_obj
+
+
+def return_scratch_project_identifier(url) -> str:
+    """
+    Process String from URL Form
+    """
+    id_project = ''
+    aux_string = url.split("/")[-1]
+    if aux_string == '':
+        possible_id = url.split("/")[-2]
+        if possible_id == "editor":
+            id_project = url.split("/")[-3]
+        else:
+            id_project = possible_id
+    else:
+        if aux_string == "editor":
+            id_project = url.split("/")[-2]
+        else:
+            id_project = aux_string
+
+    try:
+        check_int = int(id_project)
+    except ValueError:
+        logger.error('Project id is not an integer')
+        id_project = "error"
+
+    return id_project
+
+
+def write_activity_in_logfile(file_name):
+
+    log_filename = '{}/log/{}'.format(os.path.dirname(os.path.dirname(__file__)), 'logFile.txt')
+
+    try:
+        log_file = open(log_filename, "a+")
+        log_file.write("FileName: " + str(file_name.filename) + "\t\t\t" + "ID: " + str(file_name.id) + "\t\t\t" +
+                       "Method: " + str(file_name.method) + "\t\t\t" + "Time: " + str(file_name.time) + "\n")
+    except OSError:
+        logger.error('FileNotFoundError')
+    except Exception:
+        traceback.print_exc()
+    finally:
+        log_file.close()
+
+
+def generate_uniqueid_for_saving(id_project):
+    date_now = datetime.now()
+    date_now_string = date_now.strftime("%Y_%m_%d_%H_%M_%S_%f")
+    return id_project + "_" + date_now_string
+
+
+def save_projectsb3(path_file_temporary, id_project):
+
+    dir_zips = os.path.dirname(os.path.dirname(__file__)) + "/uploads/"
+
+    unique_id = generate_uniqueid_for_saving(id_project)
+    unique_file_name_for_saving = dir_zips + unique_id + ".sb3"
+
+    dir_utemp = path_file_temporary.split(id_project)[0].encode('utf-8')
+    path_project = os.path.dirname(os.path.dirname(__file__))
+
+    if '_new_project.json' in path_file_temporary:
+        ext_project = '_new_project.json'
+    else:
+        ext_project = '_old_project.json'
+
+    temporary_file_name = id_project + ext_project
+
+    os.chdir(dir_utemp)
+
+    with ZipFile(unique_file_name_for_saving, 'w') as myzip:
+        os.rename(temporary_file_name, 'project.json')
+        myzip.write('project.json')
+
+    try:
+        os.remove('project.json')
+        os.chdir(path_project)
+    except OSError:
+        logger.error('Error removing temporary project.json')
+
+    return unique_file_name_for_saving, ext_project
+
+
+def download_scratch_project_from_servers(path_project, id_project):
+    scratch_project_inf = ScratchSession().get_project(id_project)
+    url_json_scratch = "{}/{}?token={}".format(consts.URL_SCRATCH_SERVER, id_project, scratch_project_inf.project_token)
+    path_utemp = '{}/utemp/{}'.format(path_project, id_project)
+    path_json_file = path_utemp + '_new_project.json'
+
+    try:
+        logger.info(url_json_scratch)
+        response_from_scratch = urlopen(url_json_scratch)
+    except HTTPError:
+        # Two ways, id does not exist in servers or id is in other server
+        logger.error('HTTPError')
+        url_json_scratch = "{}/{}".format(consts.URL_GETSB3, id_project)
+        response_from_scratch = urlopen(url_json_scratch)
+        path_json_file = path_utemp + '_old_project.json'
+    except URLError:
+        logger.error('URLError')
+        traceback.print_exc()
+    except:
+        traceback.print_exc()
+
+    try:
+        json_string_format = response_from_scratch.read()
+        json_data = json.loads(json_string_format)
+        resulting_file = open(path_json_file, 'wb')
+        resulting_file.write(json_string_format)
+        resulting_file.close()
+    except ValueError as e:
+        logger.error('ValueError: %s', e.message)
+        raise DrScratchException
+    except IOError as e:
+        logger.error('IOError %s' % e.message)
+        raise IOError
+
+    return path_json_file
+
+def send_request_getsb3(id_project, username, method):
+    """
+    Send request to getsb3 app
+    """
+
+    file_url = '{}{}'.format(id_project, '.sb3')
+
+    path_project = os.path.dirname(os.path.dirname(__file__))
+    path_json_file_temporary = download_scratch_project_from_servers(path_project, id_project)
+
+    now = datetime.now()
+
+    if Organization.objects.filter(username=username):
+        file_obj = File(filename=file_url,
+                        organization=username,
+                        method=method, time=now,
+                        score=0, abstraction=0, parallelization=0,
+                        logic=0, synchronization=0, flowControl=0,
+                        userInteractivity=0, dataRepresentation=0,
+                        spriteNaming=0, initialization=0,
+                        deadCode=0, duplicateScript=0)
+    elif Coder.objects.filter(username=username):
+        file_obj = File(filename=file_url,
+                        coder=username,
+                        method=method, time=now,
+                        score=0, abstraction=0, parallelization=0,
+                        logic=0, synchronization=0, flowControl=0,
+                        userInteractivity=0, dataRepresentation=0,
+                        spriteNaming=0, initialization=0,
+                        deadCode=0, duplicateScript=0)
+    else:
+        file_obj = File(filename=file_url,
+                        method=method, time=now,
+                        score=0, abstraction=0, parallelization=0,
+                        logic=0, synchronization=0, flowControl=0,
+                        userInteractivity=0, dataRepresentation=0,
+                        spriteNaming=0, initialization=0,
+                        deadCode=0, duplicateScript=0)
+    
+    file_obj.save()
+
+    write_activity_in_logfile(file_obj)
+    path_scratch_project_sb3, ext_type_project = save_projectsb3(path_json_file_temporary, id_project)
+
+    return path_scratch_project_sb3, file_obj, ext_type_project
+
+
+
+def generator_dic(request, id_project, skill_points: dict):
+    """
+    Return a dictionary with static analysis and errors
+    """
+
+    try:
+        
+      
+        username = None
+
+        path_project, file_obj, ext_type_project = send_request_getsb3(id_project, username, method="url")
+    except DrScratchException:
+        logger.error('DrScratchException')
+        d = {'Error': 'no_exists'}
+        return d
+    except FileNotFoundError:
+        logger.error('File not found into Scratch server')
+        traceback.print_exc()
+        d = {'Error': 'no_exists'}
+        return d
+
+    try:
+        d = analyze_project(request, path_project, file_obj, ext_type_project, skill_points)
+    except Exception:
+        logger.error('Impossible analyze project')
+        traceback.print_exc()
+        file_obj.method = 'url/error'
+        file_obj.save()
+        old_path_project = path_project
+        new_path_project = path_project.split("/uploads/")[0] + "/error_analyzing/" + path_project.split("/uploads/")[1]
+        shutil.copy(old_path_project, new_path_project)
+        return {'Error': 'analyzing'}
+
+    # Redirect to dashboard for unregistered user
+    d['Error'] = 'None'
+
+    return d
+
+
+def check_version(filename):
+    """
+    Check the version of the project and return it
+    """
+
+    extension = filename.split('.')[-1]
+    if extension == 'sb2':
+        version = '2.0'
+    elif extension == 'sb3':
+        version = '3.0'
+    else:
+        version = '1.4'
+
+    return version
+
+
+def load_json_project(path_projectsb3):
+    try:
+        zip_file = ZipFile(path_projectsb3, "r")
+        json_project = json.loads(zip_file.open("project.json").read())
+        return json_project
+    except BadZipfile:
+        print('Bad zipfile')
+ 
+def proc_refactored_code(refactor):
+    dict_refactor = {}
+    dict_refactor["refactor"] = dict_refactor
+    dict_refactor["refactor"]["refactor_list"] = refactor
+
+    return dict_refactor
+
+def proc_dead_code(dict_dead_code, filename):
+
+    dict_dc = {}
+    dict_dc["deadCode"] = dict_dc
+    dict_dc["deadCode"]["number"] = dict_dead_code['result']['total_dead_code_scripts']
+
+    for dict_sprite_dead_code_blocks in dict_dead_code['result']['list_dead_code_scripts']:
+        for sprite_name, list_blocks in dict_sprite_dead_code_blocks.items():
+            dict_dc["deadCode"][sprite_name] = list_blocks
+
+    filename.deadCode = dict_dead_code['result']['total_dead_code_scripts']
+    filename.save()
+
+    return dict_dc
+
+def proc_urls(request, dict_mastery, file_obj):
+    dict_urls = {}
+    if request.POST.get('dashboard_mode') == 'Default':
+        dict_extended = dict_mastery['extended'].copy()
+        dict_vanilla = dict_mastery['vanilla'].copy()
+        dict_urls["url_extended"] = get_urls(dict_extended)
+        dict_urls["url_vanilla"] = get_urls(dict_vanilla)
+    elif request.POST.get('dashboard_mode') == 'Personalized':
+        dict_personal = dict_mastery['personalized'].copy()
+        print(dict_personal)
+        dict_urls["url_personal"] = get_urls(dict_personal)
+    return dict_urls
+
+def get_urls(dict_mastery):
+    list_urls = []
+    for key in dict_mastery.keys():
+        if key != 'total_points' and key!= 'competence' and key!= 'max_points' and key!= 'average_points':
+            list_urls.append(key)
+    return list_urls
+
+def proc_mastery(request, dict_mastery, file_obj):
+
+    if request.POST.get('dashboard_mode') == 'Default':
+        dict_extended = dict_mastery['extended'].copy()
+        dict_vanilla = dict_mastery['vanilla'].copy()
+        set_file_obj(request, file_obj, dict_extended)
+        set_file_obj(request, file_obj, dict_vanilla, 'Vanilla')
+        d_extended_translated = translate(request, dict_extended, file_obj)
+        d_vanilla_translated = translate(request, dict_vanilla, file_obj, vanilla=True)
+        dic = {"mastery": d_extended_translated, "mastery_vanilla": d_vanilla_translated}
+        dic["mastery"]["competence"] = dict_extended["competence"]
+        dic["mastery"]["points"] = dict_extended["total_points"]
+        dic["mastery_vanilla"]["competence"] = dict_vanilla["competence"]
+        dic["mastery_vanilla"]["points"] = dict_vanilla["total_points"]
+        
+    elif request.POST.get('dashboard_mode') == 'Personalized':
+        dict_personal = dict_mastery['personalized'].copy()
+        set_file_obj(request, file_obj, dict_personal)
+        d_personal_translated = translate(request, dict_personal, file_obj)
+        dic = {"mastery": d_personal_translated}
+        dic["mastery"]["competence"] = dict_personal["competence"]
+        dic["mastery"]["points"] = dict_personal["total_points"]
+        print("Lista_Mastery:", dict_personal.keys())
+    
+    return dic
+
+def set_file_obj(request, file_obj, dict, mode=None):
+
+    file_obj.score = dict["total_points"][0]
+    file_obj.competence = dict["competence"]
+    file_obj.abstraction = dict["Abstraction"][0]
+    file_obj.parallelization = dict["Parallelization"][0]
+    file_obj.logic = dict["Logic"][0]
+    file_obj.synchronization = dict["Synchronization"][0]
+    file_obj.flow_control = dict["FlowControl"][0]
+    file_obj.userInteractivity = dict["UserInteractivity"][0]
+    file_obj.dataRepresentation = dict["DataRepresentation"][0]
+    if mode != 'Vanilla':
+        file_obj.mathOperators = dict["MathOperators"][0]
+        file_obj.mathOperators = dict["MotionOperators"][0]
+    file_obj.save()
+
+
+def proc_duplicate_script(dict_result, file_obj) -> dict:
+
+    dict_ds = {}
+    dict_ds["duplicateScript"] = dict_ds
+    dict_ds["duplicateScript"]["number"] = dict_result['result']['total_duplicate_scripts']
+    dict_ds["duplicateScript"]["scripts"] = dict_result['result']['list_duplicate_scripts']
+    dict_ds["duplicateScript"]["csv_format"] = dict_result['result']['list_csv']
+
+    file_obj.duplicateScript = dict_result['result']['total_duplicate_scripts']
+    file_obj.save()
+
+    return dict_ds
+
+
+def proc_sprite_naming(lines, file_obj):
+
+    dic = {}
+    lLines = lines.split('\n')
+    number = lLines[0].split(' ')[0]
+    lObjects = lLines[1:]
+    lfinal = lObjects[:-1]
+
+    dic['spriteNaming'] = dic
+    dic['spriteNaming']['number'] = int(number)
+    dic['spriteNaming']['sprite'] = lfinal
+
+    file_obj.spriteNaming = number
+    file_obj.save()
+
+    return dic
+
+
+def proc_backdrop_naming(lines, file_obj):
+
+    dic = {}
+    lLines = lines.split('\n')
+    number = lLines[0].split(' ')[0]
+    lObjects = lLines[1:]
+    lfinal = lObjects[:-1]
+    dic['backdropNaming'] = dic
+    dic['backdropNaming']['number'] = int(number)
+    dic['backdropNaming']['backdrop'] = lfinal
+
+    file_obj.backdropNaming = number
+    file_obj.save()
+
+    return dic
+
+
+def translate(request, d, filename, vanilla=False):
+    """
+    Translate the output of Hairball
+    """
+
+    if request.LANGUAGE_CODE == "es":
+        d_translate_es = {'Abstracción': [d['Abstraction'], 'Abstraction'], 'Paralelismo': [d['Parallelization'], 'Parallelization'],
+                          'Pensamiento lógico': [d['Logic'], 'Logic'], 'Sincronización': [d['Synchronization'], 'Synchronization'],
+                          'Control de flujo': [d['FlowControl'], 'FlowControl'], 'Interactividad con el usuario': [d['UserInteractivity'], 'UserInteractivity'],
+                          'Representación de la información': [d['DataRepresentation'], 'DataRepresentation']}
+        if not vanilla: # Check that not is Vanilla Mode
+            d_translate_es.update({'Operadores matemáticos': [d['MathOperators'], 'MathOperators'], 'Operadores de movimiento': [d['MotionOperators'], 'MotionOperators']})
+        filename.language = "es"
+        filename.save()
+        return d_translate_es
+    elif request.LANGUAGE_CODE == "en":
+        d_translate_en = {'Abstraction': [d['Abstraction'], 'Abstraction'], 'Parallelism': [d['Parallelization'], 'Parallelization'], 'Logic': [d['Logic'], 'Logic'],
+                          'Synchronization': [d['Synchronization'], 'Synchronization'], 'Flow control': [d['FlowControl'], 'FlowControl'],
+                          'User interactivity': [d['UserInteractivity'], 'UserInteractivity'], 'Data representation': [d['DataRepresentation'], 'DataRepresentation']}
+        if not vanilla: 
+            d_translate_en.update({'Math operators': [d['MathOperators'], 'MathOperators'], 'Motion operators': [d['MotionOperators'], 'MotionOperators']})
+        filename.language = "en"
+        filename.save()
+        return d_translate_en
+    elif request.LANGUAGE_CODE == "ca":
+        d_translate_ca = {'Abstracció': [d['Abstraction'], 'Abstraction'], 'Paral·lelisme': [d['Parallelization'], 'Parallelization'], 'Lògica': [d['Logic'], 'Logic'],
+                          'Sincronització': [d['Synchronization'], 'Synchronization'], 'Controls de flux': [d['FlowControl'], 'FlowControl'],
+                          "Interactivitat de l'usuari": [d['UserInteractivity'], 'UserInteractivity'],
+                          'Representació de dades': [d['DataRepresentation'], 'DataRepresentation']}
+        if not vanilla: 
+            d_translate_ca.update({'Operadors matemàtics': [d['MathOperators'], 'MathOperators'], 'Operadors de moviment':  [d['MotionOperators'], 'MotionOperators']})
+        filename.language = "ca"
+        filename.save()
+        return d_translate_ca
+    elif request.LANGUAGE_CODE == "gl":
+        d_translate_gl = {'Abstracción': [d['Abstraction'], 'Abstraction'], 'Paralelismo': [d['Parallelization'], 'Parallelization'], 'Lóxica': [d['Logic'], 'Logic'],
+                          'Sincronización': [d['Synchronization'], 'Synchronization'], 'Control de fluxo': [d['FlowControl'], 'FlowControl'],
+                          "Interactividade do susario": [d['UserInteractivity'], 'UserInteractivity'],
+                          'Representación dos datos': [d['DataRepresentation'], 'DataRepresentation']}
+        if not vanilla: 
+            d_translate_gl.update({'Operadores matemáticos': [d['MathOperators'], 'MathOperators'], 'Operadores de movemento': [d['MotionOperators'], 'MotionOperators']})
+        filename.language = "gl"
+        filename.save()
+        return d_translate_gl
+
+    elif request.LANGUAGE_CODE == "pt":
+        d_translate_pt = {'Abstração': [d['Abstraction'], 'Abstraction'], 'Paralelismo': [d['Parallelization'], 'Parallelization'], 'Lógica': [d['Logic'], 'Logic'],
+                          'Sincronização': [d['Synchronization'], 'Synchronization'], 'Controle de fluxo': [d['FlowControl'], 'FlowControl'],
+                          "Interatividade com o usuário": [d['UserInteractivity'], 'UserInteractivity'],
+                          'Representação de dados': [d['DataRepresentation'], 'DataRepresentation']}
+        if not vanilla: 
+            d_translate_pt.update({'Operadores matemáticos': [d['MathOperators'], 'MathOperators'], 'Operadores de movimento': [d['MotionOperators'], 'MotionOperators']})
+        filename.language = "pt"
+        filename.save()
+        return d_translate_pt
+    
+    elif request.LANGUAGE_CODE == "el":
+        d_translate_el = {'Αφαίρεση': [d['Abstraction'], 'Abstraction'], 'Παραλληλισμός': [d['Parallelization'], 'Parallelization'], 'Λογική': [d['Logic'], 'Logic'],
+                          'Συγχρονισμός': [d['Synchronization'], 'Synchronization'], 'Έλεγχος ροής': [d['FlowControl'], 'FlowControl'],
+                          'Αλληλεπίδραση χρήστη': [d['UserInteractivity'], 'UserInteractivity'],
+                          'Αναπαράσταση δεδομένων': [d['DataRepresentation'], 'DataRepresentation']}
+        if not vanilla: 
+            d_translate_el.update({'Μαθηματικοί χειριστές': [d['MathOperators'], 'MathOperators'], 'Χειριστές κίνησης': [d['MotionOperators'], 'MotionOperators']})
+        filename.language = "el"
+        filename.save()
+        return d_translate_el
+
+    elif request.LANGUAGE_CODE == "eu":           
+        d_translate_eu = {'Abstrakzioa': [d['Abstraction'], 'Abstraction'], 'Paralelismoa': [d['Parallelization'], 'Parallelization'], 'Logika': [d['Logic'], 'Logic'],
+                          'Sinkronizatzea': [d['Synchronization'], 'Synchronization'], 'Kontrol fluxua': [d['FlowControl'], 'FlowControl'],
+                          'Erabiltzailearen elkarreragiletasuna': [d['UserInteractivity'], 'UserInteractivity'],
+                          'Datu adierazlea': [d['DataRepresentation'], 'DataRepresentation']}
+        if not vanilla: 
+            d_translate_eu.update({'Eragile matematikoak': [d['MathOperators'], 'MathOperators'], 'Mugimendu-eragileak': [d['MotionOperators'], 'MotionOperators']})
+        filename.language = "eu"
+        filename.save()
+        return d_translate_eu
+
+    elif request.LANGUAGE_CODE == "it":           
+        d_translate_it = {'Astrazione': [d['Abstraction'], 'Abstraction'], 'Parallelismo': [d['Parallelization'], 'Parallelization'], 'Logica': [d['Logic'], 'Logic'],
+                          'Sincronizzazione': [d['Synchronization'], 'Synchronization'], 'Controllo di flusso': [d['FlowControl'], 'FlowControl'],
+                          'Interattività utente': [d['UserInteractivity'], 'UserInteractivity'],
+                          'Rappresentazione dei dati': [d['DataRepresentation'], 'DataRepresentation']}
+        if not vanilla: 
+            d_translate_it.update({'Operatori matematici':  [d['MathOperators'], 'MathOperators'], 'Operatori del movimento': [d['MotionOperators'], 'MotionOperators']})
+        filename.language = "it"
+        filename.save()
+        return d_translate_it
+
+    elif request.LANGUAGE_CODE == "ru":
+        d_translate_ru = {'Абстракция': [d['Abstraction'], 'Abstraction'], 'Параллельность действий': [d['Parallelization'], 'Parallelization'],
+                          'Логика': [d['Logic'], 'Logic'], 'cинхронизация': [d['Synchronization'], 'Synchronization'],
+                          'Управление потоком': [d['FlowControl'], 'FlowControl'], 'Интерактивность': [d['UserInteractivity'], 'UserInteractivity'],
+                          'Представление данных': [d['DataRepresentation'], 'DataRepresentation']}
+        if not vanilla: 
+            d_translate_ru.update({'Математические операторы': [d['MathOperators'], 'MathOperators'], 'Операторы движения': [d['MotionOperators'], 'MotionOperators']})
+        filename.language = "ru"
+        filename.save()
+        return d_translate_ru
+    else:
+        d_translate_en = {'Abstraction': [d['Abstraction'], 'Abstraction'], 'Parallelism': [d['Parallelization'], 'Parallelization'], 'Logic': [d['Logic'], 'Logic'],
+                          'Synchronization': [d['Synchronization'], 'Synchronization'], 'Flow control': [d['FlowControl'], 'FlowControl'],
+                          'User interactivity': [d['UserInteractivity'], 'UserInteractivity'], 'Data representation': [d['DataRepresentation'], 'DataRepresentation']}
+        if not vanilla: 
+            d_translate_en.update({'Math Operators': [d['MathOperators'], 'MathOperators'], 'Motion Operators': [d['MotionOperators'], 'MotionOperators']})
+        filename.language = "any"
+        filename.save()
+        return d_translate_en
+
+
+
+
+def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_points: dict):
+
+    dict_analysis = {}
+
+    print("mi request::------------------------", request)
+
+    try: 
+        dashboard = request.POST.get('dashboard_mode', 'Default')
+    except:
+        dashboard = 'Default'
+    
+    if os.path.exists(path_projectsb3):
+        json_scratch_project = load_json_project(path_projectsb3)
+        dict_mastery = Mastery(path_projectsb3, json_scratch_project, skill_points, dashboard).finalize()
+        dict_duplicate_script = DuplicateScripts(path_projectsb3, json_scratch_project).finalize()
+        dict_dead_code = DeadCode(path_projectsb3, json_scratch_project,).finalize()
+        result_sprite_naming = SpriteNaming(path_projectsb3, json_scratch_project).finalize()
+        result_backdrop_naming = BackdropNaming(path_projectsb3, json_scratch_project).finalize()
+        
+        print("Duplicate Script: ", dict_duplicate_script['result']['list_duplicate_scripts'])
+        #Refactorings
+        refactored_code = RefactorDuplicate(json_scratch_project, dict_duplicate_script).refactor_duplicates()
+
+        dict_analysis.update(proc_mastery(request, dict_mastery, file_obj))
+        dict_analysis.update(proc_duplicate_script(dict_duplicate_script, file_obj))
+        dict_analysis.update(proc_dead_code(dict_dead_code, file_obj))
+        dict_analysis.update(proc_sprite_naming(result_sprite_naming, file_obj))
+        dict_analysis.update(proc_backdrop_naming(result_backdrop_naming, file_obj))
+        dict_analysis.update(proc_refactored_code(refactored_code))
+        # dict_analysis.update(proc_urls(request, dict_mastery, file_obj))
+        
+        # dictionary.update(proc_initialization(resultInitialization, filename))
+        return dict_analysis
+    else:
+        return dict_analysis
+
+
+def _make_analysis_by_upload(request, skill_points: dict):
+    """
+    Upload file from form POST for unregistered users
+    """
+
+    if request.method == 'POST':
+        try:
+            zip_file = request.FILES['zipFile']
+        except MultiValueDictKeyError:
+            print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+            return {'Error': 'MultiValueDict'}
+
+        zip_filename = zip_file.name.encode('utf-8')
+        filename_obj = save_analysis_in_file_db(request, zip_filename)
+
+        dir_zips = os.path.dirname(os.path.dirname(__file__)) + "/uploads/"
+        project_name = str(uuid.uuid4())
+        unique_id = '{}_{}{}'.format(project_name, datetime.now().strftime("%Y_%m_%d_%H_%M_%S_"), datetime.now().microsecond)
+        zip_filename = zip_filename.decode('utf-8')
+        version = check_version(zip_filename)
+
+        if version == "1.4":
+            file_saved = dir_zips + unique_id + ".sb"
+        elif version == "2.0":
+            file_saved = dir_zips + unique_id + ".sb2"
+        else:
+            file_saved = dir_zips + unique_id + ".sb3"
+
+        # Create log
+        path_log = os.path.dirname(os.path.dirname(__file__)) + "/log/"
+        log_file = open(path_log + "logFile.txt", "a")
+        log_file.write("FileName: " + str(zip_filename) + "\t\t\t" + "ID: " + str(filename_obj.id) + "\t\t\t" + \
+                       "Method: " + str(filename_obj.method) + "\t\t\tTime: " + str(filename_obj.time) + "\n")
+
+        # Save file in server
+        file_name = os.path.join("uploads", file_saved)
+        with open(file_name, 'wb+') as destination:
+            for chunk in zip_file.chunks():
+                destination.write(chunk)
+
+        try:
+            ext_type_project=None
+            dict_drscratch_analysis = analyze_project(request, file_name, filename_obj, ext_type_project, skill_points)
+            print(dict_drscratch_analysis)
+        except Exception:
+            traceback.print_exc()
+            filename_obj.method = 'project/error'
+            filename_obj.save()
+            old_path_project = file_saved
+            new_path_project = file_saved.split("/uploads/")[0] + "/error_analyzing/" + file_saved.split("/uploads/")[1]
+            shutil.copy(old_path_project, new_path_project)
+            dict_drscratch_analysis = {'Error': 'analyzing'}
+            return dict_drscratch_analysis
+
+        # Redirect to dashboard for unregistered user
+        dict_drscratch_analysis['Error'] = 'None'
+        return dict_drscratch_analysis
+    else:
+        return HttpResponseRedirect('/')
+
+
+def _make_analysis_by_url(request, skill_points: dict):
+    """
+    Make the automatic analysis by URL
+    """
+    
+    if request.method == "POST":
+        form = UrlForm(request.POST)
+        if form.is_valid():
+            url = form.cleaned_data['urlProject']
+            id_project = return_scratch_project_identifier(url)
+            if id_project == "error":
+                return {'Error': 'id_error'}
+            else:
+                return generator_dic(request, id_project, skill_points)
+        else:
+            return {'Error': 'MultiValueDict'}
+    else:
+        return HttpResponseRedirect('/')
+
+def _make_analysis_by_txt(request, url, skill_points: dict):
+    """
+    Make the automatic analysis by URLS txt
+    """
+    id_project = return_scratch_project_identifier(url)
+    if id_project == "error":
+        return {'Error': 'id_error'}
+    else:
+        return generator_dic(request, id_project, skill_points)
