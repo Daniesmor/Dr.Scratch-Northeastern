@@ -1,0 +1,1396 @@
+{% load i18n %}
+<!doctype html>
+
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta name="description" content="Analyze your Scratch projects to assess your Computational Thinking skills">
+        <meta name="keywords" content="Stamp, Startup, Multipurpose, Bootstrap, Landing page, Template, Registration, Landing">
+        <meta name="author" content="Programamos URJC Libresoft FECyT">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+        <link rel="stylesheet" href="../../static/app/content/scratchblocks2.css">
+        <!-- <script src="../../static/app/scripts/bootstrap-modal.js"></script> -->
+        <script src="../../static/app/scripts/translations.js"></script>
+        <!-- <script src="../../static/app/scripts/bootstrap.js"></script> -->
+        <link rel="stylesheet" href="../../static/app/content/bootstrap-tour.css">
+        <script src="../../static/app/scripts/bootstrap.min.js"></script>
+        <script src="../../static/app/scripts/bootstrap-tour.js"></script>
+        <script src="../../static/app/scripts/googleAnalytics.js"></script>
+        <script src="../../static/app/scripts/scratchblocks-v3.4-min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+        <!-- SITE TITLE -->
+        <title>Dr. Scratch</title>
+
+
+        <link rel="stylesheet" href="/static/app/content/style.css">
+        <!-- =========================
+            FAV AND TOUCH ICONS AND FONT
+        ============================== -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link rel="icon" href="/static/app/images/favicon.ico">
+        <link rel="stylesheet" href="static/app/icons/icons.css">
+        <link type="text/css" rel="stylesheet" href="/static/app/content/css_002.css">
+        <link type="text/css" rel="stylesheet" href="/static/app/content/css.css">
+        <!-- =========================
+            STYLESHEETS
+        ============================== -->
+        <!-- BOOTSTRAP AND ANIMATION -->
+        <link rel="stylesheet" href="/static/app/content/bootstrap.min.css">
+        <link rel="stylesheet" href="/static/app/content/animate.css">
+
+        <!-- CAROUSEL AND LIGHTBOX -->
+        <link rel="stylesheet" href="../../static/app/content/owl_002.css">
+        <link rel="stylesheet" href="../../static/app/content/owl.css">
+        <link rel="stylesheet" href="../../static/app/content/nivo-lightbox.css">
+        <link rel="stylesheet" href="../../static/app/content/default.css">
+
+        <!-- CUSTOM STYLESHEETS -->
+        <link rel="stylesheet" href="../../static/app/content/styles.css">
+        {% if New.mastery.competence == "Basic" %}
+            <link rel="stylesheet" href="/static/app/content/basic.css">
+        {% elif New.mastery.competence == "Developing" %}
+            <link rel="stylesheet" href="/static/app/content/developing.css">
+        {% elif New.mastery.competence == "Master" %}
+            <link rel="stylesheet" href="/static/app/content/master.css">
+        {% elif New.mastery.competence == "Advanced" %}
+            <link rel="stylesheet" href="/static/app/content/advanced.css">
+        {% elif New.mastery.competence == "Finesse" %}
+            <link rel="stylesheet" href="/static/app/content/finesse.css">
+        {% endif %}
+
+        <!-- RESPONSIVE FIXES -->
+        <link rel="stylesheet" href="../../static/app/content/responsive.css">
+
+        <!-- DEFAULT COLOR/ CURRENTLY USING -->
+        <link rel="stylesheet" href="../../static/app/content/red.css">
+
+
+
+        <script>
+                window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
+        </script>
+        <script>
+            $(document).ready(function () {
+                $('.dropdown').popover();
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                scratchblocks.renderMatching('pre.blocks', {
+                style:     'scratch3',   // Optional, defaults to 'scratch2'.
+                languages: ['en'], // Optional, defaults to ['en'].
+                scale: 0.5,                // Optional, defaults to 1
+                });
+            })
+        </script>
+
+        <script>
+            function modalContentChange(contentId) {
+                var content = document.getElementById(contentId).innerHTML;
+                document.getElementById("modalContentChange").innerHTML = content;
+                $('#exampleModal').modal('show');
+            }
+        </script>
+
+        <script>
+            $(document).ready(function() {
+                $('.progress-bar').each(function() {
+                    var progressBar = $(this);
+                    var progressValue = parseFloat(progressBar.attr('aria-valuenow'));
+                    var maxValue = parseFloat(progressBar.attr('aria-valuemax'));
+                    var percentage = (progressValue / maxValue) * 100;
+        
+                    if (percentage <= 33) {
+                        progressBar.removeClass('progress-bar-success progress-bar-warning');
+                        progressBar.addClass('progress-bar-danger');
+                    } else if (percentage > 33 && percentage <= 66) {
+                        progressBar.removeClass('progress-bar-success progress-bar-danger');
+                        progressBar.addClass('progress-bar-warning');
+                    } else {
+                        progressBar.removeClass('progress-bar-danger progress-bar-warning');
+                        progressBar.addClass('progress-bar-success');
+                    }
+                });
+            });
+        </script>
+
+        <script>
+            $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+            });
+        </script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', (event) => {
+                // Function to handle link click
+                function handleLinkClick(event, urlProjectValue) {
+                    event.preventDefault();  // Prevent the default link click behavior
+
+                    // Define the data to be sent
+                    const data = {
+                        dashboard_mode: 'Default',
+                        urlProject: urlProjectValue,
+                        _url: 'url' // Assuming you handle file uploads differently
+                    };
+
+                    // Create a hidden form element
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = event.currentTarget.href;
+                    form.target = '_blank';
+
+                    // Append CSRF token
+                    const csrfToken = '{{ csrf_token }}';
+                    const csrfInput = document.createElement('input');
+                    csrfInput.type = 'hidden';
+                    csrfInput.name = 'csrfmiddlewaretoken';
+                    csrfInput.value = csrfToken;
+                    form.appendChild(csrfInput);
+
+                    // Append data to the form
+                    for (const key in data) {
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = key;
+                        input.value = data[key];
+                        form.appendChild(input);
+                    }
+
+                    // Append form to the body and submit
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+
+                // Add event listeners to the links
+                document.getElementById('back-to-vanilla-base').addEventListener('click', function(event) {
+                    handleLinkClick(event, '{{ Original.url }}');
+                });
+
+                document.getElementById('back-to-vanilla-project').addEventListener('click', function(event) {
+                    handleLinkClick(event, '{{ New.url }}');
+                });
+            });
+        </script>
+
+        <script>
+            $(document).ready(function(){
+                var isMouseOverPopover = false;
+            
+                $('.dropdown').popover({
+                    trigger: 'manual',
+                    html: true,
+                    animation: false
+                }).on('mouseenter', function () {
+                    var contentId = $(this).attr('id');
+                    if (contentId === 'dead-code') {
+                        var content = $(this).next('#dead-code-content').html();
+                        $(this).attr('data-content', content);
+                    } else if (contentId === 'duplicated-scripts') {
+                        var content = $(this).next('#duplicated-scripts-content').html();
+                        $(this).attr('data-content', content);
+                    } else {
+                        var _this = this;
+                    }
+                    $(this).popover('show');
+                    $('.popover').on('mouseenter', function () {
+                        isMouseOverPopover = true;
+                    }).on('mouseleave', function () {
+                        isMouseOverPopover = false;
+                        $(_this).popover('hide');
+                    });
+                }).on('mouseleave', function () {
+                    var _this = this;
+                    setTimeout(function () {
+                        if (!isMouseOverPopover) {
+                            $(_this).popover('hide');
+                        }
+                    }, 100);
+                });
+            });
+                
+        </script>
+
+        <style>
+            .btn-primary {
+                background-color: #1792A4;
+            }
+            .btn-primary:hover {
+                background-color: #4CA8A1;
+            }
+            .btn-primary:focus {
+                background-color: #4CA8A1;
+            }
+            .tab {
+                overflow: hidden;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            /* Style the buttons that are used to open the tab content */
+            .tab button {
+            background-color: #fc3b3b;
+            color: white;
+            font-family: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 6px; 
+            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 0.1)); 
+            margin-right: 20px;
+            }
+            /* Change background color of buttons on hover */
+            .tab button:hover {
+            background-color: #d63031;
+            }
+            /* Create an active/current tablink class */
+            .tab button.active {
+            background-color: #FF8B8B;
+            }
+            .bad-smells-title {
+                font-size: 3rem;
+                font-weight: bold;
+                color: #fc3b3b;
+                text-align: center;
+                padding: 30px 0;
+                position: relative;
+            }
+            .bad-smells-title::before {
+                content: "";
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: -10px;
+                height: 10px;
+            }
+            .bad-smells-title::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: -10px;
+                height: 10px;
+            }
+            .island {
+                margin-bottom: 20px;
+            }
+            .content {
+                display: none;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                background-color: rgba(0, 0, 0, 0.8);
+                color: white;
+                z-index: 999;
+                overflow-y: auto;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+            .island img {
+                max-width: 100%;
+                height: auto;
+                cursor: pointer;
+            }
+            #dashboard .row {
+                position: relative;
+            }
+            .small-icon {
+                font-size: 1rem;
+                vertical-align: middle;
+            }
+            .modal-dialog {
+                max-width: 50px; /* Ajusta el tamaño máximo del modal */
+            }
+            .modal-dialog-centered {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: auto;
+            }
+            .popover {
+                width: 250px; /* Establece el ancho máximo */
+                /* Otros estilos personalizados */
+            }
+
+        </style>    
+
+    </head>
+    <body>
+        <div id="wrap">
+            <!-- TOP BAR -->
+            <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top  sticky-navigation" role="navigation">
+                <div class="container">
+                    <!-- NAVIGATION LINK -->
+                    <a href="/">
+                        <img src="static/app/images/logo_main.png" alt="" width="220" height="70.1667">
+                    </a>
+
+                </div>
+            </div>
+            <!-- /END TOP BAR -->
+            <div id="url-container" data-url="{% url 'get_analysis_d' %}"></div>
+            <!-- MAIN CONTENT -->
+            <!-- C MODE -->
+        <div id="Compare" class="tabcontent">
+            <div class="container">
+                <section id="dashboard" style="display: flex; align-items: center;">
+                    <div class="col-md-6" style="padding-left: 5%;">
+                        <div class="container">
+                            <section id="dashboard" class="services col-md-5" style="padding-top: 0px;">
+                                <!-- POINTS PANEL -->
+                                <div class="jumbotron" style="padding-top: 5px; padding-left: 10%;">
+                                    <div class="panel ">
+                                        <div class="panel-heading" id="steptwo" >
+                                            <h2 id="score" class="panel-title dark-text">
+                                                <strong>
+                                                    {% if Comparison.same_functionality %}
+                                                        {% trans "BEFORE" %}
+                                                    {% else %}
+                                                        <span id="project-original-filename">{{ Original.filename }}</span>
+                                                    {% endif %}
+                                                </strong>
+                                            </h2>
+                                        </div>
+                                        <div class="panel-body" style="display: flex; align-items: center;">
+                                            <div class="container col-md-12">
+                                                <div class="row" style="display: flex; align-items: center;">
+                                                    <div class="col-12 text-center" id="modal_new_score" style="margin-left: 27%;">
+                                                        <h3 class="dark-text"><strong> {% trans "Score:" %} </strong></h3>
+                                                        <h2 id="original-score" class="dark-text" style="font-size: 70px;"> {{ Original.mastery_vanilla.points.0 }}/{{ Original.mastery_vanilla.points.1 }}</h2>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <h3 class="dark-text" style="font-size: 20px;"><strong> {% trans "Blocks and Sprites Usage:" %} </strong></h3>
+                                                    <div class="col-12 d-flex align-items-center">
+                                                        <div class="col-sm-6 d-flex align-items-center">
+                                                            <img src="/static/app/images/golfing_blocks.png" height="70px" class="mr-3 hover-image dropdown" data-toggle="popover" title="{% trans 'Total Blocks' %}"
+                                                                 data-type="Original" data-compare-type="total blocks" data-trigger="manual">
+                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="original-total-blocks">{{ Comparison.original.total_blocks }} {% trans ' blocks' %}</h2>
+                                                        </div>
+            
+                                                        <div class="col-sm-6 d-flex align-items-center">
+                                                            <img src="/static/app/images/golfing_sprites.png" height="70px" class="display-flex hover-image dropdown" data-toggle="popover" title="{% trans 'Total Sprites' %}" 
+                                                                 data-type="Original" data-compare-type="total sprites" data-trigger="manual">
+                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="original-total-sprites">{{ Comparison.original.total_sprites }} {% trans ' sprites' %}</h2>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <h3 class="dark-text" style="font-size: 20px;"><strong> {% trans "Bad Smells:" %} </strong></h3>
+                                                    <div class="col-12 d-flex align-items-center">
+                                                        <div class="col-sm-6 d-flex align-items-center">
+                                                            <img src="/static/app/images/golfing_blocks.png" height="70px" class="mr-3 dropdown" data-toggle="popover" title="{% trans 'Duplicated Scripts' %}" 
+                                                                 data-type="Original" data-compare-type="duplicated scripts" data-trigger="manual"">
+                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="original-duplicate">{{ Original.duplicateScript.number }} {% trans ' duplicated' %}</h2>
+                                                        </div>
+                                                        <div class="col-sm-6 d-flex align-items-center">
+                                                            <img src="/static/app/images/golfing_sprites.png" height="70px" class="display-flex dropdown" data-toggle="popover" title="{% trans 'Dead Code' %}"
+                                                                 data-type="Original" data-compare-type="dead code" data-trigger="manual"">
+                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="original-dead">{{ Original.deadCode.number }} {% trans ' dead blocks' %}</h2>
+                                                        </div>
+                                                        <div class="col-sm-6 d-flex align-items-center">
+                                                            <img src="/static/app/images/member.jpg" height="70px" class="mr-3 dropdown" data-toggle="popover" title="{% trans 'Sprite Naming' %}" 
+                                                                 data-type="Original" data-compare-type="sprite naming" data-trigger="manual"">
+                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="original-sprite">{{ Original.spriteNaming.number }} {% trans ' sprites' %}</h2>
+                                                        </div>
+                                                        <div class="col-sm-6 d-flex align-items-center">
+                                                            <img src="/static/app/images/backdrop_naming.jpeg" height="70px" class="display-flex dropdown" data-toggle="popover" title="{% trans 'Backdrop Naming' %}" 
+                                                                 data-type="Original" data-compare-type="backdrop naming" data-trigger="manual"">
+                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="original-backdrop">{{ Original.backdropNaming.number }} {% trans ' backdrops' %}</h2>
+                                                        </div>
+                                                    </div>                 
+                                                </div>
+                                                {% if Original.url != None %}
+                                                <div class="row" style="padding-top: 5%;">
+                                                    <a href="/show_dashboard/" id="back-to-vanilla-base" style="margin-bottom: 10%;"><span class="glyphicon glyphicon-hand-right"></span>{% trans " Go to Vanilla Mode." %}</a>
+                                                </div>
+                                                {% endif %}
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="container">
+                            <section id="dashboard" class="services col-md-5" style="padding-top: 0px;">
+                                <!-- POINTS PANEL -->
+                                <div class="jumbotron" style="padding-top: 5px; padding-left: 10%;">
+                                    <div class="panel ">
+                                        <div class="panel-heading" id="steptwo" >
+                                            <h2 id="score" class="panel-title dark-text">
+                                                <strong>
+                                                    {% if Comparison.same_functionality %}
+                                                        {% trans "AFTER" %}
+                                                    {% else %}
+                                                        <span id="project-new-filename">{{ New.filename }}</span>
+                                                    {% endif %}
+                                                </strong>
+                                            </h2>
+                                        </div>
+                                        <div class="panel-body" style="display: flex; align-items: center;">
+                                            <div class="container col-md-12">
+                                                <div class="row" style="display: flex; align-items: center;">
+                                                    <div class="col-12 text-center" id="modal_new_score" style="margin-left: 27%;">
+                                                        <h3 class="dark-text"><strong> {% trans "Score:" %} </strong></h3>
+                                                        <h2 id="new-score" class="text-success" style="font-size: 70px;"> {{ New.mastery_vanilla.points.0 }}/{{ New.mastery_vanilla.points.1 }}</h2>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <h3 class="dark-text" style="font-size: 20px;"><strong> {% trans "Blocks and Sprites Usage:" %} </strong></h3>
+                                                    <div class="col-12 d-flex align-items-center">
+                                                        <div class="col-sm-6 d-flex align-items-center">
+                                                            <img src="/static/app/images/golfing_blocks.png" height="70px" class="mr-3 dropdown" data-toggle="popover" title="{% trans 'Total Blocks' %}" 
+                                                                 data-compare-type="total blocks" data-original-number="{{ Comparison.original.total_blocks }}" data-new-number="{{ Comparison.new.total_blocks }}" data-trigger="manual">
+                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="new-total-blocks">{{ Comparison.new.total_blocks }} {% trans ' blocks ' %}</h2>
+                                                        </div>
+            
+                                                        <div class="col-sm-6 d-flex align-items-center">
+                                                            <img src="/static/app/images/golfing_sprites.png" height="70px" class="display-flex dropdown" data-toggle="popover" title="{% trans 'Total Sprites' %}" 
+                                                                 data-compare-type="total sprites" data-original-number="{{ Comparison.original.total_sprites }}" data-new-number="{{ Comparison.new.total_sprites }}" data-trigger="manual">
+                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="new-total-sprites">{{ Comparison.new.total_sprites }} {% trans ' sprites ' %}</h2>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <h3 class="dark-text" style="font-size: 20px;"><strong> {% trans "Bad Smells:" %} </strong></h3>
+                                                    <div class="col-12 d-flex align-items-center">
+                                                        <div class="col-sm-6 d-flex align-items-center">
+                                                            <img src="/static/app/images/golfing_blocks.png" height="70px" class="mr-3 dropdown" data-toggle="popover" title="{% trans 'Duplicated Scripts' %}" 
+                                                                 data-compare-type="duplicated scripts" data-original-number="{{ Original.duplicateScript.number }}" data-new-number="{{ New.duplicateScript.number }}" data-trigger="manual">
+                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="new-duplicate">{{ New.duplicateScript.number }} {% trans ' duplicated ' %}</h2>
+                                                        </div>
+                                                        <div class="col-sm-6 d-flex align-items-center">
+                                                            <img src="/static/app/images/golfing_sprites.png" height="70px" class="display-flex dropdown" data-toggle="popover" title="{% trans 'Dead Code' %}"
+                                                                 data-compare-type="dead code" data-original-number="{{ Original.deadCode.number }}" data-new-number="{{ New.deadCode.number }}" data-trigger="manual">
+                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="new-dead">{{ New.deadCode.number }} {% trans ' dead blocks ' %}</h2>
+                                                        </div>
+                                                        <div class="col-sm-6 d-flex align-items-center">
+                                                            <img src="/static/app/images/member.jpg" height="70px" class="mr-3 dropdown" data-toggle="popover" title="{% trans 'Sprite Naming' %}" 
+                                                                 data-compare-type="sprite naming" data-original-number="{{ Original.spriteNaming.number }}" data-new-number="{{ New.spriteNaming.number }}" data-trigger="manual">
+                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="new-sprite">{{ New.spriteNaming.number }} {% trans ' sprites ' %}</h2>
+                                                        </div>
+                                                        <div class="col-sm-6 d-flex align-items-center">
+                                                            <img src="/static/app/images/backdrop_naming.jpeg" height="70px" class="display-flex dropdown" data-toggle="popover" title="{% trans 'Backdrop Naming' %}"
+                                                                 data-compare-type="backdrop naming" data-original-number="{{ Original.backdropNaming.number }}" data-new-number="{{ New.backdropNaming.number }}"  data-trigger="manual">
+                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="new-backdrop">{{ New.backdropNaming.number }} {% trans ' backdrops ' %}</h2>
+                                                        </div>
+                                                    </div>                 
+                                                </div>
+                                                {% if New.url != None %}
+                                                <div class="row" style="padding-top: 5%;">
+                                                    <a href="/show_dashboard/" id="back-to-vanilla-project" style="margin-bottom: 10%;"><span class="glyphicon glyphicon-hand-right"></span>{% trans " Go to Vanilla Mode." %}</a>
+                                                </div>
+                                                {% endif %}
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <button id="show-more-button" class="btn btn-primary standard-button" style="width: auto; margin-bottom: 2%;">{% trans "Show more" %}</button>
+        
+        <!-- Hidden Content -->
+        <div id="hidden-content" style="display: none;">
+            <div class="container">
+                <div class="row" style="width: auto;">
+                    <div class="improve">
+                        <div class="panel panel-success" id="improve">
+                            <div id="stepfour">
+                                <div class="panel-heading" >
+                                    <h2 id="score" class="panel-title dark-text">
+                                        {% trans "Difference Percentage"%}
+                                        <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Percentage of Difference between the 2 Projects' %}"></i>
+                                    </h2>
+                                </div>
+                                <div class="panel-body text-center typ" >
+                                    <div class="col-md-3">
+                                        <h4> 
+                                            <strong>
+                                                {% if Comparison.same_functionality %}
+                                                    {% trans "BEFORE" %}
+                                                {% else %}
+                                                    <span id="project-original-filename">{{ Original.filename }}</span>
+                                                {% endif %}
+                                            </strong> 
+                                        </h4>
+                                    </div>
+                                    <div class="col-md-6" style="padding-top: 1%;">
+                                        <!-- Barra de progreso -->
+                                        <div class="progress">
+                                            <div id="difference-progress" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ Comparison.difference }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ Comparison.difference }}%;">
+                                                {{ Comparison.difference }}%
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h4> 
+                                            <strong>
+                                                {% if Comparison.same_functionality %}
+                                                    {% trans "AFTER" %}
+                                                {% else %}
+                                                    <span id="project-original-filename">{{ New.filename }}</span>
+                                                {% endif %}
+                                            </strong> 
+                                        </h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--
+                <div class="row" style="padding-top: 2%;">
+                    <div class="col-md-6">
+                        <div class="improve">
+                            <div class="panel panel-success" id="improve">
+                                <div id="stepfour">
+                                    <div class="panel-heading">
+                                        <h2 id="score" class="panel-title dark-text">
+                                            {% trans "Block Types Distribution (Before)" %}
+                                            <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Distribution of Block Types in the Projects' %}"></i>
+                                        </h2>
+                                    </div>
+                                    <div class="panel-success" style="word-break: break-word;">
+                                        <canvas id="originalProjectChart" width="100" height="100"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="improve">
+                            <div class="panel panel-success" id="improve">
+                                <div id="stepfour">
+                                    <div class="panel-heading">
+                                        <h2 id="score" class="panel-title dark-text">
+                                            {% trans "Block Types Distribution (After)" %}
+                                            <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Distribution of Block Types in the Projects' %}"></i>
+                                        </h2>
+                                    </div>
+                                    <div class="panel-success" style="word-break: break-word;">
+
+                                        <canvas id="newProjectChart" width="100" height="100"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                -->
+                <div class="row" style="padding-top: 2%;">
+                    <div class="col-md-6">
+                        <div id="bad-habits">
+                            {% if Original.mastery_vanilla.points.0 != New.mastery_vanilla.points.0 %}
+                                <div class="improve">
+                            {% else %}
+                                <div class="improve" style="padding-top: 90px;">
+                            {% endif %}
+                                <div class="panel panel-success" id="improve">
+                                    <div id="stepthree">
+                                        <div class="panel-heading" >
+                                            <h2 id="score" class="panel-title dark-text" name="original-bad-habits">
+                                                {% trans "Original Bad habits"%} 
+                                                <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Specific parts of the project that do not contribute to good programming practices' %}"></i>
+                                            </h2>
+                                        </div>
+                                        <div class="panel-body text-left typ">
+                                            <a class="glyphicon glyphicon-repeat"/>
+                                            <a id="duplicated-scripts" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Duplicated scripts' %}" 
+                                            data-trigger="manual" href="/learn/duplicatedScripts/"> 
+                                                {{ Original.duplicateScript.number }} {% trans " duplicated scripts." %}
+                                            </a>
+                                            <div id="duplicated-scripts-content" class="collapse">
+                                                <div class="container-fluid">
+                                                    {% for k, list_duplicate_blocks in Original.duplicateScript.items %}
+                                                    {% if k == 'scripts' %}
+                                                       
+                                                        {% for list_blocks in list_duplicate_blocks %}
+                                                            <pre class="blocks">
+                                                                {{ list_blocks }}
+                                                            </pre>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                    {% if Original.duplicateScript.number == 0 %}
+                                                        {% trans 'Your project does not have duplicated scripts, good job!' %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <a class="glyphicon glyphicon-pencil"/>
+                                            <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Sprite naming' %}" 
+                                            data-content="
+                                            {% for value in Original.spriteNaming.sprite %}
+                                                {{ value }}
+                                                <br>
+                                            {% endfor %}
+                                            {% if Original.spriteNaming.number == 0 %}
+                                                {% trans 'Your project does not have default sprite naming, good job!' %}
+                                            {% endif %}
+                                            " data-trigger="manual" href="/learn/spriteNaming/"> 
+                                                {{ Original.spriteNaming.number }} {% trans " sprite naming." %}
+                                            </a><br>
+                                            <a class="glyphicon glyphicon-pencil"/> 
+                                            <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Backdrop naming' %}" data-content="
+                                            {% for value in Original.backdropNaming.backdrop %}
+                                                    {{ value }} <br>
+                                            {% endfor %}
+                                            {% if Original.backdropNaming.number == 0 %}
+                                                    {% trans 'Your project does not have default backdrop naming, good job!' %}
+                                            {% endif %}
+                                                " data-trigger="manual" href="/learn/spriteNaming/"> 
+                                                    {{ Original.backdropNaming.number }} {% trans " backdrop naming." %}
+                                            </a><br>
+                                            <a class="glyphicon glyphicon-remove-sign"/>
+                                            <a id="dead-code" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Dead code' %}" 
+                                            data-trigger="manual" href="/learn/deadCode/"> 
+                                                {{ Original.deadCode.number }} {% trans " dead code." %}
+                                            </a>
+                                            <div id="dead-code-content" class="collapse">
+                                                <div class="container-fluid">
+                                                    {% for key, value in Original.deadCode.items %}
+                                                        {% if key != 'deadCode' %}
+                                                            {% if key != 'number' %}
+                                                                <b> {{ key }}: </b><br>
+                                                                {% for dead_block in value %}
+                                                                    <pre class="blocks">
+                                                                        {{ dead_block }}
+                                                                    </pre>
+                                                                {% endfor %}
+                                                                <br>
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    {% if Original.deadCode.number == 0 %}
+                                                        {% trans 'Your project does not have dead code, good job!' %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% if Original.refactor.refactor_list %}
+                                            <button type="button" class="btn btn-primary" onclick="modalContentChange('duplicated-scripts-content-base')" style="margin-bottom: 2%;">
+                                                {% trans 'Display all duplicates' %}
+                                            </button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="bad-habits">
+                            {% if Original.mastery_vanilla.points.0 != New.mastery_vanilla.points.0 %}
+                                <div class="improve">
+                            {% else %}
+                                <div class="improve" style="padding-top: 90px;">
+                            {% endif %}
+                                <div class="panel panel-success" id="improve">
+                                    <div id="stepthree">
+                                        <div class="panel-heading" >
+                                            <h2 id="score" class="panel-title dark-text" name="original-bad-habits">
+                                                {% trans "New Bad habits"%} 
+                                                <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Specific parts of the project that do not contribute to good programming practices' %}"></i>
+                                            </h2>
+                                        </div>
+                                        <div class="panel-body text-left typ">
+                                            <a class="glyphicon glyphicon-repeat"/>
+                                            <a id="duplicated-scripts" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Duplicated scripts' %}" 
+                                            data-trigger="manual" href="/learn/duplicatedScripts/"> 
+                                                {{ New.duplicateScript.number }} {% trans " duplicated scripts." %}
+                                            </a>
+                                            <div id="duplicated-scripts-content" class="collapse">
+                                                <div class="container-fluid">
+                                                    {% for k, list_duplicate_blocks in New.duplicateScript.items %}
+                                                    {% if k == 'scripts' %}
+                                                       
+                                                        {% for list_blocks in list_duplicate_blocks %}
+                                                            <pre class="blocks">
+                                                                {{ list_blocks }}
+                                                            </pre>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                    {% if New.duplicateScript.number == 0 %}
+                                                        {% trans 'Your project does not have duplicated scripts, good job!' %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <a class="glyphicon glyphicon-pencil"/>
+                                            <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Sprite naming' %}" 
+                                            data-content="
+                                            {% for value in New.spriteNaming.sprite %}
+                                                {{ value }}
+                                                <br>
+                                            {% endfor %}
+                                            {% if New.spriteNaming.number == 0 %}
+                                                {% trans 'Your project does not have default sprite naming, good job!' %}
+                                            {% endif %}
+                                            " data-trigger="manual" href="/learn/spriteNaming/"> 
+                                                {{ New.spriteNaming.number }} {% trans " sprite naming." %}
+                                            </a><br>
+                                            <a class="glyphicon glyphicon-pencil"/> 
+                                            <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Backdrop naming' %}" data-content="
+                                            {% for value in New.backdropNaming.backdrop %}
+                                                    {{ value }} <br>
+                                            {% endfor %}
+                                            {% if New.backdropNaming.number == 0 %}
+                                                    {% trans 'Your project does not have default backdrop naming, good job!' %}
+                                            {% endif %}
+                                                " data-trigger="manual" href="/learn/spriteNaming/"> 
+                                                    {{ New.backdropNaming.number }} {% trans " backdrop naming." %}
+                                            </a><br>
+                                            <a class="glyphicon glyphicon-remove-sign"/>
+                                            <a id="dead-code" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Dead code' %}" 
+                                            data-trigger="manual" href="/learn/deadCode/"> 
+                                                {{ New.deadCode.number }} {% trans " dead code." %}
+                                            </a>
+                                            <div id="dead-code-content" class="collapse">
+                                                <div class="container-fluid">
+                                                    {% for key, value in New.deadCode.items %}
+                                                        {% if key != 'deadCode' %}
+                                                            {% if key != 'number' %}
+                                                                <b> {{ key }}: </b><br>
+                                                                {% for dead_block in value %}
+                                                                    <pre class="blocks">
+                                                                        {{ dead_block }}
+                                                                    </pre>
+                                                                {% endfor %}
+                                                                <br>
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    {% if Original.deadCode.number == 0 %}
+                                                        {% trans 'Your project does not have dead code, good job!' %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% if New.refactor.refactor_list %}
+                                            <button type="button" class="btn btn-primary" onclick="modalContentChange('duplicated-scripts-content-project')" style="margin-bottom: 2%;">
+                                                {% trans 'Display all duplicates' %}
+                                            </button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <section id="dashboard" style="padding-top: 2%;">
+                            <div class="container-fluid">
+                                <div class="row marketing">
+                                    <div class="jumbotron">
+                                        <div class="table-responsive">
+                                            <div id="stepfive">
+                                                <table class="table tablesorter">
+                                                    <thead>
+                                                        <tr>
+                                                            <th colspan="2" style="text-align: center;">
+                                                                <h4>
+                                                                    {% trans "Level up" %}
+                                                                    <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Dimensions Evaluated in your Scratch Project' %}"></i>
+                                                                </h4>
+                                                            </th>
+                                                            <th colspan="2" style="text-align: center;">
+                                                                <h4>
+                                                                    {% trans "Level Before" %}
+                                                                    <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Grade of each Dimension' %}"></i>
+                                                                </h4>
+                                                            </th>
+                                                            <th colspan="2" style="text-align: center;">
+                                                                <h4>
+                                                                    {% trans "Level After" %}
+                                                                    <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Grade of each Dimension' %}"></i>
+                                                                </h4>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="more-content-body">
+                                                        {% for key, value in Original.mastery_vanilla.items %}
+                                                        {% if forloop.counter0|divisibleby:1 %}<tr>{% endif %}
+                                                        {% if key != "points" %}
+                                                        {% if key != "competence" %}
+                                                            <td colspan="2" style="text-align: center;">
+                                                                {% if value.0.0 == value.0.1 %}
+                                                                <span class="glyphicon glyphicon-star" id="star"></span>
+                                                                {% else %}
+                                                                <img src="/static/app/images/little_bulb.png" alt="">
+                                                                {% endif %}
+                                                                <a href="/learn/{{ value.1 }}/">{{ key }}</a>
+                                                            </td>
+                                                            <td colspan="2">
+                                                                {% if value.0.0 == 0 %}
+                                                                    <div class="progress">
+                                                                        <div class="progress-bar progress-bar-danger progress-bar-striped" data-bar-id="{{ value.1 }}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="{{ value.0.1 }}" style="width: 0%">
+                                                                            <span style="color: grey;"><strong>{{ value.0.0 }}/{{ value.0.1 }}</strong></span>
+                                                                        </div>
+                                                                    </div>
+                                                                {% else %}
+                                                                    <div class="progress">
+                                                                        <div id="progressBar" class="progress-bar progress-bar-striped" data-bar-id="{{ value.1 }}" role="progressbar" aria-valuenow="{{ value.0.0 }}" aria-valuemin="0" aria-valuemax="{{ value.0.1 }}" style="width: {% widthratio value.0.0 value.0.1 100 %}%">
+                                                                            <span><strong>
+                                                                                {% if value.0.0|floatformat:"-1" == value.0.0|floatformat:"0" %}
+                                                                                    {{ value.0.0|floatformat:"0" }}
+                                                                                {% else %}
+                                                                                    {{ value.0.0 }}
+                                                                                {% endif %}
+                                                                                /
+                                                                                {% if value.0.1|floatformat:"-1" == value.0.1|floatformat:"0" %}
+                                                                                    {{ value.0.1|floatformat:"0" }}
+                                                                                {% else %}
+                                                                                    {{ value.0.1 }}
+                                                                                {% endif %}
+                                                                            </strong></span>
+                                                                        </div>
+                                                                    </div>
+                                                                {% endif %}
+                                                            </td>
+                                                            <td colspan="2" id="{{ value.1 }}">
+
+                                                            </td>
+                                                        {% endif %}
+                                                        {% endif %}
+                                                        {% if forloop.counter|divisibleby:1 or forloop.last %}
+                                                        </tr>
+                                                        {% endif %}
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+            </div>
+            
+        </div>
+
+        <!-- Modal HTML -->
+        <div id="scoreChangeModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="scoreChangeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content" style="padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px;border-bottom-width: 0px;border-top-width: 0px;border-left-width: 0px;border-right-width: 0px;">
+                    <section id="dashboard" style="padding-top: 0px; width: auto;">
+                        <div class="container" style="padding-left: 0px; padding-right: 0px; width: 550px;">
+                            <div class="jumbotron" style="width: auto;margin-bottom: 0px; display: flex; flex-direction: column; align-items: center;">
+                                <div class="row">
+                                    <div class="col-4" id="modal-feedback-img">
+                                    </div>
+                                    <div class="col-4" id="modal-feedback">
+                                        <h2 class="dark-text" style="font-size: 50px; " id="scoreChangeModalLabel"></h2>
+                                        <h4 class="dark-text" id="modal-feedback-content"></h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document" >
+                <div class="modal-content" id="modalContentChange" style="width: 700px;"></div>
+            </div>
+        </div>
+
+        <div id="duplicated-scripts-content-base" style="display: none;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{% trans 'Duplicates' %}</h5>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    {% if Original.duplicateScript.number == 0 %}
+                        <p> {% trans 'Your project does not have duplicated scripts, good job!' %}
+                    {% else %}
+                        <div class="card" id="refactorization">
+                            {% for refactor_dict in Original.refactor.refactor_list %}
+                            <p>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#originalCollapse{{ forloop.counter }}" aria-expanded="false" aria-controls="originalCollapse{{ forloop.counter }}">
+                                        {% trans 'Display Original Blocks!' %}
+                                    </button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#refactoredCollapse{{ forloop.counter }}" aria-expanded="false" aria-controls="refactoredCollapse{{ forloop.counter }}">
+                                        {% trans 'Display Solution!' %}
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="collapse" id="originalCollapse{{ forloop.counter }}" data-bs-parent="#refactorization">
+                                        <div class="card card-body">
+                                            <pre class="blocks">
+                                                {{ refactor_dict.original }}
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="collapse" id="refactoredCollapse{{ forloop.counter }}" data-bs-parent="#refactorization">
+                                        <div class="card card-body">
+                                            <pre class="blocks">
+                                                {{ refactor_dict.refactored }}
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans 'Close' %}</button>
+            </div>
+        </div>
+
+        <div id="duplicated-scripts-content-project" style="display: none;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{% trans 'Duplicates' %}</h5>
+            </div>
+            <div class="modal-body" style="width: auto;">
+                <div class="container-fluid">
+                    {% if New.duplicateScript.number == 0 %}
+                        <p> {% trans 'Your project does not have duplicated scripts, good job!' %}
+                    {% else %}
+                        <div class="card" id="refactorization">
+                            {% for refactor_dict in New.refactor.refactor_list %}
+                            <p>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#originalCollapse{{ forloop.counter }}" aria-expanded="false" aria-controls="originalCollapse{{ forloop.counter }}">
+                                        {% trans 'Display Original Blocks!' %}
+                                    </button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#refactoredCollapse{{ forloop.counter }}" aria-expanded="false" aria-controls="refactoredCollapse{{ forloop.counter }}">
+                                        {% trans 'Display Solution!' %}
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="collapse" id="originalCollapse{{ forloop.counter }}" data-bs-parent="#refactorization">
+                                        <div class="card card-body">
+                                            <pre class="blocks">
+                                                {{ refactor_dict.original }}
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="collapse" id="refactoredCollapse{{ forloop.counter }}" data-bs-parent="#refactorization">
+                                        <div class="card card-body">
+                                            <pre class="blocks">
+                                                {{ refactor_dict.refactored }}
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans 'Close' %}</button>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="footer grey-bg">
+            <p>{% trans "©2024 Dr.Scratch Made with " %} <span style="color: #e25555;">&#9829;</span> {% trans "by " %} <a href="/collaborators">{% trans "Dr.Scratch Team." %}</a></p>
+                <!-- SOCIAL ICONS -->
+                <ul class="social-icons">
+                    <li>
+                        <a href="https://github.com/Daniesmor/Dr.Scratch-Northeastern"> 
+                        <i class="bi bi-github" style="color: black;"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/DrScratchTool">
+                        <i class="bi bi-twitter-x" style="color: black;"></i>
+                        </a>
+                    </li>    
+                </ul>
+        </footer>
+
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            var baseScore = {{ Original.mastery_vanilla.points.0 }};
+            var projectScore = {{ New.mastery_vanilla.points.0 }};
+            
+            if (baseScore !== projectScore) {
+                var modalTitle = '';
+                var modalMessage = '';
+                var imageUrl = '';
+                var diffPoints = Math.abs(baseScore - projectScore);
+        
+                if (baseScore < projectScore) {
+                    modalTitle = '{% trans "Congrats!!" %}';
+                    modalMessage = '{% trans "You have improved this project by " %}' + '<span class="text-success"><strong>' + diffPoints + '</strong></span>' + '{% trans " points" %}';
+                    imageUrl = '/static/app/images/cat.png';
+                } else {
+                    modalTitle = '{% trans "Oops..." %}';
+                    modalMessage = '{% trans "You have dropped this project by " %}' + '<span class="colored-text"><strong>' + diffPoints + '</strong></span>' + '{% trans " points" %}';
+                    imageUrl = '/static/app/images/monkey.png'
+                }
+    
+                var imgElement = $('<img>', {
+                    src: imageUrl,
+                    class: 'img-responsive col-md-4',
+                    style: 'margin-left: 30px;'
+                });
+                
+                $('#modal-feedback-img').append(imgElement);
+                $('#scoreChangeModalLabel').text(modalTitle);
+                $('#modal-feedback-content').html(modalMessage);
+                $('#scoreChangeModal').modal('show');
+            }
+        });
+    </script>s
+
+    <script>
+        $(document).ready(function() {
+            // Obtenemos los valores de bloques y sprites de "BEFORE"
+            var scoreBefore = parseInt($("#original-score").text());
+            var blocksBefore = parseInt($("#original-total-blocks").text());
+            var spritesBefore = parseInt($("#original-total-sprites").text());
+            var duplicateBefore = parseInt($("#original-duplicate").text());
+            var deadBefore = parseInt($("#original-dead").text());
+            var spriteBefore = parseInt($("#original-sprite").text());
+            var backdropBefore = parseInt($("#original-backdrop").text());
+            
+            // Obtenemos los valores de bloques y sprites de "AFTER"
+            var scoreAfter = parseInt($("#new-score").text());
+            var blocksAfter = parseInt($("#new-total-blocks").text());
+            var spritesAfter = parseInt($("#new-total-sprites").text());
+            var duplicateAfter = parseInt($("#new-duplicate").text());
+            var deadAfter = parseInt($("#new-dead").text());
+            var spriteAfter = parseInt($("#new-sprite").text());
+            var backdropAfter = parseInt($("#new-backdrop").text());
+            
+            // Función para actualizar la clase del texto
+            function updateTextClass(element, valueBefore, valueAfter) {
+                if (valueAfter < valueBefore) {
+                    element.removeClass('dark-text colored-text').addClass('text-success');
+                    element.append('<i class="bi bi-check-circle-fill"></i>');
+                } else if (valueAfter > valueBefore) {
+                    element.removeClass('dark-text text-success').addClass('colored-text');
+                    element.append('<i class="bi bi-exclamation-triangle-fill"></i>');
+                } else {
+                    element.removeClass('text-success colored-text').addClass('dark-text');
+                }
+            }
+
+            // Función para actualizar la clase del texto
+            function updateTextScore(element, valueBefore, valueAfter) {
+                if (valueAfter > valueBefore) {
+                    element.removeClass('dark-text colored-text').addClass('text-success');
+                } else if (valueAfter < valueBefore) {
+                    element.removeClass('dark-text text-success').addClass('colored-text');
+                } else {
+                    element.removeClass('text-success colored-text').addClass('dark-text');
+                }
+            }
+            
+            // Actualizamos las clases de los elementos
+            updateTextScore($("#new-score"), scoreBefore, scoreAfter);
+            updateTextClass($("#new-total-blocks"), blocksBefore, blocksAfter);
+            updateTextClass($("#new-total-sprites"), spritesBefore, spritesAfter);
+            updateTextClass($("#new-duplicate"), duplicateBefore, duplicateAfter);
+            updateTextClass($("#new-dead"), deadBefore, deadAfter);
+            updateTextClass($("#new-sprite"), spriteBefore, spriteAfter);
+            updateTextClass($("#new-backdrop"), backdropBefore, backdropAfter);
+        }); 
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#show-more-button').on('click', function () {
+                var $hiddenContent = $('#hidden-content');
+                if ($hiddenContent.is(':visible')) {
+                    $hiddenContent.slideUp();
+                    $(this).text('Show more');
+                } else {
+                    $hiddenContent.slideDown();
+                    $(this).text('Show less');
+                }
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Función para actualizar el filename
+            function updateFilename(elementId) {
+                // Selecciona el elemento que contiene el filename
+                var filenameElement = document.getElementById(elementId);
+
+                // Verifica si el elemento existe en el DOM
+                if (filenameElement) {
+                    // Obtiene el contenido del elemento
+                    var filename = filenameElement.innerText;
+
+                    // Define el patrón para la URL del proyecto
+                    var pattern = /^https:\/\/scratch\.mit\.edu\/projects\/(\d+)\/$/;
+
+                    // Verifica si el filename coincide con el patrón
+                    var match = filename.match(pattern);
+
+                    if (match) {
+                        // Extrae el ID del proyecto
+                        var projectId = match[1];
+
+                        // Modifica el contenido del elemento
+                        filenameElement.innerText = 'Project: ' + projectId;
+                    }
+                }
+            }
+
+            // Actualiza el filename para New.filename
+            updateFilename('project-new-filename');
+
+            // Actualiza el filename para Original.filename
+            updateFilename('project-original-filename');
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            function updatePopoverContent() {
+                $('.dropdown').each(function () {
+                    var $this = $(this);
+                    var type = $this.data('type');
+                    var compareType = $this.data('compare-type');
+                    var popoverContent = '';
+                    if (type === "Original") {
+                        popoverContent = '{% trans "This is the original ' + compareType + '." %}';
+                    } else {
+                        var originalNumber = parseInt($this.data('original-number'));
+                        var newNumber = parseInt($this.data('new-number'));
+                        if (newNumber === 0) {
+                            popoverContent = '{% trans "Congratulations!! You have erase all your ' + compareType + ' of your project" %}';
+                        } else if (newNumber < originalNumber) {
+                            popoverContent = '{% trans "Congrats!! You have decrease the number of ' + compareType + ' in your project, keep it up !!" %}';
+                        } else if (newNumber > originalNumber) {
+                            popoverContent = '{% trans "Oops... You have increase the number of ' + compareType + ' in your project, try to erase them !!" %}';
+                        }
+                    }
+                    $this.attr('data-content', popoverContent);
+                });
+            }
+
+            updatePopoverContent();
+
+            $('.dropdown').popover({
+                trigger: 'manual',
+                html: true,
+                animation: false
+            }).on('mouseenter', function () {
+                $(this).popover('show');
+            }).on('mouseleave', function () {
+                $(this).popover('hide');
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Function to insert the commented tbody content into the more-content table
+            function insertMoreContent() {
+                var data = {};
+                var dataBefore = {};
+                var htmlkey = '';
+                {% for key,value in New.mastery_vanilla.items %}
+                    data['{{ key }}'] = '{{ value }}',
+                {% endfor %}
+                {% for key,value in Original.mastery_vanilla.items %}
+                    dataBefore['{{ key }}'] = '{{ value }}',
+                {% endfor %}
+                console.log(data);
+
+                for (var key in data) {
+                    if (key != 'competence' && key != 'points'){
+                        if (key == "Flow control") {
+                            htmlKey = "FlowControl";
+                        }else if (key == "User interactivity") {
+                            htmlKey = "UserInteractivity";
+                        }else if (key == "Data representation") {
+                            htmlKey = "DataRepresentation";
+                        } else {
+                            htmlKey = key;
+                        }
+                    var valueAfter = parseInt(data[key][2]);
+                    var valueBefore = parseInt(dataBefore[key][2]);
+                    if (valueAfter == 0){
+                        if (valueAfter < valueBefore){
+                            var progressBarHTML = `
+                            <div class="progress">
+                                <div class="progress-bar-new progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="3" style="width: 0%">
+                                    <span style="color: red; font-size: 12px;"><strong>0/3</strong></span>
+                                </div>
+                            </div>`;
+                        } else {
+                            var progressBarHTML = `
+                            <div class="progress">
+                                <div class="progress-bar-new progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="3" style="width: 0%">
+                                    <span style="color: grey;  font-size: 12px;"><strong>0/3</strong></span>
+                                </div>
+                            </div>`;
+                        }
+
+                    } else {
+                        if (valueAfter > valueBefore) {
+                            var progressBarHTML =  `
+                            <div class="progress">
+                                <div class="progress-bar-new progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="${valueAfter}" aria-valuemin="0" aria-valuemax="3" style="width: ${valueAfter / 3 * 100}%;">
+                                    <span style="font-size: 12px;"><strong>${valueAfter} / 3</strong></span>
+                                </div>
+                            </div>
+                            `;
+                        } else if (valueAfter < valueBefore) {
+                            var progressBarHTML =  `
+                            <div class="progress">
+                                <div class="progress-bar-new progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="${valueAfter}" aria-valuemin="0" aria-valuemax="3" style="width: ${valueAfter / 3 * 100}%;">
+                                    <span style="font-size: 12px;"><strong>${valueAfter} / 3</strong></span>
+                                </div>
+                            </div>
+                            `;
+                        } else {
+                            var progressBarHTML =  `
+                            <div class="progress">
+                                <div class="progress-bar-new progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="${valueAfter}" aria-valuemin="0" aria-valuemax="3" style="width: ${valueAfter / 3 * 100}%;">
+                                    <span style="font-size: 12px;"><strong>${valueAfter} / 3</strong></span>
+                                </div>
+                            </div>
+                            `;
+                        }
+                    }
+                    document.getElementById(htmlKey).innerHTML += (progressBarHTML);
+                    }
+                }
+            };
+
+            // Call the function to insert content
+            insertMoreContent();
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // Pasar los datos de los bloques desde Django al contexto de JavaScript
+            var originalBlocks = {{ Original.block_categories.result|safe }};
+            var newBlocks = {{ New.block_categories.result|safe }};
+
+            // Preparar los datos para Chart.js
+            var labels = Object.keys(originalBlocks);
+            var originalData = Object.values(originalBlocks);
+            var newData = Object.values(newBlocks);
+            var colors = [
+                '#0000FF', // azul
+                '#FFA500', // naranja
+                '#008000', // verde
+                '#FF8C00', // amarillo anaranjado
+                '#FFFF00', // amarillo
+                '#FFC0CB', // rosa
+                '#800080', // morado
+                '#00FFFF', // azul celeste
+                '#808080'  // gris
+            ];
+
+            // Configuración del gráfico circular para el proyecto original
+            var ctxOriginal = document.getElementById('originalProjectChart').getContext('2d');
+            var originalProjectChart = new Chart(ctxOriginal, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: originalData,
+                        backgroundColor: colors
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return tooltipItem.label + ': ' + tooltipItem.raw + '%';
+                                }
+                            }
+                        },
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                        }
+                    }
+                }
+            });
+
+            // Configuración del gráfico circular para el nuevo proyecto
+            var ctxNew = document.getElementById('newProjectChart').getContext('2d');
+            var newProjectChart = new Chart(ctxNew, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: newData,
+                        backgroundColor: colors
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return tooltipItem.label + ': ' + tooltipItem.raw + '%';
+                                }
+                            }
+                        },
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+
+
+
+    </body>
+</html>
+        

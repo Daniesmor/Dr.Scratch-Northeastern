@@ -85,9 +85,13 @@ class DuplicateScripts(Plugin):
 
             self.duplicates.update(sprite_duplicates)
 
+        print("self.duplicates-------")
         print(self.duplicates)
+        
         for key, value in self.duplicates.items():
             duplicated_scripts = [pair[0] for pair in value]
+            print("duplicated_Scripts")
+            print(duplicated_scripts)
             csv_text = [script.get_blocks() for script in duplicated_scripts]
             script_text = "\n\n".join([script.convert_to_text() for script in duplicated_scripts])
             self.total_duplicate += sum(1 for _ in duplicated_scripts)
