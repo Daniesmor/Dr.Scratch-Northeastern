@@ -108,14 +108,11 @@ def init_batch(self, request_data, skill_points):
 
     dict_metrics = proccess_url(request_data_obj, skill_points)
     csv_id = create_csv(request_data_obj, dict_metrics) 
+    send_mail(re_email, csv_id)
 
     # Stop and register time for ETA
     end_time = datetime.now()
     register_timestamp(csv_id, start_time, end_time)
-
-    send_mail(re_email, csv_id)
-
-
     
 
         
