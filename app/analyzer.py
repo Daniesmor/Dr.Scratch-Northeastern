@@ -317,7 +317,7 @@ def generator_dic(request, id_project, skill_points: dict) -> dict:
         username = None
         path_project, file_obj, ext_type_project = send_request_getsb3(id_project, username, method="url")
         try:
-            path_project = request.session.get('current_project_path')
+            request.session['current_project_path'] = path_project
         except AttributeError:
             pass
     except DrScratchException:
