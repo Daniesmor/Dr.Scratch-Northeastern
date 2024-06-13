@@ -62,7 +62,8 @@ import coloredlogs
 from .tasks import init_batch
 
 # Analyzer imports
-from .analyzer import _make_analysis_by_upload, _make_analysis_by_url, _make_analysis_by_txt, analyze_project, generator_dic, return_scratch_project_identifier, send_request_getsb3
+from .analyzer import analyze_project, generator_dic, return_scratch_project_identifier, send_request_getsb3, _make_compare, analysis_by_upload, analysis_by_url
+from .batch import skills_translation
 
 logger = logging.getLogger(__name__)
 coloredlogs.install(level='DEBUG', logger=logger)
@@ -275,52 +276,45 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
     project_counter = 0
 
     if request.method == 'POST':
-        dashboard_mode = request.POST['dashboard_mode']
+        dashboard_mode = request.POST.get('dashboard_mode')
+
+
+    if dashboard_mode == 'Comparison':
+        dict_metrics = _make_compare(request, skill_points)
     else:
-        dashboard_mode = "Personalized"
+        if "_upload" in request.POST:
+            try:
+                zip_file = request.FILES['zipFile']
+            except MultiValueDictKeyError:
+                print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+                dict_metrics[project_counter] = {'Error': 'MultiValueDict'}
+                return dict_metrics
+            dict_metrics[project_counter] = analysis_by_upload(request, skill_points, zip_file)
+        elif '_url' in request.POST:
+            form = UrlForm(request.POST)
+            if form.is_valid():
+                url = form.cleaned_data['urlProject']
+                dict_metrics[project_counter] = analysis_by_url(request, url, skill_points)
+            else:
+                dict_metrics[project_counter] =  {'Error': 'MultiValueDict'}
+        elif '_urls' in request.POST:
+            urls_file = request.FILES['urlsFile'].readlines()
+            request_data = {
+                'LANGUAGE_CODE': request.LANGUAGE_CODE,
+                'POST': {
+                    'urlsFile': urls_file,
+                    'dashboard_mode': dashboard_mode, 
+                    'email': request.POST['batch-email']       
+                }
+            }
 
-    if request.POST.get('dashboard_mode') == 'Comparison':
-        dict_metrics = _make_comparison(request, skill_points)
+            init_batch.delay(request_data, skill_points) # Call to analyzer task
 
-    else:
-      if "_upload" in request.POST:
-          dict_metrics[project_counter] = _make_analysis_by_upload(request, skill_points)
-          if dict_metrics[project_counter]['Error'] != 'None':
-              return dict_metrics
-          filename = request.FILES['zipFile'].name.encode('utf-8')
-          dict_metrics[project_counter].update({
-              'url': url,
-              'filename': filename,
-              'dashboard_mode': dashboard_mode,
-              'multiproject': False
-          })
-      elif '_url' in request.POST:
-          dict_metrics[project_counter] = _make_analysis_by_url(request, skill_points)
-          url = request.POST['urlProject']
-          filename = url
-          dict_metrics[project_counter].update({
-              'url': url,
-              'filename': filename,
-              'dashboard_mode': dashboard_mode,
-              'multiproject': False
-          })
-      elif '_urls' in request.POST:
-          urls_file = request.FILES['urlsFile'].readlines()
-          request_data = {
-              'LANGUAGE_CODE': request.LANGUAGE_CODE,
-              'POST': {
-                  'urlsFile': urls_file,
-                  'dashboard_mode': dashboard_mode, 
-                  'email': request.POST['batch-email']       
-              }
-          }
+            dict_metrics[project_counter] = {
+                'multiproject': True,
+                'num_projects': len(urls_file)
+            }
 
-          init_batch.delay(request_data, skill_points) # Call to analyzer task
-
-          dict_metrics[project_counter] = {
-              'multiproject': True,
-              'num_projects': len(urls_file)
-          }
     return dict_metrics
 
 
