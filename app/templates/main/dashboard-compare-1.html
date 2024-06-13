@@ -382,12 +382,12 @@
                                                     <h3 class="dark-text" style="font-size: 20px;"><strong> {% trans "Bad Smells:" %} </strong></h3>
                                                     <div class="col-12 d-flex align-items-center">
                                                         <div class="col-sm-6 d-flex align-items-center">
-                                                            <img src="/static/app/images/golfing_blocks.png" height="70px" class="mr-3 dropdown" data-toggle="popover" title="{% trans 'Duplicated Scripts' %}" 
+                                                            <img src="/static/app/images/duplicated.png" height="70px" class="mr-3 dropdown" data-toggle="popover" title="{% trans 'Duplicated Scripts' %}" 
                                                                  data-type="Original" data-compare-type="duplicated scripts" data-trigger="manual"">
                                                             <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="original-duplicate">{{ Original.duplicateScript.number }} {% trans ' duplicated' %}</h2>
                                                         </div>
                                                         <div class="col-sm-6 d-flex align-items-center">
-                                                            <img src="/static/app/images/golfing_sprites.png" height="70px" class="display-flex dropdown" data-toggle="popover" title="{% trans 'Dead Code' %}"
+                                                            <img src="/static/app/images/dead_code.png" height="70px" class="display-flex dropdown" data-toggle="popover" title="{% trans 'Dead Code' %}"
                                                                  data-type="Original" data-compare-type="dead code" data-trigger="manual"">
                                                             <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="original-dead">{{ Original.deadCode.number }} {% trans ' dead blocks' %}</h2>
                                                         </div>
@@ -460,12 +460,12 @@
                                                     <h3 class="dark-text" style="font-size: 20px;"><strong> {% trans "Bad Smells:" %} </strong></h3>
                                                     <div class="col-12 d-flex align-items-center">
                                                         <div class="col-sm-6 d-flex align-items-center">
-                                                            <img src="/static/app/images/golfing_blocks.png" height="70px" class="mr-3 dropdown" data-toggle="popover" title="{% trans 'Duplicated Scripts' %}" 
+                                                            <img src="/static/app/images/duplicated.png" height="70px" class="mr-3 dropdown" data-toggle="popover" title="{% trans 'Duplicated Scripts' %}" 
                                                                  data-compare-type="duplicated scripts" data-original-number="{{ Original.duplicateScript.number }}" data-new-number="{{ New.duplicateScript.number }}" data-trigger="manual">
                                                             <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="new-duplicate">{{ New.duplicateScript.number }} {% trans ' duplicated ' %}</h2>
                                                         </div>
                                                         <div class="col-sm-6 d-flex align-items-center">
-                                                            <img src="/static/app/images/golfing_sprites.png" height="70px" class="display-flex dropdown" data-toggle="popover" title="{% trans 'Dead Code' %}"
+                                                            <img src="/static/app/images/dead_code.png" height="70px" class="display-flex dropdown" data-toggle="popover" title="{% trans 'Dead Code' %}"
                                                                  data-compare-type="dead code" data-original-number="{{ Original.deadCode.number }}" data-new-number="{{ New.deadCode.number }}" data-trigger="manual">
                                                             <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="new-dead">{{ New.deadCode.number }} {% trans ' dead blocks ' %}</h2>
                                                         </div>
@@ -514,7 +514,7 @@
                                 </div>
                                 <div class="panel-body text-center typ" >
                                     <div class="col-md-3">
-                                        <h4> 
+                                        <h4 style="font-size: 20px;"> 
                                             <strong>
                                                 {% if Compare.same_functionality %}
                                                     {% trans "BEFORE" %}
@@ -527,13 +527,13 @@
                                     <div class="col-md-6" style="padding-top: 1%;">
                                         <!-- Barra de progreso -->
                                         <div class="progress">
-                                            <div id="similarity-progress" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ Compare.similarity }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ Compare.similarity }}%;">
-                                                {{ Compare.similarity }}%
+                                            <div id="similarity-progress" class="progress-bar-similarity progress-bar-success" role="progressbar" aria-valuenow="{{ Compare.similarity }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ Compare.similarity }}%;">
+                                                <span style="font-size: 16px; margin-bottom: 5%;"><strong> {{ Compare.similarity }}% </strong></span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
-                                        <h4> 
+                                        <h4 style="font-size: 20px;"> 
                                             <strong>
                                                 {% if Compare.same_functionality %}
                                                     {% trans "AFTER" %}
@@ -1199,7 +1199,7 @@
                     var popoverContent = '';
                     if (type === "Original") {
                         popoverContent = '{% trans "This is the original ' + compareType + '." %}';
-                    } else {
+                    } else if (compareType !=  undefined) {
                         var originalNumber = parseInt($this.data('original-number'));
                         var newNumber = parseInt($this.data('new-number'));
                         if (newNumber === 0) {
