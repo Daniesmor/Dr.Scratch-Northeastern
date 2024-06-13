@@ -3,7 +3,7 @@ from .analyzer import analysis_by_url
 import types
 import requests
 from .batch import create_csv, create_summary
-from email.message import EmailMessage
+from django.core.mail import EmailMessage
 from django.core.mail import EmailMessage as DjangoEmailMessage
 from django.shortcuts import get_object_or_404
 from django.conf import settings
@@ -11,6 +11,8 @@ from uuid import UUID
 from .models import BatchCSV
 from datetime import datetime
 from django.template.loader import render_to_string
+from css_inline import inline
+from django.core.exceptions import ObjectDoesNotExist
 
 
 def proccess_url(request_data_obj: object, skill_points: dict) -> dict:
@@ -46,6 +48,7 @@ def mk_url(csv_id: UUID) -> str:
 def get_csv_sum(csv) -> dict:
     summary = {}
     summary = {
+        'num_projects': csv.num_projects,
         'Points': [csv.points, csv.max_points],
         'Logic': [csv.logic, csv.max_logic],
         'Parallelism': [csv.parallelization, csv.max_parallelization],
@@ -60,34 +63,33 @@ def get_csv_sum(csv) -> dict:
     }
     return summary
 
-def mk_html(csv_id: UUID) -> str:
-    csv = get_object_or_404(BatchCSV, id=csv_id)
+def mk_html(csv_id: UUID, url: str) -> str:
+    try:
+        csv = get_object_or_404(BatchCSV, id=csv_id)
+        csv_filepath = csv.filepath
+        summary = get_csv_sum(csv)
+        
+        context = {
+            'url': url,
+            'summary': summary,
+            'csv_filepath': csv_filepath
+        }
 
-    csv_filepath = csv.filepath
-
-    summary = get_csv_sum(csv)
-    
-    context = {
-        'summary': summary,
-        'csv_filepath': csv_filepath
-    }
-
-    html_message = render_to_string('main' + '/dashboard-bulk-emailv.html', context)
-    return html_message
+        html_message = render_to_string('main' + '/dashboard-bulk-emailv.html', context)
+        inline_html = inline(html_message)
+        return inline_html
+    except ObjectDoesNotExist:
+        return ''
 
 def send_mail(email: str, csv_id: UUID) -> None:
     url = mk_url(csv_id)
-    ehtml = mk_html(csv_id)
-
-    message = f'''
-    Thanks for using Dr.Scratch for analyze your projects!, you can download your csv by clicking here: {url}
-    '''
-
+    ehtml = mk_html(csv_id, url)
     subject = '[Dr.Scratch Batch Analysis Finish]'
-    email = DjangoEmailMessage(subject, message, settings.EMAIL_HOST_USER, [email])
+
+    email = EmailMessage(subject, ehtml, settings.EMAIL_HOST_USER, [email])
     email.content_subtype = 'html'
     try:
-        email.send()
+        email.send(fail_silently=False)
     except:
         print(f"Error seding mail: {email}")
 
