@@ -314,12 +314,12 @@ def generator_dic(request, id_project, skill_points: dict) -> dict:
     """
 
     try:
-        
-      
         username = None
-
         path_project, file_obj, ext_type_project = send_request_getsb3(id_project, username, method="url")
-        request.session['current_project_path'] = path_project
+        try:
+            path_project = request.session.get('current_project_path')
+        except AttributeError:
+            pass
     except DrScratchException:
         logger.error('DrScratchException')
         d = {'Error': 'no_exists'}
