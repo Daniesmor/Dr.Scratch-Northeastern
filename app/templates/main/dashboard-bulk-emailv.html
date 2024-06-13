@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load static %}
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -7,60 +8,61 @@
     <meta name="author" content="Programamos URJC Libresoft FECyT">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-    <link rel="stylesheet" href="../../static/app/content/bootstrap-tour.css">
-    <script src="../../static/app/scripts/bootstrap.min.js"></script>
-    <script src="../../static/app/scripts/bootstrap-tour.js"></script>
-    <script src="../../static/app/scripts/googleAnalytics.js"></script>
-    <script src="../../static/app/scripts/scratchblocks-v3.4-min.js"></script>
+    <link rel="stylesheet" href="./static/app/content/bootstrap-tour.css">
+    <script src="./static/app/scripts/bootstrap.min.js"></script>
+    <script src="./static/app/scripts/bootstrap-tour.js"></script>
+    <script src="./static/app/scripts/googleAnalytics.js"></script>
+    <script src="./static/app/scripts/scratchblocks-v3.4-min.js"></script>
 
     <!-- SITE TITLE -->
     <title>Dr. Scratch</title>
 
 
-    <link rel="stylesheet" href="../../static/app/content/style.css">
+    <link rel="stylesheet" href="./static/app/content/style.css">
     <!-- =========================
      FAV AND TOUCH ICONS AND FONT
     ============================== -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="icon" href="../../static/app/images/favicon.ico">
-    <link rel="stylesheet" href="static/app/icons/icons.css">
-    <link type="text/css" rel="stylesheet" href="../../static/app/content/css_002.css">
-    <link type="text/css" rel="stylesheet" href="../../static/app/content/css.css">
+    <link rel="icon" href="./static/app/images/favicon.ico">
+    <link rel="stylesheet" href="./static/app/icons/icons.css">
+    <link type="text/css" rel="stylesheet" href="./static/app/content/css_002.css">
+    <link type="text/css" rel="stylesheet" href="./static/app/content/css.css">
     <!-- =========================
      STYLESHEETS
     ============================== -->
     <!-- BOOTSTRAP AND ANIMATION -->
-    <link rel="stylesheet" href="../../static/app/content/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/app/content/animate.css">
+    <link rel="stylesheet" href="./static/app/content/bootstrap.min.css">
+    <link rel="stylesheet" href="./static/app/content/animate.css">
 
     <!-- CAROUSEL AND LIGHTBOX -->
-    <link rel="stylesheet" href="../../static/app/content/owl_002.css">
-    <link rel="stylesheet" href="../../static/app/content/owl.css">
-    <link rel="stylesheet" href="../../static/app/content/nivo-lightbox.css">
-    <link rel="stylesheet" href="../../static/app/content/default.css">
+    <link rel="stylesheet" href="./static/app/content/owl_002.css">
+    <link rel="stylesheet" href="./static/app/content/owl.css">
+    <link rel="stylesheet" href="./static/app/content/nivo-lightbox.css">
+    <link rel="stylesheet" href="./static/app/content/default.css">
 
     <!-- CUSTOM STYLESHEETS -->
-    <link rel="stylesheet" href="../../static/app/content/styles.css">
-    <link rel="stylesheet" href="../../static/app/content/basic.css">
+    <link rel="stylesheet" href="./static/app/content/styles.css">
+    <link rel="stylesheet" href="./static/app/content/basic.css">
 
     <!-- CUSTOM STYLESHEETS -->
-    <link rel="stylesheet" href="../../static/app/content/styles.css">
+    <link rel="stylesheet" href="./static/app/content/styles.css">
     {% if summary.Mastery == "Basic" %}
-        <link rel="stylesheet" href="/static/app/content/basic.css">
+        <link rel="stylesheet" href="./static/app/content/basic.css">
     {% elif summary.Mastery == "Developing" %}
-        <link rel="stylesheet" href="/static/app/content/developing.css">
+        <link rel="stylesheet" href="./static/app/content/developing.css">
     {% elif summary.Mastery == "Master" %}
-        <link rel="stylesheet" href="/static/app/content/master.css">
+        <link rel="stylesheet" href="./static/app/content/master.css">
     {% elif summary.Mastery == "Advanced" %}
-        <link rel="stylesheet" href="/static/app/content/advanced.css">
+        <link rel="stylesheet" href="./static/app/content/advanced.css">
     {% elif summary.Mastery == "Finesse" %}
-        <link rel="stylesheet" href="/static/app/content/finesse.css">
+        <link rel="stylesheet" href="./static/app/content/finesse.css">
     {% endif %}
+
     <!-- RESPONSIVE FIXES -->
-    <link rel="stylesheet" href="../../static/app/content/responsive.css">
+    <link rel="stylesheet" href="./static/app/content/responsive.css">
 
     <!-- DEFAULT COLOR/ CURRENTLY USING -->
-    <link rel="stylesheet" href="../../static/app/content/red.css">
+    <link rel="stylesheet" href="./static/app/content/red.css">
 
     <script>
                     window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
@@ -154,13 +156,13 @@
         <section id="dashboard">
             <div class="container-fluid" id="stepfour">
                 <div class="row marketing">
-                    <div class="jumbotron">
-                        <div class="table-responsive">
+                    <div class="jumbotron" style="max-width: 40%;">
+                        <div class="table-responsive" style="box-sizing:border-box; min-height:.01%; overflow-x:auto; text-align: center; padding-top: 0px;">
                             <h4>{% trans "Analysis Complete!!" %}</h4>
                             <table class="table tablesorter">
                                 <thead>
                                     <th></th>
-                                    <h5 class="text-primary">{% trans "You can download the csv clicking " %}<a href="{{ csv_filepath }}">{% trans "HERE" %}</a></h5>
+                                    <h5 class="text-primary">{% trans "You can download the csv clicking " %}<a href="{{ url }}"><span class="text-danger">{% trans "HERE" %}</span></a></h5>
                                 </thead>
                                 <tbody>
                                     
@@ -213,7 +215,9 @@
                             {% else %}
                                 <h5 class="text-danger">{{ summary.Mastery }}</h5>  
                             {% endif %}
-                                                                      
+                            <a href="https://www.drscratch.org/">
+                                <img src="https://www.drscratch.org/static/app/images/logo_main.png" alt="" width="220" height="70.1667">
+                            </a>                                    
                             
                         </div>
                     </div>
