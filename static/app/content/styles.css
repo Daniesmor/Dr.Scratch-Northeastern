@@ -53,6 +53,8 @@ URL: http://twitter.com/MizanME
     
     3.15 FOOTER
 
+	3.16 WRAP
+
 
 TO CHANGE RESPONSIVE FIXES, PELEASE CHECK css/responsive.css
  
@@ -1398,6 +1400,13 @@ strong,
 
 .social-icons li a:hover .transparent-text-dark {
 	color: #313131;
+}
+
+/*---------------------------------------
+   3.16 SECTION: WRAP
+-----------------------------------------*/
+#wrap {
+	width: 100%;
 }
 
 /*---------------------------------------
