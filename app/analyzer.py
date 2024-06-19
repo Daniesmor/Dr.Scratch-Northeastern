@@ -10,7 +10,6 @@ from venv import logger
 from zipfile import BadZipfile, ZipFile
 from django.utils.datastructures import MultiValueDictKeyError
 from django.http import HttpResponseRedirect, HttpResponse
-
 from app.exception import DrScratchException
 from app.forms import UrlForm
 from app.hairball3.backdropNaming import BackdropNaming
@@ -23,7 +22,9 @@ from app.hairball3.scratchGolfing import ScratchGolfing
 from app.hairball3.categoriesBlocks import CategoriesBlocks
 from app.models import Coder, File, Organization
 from app.scratchclient import ScratchSession
+from app.recomender import RecomenderSystem
 import app.consts_drscratch as consts
+
 
 
 def save_analysis_in_file_db(request, zip_filename):
@@ -401,6 +402,19 @@ def proc_dead_code(dict_dead_code, filename):
 
     return dict_dc
 
+
+
+def proc_recomender(dict_recom_deadCode):
+    recomender = {}
+    recomender = {
+        'recomenderSystem': {
+            'deadCode': dict_recom_deadCode,
+        }
+    }
+
+    return recomender
+
+
 def proc_urls(request, dict_mastery, file_obj):
     dict_urls = {}
     if request.POST.get('dashboard_mode') == 'Default' or request.POST.get('dashboard_mode') == 'Comparison':
@@ -639,8 +653,12 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         result_sprite_naming = SpriteNaming(path_projectsb3, json_scratch_project).finalize()
         result_backdrop_naming = BackdropNaming(path_projectsb3, json_scratch_project).finalize()
         result_categories_block = CategoriesBlocks(path_projectsb3, json_scratch_project).finalize()
-        
-        print("Duplicate Script: ", dict_duplicate_script['result']['list_duplicate_scripts'])
+        # RECOMENDER SECTION
+        recomender = RecomenderSystem(proc_dead_code(dict_dead_code, file_obj))
+        dict_recom_deadCode = recomender.recomender_deadcode()
+        print("---------------------RECOMENDER-----------------------------")
+        print(dict_recom_deadCode)
+        #print("Duplicate Script: ", dict_duplicate_script['result']['list_duplicate_scripts'])
         #Refactorings
         refactored_code = RefactorDuplicate(json_scratch_project, dict_duplicate_script).refactor_duplicates()
 
@@ -651,8 +669,8 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         dict_analysis.update(proc_backdrop_naming(result_backdrop_naming, file_obj))
         dict_analysis.update(proc_refactored_code(refactored_code))
         dict_analysis.update(proc_categories_block(result_categories_block, file_obj))
+        dict_analysis.update(proc_recomender(dict_recom_deadCode))
         # dict_analysis.update(proc_urls(request, dict_mastery, file_obj))
-        
         # dictionary.update(proc_initialization(resultInitialization, filename))
         return dict_analysis
     else:
