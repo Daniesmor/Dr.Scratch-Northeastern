@@ -290,28 +290,30 @@
             </div>
             <!-- /END TOP BAR -->
             <div id="url-container" data-url="{% url 'get_analysis_d' %}"></div>
-            <!-- MAIN CONTENT -->
-            {% block content %} {% endblock %}
+                <!-- MAIN CONTENT -->
+                
+                {% block content %} {% endblock %}
+                
+            </div>
+                <!-- FOOTER -->
+            <footer class="footer grey-bg">
+                <p>{% trans "©2024 Dr.Scratch Made with " %} <span style="color: #e25555;">&#9829;</span> {% trans "by " %} <a href="/collaborators">{% trans "Dr.Scratch Team." %}</a></p>
+                    <!-- SOCIAL ICONS -->
+                    <ul class="social-icons">
+                        <li>
+                            <a href="https://github.com/Daniesmor/Dr.Scratch-Northeastern"> 
+                            <i class="bi bi-github" style="color: black;"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://twitter.com/DrScratchTool">
+                            <i class="bi bi-twitter-x" style="color: black;"></i>
+                            </a>
+                        </li>    
+                    </ul>
+            </footer>
 
-        <!-- FOOTER -->
-        <footer class="footer grey-bg">
-            <p>{% trans "©2024 Dr.Scratch Made with " %} <span style="color: #e25555;">&#9829;</span> {% trans "by " %} <a href="/collaborators">{% trans "Dr.Scratch Team." %}</a></p>
-                <!-- SOCIAL ICONS -->
-                <ul class="social-icons">
-                    <li>
-                        <a href="https://github.com/Daniesmor/Dr.Scratch-Northeastern"> 
-                        <i class="bi bi-github" style="color: black;"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://twitter.com/DrScratchTool">
-                        <i class="bi bi-twitter-x" style="color: black;"></i>
-                        </a>
-                    </li>    
-                </ul>
-        </footer>
-
-    </div>
+        </div>
 
 
     
