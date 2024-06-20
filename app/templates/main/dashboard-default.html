@@ -476,6 +476,45 @@
 
         </script>
         <!-- END OF C_MODE SCRIPT -->
+
+        <!-- RECOMENDER (STYLES AND SCRIPTS) -->
+        <style>
+            #typed-output {
+                font-family: 'Courier New', Courier, monospace;
+                color: #333;
+                white-space: pre-wrap;
+                text-align: left;
+                font-size: 12px;
+            }
+        </style>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var toType = "{{ recomenderSystem.deadCode.message|escapejs }}";
+                toType = toType.replace(/\u001b\[95m/g, '<span style="color: magenta;">').replace(/\u001b\[0m/g, '</span>');
+                var deadBlockContent = `{{ recomenderSystem.deadCode.blocks|escapejs }}`;
+
+                // Crear el elemento <pre> con clase .blocks
+                var preElement = document.createElement('pre');
+                preElement.className = 'blocks';
+                preElement.innerHTML = deadBlockContent;
+                preElement.style.display = 'none';
+                console.log(preElement);
+                document.getElementById('blocks-recomender').appendChild(preElement);
+
+                // Iniciar Typed.js
+                var typed = new Typed('#typed-output', {
+                    strings: [" ", toType],
+                    typeSpeed: 20,
+                    backSpeed: 25,
+                    backDelay: 1000,
+                    loop: false,
+                    showCursor: false,
+                    onComplete: function() {
+                        preElement.style.display = 'block'; // Mostrar preElement al completar la animación
+                    }
+                });
+            });
+        </script>
         
 
 
@@ -744,16 +783,23 @@
 
                 <div class="col-md-7">
                     <section id="dashboard" style="padding-top: 3.5%;">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <img src="/static/app/images/cat.png" class="img-fluid" style="max-width: 100%;" alt="">
-                                </div>
-                                <div class="col-md-8">
-                                    <h3>sadasd</h3>
+
+                        <div class="card" style="min-height: 80px;">
+                            <div class="container-fluid">   
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="col-md-1 d-flex">
+                                        <img src="/static/app/images/cat_chat.png" class="position-absolute top-20 start-90" style="max-width: 100%; width: 100%; padding: 10px;" alt="">
+                                    </div>
+                                    <div class="col-md-11">
+                                        <div id="typed-output"></div>
+                                        <div id="blocks-recomender"></div>
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        
+                        
                         <br></br>
                         <div class="container-fluid">
                             <div class="row marketing">
