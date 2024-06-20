@@ -24,21 +24,27 @@ class RecomenderSystem():
         ]
 
     def recomender_deadcode(self) -> dict:
-        feedback = ""
+        message = ""
+        blocks = ""
         print(f"{self.MAGENTA}{self.deadCode}")
         
         # Select one of the motivational phrases to start
         rand_index = random.randint(0, len(self.motivational_phrases) - 1)
-        feedback += self.motivational_phrases[rand_index]
+        message += self.motivational_phrases[rand_index]
 
         # Search the deadCode of the dict and make phrase
         for sprite, blocks in self.deadCode.items():
             if sprite not in ("deadCode", "number"):
                 for block in blocks:
                     
-                    feedback += f" You haven't used one block in the sprite {self.GREEN}{sprite}{self.RESET}, maybe it would be a good idea to remove it, you agree?\n"
-                    feedback += f" Try removing the block: {self.GREEN}{block}{self.RESET}\n"
+                    message += f" you haven't used one block in the sprite {self.MAGENTA}{sprite}{self.RESET}, maybe it would be a good idea to remove it, you agree?\nTry removing the block: "
+                    #feedback += f" try removing the block: {self.GREEN}{block}{self.RESET}\n"
+                    blocks = f"{block}"
                     print("INSIDE --------------------------------------------")
-                    print(f"{self.MAGENTA}{feedback}")
+                    print(f"{self.MAGENTA}{message}")
+        feedback = {
+            'message': message,
+            'blocks': blocks,  
+        }
         return feedback
     
