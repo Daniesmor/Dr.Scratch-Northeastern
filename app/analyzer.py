@@ -407,9 +407,7 @@ def proc_dead_code(dict_dead_code, filename):
 def proc_recomender(dict_recom_deadCode):
     recomender = {}
     recomender = {
-        'recomenderSystem': {
-            'deadCode': dict_recom_deadCode,
-        }
+        'recomenderSystem': dict_recom_deadCode,
     }
 
     return recomender
