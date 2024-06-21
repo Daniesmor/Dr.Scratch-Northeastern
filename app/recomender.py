@@ -24,27 +24,34 @@ class RecomenderSystem():
         ]
 
     def recomender_deadcode(self) -> dict:
-        message = ""
-        blocks = ""
         print(f"{self.MAGENTA}{self.deadCode}")
-        
+        message = ""
+        blocks_list = []
         # Select one of the motivational phrases to start
         rand_index = random.randint(0, len(self.motivational_phrases) - 1)
         message += self.motivational_phrases[rand_index]
 
         # Search the deadCode of the dict and make phrase
+        
+        if (len(self.deadCode.items()) > 3): #Only one sprite with deadCode (maybe multiple blocks)
+            message += f" you haven't used a lot of blocks in different sprites, maybe it would be a good idea to remove it, you agree?\nTry removing the following blocks: "
+
         for sprite, blocks in self.deadCode.items():
             if sprite not in ("deadCode", "number"):
-                for block in blocks:
-                    
+                if (len(self.deadCode.items()) <= 3): #Only one sprite with deadCode (maybe multiple blocks)
                     message += f" you haven't used one block in the sprite {self.MAGENTA}{sprite}{self.RESET}, maybe it would be a good idea to remove it, you agree?\nTry removing the block: "
-                    #feedback += f" try removing the block: {self.GREEN}{block}{self.RESET}\n"
-                    blocks = f"{block}"
-                    print("INSIDE --------------------------------------------")
-                    print(f"{self.MAGENTA}{message}")
+                for block in blocks:
+                    print("longiutd: ", len(self.deadCode.items()))
+
+
+                    blocks_list.append((f"{block}", f"This block is in the sprite {self.MAGENTA}{sprite}{self.RESET}:"))
+
+                    
         feedback = {
             'message': message,
-            'blocks': blocks,  
+            'blocks': blocks_list,  
         }
+        print("FEEDBACK --------------------------------------------")
+        print(f"{self.MAGENTA}{feedback}")
         return feedback
     
