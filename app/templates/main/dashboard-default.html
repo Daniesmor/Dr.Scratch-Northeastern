@@ -491,13 +491,13 @@
         <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Fetch and process the message to type
-            var message = "{{ recomenderSystem.deadCode.message|escapejs }}";
-            var explanation = "{{ recomenderSystem.deadCode.explanation|escapejs }}";
-            var farwell = "{{ recomenderSystem.deadCode.farwell|escapejs }}";
+            var message = "{{ recomenderSystem.message|escapejs }}";
+            var explanation = "{{ recomenderSystem.explanation|escapejs }}";
+            var farwell = "{{ recomenderSystem.farwell|escapejs }}";
             message = message.replace(/\u001b\[95m/g, '<span style="color: magenta;">').replace(/\u001b\[0m/g, '</span>');
 
             // Create and hide pre elements for each block
-            {% for block in recomenderSystem.deadCode.blocks %}
+            {% for block in recomenderSystem.blocks %}
                 var indexBlock = "{{ forloop.counter0|add:1 }}"; // Out ids starts on 1 instead of 0, this easy for block selector
                 var blockName = `recomBlock${indexBlock}`;
 
