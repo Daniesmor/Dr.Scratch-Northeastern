@@ -486,35 +486,106 @@
                 text-align: left;
                 font-size: 12px;
             }
+            .typed-family {
+                font-family: 'Courier New', Courier, monospace;
+                color: #333;
+                white-space: pre-wrap;
+                text-align: left;
+                font-size: 12px;
+            }
         </style>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                var toType = "{{ recomenderSystem.deadCode.message|escapejs }}";
-                toType = toType.replace(/\u001b\[95m/g, '<span style="color: magenta;">').replace(/\u001b\[0m/g, '</span>');
-                var deadBlockContent = `{{ recomenderSystem.deadCode.blocks|escapejs }}`;
 
-                // Crear el elemento <pre> con clase .blocks
+        <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Fetch and process the message to type
+            var toType = "{{ recomenderSystem.deadCode.message|escapejs }}";
+            toType = toType.replace(/\u001b\[95m/g, '<span style="color: magenta;">').replace(/\u001b\[0m/g, '</span>');
+            
+            // Create and hide pre elements for each block
+            {% for block in recomenderSystem.deadCode.blocks %}
+                var indexBlock = "{{ forloop.counter0|add:1 }}";
+                var blockName = `recomBlock${indexBlock}`;
+
+                // Creates the legend "This block is in the sprite bla"
+                var preLegend = document.createElement('p');
+                var blockLegend = `{{ block.1|escapejs }}`;
+                blockLegend = blockLegend.replace(/\u001b\[95m/g, '<span style="color: magenta;">').replace(/\u001b\[0m/g, '</span>');
+                preLegend.innerHTML = blockLegend;
+                preLegend.className = `typed-family`; 
+                
+                // Creates the block image
+                var deadBlockContent = `{{ block.0|escapejs }}`;
                 var preElement = document.createElement('pre');
                 preElement.className = 'blocks';
                 preElement.innerHTML = deadBlockContent;
-                preElement.style.display = 'none';
-                console.log(preElement);
-                document.getElementById('blocks-recomender').appendChild(preElement);
 
-                // Iniciar Typed.js
-                var typed = new Typed('#typed-output', {
-                    strings: [" ", toType],
-                    typeSpeed: 20,
-                    backSpeed: 25,
-                    backDelay: 1000,
-                    loop: false,
-                    showCursor: false,
-                    onComplete: function() {
-                        preElement.style.display = 'block'; // Mostrar preElement al completar la animación
+                // Creates the continaer that contains the block and the legend
+                var blockContainer = document.createElement('div');
+                blockContainer.id = blockName;
+                blockContainer.style.display = 'none';
+                document.getElementById('blocks-recomender').appendChild(blockContainer);   
+                blockContainer.appendChild(preLegend);
+                blockContainer.appendChild(preElement);
+                
+                // Update total value of the block selector
+                document.getElementById('totSelValue').textContent = "{{ forloop.counter0|add:1 }}";
+            {% endfor %}
+
+            function listenSelector() {
+                /*
+                This function controls the block selector
+                */
+                var prevSelector = document.getElementById('prevBlock');
+                var nextSelector = document.getElementById('nextBlock');
+                var currSelValueElem = document.getElementById('currSelValue');
+                var totSelValueElem = document.getElementById('totSelValue');
+
+                var currSelValue = parseInt(currSelValueElem.textContent);
+                var totSelValue = parseInt(totSelValueElem.textContent);
+                
+
+                prevSelector.addEventListener("click", function() {
+                    document.getElementById(`recomBlock${currSelValue}`).style.display = 'none';
+                    if (currSelValue >= 1) {
+                        currSelValue--;
+                        currSelValueElem.textContent = currSelValue; 
+                        
+                        document.getElementById(`recomBlock${currSelValue}`).style.display = 'block';
                     }
                 });
+
+                nextSelector.addEventListener("click", function() {
+                    document.getElementById(`recomBlock${currSelValue}`).style.display = 'none';
+
+                    if (currSelValue < totSelValue) {
+                        currSelValue++;
+                        currSelValueElem.textContent = currSelValue; 
+                        document.getElementById(`recomBlock${currSelValue}`).style.display = 'block';
+                    }  
+                });
+            }
+            
+            // Initialize typed.js
+            var typed = new Typed('#typed-output', { // Assuming you want to type in the first block
+                strings: [toType],
+                typeSpeed: 20,
+                backSpeed: 25,
+                backDelay: 1000,
+                loop: false,
+                showCursor: false,
+                onComplete: function() {
+                    var blockSelector = document.getElementById('block-selector');
+                    blockSelector.style.display = 'block';
+
+                    // We have to show the first block (index 0)
+                    document.getElementById('recomBlock1').style.display = 'block';
+                    listenSelector();
+
+                }
             });
+        });
         </script>
+        
         
 
 
@@ -569,6 +640,7 @@
                 
                 <section id="blackboard" class="services col-md-5">
                     <!-- POINTS PANEL -->
+                    <!--
                     <div id="devpanels">
                         <div class="devpanel" style="padding-top: 5%;">
                             <div class="panel panel-success" id="devpanel">
@@ -626,8 +698,8 @@
                             </div>
                         </div>
                     </div>
-                    
-                    
+                    -->
+                    <br></br>
                     <div id="bad-habits">
                         {% if mastery_vanilla.competence == "Developing" or mastery_vanilla.competence == "Master" %}
                         <div class="improve">
@@ -782,6 +854,7 @@
                 </section>
 
                 <div class="col-md-7">
+                    
                     <section id="dashboard" style="padding-top: 3.5%;">
 
                         <div class="card" style="min-height: 80px;">
@@ -792,8 +865,12 @@
                                     </div>
                                     <div class="col-md-11">
                                         <div id="typed-output"></div>
+                                        <div id="block-selector" style="display: none;">
+                                            <a id="prevBlock" style="cursor: pointer;"> &lt; </a><span class="typed-family" id="currSelValue">1</span><span class="typed-family"> / </span><span  class="typed-family" id="totSelValue">30</span><a id="nextBlock" style="cursor: pointer;"> &gt;</a>                                     
+                                        </div>
+                                        
                                         <div id="blocks-recomender"></div>
-                                        </p>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -801,10 +878,12 @@
                         
                         
                         <br></br>
+                        <!--
                         <div class="container-fluid">
                             <div class="row marketing">
                                 <div class="jumbotron">
                                     <div class="table-responsive">
+                                        
                                         <div id="stepfive">
                                             
                                             <table class="table tablesorter">
@@ -887,8 +966,9 @@
                                 </div>
                             </div>
                         </div>
+                        -->
                     </section>
-
+                    
                     <!--
                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -983,6 +1063,7 @@
                 
                 <section id="blackboard" class="services col-md-5">
                     <!-- POINTS PANEL -->
+                    <!--
                     <div id="devpanels">
                         <div class="devpanel" style="padding-top: 5%;">
                             <div class="panel panel-success" id="devpanel">
@@ -1039,7 +1120,7 @@
                             </div>
                         </div>
                     </div>
-                    
+                    -->
                     
                     <div id="bad-habits">
                         {% if mastery.competence != "Basic" %}
