@@ -80,11 +80,6 @@ class RecomenderSystem():
         farwell = ""
         sprite_list = []
 
-        print(type(dict_spriteNaming))
-
-        # explanations lists about what is spriteNaming
-        # Frases explicatorias para el naming de sprites
-        
         explanation_phrases = [
             "\nEXPLANATION:\nGiving meaningful names to sprites is like labeling items in your toolbox: it helps you quickly find what you need. Clear names make your project easier to understand and navigate.",
             "\nEXPLANATION:\nNaming sprites is like naming characters in a story: it gives them identity and makes interactions clearer. Well-chosen names enhance the readability of your project.",
@@ -102,8 +97,11 @@ class RecomenderSystem():
         sprite_list = sprite_list[1:]
 
         # We have to create an message
-        message += f" you have a lot of sprites with the default name, for example in your case you have {self.MAGENTA}{len(sprite_list)} sprites{self.RESET} with the default names. Look, the solution it's simple you have to change the default sprites names for more descriptive names."
-                   
+        if (len(sprite_list) > 1):
+            message += f" you have a lot of sprites with the default name, for example in your case you have {self.MAGENTA}{len(sprite_list)} sprites{self.RESET} with the default names. Look, the solution it's simple you have to change the default sprites names for more descriptive names."
+        else:
+            message += f" you have one sprite with the default name provided by Scratch, try change the sprite {self.MAGENTA}{sprite_list[0]}{self.RESET} name, for a more descriptive name according to the function of the sprite.";  
+
         # Select one of the explanation phrases of deadCode
         rand_explanation_index = random.randint(0, len(explanation_phrases) - 1) 
         explanation += explanation_phrases[rand_explanation_index]
@@ -120,23 +118,18 @@ class RecomenderSystem():
         }
         return feedback   
 
-    def recomender_backdropd(self, dict_spriteNaming) -> dict:
+    def recomender_backdrop(self, dict_backdropNaming) -> dict:
         message = ""
         explanation = ""
         farwell = ""
-        sprite_list = []
+        backdrop_list = []
 
-        print(type(dict_spriteNaming))
-
-        # explanations lists about what is spriteNaming
-        # Frases explicatorias para el naming de sprites
-        
         explanation_phrases = [
-            "\nEXPLANATION:\nGiving meaningful names to sprites is like labeling items in your toolbox: it helps you quickly find what you need. Clear names make your project easier to understand and navigate.",
-            "\nEXPLANATION:\nNaming sprites is like naming characters in a story: it gives them identity and makes interactions clearer. Well-chosen names enhance the readability of your project.",
-            "\nEXPLANATION:\nThink of naming sprites like assigning roles in a play: each name should reflect the sprite's purpose. This organization improves the overall structure and comprehension of your project.",
-            "\nEXPLANATION:\nNaming sprites is like naming instruments in an orchestra: it ensures each part plays its intended role harmoniously. Clarity in naming enhances project management and development.",
-            "\nEXPLANATION:\nConsider sprite naming as labeling ingredients in a recipe: it makes assembling your project more efficient and less confusing. Clear names streamline collaboration and troubleshooting.",
+            "\nEXPLANATION:\nGiving meaningful names to backdrops is like labeling the rooms in a house: it helps you quickly identify each environment. Clear names make your project easier to organize and navigate.",
+            "\nEXPLANATION:\nNaming backdrops is like titling the scenes in a movie: it provides context and enhances the understanding of the story's progression. Appropriate names make your project more intuitive.",
+            "\nEXPLANATION:\nThink of naming backdrops like designating locations on a map: each name should clearly indicate its purpose. This improves the overall structure and facilitates the comprehension of the project.",
+            "\nEXPLANATION:\nNaming backdrops is like putting signs in a theme park: it ensures that each area is well-identified and visitors don't get lost. Clarity in naming enhances project management and user experience.",
+            "\nEXPLANATION:\nConsider naming backdrops like labeling the different sections of a magazine: it makes navigating your project more efficient and less confusing. Clear names streamline collaboration and troubleshooting.",
         ]
 
         # Select one of the motivational phrases to start
@@ -144,12 +137,15 @@ class RecomenderSystem():
         message += self.motivational_phrases[rand_message_index]
 
         # First we have remove the first line
-        sprite_list = dict_spriteNaming.splitlines()
-        sprite_list = sprite_list[1:]
+        backdrop_list = dict_backdropNaming.splitlines()
+        backdrop_list = backdrop_list[1:]
 
         # We have to create an message
-        message += f" you have a lot of sprites with the default name, for example in your case you have {self.MAGENTA}{len(sprite_list)} sprites{self.RESET} with the default names. Look, the solution it's simple you have to change the default sprites names for more descriptive names."
-                   
+        if (len(backdrop_list) > 1):
+            message += f" you have a lot of backdrops with the default name, for example in your case you have {self.MAGENTA}{len(backdrop_list)} backdrops{self.RESET} with the default names. Look, the solution it's simple you have to change the default backdrop names for more descriptive names."
+        else:
+            message += f" you have one backdrop with the default name provided by Scratch, try change the sprite {self.MAGENTA}{backdrop_list[0]}{self.RESET} name, for a more descriptive name according to the aspect of the backdrop.";  
+
         # Select one of the explanation phrases of deadCode
         rand_explanation_index = random.randint(0, len(explanation_phrases) - 1) 
         explanation += explanation_phrases[rand_explanation_index]

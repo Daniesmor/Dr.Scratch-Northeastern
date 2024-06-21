@@ -655,7 +655,8 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         # RECOMENDER SECTION
         recomender = RecomenderSystem()
         #dict_recom_deadCode = recomender.recomender_deadcode(proc_dead_code(dict_dead_code, file_obj))
-        dict_recom_spriteNaming = recomender.recomender_sprite(result_sprite_naming)
+        #dict_recom_spriteNaming = recomender.recomender_sprite(result_sprite_naming)
+        dict_recom_backdropNaming = recomender.recomender_backdrop(result_backdrop_naming)
         print("---------------------RECOMENDER-----------------------------")
         print(type(result_sprite_naming))
         #print("Duplicate Script: ", dict_duplicate_script['result']['list_duplicate_scripts'])
@@ -671,7 +672,8 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         dict_analysis.update(proc_categories_block(result_categories_block, file_obj))
 
         #dict_analysis.update(proc_recomender(dict_recom_deadCode))
-        dict_analysis.update(proc_recomender(dict_recom_spriteNaming))
+        #dict_analysis.update(proc_recomender(dict_recom_spriteNaming))
+        dict_analysis.update(proc_recomender(dict_recom_backdropNaming))
         # dict_analysis.update(proc_urls(request, dict_mastery, file_obj))
         # dictionary.update(proc_initialization(resultInitialization, filename))
         return dict_analysis
