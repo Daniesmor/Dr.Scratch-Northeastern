@@ -6,15 +6,12 @@ class RecomenderSystem():
     Recomender system for improve Scratch projects
     """
 
-    def __init__(self, Dictionary):
+    def __init__(self, ):
         self.MAGENTA = "\033[95m"
         self.RESET = "\033[0m"
         self.GREEN = "\033[92m"
 
         print(f"{self.MAGENTA}Welcome to the recomender system engine{self.RESET}")
-        print(Dictionary)
-        self.deadCode = Dictionary
-        #self.deadCode = Dictionary['deadCode']
 
         self.motivational_phrases = [
             "You are doing a very good job, it's amazing, but my cat-like sense of smell has detected that",
@@ -23,7 +20,7 @@ class RecomenderSystem():
             "Your effort is outstanding, it's fascinating, but my feline instincts have identified that someone is keeping secrets in the litter box, or perhaps it might be that",
         ]
 
-        self.farwell = [
+        self.farwells = [
             "\nGood luck improving your project, you can do it!! :)",
             "\nKeep going with your project, you’re doing a great job! :)",
             "\nI’m sure your project will be a great success! :)",
@@ -31,8 +28,7 @@ class RecomenderSystem():
             "\nI trust your abilities, you will improve your project! :)",
         ]
 
-    def recomender_deadcode(self) -> dict:
-        print(f"{self.MAGENTA}{self.deadCode}")
+    def recomender_deadcode(self, dict_deadCode) -> dict:
         message = ""
         explanation = ""
         farwell = ""
@@ -51,14 +47,13 @@ class RecomenderSystem():
         rand_message_index = random.randint(0, len(self.motivational_phrases) - 1)
         message += self.motivational_phrases[rand_message_index]
 
-
         # Search the deadCode of the dict and make phrase
-        if (len(self.deadCode.items()) > 3): #Only one sprite with deadCode (maybe multiple blocks)
+        if (len(dict_deadCode.items()) > 3): #Only one sprite with deadCode (maybe multiple blocks)
             message += f" you haven't used a lot of blocks in different sprites, maybe it would be a good idea to remove it, you agree?\nTry removing the following blocks: "
 
-        for sprite, blocks in self.deadCode.items():
+        for sprite, blocks in dict_deadCode.items():
             if sprite not in ("deadCode", "number"):
-                if (len(self.deadCode.items()) <= 3): #Only one sprite with deadCode (maybe multiple blocks)
+                if (len(dict_deadCode.items()) <= 3): #Only one sprite with deadCode (maybe multiple blocks)
                     message += f" you haven't used one block in the sprite {self.MAGENTA}{sprite}{self.RESET}, maybe it would be a good idea to remove it, you agree?\nTry removing the block: "
                 for block in blocks:
                     blocks_list.append((f"{block}", f"This block is in the sprite {self.MAGENTA}{sprite}{self.RESET}:"))        
@@ -68,8 +63,8 @@ class RecomenderSystem():
         explanation += explanation_phrases[rand_explanation_index]
 
         # Select one of the farwell phrases
-        rand_farwell_index = random.randint(0, len(self.farwell) - 1) 
-        farwell += self.farwell[rand_explanation_index]
+        rand_farwell_index = random.randint(0, len(self.farwells) - 1) 
+        farwell += self.farwells[rand_farwell_index]
 
         feedback = {
             'message': message,
@@ -79,3 +74,94 @@ class RecomenderSystem():
         }
         return feedback
     
+    def recomender_sprite(self, dict_spriteNaming) -> dict:
+        message = ""
+        explanation = ""
+        farwell = ""
+        sprite_list = []
+
+        print(type(dict_spriteNaming))
+
+        # explanations lists about what is spriteNaming
+        # Frases explicatorias para el naming de sprites
+        
+        explanation_phrases = [
+            "\nEXPLANATION:\nGiving meaningful names to sprites is like labeling items in your toolbox: it helps you quickly find what you need. Clear names make your project easier to understand and navigate.",
+            "\nEXPLANATION:\nNaming sprites is like naming characters in a story: it gives them identity and makes interactions clearer. Well-chosen names enhance the readability of your project.",
+            "\nEXPLANATION:\nThink of naming sprites like assigning roles in a play: each name should reflect the sprite's purpose. This organization improves the overall structure and comprehension of your project.",
+            "\nEXPLANATION:\nNaming sprites is like naming instruments in an orchestra: it ensures each part plays its intended role harmoniously. Clarity in naming enhances project management and development.",
+            "\nEXPLANATION:\nConsider sprite naming as labeling ingredients in a recipe: it makes assembling your project more efficient and less confusing. Clear names streamline collaboration and troubleshooting.",
+        ]
+
+        # Select one of the motivational phrases to start
+        rand_message_index = random.randint(0, len(self.motivational_phrases) - 1)
+        message += self.motivational_phrases[rand_message_index]
+
+        # First we have remove the first line
+        sprite_list = dict_spriteNaming.splitlines()
+        sprite_list = sprite_list[1:]
+
+        # We have to create an message
+        message += f" you have a lot of sprites with the default name, for example in your case you have {self.MAGENTA}{len(sprite_list)} sprites{self.RESET} with the default names. Look, the solution it's simple you have to change the default sprites names for more descriptive names."
+                   
+        # Select one of the explanation phrases of deadCode
+        rand_explanation_index = random.randint(0, len(explanation_phrases) - 1) 
+        explanation += explanation_phrases[rand_explanation_index]
+
+        # Select one of the farwell phrases
+        rand_farwell_index = random.randint(0, len(self.farwells) - 1) 
+        farwell += self.farwells[rand_farwell_index]
+
+        feedback = {
+            'message': message,
+            'blocks': [],  
+            'explanation': explanation,
+            'farwell': farwell,
+        }
+        return feedback   
+
+    def recomender_backdropd(self, dict_spriteNaming) -> dict:
+        message = ""
+        explanation = ""
+        farwell = ""
+        sprite_list = []
+
+        print(type(dict_spriteNaming))
+
+        # explanations lists about what is spriteNaming
+        # Frases explicatorias para el naming de sprites
+        
+        explanation_phrases = [
+            "\nEXPLANATION:\nGiving meaningful names to sprites is like labeling items in your toolbox: it helps you quickly find what you need. Clear names make your project easier to understand and navigate.",
+            "\nEXPLANATION:\nNaming sprites is like naming characters in a story: it gives them identity and makes interactions clearer. Well-chosen names enhance the readability of your project.",
+            "\nEXPLANATION:\nThink of naming sprites like assigning roles in a play: each name should reflect the sprite's purpose. This organization improves the overall structure and comprehension of your project.",
+            "\nEXPLANATION:\nNaming sprites is like naming instruments in an orchestra: it ensures each part plays its intended role harmoniously. Clarity in naming enhances project management and development.",
+            "\nEXPLANATION:\nConsider sprite naming as labeling ingredients in a recipe: it makes assembling your project more efficient and less confusing. Clear names streamline collaboration and troubleshooting.",
+        ]
+
+        # Select one of the motivational phrases to start
+        rand_message_index = random.randint(0, len(self.motivational_phrases) - 1)
+        message += self.motivational_phrases[rand_message_index]
+
+        # First we have remove the first line
+        sprite_list = dict_spriteNaming.splitlines()
+        sprite_list = sprite_list[1:]
+
+        # We have to create an message
+        message += f" you have a lot of sprites with the default name, for example in your case you have {self.MAGENTA}{len(sprite_list)} sprites{self.RESET} with the default names. Look, the solution it's simple you have to change the default sprites names for more descriptive names."
+                   
+        # Select one of the explanation phrases of deadCode
+        rand_explanation_index = random.randint(0, len(explanation_phrases) - 1) 
+        explanation += explanation_phrases[rand_explanation_index]
+
+        # Select one of the farwell phrases
+        rand_farwell_index = random.randint(0, len(self.farwells) - 1) 
+        farwell += self.farwells[rand_farwell_index]
+
+        feedback = {
+            'message': message,
+            'blocks': [],  
+            'explanation': explanation,
+            'farwell': farwell,
+        }
+        return feedback    
