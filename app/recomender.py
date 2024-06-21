@@ -23,16 +23,36 @@ class RecomenderSystem():
             "Your effort is outstanding, it's fascinating, but my feline instincts have identified that someone is keeping secrets in the litter box, or perhaps it might be that",
         ]
 
+        self.farwell = [
+            "\nGood luck improving your project, you can do it!! :)",
+            "\nKeep going with your project, you’re doing a great job! :)",
+            "\nI’m sure your project will be a great success! :)",
+            "\nDon’t give up, every effort brings you closer to your goal! :)",
+            "\nI trust your abilities, you will improve your project! :)",
+        ]
+
     def recomender_deadcode(self) -> dict:
         print(f"{self.MAGENTA}{self.deadCode}")
         message = ""
+        explanation = ""
+        farwell = ""
         blocks_list = []
+
+        # explanations lists about what is deadCode
+        explanation_phrases = [
+            "\nEXPLANATION:\nDead code is like having unused blocks scattered on the floor: it makes everything more cluttered and harder to understand. By removing it, your project will be cleaner, easier to understand, and work better.",
+            "\nEXPLANATION:\nHaving dead code is like having broken toys in your room: they are useless and just take up space. By removing them, everything will be more organized.",
+            "\nEXPLANATION:\nDead code is like having old papers on your desk: they distract you and make it hard to find what you need. By getting rid of them, you will work better.",
+            "\nEXPLANATION:\nDead code is like having clothes you no longer wear in your closet: it just takes up space and makes everything look messy. Removing it makes everything easier to manage.",
+            "\nEXPLANATION:\nDead code is like having trash in your backpack: it's useless and just gets in the way. By cleaning it out, you find everything faster and it's easier to use.",
+        ]
+
         # Select one of the motivational phrases to start
-        rand_index = random.randint(0, len(self.motivational_phrases) - 1)
-        message += self.motivational_phrases[rand_index]
+        rand_message_index = random.randint(0, len(self.motivational_phrases) - 1)
+        message += self.motivational_phrases[rand_message_index]
+
 
         # Search the deadCode of the dict and make phrase
-        
         if (len(self.deadCode.items()) > 3): #Only one sprite with deadCode (maybe multiple blocks)
             message += f" you haven't used a lot of blocks in different sprites, maybe it would be a good idea to remove it, you agree?\nTry removing the following blocks: "
 
@@ -41,17 +61,21 @@ class RecomenderSystem():
                 if (len(self.deadCode.items()) <= 3): #Only one sprite with deadCode (maybe multiple blocks)
                     message += f" you haven't used one block in the sprite {self.MAGENTA}{sprite}{self.RESET}, maybe it would be a good idea to remove it, you agree?\nTry removing the block: "
                 for block in blocks:
-                    print("longiutd: ", len(self.deadCode.items()))
+                    blocks_list.append((f"{block}", f"This block is in the sprite {self.MAGENTA}{sprite}{self.RESET}:"))        
+        
+        # Select one of the explanation phrases of deadCode
+        rand_explanation_index = random.randint(0, len(explanation_phrases) - 1) 
+        explanation += explanation_phrases[rand_explanation_index]
 
+        # Select one of the farwell phrases
+        rand_farwell_index = random.randint(0, len(self.farwell) - 1) 
+        farwell += self.farwell[rand_explanation_index]
 
-                    blocks_list.append((f"{block}", f"This block is in the sprite {self.MAGENTA}{sprite}{self.RESET}:"))
-
-                    
         feedback = {
             'message': message,
             'blocks': blocks_list,  
+            'explanation': explanation,
+            'farwell': farwell,
         }
-        print("FEEDBACK --------------------------------------------")
-        print(f"{self.MAGENTA}{feedback}")
         return feedback
     

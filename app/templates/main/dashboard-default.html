@@ -479,13 +479,6 @@
 
         <!-- RECOMENDER (STYLES AND SCRIPTS) -->
         <style>
-            #typed-output {
-                font-family: 'Courier New', Courier, monospace;
-                color: #333;
-                white-space: pre-wrap;
-                text-align: left;
-                font-size: 12px;
-            }
             .typed-family {
                 font-family: 'Courier New', Courier, monospace;
                 color: #333;
@@ -498,12 +491,14 @@
         <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Fetch and process the message to type
-            var toType = "{{ recomenderSystem.deadCode.message|escapejs }}";
-            toType = toType.replace(/\u001b\[95m/g, '<span style="color: magenta;">').replace(/\u001b\[0m/g, '</span>');
-            
+            var message = "{{ recomenderSystem.deadCode.message|escapejs }}";
+            var explanation = "{{ recomenderSystem.deadCode.explanation|escapejs }}";
+            var farwell = "{{ recomenderSystem.deadCode.farwell|escapejs }}";
+            message = message.replace(/\u001b\[95m/g, '<span style="color: magenta;">').replace(/\u001b\[0m/g, '</span>');
+
             // Create and hide pre elements for each block
             {% for block in recomenderSystem.deadCode.blocks %}
-                var indexBlock = "{{ forloop.counter0|add:1 }}";
+                var indexBlock = "{{ forloop.counter0|add:1 }}"; // Out ids starts on 1 instead of 0, this easy for block selector
                 var blockName = `recomBlock${indexBlock}`;
 
                 // Creates the legend "This block is in the sprite bla"
@@ -534,6 +529,9 @@
             function listenSelector() {
                 /*
                 This function controls the block selector
+                IMPORTANT: Remember that the div that contains the block and legend
+                has an id that starts in 1 instead of 0, this is for the number of the
+                block selector indicator and div id matches.
                 */
                 var prevSelector = document.getElementById('prevBlock');
                 var nextSelector = document.getElementById('nextBlock');
@@ -541,12 +539,11 @@
                 var totSelValueElem = document.getElementById('totSelValue');
 
                 var currSelValue = parseInt(currSelValueElem.textContent);
-                var totSelValue = parseInt(totSelValueElem.textContent);
-                
+                var totSelValue = parseInt(totSelValueElem.textContent);              
 
                 prevSelector.addEventListener("click", function() {
-                    document.getElementById(`recomBlock${currSelValue}`).style.display = 'none';
-                    if (currSelValue >= 1) {
+                    if (currSelValue >= 2) {
+                        document.getElementById(`recomBlock${currSelValue}`).style.display = 'none';
                         currSelValue--;
                         currSelValueElem.textContent = currSelValue; 
                         
@@ -555,19 +552,43 @@
                 });
 
                 nextSelector.addEventListener("click", function() {
-                    document.getElementById(`recomBlock${currSelValue}`).style.display = 'none';
-
                     if (currSelValue < totSelValue) {
+                        document.getElementById(`recomBlock${currSelValue}`).style.display = 'none';
                         currSelValue++;
                         currSelValueElem.textContent = currSelValue; 
                         document.getElementById(`recomBlock${currSelValue}`).style.display = 'block';
                     }  
                 });
             }
+
+            function typed_farwell() {
+                var typed_farwell = new Typed('#typed-farwell', {
+                    strings: [farwell],
+                    typeSpeed: 20,
+                    backSpeed: 25,
+                    backDelay: 1000,
+                    loop: false,
+                    showCursor: false,
+                });
+            }
+
+            function typed_explanation() {
+                var typed_explanation = new Typed('#typed-explanation', {
+                    strings: [explanation],
+                    typeSpeed: 20,
+                    backSpeed: 25,
+                    backDelay: 1000,
+                    loop: false,
+                    showCursor: false,
+                    onComplete: function() {
+                        typed_farwell();
+                    }
+                });
+            }
             
             // Initialize typed.js
-            var typed = new Typed('#typed-output', { // Assuming you want to type in the first block
-                strings: [toType],
+            var typed_message = new Typed('#typed-message', { // Assuming you want to type in the first block
+                strings: [message],
                 typeSpeed: 20,
                 backSpeed: 25,
                 backDelay: 1000,
@@ -581,53 +602,13 @@
                     document.getElementById('recomBlock1').style.display = 'block';
                     listenSelector();
 
+                    // Type of the explaination after de block section
+                    typed_explanation();
                 }
             });
         });
         </script>
         
-        
-
-
-              
-        <!-- RETHINKING MODE -->
-        <div id="Rethinking" class="tabcontent">
-            <div class="container" id="steptwo">
-                <div class="row d-flex align-items-stretch text-center">
-                    <h2 class="bad-smells-title"> {% trans 'Bad Smells World'%} </h2>
-                </div>
-                <div class="row d-flex align-items-stretch">
-                    <!-- World 1: Sprite Naming -->
-                    <div class="col-md-3">
-                        <div class="island">
-                            <h4> {% trans "Sprite Naming" %} </h4>
-                            <img src="/static/app/images/Isla_1.jpg" alt="Isla 1" onclick="modalContentChange('sprite-naming-content-r')">
-                        </div>
-                    </div>
-                    <!-- World 2: Backdrop Naming -->
-                    <div class="col-md-3">
-                        <div class="island">
-                            <h4> {% trans 'Backdrop Naming' %} </h4>
-                            <img src="/static/app/images/Isla_2.jpg" alt="Isla 2" onclick="modalContentChange('backdrop-naming-content-r')">
-                        </div>
-                    </div>
-                    <!-- World 3: Dead Code -->
-                    <div class="col-md-3">
-                        <div class="island">
-                            <h4>  {% trans 'Dead Code' %} </h4>
-                            <img src="/static/app/images/Isla_3.jpg" alt="Isla 3" onclick="modalContentChange('dead-code-content-r')">
-                        </div>
-                    </div>
-                    <!-- World 4: Duplicated Scripts -->
-                    <div class="col-md-3">
-                        <div class="island">
-                            <h4>  {% trans 'Duplicated Scripts' %} </h4>
-                            <img src="/static/app/images/Isla_4.jpg" alt="Isla 4" onclick="modalContentChange('duplicated-scripts-content-r')">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         
 
         <!-- VANILLA MODE -->
@@ -864,13 +845,17 @@
                                         <img src="/static/app/images/cat_chat.png" class="position-absolute top-20 start-90" style="max-width: 100%; width: 100%; padding: 10px;" alt="">
                                     </div>
                                     <div class="col-md-11">
-                                        <div id="typed-output"></div>
+                                        <div id="typed-message" class="typed-family"></div>
                                         <div id="block-selector" style="display: none;">
                                             <a id="prevBlock" style="cursor: pointer;"> &lt; </a><span class="typed-family" id="currSelValue">1</span><span class="typed-family"> / </span><span  class="typed-family" id="totSelValue">30</span><a id="nextBlock" style="cursor: pointer;"> &gt;</a>                                     
                                         </div>
                                         
-                                        <div id="blocks-recomender"></div>
-                                        
+                                        <div id="blocks-recomender" class="typed-family"></div>
+                                        <br>
+                                        <div id="typed-explanation" class="typed-family"></div>
+                                        <br>
+                                        <div id="typed-farwell" class="typed-family"></div>
+                                        <br>
                                     </div>
                                 </div>
                             </div>
@@ -1121,7 +1106,7 @@
                         </div>
                     </div>
                     -->
-                    
+                    <!--
                     <div id="bad-habits">
                         {% if mastery.competence != "Basic" %}
                         <div class="improve">
@@ -1217,7 +1202,8 @@
                         </div>
                         {% endif %}
                     </div>
-                    
+                    -->
+                    <!--
                     <div class="improve">
                         <div class="panel panel-success" id="improve">
                             <div id="stepfour">
@@ -1237,6 +1223,7 @@
                             </div>
                         </div>
                     </div>
+                    -->
                     <!--
                     <div class="improve">
                         <div class="panel panel-success" id="improve">
@@ -1272,7 +1259,7 @@
                     </section>
                     
                 </section>
-
+                <!--
                 <div class="col-md-7">
                     <section id="dashboard" style="padding-top: 3.5%;">
                         <div class="container-fluid">
@@ -1364,6 +1351,7 @@
                     </section>
 
                 </div>
+                -->
             </div>
         </div>
 
