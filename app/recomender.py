@@ -161,3 +161,56 @@ class RecomenderSystem():
             'farwell': farwell,
         }
         return feedback    
+    
+    def recomender_duplicatedScripts(self, dict_duplicatedScripts, dict_refactoredDups) ->dict:
+        message = ""
+        explanation = ""
+        farwell = ""
+        blocks = []
+        duplicatedScripts = 0
+        dup_list = []
+
+        # Explanation phrases for duplicated scripts
+        explanation_phrases = [
+            "\nEXPLANATION:\nImagine that in a project we have two scripts composed of the same blocks but with different parameters or values. What happens if we need to make a small change? We would have to modify both scripts, complicating code maintenance. In such situations, it is more appropriate for the programmer to create a custom block that defines this behavior and use this new block wherever needed.",
+            "\nEXPLANATION:\nDuplicated scripts are like having multiple copies of the same recipe with slight ingredient variations. If you change one ingredient, you have to update all copies, which is cumbersome. Instead, create a master recipe and refer to it wherever needed.",
+            "\nEXPLANATION:\nHaving duplicated scripts is like having several identical tools in your toolbox with minor differences. If one breaks or needs adjustment, you must fix each one individually. A better approach is to have a single tool with adjustable settings.",
+            "\nEXPLANATION:\nThink of duplicated scripts like writing the same instructions for different tasks. If you need to update the instructions, you must rewrite them for each task, which is inefficient. Instead, write a single set of instructions and refer to them as needed.",
+            "\nEXPLANATION:\nDuplicated scripts are like painting multiple walls the same color but with different brands of paint. If you decide to change the color, you need to repaint each wall separately. Using a consistent paint allows for easier changes and maintenance.",
+        ]
+
+        # Select one of the motivational phrases to start
+        rand_message_index = random.randint(0, len(self.motivational_phrases) - 1)
+        message += self.motivational_phrases[rand_message_index]
+
+        # Calc the number of duplicatedScripts
+        for scripts in dict_refactoredDups: # scripts has all the duplicatedScripts in a individual sprite
+            dup_list = scripts['original'].split("\nend\n\n\n")
+            duplicatedScripts += len(dup_list)
+
+        # Create a message for duplicatedScripts
+        message += f" you have {self.MAGENTA}{duplicatedScripts} scripts duplicated{self.RESET} in your code, this is that you have the sames blocks repeated, you can use one of those instead of duplicate it. \nBut don't worry let's solve that, for now we are going to try to solve only a few. Look this is so simple, down this text you have a selector with arrows, in the tab {self.MAGENTA}1{self.RESET} you can see your duplicated code, and in the tab {self.MAGENTA}2{self.RESET} you can see the code refactorized, you only have to replace the duplicated code with the code refactorized in your project."
+
+        # First we have remove the first line
+        dup_script = dict_refactoredDups[0]['original']
+        dup_script_sprite = dict_refactoredDups[0]['sprite']
+        blocks.append((f"{dup_script}", f"This is the {self.MAGENTA}duplicated code{self.RESET} that you have in your project and it's located in the sprite {self.MAGENTA}{dup_script_sprite}{self.RESET}."))
+
+        refactor_script = dict_refactoredDups[0]['refactored']
+        blocks.append((f"{refactor_script}", f"This is the {self.MAGENTA}refactorized code{self.RESET} to avoid the duplicated code in your project."))
+
+        # Select one of the explanation phrases of deadCode
+        rand_explanation_index = random.randint(0, len(explanation_phrases) - 1) 
+        explanation += explanation_phrases[rand_explanation_index]
+
+        # Select one of the farwell phrases
+        rand_farwell_index = random.randint(0, len(self.farwells) - 1) 
+        farwell += self.farwells[rand_farwell_index]
+
+        feedback = {
+            'message': message,
+            'blocks': blocks,  
+            'explanation': explanation,
+            'farwell': farwell,
+        }
+        return feedback   

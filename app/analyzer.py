@@ -651,18 +651,16 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         result_sprite_naming = SpriteNaming(path_projectsb3, json_scratch_project).finalize()
         result_backdrop_naming = BackdropNaming(path_projectsb3, json_scratch_project).finalize()
         result_categories_block = CategoriesBlocks(path_projectsb3, json_scratch_project).finalize()
+        refactored_code = RefactorDuplicate(json_scratch_project, dict_duplicate_script).refactor_duplicates()
 
         # RECOMENDER SECTION
         recomender = RecomenderSystem()
         #dict_recom_deadCode = recomender.recomender_deadcode(proc_dead_code(dict_dead_code, file_obj))
         #dict_recom_spriteNaming = recomender.recomender_sprite(result_sprite_naming)
-        dict_recom_backdropNaming = recomender.recomender_backdrop(result_backdrop_naming)
+        #dict_recom_backdropNaming = recomender.recomender_backdrop(result_backdrop_naming)
+        dict_recom_duplicatedScripts = recomender.recomender_duplicatedScripts(dict_duplicate_script, refactored_code)
         print("---------------------RECOMENDER-----------------------------")
-        print(type(result_sprite_naming))
-        #print("Duplicate Script: ", dict_duplicate_script['result']['list_duplicate_scripts'])
-        #Refactorings
-        refactored_code = RefactorDuplicate(json_scratch_project, dict_duplicate_script).refactor_duplicates()
-        print(result_sprite_naming)
+        
         dict_analysis.update(proc_mastery(request, dict_mastery, file_obj))
         dict_analysis.update(proc_duplicate_script(dict_duplicate_script, file_obj))
         dict_analysis.update(proc_dead_code(dict_dead_code, file_obj))
@@ -673,7 +671,9 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
 
         #dict_analysis.update(proc_recomender(dict_recom_deadCode))
         #dict_analysis.update(proc_recomender(dict_recom_spriteNaming))
-        dict_analysis.update(proc_recomender(dict_recom_backdropNaming))
+        #dict_analysis.update(proc_recomender(dict_recom_backdropNaming))
+        dict_analysis.update(proc_recomender(dict_recom_duplicatedScripts))
+
         # dict_analysis.update(proc_urls(request, dict_mastery, file_obj))
         # dictionary.update(proc_initialization(resultInitialization, filename))
         return dict_analysis
