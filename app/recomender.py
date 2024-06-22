@@ -50,14 +50,21 @@ class RecomenderSystem():
             rand_message_index = random.randint(0, len(self.motivational_phrases) - 1)
             message += self.motivational_phrases[rand_message_index]
 
+            # Calc total deadCode
+            tot_deadCode = 0
+            for sprite in dict_deadCode["result"]["list_dead_code_scripts"][0]:
+                print("sprite-----------------------------------------")
+                print(sprite)
+                tot_deadCode += len(dict_deadCode["result"]["list_dead_code_scripts"][0][sprite])
+
             # Search the deadCode of the dict and make phrase
             deadCode_list = dict_deadCode["result"]["list_dead_code_scripts"][0]
-            if (len(deadCode_list.items()) > 3): #Only one sprite with deadCode (maybe multiple blocks)
+            if (tot_deadCode > 1): #Only one sprite with deadCode (maybe multiple blocks)
                 message += f" you haven't used a lot of blocks in different sprites, maybe it would be a good idea to remove it, you agree?\nTry removing the following blocks: "
 
             for sprite, blocks in deadCode_list.items():
                 if sprite not in ("deadCode", "number"):
-                    if (len(dict_deadCode.items()) <= 3): #Only one sprite with deadCode (maybe multiple blocks)
+                    if (tot_deadCode == 1): #Only one sprite with deadCode (maybe multiple blocks)
                         message += f" you haven't used one block in the sprite {self.MAGENTA}{sprite}{self.RESET}, maybe it would be a good idea to remove it, you agree?\nTry removing the block: "
                     for block in blocks:
                         blocks_list.append((f"{block}", f"This block is in the sprite {self.MAGENTA}{sprite}{self.RESET}:"))        
@@ -204,7 +211,7 @@ class RecomenderSystem():
             message += self.motivational_phrases[rand_message_index]
 
             # Create a message for duplicatedScripts
-            message += f" you have {self.MAGENTA}{duplicatedScripts} scripts duplicated{self.RESET} in your code, this is that you have the sames blocks repeated, you can use one of those instead of duplicate it. \nBut don't worry let's solve that, for now we are going to try to solve only a few. Look this is so simple, down this text you have a selector with arrows, in the tab {self.MAGENTA}1{self.RESET} you can see your duplicated code, and in the tab {self.MAGENTA}2{self.RESET} you can see the code refactorized, you only have to replace the duplicated code with the code refactorized in your project."
+            message += f" you have {self.MAGENTA}{duplicatedScripts} scripts duplicated{self.RESET} in your code, this is that you have the sames blocks repeated, you can use one of those instead of duplicate it.\n \nBut don't worry let's solve that, for now we are going to try to solve only a few. Look this is so simple, down this text you have a selector with arrows, in the tab {self.MAGENTA}1{self.RESET} you can see your duplicated code, and in the tab {self.MAGENTA}2{self.RESET} you can see the code refactorized, you only have to replace the duplicated code with the code refactorized in your project."
 
             # First we have remove the first line
             dup_script = dict_refactoredDups[0]['original']
