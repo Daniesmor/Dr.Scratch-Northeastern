@@ -282,44 +282,43 @@
     <body>
         <div id="wrap">
             <!-- TOP BAR -->
-            <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top  sticky-navigation" role="navigation">
+            <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top sticky-navigation" role="navigation">
                 <div class="container">
                     <!-- NAVIGATION LINK -->
                     <a href="/">
                         <img src="static/app/images/logo_main.png" alt="" width="220" height="70.1667">
                     </a>
-
                 </div>
             </div>
             <!-- /END TOP BAR -->
             <div id="url-container" data-url="{% url 'get_analysis_d' %}"></div>
-                <!-- MAIN CONTENT -->
-                
-                {% block content %} {% endblock %}
-                
-            </div>
-            <br></br>
-                <!-- FOOTER -->
-            <footer class="footer grey-bg">
-                <p>{% trans "©2024 Dr.Scratch Made with " %} <span style="color: #e25555;">&#9829;</span> {% trans "by " %} <a href="/collaborators">{% trans "Dr.Scratch Team." %}</a></p>
-                    <!-- SOCIAL ICONS -->
-                    <ul class="social-icons">
-                        <li>
-                            <a href="https://github.com/Daniesmor/Dr.Scratch-Northeastern"> 
-                            <i class="bi bi-github" style="color: black;"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://twitter.com/DrScratchTool">
-                            <i class="bi bi-twitter-x" style="color: black;"></i>
-                            </a>
-                        </li>    
-                    </ul>
-            </footer>
-
-        </div>
-
-
     
+            <!-- MAIN CONTENT -->
+            <div id="main" class="container" style="min-height: 100%;">
+                {% block content %} {% endblock %}
+            </div>
+    
+            <!-- FOOTER -->
+            <footer class="footer grey-bg text-center" style="min-width: 100%;">
+                <p>{% trans "©2024 Dr.Scratch Made with " %} <span style="color: #e25555;">&#9829;</span> {% trans "by " %} <a href="/collaborators">{% trans "Dr.Scratch Team." %}</a></p>
+                <!-- SOCIAL ICONS -->
+                <ul class="social-icons list-inline">
+                    <li class="list-inline-item">
+                        <a href="https://github.com/Daniesmor/Dr.Scratch-Northeastern">
+                            <i class="bi bi-github" style="color: black;"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="https://twitter.com/DrScratchTool">
+                            <i class="bi bi-twitter-x" style="color: black;"></i>
+                        </a>
+                    </li>
+                </ul>
+            </footer>
+        </div>
+    
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     </body>
 </html>
