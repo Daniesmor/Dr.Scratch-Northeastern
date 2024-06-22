@@ -404,12 +404,32 @@ def proc_dead_code(dict_dead_code, filename):
 
 
 
-def proc_recomender(dict_recom_deadCode):
-    recomender = {}
+def proc_recomender(dict_recom):
     recomender = {
-        'recomenderSystem': dict_recom_deadCode,
+        'recomenderSystem': {
+            'message': "Congrat's you don't have any bad smell at the moment.",
+        }
     }
-
+    if (dict_recom["duplicatedScripts"] != None):
+        recomender = {
+            'recomenderSystem': dict_recom["duplicatedScripts"],
+        }
+        return recomender
+    if (dict_recom["deadCode"] != None):
+        recomender = {
+            'recomenderSystem': dict_recom["deadCode"],
+        }
+        return recomender
+    if (dict_recom["spriteNaming"] != None):
+        recomender = {
+            'recomenderSystem': dict_recom["spriteNaming"],
+        }
+        return recomender
+    if (dict_recom["backdropNaming"] != None):
+        recomender = {
+            'recomenderSystem': dict_recom["backdropNaming"],
+        }
+        return recomender
     return recomender
 
 
@@ -653,13 +673,23 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         result_categories_block = CategoriesBlocks(path_projectsb3, json_scratch_project).finalize()
         refactored_code = RefactorDuplicate(json_scratch_project, dict_duplicate_script).refactor_duplicates()
 
+        print("--------------------- DUPLICATED CODE DICT ---------------------------")
+        print(refactored_code)
+        print("--------------------- DEAD CODE DICT ---------------------------")
+        print(dict_dead_code)
+        print("--------------------- SPRITE NAMING DICT -----------------------")
+        print(result_sprite_naming)
+        print("--------------------- BACKDROP NAMING DICT ----------------------")
+        print(result_backdrop_naming)
+        print("------------------------------------------------------------------")
+
         # RECOMENDER SECTION
+        dict_recom = {}
         recomender = RecomenderSystem()
-        #dict_recom_deadCode = recomender.recomender_deadcode(proc_dead_code(dict_dead_code, file_obj))
-        #dict_recom_spriteNaming = recomender.recomender_sprite(result_sprite_naming)
-        #dict_recom_backdropNaming = recomender.recomender_backdrop(result_backdrop_naming)
-        dict_recom_duplicatedScripts = recomender.recomender_duplicatedScripts(dict_duplicate_script, refactored_code)
-        print("---------------------RECOMENDER-----------------------------")
+        dict_recom["deadCode"] = recomender.recomender_deadcode(dict_dead_code)
+        dict_recom["spriteNaming"] = recomender.recomender_sprite(result_sprite_naming)
+        dict_recom["backdropNaming"] = recomender.recomender_backdrop(result_backdrop_naming)
+        dict_recom["duplicatedScripts"] = recomender.recomender_duplicatedScripts(dict_duplicate_script, refactored_code)
         
         dict_analysis.update(proc_mastery(request, dict_mastery, file_obj))
         dict_analysis.update(proc_duplicate_script(dict_duplicate_script, file_obj))
@@ -669,10 +699,10 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         dict_analysis.update(proc_refactored_code(refactored_code))
         dict_analysis.update(proc_categories_block(result_categories_block, file_obj))
 
-        #dict_analysis.update(proc_recomender(dict_recom_deadCode))
+        dict_analysis.update(proc_recomender(dict_recom))
         #dict_analysis.update(proc_recomender(dict_recom_spriteNaming))
         #dict_analysis.update(proc_recomender(dict_recom_backdropNaming))
-        dict_analysis.update(proc_recomender(dict_recom_duplicatedScripts))
+        #dict_analysis.update(proc_recomender(dict_recom_duplicatedScripts))
 
         # dict_analysis.update(proc_urls(request, dict_mastery, file_obj))
         # dictionary.update(proc_initialization(resultInitialization, filename))

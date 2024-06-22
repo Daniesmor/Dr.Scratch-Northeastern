@@ -33,45 +33,51 @@ class RecomenderSystem():
         explanation = ""
         farwell = ""
         blocks_list = []
+        deadCode_list = []
 
-        # explanations lists about what is deadCode
-        explanation_phrases = [
-            "\nEXPLANATION:\nDead code is like having unused blocks scattered on the floor: it makes everything more cluttered and harder to understand. By removing it, your project will be cleaner, easier to understand, and work better.",
-            "\nEXPLANATION:\nHaving dead code is like having broken toys in your room: they are useless and just take up space. By removing them, everything will be more organized.",
-            "\nEXPLANATION:\nDead code is like having old papers on your desk: they distract you and make it hard to find what you need. By getting rid of them, you will work better.",
-            "\nEXPLANATION:\nDead code is like having clothes you no longer wear in your closet: it just takes up space and makes everything look messy. Removing it makes everything easier to manage.",
-            "\nEXPLANATION:\nDead code is like having trash in your backpack: it's useless and just gets in the way. By cleaning it out, you find everything faster and it's easier to use.",
-        ]
+        is_dead_code = dict_deadCode['result'].get('total_dead_code_scripts', 1)
+        if (is_dead_code != 0):
+            # explanations lists about what is deadCode
+            explanation_phrases = [
+                "\nEXPLANATION:\nDead code is like having unused blocks scattered on the floor: it makes everything more cluttered and harder to understand. By removing it, your project will be cleaner, easier to understand, and work better.",
+                "\nEXPLANATION:\nHaving dead code is like having broken toys in your room: they are useless and just take up space. By removing them, everything will be more organized.",
+                "\nEXPLANATION:\nDead code is like having old papers on your desk: they distract you and make it hard to find what you need. By getting rid of them, you will work better.",
+                "\nEXPLANATION:\nDead code is like having clothes you no longer wear in your closet: it just takes up space and makes everything look messy. Removing it makes everything easier to manage.",
+                "\nEXPLANATION:\nDead code is like having trash in your backpack: it's useless and just gets in the way. By cleaning it out, you find everything faster and it's easier to use.",
+            ]
 
-        # Select one of the motivational phrases to start
-        rand_message_index = random.randint(0, len(self.motivational_phrases) - 1)
-        message += self.motivational_phrases[rand_message_index]
+            # Select one of the motivational phrases to start
+            rand_message_index = random.randint(0, len(self.motivational_phrases) - 1)
+            message += self.motivational_phrases[rand_message_index]
 
-        # Search the deadCode of the dict and make phrase
-        if (len(dict_deadCode.items()) > 3): #Only one sprite with deadCode (maybe multiple blocks)
-            message += f" you haven't used a lot of blocks in different sprites, maybe it would be a good idea to remove it, you agree?\nTry removing the following blocks: "
+            # Search the deadCode of the dict and make phrase
+            deadCode_list = dict_deadCode["result"]["list_dead_code_scripts"][0]
+            if (len(deadCode_list.items()) > 3): #Only one sprite with deadCode (maybe multiple blocks)
+                message += f" you haven't used a lot of blocks in different sprites, maybe it would be a good idea to remove it, you agree?\nTry removing the following blocks: "
 
-        for sprite, blocks in dict_deadCode.items():
-            if sprite not in ("deadCode", "number"):
-                if (len(dict_deadCode.items()) <= 3): #Only one sprite with deadCode (maybe multiple blocks)
-                    message += f" you haven't used one block in the sprite {self.MAGENTA}{sprite}{self.RESET}, maybe it would be a good idea to remove it, you agree?\nTry removing the block: "
-                for block in blocks:
-                    blocks_list.append((f"{block}", f"This block is in the sprite {self.MAGENTA}{sprite}{self.RESET}:"))        
-        
-        # Select one of the explanation phrases of deadCode
-        rand_explanation_index = random.randint(0, len(explanation_phrases) - 1) 
-        explanation += explanation_phrases[rand_explanation_index]
+            for sprite, blocks in deadCode_list.items():
+                if sprite not in ("deadCode", "number"):
+                    if (len(dict_deadCode.items()) <= 3): #Only one sprite with deadCode (maybe multiple blocks)
+                        message += f" you haven't used one block in the sprite {self.MAGENTA}{sprite}{self.RESET}, maybe it would be a good idea to remove it, you agree?\nTry removing the block: "
+                    for block in blocks:
+                        blocks_list.append((f"{block}", f"This block is in the sprite {self.MAGENTA}{sprite}{self.RESET}:"))        
+            
+            # Select one of the explanation phrases of deadCode
+            rand_explanation_index = random.randint(0, len(explanation_phrases) - 1) 
+            explanation += explanation_phrases[rand_explanation_index]
 
-        # Select one of the farwell phrases
-        rand_farwell_index = random.randint(0, len(self.farwells) - 1) 
-        farwell += self.farwells[rand_farwell_index]
+            # Select one of the farwell phrases
+            rand_farwell_index = random.randint(0, len(self.farwells) - 1) 
+            farwell += self.farwells[rand_farwell_index]
 
-        feedback = {
-            'message': message,
-            'blocks': blocks_list,  
-            'explanation': explanation,
-            'farwell': farwell,
-        }
+            feedback = {
+                'message': message,
+                'blocks': blocks_list,  
+                'explanation': explanation,
+                'farwell': farwell,
+            }
+        else:
+            feedback = None
         return feedback
     
     def recomender_sprite(self, dict_spriteNaming) -> dict:
@@ -80,42 +86,46 @@ class RecomenderSystem():
         farwell = ""
         sprite_list = []
 
-        explanation_phrases = [
-            "\nEXPLANATION:\nGiving meaningful names to sprites is like labeling items in your toolbox: it helps you quickly find what you need. Clear names make your project easier to understand and navigate.",
-            "\nEXPLANATION:\nNaming sprites is like naming characters in a story: it gives them identity and makes interactions clearer. Well-chosen names enhance the readability of your project.",
-            "\nEXPLANATION:\nThink of naming sprites like assigning roles in a play: each name should reflect the sprite's purpose. This organization improves the overall structure and comprehension of your project.",
-            "\nEXPLANATION:\nNaming sprites is like naming instruments in an orchestra: it ensures each part plays its intended role harmoniously. Clarity in naming enhances project management and development.",
-            "\nEXPLANATION:\nConsider sprite naming as labeling ingredients in a recipe: it makes assembling your project more efficient and less confusing. Clear names streamline collaboration and troubleshooting.",
-        ]
-
-        # Select one of the motivational phrases to start
-        rand_message_index = random.randint(0, len(self.motivational_phrases) - 1)
-        message += self.motivational_phrases[rand_message_index]
-
         # First we have remove the first line
         sprite_list = dict_spriteNaming.splitlines()
         sprite_list = sprite_list[1:]
 
-        # We have to create an message
-        if (len(sprite_list) > 1):
-            message += f" you have a lot of sprites with the default name, for example in your case you have {self.MAGENTA}{len(sprite_list)} sprites{self.RESET} with the default names. Look, the solution it's simple you have to change the default sprites names for more descriptive names."
+        if (len(sprite_list) !=  0):
+            explanation_phrases = [
+                "\nEXPLANATION:\nGiving meaningful names to sprites is like labeling items in your toolbox: it helps you quickly find what you need. Clear names make your project easier to understand and navigate.",
+                "\nEXPLANATION:\nNaming sprites is like naming characters in a story: it gives them identity and makes interactions clearer. Well-chosen names enhance the readability of your project.",
+                "\nEXPLANATION:\nThink of naming sprites like assigning roles in a play: each name should reflect the sprite's purpose. This organization improves the overall structure and comprehension of your project.",
+                "\nEXPLANATION:\nNaming sprites is like naming instruments in an orchestra: it ensures each part plays its intended role harmoniously. Clarity in naming enhances project management and development.",
+                "\nEXPLANATION:\nConsider sprite naming as labeling ingredients in a recipe: it makes assembling your project more efficient and less confusing. Clear names streamline collaboration and troubleshooting.",
+            ]
+
+            # Select one of the motivational phrases to start
+            rand_message_index = random.randint(0, len(self.motivational_phrases) - 1)
+            message += self.motivational_phrases[rand_message_index]
+
+            # We have to create an message
+            if (len(sprite_list) > 1):
+                sprites = ", ".join(sprite_list)
+                message += f" you have a lot of sprites with the default name, for example in your case you have {self.MAGENTA}{len(sprite_list)} sprites{self.RESET} with the default names. Look, the solution it's simple, try to change the names of {self.MAGENTA}{sprites}{self.RESET} for a more descriptive names according to their functionalities."
+            else:
+                message += f" you have one sprite with the default name provided by Scratch, try change the sprite {self.MAGENTA}{sprite_list[0]}{self.RESET} name, for a more descriptive name according to the function of the sprite.";  
+
+            # Select one of the explanation phrases of deadCode
+            rand_explanation_index = random.randint(0, len(explanation_phrases) - 1) 
+            explanation += explanation_phrases[rand_explanation_index]
+
+            # Select one of the farwell phrases
+            rand_farwell_index = random.randint(0, len(self.farwells) - 1) 
+            farwell += self.farwells[rand_farwell_index]
+
+            feedback = {
+                'message': message,
+                'blocks': [],  
+                'explanation': explanation,
+                'farwell': farwell,
+            }
         else:
-            message += f" you have one sprite with the default name provided by Scratch, try change the sprite {self.MAGENTA}{sprite_list[0]}{self.RESET} name, for a more descriptive name according to the function of the sprite.";  
-
-        # Select one of the explanation phrases of deadCode
-        rand_explanation_index = random.randint(0, len(explanation_phrases) - 1) 
-        explanation += explanation_phrases[rand_explanation_index]
-
-        # Select one of the farwell phrases
-        rand_farwell_index = random.randint(0, len(self.farwells) - 1) 
-        farwell += self.farwells[rand_farwell_index]
-
-        feedback = {
-            'message': message,
-            'blocks': [],  
-            'explanation': explanation,
-            'farwell': farwell,
-        }
+            feedback = None
         return feedback   
 
     def recomender_backdrop(self, dict_backdropNaming) -> dict:
@@ -124,42 +134,46 @@ class RecomenderSystem():
         farwell = ""
         backdrop_list = []
 
-        explanation_phrases = [
-            "\nEXPLANATION:\nGiving meaningful names to backdrops is like labeling the rooms in a house: it helps you quickly identify each environment. Clear names make your project easier to organize and navigate.",
-            "\nEXPLANATION:\nNaming backdrops is like titling the scenes in a movie: it provides context and enhances the understanding of the story's progression. Appropriate names make your project more intuitive.",
-            "\nEXPLANATION:\nThink of naming backdrops like designating locations on a map: each name should clearly indicate its purpose. This improves the overall structure and facilitates the comprehension of the project.",
-            "\nEXPLANATION:\nNaming backdrops is like putting signs in a theme park: it ensures that each area is well-identified and visitors don't get lost. Clarity in naming enhances project management and user experience.",
-            "\nEXPLANATION:\nConsider naming backdrops like labeling the different sections of a magazine: it makes navigating your project more efficient and less confusing. Clear names streamline collaboration and troubleshooting.",
-        ]
-
-        # Select one of the motivational phrases to start
-        rand_message_index = random.randint(0, len(self.motivational_phrases) - 1)
-        message += self.motivational_phrases[rand_message_index]
-
         # First we have remove the first line
         backdrop_list = dict_backdropNaming.splitlines()
         backdrop_list = backdrop_list[1:]
 
-        # We have to create an message
-        if (len(backdrop_list) > 1):
-            message += f" you have a lot of backdrops with the default name, for example in your case you have {self.MAGENTA}{len(backdrop_list)} backdrops{self.RESET} with the default names. Look, the solution it's simple you have to change the default backdrop names for more descriptive names."
+        if (len(backdrop_list) != 0):
+            explanation_phrases = [
+                "\nEXPLANATION:\nGiving meaningful names to backdrops is like labeling the rooms in a house: it helps you quickly identify each environment. Clear names make your project easier to organize and navigate.",
+                "\nEXPLANATION:\nNaming backdrops is like titling the scenes in a movie: it provides context and enhances the understanding of the story's progression. Appropriate names make your project more intuitive.",
+                "\nEXPLANATION:\nThink of naming backdrops like designating locations on a map: each name should clearly indicate its purpose. This improves the overall structure and facilitates the comprehension of the project.",
+                "\nEXPLANATION:\nNaming backdrops is like putting signs in a theme park: it ensures that each area is well-identified and visitors don't get lost. Clarity in naming enhances project management and user experience.",
+                "\nEXPLANATION:\nConsider naming backdrops like labeling the different sections of a magazine: it makes navigating your project more efficient and less confusing. Clear names streamline collaboration and troubleshooting.",
+            ]
+
+            # Select one of the motivational phrases to start
+            rand_message_index = random.randint(0, len(self.motivational_phrases) - 1)
+            message += self.motivational_phrases[rand_message_index]
+            
+            # We have to create an message
+            if (len(backdrop_list) > 1):
+                backdrops = ", ".join(backdrop_list)
+                message += f" you have a lot of backdrops with the default name, for example in your case you have {self.MAGENTA}{len(backdrop_list)} backdrops{self.RESET} with the default names. Look, the solution it's simple you have to change the names of {backdrops} for a more descriptive names according to their aspect."
+            else:
+                message += f" you have one backdrop with the default name provided by Scratch, try change the backdrop {self.MAGENTA}{backdrop_list[0]}{self.RESET} name, for a more descriptive name according to the aspect of the backdrop.";  
+
+            # Select one of the explanation phrases of deadCode
+            rand_explanation_index = random.randint(0, len(explanation_phrases) - 1) 
+            explanation += explanation_phrases[rand_explanation_index]
+
+            # Select one of the farwell phrases
+            rand_farwell_index = random.randint(0, len(self.farwells) - 1) 
+            farwell += self.farwells[rand_farwell_index]
+
+            feedback = {
+                'message': message,
+                'blocks': [],  
+                'explanation': explanation,
+                'farwell': farwell,
+            }
         else:
-            message += f" you have one backdrop with the default name provided by Scratch, try change the sprite {self.MAGENTA}{backdrop_list[0]}{self.RESET} name, for a more descriptive name according to the aspect of the backdrop.";  
-
-        # Select one of the explanation phrases of deadCode
-        rand_explanation_index = random.randint(0, len(explanation_phrases) - 1) 
-        explanation += explanation_phrases[rand_explanation_index]
-
-        # Select one of the farwell phrases
-        rand_farwell_index = random.randint(0, len(self.farwells) - 1) 
-        farwell += self.farwells[rand_farwell_index]
-
-        feedback = {
-            'message': message,
-            'blocks': [],  
-            'explanation': explanation,
-            'farwell': farwell,
-        }
+            feedback = None
         return feedback    
     
     def recomender_duplicatedScripts(self, dict_duplicatedScripts, dict_refactoredDups) ->dict:
@@ -170,47 +184,50 @@ class RecomenderSystem():
         duplicatedScripts = 0
         dup_list = []
 
-        # Explanation phrases for duplicated scripts
-        explanation_phrases = [
-            "\nEXPLANATION:\nImagine that in a project we have two scripts composed of the same blocks but with different parameters or values. What happens if we need to make a small change? We would have to modify both scripts, complicating code maintenance. In such situations, it is more appropriate for the programmer to create a custom block that defines this behavior and use this new block wherever needed.",
-            "\nEXPLANATION:\nDuplicated scripts are like having multiple copies of the same recipe with slight ingredient variations. If you change one ingredient, you have to update all copies, which is cumbersome. Instead, create a master recipe and refer to it wherever needed.",
-            "\nEXPLANATION:\nHaving duplicated scripts is like having several identical tools in your toolbox with minor differences. If one breaks or needs adjustment, you must fix each one individually. A better approach is to have a single tool with adjustable settings.",
-            "\nEXPLANATION:\nThink of duplicated scripts like writing the same instructions for different tasks. If you need to update the instructions, you must rewrite them for each task, which is inefficient. Instead, write a single set of instructions and refer to them as needed.",
-            "\nEXPLANATION:\nDuplicated scripts are like painting multiple walls the same color but with different brands of paint. If you decide to change the color, you need to repaint each wall separately. Using a consistent paint allows for easier changes and maintenance.",
-        ]
-
-        # Select one of the motivational phrases to start
-        rand_message_index = random.randint(0, len(self.motivational_phrases) - 1)
-        message += self.motivational_phrases[rand_message_index]
-
         # Calc the number of duplicatedScripts
         for scripts in dict_refactoredDups: # scripts has all the duplicatedScripts in a individual sprite
             dup_list = scripts['original'].split("\nend\n\n\n")
             duplicatedScripts += len(dup_list)
 
-        # Create a message for duplicatedScripts
-        message += f" you have {self.MAGENTA}{duplicatedScripts} scripts duplicated{self.RESET} in your code, this is that you have the sames blocks repeated, you can use one of those instead of duplicate it. \nBut don't worry let's solve that, for now we are going to try to solve only a few. Look this is so simple, down this text you have a selector with arrows, in the tab {self.MAGENTA}1{self.RESET} you can see your duplicated code, and in the tab {self.MAGENTA}2{self.RESET} you can see the code refactorized, you only have to replace the duplicated code with the code refactorized in your project."
+        if (duplicatedScripts != 0):
+            # Explanation phrases for duplicated scripts
+            explanation_phrases = [
+                "\nEXPLANATION:\nImagine that in a project we have two scripts composed of the same blocks but with different parameters or values. What happens if we need to make a small change? We would have to modify both scripts, complicating code maintenance. In such situations, it is more appropriate for the programmer to create a custom block that defines this behavior and use this new block wherever needed.",
+                "\nEXPLANATION:\nDuplicated scripts are like having multiple copies of the same recipe with slight ingredient variations. If you change one ingredient, you have to update all copies, which is cumbersome. Instead, create a master recipe and refer to it wherever needed.",
+                "\nEXPLANATION:\nHaving duplicated scripts is like having several identical tools in your toolbox with minor differences. If one breaks or needs adjustment, you must fix each one individually. A better approach is to have a single tool with adjustable settings.",
+                "\nEXPLANATION:\nThink of duplicated scripts like writing the same instructions for different tasks. If you need to update the instructions, you must rewrite them for each task, which is inefficient. Instead, write a single set of instructions and refer to them as needed.",
+                "\nEXPLANATION:\nDuplicated scripts are like painting multiple walls the same color but with different brands of paint. If you decide to change the color, you need to repaint each wall separately. Using a consistent paint allows for easier changes and maintenance.",
+            ]
 
-        # First we have remove the first line
-        dup_script = dict_refactoredDups[0]['original']
-        dup_script_sprite = dict_refactoredDups[0]['sprite']
-        blocks.append((f"{dup_script}", f"This is the {self.MAGENTA}duplicated code{self.RESET} that you have in your project and it's located in the sprite {self.MAGENTA}{dup_script_sprite}{self.RESET}."))
+            # Select one of the motivational phrases to start
+            rand_message_index = random.randint(0, len(self.motivational_phrases) - 1)
+            message += self.motivational_phrases[rand_message_index]
 
-        refactor_script = dict_refactoredDups[0]['refactored']
-        blocks.append((f"{refactor_script}", f"This is the {self.MAGENTA}refactorized code{self.RESET} to avoid the duplicated code in your project."))
+            # Create a message for duplicatedScripts
+            message += f" you have {self.MAGENTA}{duplicatedScripts} scripts duplicated{self.RESET} in your code, this is that you have the sames blocks repeated, you can use one of those instead of duplicate it. \nBut don't worry let's solve that, for now we are going to try to solve only a few. Look this is so simple, down this text you have a selector with arrows, in the tab {self.MAGENTA}1{self.RESET} you can see your duplicated code, and in the tab {self.MAGENTA}2{self.RESET} you can see the code refactorized, you only have to replace the duplicated code with the code refactorized in your project."
 
-        # Select one of the explanation phrases of deadCode
-        rand_explanation_index = random.randint(0, len(explanation_phrases) - 1) 
-        explanation += explanation_phrases[rand_explanation_index]
+            # First we have remove the first line
+            dup_script = dict_refactoredDups[0]['original']
+            dup_script_sprite = dict_refactoredDups[0]['sprite']
+            blocks.append((f"{dup_script}", f"This is the {self.MAGENTA}duplicated code{self.RESET} that you have in your project and it's located in the sprite {self.MAGENTA}{dup_script_sprite}{self.RESET}."))
 
-        # Select one of the farwell phrases
-        rand_farwell_index = random.randint(0, len(self.farwells) - 1) 
-        farwell += self.farwells[rand_farwell_index]
+            refactor_script = dict_refactoredDups[0]['refactored']
+            blocks.append((f"{refactor_script}", f"This is the {self.MAGENTA}refactorized code{self.RESET} to avoid the duplicated code in your project."))
 
-        feedback = {
-            'message': message,
-            'blocks': blocks,  
-            'explanation': explanation,
-            'farwell': farwell,
-        }
+            # Select one of the explanation phrases of deadCode
+            rand_explanation_index = random.randint(0, len(explanation_phrases) - 1) 
+            explanation += explanation_phrases[rand_explanation_index]
+
+            # Select one of the farwell phrases
+            rand_farwell_index = random.randint(0, len(self.farwells) - 1) 
+            farwell += self.farwells[rand_farwell_index]
+
+            feedback = {
+                'message': message,
+                'blocks': blocks,  
+                'explanation': explanation,
+                'farwell': farwell,
+            }
+        else:
+            feedback = None
         return feedback   
