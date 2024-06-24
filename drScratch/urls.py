@@ -23,6 +23,9 @@ urlpatterns = [
     
     # API ANALYSIS
     url(r'^get_analysis_d/(?P<skill_points>.{1,6})?$', app_views.get_analysis_d, name='get_analysis_d'),
+
+    # API RECOMMENDER
+    url(r'^get_recommender/.*$', app_views.get_recommender, name='get_recommender'),
     
     
     # CONTACT FORM

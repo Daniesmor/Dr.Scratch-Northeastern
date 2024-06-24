@@ -52,16 +52,17 @@
                 font-size: 15px;
             }
         </style>
+        {% csrf_token %} 
 
         <script>
-            document.addEventListener("DOMContentLoaded", function() {
+            function initPrompt() {
                 // Fetch and process the message to type
                 var message = "{{ recomenderSystem.message|escapejs }}";
+                console.log(message);
                 var explanation = "{{ recomenderSystem.explanation|escapejs }}";
                 var farwell = "{{ recomenderSystem.farwell|escapejs }}";
                 message = message.replace(/\u001b\[95m/g, '<span style="color: magenta;">').replace(/\u001b\[0m/g, '</span>');
-                console.log(message)
-                console.log(explanation)
+                
                 // Check if there are any blocks to process
                 var blocksExist = {% if recomenderSystem.blocks %} true {% else %} false {% endif %};
 
@@ -97,13 +98,8 @@
                     {% endfor %}
                 } 
 
+                // Function to control the block selector
                 function listenSelector() {
-                    /*
-                    This function controls the block selector
-                    IMPORTANT: Remember that the div that contains the block and legend
-                    has an id that starts in 1 instead of 0, this is for the number of the
-                    block selector indicator and div id matches.
-                    */
                     var prevSelector = document.getElementById('prevBlock');
                     var nextSelector = document.getElementById('nextBlock');
                     var currSelValueElem = document.getElementById('currSelValue');
@@ -132,6 +128,7 @@
                     });
                 }
 
+                // Function to initialize Typed.js for farewell message
                 function typed_farwell() {
                     var typed_farwell = new Typed('#typed-farwell', {
                         strings: [farwell],
@@ -143,6 +140,7 @@
                     });
                 }
 
+                // Function to initialize Typed.js for explanation message
                 function typed_explanation() {
                     var typed_explanation = new Typed('#typed-explanation', {
                         strings: [explanation],
@@ -157,8 +155,8 @@
                     });
                 }
                 
-                // Initialize typed.js
-                var typed_message = new Typed('#typed-message', { // Assuming you want to type in the first block
+                // Initialize Typed.js for initial message
+                var typed_message = new Typed('#typed-message', {
                     strings: [message],
                     typeSpeed: 20,
                     backSpeed: 25,
@@ -170,19 +168,53 @@
                             var blockSelector = document.getElementById('block-selector');
                             blockSelector.style.display = 'block';
 
-                            // We have to show the first block (index 0)
+                            // Show the first block (index 1)
                             document.getElementById('recomBlock1').style.display = 'block';
                             listenSelector();
 
-                            // Type of the explanation after the block section
+                            // Type explanation message after block section
                             typed_explanation();
                         } else {
                             typed_explanation();
                         }
                     }
                 });
+            }
+
+            // Function to reload AJAX data of scratch projects
+            var urlProject = "{{ url|escapejs }}";
+            $(document).ready(function() {
+                $('#test-again').click(function(e) {
+                    e.preventDefault();
+                    console.log("Iniciando recarga...");
+                    $.ajax({
+                        type: 'POST',
+                        data: {
+                            'urlProject': urlProject,
+                            '_url': '',
+                        },
+                        url: '{% url "get_recommender" %}',
+                        success: function(data) {
+                            
+                            //$('#contenido').html($(data).find('#contenido').html());
+                            console.log('Datos actualizados correctamente');
+
+                            // Initialize dynamic content again
+                            initPrompt();
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error reloading data:', error);
+                        }
+                    });
+                });
             });
-            </script>
+
+            document.addEventListener("DOMContentLoaded", function() {
+                initPrompt();
+            });
+        </script>
+
+            
         
         
 
@@ -211,6 +243,10 @@
                                         <br>
                                         <div id="typed-farwell" class="typed-family"></div>
                                         <br>
+                                        <button id="test-again">I'have corrected</button>
+                                        
+                                        <br>
+
                                     </div>
                                 </div>
                             </div>
@@ -224,6 +260,30 @@
                 <br></br>
             </div>
         
+
+                
+        <!-- Scripts -->
+        <script>
+        $(document).ready(function() {
+            $('#test-again').click(function(e) {
+                e.preventDefault();
+                console.log("Iniciando recarga...");
+                $.ajax({
+                    type: 'GET',
+                    url: window.location.href,
+                    success: function(data) {
+                        // Aquí debes actualizar la parte del HTML que necesitas recargar
+                        // Ejemplo: $('#contenido').html($(data).find('#contenido').html());
+                        console.log('Datos actualizados correctamente');
+                        console.log(`${data}`);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error al recargar datos:', error);
+                    }
+                });
+            });
+        });
+        </script>
         
 
 {% endblock %}
