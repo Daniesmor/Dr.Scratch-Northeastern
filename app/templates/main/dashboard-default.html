@@ -137,6 +137,9 @@
                         backDelay: 1000,
                         loop: false,
                         showCursor: false,
+                        onComplete: function() {
+                            document.getElementById('test-again').style.display = "block";
+                        }
                     });
                 }
 
@@ -168,6 +171,9 @@
                             var blockSelector = document.getElementById('block-selector');
                             blockSelector.style.display = 'block';
 
+                            var blockRecomender = document.getElementById('blocks-recomender');
+                            blockRecomender.style.display = 'block';
+
                             // Show the first block (index 1)
                             document.getElementById('recomBlock1').style.display = 'block';
                             listenSelector();
@@ -197,7 +203,14 @@
                         success: function(data) {
                             
                             //$('#contenido').html($(data).find('#contenido').html());
+                            console.log(data);
                             console.log('Datos actualizados correctamente');
+
+                            document.getElementById('typed-message').innerHTML = '';
+                            document.getElementById('typed-explanation').innerHTML = '';
+                            document.getElementById('typed-farwell').innerHTML = '';
+                            document.getElementById('blocks-recomender').style.display = 'none';
+                            document.getElementById('block-selector').style.display = 'none';
 
                             // Initialize dynamic content again
                             initPrompt();
@@ -236,14 +249,13 @@
                                         <div id="block-selector" style="display: none;">
                                             <a id="prevBlock" style="cursor: pointer;"> &lt; </a><span class="typed-family" id="currSelValue">1</span><span class="typed-family"> / </span><span  class="typed-family" id="totSelValue">30</span><a id="nextBlock" style="cursor: pointer;"> &gt;</a>                                     
                                         </div>
-                                        
                                         <div id="blocks-recomender" class="typed-family"></div>
                                         <br>
                                         <div id="typed-explanation" class="typed-family"></div>
                                         <br>
                                         <div id="typed-farwell" class="typed-family"></div>
                                         <br>
-                                        <button id="test-again">I'have corrected</button>
+                                        <button id="test-again" style="display: none;">I'have corrected</button>
                                         
                                         <br>
 
@@ -259,31 +271,5 @@
                 </div>
                 <br></br>
             </div>
-        
-
-                
-        <!-- Scripts -->
-        <script>
-        $(document).ready(function() {
-            $('#test-again').click(function(e) {
-                e.preventDefault();
-                console.log("Iniciando recarga...");
-                $.ajax({
-                    type: 'GET',
-                    url: window.location.href,
-                    success: function(data) {
-                        // Aquí debes actualizar la parte del HTML que necesitas recargar
-                        // Ejemplo: $('#contenido').html($(data).find('#contenido').html());
-                        console.log('Datos actualizados correctamente');
-                        console.log(`${data}`);
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error al recargar datos:', error);
-                    }
-                });
-            });
-        });
-        </script>
-        
 
 {% endblock %}
