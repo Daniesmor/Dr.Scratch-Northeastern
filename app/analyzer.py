@@ -455,7 +455,7 @@ def get_urls(dict_mastery):
 
 def proc_mastery(request, dict_mastery, file_obj):
 
-    if request.POST.get('dashboard_mode') == 'Default' or request.POST.get('dashboard_mode') == 'Comparison':
+    if request.POST.get('dashboard_mode', 'Default') == 'Default' or request.POST.get('dashboard_mode', 'Default') == 'Comparison':
         dict_extended = dict_mastery['extended'].copy()
         dict_vanilla = dict_mastery['vanilla'].copy()
         set_file_obj(request, file_obj, dict_extended)
@@ -661,7 +661,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
 
     dict_analysis = {}
 
-    dashboard = request.POST.get('dashboard_mode')
+    dashboard = request.POST.get('dashboard_mode', 'Default')
     
     if os.path.exists(path_projectsb3):
         json_scratch_project = load_json_project(path_projectsb3)
@@ -783,7 +783,7 @@ def analysis_by_url(request, url, skill_points: dict):
         dic.update({
             'url': url,
             'filename': url,
-            'dashboard_mode': request.POST.get('dashboard_mode'),
+            'dashboard_mode': request.POST.get('dashboard_mode', 'Default'),
             'multiproject': False
         })
         return dic

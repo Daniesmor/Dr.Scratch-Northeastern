@@ -188,7 +188,7 @@ def get_recommender(request, skill_points=None):
         print(d)
         print("Skill rubric")
         print(skill_rubric)
-        d = d[0]['recomenderSystem']
+        d = d[0]
         if d['Error'] == 'analyzing':
             return render(request, 'error/analyzing.html')
         elif d['Error'] == 'MultiValueDict':
@@ -198,7 +198,7 @@ def get_recommender(request, skill_points=None):
         elif d['Error'] == 'no_exists':
             return render(request, user + '/main.html', {'no_exists': True})
         else:
-            return JsonResponse(d)        
+            return JsonResponse(d['recomenderSystem'])        
     else:
         return HttpResponseRedirect('/')
 
@@ -319,6 +319,7 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
                 return dict_metrics
             dict_metrics[project_counter] = analysis_by_upload(request, skill_points, zip_file)
         elif '_url' in request.POST:
+            print("TRAZA DE URL -----------------------")
             form = UrlForm(request.POST)
             if form.is_valid():
                 url = form.cleaned_data['urlProject']
