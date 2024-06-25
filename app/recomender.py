@@ -78,6 +78,7 @@ class RecomenderSystem():
             farwell += self.farwells[rand_farwell_index]
 
             feedback = {
+                'type': "deadCode",
                 'message': message,
                 'blocks': blocks_list,  
                 'explanation': explanation,
@@ -126,6 +127,7 @@ class RecomenderSystem():
             farwell += self.farwells[rand_farwell_index]
 
             feedback = {
+                'type': "Sprites",
                 'message': message,
                 'blocks': [],  
                 'explanation': explanation,
@@ -174,6 +176,7 @@ class RecomenderSystem():
             farwell += self.farwells[rand_farwell_index]
 
             feedback = {
+                'type': "Backdrops",
                 'message': message,
                 'blocks': [],  
                 'explanation': explanation,
@@ -230,6 +233,7 @@ class RecomenderSystem():
             farwell += self.farwells[rand_farwell_index]
 
             feedback = {
+                'type': "Duplicates",
                 'message': message,
                 'blocks': blocks,  
                 'explanation': explanation,
