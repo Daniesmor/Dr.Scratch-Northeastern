@@ -55,48 +55,95 @@
         {% csrf_token %} 
 
         <script>
-            function initPrompt() {
-                // Fetch and process the message to type
-                var message = "{{ recomenderSystem.message|escapejs }}";
-                console.log(message);
-                var explanation = "{{ recomenderSystem.explanation|escapejs }}";
-                var farwell = "{{ recomenderSystem.farwell|escapejs }}";
-                message = message.replace(/\u001b\[95m/g, '<span style="color: magenta;">').replace(/\u001b\[0m/g, '</span>');
+            function initPrompt(data = null) {
+                if (data == null) {
+                    // Fetch and process the message to type
+                    var message = "{{ recomenderSystem.message|escapejs }}";
+                    console.log(message);
+                    var explanation = "{{ recomenderSystem.explanation|escapejs }}";
+                    var farwell = "{{ recomenderSystem.farwell|escapejs }}";
+                    message = message.replace(/\u001b\[95m/g, '<span style="color: magenta;">').replace(/\u001b\[0m/g, '</span>');
+                    
+                    // Check if there are any blocks to process
+                    var blocksExist = {% if recomenderSystem.blocks %} true {% else %} false {% endif %};
+
+                    if (blocksExist) {
+                        // Create and hide pre elements for each block
+                        {% for block in recomenderSystem.blocks %}
+                            var indexBlock = "{{ forloop.counter0|add:1 }}"; // Out ids starts on 1 instead of 0, this easy for block selector
+                            var blockName = `recomBlock${indexBlock}`;
+
+                            // Creates the legend "This block is in the sprite bla"
+                            var preLegend = document.createElement('p');
+                            var blockLegend = `{{ block.1|escapejs }}`;
+                            blockLegend = blockLegend.replace(/\u001b\[95m/g, '<span style="color: magenta;">').replace(/\u001b\[0m/g, '</span>');
+                            preLegend.innerHTML = blockLegend;
+                            preLegend.className = `typed-family`; 
+                            
+                            // Creates the block image
+                            var deadBlockContent = `{{ block.0|escapejs }}`;
+                            var preElement = document.createElement('pre');
+                            preElement.className = 'blocks';
+                            preElement.innerHTML = deadBlockContent;
+
+                            // Creates the container that contains the block and the legend
+                            var blockContainer = document.createElement('div');
+                            blockContainer.id = blockName;
+                            blockContainer.style.display = 'none';
+                            document.getElementById('blocks-recomender').appendChild(blockContainer);   
+                            blockContainer.appendChild(preLegend);
+                            blockContainer.appendChild(preElement);
+                            
+                            // Update total value of the block selector
+                            document.getElementById('totSelValue').textContent = "{{ forloop.counter0|add:1 }}";
+                        {% endfor %}
+                    } 
+                } else {
+                    // Fetch and process the message to type
+                    var message = data.message;
+                    console.log(message);
+                    var explanation = data.explanation;
+                    var farwell = data.farwell;
+
+                    // Reemplaza las secuencias de escape ANSI con etiquetas de estilo HTML
+                    message = message.replace(/\u001b\[95m/g, '<span style="color: magenta;">').replace(/\u001b\[0m/g, '</span>');
+
+                    // Check if there are any blocks to process
+                    var blocksExist = data.blocks && data.blocks.length > 0;
+
+                    if (blocksExist) {
+                        // Create and hide pre elements for each block
+                        data.blocks.forEach((block, index) => {
+                            var indexBlock = index + 1; // Out ids starts on 1 instead of 0, this easy for block selector
+                            var blockName = `recomBlock${indexBlock}`;
+
+                            // Creates the legend "This block is in the sprite bla"
+                            var preLegend = document.createElement('p');
+                            var blockLegend = block[1];
+                            blockLegend = blockLegend.replace(/\u001b\[95m/g, '<span style="color: magenta;">').replace(/\u001b\[0m/g, '</span>');
+                            preLegend.innerHTML = blockLegend;
+                            preLegend.className = `typed-family`;
+
+                            // Creates the block image
+                            var deadBlockContent = block[0];
+                            var preElement = document.createElement('pre');
+                            preElement.className = 'blocks';
+                            preElement.innerHTML = deadBlockContent;
+
+                            // Creates the container that contains the block and the legend
+                            var blockContainer = document.createElement('div');
+                            blockContainer.id = blockName;
+                            blockContainer.style.display = 'none';
+                            document.getElementById('blocks-recomender').appendChild(blockContainer);
+                            blockContainer.appendChild(preLegend);
+                            blockContainer.appendChild(preElement);
+
+                            // Update total value of the block selector
+                            document.getElementById('totSelValue').textContent = indexBlock;
+                        });
+                    }        
+                }
                 
-                // Check if there are any blocks to process
-                var blocksExist = {% if recomenderSystem.blocks %} true {% else %} false {% endif %};
-
-                if (blocksExist) {
-                    // Create and hide pre elements for each block
-                    {% for block in recomenderSystem.blocks %}
-                        var indexBlock = "{{ forloop.counter0|add:1 }}"; // Out ids starts on 1 instead of 0, this easy for block selector
-                        var blockName = `recomBlock${indexBlock}`;
-
-                        // Creates the legend "This block is in the sprite bla"
-                        var preLegend = document.createElement('p');
-                        var blockLegend = `{{ block.1|escapejs }}`;
-                        blockLegend = blockLegend.replace(/\u001b\[95m/g, '<span style="color: magenta;">').replace(/\u001b\[0m/g, '</span>');
-                        preLegend.innerHTML = blockLegend;
-                        preLegend.className = `typed-family`; 
-                        
-                        // Creates the block image
-                        var deadBlockContent = `{{ block.0|escapejs }}`;
-                        var preElement = document.createElement('pre');
-                        preElement.className = 'blocks';
-                        preElement.innerHTML = deadBlockContent;
-
-                        // Creates the container that contains the block and the legend
-                        var blockContainer = document.createElement('div');
-                        blockContainer.id = blockName;
-                        blockContainer.style.display = 'none';
-                        document.getElementById('blocks-recomender').appendChild(blockContainer);   
-                        blockContainer.appendChild(preLegend);
-                        blockContainer.appendChild(preElement);
-                        
-                        // Update total value of the block selector
-                        document.getElementById('totSelValue').textContent = "{{ forloop.counter0|add:1 }}";
-                    {% endfor %}
-                } 
 
                 // Function to control the block selector
                 function listenSelector() {
@@ -185,8 +232,8 @@
                         }
                     }
                 });
+                
             }
-
             // Function to reload AJAX data of scratch projects
             var urlProject = "{{ url|escapejs }}";
             $(document).ready(function() {
@@ -198,6 +245,7 @@
                         data: {
                             'urlProject': urlProject,
                             '_url': '',
+                            'currType': "{{ recomenderSystem.type|escapejs }}",
                         },
                         url: '{% url "get_recommender" %}',
                         success: function(data) {
@@ -213,7 +261,7 @@
                             document.getElementById('block-selector').style.display = 'none';
 
                             // Initialize dynamic content again
-                            initPrompt();
+                            initPrompt(data);
                         },
                         error: function(xhr, status, error) {
                             console.error('Error reloading data:', error);

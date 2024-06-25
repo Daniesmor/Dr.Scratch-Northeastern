@@ -173,10 +173,36 @@ def show_dashboard(request, skill_points=None):
     else:
         return HttpResponseRedirect('/')    
     
+def upgrade_feedback(d: dict, currType: str) -> dict:
+    print("dentro de feedback ----------------------")
+    print(d)
+    if (currType == "Backdrops"):
+        fail_message = "Oooops, it's seem's that you havent solved the problem with the backdrop naming, but... one moment..."
+        success_message = "Yeeeeah, YOU HAVE SOLVED THE PROBLEM WITH THE BACKDROP NAMING, but... one moment..."
+    if (currType == "Sprites"):
+        fail_message = "Oooops, it's seem's that you havent solved the problem with the sprite naming, but... one moment..."
+        success_message = "Yeeeeah, YOU HAVE SOLVED THE PROBLEM WITH THE SPRITE NAMING, but... one moment... "
+    if (currType == "deadCode"):
+        fail_message = "Oooops, it's seem's that you havent solved the problem with the dead code, but... one moment..."
+        success_message = "Yeeeeah, YOU HAVE SOLVED THE PROBLEM WITH THE DEAD CODE, but... one moment..."
+    if (currType == "Duplicates"):
+        fail_message = "Oooops, it's seem's that you havent solved the problem with the duplicated code already, but... one moment..."
+        success_message = "Yeeeeah, YOU HAVE SOLVED THE PROBLEM WITH THE DUPLICATED CODE, but... one moment..."
+    # Current Order: Backdrop, Sprites, DeadCode, Duplicates
+    bad_smells_order = ['Backdrops','Sprites','deadCode','Duplicates']
+    currIndex = bad_smells_order.index(currType)
+    newIndex = bad_smells_order.index(d['recomenderSystem']['type'])
+    if (currIndex == newIndex):
+        d['recomenderSystem']['message'] = "{}\n{}".format(fail_message, d['recomenderSystem']['message'])
+    else:
+        d['recomenderSystem']['message'] = "{}\n{}".format(success_message, d['recomenderSystem']['message'])
+    return d
+    
 @csrf_exempt
 def get_recommender(request, skill_points=None):
     if request.method == 'POST':
         url = request.POST.get('urlProject')
+        currType = request.POST.get('currType')
         print(f"Mi url: {url}")
         numbers = ''
         skill_rubric = generate_rubric(numbers)
@@ -189,6 +215,7 @@ def get_recommender(request, skill_points=None):
         print("Skill rubric")
         print(skill_rubric)
         d = d[0]
+        d = upgrade_feedback(d, currType)
         if d['Error'] == 'analyzing':
             return render(request, 'error/analyzing.html')
         elif d['Error'] == 'MultiValueDict':
