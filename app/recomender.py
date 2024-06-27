@@ -6,6 +6,10 @@ class RecomenderSystem():
     Recomender system for improve Scratch projects
     """
 
+    # The variable below, indicates the last type of bad smell analyzed
+    curr_type = ""
+    new_type = ""
+
     def __init__(self, ):
         self.MAGENTA = "\033[95m"
         self.RESET = "\033[0m"
@@ -29,6 +33,7 @@ class RecomenderSystem():
         ]
 
     def recomender_deadcode(self, dict_deadCode) -> dict:
+        type = "deadCode"
         message = ""
         explanation = ""
         farwell = ""
@@ -46,9 +51,7 @@ class RecomenderSystem():
                 "\nEXPLANATION:\nDead code is like having trash in your backpack: it's useless and just gets in the way. By cleaning it out, you find everything faster and it's easier to use.",
             ]
 
-            # Select one of the motivational phrases to start
-            rand_message_index = random.randint(0, len(self.motivational_phrases) - 1)
-            message += self.motivational_phrases[rand_message_index]
+            message += self.upgrade_feedback(type)
 
             # Calc total deadCode
             tot_deadCode = 0
@@ -78,7 +81,7 @@ class RecomenderSystem():
             farwell += self.farwells[rand_farwell_index]
 
             feedback = {
-                'type': "deadCode",
+                'type': type,
                 'message': message,
                 'blocks': blocks_list,  
                 'explanation': explanation,
@@ -89,6 +92,7 @@ class RecomenderSystem():
         return feedback
     
     def recomender_sprite(self, dict_spriteNaming) -> dict:
+        type = "Sprites"
         message = ""
         explanation = ""
         farwell = ""
@@ -108,8 +112,7 @@ class RecomenderSystem():
             ]
 
             # Select one of the motivational phrases to start
-            rand_message_index = random.randint(0, len(self.motivational_phrases) - 1)
-            message += self.motivational_phrases[rand_message_index]
+            message += self.upgrade_feedback(type)
 
             # We have to create an message
             if (len(sprite_list) > 1):
@@ -127,7 +130,7 @@ class RecomenderSystem():
             farwell += self.farwells[rand_farwell_index]
 
             feedback = {
-                'type': "Sprites",
+                'type': type,
                 'message': message,
                 'blocks': [],  
                 'explanation': explanation,
@@ -138,6 +141,7 @@ class RecomenderSystem():
         return feedback   
 
     def recomender_backdrop(self, dict_backdropNaming) -> dict:
+        type = "Backdrops"
         message = ""
         explanation = ""
         farwell = ""
@@ -157,8 +161,7 @@ class RecomenderSystem():
             ]
 
             # Select one of the motivational phrases to start
-            rand_message_index = random.randint(0, len(self.motivational_phrases) - 1)
-            message += self.motivational_phrases[rand_message_index]
+            message += self.upgrade_feedback(type)
             
             # We have to create an message
             if (len(backdrop_list) > 1):
@@ -176,7 +179,7 @@ class RecomenderSystem():
             farwell += self.farwells[rand_farwell_index]
 
             feedback = {
-                'type': "Backdrops",
+                'type': type,
                 'message': message,
                 'blocks': [],  
                 'explanation': explanation,
@@ -187,6 +190,7 @@ class RecomenderSystem():
         return feedback    
     
     def recomender_duplicatedScripts(self, dict_duplicatedScripts, dict_refactoredDups) ->dict:
+        type = "Duplicates"
         message = ""
         explanation = ""
         farwell = ""
@@ -210,8 +214,7 @@ class RecomenderSystem():
             ]
 
             # Select one of the motivational phrases to start
-            rand_message_index = random.randint(0, len(self.motivational_phrases) - 1)
-            message += self.motivational_phrases[rand_message_index]
+            message += self.upgrade_feedback(type)
 
             # Create a message for duplicatedScripts
             message += f" you have {self.MAGENTA}{duplicatedScripts} scripts duplicated{self.RESET} in your code, this is that you have the sames blocks repeated, you can use one of those instead of duplicate it.\n \nBut don't worry let's solve that, for now we are going to try to solve only a few. Look this is so simple, down this text you have a selector with arrows, in the tab {self.MAGENTA}1{self.RESET} you can see your duplicated code, and in the tab {self.MAGENTA}2{self.RESET} you can see the code refactorized, you only have to replace the duplicated code with the code refactorized in your project."
@@ -233,7 +236,7 @@ class RecomenderSystem():
             farwell += self.farwells[rand_farwell_index]
 
             feedback = {
-                'type': "Duplicates",
+                'type': type,
                 'message': message,
                 'blocks': blocks,  
                 'explanation': explanation,
@@ -242,3 +245,40 @@ class RecomenderSystem():
         else:
             feedback = None
         return feedback   
+    
+    def upgrade_feedback(self, new_type: str) -> str:
+        """
+        This function see what was the last type of bad smell analyzed for see
+        if the user has solved it. And if not uses the default messages.
+        """
+        new_message = ""
+
+        if (self.curr_type != ""):
+            if (self.curr_type == "Backdrops"):
+                fail_message = "Oooops, it's seem's that you havent solved the problem with the backdrop naming, but don't worry, we are going to review again how we could solve it."
+                success_message = "YEAAHH, YOU HAVE SOLVED THE PROBLEM WITH THE BACKDROP NAMING, thats is very great news! Does it seem good to you if we keep improving the project?"
+            if (self.curr_type == "Sprites"):
+                fail_message = "Oooops, it's seem's that you havent solved the problem with the sprite naming, but don't worry, we are going to review again how we could solve it."
+                success_message = "YEAAHH, YOU HAVE SOLVED THE PROBLEM WITH THE SPRITE NAMING, thats is very great news! Does it seem good to you if we keep improving the project?"
+            if (self.curr_type == "deadCode"):
+                fail_message = "Oooops, it's seem's that you havent solved the problem with the dead code, but don't worry, we are going to review again how we could solve it."
+                success_message = "YEAAHH, YOU HAVE SOLVED THE PROBLEM WITH THE DEAD CODE, thats is very great news! Does it seem good to you if we keep improving the project?"
+            if (self.curr_type == "Duplicates"):
+                fail_message = "Oooops, it's seem's that you havent solved the problem with the duplicated code already, but don't worry, we are going to review again how we could solve it."
+                success_message = "YEAAHH, YOU HAVE SOLVED THE PROBLEM WITH THE DUPLICATED CODE, thats is very great news! Does it seem good to you if we keep improving the project?"
+            
+            # Current Order: Backdrop, Sprites, DeadCode, Duplicates
+            bad_smells_order = ['Backdrops','Sprites','deadCode','Duplicates']
+            currIndex = bad_smells_order.index(self.curr_type)
+            newIndex = bad_smells_order.index(new_type)
+            if (currIndex == newIndex):
+                #new_message = "{}\n{}".format(fail_message, curr_message)
+                new_message = fail_message
+            else:
+                #new_message = "{}\n{}".format(success_message, curr_message)
+                new_message = success_message
+        else: 
+            # Select one of the motivational phrases to start
+            rand_message_index = random.randint(0, len(self.motivational_phrases) - 1)
+            new_message += self.motivational_phrases[rand_message_index]    
+        return new_message

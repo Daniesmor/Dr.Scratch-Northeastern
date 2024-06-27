@@ -245,7 +245,6 @@
                         data: {
                             'urlProject': urlProject,
                             '_url': '',
-                            'currType': "{{ recomenderSystem.type|escapejs }}",
                         },
                         url: '{% url "get_recommender" %}',
                         success: function(data) {

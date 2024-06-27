@@ -66,6 +66,9 @@ from .tasks import init_batch
 from .analyzer import analyze_project, generator_dic, return_scratch_project_identifier, send_request_getsb3, _make_compare, analysis_by_upload, analysis_by_url
 from .batch import skills_translation
 
+# Recomender System imports
+from .recomender import RecomenderSystem
+
 logger = logging.getLogger(__name__)
 coloredlogs.install(level='DEBUG', logger=logger)
 supported_languages = ['es', 'ca', 'gl', 'pt']
@@ -172,32 +175,7 @@ def show_dashboard(request, skill_points=None):
                     return render(request, user + '/dashboard-personal.html', d)               
     else:
         return HttpResponseRedirect('/')    
-    
-def upgrade_feedback(d: dict, currType: str) -> dict:
-    print("dentro de feedback ----------------------")
-    print(d)
-    if (currType == "Backdrops"):
-        fail_message = "Oooops, it's seem's that you havent solved the problem with the backdrop naming, but... one moment..."
-        success_message = "Yeeeeah, YOU HAVE SOLVED THE PROBLEM WITH THE BACKDROP NAMING, but... one moment..."
-    if (currType == "Sprites"):
-        fail_message = "Oooops, it's seem's that you havent solved the problem with the sprite naming, but... one moment..."
-        success_message = "Yeeeeah, YOU HAVE SOLVED THE PROBLEM WITH THE SPRITE NAMING, but... one moment... "
-    if (currType == "deadCode"):
-        fail_message = "Oooops, it's seem's that you havent solved the problem with the dead code, but... one moment..."
-        success_message = "Yeeeeah, YOU HAVE SOLVED THE PROBLEM WITH THE DEAD CODE, but... one moment..."
-    if (currType == "Duplicates"):
-        fail_message = "Oooops, it's seem's that you havent solved the problem with the duplicated code already, but... one moment..."
-        success_message = "Yeeeeah, YOU HAVE SOLVED THE PROBLEM WITH THE DUPLICATED CODE, but... one moment..."
-    # Current Order: Backdrop, Sprites, DeadCode, Duplicates
-    bad_smells_order = ['Backdrops','Sprites','deadCode','Duplicates']
-    currIndex = bad_smells_order.index(currType)
-    newIndex = bad_smells_order.index(d['recomenderSystem']['type'])
-    if (currIndex == newIndex):
-        d['recomenderSystem']['message'] = "{}\n{}".format(fail_message, d['recomenderSystem']['message'])
-    else:
-        d['recomenderSystem']['message'] = "{}\n{}".format(success_message, d['recomenderSystem']['message'])
-    return d
-    
+
 @csrf_exempt
 def get_recommender(request, skill_points=None):
     if request.method == 'POST':
@@ -209,13 +187,12 @@ def get_recommender(request, skill_points=None):
         user = str(identify_user_type(request))
         print("Mode:", request.POST)
         d = build_dictionary_with_automatic_analysis(request, skill_rubric)
-        print("------------------ RECOMENDER --------------------------------")
+        print("-------------------- RECOMENDER -------------------------")
         print("Context Dictionary:")
         print(d)
         print("Skill rubric")
         print(skill_rubric)
         d = d[0]
-        d = upgrade_feedback(d, currType)
         if d['Error'] == 'analyzing':
             return render(request, 'error/analyzing.html')
         elif d['Error'] == 'MultiValueDict':

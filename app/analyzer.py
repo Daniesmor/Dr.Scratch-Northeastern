@@ -414,21 +414,25 @@ def proc_recomender(dict_recom):
         recomender = {
             'recomenderSystem': dict_recom["duplicatedScripts"],
         }
+        RecomenderSystem.curr_type = dict_recom["duplicatedScripts"]['type']
         return recomender
     if (dict_recom["deadCode"] != None):
         recomender = {
             'recomenderSystem': dict_recom["deadCode"],
         }
+        RecomenderSystem.curr_type = dict_recom["deadCode"]['type']
         return recomender
     if (dict_recom["spriteNaming"] != None):
         recomender = {
             'recomenderSystem': dict_recom["spriteNaming"],
         }
+        RecomenderSystem.curr_type = dict_recom["spriteNaming"]['type']
         return recomender
     if (dict_recom["backdropNaming"] != None):
         recomender = {
             'recomenderSystem': dict_recom["backdropNaming"],
         }
+        RecomenderSystem.curr_type = dict_recom["backdropNaming"]['type']
         return recomender
     return recomender
 
