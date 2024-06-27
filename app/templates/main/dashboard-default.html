@@ -245,6 +245,7 @@
                         data: {
                             'urlProject': urlProject,
                             '_url': '',
+                            'curr_type': '{{ recomenderSystem.type|escapejs }}'
                         },
                         url: '{% url "get_recommender" %}',
                         success: function(data) {
@@ -302,7 +303,7 @@
                                         <br>
                                         <div id="typed-farwell" class="typed-family"></div>
                                         <br>
-                                        <button id="test-again" style="display: none;">I'have corrected</button>
+                                        <button id="test-again" style="display: none;">Fixed it!</button>
                                         
                                         <br>
 

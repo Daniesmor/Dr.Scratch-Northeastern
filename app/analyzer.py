@@ -666,6 +666,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
     dict_analysis = {}
 
     dashboard = request.POST.get('dashboard_mode', 'Default')
+    curr_type = request.POST.get('curr_type', '')
     
     if os.path.exists(path_projectsb3):
         json_scratch_project = load_json_project(path_projectsb3)
@@ -689,7 +690,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
 
         # RECOMENDER SECTION
         dict_recom = {}
-        recomender = RecomenderSystem()
+        recomender = RecomenderSystem(curr_type)
         dict_recom["deadCode"] = recomender.recomender_deadcode(dict_dead_code)
         dict_recom["spriteNaming"] = recomender.recomender_sprite(result_sprite_naming)
         dict_recom["backdropNaming"] = recomender.recomender_backdrop(result_backdrop_naming)
