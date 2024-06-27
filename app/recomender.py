@@ -7,13 +7,14 @@ class RecomenderSystem():
     """
 
     # The variable below, indicates the last type of bad smell analyzed
-    curr_type = ""
-    new_type = ""
+    
 
-    def __init__(self, ):
+    def __init__(self, curr_type=""):
         self.MAGENTA = "\033[95m"
         self.RESET = "\033[0m"
         self.GREEN = "\033[92m"
+
+        self.curr_type = curr_type
 
         print(f"{self.MAGENTA}Welcome to the recomender system engine{self.RESET}")
 
