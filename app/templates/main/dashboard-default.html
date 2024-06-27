@@ -37,6 +37,25 @@
                 text-align: center; /* Centra el texto horizontalmente */
                 line-height: 50px; /* Alinea verticalmente el texto */
             }
+
+            .spinner {
+            display: none; /* Oculto por defecto */
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: rgb(255, 162, 24);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin-left: 10px; /* Espacio entre el botón y el spinner */
+            }
+            @keyframes spin {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
         </style>
 
 
@@ -238,8 +257,8 @@
             var urlProject = "{{ url|escapejs }}";
             $(document).ready(function() {
                 $('#test-again').click(function(e) {
-                    e.preventDefault();
-                    console.log("Iniciando recarga...");
+                    e.preventDefault()
+                    $('#loading-spinner').show();
                     $.ajax({
                         type: 'POST',
                         data: {
@@ -249,11 +268,8 @@
                         },
                         url: '{% url "get_recommender" %}',
                         success: function(data) {
-                            
-                            //$('#contenido').html($(data).find('#contenido').html());
-                            console.log(data);
-                            console.log('Datos actualizados correctamente');
-
+                            document.getElementById('loading-spinner').style.display = 'none';
+                            document.getElementById('test-again').style.display = 'none';
                             document.getElementById('typed-message').innerHTML = '';
                             document.getElementById('typed-explanation').innerHTML = '';
                             document.getElementById('typed-farwell').innerHTML = '';
@@ -303,10 +319,11 @@
                                         <br>
                                         <div id="typed-farwell" class="typed-family"></div>
                                         <br>
-                                        <button id="test-again" style="display: none;">Fixed it!</button>
-                                        
+                                        <div class="d-flex align-items-center">
+                                            <button id="test-again" class="typed-family btn btn-primary" style="display: none; color: #ffff;">Fixed it!</button>  
+                                            <div class="spinner" id="loading-spinner"></div>
+                                        </div>        
                                         <br>
-
                                     </div>
                                 </div>
                             </div>
