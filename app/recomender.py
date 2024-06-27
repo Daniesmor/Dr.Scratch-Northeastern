@@ -256,16 +256,16 @@ class RecomenderSystem():
 
         if (self.curr_type != ""):
             if (self.curr_type == "Backdrops"):
-                fail_message = "Oooops, it's seem's that you havent solved the problem with the backdrop naming, but don't worry, we are going to review again how we could solve it."
+                fail_message = "Oooops, it's seem's that you havent solved the problem with the backdrop naming, but don't worry, we are going to review again how we could solve it,"
                 success_message = "YEAAHH, YOU HAVE SOLVED THE PROBLEM WITH THE BACKDROP NAMING, thats is very great news! Does it seem good to you if we keep improving the project?"
             if (self.curr_type == "Sprites"):
-                fail_message = "Oooops, it's seem's that you havent solved the problem with the sprite naming, but don't worry, we are going to review again how we could solve it."
+                fail_message = "Oooops, it's seem's that you havent solved the problem with the sprite naming, but don't worry, we are going to review again how we could solve it,"
                 success_message = "YEAAHH, YOU HAVE SOLVED THE PROBLEM WITH THE SPRITE NAMING, thats is very great news! Does it seem good to you if we keep improving the project?"
             if (self.curr_type == "deadCode"):
-                fail_message = "Oooops, it's seem's that you havent solved the problem with the dead code, but don't worry, we are going to review again how we could solve it."
+                fail_message = "Oooops, it's seem's that you havent solved the problem with the dead code, but don't worry, we are going to review again how we could solve it,"
                 success_message = "YEAAHH, YOU HAVE SOLVED THE PROBLEM WITH THE DEAD CODE, thats is very great news! Does it seem good to you if we keep improving the project?"
             if (self.curr_type == "Duplicates"):
-                fail_message = "Oooops, it's seem's that you havent solved the problem with the duplicated code already, but don't worry, we are going to review again how we could solve it."
+                fail_message = "Oooops, it's seem's that you havent solved the problem with the duplicated code already, but don't worry, we are going to review again how we could solve it,"
                 success_message = "YEAAHH, YOU HAVE SOLVED THE PROBLEM WITH THE DUPLICATED CODE, thats is very great news! Does it seem good to you if we keep improving the project?"
             
             # Current Order: Backdrop, Sprites, DeadCode, Duplicates
