@@ -173,6 +173,8 @@ def show_dashboard(request, skill_points=None):
                     return render(request, user + '/dashboard-default.html', d)
                 elif d["dashboard_mode"] == 'Personalized':
                     return render(request, user + '/dashboard-personal.html', d)               
+                elif d["dashboard_mode"] == 'Recommender':
+                    return render(request, user + '/dashboard-recommender.html', d)
     else:
         return HttpResponseRedirect('/')    
 

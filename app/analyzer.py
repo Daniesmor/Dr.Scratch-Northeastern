@@ -439,12 +439,15 @@ def proc_recomender(dict_recom):
 
 def proc_urls(request, dict_mastery, file_obj):
     dict_urls = {}
-    if request.POST.get('dashboard_mode') == 'Default' or request.POST.get('dashboard_mode') == 'Comparison':
+    mode = request.POST.get('dashboard_mode', 'Default')
+    non_personalized = ['Default', 'Comparison', 'Recommender']
+
+    if mode not in non_personalized:
         dict_extended = dict_mastery['extended'].copy()
         dict_vanilla = dict_mastery['vanilla'].copy()
         dict_urls["url_extended"] = get_urls(dict_extended)
         dict_urls["url_vanilla"] = get_urls(dict_vanilla)
-    elif request.POST.get('dashboard_mode') == 'Personalized':
+    elif mode == 'Personalized':
         dict_personal = dict_mastery['personalized'].copy()
         print(dict_personal)
         dict_urls["url_personal"] = get_urls(dict_personal)
@@ -458,8 +461,10 @@ def get_urls(dict_mastery):
     return list_urls
 
 def proc_mastery(request, dict_mastery, file_obj):
-
-    if request.POST.get('dashboard_mode', 'Default') == 'Default' or request.POST.get('dashboard_mode', 'Default') == 'Comparison':
+    dic = {}
+    mode = request.POST.get('dashboard_mode', 'Default')
+    non_personalized = ['Default', 'Comparison', 'Recommender']
+    if mode in non_personalized:
         dict_extended = dict_mastery['extended'].copy()
         dict_vanilla = dict_mastery['vanilla'].copy()
         set_file_obj(request, file_obj, dict_extended)
@@ -470,9 +475,8 @@ def proc_mastery(request, dict_mastery, file_obj):
         dic["mastery"]["competence"] = dict_extended["competence"]
         dic["mastery"]["points"] = dict_extended["total_points"]
         dic["mastery_vanilla"]["competence"] = dict_vanilla["competence"]
-        dic["mastery_vanilla"]["points"] = dict_vanilla["total_points"]
-        
-    elif request.POST.get('dashboard_mode') == 'Personalized':
+        dic["mastery_vanilla"]["points"] = dict_vanilla["total_points"]     
+    elif mode == 'Personalized':
         dict_personal = dict_mastery['personalized'].copy()
         set_file_obj(request, file_obj, dict_personal)
         d_personal_translated = translate(request, dict_personal, file_obj)
@@ -703,12 +707,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         dict_analysis.update(proc_backdrop_naming(result_backdrop_naming, file_obj))
         dict_analysis.update(proc_refactored_code(refactored_code))
         dict_analysis.update(proc_categories_block(result_categories_block, file_obj))
-
         dict_analysis.update(proc_recomender(dict_recom))
-        #dict_analysis.update(proc_recomender(dict_recom_spriteNaming))
-        #dict_analysis.update(proc_recomender(dict_recom_backdropNaming))
-        #dict_analysis.update(proc_recomender(dict_recom_duplicatedScripts))
-
         # dict_analysis.update(proc_urls(request, dict_mastery, file_obj))
         # dictionary.update(proc_initialization(resultInitialization, filename))
         return dict_analysis

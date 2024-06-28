@@ -1,13 +1,10 @@
 import random
-
+from .recomender_phrases import motivational_phrases, farwells
 
 class RecomenderSystem():
     """
     Recomender system for improve Scratch projects
-    """
-
-    # The variable below, indicates the last type of bad smell analyzed
-    
+    """    
 
     def __init__(self, curr_type=""):
         self.MAGENTA = "\033[95m"
@@ -18,20 +15,9 @@ class RecomenderSystem():
 
         print(f"{self.MAGENTA}Welcome to the recomender system engine{self.RESET}")
 
-        self.motivational_phrases = [
-            "You are doing a very good job, it's amazing, but my cat-like sense of smell has detected that",
-            "You are doing excellent work, it's impressive, but my cat-like sense of smell has detected that someone ate my tuna, or maybe it's that",
-            "You're doing a fantastic job, it's wonderful, but my cat skills have detected a mouse nearby, or perhaps it might be that",
-            "Your effort is outstanding, it's fascinating, but my feline instincts have identified that someone is keeping secrets in the litter box, or perhaps it might be that",
-        ]
+        self.motivational_phrases = motivational_phrases
+        self.farwells = farwells
 
-        self.farwells = [
-            "\nGood luck improving your project, you can do it!! :)",
-            "\nKeep going with your project, you’re doing a great job! :)",
-            "\nI’m sure your project will be a great success! :)",
-            "\nDon’t give up, every effort brings you closer to your goal! :)",
-            "\nI trust your abilities, you will improve your project! :)",
-        ]
 
     def recomender_deadcode(self, dict_deadCode) -> dict:
         type = "deadCode"
