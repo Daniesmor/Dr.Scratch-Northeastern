@@ -492,6 +492,36 @@
         </div>
     </section>
 
+    <br>
+    <!-- =========================
+     SECTION: RECOMMENDER ASSISTANT
+    ============================== -->
+    <section id="section1" class="services">
+
+        <div class="container">            
+            <div class="row">
+                <div class="col-md-8 text-center">
+                    <img src="/static/app/images/assistant.png" class="img-fluid mx-auto d-block" style="max-width: 90%; max-height: 90%;" alt=""> 
+                </div>
+                <div class="col-md-4 align-self-center">
+                    <br>
+                    <form name="form" class="project-form" id="batch-form" enctype="multipart/form-data" method="post" action="/show_dashboard/" style="margin-top: 50px;">
+                        <h3><strong>{% trans "Recommender Assistant" %}</strong></h3>
+                        <p class="h4"><span class='colored-text'>{% trans "NEW!!!" %}</span> This mode gives you a feedback about the bad smells of your project and how to solved them with a assistant style.</p>
+                        <input type="hidden" name="dashboard_mode" value="Recommender">
+                        <p id="email-warning" style="display: none;"><span class='colored-text'>{% trans "Please enter an email!" %}</span></p>
+                        <p id="txt-warning" style="display: none;"><span class='colored-text'>{% trans "Please enter a project!" %}</span></p>
+                        {% trans '<input name="urlProject" id="cf-name" class="form-control input-box placeholder" placeholder="http:/scratch.mit.edu/projects/your_number" type="text">' %}
+                        <button id="url" name='_url' type="submit" class="btn btn-primary standard-button">{% trans "Analyze my Bad Smells" %}</button>
+                        <br></br>
+                        {% csrf_token %}
+                    </form>
+                </div>
+            </div> 
+            
+        </div>
+    </section>
+
     <!-- =========================
      SECTION: COMPARATIVE
     ============================== -->
