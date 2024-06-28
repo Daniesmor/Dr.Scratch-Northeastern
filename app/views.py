@@ -25,6 +25,7 @@ from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+from django.views.decorators.csrf import csrf_exempt
 from .models import BatchCSV
 from app import org
 from django.http import JsonResponse
@@ -64,6 +65,9 @@ from .tasks import init_batch
 # Analyzer imports
 from .analyzer import analyze_project, generator_dic, return_scratch_project_identifier, send_request_getsb3, _make_compare, analysis_by_upload, analysis_by_url
 from .batch import skills_translation
+
+# Recomender System imports
+from .recomender import RecomenderSystem
 
 logger = logging.getLogger(__name__)
 coloredlogs.install(level='DEBUG', logger=logger)
@@ -127,8 +131,7 @@ def calc_eta(num_projects: int) -> str:
 
     eta_format = f'{int(eta_h)}h: {int(eta_m)}min: {round(eta_s,2)}s'
     return eta_format
-
-    
+ 
 def show_dashboard(request, skill_points=None):
     
     if request.method == 'POST':
@@ -170,8 +173,40 @@ def show_dashboard(request, skill_points=None):
                     return render(request, user + '/dashboard-default.html', d)
                 elif d["dashboard_mode"] == 'Personalized':
                     return render(request, user + '/dashboard-personal.html', d)               
+                elif d["dashboard_mode"] == 'Recommender':
+                    return render(request, user + '/dashboard-recommender.html', d)
     else:
         return HttpResponseRedirect('/')    
+
+@csrf_exempt
+def get_recommender(request, skill_points=None):
+    if request.method == 'POST':
+        url = request.POST.get('urlProject')
+        currType = request.POST.get('currType')
+        print(f"Mi url: {url}")
+        numbers = ''
+        skill_rubric = generate_rubric(numbers)
+        user = str(identify_user_type(request))
+        print("Mode:", request.POST)
+        d = build_dictionary_with_automatic_analysis(request, skill_rubric)
+        print("-------------------- RECOMENDER -------------------------")
+        print("Context Dictionary:")
+        print(d)
+        print("Skill rubric")
+        print(skill_rubric)
+        d = d[0]
+        if d['Error'] == 'analyzing':
+            return render(request, 'error/analyzing.html')
+        elif d['Error'] == 'MultiValueDict':
+            return render(request, user + '/main.html', {'error': True})
+        elif d['Error'] == 'id_error':
+            return render(request, user + '/main.html', {'id_error': True})
+        elif d['Error'] == 'no_exists':
+            return render(request, user + '/main.html', {'no_exists': True})
+        else:
+            return JsonResponse(d['recomenderSystem'])        
+    else:
+        return HttpResponseRedirect('/')
 
 def batch(request, csv_identifier):
     user = str(identify_user_type(request))
@@ -276,8 +311,7 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
     project_counter = 0
 
     if request.method == 'POST':
-        dashboard_mode = request.POST.get('dashboard_mode')
-
+        dashboard_mode = request.POST.get('dashboard_mode', 'Default')
 
     if dashboard_mode == 'Comparison':
         dict_metrics = _make_compare(request, skill_points)
@@ -291,6 +325,7 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
                 return dict_metrics
             dict_metrics[project_counter] = analysis_by_upload(request, skill_points, zip_file)
         elif '_url' in request.POST:
+            print("TRAZA DE URL -----------------------")
             form = UrlForm(request.POST)
             if form.is_valid():
                 url = form.cleaned_data['urlProject']
