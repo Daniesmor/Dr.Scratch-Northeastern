@@ -6,7 +6,11 @@
         
         <div class="container" id="stepone">
             <section id="dashboard">
-               
+                <div class="tab text-center">
+                    <!-- <button class="tablinks" onclick="openMode(event, 'Rethinking')">{% trans 'Rethinking Mode' %}</button> -->
+                    <button class="tablinks active" onclick="openMode(event, 'Vanilla')">{% trans 'Vanilla Mode' %}</button>
+                    <button class="tablinks" onclick="openMode(event, 'Extended')">{% trans 'Extended Mode' %}</button>
+                </div>
             </section>
         </div>
         
@@ -37,304 +41,1444 @@
                 text-align: center; /* Centra el texto horizontalmente */
                 line-height: 50px; /* Alinea verticalmente el texto */
             }
-
-            .spinner {
-            display: none; /* Oculto por defecto */
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            border-left-color: rgb(255, 162, 24);
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            animation: spin 1s linear infinite;
-            margin-left: 10px; /* Espacio entre el botón y el spinner */
-            }
-            @keyframes spin {
-                0% {
-                    transform: rotate(0deg);
-                }
-                100% {
-                    transform: rotate(360deg);
-                }
-            }
         </style>
 
 
-        
-
-        <!-- RECOMENDER (STYLES AND SCRIPTS) -->
-        <style>
-            .typed-family {
-                font-family: 'Courier New', Courier, monospace;
-                color: #333;
-                white-space: pre-wrap;
-                text-align: left;
-                font-size: 15px;
-            }
-        </style>
-        {% csrf_token %} 
-
+        <!-- C_MODE SCRIPT -->
         <script>
-            function initPrompt(data = null) {
-                if (data == null) {
-                    // Fetch and process the message to type
-                    var message = "{{ recomenderSystem.message|escapejs }}";
-                    console.log(message);
-                    var explanation = "{{ recomenderSystem.explanation|escapejs }}";
-                    var farwell = "{{ recomenderSystem.farwell|escapejs }}";
-                    message = message.replace(/\u001b\[95m/g, '<span style="color: magenta;">').replace(/\u001b\[0m/g, '</span>');
-                    
-                    // Check if there are any blocks to process
-                    var blocksExist = {% if recomenderSystem.blocks %} true {% else %} false {% endif %};
 
-                    if (blocksExist) {
-                        // Create and hide pre elements for each block
-                        {% for block in recomenderSystem.blocks %}
-                            var indexBlock = "{{ forloop.counter0|add:1 }}"; // Out ids starts on 1 instead of 0, this easy for block selector
-                            var blockName = `recomBlock${indexBlock}`;
+        $(document).ready(function() {
+            // Agregar un event listener para el evento 'click' en el botón
+            $('#url').click(function(event) {
+                
+                // Evitar el comportamiento predeterminado del botón (que sería recargar la página)
+                event.preventDefault();
+                
+                var djangoUrl = $('#url-container').data('url');
+                // Obtener el valor del campo _url del botón
+                var urlValue = $(this).attr('name');
+                
 
-                            // Creates the legend "This block is in the sprite bla"
-                            var preLegend = document.createElement('p');
-                            var blockLegend = `{{ block.1|escapejs }}`;
-                            blockLegend = blockLegend.replace(/\u001b\[95m/g, '<span style="color: magenta;">').replace(/\u001b\[0m/g, '</span>');
-                            preLegend.innerHTML = blockLegend;
-                            preLegend.className = `typed-family`; 
+                // Obtener el formulario
+                var form = document.getElementById('myForm');                    
+                // Crear un nuevo objeto FormData y agregar el formulario a él
+                var formData = new FormData(form);
+                
+                // Agregar el valor del campo _url al FormData
+                formData.append('_url', urlValue);
+                
+                // Realizar una solicitud AJAX para enviar el formulario
+                $.ajax({
+                    url: djangoUrl, // Especifica la URL de tu vista en Django
+                    type: 'POST', // Especifica el método HTTP
+                    data: formData, // Pasa el objeto FormData como datos de la solicitud
+                    processData: false, // Desactiva el procesamiento de datos
+                    contentType: false, // Desactiva el tipo de contenido
+                    success: function(response) {
+                        var added = false
+                        // Maneja la respuesta si es necesario
+
+                        var dict_mastery = response['mastery'];
+
+                        // Iterar en cada entrada del diccionario
+                        $.each(dict_mastery, function(key, value) {
                             
-                            // Creates the block image
-                            var deadBlockContent = `{{ block.0|escapejs }}`;
-                            var preElement = document.createElement('pre');
-                            preElement.className = 'blocks';
-                            preElement.innerHTML = deadBlockContent;
-
-                            // Creates the container that contains the block and the legend
-                            var blockContainer = document.createElement('div');
-                            blockContainer.id = blockName;
-                            blockContainer.style.display = 'none';
-                            document.getElementById('blocks-recomender').appendChild(blockContainer);   
-                            blockContainer.appendChild(preLegend);
-                            blockContainer.appendChild(preElement);
                             
-                            // Update total value of the block selector
-                            document.getElementById('totSelValue').textContent = "{{ forloop.counter0|add:1 }}";
-                        {% endfor %}
-                    } 
-                } else {
-                    // Fetch and process the message to type
-                    var message = data.message;
-                    console.log(message);
-                    var explanation = data.explanation;
-                    var farwell = data.farwell;
+                            non_keys = ["competence", "points"];
+                            if (non_keys.indexOf(key)===-1) {
+                                var element = document.getElementById(key)
+                                if (key == "Flow control") {
+                                    key = "FlowControl"
+                                }
 
-                    // Reemplaza las secuencias de escape ANSI con etiquetas de estilo HTML
-                    message = message.replace(/\u001b\[95m/g, '<span style="color: magenta;">').replace(/\u001b\[0m/g, '</span>');
+                                if (key == "User interactivity") {
+                                    key = "UserInteractivity"
+                                }
 
-                    // Check if there are any blocks to process
-                    var blocksExist = data.blocks && data.blocks.length > 0;
+                                if (key == "Data representation") {
+                                    key = "DataRepresentation"
+                                }
+                                
 
-                    if (blocksExist) {
-                        // Create and hide pre elements for each block
-                        data.blocks.forEach((block, index) => {
-                            var indexBlock = index + 1; // Out ids starts on 1 instead of 0, this easy for block selector
-                            var blockName = `recomBlock${indexBlock}`;
-
-                            // Creates the legend "This block is in the sprite bla"
-                            var preLegend = document.createElement('p');
-                            var blockLegend = block[1];
-                            blockLegend = blockLegend.replace(/\u001b\[95m/g, '<span style="color: magenta;">').replace(/\u001b\[0m/g, '</span>');
-                            preLegend.innerHTML = blockLegend;
-                            preLegend.className = `typed-family`;
-
-                            // Creates the block image
-                            var deadBlockContent = block[0];
-                            var preElement = document.createElement('pre');
-                            preElement.className = 'blocks';
-                            preElement.innerHTML = deadBlockContent;
-
-                            // Creates the container that contains the block and the legend
-                            var blockContainer = document.createElement('div');
-                            blockContainer.id = blockName;
-                            blockContainer.style.display = 'none';
-                            document.getElementById('blocks-recomender').appendChild(blockContainer);
-                            blockContainer.appendChild(preLegend);
-                            blockContainer.appendChild(preElement);
-
-                            // Update total value of the block selector
-                            document.getElementById('totSelValue').textContent = indexBlock;
-                        });
-                    }        
-                }
-                
-
-                // Function to control the block selector
-                function listenSelector() {
-                    var prevSelector = document.getElementById('prevBlock');
-                    var nextSelector = document.getElementById('nextBlock');
-                    var currSelValueElem = document.getElementById('currSelValue');
-                    var totSelValueElem = document.getElementById('totSelValue');
-
-                    var currSelValue = parseInt(currSelValueElem.textContent);
-                    var totSelValue = parseInt(totSelValueElem.textContent);              
-
-                    prevSelector.addEventListener("click", function() {
-                        if (currSelValue >= 2) {
-                            document.getElementById(`recomBlock${currSelValue}`).style.display = 'none';
-                            currSelValue--;
-                            currSelValueElem.textContent = currSelValue; 
-                            
-                            document.getElementById(`recomBlock${currSelValue}`).style.display = 'block';
-                        }
-                    });
-
-                    nextSelector.addEventListener("click", function() {
-                        if (currSelValue < totSelValue) {
-                            document.getElementById(`recomBlock${currSelValue}`).style.display = 'none';
-                            currSelValue++;
-                            currSelValueElem.textContent = currSelValue; 
-                            document.getElementById(`recomBlock${currSelValue}`).style.display = 'block';
-                        }  
-                    });
-                }
-
-                // Function to initialize Typed.js for farewell message
-                function typed_farwell() {
-                    var typed_farwell = new Typed('#typed-farwell', {
-                        strings: [farwell],
-                        typeSpeed: 20,
-                        backSpeed: 25,
-                        backDelay: 1000,
-                        loop: false,
-                        showCursor: false,
-                        onComplete: function() {
-                            document.getElementById('test-again').style.display = "block";
-                        }
-                    });
-                }
-
-                // Function to initialize Typed.js for explanation message
-                function typed_explanation() {
-                    var typed_explanation = new Typed('#typed-explanation', {
-                        strings: [explanation],
-                        typeSpeed: 20,
-                        backSpeed: 25,
-                        backDelay: 1000,
-                        loop: false,
-                        showCursor: false,
-                        onComplete: function() {
-                            typed_farwell();
-                        }
-                    });
-                }
-                
-                // Initialize Typed.js for initial message
-                var typed_message = new Typed('#typed-message', {
-                    strings: [message],
-                    typeSpeed: 20,
-                    backSpeed: 25,
-                    backDelay: 1000,
-                    loop: false,
-                    showCursor: false,
-                    onComplete: function() {
-                        if (blocksExist) {
-                            var blockSelector = document.getElementById('block-selector');
-                            blockSelector.style.display = 'block';
-
-                            var blockRecomender = document.getElementById('blocks-recomender');
-                            blockRecomender.style.display = 'block';
-
-                            // Show the first block (index 1)
-                            document.getElementById('recomBlock1').style.display = 'block';
-                            listenSelector();
-
-                            // Type explanation message after block section
-                            typed_explanation();
-                        } else {
-                            typed_explanation();
-                        }
-                    }
-                });
-                
-            }
-            // Function to reload AJAX data of scratch projects
-            var urlProject = "{{ url|escapejs }}";
-            $(document).ready(function() {
-                $('#test-again').click(function(e) {
-                    e.preventDefault()
-                    $('#loading-spinner').show();
-                    $.ajax({
-                        type: 'POST',
-                        data: {
-                            'urlProject': urlProject,
-                            '_url': '',
-                            'curr_type': '{{ recomenderSystem.type|escapejs }}'
-                        },
-                        url: '{% url "get_recommender" %}',
-                        success: function(data) {
-                            document.getElementById('loading-spinner').style.display = 'none';
-                            document.getElementById('test-again').style.display = 'none';
-                            document.getElementById('typed-message').innerHTML = '';
-                            document.getElementById('typed-explanation').innerHTML = '';
-                            document.getElementById('typed-farwell').innerHTML = '';
-                            document.getElementById('blocks-recomender').style.display = 'none';
-                            document.getElementById('block-selector').style.display = 'none';
-
-                            // Initialize dynamic content again
-                            initPrompt(data);
-                        },
-                        error: function(xhr, status, error) {
-                            console.error('Error reloading data:', error);
-                        }
-                    });
-                });
-            });
-
-            document.addEventListener("DOMContentLoaded", function() {
-                initPrompt();
-            });
-        </script>
-
-            
-        
-        
-
-            <div class="container d-flex justify-content-center">
-                
-
-                <div class="col-md-9">
-                    
-                    <section id="dashboard" style="padding-top: 3.5%;">
-
-                        <div class="card" style="min-height: 80px;">
-                            <div class="container-fluid">   
-                                <div class="row" style="margin-top: 10px;">
-                                    <div class="col-md-1 d-flex">
-                                        <img src="/static/app/images/cat_chat.png" class="position-absolute top-20 start-90" style="max-width: 100%; width: 100%; padding: 10px;" alt="">
-                                    </div>
-                                    <div class="col-md-11">
-                                        <div id="typed-message" class="typed-family"></div>
-                                        <div id="block-selector" style="display: none;">
-                                            <a id="prevBlock" style="cursor: pointer;"> &lt; </a><span class="typed-family" id="currSelValue">1</span><span class="typed-family"> / </span><span  class="typed-family" id="totSelValue">30</span><a id="nextBlock" style="cursor: pointer;"> &gt;</a>                                     
+                                    // Verificamos si el valor es cero
+                                if (value[0][0] == 0) {
+                                    console.log("Hemos entrado a0")
+                                    // Creamos la barra en caso de valor cero
+                                    var progressBarHtml = `
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="${value[0][1]}" style="width: 0%">
+                                                <span style="color: grey;"><strong>${value[0][0]}/${value[0][1]}</strong></span>
+                                            </div>
                                         </div>
-                                        <div id="blocks-recomender" class="typed-family"></div>
+                                    `;
+                                } else {
+                                    // Creamos la barra progresos para valores distintos de 0
+                                    var progressBarHtml = `
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="${value[0][0]}" aria-valuemin="0" aria-valuemax="${value[0][1]}" style="width: ${value[0][0] / value[0][1] * 100}%;">
+                                            <span><strong>${value[0][0]}/${value[0][1]}</strong></span>
+                                        </div>
+                                    </div>
+                                    `;
+                                }
+                                // Agregamops la barra al contenedor existente
+                                $(`#${key}`).append(progressBarHtml);
+
+                                
+                            };
+                            
+                        });
+
+                        var points = response['mastery']['points']
+                        var competence = response['mastery']['competence']
+                    
+                        var image_panel;
+                        switch(competence) {
+                            case "Basic":
+                                image_panel = `<img src="/static/app/images/ferret.png" class="img-responsive col-md-5">`;
+                                
+                                break;
+                            case "Developing":
+                                image_panel = `<img src="/static/app/images/monkey.png" class="img-responsive col-md-4">`;
+                                break;
+                            case "Master":
+                                image_panel = `<img src="/static/app/images/cat.png" class="img-responsive col-md-3">`;
+                                break;
+                        }
+                        // Ahora añadimos el devpanel modificado
+                        var style_basic = `
+                            <style>
+                                #newdev {
+                                    background-color: #CCDD91;
+                                    border-color: #CCDD91;
+                                    -webkit-box-shadow: 0px 0px 13px -2px rgba(0, 0, 0, 0.75);
+                                    -moz-box-shadow: 0px 0px 13px -2px rgba(0, 0, 0, 0.75);
+                                    box-shadow: 0px 0px 13px -2px rgba(0, 0, 0, 0.75);
+                                }
+
+                                #dashboard {
+                                    padding-top: 90px;
+                                }
+
+                            
+
+                                #newscore {
+                                    font-weight: bold;
+                                    color: #91C470;
+                                    font-size: 34px;
+                                }
+                            </style>`;
+
+                        var style_developping = `
+                        <style>
+                            #newdev {
+                                background-color: #FFEDBE;
+                                border-color:#FFEDBE;
+                                -webkit-box-shadow: 0px 0px 13px -2px rgba(0,0,0,0.75);
+                                -moz-box-shadow: 0px 0px 13px -2px rgba(0,0,0,0.75);
+                                box-shadow: 0px 0px 13px -2px rgba(0,0,0,0.75);
+                            }
+
+                            #dashboard{
+
+                            padding-top:90px;
+                            }
+
+                        
+
+                            #dashboard .jumbotron h4{
+                                color:black;
+                                font-size: 24px;
+                                font-weight: bold;
+                                
+                            }
+
+                            #CT{
+
+                                font-weight:bold;
+                                font-size: 34px;
+                            }
+
+                            #issues{
+                                color: #DD5D26;
+                                font-weight:bold;
+                                font-size:34px;
+                            }
+
+                            #newscore{
+                                font-weight:bold;
+                                color: #FFBF00;
+                                font-size:34px;
+                            }
+                        </style>`;
+
+                        var style_master = `
+                        <style>
+                            #newdev{
+                                    background-color: #A3D5D1;
+                                    border-color:#A3D5D1;
+                                    -webkit-box-shadow: 0px 0px 13px -2px rgba(0,0,0,0.75);
+                                -moz-box-shadow: 0px 0px 13px -2px rgba(0,0,0,0.75);
+                                box-shadow: 0px 0px 13px -2px rgba(0,0,0,0.75);
+                            }
+
+                            #dashboard{
+
+                            padding-top:90px;
+                            }
+
+                        
+
+                            #dashboard .jumbotron h4{
+                                color:black;
+                                font-size: 24px;
+                                font-weight: bold;
+                                
+                            }
+
+                            #CT{
+
+                                font-weight:bold;
+                                font-size: 34px;
+                            }
+
+                            #issues{
+                                color: #DD5D26;
+                                font-weight:bold;
+                                font-size:34px;
+                            }
+
+                            #newscore{
+                                font-weight:bold;
+                                color: #1792A4;
+                                font-size:34px;
+                            }
+                        </style>`;
+
+
+                        var devpanel = `
+                            
+
+                            <div id="newdev">
+                                <div class="panel-heading" id="steptwo">
+                                    <h2 id="newscore" class="panel-title dark-text" style="font-size:28px;">
+                                        <span class='colored-text'><strong>{% trans "New Score:" %}</strong></span>
+                                        <span id="new_score0">${points[0]}</span>/<span id="new_score1">${points[1]}</span>
+                                        ${image_panel}
+                                    </h2>
+                                </div>
+                                <div id="hola" class="panel-body">
+                                    <div class="container col-md-12">
+                                        <h3 class='text-left dark-text'>{% trans 'The new level of your project is...' %} <strong>${competence.toUpperCase()}!</strong></h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                        `;
+
+                        var panel = ``;
+                        switch(competence) {
+                            case "Basic":
+                                panel = style_basic + devpanel;
+                                break;
+                            case "Developing":
+                                panel = style_basic + devpanel;
+                                break;
+                            case "Master":
+                                panel = style_master + devpanel;
+                                break;
+                        }
+
+
+
+                        var motivational_text = document.getElementById("motivational-text")
+                        motivational_text.remove();
+                        var back_to_project = document.getElementById("back-to-project");
+                        back_to_project.remove();
+                        var originalBadHabits = document.getElementsByName("original-bad-habits");
+                        if (originalBadHabits.length > 0) {
+                            // Cambiar el contenido del primer elemento
+                            originalBadHabits[0].textContent = "Original bad habits";
+                        }
+
+                        $(`#devpanels`).append(panel);
+                        $('#score-text').text('Original score')
+                        $('#score').css('font-size', '26px'); 
+                        
+
+                        bad_habits = `
+                            <div class="improve">
+                            <div class="panel panel-success" id="improve">
+                                <div id="stepthree">
+                                    <div class="panel-heading" >
+                                        <h2 id="score" class="panel-title dark-text">
+                                            {% trans "New Bad habits"%} 
+                                            <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Specific parts of the project that do not contribute to good programming practices' %}"></i>
+                                        </h2>
+                                    </div>
+                                    <div class="panel-body text-left typ">
+                                        <a class="glyphicon glyphicon-repeat"/>
+                                        <a id="duplicated-scripts" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Duplicated scripts' %}" 
+                                        data-trigger="manual" href="/learn/duplicatedScripts/"> 
+                                            ${response['duplicateScript']['number']} {% trans " duplicated scripts." %}
+                                        </a>
+                                        
                                         <br>
-                                        <div id="typed-explanation" class="typed-family"></div>
+                                        <a class="glyphicon glyphicon-pencil"/>
+                                        <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Sprite naming' %}" 
+                                        data-content="
+                                        {% for value in spriteNaming.sprite %}
+                                            {{ value }}
+                                            <br>
+                                        {% endfor %}
+                                        {% if spriteNaming.number == 0 %}
+                                            {% trans 'Your project does not have default sprite naming, good job!' %}
+                                        {% endif %}
+                                        " data-trigger="manual" href="/learn/spriteNaming/"> 
+                                            ${response['spriteNaming']['number']} {% trans " sprite naming." %}
+                                        </a><br>
+                                        <a class="glyphicon glyphicon-pencil"/> 
+                                        <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Backdrop naming' %}" data-content="
+                                        {% for value in backdropNaming.backdrop %}
+                                                {{ value }} <br>
+                                        {% endfor %}
+                                        {% if backdropNaming.number == 0 %}
+                                                {% trans 'Your project does not have default backdrop naming, good job!' %}
+                                        {% endif %}
+                                            " data-trigger="manual" href="/learn/spriteNaming/"> 
+                                            ${response['spriteNaming']['number']} {% trans " backdrop naming." %}
+                                        </a><br>
+                                        <a class="glyphicon glyphicon-remove-sign"/>
+                                        <a id="dead-code" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Dead code' %}" 
+                                        data-trigger="manual" href="/learn/deadCode/"> 
+                                            ${response['backdropNaming']['number']} {% trans " dead code." %}
+                                        </a>
+                                    
+                                    </div>
+                                        
+                                        </div>
+                                    </div>
+                                </div>
+                    `;
+
+                    $(`#bad-habits`).append(bad_habits);
+
+                    // CONFIGURAMOS EL MODAL
+                    var original_score = parseInt($('#score0').text());
+                    var original_max_score = parseInt($('#score1').text());
+
+                    var new_score = parseInt($('#new_score0').text());
+                    var new_max_score = parseInt($('#new_score1').text());
+
+                    $('#modal_score').text(`${original_score}/${original_max_score}`);
+
+                    var improvement = Math.abs(new_score - original_score);
+                    if (improvement != 0) {
+                        if (new_score > original_score) {
+                            $('#modal_title').text('Congrats!!');
+                            var feedback = `<h4 class="dark-text" id="modal_feedback">You have improved this project by <span class="text-success">${improvement} points</span></h4>`;
+                            $('#modal_new_score').append(`<h2 class="text-success" style="font-size: 70px;">${new_score}/${new_max_score}</h2>`)
+                            $('#modal-feedback-img').append('<img src="/static/app/images/cat.png" class="img-responsive col-md-3" style="margin-left: 30px;">');
+                        } else {
+                            $('#modal_title').text('Oops...');
+                            var feedback = `<h4 class="dark-text" id="modal_feedback">You have dropped this project by <span class="colored-text">${improvement} points</span></h4>`;
+                            $('#modal_new_score').append(`<h2 class="text-danger" style="font-size: 70px;">${new_score}/${new_max_score}</h2>`)
+                            $('#modal-feedback-img').append('<img src="/static/app/images/monkey.png" class="img-responsive col-md-3" style="margin-left: 30px;">');
+                        }
+                        $('#modal-feedback').append(feedback);
+
+
+
+                        // SCRATCH GOLFING
+
+                        scratch_golfing = response['scratchGolfing'];
+                        console.log(scratch_golfing);
+                        original_total_blocks = parseInt(scratch_golfing['original']['total_blocks']);
+                        original_total_sprites = parseInt(scratch_golfing['original']['total_sprites']);
+
+                        new_total_blocks = parseInt(scratch_golfing['new']['total_blocks']);
+                        new_total_sprites = parseInt(scratch_golfing['new']['total_sprites']);
+
+                        $('#original_total_blocks').text(`${original_total_blocks} blocks`);
+                        $('#original_total_sprites').text(`${original_total_sprites} sprites`);
+
+
+                        $('#new_total_blocks').text(`${new_total_blocks} blocks`);
+                        $('#new_total_sprites').text(`${new_total_sprites} sprites`);
+
+                    
+                        var blocks_improvement = Math.abs(new_total_blocks - original_total_blocks);
+                        var sprites_improvement = Math.abs(new_total_sprites - original_total_sprites)
+                        if ((new_total_blocks > original_total_blocks) && (new_total_sprites > original_total_sprites)) {
+                            golfing_feedback = `${blocks_improvement} blocks and ${sprites_improvement} sprites more than the original`;
+                        } else {
+                            if (blocks_improvement != 0) {
+                                if (new_total_blocks > original_total_blocks) {
+                                    blocks_feedback = `${blocks_improvement} blocks more`;
+                                } else {
+                                    blocks_feedback = `${blocks_improvement} blocks less`;
+                                }
+                            } 
+                            
+                            if (sprites_improvement != 0) {
+                                if (new_total_sprites > original_total_sprites) {
+                                    sprites_feedback = `${sprites_improvement} sprites more`;
+                                } else {
+                                    sprites_feedback = `${sprites_improvement} sprites less`;
+                                }
+                            }
+                            
+                            if ((blocks_improvement!=0) && (sprites_improvement!=0)) {
+                                golfing_feedback = `${blocks_feedback} and ${sprites_feedback} than the original`;
+                            } 
+
+                            if ((blocks_improvement==0) && (sprites_improvement!=0)) {
+                                golfing_feedback = `${sprites_feedback} than the original`;
+                            }
+
+                            if ((blocks_improvement!=0) && (sprites_improvement==0)) {
+                                golfing_feedback = `${blocks_feedback} than the original`;
+                            }
+
+                            if ((blocks_improvement == 0) && (sprites_improvement == 0)) {
+                                golfing_feedback = `There are the same amount of blocks on both projects`;
+                            }
+                            
+                        }
+                        
+                        $('#golfing_feedback').text(golfing_feedback);
+
+
+
+
+
+                        $('#exampleModal').modal('show');
+                        $('html, body').animate({ scrollTop: 0 }, 'slow');
+
+                    }
+
+
+                    
+                    
+                    added = true;
+
+                    },
+                    error: function(xhr, status, error) {
+                        // Maneja los errores si es necesario
+                        console.error(error);
+                    }
+                    
+                });
+            });
+        });
+
+
+
+        </script>
+        <!-- END OF C_MODE SCRIPT -->
+        
+
+
+        <!-- RETHINKING MODE -->
+        <div id="Rethinking" class="tabcontent">
+            <div class="container" id="steptwo">
+                <div class="row d-flex align-items-stretch text-center">
+                    <h2 class="bad-smells-title"> {% trans 'Bad Smells World'%} </h2>
+                </div>
+                <div class="row d-flex align-items-stretch">
+                    <!-- World 1: Sprite Naming -->
+                    <div class="col-md-3">
+                        <div class="island">
+                            <h4> {% trans "Sprite Naming" %} </h4>
+                            <img src="/static/app/images/Isla_1.jpg" alt="Isla 1" onclick="modalContentChange('sprite-naming-content-r')">
+                        </div>
+                    </div>
+                    <!-- World 2: Backdrop Naming -->
+                    <div class="col-md-3">
+                        <div class="island">
+                            <h4> {% trans 'Backdrop Naming' %} </h4>
+                            <img src="/static/app/images/Isla_2.jpg" alt="Isla 2" onclick="modalContentChange('backdrop-naming-content-r')">
+                        </div>
+                    </div>
+                    <!-- World 3: Dead Code -->
+                    <div class="col-md-3">
+                        <div class="island">
+                            <h4>  {% trans 'Dead Code' %} </h4>
+                            <img src="/static/app/images/Isla_3.jpg" alt="Isla 3" onclick="modalContentChange('dead-code-content-r')">
+                        </div>
+                    </div>
+                    <!-- World 4: Duplicated Scripts -->
+                    <div class="col-md-3">
+                        <div class="island">
+                            <h4>  {% trans 'Duplicated Scripts' %} </h4>
+                            <img src="/static/app/images/Isla_4.jpg" alt="Isla 4" onclick="modalContentChange('duplicated-scripts-content-r')">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- VANILLA MODE -->
+        <div id="Vanilla" class="tabcontent">
+            {% if mastery_vanilla.competence == "Master" %}
+                <div id="confeti-container"></div>
+            {% endif %}
+            
+            <div class="container">
+                
+                <section id="blackboard" class="services col-md-5">
+                    <!-- POINTS PANEL -->
+                    <div id="devpanels">
+                        <div class="devpanel" style="padding-top: 5%;">
+                            <div class="panel panel-success" id="devpanel">
+                                <div class="panel-heading" id="steptwo" >
+                                    {% if mastery_vanilla.competence == "Basic" %}
+                                        <img src="/static/app/images/ferret.png" class="img-responsive col-md-5">
+                                    {% elif mastery_vanilla.competence == "Developing" %}
+                                        <img src="/static/app/images/monkey.png" class="img-responsive col-md-4">
+                                    {% elif mastery_vanilla.competence == "Master" %}
+                                        <img src="/static/app/images/cat.png" class="img-responsive col-md-3">
+                                    {% endif %}
+                                    <h2 id="score" class="panel-title dark-text">
+                                        <strong id="score-text">{% trans "Score:" %}</strong>
+                                        <span id="score0">
+                                            {% if mastery_vanilla.points.0|floatformat:"-1" == mastery_vanilla.points.0|floatformat:"0" %}
+                                                {{ mastery_vanilla.points.0|floatformat:"0" }}
+                                            {% else %}
+                                                {{ mastery_vanilla.points.0 }}
+                                            {% endif %}
+                                        </span>
+                                        /
+                                        <span id="score1">
+                                            {% if mastery_vanilla.points.1|floatformat:"-1" == mastery_vanilla.points.1|floatformat:"0" %}
+                                                {{ mastery_vanilla.points.1|floatformat:"0" }}
+                                            {% else %}
+                                                {{ mastery_vanilla.points.1 }}
+                                            {% endif %}                          
+                                        </span>
+                                            
+                                    <a class="twitter-share-button" data-text="{% blocktrans with points=mastery_vanilla.points.0 %} I have just obtained {{ points }} points analyzing my project in Dr. Scratch! Beat it! @DrScratchTool {% endblocktrans %}"href="https://twitter.com/share">Tweet</a></h2>
+                                </div>
+                                <div class="panel-body" id="original-panel-body">
+                                    <div class="container col-md-12">
+                                        <div id="motivational-text">
+                                            <h3 class='text-left dark-text'>{% trans 'The level of your project is...' %} <strong> {{ mastery_vanilla.competence|upper }}! </strong></h3>
+                                        
+                                            {% if mastery.competence == "Basic" %}
+                                            <p class='text-left dark-text'> {% trans "You're at the beginning of a <br>great adventure . . . Keep it up!" %}</br></p>
+                                            {% elif mastery.competence == "Developing" %}
+                                                <p class='text-left dark-text' > {% trans "You're doing a great job. Keep it up!!! " %}</p>
+                                            {% elif mastery.competence == "Master" %}
+                                                <p class='text-left dark-text' > {% trans "You're the master of the universe!!! " %}</p>
+                                            {% elif mastery.competence == "Advanced" %}
+                                                <p class='text-left dark-text' > {% trans "You're doing a great job. Keep it up!!! " %}</p>
+                                            {% elif mastery.competence == "Finesse" %}
+                                                <p class='text-left dark-text'> {% trans "You're doing a great job. Keep it up!!! " %}</p>
+                                            {% endif %}
+                                        </div> 
+                                    </div>
+    
+                                </div>
+                                {% if url != None %}
+                                    <a href="{{ url }}" target="_blank" id="back-to-project"><span class="glyphicon glyphicon-hand-right"></span>{% trans "Come back to your Scratch project." %}</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    <div id="bad-habits">
+                        {% if mastery_vanilla.competence == "Developing" or mastery_vanilla.competence == "Master" %}
+                        <div class="improve">
+                            <div class="panel panel-success" id="improve">
+                                <div id="stepthree">
+                                    <div class="panel-heading" >
+                                        <h2 id="score" class="panel-title dark-text" name="original-bad-habits">
+                                            {% trans "Bad habits"%} 
+                                            <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Specific parts of the project that do not contribute to good programming practices' %}"></i>
+                                        </h2>
+                                    </div>
+                                    <div class="panel-body text-left typ">
+                                        <a class="glyphicon glyphicon-repeat"/>
+                                        <a id="duplicated-scripts" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Duplicated scripts' %}" 
+                                        data-trigger="manual" href="/learn/duplicatedScripts/"> 
+                                            {{ duplicateScript.number }} {% trans " duplicated scripts." %}
+                                        </a>
+                                        <div id="duplicated-scripts-content" class="collapse">
+                                            <div class="container-fluid">
+                                                {% for k, list_duplicate_blocks in duplicateScript.items %}
+                                                {% if k == 'scripts' %}
+                                                   
+                                                    {% for list_blocks in list_duplicate_blocks %}
+                                                        <pre class="blocks">
+                                                            {{ list_blocks }}
+                                                        </pre>
+                                                    {% endfor %}
+                                                {% endif %}
+                                                {% endfor %}
+                                                {% if duplicateScript.number == 0 %}
+                                                    {% trans 'Your project does not have duplicated scripts, good job!' %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
                                         <br>
-                                        <div id="typed-farwell" class="typed-family"></div>
-                                        <br>
-                                        <div class="d-flex align-items-center">
-                                            <button id="test-again" class="typed-family btn btn-primary" style="display: none; color: #ffff;">Fixed it!</button>  
-                                            <div class="spinner" id="loading-spinner"></div>
-                                        </div>        
-                                        <br>
+                                        <a class="glyphicon glyphicon-pencil"/>
+                                        <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Sprite naming' %}" 
+                                        data-content="
+                                        {% for value in spriteNaming.sprite %}
+                                            {{ value }}
+                                            <br>
+                                        {% endfor %}
+                                        {% if spriteNaming.number == 0 %}
+                                            {% trans 'Your project does not have default sprite naming, good job!' %}
+                                        {% endif %}
+                                        " data-trigger="manual" href="/learn/spriteNaming/"> 
+                                            {{ spriteNaming.number }} {% trans " sprite naming." %}
+                                        </a><br>
+                                        <a class="glyphicon glyphicon-pencil"/> 
+                                        <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Backdrop naming' %}" data-content="
+                                        {% for value in backdropNaming.backdrop %}
+                                                {{ value }} <br>
+                                        {% endfor %}
+                                        {% if backdropNaming.number == 0 %}
+                                                {% trans 'Your project does not have default backdrop naming, good job!' %}
+                                        {% endif %}
+                                            " data-trigger="manual" href="/learn/spriteNaming/"> 
+                                                {{ backdropNaming.number }} {% trans " backdrop naming." %}
+                                        </a><br>
+                                        <a class="glyphicon glyphicon-remove-sign"/>
+                                        <a id="dead-code" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Dead code' %}" 
+                                        data-trigger="manual" href="/learn/deadCode/"> 
+                                            {{ deadCode.number }} {% trans " dead code." %}
+                                        </a>
+                                        <div id="dead-code-content" class="collapse">
+                                            <div class="container-fluid">
+                                                {% for key, value in deadCode.items %}
+                                                    {% if key != 'deadCode' %}
+                                                        {% if key != 'number' %}
+                                                            <b> {{ key }}: </b><br>
+                                                            {% for dead_block in value %}
+                                                                <pre class="blocks">
+                                                                    {{ dead_block }}
+                                                                </pre>
+                                                            {% endfor %}
+                                                            <br>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                                {% if deadCode.number == 0 %}
+                                                    {% trans 'Your project does not have dead code, good job!' %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% if refactor.refactor_list %}
+                                        <button type="button" class="btn btn-primary" onclick="modalContentChange('duplicated-scripts-content-r')" style="margin-bottom: 2%;">
+                                            {% trans 'Display all duplicates' %}
+                                        </button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="improve">
+                        <div class="panel panel-success" id="improve">
+                            <div id="stepfour">
+                                <div class="panel-heading" >
+                                    <h2 id="score" class="panel-title dark-text">
+                                        {% trans "Project certificate"%}
+                                        <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Certificate of the Evaluation of your Scratch Project' %}"></i>
+                                    </h2>
+                                </div>
+                                <div class="panel-success" style="word-break: break-word;" >
+                                    <h5>{{ filename }} <form name="form" class="project-form" enctype="multipart/form-data" method="post" action="/download_certificate">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="level" value="{{ mastery_vanilla.points.0 }}/{{ mastery_vanilla.points.1 }}">
+                                    <button value="{{ filename }}" name="filename" type="submit" id ="certificate" style="margin-top: 3%;">{% trans "Download" %}</button>
+                                  </form></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--
+                     {% if url != None %}
+                    <div class="improve">
+                        <div class="panel panel-success" id="improve">
+                            <div id="stepfour">
+                                <div class="panel-heading" >
+                                    <h2 id="score" class="panel-title dark-text">
+                                        {% trans "Compare project"%}
+                                        <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Certificate of the Evaluation of your Scratch Project' %}"></i>
+                                    </h2>
+                                </div>
+                                <div class="panel-success" style="word-break: break-word;" >
+                                    <form id="myForm" name="form" class="project-form" enctype="multipart/form-data" method="post" style="margin: 10px">
+                                        <input type="hidden" name="dashboard_mode" value="Default">
+                                        {% trans '<input name="urlProject" id="cf-name" class="form-control input-box placeholder" placeholder="http:/scratch.mit.edu/projects/your_number" type="text">' %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" style="width: 20px; height: 20px;">                                           
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                This project has the same functionality.
+                                            </label>
+                                        </div>
+                                        <button id="url" name="_url" type="submit" class="btn btn-primary standard-button">{% trans "Analyze by url" %}</button>
+                                        {% csrf_token %}
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    -->
+                   
+
+
+                   
+                    </section>
+                    
+                </section>
+
+                <div class="col-md-7">
+                    <section id="dashboard" style="padding-top: 3.5%;">
+                        <div class="container-fluid">
+                            <div class="row marketing">
+                                <div class="jumbotron">
+                                    <div class="table-responsive">
+                                        <div id="stepfive">
+                                            
+                                            <table class="table tablesorter">
+                                                <thead>
+                                                    <tr>
+                                                    <th>
+                                                        <h4>
+                                                            {% trans "Level up" %}
+                                                            <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Dimensions Evaluated in your Scratch Project' %}"></i>
+                                                        </h4>
+                                                    </th>
+                                                    <th class="col-md-5">
+                                                        <h4>
+                                                            {% trans "Level" %}
+                                                            <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Grade from 1 to 3 of each Dimension' %}"></i>
+                                                        </h4>
+                                                    </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                
+                                                
+                                                {% for key, value in mastery_vanilla.items %}
+                                                
+                                                {% if forloop.counter0|divisibleby:1 %}<tr>{% endif %}
+                                                {% if key != "points" %}
+                                                {% if key != "competence" %}
+                
+                                                    <td style="text-align: left;">
+                                                        {% if value.0.0 == value.0.1 %}
+                                                        <span class="glyphicon glyphicon-star" id="star"></span>
+                                                        {% else %}
+                                                        <img src="/static/app/images/little_bulb.png" alt="">
+                                                        {% endif %}
+                                                        <a href="/learn/{{ value.1 }}/">{{ key }}</a>
+                                                    </td>
+                                                    <td id="{{ value.1 }}">
+                                                        {% if value.0.0 == 0 %}
+                                                            <div class="progress">
+                                                                <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="{{ value.0.1 }}" style="width: 0%">
+                                                                    <span style="color: grey;"><strong>{{ value.0.0 }}/{{ value.0.1 }}</strong></span>
+                                                                </div>
+                                                            </div>
+                                                        {% else %}
+                                                            <div class="progress">
+                                                                <div id="progressBar" class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="{{ value.0.0 }}" aria-valuemin="0" aria-valuemax="{{ value.0.1 }}" style="width: {% widthratio value.0.0 value.0.1 100 %}%">
+                                                                    <span><strong>
+                                                                        {% if value.0.0|floatformat:"-1" == value.0.0|floatformat:"0" %}
+                                                                            {{ value.0.0|floatformat:"0" }}
+                                                                        {% else %}
+                                                                            {{ value.0.0 }}
+                                                                        {% endif %}
+                                                                        /
+                                                                        {% if value.0.1|floatformat:"-1" == value.0.1|floatformat:"0" %}
+                                                                            {{ value.0.1|floatformat:"0" }}
+                                                                        {% else %}
+                                                                            {{ value.0.1 }}
+                                                                        {% endif %}
+                                                                    </strong></span>
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        {% endif %}
+                                                    </td>
+                           
+                                                {% endif %}
+                                                {% endif %}
+                                                {% if forloop.counter|divisibleby:1 or forloop.last %}
+                                                </tr>
+                                                {% endif %}
+                                                {% endfor %}
+
+                                                
+                                                
+                                                </tbody>
+                                             </table>
+                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
-                        
-                        <br></br>
-        
                     </section>
+
+                    <!--
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                          <div class="modal-content" style="padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px;border-bottom-width: 0px;border-top-width: 0px;border-left-width: 0px;border-right-width: 0px;">
+                            
+                            <section id="dashboard" style="padding-top: 0px;">
+                                <div class="container-fluid" style="padding-left: 0px;padding-right: 0px;">
+                                    <div class="jumbotron" style="margin-bottom: 0px; display: flex; flex-direction: column; align-items: center;">
+                                        <div class="row">
+                                            <div class="col-4" id="modal-feedback-img">
+                                            </div>
+                                            <div class="col-4" id="modal-feedback">
+                                                <h2 class="dark-text" style="font-size: 50px;" id="modal_title"></h2>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="display: flex; align-items: center;">
+                                            <div class="col-4 text-center" style="margin-right: 20%;">
+                                                <h3 class="dark-text">Before:</h3>
+                                                <h2 class="dark-text" id="modal_score"></h2>
+                                            </div>
+                                            <div class="col-4 text-center" id="modal_new_score">
+                                                <h3 class="dark-text">Now:</h3>
+                                                <h2 class="text-success" style="font-size: 70px;"></h2>
+                                            </div>
+                                        </div>
+                                                    <div class="row">
+                                                        <div class="row">
+                                                            <div class="col-sm-6 border border-primary rounded">
+                                                                <div class="row">
+                                                                    <h2 class="dark-text" style="font-size: 20px;">Before:</h2>
+                                                                <div class="col-6 d-flex align-items-center">
+                                                                    <div class="col-sm-6 d-flex align-items-center" style="padding-left: 0px;">
+                                                                    <img src="/static/app/images/golfing_blocks.png" height="70px" class="mr-3">
+                                                                    <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="original_total_blocks"></h2>
+                                                                    </div>
+                                                            
+                                                                    <div class="col-sm-6 d-flex align-items-center">
+                                                                    <img src="/static/app/images/golfing_sprites.png" height="70px" class="display-flex">
+                                                                    <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="original_total_sprites"></h2>
+                                                                    </div>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-sm-6" style="padding-left: 70px;">
+                                                                <div class="row" >
+                                                                    <h2 class="dark-text" style="font-size: 20px;">Now:</h2>
+                                                                    <div class="col-6 d-flex align-items-center">
+                                                                        <div class="col-sm-6 d-flex align-items-center">
+                                                                            <img src="/static/app/images/golfing_blocks.png" height="70px" class="mr-3">
+                                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="new_total_blocks"></h2>
+                                                                        </div>
+
+                                                                        <div class="col-sm-6 d-flex align-items-center">
+                                                                            <img src="/static/app/images/golfing_sprites.png" height="70px" class="display-flex">
+                                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="new_total_sprites"></h2>
+                                                                        </div>
+                                                                    
+                                                                    </div>
+                                                                                                                        
+                                                                </div>
+                                                            </div>  
+                                                            <div class="row">
+                                                                <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="golfing_feedback"></h2>                    
+                                                            </div>
+
+                                                    </div>
+                                              
+                                    </div>
+                                </div>
+                            </section>
+                            
+                        </div>
+                    </div>
+                  </div>
+                    -->
+                    
+
+
+
                 </div>
-                <br></br>
             </div>
+        </div>
+
+        <!-- EXTENDED MODE -->
+        <div id="Extended" class="tabcontent">
+            {% if mastery.competence == "Master" %}
+                <div id="confeti-container"></div>
+            {% endif %}
+            
+            <div class="container">
+                <section id="blackboard" class="services col-md-5">
+                    <!-- POINTS PANEL -->
+                    <div id="devpanels">
+                        <div class="devpanel" style="padding-top: 5%;">
+                            <div class="panel panel-success" id="devpanel">
+                                <div class="panel-heading" id="steptwo" >
+                                    {% if mastery.competence == "Basic" %}
+                                        <img src="/static/app/images/ferret.png" class="img-responsive col-md-5">
+                                    {% elif mastery.competence == "Developing" %}
+                                        <img src="/static/app/images/monkey.png" class="img-responsive col-md-4">
+                                    {% elif mastery.competence == "Master" or mastery.competence == "Advanced" %}
+                                        <img src="/static/app/images/cat.png" class="img-responsive col-md-3">
+                                    {% endif %}
+                                    <h2 id="score" class="panel-title dark-text">
+                                        <strong id="score-text">{% trans "Score:" %}</strong>
+                                        <span id="score0">
+                                            {% if mastery.points.0|floatformat:"-1" == mastery.points.0|floatformat:"0" %}
+                                                {{ mastery.points.0|floatformat:"0" }}
+                                            {% else %}
+                                                {{ mastery.points.0 }}
+                                            {% endif %}
+                                        </span>
+                                        /
+                                        <span id="score1">
+                                            {% if mastery.points.1|floatformat:"-1" == mastery.points.1|floatformat:"0" %}
+                                                {{ mastery.points.1|floatformat:"0" }}
+                                            {% else %}
+                                                {{ mastery.points.1 }}
+                                            {% endif %}                          
+                                        </span>
+                                            
+                                    <a class="twitter-share-button" data-text="{% blocktrans with points=mastery_vanilla.points.0 %} I have just obtained {{ points }} points analyzing my project in Dr. Scratch! Beat it! @DrScratchTool {% endblocktrans %}"href="https://twitter.com/share">Tweet</a></h2>
+                                </div>
+                                <div class="panel-body" id="original-panel-body">
+                                    <div class="container col-md-12">
+                                        <div id="motivational-text">
+                                            <h3 class='text-left dark-text'>{% trans 'The level of your project is...' %} <strong> {{ mastery.competence|upper }}! </strong></h3>
+                                            {% if mastery.competence == "Basic" %}
+                                            <p class='text-left dark-text'> {% trans "You're at the beginning of a <br>great adventure . . . Keep it up!" %}</br></p>
+                                            {% elif mastery.competence == "Developing" %}
+                                                <p class='text-left dark-text' > {% trans "You're doing a great job. Keep it up!!! " %}</p>
+                                            {% elif mastery.competence == "Master" %}
+                                                <p class='text-left dark-text' > {% trans "You're the master of the universe!!! " %}</p>
+                                            {% elif mastery.competence == "Advanced" %}
+                                                <p class='text-left dark-text' > {% trans "You're doing a great job. Keep it up!!! " %}</p>
+                                            {% elif mastery.competence == "Finesse" %}
+                                                <p class='text-left dark-text'> {% trans "You're doing a great job. Keep it up!!! " %}</p>
+                                            {% endif %}
+                                        </div> 
+                                    </div>
+    
+                                </div>
+                                {% if url != None %}
+                                    <a href="{{ url }}" target="_blank" id="back-to-project"><span class="glyphicon glyphicon-hand-right"></span>{% trans "Come back to your Scratch project." %}</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    <div id="bad-habits">
+                        {% if mastery.competence != "Basic" %}
+                        <div class="improve">
+                            <div class="panel panel-success" id="improve">
+                                <div id="stepthree">
+                                    <div class="panel-heading" >
+                                        <h2 id="score" class="panel-title dark-text" name="original-bad-habits">
+                                            {% trans "Bad habits"%} 
+                                            <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Specific parts of the project that do not contribute to good programming practices' %}"></i>
+                                        </h2>
+                                    </div>
+                                    <div class="panel-body text-left typ">
+                                        <a class="glyphicon glyphicon-repeat"/>
+                                        <a id="duplicated-scripts" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Duplicated scripts' %}" 
+                                        data-trigger="manual" href="/learn/duplicatedScripts/"> 
+                                            {{ duplicateScript.number }} {% trans " duplicated scripts." %}
+                                        </a>
+                                        <div id="duplicated-scripts-content" class="collapse">
+                                            <div class="container-fluid">
+                                                {% for k, list_duplicate_blocks in duplicateScript.items %}
+                                                {% if k == 'scripts' %}
+                                                    
+                                                    {% for list_blocks in list_duplicate_blocks %}
+                                                        <pre class="blocks">
+                                                            {{ list_blocks }}
+                                                        </pre>
+                                                    {% endfor %}
+                                                {% endif %}
+                                                {% endfor %}
+                                                {% if duplicateScript.number == 0 %}
+                                                    {% trans 'Your project does not have duplicated scripts, good job!' %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <a class="glyphicon glyphicon-pencil"/>
+                                        <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Sprite naming' %}" 
+                                        data-content="
+                                        {% for value in spriteNaming.sprite %}
+                                            {{ value }}
+                                            <br>
+                                        {% endfor %}
+                                        {% if spriteNaming.number == 0 %}
+                                            {% trans 'Your project does not have default sprite naming, good job!' %}
+                                        {% endif %}
+                                        " data-trigger="manual" href="/learn/spriteNaming/"> 
+                                            {{ spriteNaming.number }} {% trans " sprite naming." %}
+                                        </a><br>
+                                        <a class="glyphicon glyphicon-pencil"/> 
+                                        <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Backdrop naming' %}" data-content="
+                                        {% for value in backdropNaming.backdrop %}
+                                                {{ value }} <br>
+                                        {% endfor %}
+                                        {% if backdropNaming.number == 0 %}
+                                                {% trans 'Your project does not have default backdrop naming, good job!' %}
+                                        {% endif %}
+                                            " data-trigger="manual" href="/learn/spriteNaming/"> 
+                                                {{ backdropNaming.number }} {% trans " backdrop naming." %}
+                                        </a><br>
+                                        <a class="glyphicon glyphicon-remove-sign"/>
+                                        <a id="dead-code" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Dead code' %}" 
+                                        data-trigger="manual" href="/learn/deadCode/"> 
+                                            {{ deadCode.number }} {% trans " dead code." %}
+                                        </a>
+                                        <div id="dead-code-content" class="collapse">
+                                            <div class="container-fluid">
+                                                {% for key, value in deadCode.items %}
+                                                    {% if key != 'deadCode' %}
+                                                        {% if key != 'number' %}
+                                                            <b> {{ key }}: </b><br>
+                                                            {% for dead_block in value %}
+                                                                <pre class="blocks">
+                                                                    {{ dead_block }}
+                                                                </pre>
+                                                            {% endfor %}
+                                                            <br>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                                {% if deadCode.number == 0 %}
+                                                    {% trans 'Your project does not have dead code, good job!' %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% if refactor.refactor_list %}
+                                        <button type="button" class="btn btn-primary" onclick="modalContentChange('duplicated-scripts-content-r')" style="margin-bottom: 2%;">
+                                            {% trans 'Display all duplicates' %}
+                                        </button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="improve">
+                        <div class="panel panel-success" id="improve">
+                            <div id="stepfour">
+                                <div class="panel-heading" >
+                                    <h2 id="score" class="panel-title dark-text">
+                                        {% trans "Project certificate"%}
+                                        <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Certificate of the Evaluation of your Scratch Project' %}"></i>
+                                    </h2>
+                                </div>
+                                <div class="panel-success" style="word-break: break-word;" >
+                                    <h5>{{ filename }} <form name="form" class="project-form" enctype="multipart/form-data" method="post" action="/download_certificate">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="level" value="{{ mastery.points.0 }}/{{ mastery.points.1 }}">
+                                    <button value="{{ filename }}" name="filename" type="submit" id ="certificate" style="margin-top: 3%;">{% trans "Download" %}</button>
+                                    </form></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--
+                    <div class="improve">
+                        <div class="panel panel-success" id="improve">
+                            <div id="stepfour">
+                                <div class="panel-heading" >
+                                    <h2 id="score" class="panel-title dark-text">
+                                        {% trans "Compare project"%}
+                                        <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Certificate of the Evaluation of your Scratch Project' %}"></i>
+                                    </h2>
+                                </div>
+                                <div class="panel-success" style="word-break: break-word;" >
+                                    <form id="myForm" name="form" class="project-form" enctype="multipart/form-data" method="post" style="margin: 10px">
+                                        <input type="hidden" name="dashboard_mode" value="Default">
+                                        {% trans '<input name="urlProject" id="cf-name" class="form-control input-box placeholder" placeholder="http:/scratch.mit.edu/projects/your_number" type="text">' %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" style="width: 20px; height: 20px;">                                           
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                This project has the same functionality.
+                                            </label>
+                                        </div>
+                                        <button id="url" name="_url" type="submit" class="btn btn-primary standard-button">{% trans "Analyze by url" %}</button>
+                                        {% csrf_token %}
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    -->
+                    
+
+
+                    
+                    </section>
+                    
+                </section>
+
+                <div class="col-md-7">
+                    <section id="dashboard" style="padding-top: 3.5%;">
+                        <div class="container-fluid">
+                            <div class="row marketing">
+                                <div class="jumbotron">
+                                    <div class="table-responsive">
+                                        <div id="stepfive">
+                                            
+                                            <table class="table tablesorter">
+                                                <thead>
+                                                    <tr>
+                                                    <th>
+                                                        <h4>
+                                                            {% trans "Level up" %}
+                                                            <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Dimensions Evaluated in your Scratch Project' %}"></i>
+                                                        </h4>
+                                                    </th>
+                                                    <th class="col-md-5">
+                                                        <h4>
+                                                            {% trans "Level" %}
+                                                            <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Grade from 1 to 3 of each Dimension' %}"></i>
+                                                        </h4>
+                                                    </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                
+                                                
+                                                {% for key, value in mastery.items %}
+                                                
+                                                {% if forloop.counter0|divisibleby:1 %}<tr>{% endif %}
+                                                {% if key != "points" %}
+                                                {% if key != "competence" %}
+                
+                                                    <td style="text-align: left;">
+                                                        {% if value.0.0 == value.0.1 %}
+                                                        <span class="glyphicon glyphicon-star" id="star"></span>
+                                                        {% else %}
+                                                        <img src="/static/app/images/little_bulb.png" alt="">
+                                                        {% endif %}
+                                                        <a href="/learn/{{ value.1 }}/">{{ key }}</a>
+                                                    </td>
+                                                    <td id="{{ value.1 }}">
+                                                        {% if value.0.0 == 0 %}
+                                                            <div class="progress">
+                                                                <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="{{ value.0.1 }}" style="width: 0%">
+                                                                    <span style="color: grey;"><strong>{{ value.0.0 }}/{{ value.0.1 }}</strong></span>
+                                                                </div>
+                                                            </div>
+                                                        {% else %}
+                                                            <div class="progress">
+                                                                <div id="progressBar" class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="{{ value.0.0 }}" aria-valuemin="0" aria-valuemax="{{ value.0.1 }}" style="width: {% widthratio value.0.0 value.0.1 100 %}%">
+                                                                    <span><strong>
+                                                                        {% if value.0.0|floatformat:"-1" == value.0.0|floatformat:"0" %}
+                                                                            {{ value.0.0|floatformat:"0" }}
+                                                                        {% else %}
+                                                                            {{ value.0.0 }}
+                                                                        {% endif %}
+                                                                        /
+                                                                        {% if value.0.1|floatformat:"-1" == value.0.1|floatformat:"0" %}
+                                                                            {{ value.0.1|floatformat:"0" }}
+                                                                        {% else %}
+                                                                            {{ value.0.1 }}
+                                                                        {% endif %}
+                                                                    </strong></span>
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        {% endif %}
+                                                    </td>
+                            
+                                                {% endif %}
+                                                {% endif %}
+                                                {% if forloop.counter|divisibleby:1 or forloop.last %}
+                                                </tr>
+                                                {% endif %}
+                                                {% endfor %}
+
+                                                
+                                                
+                                                </tbody>
+                                                </table>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+        </div>
+
+        
+        
+
+        <!-- MODAL -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+                <div class="modal-content" id="modalContentChange"></div>
+            </div>
+        </div>
+
+        <div id="duplicated-scripts-content-r" style="display: none;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{% trans 'Duplicates' %}</h5>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    {% if duplicateScript.number == 0 %}
+                        <p> {% trans 'Your project does not have duplicated scripts, good job!' %}
+                    {% else %}
+                        <div class="card" id="refactorization">
+                            {% for refactor_dict in refactor.refactor_list %}
+                            <p>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#originalCollapse{{ forloop.counter }}" aria-expanded="false" aria-controls="originalCollapse{{ forloop.counter }}">
+                                        {% trans 'Display Original Blocks!' %}
+                                    </button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#refactoredCollapse{{ forloop.counter }}" aria-expanded="false" aria-controls="refactoredCollapse{{ forloop.counter }}">
+                                        {% trans 'Display Solution!' %}
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="collapse" id="originalCollapse{{ forloop.counter }}" data-bs-parent="#refactorization">
+                                        <div class="card card-body">
+                                            <pre class="blocks">
+                                                {{ refactor_dict.original }}
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="collapse" id="refactoredCollapse{{ forloop.counter }}" data-bs-parent="#refactorization">
+                                        <div class="card card-body">
+                                            <pre class="blocks">
+                                                {{ refactor_dict.refactored }}
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans 'Close' %}</button>
+            </div>
+        </div>
+
+        <div id="sprite-naming-content-r" style="display: none;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{% trans 'Sprite Naming' %}</h5>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    {% if spriteNaming.number == 0 %}
+                        <p> {% trans 'Your project does not have default sprite naming, good job!' %}
+                    {% else %}
+                        <div class="card" id="refactorization">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#originalCollapse" aria-expanded="false" aria-controls="originalCollapse">
+                                        {% trans 'Display Original Names!' %}
+                                    </button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#refactoredCollapse" aria-expanded="false" aria-controls="refactoredCollapse">
+                                        {% trans 'Display Solution!' %}
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="collapse" id="originalCollapse" data-bs-parent="#refactorization">
+                                        <div class="card card-body">
+                                            {% for value in spriteNaming.sprite %}
+                                                <p> {{ value }} </p>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="collapse" id="refactoredCollapse" data-bs-parent="#refactorization">
+                                        <div class="card card-body">
+                                            <p> {% trans 'Try to name them more according to the Function they make' %} </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans 'Close' %}</button>
+            </div>
+        </div>
+
+        <div id="backdrop-naming-content-r" style="display: none;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{% trans 'Backdrop Naming' %}</h5>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    {% if backdropNaming.number == 0 %}
+                        <p> {% trans 'Your project does not have default backdrop naming, good job!' %}
+                    {% else %}
+                        <div class="card" id="refactorization">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#originalCollapse" aria-expanded="false" aria-controls="originalCollapse">
+                                        {% trans 'Display Original Names!' %}
+                                    </button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#refactoredCollapse" aria-expanded="false" aria-controls="refactoredCollapse">
+                                        {% trans 'Display Solution!' %}
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="collapse" id="originalCollapse" data-bs-parent="#refactorization">
+                                        <div class="card card-body">
+                                            {% for value in backdropNaming.backdrop %}
+                                                <p> {{ value }} </p>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="collapse" id="refactoredCollapse" data-bs-parent="#refactorization">
+                                        <div class="card card-body">
+                                            <p> {% trans 'Try to name them more according to the Function they make' %} </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans 'Close' %}</button>
+            </div>
+        </div>
+
+        <div id="dead-code-content-r" style="display: none;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{% trans 'Dead Code' %}</h5>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    {% if deadCode.number == 0 %}
+                        <p> {% trans 'Your project does not have dead code, good job!' %}
+                    {% else %}
+                        <div class="card" id="refactorization">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#originalCollapse" aria-expanded="false" aria-controls="originalCollapse">
+                                        {% trans 'Display Original Blocks!' %}
+                                    </button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#refactoredCollapse" aria-expanded="false" aria-controls="refactoredCollapse">
+                                        {% trans 'Display Solution!' %}
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="collapse" id="originalCollapse" data-bs-parent="#refactorization">
+                                        <div class="card card-body">
+                                            {% for key, value in deadCode.items %}
+                                                {% if key != 'deadCode' %}
+                                                    {% if key != 'number' %}
+                                                        <p> {{ key }}: </p>
+                                                        {% for dead_block in value %}
+                                                            <pre class="blocks">
+                                                                <p> {{ dead_block }} </p>
+                                                            </pre>
+                                                        {% endfor %}
+                                                    {% endif%}
+                                                {% endif%}
+                                            {% endfor%}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="collapse" id="refactoredCollapse" data-bs-parent="#refactorization">
+                                        <div class="card card-body">
+                                            <p>
+                                                {% trans 'Erase them in order to have a cleaner Code' %}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans 'Close' %}</button>
+            </div>
+        </div>
+        <br></br>
+        <script>
+            function openMode(evt, ModeName) {
+                // Declare all variables
+                var i, tabcontent, tablinks;
+                
+                // Get all elements with class="tabcontent" and hide them
+                tabcontent = document.getElementsByClassName("tabcontent");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+                
+                // Get all elements with class="tablinks" and remove the class "active"
+                tablinks = document.getElementsByClassName("tablinks");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].className = tablinks[i].className.replace(" active", "");
+                }
+                
+                // Show the current tab, and add an "active" class to the button that opened the tab
+                document.getElementById(ModeName ).style.display = "block";
+                evt.currentTarget.className += " active";
+            }
+        </script>
+
+        <script>
+            // Show the Vanilla mode by default
+            document.getElementById("Vanilla").style.display = "block";
+            // Hide the others content
+            document.getElementById("Rethinking").style.display = "none";
+            document.getElementById("Extended").style.display = "none";
+        </script>
 
 {% endblock %}
