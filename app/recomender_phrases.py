@@ -28,6 +28,13 @@ class LanguageManager:
                 "Estás haciendo un trabajo fantástico, es maravilloso, pero mis habilidades de gato han detectado un ratón cerca, o tal vez sea que",
                 "Tu esfuerzo es sobresaliente, es fascinante, pero mis instintos felinos han identificado que alguien está guardando secretos en la caja de arena, o tal vez sea que",
             ]
+        elif self.curr_lan == 'eu':
+            return [
+                "Oso lan ona egiten ari zara, zoragarria da, baina nire katu-usaina detektatu du",
+                "Oso ona lan egiten ari zara, oso harro, baina nire katu-usaina detektatu du norbait nire atuna jaten duela, edo agian",
+                "Lan bikaina egiten ari zara, zoragarria da, baina nire katu-gaitasunek sagu bat hurbildu dutela detektatu dute, edo agian",
+                "Zure ahalegina bikaina da, zaigetsua da, baina nire katu-garunek sekretuak gordetzen ari direla identifikatu dute, edo agian",
+            ]
         elif self.curr_lan == 'gl':
             return [
                 "Estás a facer un traballo moi bo, é incrible, pero o meu sentido do olfato felino detectou que",
@@ -82,6 +89,14 @@ class LanguageManager:
                 "\n¡Estoy seguro de que tu proyecto será un gran éxito! :)",
                 "\nNo te rindas, ¡cada esfuerzo te acerca más a tu objetivo! :)",
                 "\nConfío en tus habilidades, ¡mejorarás tu proyecto! :)",
+            ]
+        elif self.curr_lan == 'eu':
+            return [
+                "\nZorte ona zure proiektua hobetzean, lortu dezakezu! :)",
+                "\nJarraitu zure proiektuarekin, oso ona lan egiten ari zara! :)",
+                "\nZiur nago zure proiektua arrakasta handia izango dela! :)",
+                "\nEz utzi, erabat esfortzu guztiak helburua hurbiltzen zaituzte! :)",
+                "\nZure gaitasunetan sinetsi, zure proiektua hobetuko duzu! :)",
             ]
         elif self.curr_lan == 'gl':
             return [
@@ -151,6 +166,14 @@ class LanguageManager:
                 "\nEXPLICACIÓN:\nPiensa en los scripts duplicados como escribir las mismas instrucciones para diferentes tareas. Si necesitas actualizar las instrucciones, debes reescribirlas para cada tarea, lo cual es ineficiente. En su lugar, escribe un único conjunto de instrucciones y refiérete a ellas según sea necesario.",
                 "\nEXPLICACIÓN:\nLos scripts duplicados son como pintar varias paredes del mismo color pero con diferentes marcas de pintura. Si decides cambiar el color, necesitas repintar cada pared por separado. Usar una pintura consistente permite cambios y mantenimiento más fáciles.",
             ]
+        elif self.curr_lan == 'eu':
+            return [
+                "\nAZALPENA:\nIruditu zaizu proiektu batean bi script izatea, bloke berdinak baina parametro edo balio ezberdinez osatuak. Zer gertatuko litzateke aldaketa txiki bat egin behar badugu? Bi script horiek aldatu beharko genituzke, eta kodearen mantentzea konplikatzen du hori. Horrelako egoeretan, programatzaileak modu egokiena da bloke pertsonalizatu bat sortzea, hau da, jatorrizko jarrera definitzen duena, eta beharrezkoa denean bloke berri hori erabili.",
+                "\nAZALPENA:\nScript bikoitza izateak errezeta bera hainbat kopia izatearen antzekoa da, ingredienteen txikiko aldaerak badaude. Ingrediente bat aldatzen baduzu, kopi guztiak eguneratu behar dituzu, eta hori nahiko galtzailea da. Badago, sortu errezepta nagusia eta erreferentzia egin behar duzu beharrezkoa den lekuan.",
+                "\nAZALPENA:\nScript bikoitzak izateak besteak beste, bitxikeria askorekin eguneratzeko premia dagoen tresna bera duzula ikusten da. Batzuk apurtzen badira edo egokitzeko behar izango dituzu bakoitzeko. Harreman onena, tresna bakarra izan behar da ezarpen egokitagarriekin.",
+                "\nAZALPENA:\nPentsatu script bikoitzak tresnetan erabiltzea eta horien legeak eta tarea ezberdinetarako berbera. Aginduak eguneratu behar badituzu, bakoitza berriro idatzi behar duzu, eta hori ez da eraginkorra. Horren ordez, idatzi agindu bakarra eta erreferentziatu behar duzu beharrezkoa den moduan.",
+                "\nAZALPENA:\nScript bikoitzak paretak berdin kolorez margotzea da, baina kolore ezberdinak erabili. Kolorea aldatzea erabakitzen baduzu, paretak banan banan margotu behar dituzu. Kolore konstantea erabiltzeak eguneraketa eta mantentze errazagoak egiten ditu.",
+            ]
         elif self.curr_lan == 'gl':
             return [
                 "\nEXPLICACIÓN:\nImaxina que nun proxecto temos dous scripts compostos polos mesmos bloques pero con diferentes parámetros ou valores. Que pasa se precisamos facer un pequeno cambio? Teríamos que modificar ambos scripts, o que complica o mantemento do código. Nestas situacións, é máis apropiado que o programador cree un bloque personalizado que defina este comportamento e use este novo bloque onde sexa necesario.",
@@ -218,6 +241,14 @@ class LanguageManager:
                 "\nEXPLICACIÓN:\nEl código muerto es como tener papeles viejos en tu escritorio: te distraen y hacen que sea difícil encontrar lo que necesitas. Al deshacerte de ellos, trabajarás mejor.",
                 "\nEXPLICACIÓN:\nEl código muerto es como tener ropa que ya no usas en tu armario: solo ocupa espacio y hace que todo se vea desordenado. Al eliminarla, todo es más fácil de manejar.",
                 "\nEXPLICACIÓN:\nEl código muerto es como tener basura en tu mochila: es inútil y solo estorba. Al limpiarla, encuentras todo más rápido y es más fácil de usar.",
+            ]
+        elif self.curr_lan == 'eu':
+            return [
+                "\nAZALPENA:\nKodea hildako kodea dela esan daiteke, erabiltzen ez diren blokeak lurpean balean dituzula: guztia zikinagoa eta ulertzeko zailagoa egiten du. Kode hau kenduz gero, zure proiektua garbiagoa izango da, ulertzeko eta ondo funtzionatzeko errazagoa.",
+                "\nAZALPENA:\nHildako kodea izateak zure gela jostailu hondakinak izatea da: gauza gabekoak dira eta espazioa bakarrik hartzen dute. Haiek kenduz gero, guztia antolatuta egongo da.",
+                "\nAZALPENA:\nHildako kodea izateak zure idazmahai zaharrez hitz egitea da: zure arreta desbideratzen eta beharrezkoa dena aurkitzea zailtzen du. Hauekin amaituz gero, hobe lana egingo duzu.",
+                "\nAZALPENA:\nKode hildakoa izateak zure armarian ez duzun arropa izatea da: espazioa hartzen du eta guztia zikinagoa ikusten du. Hauek kentzen badituzu, guztia kudeatzeko errazagoa da.",
+                "\nAZALPENA:\nKode hildakoa zure poltsan zabor izatea da: erabili ezin daiteke eta soilik oztopatzen du. Garbi egiten baduzu, azkar aurkitzen duzu eta erabiltzea errazten da.",
             ]
         elif self.curr_lan == 'gl':
             return [
@@ -287,6 +318,14 @@ class LanguageManager:
                 "\nEXPLICACIÓN:\nNombrar sprites es como nombrar instrumentos en una orquesta: asegura que cada parte juegue su papel previsto de manera armoniosa. La claridad en los nombres mejora la gestión y el desarrollo del proyecto.",
                 "\nEXPLICACIÓN:\nConsidera el nombramiento de sprites como etiquetar ingredientes en una receta: hace que ensamblar tu proyecto sea más eficiente y menos confuso. Nombres claros agilizan la colaboración y la resolución de problemas.",
             ]
+        elif self.curr_lan == 'eu':
+            return [
+                "\nAZALPENA:\nSprite-ek izen garrantzitsuak ematea tresnak etiketatzea bezala da: beharrezkoa dena azkar aurkitzean laguntzen du. Izen argiak egiten dute zure proiektua ulertzeko eta nabigatzeko errazagoa.",
+                "\nAZALPENA:\nSprite-ak izendatzea ipuin batean pertsonaiak izendatzea bezala da: identitatea ematen die eta interakzioak argiagoak egiten ditu. Izen onak hobetzen dute zure proiektuaren irakurketa.",
+                "\nAZALPENA:\nSprite-ak izendatzea antzezlan batean rolen banaketa bezala da: izena bakoitzak spritearen helburua adierazi behar du. Antolaketa hau proiektuaren egitura eta ulermena hobetzen du.",
+                "\nAZALPENA:\nSprite-ak izendatzea orkestrako tresnak izendatzea bezala da: partea bakoitza bere papera armonikoki jokatzea bermatzen du. Izenetan argitasuna proiektuaren kudeaketa eta garapena hobetzen du.",
+                "\nAZALPENA:\nSprite-en izendatzea errezeta batean ingredienteen etiketatzea bezala da: proiektua muntatzea eraginkorragoa eta ez-konplexua egiten du. Izen argiak lankidetza eta arazoen ebazpena arindu egiten du.",
+            ]
         elif self.curr_lan == 'gl':
             return [
                 "\nEXPLICACIÓN:\nDar nomes significativos aos sprites é como etiquetar os obxectos na túa caixa de ferramentas: axúdate a atopar rapidamente o que necesitas. Nomes claros fan que o teu proxecto sexa máis doado de entender e navegar.",
@@ -354,6 +393,14 @@ class LanguageManager:
                 "\nEXPLICACIÓN:\nPiensa en nombrar fondos como designar ubicaciones en un mapa: cada nombre debe indicar claramente su propósito. Esto mejora la estructura general y facilita la comprensión del proyecto.",
                 "\nEXPLICACIÓN:\nNombrar fondos es como poner letreros en un parque temático: asegura que cada área esté bien identificada y que los visitantes no se pierdan. La claridad en los nombres mejora la gestión del proyecto y la experiencia del usuario.",
                 "\nEXPLICACIÓN:\nConsidera nombrar fondos como etiquetar las diferentes secciones de una revista: hace que navegar por tu proyecto sea más eficiente y menos confuso. Nombres claros agilizan la colaboración y la resolución de problemas.",
+            ]
+        elif self.curr_lan == 'eu':
+            return [
+                "\nAZALPENA:\nFondoak izen garrantzitsuak ematea etxea oinarrizko atez ate etiketatzea bezala da: laguntzen dizu ambiente bakoitzari azkar identifikatzeko. Izen argiak egiten dute zure proiektua antolatzeko eta nabigatzeko errazagoa.",
+                "\nAZALPENA:\nFondoak izendatzea film baten zenaletasunak izendatzea bezala da: testuinguru ematen du eta ipuinaren aurrerapenaren ulermena hobetzen du. Izen egokiak zure proiektua nahiagoa egiten du.",
+                "\nAZALPENA:\nPentsatu fondoen izendatzea mapan kokapenak izendatzea bezala: izen bakoitza bere helburua argi adierazi behar du. Hau proiektuaren egitura orokorra hobetzen du eta ulermena errazten du.",
+                "\nAZALPENA:\nFondoak izendatzea parke tematiko baten seinaleak jartzea bezala da: edozein eremua ondo identifikatuta egon behar du eta bisitalariak ez galdu. Izenetan argitasuna proiektuaren kudeaketa eta erabiltzaileen esperientzia hobetzen du.",
+                "\nAZALPENA:\nFondoak izendatzea aldizkari baten atalak etiketatzea bezala da: zure proiektuan nabigatzea eraginkorragoa eta ez-konplexua egiten du. Izen argiak lankidetza eta arazoen ebazpena arindu egiten du.",
             ]
         elif self.curr_lan == 'gl':
             return [
@@ -443,6 +490,25 @@ class LanguageManager:
                 'Duplicates': {
                     'fail': "Oooops, parece que no has resuelto el problema con el código duplicado, pero no te preocupes, vamos a revisar cómo podríamos resolverlo de nuevo,",
                     'success': "¡YEAHH, HAS RESUELTO EL PROBLEMA CON EL CÓDIGO DUPLICADO, esa es una noticia genial! ¿Te parece bien si seguimos mejorando el proyecto?",
+                }
+            }
+        elif self.curr_lan == 'eu':
+            return {
+                'Backdrops': {
+                    'fail': "Oooops, dirudienez ez duzu fondoen izendapen arazoa konpondu, baina ez kezkatu, berriro konpon dezakegu,",
+                    'success': "¡YEAHH, FONDOEN IZENDAPEN ARAZOA KONPONDU DUZU, berri ona da hau! Segitzen ari garen proiektua hobetzen jarraitzea ondo dago?",
+                },
+                'Sprites': {
+                    'fail': "Oooops, dirudienez ez duzu sprite-en izendapen arazoa konpondu, baina ez kezkatu, berriro konpon dezakegu,",
+                    'success': "¡YEAHH, SPRITE-EN IZENDAPEN ARAZOA KONPONDU DUZU, berri ona da hau! Segitzen ari garen proiektua hobetzen jarraitzea ondo dago?",
+                },
+                'deadCode': {
+                    'fail': "Oooops, dirudienez ez duzu kode hil arazoa konpondu, baina ez kezkatu, berriro konpon dezakegu,",
+                    'success': "¡YEAHH, KODE HIL ARAZOA KONPONDU DUZU, berri ona da hau! Segitzen ari garen proiektua hobetzen jarraitzea ondo dago?",
+                },
+                'Duplicates': {
+                    'fail': "Oooops, dirudienez ez duzu kode bikoitza arazoa konpondu, baina ez kezkatu, berriro konpon dezakegu,",
+                    'success': "¡YEAHH, KODE BIKOITZA ARAZOA KONPONDU DUZU, berri ona da hau! Segitzen ari garen proiektua hobetzen jarraitzea ondo dago?",
                 }
             }
         elif self.curr_lan == 'gl':
