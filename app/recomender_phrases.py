@@ -28,6 +28,20 @@ class LanguageManager:
                 "Estás haciendo un trabajo fantástico, es maravilloso, pero mis habilidades de gato han detectado un ratón cerca, o tal vez sea que",
                 "Tu esfuerzo es sobresaliente, es fascinante, pero mis instintos felinos han identificado que alguien está guardando secretos en la caja de arena, o tal vez sea que",
             ]
+        elif self.curr_lan == 'gl':
+            return [
+                "Estás a facer un traballo moi bo, é incrible, pero o meu sentido do olfato felino detectou que",
+                "Estás a facer un traballo excelente, é impresionante, pero o meu sentido do olfato felino detectou que alguén comeu o meu atún, ou talvez sexa que",
+                "Estás a facer un traballo fantástico, é marabilloso, pero as miñas habilidades de gato detectaron un rato moi preto, ou talvez sexa que",
+                "O teu esforzo é sobresaínte, é fascinante, pero os meus instintos felinos identificaron que alguén está a gardar segredos na caixa de area, ou talvez sexa que",
+            ]
+        elif self.curr_lan == 'el':
+            return [
+                "Κάνεις εξαιρετική δουλειά, είναι εντυπωσιακό, αλλά ο γατίσιος μου ένστικτος μύρισε ότι",
+                "Κάνεις εξαιρετική δουλειά, είναι καταπληκτικό, αλλά ο γατίσιος μου ένστικτος μύρισε ότι κάποιος έφαγε το τόνο μου, ή ίσως",
+                "Κάνεις φανταστική δουλειά, είναι υπέροχο, αλλά οι γατίσιες μου ικανότητες εντόπισαν ένα ποντίκι κοντά, ή ίσως",
+                "Η προσπάθειά σου είναι εξαιρετική, είναι συναρπαστικό, αλλά οι γατίσιες μου αντιδράσεις ανιχνεύουν ότι κάποιος κρύβει μυστικά στο κατσικούδι, ή ίσως"
+            ]
         elif self.curr_lan == 'it':
             return [
                 "Stai facendo un ottimo lavoro, è incredibile, ma il mio senso dell'olfatto felino ha rilevato che",
@@ -68,6 +82,22 @@ class LanguageManager:
                 "\n¡Estoy seguro de que tu proyecto será un gran éxito! :)",
                 "\nNo te rindas, ¡cada esfuerzo te acerca más a tu objetivo! :)",
                 "\nConfío en tus habilidades, ¡mejorarás tu proyecto! :)",
+            ]
+        elif self.curr_lan == 'gl':
+            return [
+                "\nBoa sorte mellorando o teu proxecto, podes facelo! :)",
+                "\nAdiante co teu proxecto, estás a facer un gran traballo! :)",
+                "\nEstou seguro de que o teu proxecto será un gran éxito! :)",
+                "\nNon te rendas, cada esforzo achégache máis ao teu obxectivo! :)",
+                "\nConfío nas túas habilidades, mellorarás o teu proxecto! :)",
+            ]
+        elif self.curr_lan == 'el':
+            return [
+                "\nΚαλή τύχη στη βελτίωση του έργου σου, μπορείς να τα καταφέρεις! :)",
+                "\nΣυνέχισε με το έργο σου, κάνεις εξαιρετική δουλειά! :)",
+                "\nΕίμαι σίγουρος ότι το έργο σου θα είναι μεγάλη επιτυχία! :)",
+                "\nΜην τα παρατάς, κάθε προσπάθεια σε φέρνει πιο κοντά στον στόχο σου! :)",
+                "\nΈχω εμπιστοσύνη στις ικανότητές σου, θα βελτιώσεις το έργο σου! :)",
             ]
         elif self.curr_lan == 'pt':
             return [
@@ -121,6 +151,22 @@ class LanguageManager:
                 "\nEXPLICACIÓN:\nPiensa en los scripts duplicados como escribir las mismas instrucciones para diferentes tareas. Si necesitas actualizar las instrucciones, debes reescribirlas para cada tarea, lo cual es ineficiente. En su lugar, escribe un único conjunto de instrucciones y refiérete a ellas según sea necesario.",
                 "\nEXPLICACIÓN:\nLos scripts duplicados son como pintar varias paredes del mismo color pero con diferentes marcas de pintura. Si decides cambiar el color, necesitas repintar cada pared por separado. Usar una pintura consistente permite cambios y mantenimiento más fáciles.",
             ]
+        elif self.curr_lan == 'gl':
+            return [
+                "\nEXPLICACIÓN:\nImaxina que nun proxecto temos dous scripts compostos polos mesmos bloques pero con diferentes parámetros ou valores. Que pasa se precisamos facer un pequeno cambio? Teríamos que modificar ambos scripts, o que complica o mantemento do código. Nestas situacións, é máis apropiado que o programador cree un bloque personalizado que defina este comportamento e use este novo bloque onde sexa necesario.",
+                "\nEXPLICACIÓN:\nOs scripts duplicados son como ter múltiples copias da mesma receita con pequenas variacións nos ingredientes. Se cambias un ingrediente, tes que actualizar todas as copias, o que é engorroso. En lugar diso, crea unha receita mestra e refírete a ela onde sexa necesario.",
+                "\nEXPLICACIÓN:\nTer scripts duplicados é como ter varias ferramentas idénticas na túa caixa de ferramentas con pequenas diferenzas. Se unha se rompe ou necesita axuste, debes arranxar cada unha individualmente. Unha mellor aproximación é ter unha única ferramenta con configuracións axustables.",
+                "\nEXPLICACIÓN:\nPensa nos scripts duplicados como escribir as mesmas instrucións para diferentes tarefas. Se necesitas actualizar as instrucións, debes reescribilas para cada tarefa, o que é ineficiente. En lugar diso, escribe un único conxunto de instrucións e refírete a elas segundo sexa necesario.",
+                "\nEXPLICACIÓN:\nOs scripts duplicados son como pintar varias paredes da mesma cor pero con diferentes marcas de pintura. Se decides cambiar a cor, necesitas repintar cada parede por separado. Usar unha pintura consistente permite cambios e mantemento máis sinxelos.",
+            ]
+        elif self.curr_lan == 'el':
+            return [
+                "\nΕΡΜΗΝΕΙΑ:\nΦαντάσου ότι σε ένα έργο έχουμε δύο σενάρια που αποτελούνται από τα ίδια τμήματα αλλά με διαφορετικές παραμέτρους ή τιμές. Τι συμβαίνει αν χρειαστεί να κάνουμε ένα μικρό αλλαγή; Θα έπρεπε να τροποποιήσουμε και τα δύο σενάρια, κάτι που δυσκολεύει τη συντήρηση του κώδικα. Σε τέτοιες καταστάσεις, είναι πιο κατάλληλο για τον προγραμματιστή να δημιουργήσει έναν προσαρμοσμένο τεμαχισμό που να ορίζει αυτή τη συμπεριφορά και να χρησιμοποιεί αυτόν τον νέο τεμαχισμό όπου απαιτείται.",
+                "\nΕΡΜΗΝΕΙΑ:\nΤα διπλασιασμένα σενάρια είναι σαν να έχεις πολλαπλές αντίγραφα της ίδιας συνταγής με μικρές παραλλαγές στα συστατικά. Αν αλλάξεις ένα συστατικό, πρέπει να ενημερώσεις όλα τα αντίγραφα, που είναι ενοχλητικό. Αντί γι' αυτό, δημιούργησε μια μητρική συνταγή και αναφέρσου σε αυτήν όπου χρειάζεται.",
+                "\nΕΡΜΗΝΕΙΑ:\nΝα έχεις διπλασιασμένα σενάρια είναι σαν να έχεις διάφορα αντίγραφα του ίδιου εργαλείου στο εργαλειοθήκη σου με μικρές διαφορές. Αν ένα χαλάσει ή χρειαστεί προσαρμογή, πρέπει να επιδιορθώσεις κάθε ένα ξεχωριστά. Ένα καλύτερο προσέγγιση είναι να έχεις ένα μοναδικό εργαλείο με ρυθμίσεις που μπορούν να προσαρμοστούν.",
+                "\nΕΡΜΗΝΕΙΑ:\nΣκέψου τα διπλασιασμένα σενάρια ως το να γράφεις τις ίδιες οδηγίες για διαφορετικές εργασίες. Αν χρειαστεί να ενημερώσεις τις οδηγίες, πρέπει να τις ξαναγράψεις για κάθε εργασία, που είναι ανεπιτυχές. Αντί γι' αυτό, γράψε ένα μοναδικό σύνολο οδηγιών και αναφέρσου σε αυτές όπως χρειάζεται.",
+                "\nΕΡΜΗΝΕΙΑ:\nΤα διπλασιασμένα σενάρια είναι σαν να βάφεις πολλούς τοίχους με το ίδιο χρώμα αλλά με διαφορετικές μάρκες χρώματος. Αν αποφασίσεις να αλλάξεις το χρώμα, πρέπει να ξαναβάψεις κάθε τοίχο ξεχωριστά. Χρησιμοποίησε ένα συνεπές χρώμα επιτρέπει ευκολότερες αλλαγές και συντήρηση.",
+            ]
         elif self.curr_lan == 'pt':
             return [
                 "\nEXPLICAÇÃO:\nImagine que em um projeto temos dois scripts compostos pelos mesmos blocos, mas com diferentes parâmetros ou valores. E se precisarmos fazer uma pequena alteração? Teríamos que modificar ambos os scripts, o que complica a manutenção do código. Nessas situações, é mais apropriado para o programador criar um bloco personalizado que defina esse comportamento e utilizar esse novo bloco onde for necessário.",
@@ -172,6 +218,22 @@ class LanguageManager:
                 "\nEXPLICACIÓN:\nEl código muerto es como tener papeles viejos en tu escritorio: te distraen y hacen que sea difícil encontrar lo que necesitas. Al deshacerte de ellos, trabajarás mejor.",
                 "\nEXPLICACIÓN:\nEl código muerto es como tener ropa que ya no usas en tu armario: solo ocupa espacio y hace que todo se vea desordenado. Al eliminarla, todo es más fácil de manejar.",
                 "\nEXPLICACIÓN:\nEl código muerto es como tener basura en tu mochila: es inútil y solo estorba. Al limpiarla, encuentras todo más rápido y es más fácil de usar.",
+            ]
+        elif self.curr_lan == 'gl':
+            return [
+                "\nEXPLICACIÓN:\nO código morto é como ter bloques non utilizados esparexidos polo chan: fai que todo sexa máis desordenado e difícil de entender. Ao eliminarlo, o teu proxecto estará máis limpo, será máis doado de entender e funcionará mellor.",
+                "\nEXPLICACIÓN:\nTer código morto é como ter xoguetes rotos na túa habitación: son inútiles e só ocupan espazo. Ao eliminálos, todo estará máis organizado.",
+                "\nEXPLICACIÓN:\nO código morto é como ter papeis vellos no teu escritorio: distraenche e fan que sexa difícil atopar o que necesitas. Ao desfacerte deles, traballarás mellor.",
+                "\nEXPLICACIÓN:\nO código morto é como ter roupa que xa non usas no teu armario: só ocupa espazo e fai que todo pareza desordenado. Ao eliminála, todo é máis doado de manexar.",
+                "\nEXPLICACIÓN:\nO código morto é como ter lixo na túa mochila: é inútil e só molesta. Ao limparla, atopas todo máis rápido e é máis doado de usar.",
+            ]
+        elif self.curr_lan == 'el':
+            return [
+                "\nΕΡΜΗΝΕΙΑ:\nΟ νεκρός κώδικας είναι σαν να έχεις αχρησιμοποίητα τμήματα διάσπαρτα στο πάτωμα: κάνει τα πράγματα πιο ατακτοποίητα και δυσκολότερα στην κατανόηση. Απομακρύνοντάς το, το έργο σου θα είναι πιο καθαρό, ευκολότερο να κατανοηθεί και να λειτουργήσει καλύτερα.",
+                "\nΕΡΜΗΝΕΙΑ:\nΟ νεκρός κώδικας είναι σαν να έχεις σπασμένα παιχνίδια στο δωμάτιό σου: είναι άχρηστα και απλώς πιάνουν χώρο. Με την αφαίρεσή τους, όλα γίνονται πιο οργανωμένα.",
+                "\nΕΡΜΗΝΕΙΑ:\nΟ νεκρός κώδικας είναι σαν να έχεις παλιά χαρτιά στο γραφείο σου: σε αποσπούν την προσοχή και κάνουν δύσκολο το να βρεις αυτό που χρειάζεσαι. Με την απομάκρυνσή τους, εργάζεσαι καλύτερα.",
+                "\nΕΡΜΗΝΕΙΑ:\nΟ νεκρός κώδικας είναι σαν να έχεις ρούχα που δεν φοράς πια στη ντουλάπα σου: απλώς πιάνουν χώρο και κάνουν όλα να φαίνονται ατακτοποίητα. Με την απομάκρυνσή τους, όλα είναι πιο εύκολα στη διαχείριση.",
+                "\nΕΡΜΗΝΕΙΑ:\nΟ νεκρός κώδικας είναι σαν να έχεις σκουπίδια στο σακίδιό σου: είναι άχρηστα και απλώς εμποδίζουν. Καθαρίζοντάς το, βρίσκεις όλα πιο γρήγορα και τα χρησιμοποιείς ευκολότερα.",
             ]
         elif self.curr_lan == 'pt':
             return [
@@ -225,6 +287,22 @@ class LanguageManager:
                 "\nEXPLICACIÓN:\nNombrar sprites es como nombrar instrumentos en una orquesta: asegura que cada parte juegue su papel previsto de manera armoniosa. La claridad en los nombres mejora la gestión y el desarrollo del proyecto.",
                 "\nEXPLICACIÓN:\nConsidera el nombramiento de sprites como etiquetar ingredientes en una receta: hace que ensamblar tu proyecto sea más eficiente y menos confuso. Nombres claros agilizan la colaboración y la resolución de problemas.",
             ]
+        elif self.curr_lan == 'gl':
+            return [
+                "\nEXPLICACIÓN:\nDar nomes significativos aos sprites é como etiquetar os obxectos na túa caixa de ferramentas: axúdate a atopar rapidamente o que necesitas. Nomes claros fan que o teu proxecto sexa máis doado de entender e navegar.",
+                "\nEXPLICACIÓN:\nNomear sprites é como nomear personaxes nunha historia: dálles identidade e fai que as interaccións sexan máis claras. Nomes ben elixidos melloran a legibilidade do teu proxecto.",
+                "\nEXPLICACIÓN:\nPensa en nomear sprites como asignar roles nunha obra de teatro: cada nome debe reflectir o propósito do sprite. Esta organización mellora a estrutura xeral e a comprensión do teu proxecto.",
+                "\nEXPLICACIÓN:\nNomear sprites é como nomear instrumentos nunha orquestra: asegura que cada parte xogue o seu papel previsto de maneira harmoniosa. A claridade nos nomes mellora a xestión e o desenvolvemento do proxecto.",
+                "\nEXPLICACIÓN:\nConsidera o nomeamento de sprites como etiquetar ingredientes nunha receita: fai que ensamblar o teu proxecto sexa máis eficiente e menos confuso. Nomes claros axilizan a colaboración e a resolución de problemas.",
+            ]
+        elif self.curr_lan == 'el':
+            return [
+                "\nΕΡΜΗΝΕΙΑ:\nΤο να δίνεις σημαντικά ονόματα στα sprites είναι σαν να ετικετάρεις τα αντικείμενα στο εργαλειοθήκη σου: σε βοηθά να βρίσκεις γρήγορα αυτό που χρειάζεσαι. Καθαρά ονόματα κάνουν το έργο σου πιο εύκολο στην κατανόηση και την πλοήγηση.",
+                "\nΕΡΜΗΝΕΙΑ:\nΤο να ονομάζεις τα sprites είναι σαν να ονομάζεις χαρακτήρες σε μια ιστορία: τους δίνει ταυτότητα και καθιστά τις αλληλεπιδράσεις πιο σαφείς. Καλώς επιλεγμένα ονόματα βελτιώνουν την αναγνωσιμότητα του έργου σου.",
+                "\nΕΡΜΗΝΕΙΑ:\nΣκέψου το να ονομάζεις τα sprites ως την ανάθεση ρόλων σε μια θεατρική παράσταση: κάθε όνομα πρέπει να αντικατοπτρίζει τον σκοπό του sprite. Αυτή η οργάνωση βελτιώνει την συνολική δομή και κατανόηση του έργου σου.",
+                "\nΕΡΜΗΝΕΙΑ:\nΤο να ονομάζεις τα sprites είναι σαν να ονομάζεις μουσικά όργανα σε ένα ορχηστρικό σύνολο: εξασφαλίζει ότι κάθε μέρος παίζει τον προβλεπόμενο ρόλο του με αρμονία. Η σαφήνεια στα ονόματα βελτιώνει τη διαχείριση και την ανάπτυξη του έργου.",
+                "\nΕΡΜΗΝΕΙΑ:\nΣκέψου το να ονομάζεις τα sprites ως το να ετικετάρεις τα συστατικά σε μια συνταγή: κάνει τη συναρμολόγηση του έργου σου πιο αποδοτική και λιγότερο μπερδεμένη. Καθαρά ονόματα επιταχύνουν τη συνεργασία και την επίλυση προβλημάτων.",
+            ]
         elif self.curr_lan == 'pt':
             return [
                 "\nEXPLICAÇÃO:\nDar nomes significativos aos sprites é como etiquetar os objetos na sua caixa de ferramentas: ajuda a encontrar rapidamente o que você precisa. Nomes claros tornam seu projeto mais fácil de entender e navegar.",
@@ -276,6 +354,22 @@ class LanguageManager:
                 "\nEXPLICACIÓN:\nPiensa en nombrar fondos como designar ubicaciones en un mapa: cada nombre debe indicar claramente su propósito. Esto mejora la estructura general y facilita la comprensión del proyecto.",
                 "\nEXPLICACIÓN:\nNombrar fondos es como poner letreros en un parque temático: asegura que cada área esté bien identificada y que los visitantes no se pierdan. La claridad en los nombres mejora la gestión del proyecto y la experiencia del usuario.",
                 "\nEXPLICACIÓN:\nConsidera nombrar fondos como etiquetar las diferentes secciones de una revista: hace que navegar por tu proyecto sea más eficiente y menos confuso. Nombres claros agilizan la colaboración y la resolución de problemas.",
+            ]
+        elif self.curr_lan == 'gl':
+            return [
+                "\nEXPLICACIÓN:\nDar nomes significativos aos fondos é como etiquetar as habitacións dunha casa: axúdate a identificar rapidamente cada entorno. Nomes claros fan que o teu proxecto sexa máis doado de organizar e navegar.",
+                "\nEXPLICACIÓN:\nNomear fondos é como titular as escenas dunha película: proporciona contexto e mellora a comprensión da progresión da historia. Nomes apropiados fan que o teu proxecto sexa máis intuitivo.",
+                "\nEXPLICACIÓN:\nPensa en nomear fondos como designar ubicacións nun mapa: cada nome debe indicar claramente o seu propósito. Isto mellora a estrutura xeral e facilita a comprensión do proxecto.",
+                "\nEXPLICACIÓN:\nNomear fondos é como poñer carteis nun parque temático: asegura que cada área estea ben identificada e que os visitantes non se perdan. A claridade nos nomes mellora a xestión do proxecto e a experiencia do usuario.",
+                "\nEXPLICACIÓN:\nConsidera nomear fondos como etiquetar as diferentes seccións dunha revista: fai que navegar polo teu proxecto sexa máis eficiente e menos confuso. Nomes claros axilizan a colaboración e a resolución de problemas.",
+            ]
+        elif self.curr_lan == 'el':
+            return [
+                "\nΕΡΜΗΝΕΙΑ:\nΤο να δίνεις σημαντικά ονόματα στα φόντα είναι σαν να ετικετάρεις τα δωμάτια σε ένα σπίτι: σε βοηθά να αναγνωρίζεις γρήγορα κάθε περιβάλλον. Καθαρά ονόματα κάνουν το έργο σου πιο εύκολο να οργανωθεί και να πλοηγηθεί.",
+                "\nΕΡΜΗΝΕΙΑ:\nΤο να ονομάζεις τα φόντα είναι σαν να δίνεις τίτλους στις σκηνές ενός φιλμ: παρέχει πλαίσιο και βελτιώνει την κατανόηση της προόδου της ιστορίας. Κατάλληλα ονόματα κάνουν το έργο σου πιο εύχρηστο.",
+                "\nΕΡΜΗΝΕΙΑ:\nΣκέψου το να ονομάζεις τα φόντα ως την ανάθεση τοποθεσιών σε ένα χάρτη: κάθε όνομα πρέπει να δείχνει καθαρά τον σκοπό του. Αυτό βελτιώνει τη συνολική δομή και διευκολύνει την κατανόηση του έργου.",
+                "\nΕΡΜΗΝΕΙΑ:\nΤο να ονομάζεις τα φόντα είναι σαν να βάζεις πινακίδες σε ένα θεματικό πάρκο: εξασφαλίζει ότι κάθε περιοχή είναι καλά αναγνωρισμένη και οι επισκέπτες δεν χάνονται. Η σαφήνεια στα ονόματα βελτιώνει τη διαχείριση του έργου και την εμπειρία του χρήστη.",
+                "\nΕΡΜΗΝΕΙΑ:\nΣκέψου το να ονομάζεις τα φόντα ως το να ετικετάρεις τις διαφορετικές ενότητες ενός περιοδικού: κάνει την πλοήγηση στο έργο σου πιο αποδοτική και λιγότερο μπερδεμένη. Καθαρά ονόματα επιταχύνουν τη συνεργασία και την επίλυση προβλημάτων.",
             ]
         elif self.curr_lan == 'pt':
             return [
@@ -349,6 +443,44 @@ class LanguageManager:
                 'Duplicates': {
                     'fail': "Oooops, parece que no has resuelto el problema con el código duplicado, pero no te preocupes, vamos a revisar cómo podríamos resolverlo de nuevo,",
                     'success': "¡YEAHH, HAS RESUELTO EL PROBLEMA CON EL CÓDIGO DUPLICADO, esa es una noticia genial! ¿Te parece bien si seguimos mejorando el proyecto?",
+                }
+            }
+        elif self.curr_lan == 'gl':
+            return {
+                'Backdrops': {
+                    'fail': "Oooops, parece que non resolviches o problema co nomeamento dos fondos, pero non te preocupes, imos revisar como poderiamos resolvelo de novo,",
+                    'success': "¡YEAHH, RESOLVESTES O PROBLEMA CO NOMEAMENTO DOS FONDOS, esa é unha gran nova! Pareceche ben se seguimos mellorando o proxecto?",
+                },
+                'Sprites': {
+                    'fail': "Oooops, parece que non resolviches o problema co nomeamento dos sprites, pero non te preocupes, imos revisar como poderiamos resolvelo de novo,",
+                    'success': "¡YEAHH, RESOLVESTES O PROBLEMA CO NOMEAMENTO DOS SPRITES, esa é unha gran nova! Pareceche ben se seguimos mellorando o proxecto?",
+                },
+                'deadCode': {
+                    'fail': "Oooops, parece que non resolviches o problema co código morto, pero non te preocupes, imos revisar como poderiamos resolvelo de novo,",
+                    'success': "¡YEAHH, RESOLVESTES O PROBLEMA CO CÓDIGO MORTO, esa é unha gran nova! Pareceche ben se seguimos mellorando o proxecto?",
+                },
+                'Duplicates': {
+                    'fail': "Oooops, parece que non resolviches o problema co código duplicado, pero non te preocupes, imos revisar como poderiamos resolvelo de novo,",
+                    'success': "¡YEAHH, RESOLVESTES O PROBLEMA CO CÓDIGO DUPLICADO, esa é unha gran nova! Pareceche ben se seguimos mellorando o proxecto?",
+                }
+            }
+        elif self.curr_lan == 'el':
+            return {
+                'Backdrops': {
+                    'fail': "Ούπς, φαίνεται ότι δεν έχεις λύσει το πρόβλημα με την ονομασία των φόντων, αλλά μην ανησυχείς, θα δούμε πώς μπορούμε να το επιλύσουμε ξανά,",
+                    'success': "ΝΑΙΙΙΙ, ΕΧΕΙΣ ΛΥΣΕΙ ΤΟ ΠΡΟΒΛΗΜΑ ΜΕ ΤΗΝ ΟΝΟΜΑΣΙΑ ΤΩΝ ΦΟΝΤΩΝ, αυτή είναι μια εξαιρετική είδηση! Θα συνεχίσουμε να βελτιώνουμε το έργο σου;",
+                },
+                'Sprites': {
+                    'fail': "Ούπς, φαίνεται ότι δεν έχεις λύσει το πρόβλημα με την ονομασία των sprites, αλλά μην ανησυχείς, θα δούμε πώς μπορούμε να το επιλύσουμε ξανά,",
+                    'success': "ΝΑΙΙΙΙ, ΕΧΕΙΣ ΛΥΣΕΙ ΤΟ ΠΡΟΒΛΗΜΑ ΜΕ ΤΗΝ ΟΝΟΜΑΣΙΑ ΤΩΝ SPRITES, αυτή είναι μια εξαιρετική είδηση! Θα συνεχίσουμε να βελτιώνουμε το έργο σου;",
+                },
+                'deadCode': {
+                    'fail': "Ούπς, φαίνεται ότι δεν έχεις λύσει το πρόβλημα με τον νεκρό κώδικα, αλλά μην ανησυχείς, θα δούμε πώς μπορούμε να το επιλύσουμε ξανά,",
+                    'success': "ΝΑΙΙΙΙ, ΕΧΕΙΣ ΛΥΣΕΙ ΤΟ ΠΡΟΒΛΗΜΑ ΜΕ ΤΟΝ ΝΕΚΡΟ ΚΩΔΙΚΑ, αυτή είναι μια εξαιρετική είδηση! Θα συνεχίσουμε να βελτιώνουμε το έργο σου;",
+                },
+                'Duplicates': {
+                    'fail': "Ούπς, φαίνεται ότι δεν έχεις λύσει το πρόβλημα με τον διπλό κώδικα, αλλά μην ανησυχείς, θα δούμε πώς μπορούμε να το επιλύσουμε ξανά,",
+                    'success': "ΝΑΙΙΙΙ, ΕΧΕΙΣ ΛΥΣΕΙ ΤΟ ΠΡΟΒΛΗΜΑ ΜΕ ΤΟΝ ΔΙΠΛΟ ΚΩΔΙΚΑ, αυτή είναι μια εξαιρετική είδηση! Θα συνεχίσουμε να βελτιώνουμε το έργο σου;",
                 }
             }
         elif self.curr_lan == 'pt':
