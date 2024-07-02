@@ -28,6 +28,20 @@ class LanguageManager:
                 "Estás haciendo un trabajo fantástico, es maravilloso, pero mis habilidades de gato han detectado un ratón cerca, o tal vez sea que",
                 "Tu esfuerzo es sobresaliente, es fascinante, pero mis instintos felinos han identificado que alguien está guardando secretos en la caja de arena, o tal vez sea que",
             ]
+        elif self.curr_lan == 'ru':
+            return [
+                "Ты делаешь отличную работу, это потрясающе, но мой кошачий обоняния обнаружило, что",
+                "Ты делаешь великолепную работу, это впечатляет, но мои кошачьи чутья выявили, что кто-то съел мой тунец, или, может быть, это",
+                "Ты делаешь фантастическую работу, это замечательно, но мои кошачьи навыки обнаружили мышь поблизости, или, может быть, это",
+                "Твои усилия выдающиеся, это увлекательно, но мои кошачьи инстинкты выявили, что кто-то скрывает секреты в песочнице, или, может быть, это",
+            ]
+        elif self.curr_lan == 'ca':
+            return [
+                "Estàs fent una feina molt bona, és increïble, però el meu sentit de l'olfacte felí ha detectat que",
+                "Estàs fent una feina excel·lent, és impressionant, però el meu sentit de l'olfacte felí ha detectat que algú s'ha menjat el meu tonyina, o potser és que",
+                "Estàs fent una feina fantàstica, és meravellós, però les meves habilitats de gat han detectat un ratolí a prop, o potser és que",
+                "El teu esforç és excepcional, és fascinant, però els meus instints felines han identificat que algú guarda secrets a la caixa de sorra, o potser és que",
+            ]
         else:
             return []
 
@@ -47,6 +61,22 @@ class LanguageManager:
                 "\n¡Estoy seguro de que tu proyecto será un gran éxito! :)",
                 "\nNo te rindas, ¡cada esfuerzo te acerca más a tu objetivo! :)",
                 "\nConfío en tus habilidades, ¡mejorarás tu proyecto! :)",
+            ]
+        elif self.curr_lan == 'ru':
+            return [
+                "\nУдачи вам в улучшении вашего проекта, вы справитесь! :)",
+                "\nПродолжайте двигаться вперед с вашим проектом, вы делаете отличную работу! :)",
+                "\nЯ уверен, что ваш проект будет большим успехом! :)",
+                "\nНе сдавайтесь, каждое усилие приближает вас к вашей цели! :)",
+                "\nЯ верю в ваши способности, вы улучшите ваш проект! :)",
+            ]
+        elif self.curr_lan == 'ca':
+            return [
+                "\nSort amb la millora del teu projecte, pots fer-ho! :)",
+                "\nSegueix endavant amb el teu projecte, estàs fent una gran feina! :)",
+                "\nEstic segur que el teu projecte serà un gran èxit! :)",
+                "\nNo et rendeixis, cada esforç t'acosta més al teu objectiu! :)",
+                "\nConfio en les teves habilitats, milloraràs el teu projecte! :)",
             ]
         else:
             return []
@@ -68,6 +98,22 @@ class LanguageManager:
                 "\nEXPLICACIÓN:\nPiensa en los scripts duplicados como escribir las mismas instrucciones para diferentes tareas. Si necesitas actualizar las instrucciones, debes reescribirlas para cada tarea, lo cual es ineficiente. En su lugar, escribe un único conjunto de instrucciones y refiérete a ellas según sea necesario.",
                 "\nEXPLICACIÓN:\nLos scripts duplicados son como pintar varias paredes del mismo color pero con diferentes marcas de pintura. Si decides cambiar el color, necesitas repintar cada pared por separado. Usar una pintura consistente permite cambios y mantenimiento más fáciles.",
             ]
+        elif self.curr_lan == 'ru':
+            return [
+                "\nОБЪЯСНЕНИЕ:\nПредставьте, что у нас есть два скрипта, состоящих из одинаковых блоков, но с разными параметрами или значениями. Что если нам нужно внести небольшие изменения? Нам придется изменить оба скрипта, что усложняет поддержку кода. В таких ситуациях более целесообразно, чтобы программист создал пользовательский блок, который определяет это поведение, и использовал этот новый блок там, где это необходимо.",
+                "\nОБЪЯСНЕНИЕ:\nДублированные скрипты — это как иметь несколько копий одного и того же рецепта с небольшими изменениями в ингредиентах. Если вы меняете один ингредиент, вам придется обновить все копии, что неудобно. Вместо этого создайте мастер-рецепт и используйте его по необходимости.",
+                "\nОБЪЯСНЕНИЕ:\nИметь дублированные скрипты — это как иметь несколько идентичных инструментов в вашем ящике с инструментами с небольшими различиями. Если один из них сломается или потребует настройки, вам придется исправлять каждый индивидуально. Более эффективный подход — иметь единственный инструмент с настраиваемыми параметрами.",
+                "\nОБЪЯСНЕНИЕ:\nДублированные скрипты — это как написание одинаковых инструкций для различных задач. Если вам нужно обновить инструкции, вам придется переписать их для каждой задачи, что неэффективно. Вместо этого напишите единственный набор инструкций и ссылайтесь на них по мере необходимости.",
+                "\nОБЪЯСНЕНИЕ:\nДублированные скрипты — это как покраска нескольких стен одним цветом, но с разными марками краски. Если вы решите изменить цвет, вам нужно будет перекрасить каждую стену отдельно. Использование одного и того же типа краски упрощает изменения и обслуживание.",
+            ]
+        elif self.curr_lan == 'ca':
+            return [
+                "\nEXPLICACIÓ:\nImagina que en un projecte tenim dos scripts compostos pels mateixos blocs però amb diferents paràmetres o valors. Què passa si necessitem fer un petit canvi? Hauríem de modificar tots dos scripts, cosa que complica el manteniment del codi. En aquestes situacions, és més apropiat que el programador creï un bloc personalitzat que defineixi aquest comportament i utilitzi aquest nou bloc on sigui necessari.",
+                "\nEXPLICACIÓ:\nEls scripts duplicats són com tenir múltiples còpies de la mateixa recepta amb petites variacions en els ingredients. Si canviem un ingredient, cal actualitzar totes les còpies, la qual cosa és engorrosa. En lloc d'això, crea una recepta mestra i refèreix-t'hi on sigui necessari.",
+                "\nEXPLICACIÓ:\nTenir scripts duplicats és com tenir diverses eines idèntiques a la teva caixa d'eines amb petites diferències. Si una es trenca o necessita ajust, has de reparar cada una individualment. Un millor enfocament és tenir una única eina amb configuracions ajustables.",
+                "\nEXPLICACIÓ:\nPensa en els scripts duplicats com escriure les mateixes instruccions per a diferents tasques. Si necessites actualitzar les instruccions, has de reescriure-les per a cada tasca, la qual cosa és ineficient. En lloc d'això, escriu un únic conjunt d'instruccions i refèreix-t'hi segons sigui necessari.",
+                "\nEXPLICACIÓ:\nEls scripts duplicats són com pintar diverses parets del mateix color però amb diferents marques de pintura. Si decides canviar el color, necessites repintar cada paret per separat. Utilitzar una pintura consistent permet canvis i manteniment més fàcils.",
+            ]
         else:
             return []
 
@@ -87,6 +133,22 @@ class LanguageManager:
                 "\nEXPLICACIÓN:\nEl código muerto es como tener papeles viejos en tu escritorio: te distraen y hacen que sea difícil encontrar lo que necesitas. Al deshacerte de ellos, trabajarás mejor.",
                 "\nEXPLICACIÓN:\nEl código muerto es como tener ropa que ya no usas en tu armario: solo ocupa espacio y hace que todo se vea desordenado. Al eliminarla, todo es más fácil de manejar.",
                 "\nEXPLICACIÓN:\nEl código muerto es como tener basura en tu mochila: es inútil y solo estorba. Al limpiarla, encuentras todo más rápido y es más fácil de usar.",
+            ]
+        elif self.curr_lan == 'ru':
+            return [
+                "\nОБЪЯСНЕНИЕ:\nМертвый код — это как иметь неиспользуемые блоки, разбросанные по полу: он делает все более беспорядочным и трудным для понимания. Удаление мертвого кода сделает ваш проект более чистым, понятным и эффективным.",
+                "\nОБЪЯСНЕНИЕ:\nИметь мертвый код — это как иметь сломанные игрушки в своей комнате: они бесполезны и занимают только место. Избавление от них сделает все более организованным.",
+                "\nОБЪЯСНЕНИЕ:\nМертвый код — это как иметь старые бумаги на своем рабочем столе: они отвлекают и делают поиск нужного сложным. Избавление от них поможет вам лучше работать.",
+                "\nОБЪЯСНЕНИЕ:\nМертвый код — это как иметь одежду, которую уже не носишь, в своем шкафу: она только занимает место и создает беспорядок. Удаление ее облегчит управление всем.",
+                "\nОБЪЯСНЕНИЕ:\nМертвый код — это как иметь мусор в своем рюкзаке: он бесполезен и только мешает. Убрав его, вы сможете быстрее находить все необходимое и легче его использовать.",
+            ]
+        elif self.curr_lan == 'ca':
+            return [
+                "\nEXPLICACIÓ:\nEl codi mort és com tenir blocs no utilitzats escampats pel terra: fa que tot sigui més desordenat i difícil d'entendre. En eliminar-lo, el teu projecte estarà més net, serà més fàcil d'entendre i funcionarà millor.",
+                "\nEXPLICACIÓ:\nTenir codi mort és com tenir joguines trencades a la teva habitació: són inútils i només ocupen espai. En eliminar-los, tot estarà més organitzat.",
+                "\nEXPLICACIÓ:\nEl codi mort és com tenir papers vells a la teva taula: et distreuen i fan que sigui difícil trobar el que necessites. En desfer-te'n, treballaràs millor.",
+                "\nEXPLICACIÓ:\nEl codi mort és com tenir roba que ja no fas servir a l'armari: només ocupa espai i fa que tot sembli desordenat. En eliminar-la, tot és més fàcil de gestionar.",
+                "\nEXPLICACIÓ:\nEl codi mort és com tenir escombraries a la teva motxilla: és inútil i només molesta. En netejar-la, trobes tot més ràpidament i és més fàcil d'utilitzar.",
             ]
         else:
             return []
@@ -108,6 +170,22 @@ class LanguageManager:
                 "\nEXPLICACIÓN:\nNombrar sprites es como nombrar instrumentos en una orquesta: asegura que cada parte juegue su papel previsto de manera armoniosa. La claridad en los nombres mejora la gestión y el desarrollo del proyecto.",
                 "\nEXPLICACIÓN:\nConsidera el nombramiento de sprites como etiquetar ingredientes en una receta: hace que ensamblar tu proyecto sea más eficiente y menos confuso. Nombres claros agilizan la colaboración y la resolución de problemas.",
             ]
+        elif self.curr_lan == 'ru':
+            return [
+                "\nОБЪЯСНЕНИЕ:\nДавать осмысленные имена спрайтам — это как помечать объекты в вашем ящике с инструментами: это помогает быстро найти нужное. Ясные имена делают ваш проект более понятным и удобным для навигации.",
+                "\nОБЪЯСНЕНИЕ:\nНазвать спрайты — это как дать имена персонажам в истории: это придает им личность и делает взаимодействия более ясными. Хорошо подобранные имена улучшают читаемость вашего проекта.",
+                "\nОБЪЯСНЕНИЕ:\nПодумайте о названии спрайтов, как о назначении ролей в театральном представлении: каждое имя должно отражать цель спрайта. Такая организация улучшает общую структуру и понимание вашего проекта.",
+                "\nОБЪЯСНЕНИЕ:\nНазвать спрайты — это как дать имена инструментам в оркестре: это гарантирует, что каждая часть выполняет свою предназначенную роль гармонично. Ясность в именах улучшает управление и развитие проекта.",
+                "\nОБЪЯСНЕНИЕ:\nРассмотрите названия спрайтов как маркировку ингредиентов в рецепте: это делает сборку вашего проекта более эффективной и менее запутанной. Ясные имена способствуют более гладкому сотрудничеству и решению проблем.",
+            ]
+        elif self.curr_lan == 'ca':
+            return [
+                "\nEXPLICACIÓ:\nDonar noms significatius als sprites és com etiquetar els objectes a la teva caixa d'eines: et ajuda a trobar ràpidament el que necessites. Noms clars fan que el teu projecte sigui més fàcil d'entendre i navegar.",
+                "\nEXPLICACIÓ:\nNomenar sprites és com nomenar personatges en una història: els dóna identitat i fa que les interaccions siguin més clares. Noms ben triats milloren la llegibilitat del teu projecte.",
+                "\nEXPLICACIÓ:\nPensa en nomenar sprites com assignar rols en una obra de teatre: cada nom ha de reflectir el propòsit del sprite. Aquesta organització millora l'estructura general i la comprensió del teu projecte.",
+                "\nEXPLICACIÓ:\nNomenar sprites és com nomenar instruments en una orquestra: assegura que cada part jugui el seu paper previst de manera harmònica. La claredat en els noms millora la gestió i el desenvolupament del projecte.",
+                "\nEXPLICACIÓ:\nConsidera el nomenament de sprites com etiquetar ingredients en una recepta: fa que muntar el teu projecte sigui més eficient i menys confús. Noms clars agilitzen la col·laboració i la resolució de problemes.",
+            ]
         else:
             return []
 
@@ -127,6 +205,22 @@ class LanguageManager:
                 "\nEXPLICACIÓN:\nPiensa en nombrar fondos como designar ubicaciones en un mapa: cada nombre debe indicar claramente su propósito. Esto mejora la estructura general y facilita la comprensión del proyecto.",
                 "\nEXPLICACIÓN:\nNombrar fondos es como poner letreros en un parque temático: asegura que cada área esté bien identificada y que los visitantes no se pierdan. La claridad en los nombres mejora la gestión del proyecto y la experiencia del usuario.",
                 "\nEXPLICACIÓN:\nConsidera nombrar fondos como etiquetar las diferentes secciones de una revista: hace que navegar por tu proyecto sea más eficiente y menos confuso. Nombres claros agilizan la colaboración y la resolución de problemas.",
+            ]
+        elif self.curr_lan == 'ru':
+            return [
+                "\nОБЪЯСНЕНИЕ:\nДавать осмысленные имена фонам — это как помечать комнаты в доме: это помогает быстро опознать каждую обстановку. Ясные названия делают ваш проект более удобным для организации и навигации.",
+                "\nОБЪЯСНЕНИЕ:\nНазывать фоны — это как названия сцен в фильме: это добавляет контекст и улучшает понимание хода сюжета. Подходящие названия делают ваш проект более интуитивным.",
+                "\nОБЪЯСНЕНИЕ:\nПодумайте о названии фонов, как о указании местоположений на карте: каждое название должно четко указывать на его назначение. Это улучшает общую структуру и облегчает понимание проекта.",
+                "\nОБЪЯСНЕНИЕ:\nНазывать фоны — это как размещать указатели в тематическом парке: это гарантирует, что каждая зона хорошо идентифицирована, и посетители не заблудятся. Ясность в названиях улучшает управление проектом и пользовательский опыт.",
+                "\nОБЪЯСНЕНИЕ:\nРассмотрите названия фонов, как маркировку различных разделов журнала: это делает навигацию по вашему проекту более эффективной и менее запутанной. Ясные названия способствуют более гладкому сотрудничеству и решению проблем.",
+            ]
+        elif self.curr_lan == 'ca':
+            return [
+                "\nEXPLICACIÓ:\nDonar noms significatius als fons és com etiquetar les habitacions d'una casa: t'ajuda a identificar ràpidament cada entorn. Noms clars fan que el teu projecte sigui més fàcil d'organitzar i navegar.",
+                "\nEXPLICACIÓ:\nNomenar fons és com titular les escenes d'una pel·lícula: proporciona context i millora la comprensió de la progressió de la història. Noms adequats fan que el teu projecte sigui més intuïtiu.",
+                "\nEXPLICACIÓ:\nPensa en nomenar fons com designar ubicacions en un mapa: cada nom ha d'indicar clarament el seu propòsit. Això millora l'estructura general i facilita la comprensió del projecte.",
+                "\nEXPLICACIÓ:\nNomenar fons és com posar rètols en un parc temàtic: assegura que cada àrea estigui ben identificada i que els visitants no es perdi. La claredat en els noms millora la gestió del projecte i l'experiència de l'usuari.",
+                "\nEXPLICACIÓ:\nConsidera nomenar fons com etiquetar les diferents seccions d'una revista: fa que navegar pel teu projecte sigui més eficient i menys confús. Noms clars agilitzen la col·laboració i la resolució de problemes.",
             ]
         else:
             return []
@@ -168,6 +262,44 @@ class LanguageManager:
                 'Duplicates': {
                     'fail': "Oooops, parece que no has resuelto el problema con el código duplicado, pero no te preocupes, vamos a revisar cómo podríamos resolverlo de nuevo,",
                     'success': "¡YEAHH, HAS RESUELTO EL PROBLEMA CON EL CÓDIGO DUPLICADO, esa es una noticia genial! ¿Te parece bien si seguimos mejorando el proyecto?",
+                }
+            }
+        elif self.curr_lan == 'ru':
+            return {
+                'Backdrops': {
+                    'fail': "Ой, похоже, вы не решили проблему с названием фонов, но не беспокойтесь, давайте еще раз рассмотрим, как мы можем ее решить,",
+                    'success': "УРА, ВЫ РЕШИЛИ ПРОБЛЕМУ С НАЗВАНИЕМ ФОНОВ, это замечательная новость! Можем ли мы продолжить улучшение проекта?",
+                },
+                'Sprites': {
+                    'fail': "Ой, похоже, вы не решили проблему с названием спрайтов, но не беспокойтесь, давайте еще раз рассмотрим, как мы можем ее решить,",
+                    'success': "УРА, ВЫ РЕШИЛИ ПРОБЛЕМУ С НАЗВАНИЕМ СПРАЙТОВ, это замечательная новость! Можем ли мы продолжить улучшение проекта?",
+                },
+                'deadCode': {
+                    'fail': "Ой, похоже, вы не решили проблему с мертвым кодом, но не беспокойтесь, давайте еще раз рассмотрим, как мы можем ее решить,",
+                    'success': "УРА, ВЫ РЕШИЛИ ПРОБЛЕМУ С МЕРТВЫМ КОДОМ, это замечательная новость! Можем ли мы продолжить улучшение проекта?",
+                },
+                'Duplicates': {
+                    'fail': "Ой, похоже, вы не решили проблему с дублированным кодом, но не беспокойтесь, давайте еще раз рассмотрим, как мы можем ее решить,",
+                    'success': "УРА, ВЫ РЕШИЛИ ПРОБЛЕМУ С ДУБЛИРОВАННЫМ КОДОМ, это замечательная новость! Можем ли мы продолжить улучшение проекта?",
+                }
+            }
+        elif self.curr_lan == 'ca':
+            return {
+                'Backdrops': {
+                    'fail': "Oooops, sembla que no has resolt el problema amb el nomenament dels fons, però no et preocupis, revisarem com podríem solucionar-ho de nou,",
+                    'success': "¡YEAHH, HAS RESOLT EL PROBLEMA AMB EL NOMENAMENT DELS FONS, aquesta és una notícia genial! ¿Et sembla bé si continuem millorant el projecte?",
+                },
+                'Sprites': {
+                    'fail': "Oooops, sembla que no has resolt el problema amb el nomenament dels sprites, però no et preocupis, revisarem com podríem solucionar-ho de nou,",
+                    'success': "¡YEAHH, HAS RESOLT EL PROBLEMA AMB EL NOMENAMENT DELS SPRITES, aquesta és una notícia genial! ¿Et sembla bé si continuem millorant el projecte?",
+                },
+                'deadCode': {
+                    'fail': "Oooops, sembla que no has resolt el problema amb el codi mort, però no et preocupis, revisarem com podríem solucionar-ho de nou,",
+                    'success': "¡YEAHH, HAS RESOLT EL PROBLEMA AMB EL CODI MORT, aquesta és una notícia genial! ¿Et sembla bé si continuem millorant el projecte?",
+                },
+                'Duplicates': {
+                    'fail': "Oooops, sembla que no has resolt el problema amb el codi duplicat, però no et preocupis, revisarem com podríem solucionar-ho de nou,",
+                    'success': "¡YEAHH, HAS RESOLT EL PROBLEMA AMB EL CODI DUPLICAT, aquesta és una notícia genial! ¿Et sembla bé si continuem millorant el projecte?",
                 }
             }
         else:
