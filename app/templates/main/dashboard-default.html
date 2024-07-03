@@ -704,28 +704,41 @@
                             </div>
                         </div>
                     </div>
-                    <!--
-                     {% if url != None %}
+                    
+                    {% if url != None %}
                     <div class="improve">
                         <div class="panel panel-success" id="improve">
                             <div id="stepfour">
                                 <div class="panel-heading" >
                                     <h2 id="score" class="panel-title dark-text">
                                         {% trans "Compare project"%}
-                                        <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Certificate of the Evaluation of your Scratch Project' %}"></i>
+                                        <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Upload the new project in order to compare it with the actual' %}"></i>
                                     </h2>
                                 </div>
                                 <div class="panel-success" style="word-break: break-word;" >
-                                    <form id="myForm" name="form" class="project-form" enctype="multipart/form-data" method="post" style="margin: 10px">
-                                        <input type="hidden" name="dashboard_mode" value="Default">
+                                    <form id="myForm" name="form" class="project-form" enctype="multipart/form-data" method="post" style="margin: 10px" target="_blank">
+                                        <input type="hidden" name="dashboard_mode" value="Comparison">
+                                        <input type="hidden" name="_urls" value="Url">
+                                        <input type="hidden" name="urlProject" value="{{ url }}">
                                         {% trans '<input name="urlProject" id="cf-name" class="form-control input-box placeholder" placeholder="http:/scratch.mit.edu/projects/your_number" type="text">' %}
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" style="width: 20px; height: 20px;">                                           
                                             <label class="form-check-label" for="flexCheckDefault">
-                                                This project has the same functionality.
+                                                {% trans "Is the new project an update from the original?" %}
                                             </label>
+                                            <div class="col-md-6" style="padding-left: 25%; padding-top: 8px;">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="same_functionality" id="inlineRadio1" value="True" required>
+                                                    <label class="form-check-label" for="inlineRadio1">{% trans 'Yes' %}</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6" style="padding-right: 25%; padding-top: 8px;">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="same_functionality" id="inlineRadio1" value="False" required>
+                                                    <label class="form-check-label" for="inlineRadio1">{% trans 'No' %}</label>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <button id="url" name="_url" type="submit" class="btn btn-primary standard-button">{% trans "Analyze by url" %}</button>
+                                        <button id="compare-projects-button"  class="btn btn-primary standard-button">{% trans "Compare projects" %}</button>
                                         {% csrf_token %}
                                     </form>
                                 </div>
@@ -733,11 +746,6 @@
                         </div>
                     </div>
                     {% endif %}
-                    -->
-                   
-
-
-                   
                     </section>
                     
                 </section>
@@ -831,87 +839,6 @@
                             </div>
                         </div>
                     </section>
-
-                    <!--
-                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                          <div class="modal-content" style="padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px;border-bottom-width: 0px;border-top-width: 0px;border-left-width: 0px;border-right-width: 0px;">
-                            
-                            <section id="dashboard" style="padding-top: 0px;">
-                                <div class="container-fluid" style="padding-left: 0px;padding-right: 0px;">
-                                    <div class="jumbotron" style="margin-bottom: 0px; display: flex; flex-direction: column; align-items: center;">
-                                        <div class="row">
-                                            <div class="col-4" id="modal-feedback-img">
-                                            </div>
-                                            <div class="col-4" id="modal-feedback">
-                                                <h2 class="dark-text" style="font-size: 50px;" id="modal_title"></h2>
-                                            </div>
-                                        </div>
-                                        <div class="row" style="display: flex; align-items: center;">
-                                            <div class="col-4 text-center" style="margin-right: 20%;">
-                                                <h3 class="dark-text">Before:</h3>
-                                                <h2 class="dark-text" id="modal_score"></h2>
-                                            </div>
-                                            <div class="col-4 text-center" id="modal_new_score">
-                                                <h3 class="dark-text">Now:</h3>
-                                                <h2 class="text-success" style="font-size: 70px;"></h2>
-                                            </div>
-                                        </div>
-                                                    <div class="row">
-                                                        <div class="row">
-                                                            <div class="col-sm-6 border border-primary rounded">
-                                                                <div class="row">
-                                                                    <h2 class="dark-text" style="font-size: 20px;">Before:</h2>
-                                                                <div class="col-6 d-flex align-items-center">
-                                                                    <div class="col-sm-6 d-flex align-items-center" style="padding-left: 0px;">
-                                                                    <img src="/static/app/images/golfing_blocks.png" height="70px" class="mr-3">
-                                                                    <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="original_total_blocks"></h2>
-                                                                    </div>
-                                                            
-                                                                    <div class="col-sm-6 d-flex align-items-center">
-                                                                    <img src="/static/app/images/golfing_sprites.png" height="70px" class="display-flex">
-                                                                    <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="original_total_sprites"></h2>
-                                                                    </div>
-                                                                </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-sm-6" style="padding-left: 70px;">
-                                                                <div class="row" >
-                                                                    <h2 class="dark-text" style="font-size: 20px;">Now:</h2>
-                                                                    <div class="col-6 d-flex align-items-center">
-                                                                        <div class="col-sm-6 d-flex align-items-center">
-                                                                            <img src="/static/app/images/golfing_blocks.png" height="70px" class="mr-3">
-                                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="new_total_blocks"></h2>
-                                                                        </div>
-
-                                                                        <div class="col-sm-6 d-flex align-items-center">
-                                                                            <img src="/static/app/images/golfing_sprites.png" height="70px" class="display-flex">
-                                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="new_total_sprites"></h2>
-                                                                        </div>
-                                                                    
-                                                                    </div>
-                                                                                                                        
-                                                                </div>
-                                                            </div>  
-                                                            <div class="row">
-                                                                <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="golfing_feedback"></h2>                    
-                                                            </div>
-
-                                                    </div>
-                                              
-                                    </div>
-                                </div>
-                            </section>
-                            
-                        </div>
-                    </div>
-                  </div>
-                    -->
-                    
-
-
-
                 </div>
             </div>
         </div>
@@ -1099,35 +1026,47 @@
                             </div>
                         </div>
                     </div>
-                    <!--
+                    {% if url != None %}
                     <div class="improve">
                         <div class="panel panel-success" id="improve">
                             <div id="stepfour">
                                 <div class="panel-heading" >
                                     <h2 id="score" class="panel-title dark-text">
                                         {% trans "Compare project"%}
-                                        <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Certificate of the Evaluation of your Scratch Project' %}"></i>
+                                        <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Upload the new project in order to compare it with the actual' %}"></i>
                                     </h2>
                                 </div>
                                 <div class="panel-success" style="word-break: break-word;" >
-                                    <form id="myForm" name="form" class="project-form" enctype="multipart/form-data" method="post" style="margin: 10px">
-                                        <input type="hidden" name="dashboard_mode" value="Default">
+                                    <form id="myForm" name="form" class="project-form" enctype="multipart/form-data" method="post" style="margin: 10px" target="_blank">
+                                        <input type="hidden" name="dashboard_mode" value="Comparison">
+                                        <input type="hidden" name="_urls" value="Url">
+                                        <input type="hidden" name="urlProject" value="{{ url }}">
                                         {% trans '<input name="urlProject" id="cf-name" class="form-control input-box placeholder" placeholder="http:/scratch.mit.edu/projects/your_number" type="text">' %}
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" style="width: 20px; height: 20px;">                                           
                                             <label class="form-check-label" for="flexCheckDefault">
-                                                This project has the same functionality.
+                                                {% trans "Is the new project an update from the original?" %}
                                             </label>
+                                            <div class="col-md-6" style="padding-left: 25%; padding-top: 8px;">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="same_functionality" id="inlineRadio1" value="True" required>
+                                                    <label class="form-check-label" for="inlineRadio1">{% trans 'Yes' %}</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6" style="padding-right: 25%; padding-top: 8px;">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="same_functionality" id="inlineRadio1" value="False" required>
+                                                    <label class="form-check-label" for="inlineRadio1">{% trans 'No' %}</label>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <button id="url" name="_url" type="submit" class="btn btn-primary standard-button">{% trans "Analyze by url" %}</button>
+                                        <button id="compare-projects-button"  class="btn btn-primary standard-button">{% trans "Compare projects" %}</button>
                                         {% csrf_token %}
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    -->
-                    
+                    {% endif %}
 
 
                     
@@ -1234,8 +1173,8 @@
 
         <!-- MODAL -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
-                <div class="modal-content" id="modalContentChange"></div>
+            <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document" style="width: 1250px;">
+                <div class="modal-content" style="width: 1250px;" id="modalContentChange"></div>
             </div>
         </div>
 
@@ -1267,7 +1206,7 @@
                                 <div class="col-md-6">
                                     <div class="collapse" id="originalCollapse{{ forloop.counter }}" data-bs-parent="#refactorization">
                                         <div class="card card-body">
-                                            <pre class="blocks">
+                                            <pre class="blocks" style="width: 550px;">
                                                 {{ refactor_dict.original }}
                                             </pre>
                                         </div>
@@ -1276,7 +1215,7 @@
                                 <div class="col-md-6">
                                     <div class="collapse" id="refactoredCollapse{{ forloop.counter }}" data-bs-parent="#refactorization">
                                         <div class="card card-body">
-                                            <pre class="blocks">
+                                            <pre class="blocks" style="width: 550px;">
                                                 {{ refactor_dict.refactored }}
                                             </pre>
                                         </div>
