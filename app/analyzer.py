@@ -20,7 +20,7 @@ from app.hairball3.mastery import Mastery
 from app.hairball3.refactor import RefactorDuplicate
 from app.hairball3.spriteNaming import SpriteNaming
 from app.hairball3.scratchGolfing import ScratchGolfing
-from app.hairball3.categoriesBlocks import CategoriesBlocks
+from app.hairball3.block_sprite_usage import Block_Sprite_Usage
 from app.models import Coder, File, Organization
 from app.scratchclient import ScratchSession
 import app.consts_drscratch as consts
@@ -76,6 +76,7 @@ def _make_compare(request, skill_points: dict):
     if request.method == "POST":
         if "_urls" in request.POST:
             for url in request.POST.getlist('urlProject'):
+                print("Url:", url)
                 project = check_project(counter)
                 d[project] = analysis_by_url(request, url, skill_points)
                 path[project] = request.session.get('current_project_path')
@@ -379,12 +380,12 @@ def proc_refactored_code(refactor):
 
     return dict_refactor
 
-def proc_categories_block(result_block_categories, filename):
-    dict_block_categories = {}
-    dict_block_categories["block_categories"] = dict_block_categories
-    dict_block_categories["block_categories"]= result_block_categories
+def proc_block_sprite_usage(result_block_sprite_usage, filename):
+    dict_block_sprite_usage = {}
+    dict_block_sprite_usage["block_sprite_usage"] = dict_block_sprite_usage
+    dict_block_sprite_usage["block_sprite_usage"]= result_block_sprite_usage
 
-    return dict_block_categories
+    return dict_block_sprite_usage
 
 def proc_dead_code(dict_dead_code, filename):
 
@@ -638,7 +639,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         dict_dead_code = DeadCode(path_projectsb3, json_scratch_project,).finalize()
         result_sprite_naming = SpriteNaming(path_projectsb3, json_scratch_project).finalize()
         result_backdrop_naming = BackdropNaming(path_projectsb3, json_scratch_project).finalize()
-        result_categories_block = CategoriesBlocks(path_projectsb3, json_scratch_project).finalize()
+        result_block_sprite_usage = Block_Sprite_Usage(path_projectsb3, json_scratch_project).finalize()
         
         print("Duplicate Script: ", dict_duplicate_script['result']['list_duplicate_scripts'])
         #Refactorings
@@ -650,7 +651,8 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         dict_analysis.update(proc_sprite_naming(result_sprite_naming, file_obj))
         dict_analysis.update(proc_backdrop_naming(result_backdrop_naming, file_obj))
         dict_analysis.update(proc_refactored_code(refactored_code))
-        dict_analysis.update(proc_categories_block(result_categories_block, file_obj))
+        dict_analysis.update(proc_block_sprite_usage(result_block_sprite_usage, file_obj))
+        print("Block Sprite Usage: ", result_block_sprite_usage)
         # dict_analysis.update(proc_urls(request, dict_mastery, file_obj))
         
         # dictionary.update(proc_initialization(resultInitialization, filename))
