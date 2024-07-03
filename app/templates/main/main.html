@@ -519,28 +519,27 @@
     <!-- =========================
      SECTION: COMPARATIVE
     ============================== -->
-    <!--
-    <section id="section1" class="services" style="margin-top: 2%;">
-
+    <section id="section1" class="services">
         <div class="container">            
             <div class="row">
-                <div class="col-md-8 text-center">
-                    <img src="/static/app/images/csvs.png" class="img-fluid mx-auto d-block" style="max-width: 90%; max-height: 90%;" alt=""> 
+                <div class="col-md-4 align-self-center" style="margin-top: 50px;">
+                    <h3><strong>{% trans "Comparison Mode" %}</strong></h3>
+                    <p class="h4">
+                        {% trans "The comparison mode allows you to compare two different projects, enabling you to highlight their key differences and gain detailed insights into each." %}
+                    </p>
+
+                    <a href="{% url 'compare_uploader' %}">
+                        <button id="urls" name='_urls' type="submit" class="btn btn-primary standard-button">{% trans "Compare Projects" %}</button>
+                    </a>
+                    
                 </div>
-                <div class="col-md-4 align-self-center">
-                        <h3><strong>{% trans "Comparative Mode"  %}</strong></h3>
-                        <p class="h4">{% trans "The comparative mode allows allows users to view and compare different projects or versions side-by-side, highlighting changes and facilitating analysis of coding approaches." %} </p>
-                        
-                        <a href="{% url 'compare_uploader' %}">
-                            <button id="urls" name='_urls' type="submit" class="btn btn-primary standard-button">{% trans "Compare my projects" %}</button>
-                        </a>
-                        
+                <div class="col-md-8 text-center">
+                    <img src="/static/app/images/Comparative Mode.png" class="img-fluid mx-auto d-block" style="max-width: 90%; max-height: 90%;" alt=""> 
                 </div>
             </div> 
             
         </div>
     </section>
-    -->
 
     <br></br>
     <h2>{% trans "A powerful tool to analyze your Scratch projects" %}</h2>
