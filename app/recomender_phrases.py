@@ -28,6 +28,13 @@ class LanguageManager:
                 "Estás haciendo un trabajo fantástico, es maravilloso, pero mis habilidades de gato han detectado un ratón cerca, o tal vez sea que",
                 "Tu esfuerzo es sobresaliente, es fascinante, pero mis instintos felinos han identificado que alguien está guardando secretos en la caja de arena, o tal vez sea que",
             ]
+        elif self.curr_lan == 'pt':
+            return [
+                "Você está fazendo um trabalho muito bom, é incrível, mas meu sentido felino de olfato detectou que",
+                "Você está fazendo um trabalho excelente, é impressionante, mas meu sentido felino de olfato detectou que alguém comeu meu atum, ou talvez seja que",
+                "Você está fazendo um trabalho fantástico, é maravilhoso, mas minhas habilidades de gato detectaram um rato por perto, ou talvez seja que",
+                "Seu esforço é excepcional, é fascinante, mas meus instintos felinos identificaram que alguém está guardando segredos na caixa de areia, ou talvez seja que",
+            ]
         elif self.curr_lan == 'eu':
             return [
                 "Oso lan ona egiten ari zara, zoragarria da, baina nire katu-usaina detektatu du",
