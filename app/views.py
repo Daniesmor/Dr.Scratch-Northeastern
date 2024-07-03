@@ -52,7 +52,7 @@ from app.hairball3.refactor import RefactorDuplicate
 from app.hairball3.comparsionMode import ComparsionMode
 from app.exception import DrScratchException
 from app.hairball3.scratchGolfing import ScratchGolfing
-from app.hairball3.categoriesBlocks import CategoriesBlocks
+from app.hairball3.block_sprite_usage import Block_Sprite_Usage
 
 import logging
 import coloredlogs
