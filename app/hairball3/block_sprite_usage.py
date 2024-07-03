@@ -4,17 +4,7 @@ from app.hairball3.plugin import Plugin
 from app.hairball3.scriptObject import Script
 logger = logging.getLogger(__name__)
 
-CONTROL_BLOCKS = ["CONTROL_FOREVER", "CONTROL_REPEAT", "CONTROL_IF", "CONTROL_IF_ELSE", "CONTROL_ELSE", "CONTROL_STOP_ALL", 
-                  "CONTROL_STOP_THIS", "CONTROL_STOP_OTHER", "CONTROL_WAIT", "CONTROL_WAIT_UNTIL", "CONTROL_REPEAT_UNTIL",
-                  "CONTROL_WHILE", "CONTROL_FOREACH", "CONTROL_START_AS_CLONE", "CONTROL_CREATE_CLONE_OF", "CONTROL_CREATE_CLONE_OF_MYSELF",
-                  "CONTROL_DELETE_THIS_CLONE", "CONTROL_COUNTER", "CONTROL_INCRCOUNTER", "CONTROL_CLEARCOUNTER", "CONTROL_ALLATONCE"]
-
-VARIABLES_BLOCKS = ["DATA_SETVARIABLETO", "DATA_CHANGEVARIABLEBY", "DATA_SHOWVARIABLE", "DATA_HIDEVARIABLE", "DATA_ADDTOLIST",
-                    "DATA_DELETEOFLIST", "DATA_DELETEALLOFLIST", "DATA_INSERTATLIST", "DATA_REPLACEITEMOFLIST", "DATA_ITEMOFLIST",
-                    "DATA_ITEMNUMOFLIST", "DATA_LENGTHOFLIST", "DATA_LISTCONTAINSITEM", "DATA_SHOWLIST", "DATA_HIDELIST",
-                    "DATA_INDEX_ALL", "DATA_INDEX_LAST", "DATA_INDEX_RANDOM"]
-
-class CategoriesBlocks(Plugin):
+class Block_Sprite_Usage(Plugin):
     """
     Plugin that indicates the percentage of blocks in each category.
     """
@@ -23,25 +13,11 @@ class CategoriesBlocks(Plugin):
         super().__init__(filename, json_project, verbose)
         self.sprite_dict = {} 
         self.sprite_dict_format = {}
+        self.summary = {}
         self.opcode_argument_reporter = "argument_reporter"
         self.json_project = json_project
-
-
-    def get_blocks(self, dict_target):
-        """
-        Gets all the blocks in json format into a dictionary
-        """
-        out = {}
-
-
-        for dict_key, dicc_value in dict_target.items():
-            if dict_key == "blocks":
-                for blocks, blocks_value in dicc_value.items():
-                    if type(blocks_value) is dict:
-                        out[blocks] = blocks_value
-        return out
     
-    def set_sprite_dict(self):
+    def process(self):
         """
         Sets a dictionary containing the scripts of each sprite in Script() format
         """
@@ -70,13 +46,64 @@ class CategoriesBlocks(Plugin):
     
     def analyze(self):
         """
-        Analyze the ammount of sprites and blocks of each projec
+        Analyzes the project and sets the categories_summary dictionary
         """
-        self.set_sprite_dict()
-        self.categories_summary = {}
-        self.total_blocks = 0
 
-        categories = ["motion", "data", "operator", "control", "event", "sounds", "looks", "sensing"]
+        self.set_blocks_and_sprites()
+        self.set_categories_blocks()
+
+
+    def finalize(self) -> dict:
+
+        self.process()
+        self.analyze()
+
+        dict_result = {'plugin': 'Block_Sprite_Usage', 'result': self.summary}
+
+        return dict_result
+    
+
+    def get_blocks(self, dict_target):
+        """
+        Gets all the blocks in json format into a dictionary
+        """
+        out = {}
+
+
+        for dict_key, dicc_value in dict_target.items():
+            if dict_key == "blocks":
+                for blocks, blocks_value in dicc_value.items():
+                    if type(blocks_value) is dict:
+                        out[blocks] = blocks_value
+        return out
+       
+    def set_blocks_and_sprites(self):
+        """
+        Analyze the ammount of sprites and blocks of each project
+        """
+
+        self.blocks_summary = {}
+
+        num_sprites = len(self.sprite_dict) - 1 
+        
+        for sprite, scripts in self.sprite_dict.items():
+            if sprite != "Stage":
+                original_num_scripts = len(scripts)
+                self.blocks_summary[sprite] = original_num_scripts
+                
+                
+        self.summary['total_blocks'] = sum(self.blocks_summary.values())               
+        self.summary['total_sprites'] = num_sprites
+
+    def set_categories_blocks(self):
+        """
+        Analyze the ammount of blocks of each category in each project
+        """
+
+        self.total_blocks = 0
+        self.summary['categories'] = {}
+
+        categories = ["motion", "looks", "sound", "event", "control", "sensing", "operator", "data", "procedures"]
 
         count = {cat: 0 for cat in categories}
 
@@ -91,17 +118,6 @@ class CategoriesBlocks(Plugin):
             count['others'] = self.total_blocks - sum(count.values())
 
         for cat, count in count.items():
-            self.categories_summary[cat] = round((count/self.total_blocks)*100, 2)
-                
-            
-        return self.categories_summary
+            self.summary["categories"][cat] = round((count/self.total_blocks)*100, 2)
     
     
-    def finalize(self) -> dict:
-
-        self.analyze()
-
-        
-        dict_result = {'plugin': 'BlockCategories', 'result': self.categories_summary}
-
-        return dict_result
