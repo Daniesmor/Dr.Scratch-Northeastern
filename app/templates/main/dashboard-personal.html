@@ -81,7 +81,7 @@
                                                 {% for k, list_duplicate_blocks in duplicateScript.items %}
                                                 {% if k == 'scripts' %}
                                                     {% for list_blocks in list_duplicate_blocks %}
-                                                        <pre class="blocks">
+                                                        <pre class="blocks" >
                                                             {{ list_blocks }}
                                                         </pre>
                                                     {% endfor %}
@@ -264,8 +264,8 @@
 
         <!-- MODAL -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
-                <div class="modal-content" id="modalContentChange"></div>
+            <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document" style="width: 1250px;">
+                <div class="modal-content" style="width: 1250px;" id="modalContentChange"></div>
             </div>
         </div>
 
@@ -297,7 +297,7 @@
                                 <div class="col-md-6">
                                     <div class="collapse" id="originalCollapse{{ forloop.counter }}" data-bs-parent="#refactorization">
                                         <div class="card card-body">
-                                            <pre class="blocks">
+                                            <pre class="blocks" style="width: 550px;">
                                                 {{ refactor_dict.original }}
                                             </pre>
                                         </div>
@@ -306,7 +306,7 @@
                                 <div class="col-md-6">
                                     <div class="collapse" id="refactoredCollapse{{ forloop.counter }}" data-bs-parent="#refactorization">
                                         <div class="card card-body">
-                                            <pre class="blocks">
+                                            <pre class="blocks" style="width: 550px;">
                                                 {{ refactor_dict.refactored }}
                                             </pre>
                                         </div>

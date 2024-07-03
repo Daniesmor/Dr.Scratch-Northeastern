@@ -302,7 +302,7 @@
                 vertical-align: middle;
             }
             .modal-dialog {
-                max-width: 800px; /* Ajusta el tamaño máximo del modal */
+                max-width: 1250px; /* Ajusta el tamaño máximo del modal */
             }
             .modal-dialog-centered {
                 display: flex;
@@ -311,8 +311,11 @@
                 width: auto;
             }
             .popover {
-                width: 250px; /* Establece el ancho máximo */
+                max-width: 700px; /* Establece el ancho máximo */
                 /* Otros estilos personalizados */
+            }
+            .custom-popover {
+                max-width: 250px;
             }
 
         </style>    
@@ -368,13 +371,13 @@
                                                         <div class="col-sm-6 d-flex align-items-center">
                                                             <img src="/static/app/images/golfing_blocks.png" height="70px" class="mr-3 hover-image dropdown" data-toggle="popover" title="{% trans 'Total Blocks' %}"
                                                                  data-type="Original" data-compare-type="total blocks" data-trigger="manual">
-                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="original-total-blocks">{{ Compare.original.total_blocks }} {% trans ' blocks' %}</h2>
+                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="original-total-blocks">{{ Original.block_sprite_usage.result.total_blocks }} {% trans ' blocks' %}</h2>
                                                         </div>
             
                                                         <div class="col-sm-6 d-flex align-items-center">
                                                             <img src="/static/app/images/golfing_sprites.png" height="70px" class="display-flex hover-image dropdown" data-toggle="popover" title="{% trans 'Total Sprites' %}" 
                                                                  data-type="Original" data-compare-type="total sprites" data-trigger="manual">
-                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="original-total-sprites">{{ Compare.original.total_sprites }} {% trans ' sprites' %}</h2>
+                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="original-total-sprites">{{ Original.block_sprite_usage.result.total_sprites }} {% trans ' sprites' %}</h2>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -446,13 +449,13 @@
                                                         <div class="col-sm-6 d-flex align-items-center">
                                                             <img src="/static/app/images/golfing_blocks.png" height="70px" class="mr-3 dropdown" data-toggle="popover" title="{% trans 'Total Blocks' %}" 
                                                                  data-compare-type="total blocks" data-original-number="{{ Compare.original.total_blocks }}" data-new-number="{{ Compare.new.total_blocks }}" data-trigger="manual">
-                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="new-total-blocks">{{ Compare.new.total_blocks }} {% trans ' blocks ' %}</h2>
+                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="new-total-blocks">{{ New.block_sprite_usage.result.total_blocks }} {% trans ' blocks ' %}</h2>
                                                         </div>
             
                                                         <div class="col-sm-6 d-flex align-items-center">
                                                             <img src="/static/app/images/golfing_sprites.png" height="70px" class="display-flex dropdown" data-toggle="popover" title="{% trans 'Total Sprites' %}" 
                                                                  data-compare-type="total sprites" data-original-number="{{ Compare.original.total_sprites }}" data-new-number="{{ Compare.new.total_sprites }}" data-trigger="manual">
-                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="new-total-sprites">{{ Compare.new.total_sprites }} {% trans ' sprites ' %}</h2>
+                                                            <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="new-total-sprites">{{ New.block_sprite_usage.result.total_sprites }} {% trans ' sprites ' %}</h2>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -709,12 +712,12 @@
                                                 {{ New.duplicateScript.number }} {% trans " duplicated scripts." %}
                                             </a>
                                             <div id="duplicated-scripts-content" class="collapse">
-                                                <div class="container-fluid">
+                                                <div class="container-fluid" style="width: 100%;">
                                                     {% for k, list_duplicate_blocks in New.duplicateScript.items %}
                                                     {% if k == 'scripts' %}
                                                        
                                                         {% for list_blocks in list_duplicate_blocks %}
-                                                            <pre class="blocks">
+                                                            <pre class="blocks" style="width: 550px;">
                                                                 {{ list_blocks }}
                                                             </pre>
                                                         {% endfor %}
@@ -762,7 +765,7 @@
                                                             {% if key != 'number' %}
                                                                 <b> {{ key }}: </b><br>
                                                                 {% for dead_block in value %}
-                                                                    <pre class="blocks">
+                                                                    <pre class="blocks" style="width: 250px;">
                                                                         {{ dead_block }}
                                                                     </pre>
                                                                 {% endfor %}
@@ -913,8 +916,8 @@
 
         <!-- MODAL -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered" role="document" style="width: 800px;">
-                <div class="modal-content" style="width: 800px;" id="modalContentChange"></div>
+            <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered" role="document" style="width: 1250px;">
+                <div class="modal-content" style="width: 1250px;" id="modalContentChange"></div>
             </div>
         </div>
 
@@ -946,7 +949,7 @@
                                 <div class="col-md-6">
                                     <div class="collapse" id="originalCollapse{{ forloop.counter }}" data-bs-parent="#refactorization">
                                         <div class="card card-body">
-                                            <pre class="blocks">
+                                            <pre class="blocks" style="width: 550px;">
                                                 {{ refactor_dict.original }}
                                             </pre>
                                         </div>
@@ -955,7 +958,7 @@
                                 <div class="col-md-6">
                                     <div class="collapse" id="refactoredCollapse{{ forloop.counter }}" data-bs-parent="#refactorization">
                                         <div class="card card-body">
-                                            <pre class="blocks">
+                                            <pre class="blocks" style="width: 550px;">
                                                 {{ refactor_dict.refactored }}
                                             </pre>
                                         </div>
@@ -977,7 +980,7 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">{% trans 'Duplicates' %}</h5>
             </div>
-            <div class="modal-body" style="width: auto;">
+            <div class="modal-body">
                 <div class="container-fluid">
                     {% if New.duplicateScript.number == 0 %}
                         <p> {% trans 'Your project does not have duplicated scripts, good job!' %}
@@ -1001,7 +1004,7 @@
                                 <div class="col-md-6">
                                     <div class="collapse" id="originalCollapse{{ forloop.counter }}" data-bs-parent="#refactorization">
                                         <div class="card card-body">
-                                            <pre class="blocks">
+                                            <pre class="blocks" style="width: 550px;">
                                                 {{ refactor_dict.original }}
                                             </pre>
                                         </div>
@@ -1010,7 +1013,7 @@
                                 <div class="col-md-6">
                                     <div class="collapse" id="refactoredCollapse{{ forloop.counter }}" data-bs-parent="#refactorization">
                                         <div class="card card-body">
-                                            <pre class="blocks">
+                                            <pre class="blocks" style="width: 550px;">
                                                 {{ refactor_dict.refactored }}
                                             </pre>
                                         </div>
@@ -1306,23 +1309,35 @@
     <script>
         $(document).ready(function() {
             // Pasar los datos de los bloques desde Django al contexto de JavaScript
-            var originalBlocks = {{ Original.block_categories.result|safe }};
-            var newBlocks = {{ New.block_categories.result|safe }};
+            var originalBlocks = {{ Original.block_sprite_usage.result.categories|safe }};
+            var newBlocks = {{ New.block_sprite_usage.result.categories|safe }};
 
             // Preparar los datos para Chart.js
-            var labels = Object.keys(originalBlocks);
+            if ("other" in originalBlocks) {
+                var labelsOriginal= ['Motion', 'Looks', 'Sounds', 'Events', 'Control', 'Sensing', 'Operators', 'Variables', 'My Blocks', 'Others'];
+            } else {
+                var labelsOriginal= ['Motion', 'Looks', 'Sounds', 'Events', 'Control', 'Sensing', 'Operators', 'Variables', 'My Blocks'];
+            }
+
+            if ("other" in newBlocks) {
+                var labelsNew= ['Motion', 'Looks', 'Sounds', 'Events', 'Control', 'Sensing', 'Operators', 'Variables', 'My Blocks', 'Others'];
+            } else {
+                var labelsNew= ['Motion', 'Looks', 'Sounds', 'Events', 'Control', 'Sensing', 'Operators', 'Variables', 'My Blocks'];
+            }
+
             var originalData = Object.values(originalBlocks);
             var newData = Object.values(newBlocks);
             var colors = [
-                '#0000FF', // azul
-                '#FFA500', // naranja
-                '#008000', // verde
-                '#FF8C00', // amarillo anaranjado
-                '#FFFF00', // amarillo
-                '#FFC0CB', // rosa
-                '#800080', // morado
-                '#00FFFF', // azul celeste
-                '#808080'  // gris
+                '#4C97FF', // Motion - Blue
+                '#9966FF', // Looks - Purple
+                '#CF63CF', // Sounds - Magenta
+                '#FFBF00', // Events - Yellow
+                '#FFAB19', // Control - Orange
+                '#FF6680', // Sensing - Pink
+                '#0FBD8C', // Operators - Green
+                '#FF8C1A',  // Variables - Dark Orange
+                '#E66464', // My Blocks - Red
+                '#808080'  // Others - Grey
             ];
 
             // Configuración del gráfico circular para el proyecto original
@@ -1330,7 +1345,7 @@
             var originalProjectChart = new Chart(ctxOriginal, {
                 type: 'doughnut',
                 data: {
-                    labels: labels,
+                    labels: labelsOriginal,
                     datasets: [{
                         data: originalData,
                         backgroundColor: colors
@@ -1359,7 +1374,7 @@
             var newProjectChart = new Chart(ctxNew, {
                 type: 'doughnut',
                 data: {
-                    labels: labels,
+                    labels: labelsNew,
                     datasets: [{
                         data: newData,
                         backgroundColor: colors
