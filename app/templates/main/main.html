@@ -189,42 +189,36 @@
                       </a>
                         <!-- LANGUAGUES -->
                         
+     
+                        
                         <ul class="nav navbar-nav navbar-right login-register small-text">
                             <li style="display: block;" class="login dropdown">
-                                <a aria-expanded="false" type="button" data-toggle="dropdown" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" style="padding-top: 100%;">
-                                <span class="glyphicon glyphicon-book"><span class="icon-basic-world"></span></span>
+                                <a aria-expanded="false" type="button" data-toggle="dropdown" class="dropdown-toggle" data-hover="dropdown" style="padding-top: 100%;">
+                                    <span class="glyphicon glyphicon-book"><span class="icon-basic-world"></span></span>
                                 </a>
                                 <ul role="menu" class="dropdown-menu" style="padding: 20px;">
-                                <li style="padding-left: 20px;">
-                                <div>
-                                <form action="/i18n/setlang/" method="post" type="hidden">
-                                    {% csrf_token %}
-                                    <input name="next" type="hidden" value="{{ redirect_to }}" />
-                                    
-
-                                <select name="language" type="hidden">
-                                        
-                                {% get_language_info_list for LANGUAGES as languages %}
-                                {% for language in languages %}
-                                {% if language.code == request.LANGUAGE_CODE %}
-                                <option type="submit" class='btn-group btn-group-justified colored-text' value="{{ language.code }}" selected>{{ language.name }} ({{ language.code }})</option>
-                                {% else %}
-                                <option type="submit" class='btn-group btn-group-justified colored-text' value="{{ language.code }}">{{ language.name }} ({{ language.code }})</option>
-                                {% endif %}
-                                {% endfor %}
-                                </select>
-                                <input type="submit" value="Change language" class='btn-group btn-group-justified colored-text' style="margin-top: 5px;"/>
-                                </form>
-                            </div>
+                                    <li style="padding-left: 20px;">
+                                        <div>
+                                            <form action="/i18n/setlang/" method="post">
+                                                {% csrf_token %}
+                                                <input name="next" type="hidden" value="{{ redirect_to }}" />
+                                                <select name="language" onchange="this.form.submit()" class='btn-group btn-group-justified colored-text'>
+                                                    {% get_language_info_list for LANGUAGES as languages %}
+                                                    {% for language in languages %}
+                                                        {% if language.code == request.LANGUAGE_CODE %}
+                                                            <option value="{{ language.code }}" selected>{{ language.name }} ({{ language.code }})</option>
+                                                        {% else %}
+                                                            <option value="{{ language.code }}">{{ language.name }} ({{ language.code }})</option>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                            </form>
+                                        </div>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
-                        
-
      
-
-                        
-
-
 
 
                     {% if flagUser %}
@@ -486,6 +480,36 @@
                 </div>
                 <div class="col-md-8 text-center">
                     <img src="/static/app/images/personalized.png" class="img-fluid mx-auto d-block" style="max-width: 90%; max-height: 90%;" alt=""> 
+                </div>
+            </div> 
+            
+        </div>
+    </section>
+
+    <br>
+    <!-- =========================
+     SECTION: RECOMMENDER ASSISTANT
+    ============================== -->
+    <section id="section1" class="services">
+
+        <div class="container">            
+            <div class="row">
+                <div class="col-md-8 text-center">
+                    <img src="/static/app/images/assistant.png" class="img-fluid mx-auto d-block" style="max-width: 90%; max-height: 90%;" alt=""> 
+                </div>
+                <div class="col-md-4 align-self-center">
+                    <br>
+                    <form name="form" class="project-form" id="batch-form" enctype="multipart/form-data" method="post" action="/show_dashboard/" style="margin-top: 50px;">
+                        <h3><strong>{% trans "Recommender Assistant" %}</strong></h3>
+                        <p class="h4"><span class='colored-text'>{% trans "NEW!!!" %}</span> {% trans "This mode gives you a feedback about the bad smells of your project and how to solved them with a assistant style." %}</p>
+                        <input type="hidden" name="dashboard_mode" value="Recommender">
+                        <p id="email-warning" style="display: none;"><span class='colored-text'>{% trans "Please enter an email!" %}</span></p>
+                        <p id="txt-warning" style="display: none;"><span class='colored-text'>{% trans "Please enter a project!" %}</span></p>
+                        {% trans '<input name="urlProject" id="cf-name" class="form-control input-box placeholder" placeholder="http:/scratch.mit.edu/projects/your_number" type="text">' %}
+                        <button id="url" name='_url' type="submit" class="btn btn-primary standard-button">{% trans "Analyze my Bad Smells" %}</button>
+                        <br></br>
+                        {% csrf_token %}
+                    </form>
                 </div>
             </div> 
             

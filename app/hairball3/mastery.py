@@ -79,7 +79,7 @@ class Mastery(Plugin):
 
         if self.mode == 'Personalized':
             dict_result = {'plugin': 'mastery', 'personalized': self.dict_mastery}
-        elif self.mode == 'Default' or self.mode == 'Comparison':
+        elif self.mode == 'Default' or self.mode == 'Comparison' or self.mode == 'Recommender':
             vanilla_dict = self.calc_extrapolation(self.dict_mastery)
             vanilla_points = sum(points[0] for points in vanilla_dict.values())
             average_points = vanilla_points / 7
@@ -411,12 +411,16 @@ class Mastery(Plugin):
     def check_scripts(self, n_scripts):
         coincidences = 0
         for block in self.dict_total_blocks.values(): 
+            
             if block['opcode'] == 'control_if':
-                id_codition = block['inputs']['CONDITION'][1]
-                if self.dict_total_blocks[id_codition]['opcode'] == 'operator_gt':
-                    coincidences += 1
-                    if coincidences >= n_scripts: # N scripts when %s is > %s,
-                        return True
+                condition = block['inputs'].get('CONDITION', None)
+                if (condition != None):
+                    id_condition = condition[1]
+                    
+                    if self.dict_total_blocks[id_condition]['opcode'] == 'operator_gt':
+                        coincidences += 1
+                        if coincidences >= n_scripts: # N scripts when %s is > %s,
+                            return True
         return False
 
     def check_scripts_media(self, dict_parall, n_scripts):
