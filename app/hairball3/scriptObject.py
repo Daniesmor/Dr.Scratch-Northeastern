@@ -372,7 +372,6 @@ class Script():
 
             n_input += 1
         
-
         # For inputs that either are another block (with key input_{i}) or just a variable (with key var_{i})
         for input in block["inputs"].keys():
             if input not in self.child_keys:
@@ -388,16 +387,12 @@ class Script():
 
                         self.counter_vars += 1
                 else:
-                    value = block["inputs"][input][1][1]
-
-                    new_block[f'block_{current_counter}'][f'var_{self.counter_vars}'] = value
-
-                    self.vars[f'var_{self.counter_vars}'] = value
-
-                    self.counter_vars += 1
-                
+                    if (value != None):
+                        value = block["inputs"][input][1][1]
+                        new_block[f'block_{current_counter}'][f'var_{self.counter_vars}'] = value
+                        self.vars[f'var_{self.counter_vars}'] = value
+                        self.counter_vars += 1
                 n_input += 1
-
         return new_block
 
     def parser_script(self, block_dict, start):
