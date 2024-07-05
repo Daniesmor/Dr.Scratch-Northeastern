@@ -692,15 +692,18 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         print("--------------------- BACKDROP NAMING DICT ----------------------")
         print(result_backdrop_naming)
         print("------------------------------------------------------------------")
-
-        # RECOMENDER SECTION
-        dict_recom = {}
-        recomender = RecomenderSystem(curr_type)
-        dict_recom["deadCode"] = recomender.recomender_deadcode(dict_dead_code)
-        dict_recom["spriteNaming"] = recomender.recomender_sprite(result_sprite_naming)
-        dict_recom["backdropNaming"] = recomender.recomender_backdrop(result_backdrop_naming)
-        dict_recom["duplicatedScripts"] = recomender.recomender_duplicatedScripts(dict_duplicate_script, refactored_code)
         
+        # RECOMENDER SECTION
+        if (dashboard == 'Recommender'):
+            print("HEMOS ENTRADO AQUI")
+            dict_recom = {}
+            recomender = RecomenderSystem(curr_type)
+            dict_recom["deadCode"] = recomender.recomender_deadcode(dict_dead_code)
+            dict_recom["spriteNaming"] = recomender.recomender_sprite(result_sprite_naming)
+            dict_recom["backdropNaming"] = recomender.recomender_backdrop(result_backdrop_naming)
+            dict_recom["duplicatedScripts"] = recomender.recomender_duplicatedScripts(dict_duplicate_script, refactored_code)
+            dict_analysis.update(proc_recomender(dict_recom))
+
         dict_analysis.update(proc_mastery(request, dict_mastery, file_obj))
         dict_analysis.update(proc_duplicate_script(dict_duplicate_script, file_obj))
         dict_analysis.update(proc_dead_code(dict_dead_code, file_obj))
@@ -708,7 +711,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         dict_analysis.update(proc_backdrop_naming(result_backdrop_naming, file_obj))
         dict_analysis.update(proc_refactored_code(refactored_code))
         dict_analysis.update(proc_block_sprite_usage(result_block_sprite_usage, file_obj))
-        dict_analysis.update(proc_recomender(dict_recom))
+        
         # dict_analysis.update(proc_urls(request, dict_mastery, file_obj))
         # dictionary.update(proc_initialization(resultInitialization, filename))
         return dict_analysis

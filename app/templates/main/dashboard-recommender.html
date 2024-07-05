@@ -262,6 +262,7 @@
                     $.ajax({
                         type: 'POST',
                         data: {
+                            'dashboard_mode': 'Recommender',
                             'urlProject': urlProject,
                             '_url': '',
                             'curr_type': '{{ recomenderSystem.type|escapejs }}'
