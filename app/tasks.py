@@ -94,7 +94,7 @@ def send_mail(email: str, csv_id: UUID) -> None:
         print(f"Error seding mail: {email}")
 
 def register_timestamp(csv_id: UUID, start_time, end_endtime: datetime) -> None:
-    timestamp = (end_endtime - start_time + 60).total_seconds()
+    timestamp = (end_endtime - start_time).total_seconds() + 60
 
     obj = get_object_or_404(BatchCSV, id=csv_id)
     obj.task_time = timestamp
