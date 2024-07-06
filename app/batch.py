@@ -146,6 +146,8 @@ def create_csv_main(request ,d: dict, folder_path: str) -> str:
 
         row_to_write = {}
         for project in d:
+            if d[project]['Error'] != 'None':
+                print(d[project])
             for clave in headers:
                 if clave in d[project]:
                     row_to_write[clave] = d[project].get(clave, '')
@@ -191,41 +193,43 @@ def create_csv_dups(d: dict, folder_path: str):
     
     # headers list
     headers = ['url', 'filename', 'number']
-    max_dup_scripts = 0
-    # create headers
-    for project in d.values():
-        duplicate_scripts = project.get('duplicateScript', {}).get('csv_format', [])
-        
-        if duplicate_scripts:
-            for block in duplicate_scripts:
-                max_dup_scripts_temp = max(len(instruction_list) for instruction_list in block)
-                if max_dup_scripts < max_dup_scripts_temp:
-                    max_dup_scripts = max_dup_scripts_temp
-    for i in range(1, max_dup_scripts + 1):
-        headers.append(f'duplicateScript_{i}')
-    # open csv file
-    with open(csv_filepath, 'w') as csv_file:
-        writer_csv = csv.DictWriter(csv_file, fieldnames=headers)
-        writer_csv.writeheader()
 
-        for project_data in d.values():
-            row_to_write = {
-                'url': project_data.get('url', ''),
-                'filename': project_data.get('filename', ''),
-                'number': project_data['duplicateScript'].get('number', ''),
-            }
-            duplicate_scripts = project_data.get('duplicateScript', {}).get('csv_format', [])
+    try:
+        max_dup_scripts = 0
+        # create headers
+        for project in d.values():
+            duplicate_scripts = project.get('duplicateScript', {}).get('csv_format', [])
+            
             if duplicate_scripts:
-                script_number = 0
                 for block in duplicate_scripts:
-                    for instruction in block:
-                        script_number += 1
-                        row_to_write[f'duplicateScript_{script_number}'] = instruction
-            else:
-                row_to_write.update({f'duplicateScript_{i}': 'N/A' for i in range(1, max_dup_scripts + 1)})        
-            writer_csv.writerow(row_to_write)
+                    max_dup_scripts_temp = max(len(instruction_list) for instruction_list in block)
+                    if max_dup_scripts < max_dup_scripts_temp:
+                        max_dup_scripts = max_dup_scripts_temp
+        for i in range(1, max_dup_scripts + 1):
+            headers.append(f'duplicateScript_{i}')
+        # open csv file
+        with open(csv_filepath, 'w') as csv_file:
+            writer_csv = csv.DictWriter(csv_file, fieldnames=headers)
+            writer_csv.writeheader()
 
-
+            for project_data in d.values():
+                row_to_write = {
+                    'url': project_data.get('url', ''),
+                    'filename': project_data.get('filename', ''),
+                    'number': project_data['duplicateScript'].get('number', ''),
+                }
+                duplicate_scripts = project_data.get('duplicateScript', {}).get('csv_format', [])
+                if duplicate_scripts:
+                    script_number = 0
+                    for block in duplicate_scripts:
+                        for instruction in block:
+                            script_number += 1
+                            row_to_write[f'duplicateScript_{script_number}'] = instruction
+                else:
+                    row_to_write.update({f'duplicateScript_{i}': 'N/A' for i in range(1, max_dup_scripts + 1)})        
+                writer_csv.writerow(row_to_write)
+    except KeyError:
+        print("Error in creation of csv duplicates.")
 
 def create_csv_sprites(d: dict, folder_path: str):
     csv_name = "spriteNaming.csv"
@@ -233,25 +237,27 @@ def create_csv_sprites(d: dict, folder_path: str):
     headers = ['url', 'filename', 'number']
 
     # Get the maximum number of sprites
-    total_sprites_names = max(len(proj['spriteNaming'].get('sprite', [])) for proj in d.values())
+    try:
+        total_sprites_names = max(len(proj['spriteNaming'].get('sprite', [])) for proj in d.values())
+        # Add the names of the sprites as headers
+        headers.extend(f'spriteNaming{i}' for i in range(1, total_sprites_names + 1))
+        # Write in the CSV file
+        with open(csv_filepath, 'w', newline='') as csv_file:
+            writer_csv = csv.DictWriter(csv_file, fieldnames=headers)
+            writer_csv.writeheader()
 
-    # Add the names of the sprites as headers
-    headers.extend(f'spriteNaming{i}' for i in range(1, total_sprites_names + 1))
-
-    # Write in the CSV file
-    with open(csv_filepath, 'w', newline='') as csv_file:
-        writer_csv = csv.DictWriter(csv_file, fieldnames=headers)
-        writer_csv.writeheader()
-
-        for project in d.values():
-            row_to_write = {key: project.get(key, 'N/A') for key in headers} 
-            row_to_write['number'] = project['spriteNaming'].get('number', 'N/A')
-            # Fill the sprites
-            sprites = project['spriteNaming'].get('sprite', [])
-            for i, sprite in enumerate(sprites, 1):
-                row_to_write[f'spriteNaming{i}'] = sprite
-            # Write the row
-            writer_csv.writerow(row_to_write)
+            for project in d.values():
+                row_to_write = {key: project.get(key, 'N/A') for key in headers if key in ['url', 'filename']}
+                row_to_write['number'] = project.get('spriteNaming', {}).get('number', 'N/A')
+                # Fill the sprites
+                sprites = project.get('spriteNaming', {}).get('sprite', [])
+                for i, sprite in enumerate(sprites, 1):
+                    row_to_write[f'spriteNaming{i}'] = sprite
+                # Write the row
+                writer_csv.writerow(row_to_write)
+    except KeyError:
+        print("Error in creation of csv sprites.")
+    
   
 def create_csv_backdrops(d: dict, folder_path: str):
     csv_name = "backdropNaming.csv"
@@ -259,22 +265,25 @@ def create_csv_backdrops(d: dict, folder_path: str):
     # headers list
     headers = ['url', 'filename','number']
     
-    total_backdrop_names = max(len(proj['backdropNaming'].get('backdrop', [])) for proj in d.values())
-    headers.extend(f'backdropNaming{i}' for i in range(1, total_backdrop_names+1))
-    
-    with open(csv_filepath, 'w') as csv_file:
-        writer_csv = csv.DictWriter(csv_file, fieldnames=headers)
-        writer_csv.writeheader()
+    try:
+        total_backdrop_names = max(len(proj['backdropNaming'].get('backdrop', [])) for proj in d.values())
+        headers.extend(f'backdropNaming{i}' for i in range(1, total_backdrop_names+1))
+        
+        with open(csv_filepath, 'w') as csv_file:
+            writer_csv = csv.DictWriter(csv_file, fieldnames=headers)
+            writer_csv.writeheader()
 
-        row_to_write = {}
-        for project in d.values():
-            row_to_write = {key: project.get(key, 'N/A') for key in headers}
-            
-            # Fill backdrops
-            backdrops = project['backdropNaming'].get('backdrop', [])
-            for i, backdrop in enumerate(backdrops, 1):
-                row_to_write[f'backdropNaming{i}'] = backdrop if backdrop else 'N/A'
-            writer_csv.writerow(row_to_write)
+            row_to_write = {}
+            for project in d.values():
+                row_to_write = {key: project.get(key, 'N/A') for key in headers}
+                
+                # Fill backdrops
+                backdrops = project['backdropNaming'].get('backdrop', [])
+                for i, backdrop in enumerate(backdrops, 1):
+                    row_to_write[f'backdropNaming{i}'] = backdrop if backdrop else 'N/A'
+                writer_csv.writerow(row_to_write)
+    except KeyError:
+        print("Error in creation of csv backdrops.")
 
 def create_csv_deadcode(d: dict, folder_path: str):
     csv_name = "deadCode.csv"
@@ -292,14 +301,14 @@ def create_csv_deadcode(d: dict, folder_path: str):
                     max_sprites = sprite_list_counter
     
     headers.extend(f'deadCode{i}' for i in range(1, max_sprites+1))
-            
+        
     with open(csv_filepath, 'w', newline='') as csv_file:
         writer_csv = csv.DictWriter(csv_file, fieldnames=headers)
         writer_csv.writeheader()
 
         row_to_write = {}
         for project_data in d.values():      
-            for sprite_list_name, sprite_list in project_data['deadCode'].items():
+            for sprite_list_name, sprite_list in project_data.get('deadCode', {}).items():
                 if sprite_list_name not in ['number', 'deadCode']:
                     row_to_write = {
                         'url': project_data['url'],
@@ -314,6 +323,7 @@ def create_csv_deadcode(d: dict, folder_path: str):
                         if row_to_write.get(f'deadCode{j}', '') == '':
                             row_to_write[f'deadCode{j}'] = 'N/A'
                     writer_csv.writerow(row_to_write)    
+
         
 def zip_folder(folder_path: str):
     with ZipFile(folder_path + '.zip', 'w') as zipObj:
@@ -345,18 +355,25 @@ def create_summary(request, d: dict) -> dict:
 
 
     for project in d:
-        summary['Points'] += round(d[project]["mastery"]["points"][0], 2)
-        for skill in skills:
-            if skill not in summary:
-                summary[skill] = 0
-            if type(d[project]["mastery"][skill][0]) == list:
-                if d[project]["mastery"][skill][0][1] != 0:
-                    summary[skill] += d[project]["mastery"][skill][0][0]
-                else:
+        try:
+            summary['Points'] += round(d[project].get("mastery", {}).get("points", [0])[0], 2)
+            for skill in skills:
+                try:
+                    if skill not in summary:
+                        summary[skill] = 0
+                    if type(d[project]["mastery"][skill][0]) == list:
+                        if d[project]["mastery"][skill][0][1] != 0:
+                            summary[skill] += d[project]["mastery"][skill][0][0]
+                        else:
+                            summary[skill] = 0
+                except KeyError:
                     summary[skill] = 0
+        except TypeError:
+            summary['Points'] += 0
     
     for skill in skills:
         summary[skill] = round(summary[skill] / num_projects, 2)
+
     
     # AVERAGE MASTERY POINTS
     average_mastery_points = round(summary['Points'] / num_projects, 2)
