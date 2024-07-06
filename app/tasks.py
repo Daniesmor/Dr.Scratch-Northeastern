@@ -145,7 +145,6 @@ def register_timestamp(csv_id: UUID, start_time, end_endtime: datetime) -> None:
 def init_batch(self, request_data, skill_points):
     # Start task counter for ETA
     start_time = datetime.now()
-    print("TRAZA 1 ------------------------------")
     request_data_obj = SimpleNamespace(**request_data)
     re_email = request_data_obj.POST ['email']
 
