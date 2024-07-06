@@ -443,9 +443,9 @@
                 <div class="col-md-4 align-self-center">
                     <form name="form" class="project-form" id="batch-form" enctype="multipart/form-data" method="post" action="/show_dashboard/" style="margin-top: 50px;">
                         <h3><strong>{% trans "Batch Mode" %}</strong></h3>
-                        <p><span class='colored-text'>{% trans "IMPORTANT!" %}</span> {% trans "Please upload a txt containing the URLs of the projects, with each URL on a separate line. (Max. 10)" %}</p>
+                        <p><span class='colored-text'>{% trans "IMPORTANT!" %}</span> {% trans "Please upload a txt containing the URLs of the projects, with each URL on a separate line. Or a zip containing the .sb3 (Max. 10)" %}</p>
                         <input type="hidden" name="dashboard_mode" value="Default">
-                        {% trans "<input name='urlsFile' type='file' class='filestyle' data-buttonText='Choose txt'>" %}
+                        {% trans "<input name='urlsFile' type='file' class='filestyle' data-buttonText='Choose txt or zip'>" %}
                         {% trans '<input name="batch-email" class="form-control input-box placeholder" placeholder="your@email.com" type="text">' %}
                         <p id="email-warning" style="display: none;"><span class='colored-text'>{% trans "Please enter an email!" %}</span></p>
                         <p id="txt-warning" style="display: none;"><span class='colored-text'>{% trans "Please upload a txt file!" %}</span></p>

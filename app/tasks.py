@@ -3,6 +3,7 @@ from .analyzer import analysis_by_url, analysis_by_upload
 import os
 import types
 import requests
+import shutil
 import tempfile
 from zipfile import ZipFile
 from .batch import create_csv, create_summary
@@ -28,9 +29,8 @@ def proccess_url(request_data_obj: object, skill_points: dict) -> dict:
 
     if (type(projects_file) != list):
         # projects_file is path of the batch
+        
         dict_metrics = {}
-        print("path del folder")
-        print(projects_file)
         for root, dirs, files in os.walk(projects_file):
             for i, file in enumerate(files):
                 file_path = os.path.join(root, file)
@@ -57,6 +57,8 @@ def proccess_url(request_data_obj: object, skill_points: dict) -> dict:
                         print(f"Error processing file {file_path}: {e}")
                 else:
                     print(f"File not found: {file_path}")
+        if os.path.exists(projects_file):
+            shutil.rmtree(projects_file)
     else:
         # projects_file is a list of urls
         # Initialize dicts for metrics
