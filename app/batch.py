@@ -151,20 +151,36 @@ def create_csv_main(request ,d: dict, folder_path: str) -> str:
                     row_to_write[clave] = d[project].get(clave, '')
                 elif clave in mastery_fields.keys():
                     clave_trans = mastery_fields[clave]
-                    mastery_list = d[project]['mastery'].get(clave_trans, [])
-                    if type(mastery_list[0]) == list:
-                        row_to_write[clave] = mastery_list[0][0]
-                    else:
-                        row_to_write[clave] = mastery_list[0]
+                    try:
+                        mastery_list = d[project]['mastery'].get(clave_trans, [])
+
+                        if type(mastery_list[0]) == list:
+                            row_to_write[clave] = mastery_list[0][0]
+                        else:
+                            row_to_write[clave] = mastery_list[0]
+                    except KeyError:
+                        row_to_write[clave] = 'Error'
                 elif clave == 'DuplicateScripts':
-                    row_to_write[clave] = d[project]['duplicateScript'].get('number', '')
+                    try:
+                        row_to_write[clave] = d[project]['duplicateScript'].get('number', '')
+                    except KeyError:
+                        row_to_write[clave] = 'Error'
                 elif clave == 'DeadCode':
-                    row_to_write[clave] = d[project]['deadCode'].get('number', '')
+                    try:
+                        row_to_write[clave] = d[project]['deadCode'].get('number', '')
+                    except KeyError:
+                        row_to_write[clave] = 'Error'
                 elif clave == 'SpriteNaming':
-                    row_to_write[clave] = d[project]['spriteNaming'].get('number', '')
+                    try:
+                        row_to_write[clave] = d[project]['spriteNaming'].get('number', '')
+                    except KeyError:
+                        row_to_write[clave] = 'Error'
                 elif clave == "BackdropNaming":
-                    row_to_write[clave] = d[project]['backdropNaming'].get('number', '')
-                else:
+                    try:
+                        row_to_write[clave] = d[project]['backdropNaming'].get('number', '')
+                    except KeyError:
+                        row_to_write[clave] = 'Error'
+                else:   
                     row_to_write[clave] = ''
             writer_csv.writerow(row_to_write)
     return csv_filepath
