@@ -21,6 +21,7 @@ BLOCK_TEXT = {
     "CONTROL_INCRCOUNTER": "increment counter",
     "CONTROL_CLEARCOUNTER": "clear counter",
     "CONTROL_ALLATONCE": "all at once",
+    "CONTROL_FOR_EACH": "for each [%1 v] in (%2)",
     "DATA_SETVARIABLETO": "set [%1 v] to (%2)",
     "DATA_CHANGEVARIABLEBY": "change [%1 v] by (%2)",
     "DATA_SHOWVARIABLE": "show variable [%1 v]",
