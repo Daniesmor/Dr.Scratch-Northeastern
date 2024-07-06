@@ -296,7 +296,13 @@ BLOCK_TEXT = {
     "PEN_CLEAR": "erase all",
     "PEN_STAMP": "stamp",
     "SOUND_SOUNDS_MENU": "start sound (%1)",
-    "LOOKS_BACKDROPS": "looks_backdrops (%1)"
+    "LOOKS_BACKDROPS": "looks_backdrops (%1)",
+    "MUSIC_CHANGETEMPO": "change tempo by (%1)",
+    "MUSIC_SETTEMPOTO": "set tempo to (%1)",
+    "MUSIC_SETINSTRUMENT": "set instrument to (%1 v)",
+    "MUSIC_PLAYNOTEFORBEATS": "play note (%1) for (%2) beats",
+    "MUSIC_RESTFORBEATS": "rest for (%1) beats",
+    "MUSIC_PLAYDRUMFORBEATS": "play drum (%1 v) for (%2) beats",
 }
 
 STARTER_BLOCKS = {"EVENT_WHENFLAGCLICKED",
