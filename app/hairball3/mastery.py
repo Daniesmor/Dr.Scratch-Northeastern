@@ -417,10 +417,11 @@ class Mastery(Plugin):
                 if (condition != None):
                     id_condition = condition[1]
                     
-                    if self.dict_total_blocks[id_condition]['opcode'] == 'operator_gt':
-                        coincidences += 1
-                        if coincidences >= n_scripts: # N scripts when %s is > %s,
-                            return True
+                    if id_condition != None:
+                        if self.dict_total_blocks[id_condition]['opcode'] == 'operator_gt':
+                            coincidences += 1
+                            if coincidences >= n_scripts: # N scripts when %s is > %s,
+                                return True
         return False
 
     def check_scripts_media(self, dict_parall, n_scripts):
