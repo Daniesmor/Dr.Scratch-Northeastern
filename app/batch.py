@@ -216,7 +216,7 @@ def create_csv_dups(d: dict, folder_path: str):
                 row_to_write = {
                     'url': project_data.get('url', ''),
                     'filename': project_data.get('filename', ''),
-                    'number': project_data['duplicateScript'].get('number', ''),
+                    'number': project_data.get('duplicateScript', {}).get('number', ''),
                 }
                 duplicate_scripts = project_data.get('duplicateScript', {}).get('csv_format', [])
                 if duplicate_scripts:
@@ -237,53 +237,46 @@ def create_csv_sprites(d: dict, folder_path: str):
     headers = ['url', 'filename', 'number']
 
     # Get the maximum number of sprites
-    try:
-        total_sprites_names = max(len(proj['spriteNaming'].get('sprite', [])) for proj in d.values())
-        # Add the names of the sprites as headers
-        headers.extend(f'spriteNaming{i}' for i in range(1, total_sprites_names + 1))
-        # Write in the CSV file
-        with open(csv_filepath, 'w', newline='') as csv_file:
-            writer_csv = csv.DictWriter(csv_file, fieldnames=headers)
-            writer_csv.writeheader()
+    total_sprites_names = max(len(proj.get('spriteNaming', {}).get('sprite', [])) for proj in d.values())
+    # Add the names of the sprites as headers
+    headers.extend(f'spriteNaming{i}' for i in range(1, total_sprites_names + 1))
+    # Write in the CSV file
+    with open(csv_filepath, 'w', newline='') as csv_file:
+        writer_csv = csv.DictWriter(csv_file, fieldnames=headers)
+        writer_csv.writeheader()
 
-            for project in d.values():
-                row_to_write = {key: project.get(key, 'N/A') for key in headers if key in ['url', 'filename']}
-                row_to_write['number'] = project.get('spriteNaming', {}).get('number', 'N/A')
-                # Fill the sprites
-                sprites = project.get('spriteNaming', {}).get('sprite', [])
-                for i, sprite in enumerate(sprites, 1):
-                    row_to_write[f'spriteNaming{i}'] = sprite
-                # Write the row
-                writer_csv.writerow(row_to_write)
-    except KeyError:
-        print("Error in creation of csv sprites.")
-    
+        for project in d.values():
+            row_to_write = {key: project.get(key, 'N/A') for key in headers if key in ['url', 'filename']}
+            row_to_write['number'] = project.get('spriteNaming', {}).get('number', 'N/A')
+            # Fill the sprites
+            sprites = project.get('spriteNaming', {}).get('sprite', [])
+            for i, sprite in enumerate(sprites, 1):
+                row_to_write[f'spriteNaming{i}'] = sprite if sprite else 'N/A'
+            # Write the row
+            writer_csv.writerow(row_to_write)
   
 def create_csv_backdrops(d: dict, folder_path: str):
     csv_name = "backdropNaming.csv"
     csv_filepath = os.path.join(folder_path, csv_name)
     # headers list
     headers = ['url', 'filename','number']
-    
-    try:
-        total_backdrop_names = max(len(proj['backdropNaming'].get('backdrop', [])) for proj in d.values())
-        headers.extend(f'backdropNaming{i}' for i in range(1, total_backdrop_names+1))
-        
-        with open(csv_filepath, 'w') as csv_file:
-            writer_csv = csv.DictWriter(csv_file, fieldnames=headers)
-            writer_csv.writeheader()
 
-            row_to_write = {}
-            for project in d.values():
-                row_to_write = {key: project.get(key, 'N/A') for key in headers}
-                
-                # Fill backdrops
-                backdrops = project['backdropNaming'].get('backdrop', [])
-                for i, backdrop in enumerate(backdrops, 1):
-                    row_to_write[f'backdropNaming{i}'] = backdrop if backdrop else 'N/A'
-                writer_csv.writerow(row_to_write)
-    except KeyError:
-        print("Error in creation of csv backdrops.")
+    total_backdrop_names = max(len(proj.get('backdropNaming', {}).get('backdrop', [])) for proj in d.values())
+    headers.extend(f'backdropNaming{i}' for i in range(1, total_backdrop_names+1))
+    
+    with open(csv_filepath, 'w') as csv_file:
+        writer_csv = csv.DictWriter(csv_file, fieldnames=headers)
+        writer_csv.writeheader()
+
+        row_to_write = {}
+        for project in d.values():
+            row_to_write = {key: project.get(key, 'N/A') for key in headers}
+            
+            # Fill backdrops
+            backdrops = project.get('backdropNaming', {}).get('backdrop', [])
+            for i, backdrop in enumerate(backdrops, 1):
+                row_to_write[f'backdropNaming{i}'] = backdrop if backdrop else 'N/A'
+            writer_csv.writerow(row_to_write)
 
 def create_csv_deadcode(d: dict, folder_path: str):
     csv_name = "deadCode.csv"
