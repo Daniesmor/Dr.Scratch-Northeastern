@@ -290,6 +290,7 @@ BLOCK_TEXT = {
     "PEN_SETPENSIZETO": "set pen size to (%1)",
     "PEN_CHANGEPENCOLORPARAMBY": "change pen (%1 v) by (%2)",
     "PEN_CHANGEPENSIZEBY": "change pen size by (%1)",
+    "PEN_CHANGEPENHUEBY": "change color by (%1)",
     "PEN_PENDOWN": "pen down",
     "PEN_PENUP": "pen up",
     "PEN_CLEAR": "erase all",
