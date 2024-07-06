@@ -52,7 +52,14 @@ def proccess_url(request_data_obj: object, skill_points: dict) -> dict:
                             request_data_obj.user = SimpleNamespace(is_authenticated=True, username=None)
                             request_data_obj.session = {}
 
-                            dict_metrics[i] = analysis_by_upload(request_data_obj, skill_points, inmemory_file)
+                            try:
+                                dict_metrics[i] = analysis_by_upload(request_data_obj, skill_points, inmemory_file)
+                            except KeyError:
+                                dict_metrics[i] = {
+                                    'url': file,
+                                    'filename': file,
+                                    'dashboard_mode': dashboard_mode,
+                                }
                     except Exception as e:
                         print(f"Error processing file {file_path}: {e}")
                 else:
