@@ -695,7 +695,6 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         
         # RECOMENDER SECTION
         if (dashboard == 'Recommender'):
-            print("HEMOS ENTRADO AQUI")
             dict_recom = {}
             recomender = RecomenderSystem(curr_type)
             dict_recom["deadCode"] = recomender.recomender_deadcode(dict_dead_code)
@@ -723,36 +722,30 @@ def analysis_by_upload(request, skill_points: dict, upload):
     """
     Upload file from form POST for unregistered users
     """
-
     zip_filename = upload.name.encode('utf-8')
     filename_obj = save_analysis_in_file_db(request, zip_filename)
-
     dir_zips = os.path.dirname(os.path.dirname(__file__)) + "/uploads/"
     project_name = str(uuid.uuid4())
     unique_id = '{}_{}{}'.format(project_name, datetime.now().strftime("%Y_%m_%d_%H_%M_%S_"), datetime.now().microsecond)
     zip_filename = zip_filename.decode('utf-8')
     version = check_version(zip_filename)
-
     if version == "1.4":
         file_saved = dir_zips + unique_id + ".sb"
     elif version == "2.0":
         file_saved = dir_zips + unique_id + ".sb2"
     else:
         file_saved = dir_zips + unique_id + ".sb3"
-
     # Create log
     path_log = os.path.dirname(os.path.dirname(__file__)) + "/log/"
     log_file = open(path_log + "logFile.txt", "a")
     log_file.write("FileName: " + str(zip_filename) + "\t\t\t" + "ID: " + str(filename_obj.id) + "\t\t\t" + \
                 "Method: " + str(filename_obj.method) + "\t\t\tTime: " + str(filename_obj.time) + "\n")
-
     # Save file in server
     file_name = os.path.join("uploads", file_saved)
     request.session['current_project_path'] = file_name
     with open(file_name, 'wb+') as destination:
         for chunk in upload.chunks():
             destination.write(chunk)
-
     try:
         ext_type_project=None
         dict_drscratch_analysis = analyze_project(request, file_name, filename_obj, ext_type_project, skill_points)
@@ -766,7 +759,6 @@ def analysis_by_upload(request, skill_points: dict, upload):
         shutil.copy(old_path_project, new_path_project)
         dict_drscratch_analysis = {'Error': 'analyzing'}
         return dict_drscratch_analysis
-
     # Redirect to dashboard for unregistered user
     dict_drscratch_analysis['Error'] = 'None'
     dict_drscratch_analysis.update({
