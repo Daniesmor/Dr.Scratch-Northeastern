@@ -66,8 +66,8 @@ def proccess_url(request_data_obj: object, skill_points: dict) -> dict:
 
         # Proccess each URL of the list
         for i, url in enumerate(projects_file):
-            if i >= 10:
-                break 
+            #if i >= 10:
+            #   break 
             url = url.decode('utf-8').strip()
             dict_metrics[i] = analysis_by_url(request_data_obj, url, skill_points)
             dict_metrics[i].update({
