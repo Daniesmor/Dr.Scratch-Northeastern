@@ -307,7 +307,8 @@ class Mastery(Plugin):
         """
         Check the advanced user interactivity skills
         """
-        if len(self.json_project['extensions']) != 0:
+        extensions = self.json_project.get('extensions', [])
+        if len(extensions) != 0:
             return True
         else:
             return False
