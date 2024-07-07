@@ -121,45 +121,63 @@ def skills_translation(request) -> dict:
     
     return dic
 
-def create_csv_main(request ,d: dict, folder_path: str) -> str:
+def create_csv_main(request, d: dict, folder_path: str) -> str:
     csv_name = "main.csv"
     csv_filepath = os.path.join(folder_path, csv_name)
-    #fieldnames = list(d[0].keys())
     
     mastery_fields = skills_translation(request) 
     mastery_fields = {skill_en: skill_trans for skill_trans, skill_en in mastery_fields.items()}
-    mastery_fields['points'] = 'points'
+    mastery_fields['points'] = 'points'    
 
     headers = [
         'url', 'filename', 'points', 
         'Abstraction', 'Parallelism', 'Logic', 'Synchronization',
         'Flow control', 'User interactivity', 'Data representation',
-        'Math operators', 'Motion operators',
-        'DuplicateScripts', 'DeadCode', 'SpriteNaming', 'BackdropNaming', 
-        'Error', 'dashboard_mode', 
+        'Math operators', 'Motion operators', 'DuplicateScripts',
+        'DeadCode', 'SpriteNaming', 'BackdropNaming', 
+        'Error', 'dashboard_mode'
     ]
 
-    # Abir el archivo csv en modo de escritura
-    with open(csv_filepath, 'w') as csv_file:
-        writer_csv = csv.DictWriter(csv_file, fieldnames=headers)
+    vanilla_headers = [
+        'Van points','Van Abstraction','Van Parallelism', 'Van Logic', 
+        'Van Synchronization', 'Van Flow control', 'Van User interactivity',
+        'Van Data representation'
+    ]
+
+    global_headers = headers + vanilla_headers
+
+    with open(csv_filepath, 'w', newline='') as csv_file:
+        writer_csv = csv.DictWriter(csv_file, fieldnames=global_headers)
         writer_csv.writeheader()
 
-        row_to_write = {}
         for project in d:
-            if d[project]['Error'] != 'None':
-                print(d[project])
+            row_to_write = {}
             for clave in headers:
                 if clave in d[project]:
                     row_to_write[clave] = d[project].get(clave, '')
+                    if clave == 'points':
+                        print("clave")
+                        print(d[project].get(clave, ''))
+                        row_to_write[f"Van {clave}"] = d[project].get(clave, '')[1]
+                        print("row to write")
+                        print(row_to_write[f"Van {clave}"])
                 elif clave in mastery_fields.keys():
                     clave_trans = mastery_fields[clave]
                     try:
                         mastery_list = d[project]['mastery'].get(clave_trans, [])
-
-                        if type(mastery_list[0]) == list:
-                            row_to_write[clave] = mastery_list[0][0]
-                        else:
-                            row_to_write[clave] = mastery_list[0]
+                        if mastery_list:  
+                            if type(mastery_list[0]) == list:
+                                row_to_write[clave] = mastery_list[0][0]               
+                            else:
+                                row_to_write[clave] = mastery_list[0]
+                        if clave not in ['Math operators', 'Motion operators']:
+                            mastery_list_van = d[project]['mastery_vanilla'].get(clave_trans, [])
+                            van_clave = f"Van {clave}"
+                            if mastery_list_van:
+                                if type(mastery_list_van[0]) == list:
+                                    row_to_write[van_clave] = mastery_list_van[0][0]
+                                else:
+                                    row_to_write[van_clave] = mastery_list_van[0]
                     except KeyError:
                         row_to_write[clave] = 'Error'
                 elif clave == 'DuplicateScripts':
@@ -185,6 +203,7 @@ def create_csv_main(request ,d: dict, folder_path: str) -> str:
                 else:   
                     row_to_write[clave] = ''
             writer_csv.writerow(row_to_write)
+
     return csv_filepath
 
 def create_csv_dups(d: dict, folder_path: str):
