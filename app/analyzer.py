@@ -757,7 +757,11 @@ def analysis_by_upload(request, skill_points: dict, upload):
         old_path_project = file_saved
         new_path_project = file_saved.split("/uploads/")[0] + "/error_analyzing/" + file_saved.split("/uploads/")[1]
         shutil.copy(old_path_project, new_path_project)
-        dict_drscratch_analysis = {'Error': 'analyzing'}
+        dict_drscratch_analysis = {
+            'filename': upload.name,
+            'Error': 'analyzing',
+            'dashboard_mode': request.POST.get('dashboard_mode')
+            }
         return dict_drscratch_analysis
     # Redirect to dashboard for unregistered user
     dict_drscratch_analysis['Error'] = 'None'
