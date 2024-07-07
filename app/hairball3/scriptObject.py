@@ -21,6 +21,7 @@ BLOCK_TEXT = {
     "CONTROL_INCRCOUNTER": "increment counter",
     "CONTROL_CLEARCOUNTER": "clear counter",
     "CONTROL_ALLATONCE": "all at once",
+    "CONTROL_FOR_EACH": "for each [%1 v] in (%2)",
     "DATA_SETVARIABLETO": "set [%1 v] to (%2)",
     "DATA_CHANGEVARIABLEBY": "change [%1 v] by (%2)",
     "DATA_SHOWVARIABLE": "show variable [%1 v]",
@@ -289,12 +290,19 @@ BLOCK_TEXT = {
     "PEN_SETPENSIZETO": "set pen size to (%1)",
     "PEN_CHANGEPENCOLORPARAMBY": "change pen (%1 v) by (%2)",
     "PEN_CHANGEPENSIZEBY": "change pen size by (%1)",
+    "PEN_CHANGEPENHUEBY": "change color by (%1)",
     "PEN_PENDOWN": "pen down",
     "PEN_PENUP": "pen up",
     "PEN_CLEAR": "erase all",
     "PEN_STAMP": "stamp",
     "SOUND_SOUNDS_MENU": "start sound (%1)",
-    "LOOKS_BACKDROPS": "looks_backdrops (%1)"
+    "LOOKS_BACKDROPS": "looks_backdrops (%1)",
+    "MUSIC_CHANGETEMPO": "change tempo by (%1)",
+    "MUSIC_SETTEMPOTO": "set tempo to (%1)",
+    "MUSIC_SETINSTRUMENT": "set instrument to (%1 v)",
+    "MUSIC_PLAYNOTEFORBEATS": "play note (%1) for (%2) beats",
+    "MUSIC_RESTFORBEATS": "rest for (%1) beats",
+    "MUSIC_PLAYDRUMFORBEATS": "play drum (%1 v) for (%2) beats",
 }
 
 STARTER_BLOCKS = {"EVENT_WHENFLAGCLICKED",
