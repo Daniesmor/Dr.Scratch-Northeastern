@@ -144,16 +144,21 @@
                 if (!valid) {
                     event.preventDefault();
                 }
-            });
-
-            
+            });    
         });
+    </script>
+
+    <script>
+        document.addEventListener('wheel', function(e) {
+            e.preventDefault();
+            doStuff(e);
+        }, { passive: true });
     </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelector('#recommender-form').addEventListener('submit', function(event) {
-                var recommenderInput = document.querySelector('input[name="urlRecom"]');
+                var recommenderInput = document.getElementById('input-recom');
                 var projectWarning = document.getElementById('project-warning');
                 var valid = true;
 
@@ -163,6 +168,38 @@
                 } else {
                     projectWarning.style.display = 'none'; 
                 }
+                
+            
+                if (!valid) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('main-form').addEventListener('submit', function(event) {
+                var urlInput = document.getElementById('cf-name');
+                var uploadInput = document.getElementById('cf-upload');
+                var urlWarning = document.getElementById('url-warning');
+                var uploadWarning = document.getElementById('upload-warning');
+                var valid = true;
+
+
+                if (!urlInput.value.trim()) {
+                    urlWarning.style.display = 'block'; 
+                    valid = false; 
+                } else {
+                    urlWarning.style.display = 'none'; 
+                }
+
+                if (!uploadInput.files.length) {
+                    uploadWarning.style.display = 'block'; 
+                    valid = false; 
+                } else {
+                    uploadWarning.style.display = 'none'; 
+                }
             
                 if (!valid) {
                     event.preventDefault();
@@ -170,6 +207,8 @@
             }, { passive: false });
         });
     </script>
+
+    
 
 </head>
 
@@ -357,17 +396,19 @@
                                     
 
                                     
-                                <form name="form" class="project-form" enctype="multipart/form-data" method="post" action="/show_dashboard/">
+                                <form name="form" id="main-form" class="project-form" enctype="multipart/form-data" method="post" action="/show_dashboard/">
 
                                     <input type="hidden" name="dashboard_mode" value="Default">
                                     <h5 class="text-input" style="font-weight: lighter;">{% trans "1. Introduce the <span class='colored-text'><a data-toggle='modal' href='#modalUrl'>url</a></span> of your Scratch project, you don't have to download it:" %}</h5>
                                     {% trans '<input name="urlProject" id="cf-name" class="form-control input-box placeholder" placeholder="http:/scratch.mit.edu/projects/your_number" type="text">' %}
+                                    <p id="url-warning" style="display: none;"><span class='colored-text'>{% trans "Please paste a project url" %}</span></p>
                                     <button id="url" name='_url' type="submit" class="btn btn-primary standard-button">{% trans "Analyze by url" %}</button>
                                     {% csrf_token %}
                                     <br><br>
                                     {% csrf_token %}
                                     <h5 class="text-input">{% trans "2. If you have your <span class='colored-text'><a data-toggle='modal' href='#modalProject'>project</a></span> downloaded in the computer you can analyze it here:" %}</h5>
-                                    {% trans "<input  name='zipFile' type='file' class='filestyle' data-buttonText='Choose Project'>" %}
+                                    {% trans "<input name='zipFile' id='cf-upload' type='file' class='filestyle' data-buttonText='Choose Project'>" %}
+                                    <p id="upload-warning" style="display: none;"><span class='colored-text'>{% trans "Please upload a project" %}</span></p>
                                     <button id="upload" name='_upload' type="submit" class="btn btn-primary standard-button">{% trans "Analyze my project" %}</button>
                                     
                                     <br></br>
@@ -519,7 +560,7 @@
                         <h3><strong>{% trans "Recommender Assistant" %}</strong></h3>
                         <p class="h4"><span class='colored-text'>{% trans "NEW!!!" %}</span> {% trans "This mode gives you a feedback about the bad smells of your project and how to solved them with a assistant style." %}</p>
                         <input type="hidden" name="dashboard_mode" value="Recommender">
-                        {% trans '<input name="urlRecom"  class="form-control input-box placeholder" placeholder="http:/scratch.mit.edu/projects/your_number" type="text">' %}
+                        {% trans '<input id="input-recom" name="urlProject_recom"  class="form-control input-box placeholder" placeholder="http:/scratch.mit.edu/projects/your_number" type="text">' %}
                         <p id="project-warning" style="display: none;"><span class='colored-text'>{% trans "Please enter a project!" %}</span></p>
                         <button id="url_recom" name="_url_recom" type="submit" class="btn btn-primary standard-button">{% trans "Analyze my Bad Smells" %}</button>
                         <br></br>
