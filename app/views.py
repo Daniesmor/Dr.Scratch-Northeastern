@@ -141,6 +141,7 @@ def show_dashboard(request, skill_points=None):
             numbers = base32_to_str(url)
         else:
             numbers = ''
+        print(f"Mi url {url}")
         skill_rubric = generate_rubric(numbers)
         user = str(identify_user_type(request))
         if request.POST.get('dashboard_mode') == 'Comparison':
@@ -182,7 +183,9 @@ def show_dashboard(request, skill_points=None):
 @csrf_exempt
 def get_recommender(request, skill_points=None):
     if request.method == 'POST':
-        url = request.POST.get('urlProject')
+        url = request.POST.get('urlProject_recom')
+        if url == "":
+            url = request.POST.get('urlProject_recom')
         currType = request.POST.get('currType')
         print(f"Mi url: {url}")
         numbers = ''
@@ -349,8 +352,14 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
                 dict_metrics[project_counter] = {'Error': 'MultiValueDict'}
                 return dict_metrics
             dict_metrics[project_counter] = analysis_by_upload(request, skill_points, zip_file)
+        elif '_url_recom' in request.POST:
+            form = UrlForm(request.POST)
+            if form.is_valid():
+                url = form.cleaned_data['urlProject_recom']
+                dict_metrics[project_counter] = analysis_by_url(request, url, skill_points)
+            else:
+                dict_metrics[project_counter] =  {'Error': 'MultiValueDict'}
         elif '_url' in request.POST:
-            print("TRAZA DE URL -----------------------")
             form = UrlForm(request.POST)
             if form.is_valid():
                 url = form.cleaned_data['urlProject']
@@ -365,14 +374,11 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
                 projects = projects_file.readlines()
                 num_projects = len(projects)
             else:
-                print(projects_file)
-                print(type(projects_file))
                 # Str with temp path of projects
                 projects_path = extract_batch_projects(projects_file)
                 num_projects = calc_num_projects(projects_path)
                 projects = projects_path
     
-            print("TRAZA 0000")
             request_data = {
                 'LANGUAGE_CODE': request.LANGUAGE_CODE,
                 'POST': {
@@ -381,7 +387,6 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
                     'email': request.POST['batch-email']       
                 }
             }
-            print("TRAZA 1111")
             init_batch.delay(request_data, skill_points) # Call to analyzer task
 
             dict_metrics[project_counter] = {
