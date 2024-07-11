@@ -221,7 +221,7 @@ BLOCK_TEXT = {
     "SOUND_PLAY": "start sound (%1 v)",
     "SOUND_PLAYUNTILDONE": "play sound (%1 v) until done",
     "SOUND_STOPALLSOUNDS": "stop all sounds",
-    "SOUND_SETEFFECTO": "set [%1 v] effect to (%2)",
+    "SOUND_SETEFFECTTO": "set [%1 v] effect to (%2)",
     "SOUND_CHANGEEFFECTBY": "change [%1 v] effect by (%2)",
     "SOUND_CLEAREFFECTS": "clear sound effects",
     "SOUND_EFFECTS_PITCH": "pitch",
