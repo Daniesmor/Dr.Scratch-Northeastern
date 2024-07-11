@@ -222,6 +222,7 @@ BLOCK_TEXT = {
     "SENSING_DAYSSINCE2000": "days since 2000",
     "SENSING_USERNAME": "username",
     "SENSING_USERID": "user id",
+    "SENSING_KEYOPTIONS": "key (%1 v) pressed?",
     "SOUND_PLAY": "start sound (%1 v)",
     "SOUND_PLAYUNTILDONE": "play sound (%1 v) until done",
     "SOUND_STOPALLSOUNDS": "stop all sounds",
