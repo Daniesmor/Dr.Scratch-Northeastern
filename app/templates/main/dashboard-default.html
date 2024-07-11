@@ -7,7 +7,6 @@
         <div class="container" id="stepone">
             <section id="dashboard">
                 <div class="tab text-center">
-                    <!-- <button class="tablinks" onclick="openMode(event, 'Rethinking')">{% trans 'Rethinking Mode' %}</button> -->
                     <button class="tablinks active" onclick="openMode(event, 'Vanilla')">{% trans 'Vanilla Mode' %}</button>
                     <button class="tablinks" onclick="openMode(event, 'Extended')">{% trans 'Extended Mode' %}</button>
                 </div>
@@ -538,7 +537,6 @@
             </div>
         </div>
         
-
         <!-- VANILLA MODE -->
         <div id="Vanilla" class="tabcontent">
             {% if mastery_vanilla.competence == "Master" %}
@@ -815,9 +813,7 @@
                                                     <td id="{{ value.1 }}">
                                                         {% if value.0.0 == 0 %}
                                                             <div class="progress">
-                                                                <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="{{ value.0.1 }}" style="width: 0%">
-                                                                    <span style="color: grey;"><strong>{{ value.0.0 }}/{{ value.0.1 }}</strong></span>
-                                                                </div>
+                                                                <span style="color: grey;"><strong>{{ value.0.0 }} / {{ value.0.1 }}</strong></span>
                                                             </div>
                                                         {% else %}
                                                             <div class="progress">
@@ -1138,8 +1134,8 @@
                                                     <td id="{{ value.1 }}">
                                                         {% if value.0.0 == 0 %}
                                                             <div class="progress">
-                                                                <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="{{ value.0.1 }}" style="width: 0%">
-                                                                    <span style="color: grey;"><strong>{{ value.0.0 }}/{{ value.0.1 }}</strong></span>
+                                                                <div class="progress">
+                                                                    <span style="color: grey;"><strong>{{ value.0.0 }} / {{ value.0.1 }}</strong></span>
                                                                 </div>
                                                             </div>
                                                         {% else %}
@@ -1252,163 +1248,6 @@
             </div>
         </div>
 
-        <div id="sprite-naming-content-r" style="display: none;">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{% trans 'Sprite Naming' %}</h5>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid">
-                    {% if spriteNaming.number == 0 %}
-                        <p> {% trans 'Your project does not have default sprite naming, good job!' %}
-                    {% else %}
-                        <div class="card" id="refactorization">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#originalCollapse" aria-expanded="false" aria-controls="originalCollapse">
-                                        {% trans 'Display Original Names!' %}
-                                    </button>
-                                </div>
-                                <div class="col-md-6">
-                                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#refactoredCollapse" aria-expanded="false" aria-controls="refactoredCollapse">
-                                        {% trans 'Display Solution!' %}
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="collapse" id="originalCollapse" data-bs-parent="#refactorization">
-                                        <div class="card card-body">
-                                            {% for value in spriteNaming.sprite %}
-                                                <p> {{ value }} </p>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="collapse" id="refactoredCollapse" data-bs-parent="#refactorization">
-                                        <div class="card card-body">
-                                            <p> {% trans 'Try to name them more according to the Function they make' %} </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans 'Close' %}</button>
-            </div>
-        </div>
-
-        <div id="backdrop-naming-content-r" style="display: none;">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{% trans 'Backdrop Naming' %}</h5>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid">
-                    {% if backdropNaming.number == 0 %}
-                        <p> {% trans 'Your project does not have default backdrop naming, good job!' %}
-                    {% else %}
-                        <div class="card" id="refactorization">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#originalCollapse" aria-expanded="false" aria-controls="originalCollapse">
-                                        {% trans 'Display Original Names!' %}
-                                    </button>
-                                </div>
-                                <div class="col-md-6">
-                                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#refactoredCollapse" aria-expanded="false" aria-controls="refactoredCollapse">
-                                        {% trans 'Display Solution!' %}
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="collapse" id="originalCollapse" data-bs-parent="#refactorization">
-                                        <div class="card card-body">
-                                            {% for value in backdropNaming.backdrop %}
-                                                <p> {{ value }} </p>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="collapse" id="refactoredCollapse" data-bs-parent="#refactorization">
-                                        <div class="card card-body">
-                                            <p> {% trans 'Try to name them more according to the Function they make' %} </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans 'Close' %}</button>
-            </div>
-        </div>
-
-        <div id="dead-code-content-r" style="display: none;">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{% trans 'Dead Code' %}</h5>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid">
-                    {% if deadCode.number == 0 %}
-                        <p> {% trans 'Your project does not have dead code, good job!' %}
-                    {% else %}
-                        <div class="card" id="refactorization">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#originalCollapse" aria-expanded="false" aria-controls="originalCollapse">
-                                        {% trans 'Display Original Blocks!' %}
-                                    </button>
-                                </div>
-                                <div class="col-md-6">
-                                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#refactoredCollapse" aria-expanded="false" aria-controls="refactoredCollapse">
-                                        {% trans 'Display Solution!' %}
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="collapse" id="originalCollapse" data-bs-parent="#refactorization">
-                                        <div class="card card-body">
-                                            {% for key, value in deadCode.items %}
-                                                {% if key != 'deadCode' %}
-                                                    {% if key != 'number' %}
-                                                        <p> {{ key }}: </p>
-                                                        {% for dead_block in value %}
-                                                            <pre class="blocks">
-                                                                <p> {{ dead_block }} </p>
-                                                            </pre>
-                                                        {% endfor %}
-                                                    {% endif%}
-                                                {% endif%}
-                                            {% endfor%}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="collapse" id="refactoredCollapse" data-bs-parent="#refactorization">
-                                        <div class="card card-body">
-                                            <p>
-                                                {% trans 'Erase them in order to have a cleaner Code' %}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans 'Close' %}</button>
-            </div>
-        </div>
         <br></br>
         <script>
             function openMode(evt, ModeName) {
@@ -1437,7 +1276,6 @@
             // Show the Vanilla mode by default
             document.getElementById("Vanilla").style.display = "block";
             // Hide the others content
-            document.getElementById("Rethinking").style.display = "none";
             document.getElementById("Extended").style.display = "none";
         </script>
 

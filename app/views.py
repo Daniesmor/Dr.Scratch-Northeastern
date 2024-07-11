@@ -148,7 +148,7 @@ def show_dashboard(request, skill_points=None):
             print("Comparison mode:", request.POST)
             d = build_dictionary_with_automatic_analysis(request, skill_rubric)
             print("Context Dictionary:", d)
-            return render(request, user + '/dashboard-compare-1.html', d)   
+            return render(request, user + '/dashboard-compare.html', d)   
         print("Mode:", request.POST)
         d = build_dictionary_with_automatic_analysis(request, skill_rubric)
         print("Context Dictionary:")
