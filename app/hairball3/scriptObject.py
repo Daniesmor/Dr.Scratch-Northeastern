@@ -108,6 +108,7 @@ BLOCK_TEXT = {
     "MOTION_POINTTOWARDS": "point towards (%1 v)",
     "MOTION_POINTTOWARDS_POINTER": "mouse-pointer",
     "MOTION_POINTTOWARDS_RANDOM": "random direction",
+    "MOTION_POINTTOWARDS_MENU": "motion_pointtowards_menu (%1 v)",
     "MOTION_GOTO": "go to (%1 v)",
     "MOTION_GOTO_POINTER": "mouse-pointer",
     "MOTION_GOTO_RANDOM": "random position",
