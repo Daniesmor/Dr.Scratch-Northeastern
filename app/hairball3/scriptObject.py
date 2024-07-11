@@ -304,6 +304,10 @@ BLOCK_TEXT = {
     "MUSIC_PLAYNOTEFORBEATS": "play note (%1) for (%2) beats",
     "MUSIC_RESTFORBEATS": "rest for (%1) beats",
     "MUSIC_PLAYDRUMFORBEATS": "play drum (%1 v) for (%2) beats",
+    "VIDEOSENSING_WHENMOTIONGREATERTHAN": "when video motion > (%1)",
+    "VIDEOSENSING_VIDEOON": "video (%1 v) on (%2 v)",
+    "VIDEOSENSING_VIDEOTOGGLE": "turn video (%1 v)",
+    "VIDEOSENSING_SETVIDEOTRANSPARENCYTO": "set video transparency to (%1)"
 }
 
 STARTER_BLOCKS = {"EVENT_WHENFLAGCLICKED",
