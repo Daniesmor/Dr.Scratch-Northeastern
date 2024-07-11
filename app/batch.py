@@ -155,12 +155,8 @@ def create_csv_main(request, d: dict, folder_path: str) -> str:
             for clave in headers:
                 if clave in d[project]:
                     row_to_write[clave] = d[project].get(clave, '')
-                    if clave == 'points':
-                        print("clave")
-                        print(d[project].get(clave, ''))
+                    if clave == 'points':      
                         row_to_write[f"Van {clave}"] = d[project].get(clave, '')[1]
-                        print("row to write")
-                        print(row_to_write[f"Van {clave}"])
                 elif clave in mastery_fields.keys():
                     clave_trans = mastery_fields[clave]
                     try:
@@ -379,7 +375,7 @@ def create_summary(request, d: dict) -> dict:
                         else:
                             summary[skill] = 0
                 except KeyError:
-                    summary[skill] = 0
+                    pass
         except TypeError:
             summary['Points'] += 0
     
