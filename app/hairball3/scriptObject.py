@@ -310,7 +310,10 @@ BLOCK_TEXT = {
     "VIDEOSENSING_WHENMOTIONGREATERTHAN": "when video motion > (%1)",
     "VIDEOSENSING_VIDEOON": "video (%1 v) on (%2 v)",
     "VIDEOSENSING_VIDEOTOGGLE": "turn video (%1 v)",
-    "VIDEOSENSING_SETVIDEOTRANSPARENCYTO": "set video transparency to (%1)"
+    "VIDEOSENSING_SETVIDEOTRANSPARENCYTO": "set video transparency to (%1)",
+    "TEXT2SPEECH_SPEAKANDWAIT": "speak (%1)",
+    "TEXT2SPEECH_SETVOICE": "set voice to (%1 v)",
+    "TEXT2SPEECH_SETLANGUAGE": "set language to (%1 v)",
 }
 
 STARTER_BLOCKS = {"EVENT_WHENFLAGCLICKED",
