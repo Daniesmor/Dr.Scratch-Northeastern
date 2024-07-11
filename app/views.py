@@ -353,9 +353,8 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
                 return dict_metrics
             dict_metrics[project_counter] = analysis_by_upload(request, skill_points, zip_file)
         elif '_url_recom' in request.POST:
-            form = UrlForm(request.POST)
-            if form.is_valid():
-                url = form.cleaned_data['urlProject_recom']
+            url = request.POST.get('urlProject_recom',)
+            if url != None:
                 dict_metrics[project_counter] = analysis_by_url(request, url, skill_points)
             else:
                 dict_metrics[project_counter] =  {'Error': 'MultiValueDict'}

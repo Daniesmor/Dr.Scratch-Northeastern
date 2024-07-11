@@ -47,7 +47,7 @@ class DeadCode(Plugin):
 
                             if not event_var:
                                 if not self.opcode_argument_reporter in blocks_dicc["opcode"]:
-                                    if blocks_dicc["parent"] is None and blocks_dicc["next"] is None:
+                                    if blocks_dicc.get("parent",) is None and blocks_dicc["next"] is None:
                                         script = Script()
                                         block = script.convert_block_to_text(blocks_dicc)
                                         blocks_list.append(str(block))

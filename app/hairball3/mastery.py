@@ -652,9 +652,12 @@ class Mastery(Plugin):
 
         for block in self.list_total_blocks:
             if block.get('opcode') == "event_broadcast" or block.get('opcode') == "event_broadcastandwait":
-                msg = block['inputs']['BROADCAST_INPUT'][1][2]
-                if self.has_conditional_or_loop(msg):
-                    counter += 1
+                try:
+                    msg = block['inputs']['BROADCAST_INPUT'][1][2]
+                    if self.has_conditional_or_loop(msg):
+                        counter += 1
+                except IndexError:
+                    pass
         if counter >= min_msg:
             check = True
 
