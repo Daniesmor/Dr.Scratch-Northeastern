@@ -210,6 +210,7 @@ BLOCK_TEXT = {
     "SENSING_OF_BACKDROPNUMBER": "backdrop #",
     "SENSING_OF_BACKDROPNAME": "backdrop name",
     "SENSING_OF_STAGE": "Stage",
+    "SENSING_OF_OBJECT_MENU": "[%1 v] of (%2 v)",
     "SENSING_CURRENT": "current [%1 v]",
     "SENSING_CURRENT_YEAR": "year",
     "SENSING_CURRENT_MONTH": "month",
