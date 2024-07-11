@@ -106,7 +106,10 @@ class RefactorDuplicate():
             original_text = "\n\n".join([script.convert_to_text() for script in duplicated_scripts])
 
             # Top Blocks (like when green flag clicked)
-            starting_blocks = [script.convert_to_text().split("\n")[1] for script in duplicated_scripts]
+            try:
+                starting_blocks = [script.convert_to_text().split("\n")[1] for script in duplicated_scripts]
+            except IndexError:
+                starting_blocks = [script.convert_to_text().split("\n")[0] for script in duplicated_scripts]
 
             list_script_variables = [script.get_vars() for script in duplicated_scripts]
 
