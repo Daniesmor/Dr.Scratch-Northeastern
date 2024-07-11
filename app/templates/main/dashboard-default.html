@@ -471,11 +471,31 @@
                 });
             });
         });
-
-
-
         </script>
         <!-- END OF C_MODE SCRIPT -->
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('form-compare').addEventListener('submit', function {
+
+                    var compareInput = document.getElementById('cf-name');
+                    var projectWarning = document.getElementById('project-warning');
+                    var valid = true;
+
+                    if (!compareInput.value.trim()) {
+                        projectWarning.style.display = 'block'; 
+                        valid = false; 
+                    } else {
+                        projectWarning.style.display = 'none'; 
+                    }
+                    
+                
+                    if (!valid) {
+                        event.preventDefault();
+                    }
+                });
+            });
+        </script>
         
 
 
@@ -715,11 +735,12 @@
                                     </h2>
                                 </div>
                                 <div class="panel-success" style="word-break: break-word;" >
-                                    <form id="myForm" name="form" class="project-form" enctype="multipart/form-data" method="post" style="margin: 10px" target="_blank">
+                                    <form id="form-compare" name="form" class="project-form" enctype="multipart/form-data" method="post" style="margin: 10px" target="_blank">
                                         <input type="hidden" name="dashboard_mode" value="Comparison">
                                         <input type="hidden" name="_urls" value="Url">
                                         <input type="hidden" name="urlProject" value="{{ url }}">
                                         {% trans '<input name="urlProject" id="cf-name" class="form-control input-box placeholder" placeholder="http:/scratch.mit.edu/projects/your_number" type="text">' %}
+                                        <p id="project-warning" style="display: none;"><span class='colored-text'>{% trans "Please enter a project!" %}</span></p>
                                         <div class="form-check">
                                             <label class="form-check-label" for="flexCheckDefault">
                                                 {% trans "Is the new project an update from the original?" %}
