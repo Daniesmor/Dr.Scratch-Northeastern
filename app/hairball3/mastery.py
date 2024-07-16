@@ -307,7 +307,8 @@ class Mastery(Plugin):
         """
         Check the advanced user interactivity skills
         """
-        if len(self.json_project['extensions']) != 0:
+        extensions = self.json_project.get('extensions', [])
+        if len(extensions) != 0:
             return True
         else:
             return False
@@ -417,10 +418,11 @@ class Mastery(Plugin):
                 if (condition != None):
                     id_condition = condition[1]
                     
-                    if self.dict_total_blocks[id_condition]['opcode'] == 'operator_gt':
-                        coincidences += 1
-                        if coincidences >= n_scripts: # N scripts when %s is > %s,
-                            return True
+                    if id_condition != None:
+                        if self.dict_total_blocks[id_condition]['opcode'] == 'operator_gt':
+                            coincidences += 1
+                            if coincidences >= n_scripts: # N scripts when %s is > %s,
+                                return True
         return False
 
     def check_scripts_media(self, dict_parall, n_scripts):
@@ -650,9 +652,12 @@ class Mastery(Plugin):
 
         for block in self.list_total_blocks:
             if block.get('opcode') == "event_broadcast" or block.get('opcode') == "event_broadcastandwait":
-                msg = block['inputs']['BROADCAST_INPUT'][1][2]
-                if self.has_conditional_or_loop(msg):
-                    counter += 1
+                try:
+                    msg = block['inputs']['BROADCAST_INPUT'][1][2]
+                    if self.has_conditional_or_loop(msg):
+                        counter += 1
+                except IndexError:
+                    pass
         if counter >= min_msg:
             check = True
 

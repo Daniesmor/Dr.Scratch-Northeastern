@@ -21,6 +21,7 @@ BLOCK_TEXT = {
     "CONTROL_INCRCOUNTER": "increment counter",
     "CONTROL_CLEARCOUNTER": "clear counter",
     "CONTROL_ALLATONCE": "all at once",
+    "CONTROL_FOR_EACH": "for each [%1 v] in (%2)",
     "DATA_SETVARIABLETO": "set [%1 v] to (%2)",
     "DATA_CHANGEVARIABLEBY": "change [%1 v] by (%2)",
     "DATA_SHOWVARIABLE": "show variable [%1 v]",
@@ -107,7 +108,9 @@ BLOCK_TEXT = {
     "MOTION_POINTTOWARDS": "point towards (%1 v)",
     "MOTION_POINTTOWARDS_POINTER": "mouse-pointer",
     "MOTION_POINTTOWARDS_RANDOM": "random direction",
+    "MOTION_POINTTOWARDS_MENU": "point towards (%1 v)",
     "MOTION_GOTO": "go to (%1 v)",
+    "MOTION_GOTO_MENU": "go to (%1 v)",
     "MOTION_GOTO_POINTER": "mouse-pointer",
     "MOTION_GOTO_RANDOM": "random position",
     "MOTION_GOTOXY": "go to x: (%1) y: (%2)",
@@ -180,6 +183,7 @@ BLOCK_TEXT = {
     "SENSING_TOUCHINGCOLOR": "touching color (%1)?",
     "SENSING_COLORISTOUCHINGCOLOR": "color (%1) is touching (%2)?",
     "SENSING_DISTANCETO": "distance to (%1 v)",
+    "SENSING_DISTANCETOMENU": "distance to (%1 v)",
     "SENSING_DISTANCETO_POINTER": "mouse-pointer",
     "SENSING_ASKANDWAIT": "ask (%1) and wait",
     "SENSING_ASK_TEXT": "What's your name?",
@@ -206,6 +210,7 @@ BLOCK_TEXT = {
     "SENSING_OF_BACKDROPNUMBER": "backdrop #",
     "SENSING_OF_BACKDROPNAME": "backdrop name",
     "SENSING_OF_STAGE": "Stage",
+    "SENSING_OF_OBJECT_MENU": "[%1 v] of (%2 v)",
     "SENSING_CURRENT": "current [%1 v]",
     "SENSING_CURRENT_YEAR": "year",
     "SENSING_CURRENT_MONTH": "month",
@@ -217,10 +222,11 @@ BLOCK_TEXT = {
     "SENSING_DAYSSINCE2000": "days since 2000",
     "SENSING_USERNAME": "username",
     "SENSING_USERID": "user id",
+    "SENSING_KEYOPTIONS": "key (%1 v) pressed?",
     "SOUND_PLAY": "start sound (%1 v)",
     "SOUND_PLAYUNTILDONE": "play sound (%1 v) until done",
     "SOUND_STOPALLSOUNDS": "stop all sounds",
-    "SOUND_SETEFFECTO": "set [%1 v] effect to (%2)",
+    "SOUND_SETEFFECTTO": "set [%1 v] effect to (%2)",
     "SOUND_CHANGEEFFECTBY": "change [%1 v] effect by (%2)",
     "SOUND_CLEAREFFECTS": "clear sound effects",
     "SOUND_EFFECTS_PITCH": "pitch",
@@ -289,12 +295,26 @@ BLOCK_TEXT = {
     "PEN_SETPENSIZETO": "set pen size to (%1)",
     "PEN_CHANGEPENCOLORPARAMBY": "change pen (%1 v) by (%2)",
     "PEN_CHANGEPENSIZEBY": "change pen size by (%1)",
+    "PEN_CHANGEPENHUEBY": "change color by (%1)",
     "PEN_PENDOWN": "pen down",
     "PEN_PENUP": "pen up",
     "PEN_CLEAR": "erase all",
     "PEN_STAMP": "stamp",
     "SOUND_SOUNDS_MENU": "start sound (%1)",
-    "LOOKS_BACKDROPS": "looks_backdrops (%1)"
+    "LOOKS_BACKDROPS": "looks_backdrops (%1)",
+    "MUSIC_CHANGETEMPO": "change tempo by (%1)",
+    "MUSIC_SETTEMPOTO": "set tempo to (%1)",
+    "MUSIC_SETINSTRUMENT": "set instrument to (%1 v)",
+    "MUSIC_PLAYNOTEFORBEATS": "play note (%1) for (%2) beats",
+    "MUSIC_RESTFORBEATS": "rest for (%1) beats",
+    "MUSIC_PLAYDRUMFORBEATS": "play drum (%1 v) for (%2) beats",
+    "VIDEOSENSING_WHENMOTIONGREATERTHAN": "when video motion > (%1)",
+    "VIDEOSENSING_VIDEOON": "video (%1 v) on (%2 v)",
+    "VIDEOSENSING_VIDEOTOGGLE": "turn video (%1 v)",
+    "VIDEOSENSING_SETVIDEOTRANSPARENCYTO": "set video transparency to (%1)",
+    "TEXT2SPEECH_SPEAKANDWAIT": "speak (%1)",
+    "TEXT2SPEECH_SETVOICE": "set voice to (%1 v)",
+    "TEXT2SPEECH_SETLANGUAGE": "set language to (%1 v)",
 }
 
 STARTER_BLOCKS = {"EVENT_WHENFLAGCLICKED",
@@ -372,7 +392,6 @@ class Script():
 
             n_input += 1
         
-
         # For inputs that either are another block (with key input_{i}) or just a variable (with key var_{i})
         for input in block["inputs"].keys():
             if input not in self.child_keys:
@@ -388,16 +407,12 @@ class Script():
 
                         self.counter_vars += 1
                 else:
-                    value = block["inputs"][input][1][1]
-
-                    new_block[f'block_{current_counter}'][f'var_{self.counter_vars}'] = value
-
-                    self.vars[f'var_{self.counter_vars}'] = value
-
-                    self.counter_vars += 1
-                
+                    if (value != None):
+                        value = block["inputs"][input][1][1]
+                        new_block[f'block_{current_counter}'][f'var_{self.counter_vars}'] = value
+                        self.vars[f'var_{self.counter_vars}'] = value
+                        self.counter_vars += 1
                 n_input += 1
-
         return new_block
 
     def parser_script(self, block_dict, start):

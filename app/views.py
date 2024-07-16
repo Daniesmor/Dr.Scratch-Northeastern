@@ -7,6 +7,7 @@ import ast
 import json
 import uuid
 import requests
+import tempfile
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
@@ -140,6 +141,7 @@ def show_dashboard(request, skill_points=None):
             numbers = base32_to_str(url)
         else:
             numbers = ''
+        print(f"Mi url {url}")
         skill_rubric = generate_rubric(numbers)
         user = str(identify_user_type(request))
         if request.POST.get('dashboard_mode') == 'Comparison':
@@ -181,7 +183,9 @@ def show_dashboard(request, skill_points=None):
 @csrf_exempt
 def get_recommender(request, skill_points=None):
     if request.method == 'POST':
-        url = request.POST.get('urlProject')
+        url = request.POST.get('urlProject_recom')
+        if url == "":
+            url = request.POST.get('urlProject_recom')
         currType = request.POST.get('currType')
         print(f"Mi url: {url}")
         numbers = ''
@@ -302,7 +306,31 @@ def generate_rubric(skill_points: str) -> dict:
         for skill_name in mastery:
             skill_rubric[skill_name] = 4 # Falta añadir Finesse           
     return skill_rubric  
+
+def calc_num_projects(batch_path: str) -> int:
+    num_projects = 0
+    for root, dirs, files in os.walk(batch_path):
+        for file in files:
+            num_projects += 1
+    return num_projects
     
+def extract_batch_projects(projects_file: object) -> int:
+    project_name = str(uuid.uuid4())
+    unique_id = '{}_{}{}'.format(project_name, datetime.now().strftime("%Y_%m_%d_%H_%M_%S_"), datetime.now().microsecond)
+    base_dir = os.getcwd()
+
+    with tempfile.TemporaryDirectory() as temp_dir:
+
+        temp_file_path = os.path.join(temp_dir, projects_file.name)
+
+        with open(temp_file_path, 'wb+') as temp_file:
+            for chunk in projects_file.chunks():
+                temp_file.write(chunk)
+
+            temp_extraction =  os.path.join(base_dir, 'uploads', 'batch_mode', unique_id)
+            with ZipFile(temp_file, 'r') as zip_ref:
+                zip_ref.extractall(temp_extraction)
+    return temp_extraction
 
 def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dict:
     dict_metrics = {}
@@ -324,8 +352,13 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
                 dict_metrics[project_counter] = {'Error': 'MultiValueDict'}
                 return dict_metrics
             dict_metrics[project_counter] = analysis_by_upload(request, skill_points, zip_file)
+        elif '_url_recom' in request.POST:
+            url = request.POST.get('urlProject_recom',)
+            if url != None:
+                dict_metrics[project_counter] = analysis_by_url(request, url, skill_points)
+            else:
+                dict_metrics[project_counter] =  {'Error': 'MultiValueDict'}
         elif '_url' in request.POST:
-            print("TRAZA DE URL -----------------------")
             form = UrlForm(request.POST)
             if form.is_valid():
                 url = form.cleaned_data['urlProject']
@@ -333,21 +366,31 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
             else:
                 dict_metrics[project_counter] =  {'Error': 'MultiValueDict'}
         elif '_urls' in request.POST:
-            urls_file = request.FILES['urlsFile'].readlines()
+            projects_file = request.FILES['urlsFile']
+            
+            if projects_file.content_type.endswith('zip') == False: 
+                # List of urls
+                projects = projects_file.readlines()
+                num_projects = len(projects)
+            else:
+                # Str with temp path of projects
+                projects_path = extract_batch_projects(projects_file)
+                num_projects = calc_num_projects(projects_path)
+                projects = projects_path
+    
             request_data = {
                 'LANGUAGE_CODE': request.LANGUAGE_CODE,
                 'POST': {
-                    'urlsFile': urls_file,
+                    'urlsFile': projects,
                     'dashboard_mode': dashboard_mode, 
                     'email': request.POST['batch-email']       
                 }
             }
-
             init_batch.delay(request_data, skill_points) # Call to analyzer task
 
             dict_metrics[project_counter] = {
                 'multiproject': True,
-                'num_projects': len(urls_file)
+                'num_projects': num_projects
             }
 
     return dict_metrics

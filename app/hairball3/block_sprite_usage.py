@@ -118,6 +118,7 @@ class Block_Sprite_Usage(Plugin):
             count['others'] = self.total_blocks - sum(count.values())
 
         for cat, count in count.items():
-            self.summary["categories"][cat] = round((count/self.total_blocks)*100, 2)
+            if self.total_blocks != 0:
+                self.summary["categories"][cat] = round((count/self.total_blocks)*100, 2)
     
     

@@ -119,41 +119,96 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Selecciona el formulario con la ID 'batch-form' y agrega un evento 'submit'
             document.querySelector('#batch-form').addEventListener('submit', function(event) {
-                // Selecciona el campo de entrada del email por su nombre
                 var emailInput = document.querySelector('input[name="batch-email"]');
-                // Selecciona el campo de entrada del archivo por su nombre
                 var fileInput = document.querySelector('input[name="urlsFile"]');
-                // Selecciona los elementos de advertencia por sus IDs
                 var emailWarning = document.getElementById('email-warning');
                 var txtWarning = document.getElementById('txt-warning');
-                // Inicializa una variable de validez
+                var emailInput = document.querySelector('input[name="batch-email"]');
                 var valid = true;
             
-                // Verifica si el campo de email está vacío
                 if (!emailInput.value.trim()) {
-                    emailWarning.style.display = 'block'; // Muestra la advertencia
-                    valid = false; // Marca el formulario como inválido
+                    emailWarning.style.display = 'block'; 
+                    valid = false; 
                 } else {
-                    emailWarning.style.display = 'none'; // Oculta la advertencia
+                    emailWarning.style.display = 'none'; 
                 }
             
-                // Verifica si no se ha seleccionado ningún archivo
                 if (!fileInput.files.length) {
-                    txtWarning.style.display = 'block'; // Muestra la advertencia
-                    valid = false; // Marca el formulario como inválido
+                    txtWarning.style.display = 'block'; 
+                    valid = false; 
                 } else {
-                    txtWarning.style.display = 'none'; // Oculta la advertencia
+                    txtWarning.style.display = 'none'; 
                 }
             
-                // Si el formulario no es válido, previene el envío
                 if (!valid) {
-                    event.preventDefault(); // Prevenir el envío del formulario
+                    event.preventDefault();
+                }
+            });    
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('#recommender-form').addEventListener('submit', function(event) {
+                var recommenderInput = document.getElementById('input-recom');
+                var projectWarning = document.getElementById('project-warning');
+                var valid = true;
+
+                if (!recommenderInput.value.trim()) {
+                    projectWarning.style.display = 'block'; 
+                    valid = false; 
+                } else {
+                    projectWarning.style.display = 'none'; 
+                }
+                
+            
+                if (!valid) {
+                    event.preventDefault();
                 }
             });
         });
     </script>
+
+  
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('main-form').addEventListener('submit', function(event) {
+                var urlProject = document.getElementById('cf-name').value.trim();
+                var zipFile = document.getElementById('cf-upload').value.trim();
+
+                var urlWarning = document.getElementById('url-warning');
+                var uploadWarning = document.getElementById('upload-warning');
+
+                var valid = true;
+
+                if (!urlProject && !zipFile) {
+                    if (!urlProject) {
+                        urlWarning.style.display = 'block';
+                    } else {
+                        urlWarning.style.display = 'none';
+                    }
+
+                    if (!zipFile) {
+                        uploadWarning.style.display = 'block';
+                    } else {
+                        uploadWarning.style.display = 'none';
+                    }
+
+                    valid = false;
+                } else {
+                    urlWarning.style.display = 'none';
+                    uploadWarning.style.display = 'none';
+                }
+
+                if (!valid) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+
+    
 
 </head>
 
@@ -339,25 +394,35 @@
 
                                     {% csrf_token %}
                                     
-
+                                    <form name="form" id="main-form" class="project-form" enctype="multipart/form-data" method="post" action="/show_dashboard/">
+                                        <input type="hidden" name="dashboard_mode" value="Default">
+                                        <h5 class="text-input" style="font-weight: lighter;">
+                                            {% trans "1. Introduce the <span class='colored-text'><a data-toggle='modal' href='#modalUrl'>url</a></span> of your Scratch project, you don't have to download it:" %}
+                                        </h5>
+                                        {% trans '<input name="urlProject" id="cf-name" class="form-control input-box placeholder" placeholder="http:/scratch.mit.edu/projects/your_number" type="text">' %}
+                                        <p id="url-warning" style="display: none;">
+                                            <span class="colored-text">{% trans "Please paste a project url" %}</span>
+                                        </p>
+                                        <button id="url" name="_url" type="submit" class="btn btn-primary standard-button">
+                                            {% trans "Analyze by url" %}
+                                        </button>
+                                        {% csrf_token %}
+                                        <br><br>
+                                        {% csrf_token %}
+                                        <h5 class="text-input">
+                                            {% trans "2. If you have your <span class='colored-text'><a data-toggle='modal' href='#modalProject'>project</a></span> downloaded in the computer you can analyze it here:" %}
+                                        </h5>
+                                        {% trans '<input name="zipFile" id="cf-upload" type="file" class="filestyle" data-buttonText="Choose Project">' %}
+                                        <p id="upload-warning" style="display: none;">
+                                            <span class="colored-text">{% trans "Please upload a project" %}</span>
+                                        </p>
+                                        <button id="upload" name="_upload" type="submit" class="btn btn-primary standard-button">
+                                            {% trans "Analyze my project" %}
+                                        </button>
+                                        <br></br>
+                                        {% csrf_token %}
+                                    </form>
                                     
-                                <form name="form" class="project-form" enctype="multipart/form-data" method="post" action="/show_dashboard/">
-
-                                    <input type="hidden" name="dashboard_mode" value="Default">
-                                    <h5 class="text-input" style="font-weight: lighter;">{% trans "1. Introduce the <span class='colored-text'><a data-toggle='modal' href='#modalUrl'>url</a></span> of your Scratch project, you don't have to download it:" %}</h5>
-                                    {% trans '<input name="urlProject" id="cf-name" class="form-control input-box placeholder" placeholder="http:/scratch.mit.edu/projects/your_number" type="text">' %}
-                                    <button id="url" name='_url' type="submit" class="btn btn-primary standard-button">{% trans "Analyze by url" %}</button>
-                                    {% csrf_token %}
-                                    <br><br>
-                                    {% csrf_token %}
-                                    <h5 class="text-input">{% trans "2. If you have your <span class='colored-text'><a data-toggle='modal' href='#modalProject'>project</a></span> downloaded in the computer you can analyze it here:" %}</h5>
-                                    {% trans "<input  name='zipFile' type='file' class='filestyle' data-buttonText='Choose Project'>" %}
-                                    <button id="upload" name='_upload' type="submit" class="btn btn-primary standard-button">{% trans "Analyze my project" %}</button>
-                                    
-                                    <br></br>
-                                    {% csrf_token %}
-                                </form>
-                                
 
                                 <!-- FORM SUBMIT SUCCESS / ERROR MESSAGES -->
                                 <p class="file-error dark-text small-text">
@@ -443,12 +508,14 @@
                 <div class="col-md-4 align-self-center">
                     <form name="form" class="project-form" id="batch-form" enctype="multipart/form-data" method="post" action="/show_dashboard/" style="margin-top: 50px;">
                         <h3><strong>{% trans "Batch Mode" %}</strong></h3>
-                        <p><span class='colored-text'>{% trans "IMPORTANT!" %}</span> {% trans "Please upload a <span class='colored-text'><a data-toggle='modal' href='#modalTxt'>txt</a></span> containing the URLs of the projects, with each URL on a separate line. (Max. 10)" %}</p>
+
+                        <p><span class='colored-text'>{% trans "IMPORTANT!" %}</span> {% trans "Please upload a <span class='colored-text'><a data-toggle='modal' href='#modalTxt'>txt</a></span> containing the URLs of the projects, with each URL on a separate line. Or a zip containing the .sb3 (Max. 10)" %}</p>
+
                         <input type="hidden" name="dashboard_mode" value="Default">
-                        {% trans "<input name='urlsFile' type='file' class='filestyle' data-buttonText='Choose txt'>" %}
+                        {% trans "<input name='urlsFile' type='file' class='filestyle' data-buttonText='Choose txt or zip'>" %}
                         {% trans '<input name="batch-email" class="form-control input-box placeholder" placeholder="your@email.com" type="text">' %}
                         <p id="email-warning" style="display: none;"><span class='colored-text'>{% trans "Please enter an email!" %}</span></p>
-                        <p id="txt-warning" style="display: none;"><span class='colored-text'>{% trans "Please upload a txt file!" %}</span></p>
+                        <p id="txt-warning" style="display: none;"><span class='colored-text'>{% trans "Please upload a txt/zip file!" %}</span></p>
                         <button id="urls" name='_urls' type="submit" class="btn btn-primary standard-button">{% trans "Analyze my projects" %}</button>
                         <br></br>
                         {% csrf_token %}
@@ -499,14 +566,13 @@
                 </div>
                 <div class="col-md-4 align-self-center">
                     <br>
-                    <form name="form" class="project-form" id="batch-form" enctype="multipart/form-data" method="post" action="/show_dashboard/" style="margin-top: 50px;">
+                    <form name="form_recom" class="project-form" id="recommender-form" enctype="multipart/form-data" method="post" action="/show_dashboard/" style="margin-top: 50px;">
                         <h3><strong>{% trans "Recommender Assistant" %}</strong></h3>
                         <p class="h4"><span class='colored-text'>{% trans "NEW!!!" %}</span> {% trans "This mode gives you a feedback about the bad smells of your project and how to solved them with a assistant style." %}</p>
                         <input type="hidden" name="dashboard_mode" value="Recommender">
-                        <p id="email-warning" style="display: none;"><span class='colored-text'>{% trans "Please enter an email!" %}</span></p>
-                        <p id="txt-warning" style="display: none;"><span class='colored-text'>{% trans "Please enter a project!" %}</span></p>
-                        {% trans '<input name="urlProject" id="cf-name" class="form-control input-box placeholder" placeholder="http:/scratch.mit.edu/projects/your_number" type="text">' %}
-                        <button id="url" name='_url' type="submit" class="btn btn-primary standard-button">{% trans "Analyze my Bad Smells" %}</button>
+                        {% trans '<input id="input-recom" name="urlProject_recom"  class="form-control input-box placeholder" placeholder="http:/scratch.mit.edu/projects/your_number" type="text">' %}
+                        <p id="project-warning" style="display: none;"><span class='colored-text'>{% trans "Please enter a project!" %}</span></p>
+                        <button id="url_recom" name="_url_recom" type="submit" class="btn btn-primary standard-button">{% trans "Analyze my Bad Smells" %}</button>
                         <br></br>
                         {% csrf_token %}
                     </form>
@@ -1478,7 +1544,7 @@
         })
     </script>
     <script type="text/javascript" src="/static/app/scripts/bootstrap-filestyle.js"> </script>
-    <script src="/static/app/scripts/smoothscroll.js"></script>
+   <!-- <script src="/static/app/scripts/smoothscroll.js"></script>-->
     <script src="/static/app/scripts/bootstrap.min.js"></script>
     <script src="/static/app/scripts/jquery.nav.js"></script>
     <script src="/static/app/scripts/ie-emulation-modes-warning.js"></script>
