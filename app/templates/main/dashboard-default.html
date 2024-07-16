@@ -55,13 +55,25 @@
                     <div id="devpanels">
                         <div class="devpanel" style="padding-top: 5%;">
                             <div class="panel panel-success" id="devpanel">
-                                <div class="panel-heading" id="steptwo" >
-                                    {% if mastery_vanilla.competence == "Basic" %}
-                                        <img src="/static/app/images/ferret.png" class="img-responsive col-md-5">
-                                    {% elif mastery_vanilla.competence == "Developing" %}
-                                        <img src="/static/app/images/monkey.png" class="img-responsive col-md-4">
-                                    {% elif mastery_vanilla.competence == "Master" %}
-                                        <img src="/static/app/images/cat.png" class="img-responsive col-md-3">
+                                <div class="panel-heading" id="steptwo">
+                                    {% if url != None %}
+                                        <a href="/show_dashboard/" id="Recommender">
+                                            {% if mastery_vanilla.competence == "Basic" %}
+                                                <img src="/static/app/images/ferret.png" class="img-responsive col-md-5 dropdown" data-toggle="popover" title="{% trans 'Want a Ferret-Advice?' %}" data-content="Click me and I will show a way to Ferret-Boost your project" data-trigger="manual">
+                                            {% elif mastery_vanilla.competence == "Developing" %}
+                                                <img src="/static/app/images/monkey.png" class="img-responsive col-md-4 dropdown" data-toggle="popover" title="{% trans 'Want a Banana-Tip?' %}" data-content="Click me and I will show you a way to make your project Monkey-rrific !!" data-trigger="manual">
+                                            {% elif mastery_vanilla.competence == "Master" %}
+                                                <img src="/static/app/images/cat.png" class="img-responsive col-md-3 dropdown" data-toggle="popover" title="{% trans 'Want a Kitty-Guidance?' %}"  data-content="Click me and I will show you a way to make your project Cat-abulous" data-trigger="manual">
+                                            {% endif %}
+                                        </a>
+                                    {% else %}
+                                        {% if mastery_vanilla.competence == "Basic" %}
+                                            <img src="/static/app/images/ferret.png" class="img-responsive col-md-5 " >
+                                        {% elif mastery_vanilla.competence == "Developing" %}
+                                            <img src="/static/app/images/monkey.png" class="img-responsive col-md-4 " >
+                                        {% elif mastery_vanilla.competence == "Master"  %}
+                                            <img src="/static/app/images/cat.png" class="img-responsive col-md-3 ">
+                                        {% endif %}
                                     {% endif %}
                                     <h2 id="score" class="panel-title dark-text">
                                         <strong id="score-text">{% trans "Score:" %}</strong>
@@ -317,7 +329,7 @@
                                                     <td id="{{ value.1 }}">
                                                         {% if value.0.0 == 0 %}
                                                             <div class="progress">
-                                                                <span style="color: grey;"><strong>{{ value.0.0 }} / {{ value.0.1 }}</strong></span>
+                                                                <span style="color: grey; font-size: 12px;"><strong>{{ value.0.0 }} / {{ value.0.1 }}</strong></span>
                                                             </div>
                                                         {% else %}
                                                             <div class="progress">
@@ -376,12 +388,24 @@
                         <div class="devpanel" style="padding-top: 5%;">
                             <div class="panel panel-success" id="devpanel">
                                 <div class="panel-heading" id="steptwo" >
-                                    {% if mastery.competence == "Basic" %}
-                                        <img src="/static/app/images/ferret.png" class="img-responsive col-md-5">
-                                    {% elif mastery.competence == "Developing" %}
-                                        <img src="/static/app/images/monkey.png" class="img-responsive col-md-4">
-                                    {% elif mastery.competence == "Master" or mastery.competence == "Advanced" %}
-                                        <img src="/static/app/images/cat.png" class="img-responsive col-md-3">
+                                    {% if url != None %}
+                                        <a href="/show_dashboard/" id="Recommender_Extended">
+                                            {% if mastery.competence == "Basic" %}
+                                                <img src="/static/app/images/ferret.png" class="img-responsive col-md-5 dropdown" data-toggle="popover" title="{% trans 'Want a Ferret-Advice?' %}" data-content="Click me and I will show a way to Ferret-Boost your project" data-trigger="manual">
+                                            {% elif mastery.competence == "Developing" %}
+                                                <img src="/static/app/images/monkey.png" class="img-responsive col-md-4 dropdown" data-toggle="popover" title="{% trans 'Want a Banana-Tip?' %}" data-content="Click me and I will show you a way to make your project Monkey-rrific !!" data-trigger="manual">
+                                            {% else %}
+                                                <img src="/static/app/images/cat.png" class="img-responsive col-md-3 dropdown" data-toggle="popover" title="{% trans 'Want a Kitty-Guidance?' %}"  data-content="Click me and I will show you a way to make your project Cat-abulous" data-trigger="manual">
+                                            {% endif %}
+                                        </a>
+                                    {% else %}
+                                        {% if mastery.competence == "Basic" %}
+                                            <img src="/static/app/images/ferret.png" class="img-responsive col-md-5" >
+                                        {% elif mastery.competence == "Developing" %}
+                                            <img src="/static/app/images/monkey.png" class="img-responsive col-md-4" >
+                                        {% else %}
+                                            <img src="/static/app/images/cat.png" class="img-responsive col-md-3">
+                                        {% endif %}
                                     {% endif %}
                                     <h2 id="score" class="panel-title dark-text">
                                         <strong id="score-text">{% trans "Score:" %}</strong>
@@ -639,7 +663,7 @@
                                                         {% if value.0.0 == 0 %}
                                                             <div class="progress">
                                                                 <div class="progress">
-                                                                    <span style="color: grey;"><strong>{{ value.0.0 }} / {{ value.0.1 }}</strong></span>
+                                                                    <span style="color: grey; font-size: 12px;"><strong>{{ value.0.0 }} / {{ value.0.1 }}</strong></span>
                                                                 </div>
                                                             </div>
                                                         {% else %}
@@ -781,6 +805,55 @@
             document.getElementById("Vanilla").style.display = "block";
             // Hide the others content
             document.getElementById("Extended").style.display = "none";
+        </script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', (event) => {
+                // Function to handle link click
+                function handleLinkClick(event, urlProjectValue) {
+                    event.preventDefault();  // Prevent the default link click behavior
+
+                    // Define the data to be sent
+                    const data = {
+                        dashboard_mode: 'Recommender',
+                        urlProject: urlProjectValue,
+                        _url: 'url' // Assuming you handle file uploads differently
+                    };
+
+                    // Create a hidden form element
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = event.currentTarget.href;
+                    form.target = '_blank';
+
+                    // Append CSRF token
+                    const csrfToken = '{{ csrf_token }}';
+                    const csrfInput = document.createElement('input');
+                    csrfInput.type = 'hidden';
+                    csrfInput.name = 'csrfmiddlewaretoken';
+                    csrfInput.value = csrfToken;
+                    form.appendChild(csrfInput);
+
+                    // Append data to the form
+                    for (const key in data) {
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = key;
+                        input.value = data[key];
+                        form.appendChild(input);
+                    }
+
+                    // Append form to the body and submit
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+
+                // Add event listeners to the links
+                document.getElementById('Recommender_Extended').addEventListener('click', function(event) {
+                    handleLinkClick(event, '{{ url }}');
+                });
+
+            });
         </script>
 
 {% endblock %}
