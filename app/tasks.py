@@ -1,7 +1,11 @@
 from drScratch.celery import app
-from .analyzer import analysis_by_url
+from .analyzer import analysis_by_url, analysis_by_upload
+import os
 import types
 import requests
+import shutil
+import tempfile
+from zipfile import ZipFile
 from .batch import create_csv, create_summary
 from django.core.mail import EmailMessage
 from django.core.mail import EmailMessage as DjangoEmailMessage
@@ -13,27 +17,64 @@ from datetime import datetime
 from django.template.loader import render_to_string
 from css_inline import inline
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from types import SimpleNamespace
+from io import BytesIO
 
 
 def proccess_url(request_data_obj: object, skill_points: dict) -> dict:
     # Obtain request data
-    urls = request_data_obj.POST['urlsFile']
+    projects_file = request_data_obj.POST['urlsFile']
     dashboard_mode = request_data_obj.POST['dashboard_mode']
 
-    # Initialize dicts for metrics
-    dict_metrics = {} 
+    if (type(projects_file) != list):
+        # projects_file is path of the batch
+        
+        dict_metrics = {}
+        for root, dirs, files in os.walk(projects_file):
+            for i, file in enumerate(files):
+                file_path = os.path.join(root, file)
+                if os.path.exists(file_path):
+                    try:
+                        with open(file_path, 'rb') as f:
+                            file_name = os.path.basename(file_path)
+                            file_data = BytesIO(f.read())
 
-    # Proccess each URL of the list
-    for i, url in enumerate(urls):
-        if i >= 10:
-            break 
-        url = url.decode('utf-8').strip()
-        dict_metrics[i] = analysis_by_url(request_data_obj, url, skill_points)
-        dict_metrics[i].update({
-            'url': url,
-            'filename': url,
-            'dashboard_mode': dashboard_mode,
-        })
+                            # Intance InMemoryUploadedFile (necessary for analysis_by_upload)
+                            inmemory_file = InMemoryUploadedFile(
+                                file=file_data,
+                                field_name=None,
+                                name=file_name,
+                                content_type='application/octet-stream',
+                                size=file_data.getbuffer().nbytes,
+                                charset=None,
+                            )
+                            request_data_obj.user = SimpleNamespace(is_authenticated=True, username=None)
+                            request_data_obj.session = {}
+
+                            dict_metrics[i] = analysis_by_upload(request_data_obj, skill_points, inmemory_file)
+                    except Exception as e:
+                        print(f"Error processing file {file_path}: {e}")
+                else:
+                    print(f"File not found: {file_path}")
+        if os.path.exists(projects_file):
+            shutil.rmtree(projects_file)
+    else:
+        # projects_file is a list of urls
+        # Initialize dicts for metrics
+        dict_metrics = {} 
+
+        # Proccess each URL of the list
+        for i, url in enumerate(projects_file):
+            #if i >= 10:
+            #   break 
+            url = url.decode('utf-8').strip()
+            dict_metrics[i] = analysis_by_url(request_data_obj, url, skill_points)
+            dict_metrics[i].update({
+                'url': url,
+                'filename': url,
+                'dashboard_mode': dashboard_mode,
+            })
     return dict_metrics
 
 def mk_url(csv_id: UUID) -> str:
@@ -94,7 +135,7 @@ def send_mail(email: str, csv_id: UUID) -> None:
         print(f"Error seding mail: {email}")
 
 def register_timestamp(csv_id: UUID, start_time, end_endtime: datetime) -> None:
-    timestamp = (end_endtime - start_time + 60).total_seconds()
+    timestamp = (end_endtime - start_time).total_seconds() + 60
 
     obj = get_object_or_404(BatchCSV, id=csv_id)
     obj.task_time = timestamp
@@ -104,8 +145,7 @@ def register_timestamp(csv_id: UUID, start_time, end_endtime: datetime) -> None:
 def init_batch(self, request_data, skill_points):
     # Start task counter for ETA
     start_time = datetime.now()
-
-    request_data_obj = types.SimpleNamespace(**request_data)
+    request_data_obj = SimpleNamespace(**request_data)
     re_email = request_data_obj.POST ['email']
 
     dict_metrics = proccess_url(request_data_obj, skill_points)

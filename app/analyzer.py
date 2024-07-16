@@ -692,15 +692,17 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         print("--------------------- BACKDROP NAMING DICT ----------------------")
         print(result_backdrop_naming)
         print("------------------------------------------------------------------")
-
-        # RECOMENDER SECTION
-        dict_recom = {}
-        recomender = RecomenderSystem(curr_type)
-        dict_recom["deadCode"] = recomender.recomender_deadcode(dict_dead_code)
-        dict_recom["spriteNaming"] = recomender.recomender_sprite(result_sprite_naming)
-        dict_recom["backdropNaming"] = recomender.recomender_backdrop(result_backdrop_naming)
-        dict_recom["duplicatedScripts"] = recomender.recomender_duplicatedScripts(dict_duplicate_script, refactored_code)
         
+        # RECOMENDER SECTION
+        if (dashboard == 'Recommender'):
+            dict_recom = {}
+            recomender = RecomenderSystem(curr_type)
+            dict_recom["deadCode"] = recomender.recomender_deadcode(dict_dead_code)
+            dict_recom["spriteNaming"] = recomender.recomender_sprite(result_sprite_naming)
+            dict_recom["backdropNaming"] = recomender.recomender_backdrop(result_backdrop_naming)
+            dict_recom["duplicatedScripts"] = recomender.recomender_duplicatedScripts(dict_duplicate_script, refactored_code)
+            dict_analysis.update(proc_recomender(dict_recom))
+
         dict_analysis.update(proc_mastery(request, dict_mastery, file_obj))
         dict_analysis.update(proc_duplicate_script(dict_duplicate_script, file_obj))
         dict_analysis.update(proc_dead_code(dict_dead_code, file_obj))
@@ -708,7 +710,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         dict_analysis.update(proc_backdrop_naming(result_backdrop_naming, file_obj))
         dict_analysis.update(proc_refactored_code(refactored_code))
         dict_analysis.update(proc_block_sprite_usage(result_block_sprite_usage, file_obj))
-        dict_analysis.update(proc_recomender(dict_recom))
+        
         # dict_analysis.update(proc_urls(request, dict_mastery, file_obj))
         # dictionary.update(proc_initialization(resultInitialization, filename))
         return dict_analysis
@@ -720,36 +722,30 @@ def analysis_by_upload(request, skill_points: dict, upload):
     """
     Upload file from form POST for unregistered users
     """
-
     zip_filename = upload.name.encode('utf-8')
     filename_obj = save_analysis_in_file_db(request, zip_filename)
-
     dir_zips = os.path.dirname(os.path.dirname(__file__)) + "/uploads/"
     project_name = str(uuid.uuid4())
     unique_id = '{}_{}{}'.format(project_name, datetime.now().strftime("%Y_%m_%d_%H_%M_%S_"), datetime.now().microsecond)
     zip_filename = zip_filename.decode('utf-8')
     version = check_version(zip_filename)
-
     if version == "1.4":
         file_saved = dir_zips + unique_id + ".sb"
     elif version == "2.0":
         file_saved = dir_zips + unique_id + ".sb2"
     else:
         file_saved = dir_zips + unique_id + ".sb3"
-
     # Create log
     path_log = os.path.dirname(os.path.dirname(__file__)) + "/log/"
     log_file = open(path_log + "logFile.txt", "a")
     log_file.write("FileName: " + str(zip_filename) + "\t\t\t" + "ID: " + str(filename_obj.id) + "\t\t\t" + \
                 "Method: " + str(filename_obj.method) + "\t\t\tTime: " + str(filename_obj.time) + "\n")
-
     # Save file in server
     file_name = os.path.join("uploads", file_saved)
     request.session['current_project_path'] = file_name
     with open(file_name, 'wb+') as destination:
         for chunk in upload.chunks():
             destination.write(chunk)
-
     try:
         ext_type_project=None
         dict_drscratch_analysis = analyze_project(request, file_name, filename_obj, ext_type_project, skill_points)
@@ -761,9 +757,12 @@ def analysis_by_upload(request, skill_points: dict, upload):
         old_path_project = file_saved
         new_path_project = file_saved.split("/uploads/")[0] + "/error_analyzing/" + file_saved.split("/uploads/")[1]
         shutil.copy(old_path_project, new_path_project)
-        dict_drscratch_analysis = {'Error': 'analyzing'}
+        dict_drscratch_analysis = {
+            'filename': upload.name,
+            'Error': 'analyzing',
+            'dashboard_mode': request.POST.get('dashboard_mode')
+            }
         return dict_drscratch_analysis
-
     # Redirect to dashboard for unregistered user
     dict_drscratch_analysis['Error'] = 'None'
     dict_drscratch_analysis.update({
