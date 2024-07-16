@@ -6,32 +6,38 @@
     <meta name="keywords" content="Stamp, Startup, Multipurpose, Bootstrap, Landing page, Template, Registration, Landing">
     <meta name="author" content="Programamos URJC Libresoft FECyT">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
-    <!--<link rel="stylesheet" href="../../static/app/content/scratchblocks2.css">-->
-    <!--<script src="../../static/app/scripts/scratchblocks2.js"></script>-->
-    <!--<script src="../../static/app/scripts/translations.js"></script>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+    <link rel="stylesheet" href="../../static/app/content/scratchblocks2.css">
+    <!-- <script src="../../static/app/scripts/bootstrap-modal.js"></script> -->
+    <script src="../../static/app/scripts/translations.js"></script>
+    <!-- <script src="../../static/app/scripts/bootstrap.js"></script> -->
+    <link rel="stylesheet" href="../../static/app/content/bootstrap-tour.css">
+    <script src="../../static/app/scripts/bootstrap.min.js"></script>
+    <script src="../../static/app/scripts/bootstrap-tour.js"></script>
+    <script src="../../static/app/scripts/googleAnalytics.js"></script>
     <script src="../../static/app/scripts/scratchblocks-v3.4-min.js"></script>
-    <script src="../../static/app/scripts/translations-all-v3.4.js" charset="utf8"></script>
+
 
     <!-- SITE TITLE -->
     <title>Dr. Scratch</title>
 
 
-    <link rel="stylesheet" href="../../static/app/content/style.css">
+    <link rel="stylesheet" href="/static/app/content/style.css">
     <!-- =========================
      FAV AND TOUCH ICONS AND FONT
     ============================== -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="icon" href="../../static/app/images/favicon.ico">
-    <link rel="stylesheet" href="../../static/app/icons/icons.css">
-    <link type="text/css" rel="stylesheet" href="../../static/app/content/css_002.css">
-    <link type="text/css" rel="stylesheet" href="../../static/app/content/css.css">
+    <link rel="icon" href="/static/app/images/favicon.ico">
+    <link rel="stylesheet" href="static/app/icons/icons.css">
+    <link type="text/css" rel="stylesheet" href="/static/app/content/css_002.css">
+    <link type="text/css" rel="stylesheet" href="/static/app/content/css.css">
     <!-- =========================
      STYLESHEETS
     ============================== -->
     <!-- BOOTSTRAP AND ANIMATION -->
-    <link rel="stylesheet" href="../../static/app/content/bootstrap.min.css">
-    <link rel="stylesheet" href="../../static/app/content/animate.css">
+    <link rel="stylesheet" href="/static/app/content/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/app/content/animate.css">
 
     <!-- CAROUSEL AND LIGHTBOX -->
     <link rel="stylesheet" href="../../static/app/content/owl_002.css">
@@ -41,39 +47,15 @@
 
     <!-- CUSTOM STYLESHEETS -->
     <link rel="stylesheet" href="../../static/app/content/styles.css">
-    <link rel="stylesheet" href="../../static/app/content/cloud.css">
-
-
+    <link rel="stylesheet" href="/static/app/content/master.css">
     <!-- RESPONSIVE FIXES -->
     <link rel="stylesheet" href="../../static/app/content/responsive.css">
 
     <!-- DEFAULT COLOR/ CURRENTLY USING -->
     <link rel="stylesheet" href="../../static/app/content/red.css">
-    <script src="../../static/app/scripts/googleAnalytics.js"></script>
 
-    <script type="text/javascript">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
-    <!--$.ajax({-->
-            <!--url: "https://www.drscratch.org/blocks",-->
-            <!--dataType: 'jsonp',-->
-            <!--success: function(headers) {-->
-                <!--language = headers['Accept-Language'];-->
-                <!--language = language.split(",")[0];-->
-                <!--scratchblocks2.reset_languages();-->
-                <!--if (language) var lang_dict = scratchblocks2._translations[language];-->
-                <!--if (lang_dict) scratchblocks2.load_language(lang_dict);-->
-        <!--$(document).ready(function () {-->
-            <!--scratchblocks2.parse();-->
-        <!--});-->
-            <!--}-->
-        <!--});-->
-
-
-        $(document).ready(function() {
-            scratchblocks.renderMatching('pre.blocks', {style: "scratch3", languages: ['ca','es', 'en', 'it','ru', 'el', 'eu', 'gl', 'pt']});
-        });
-
-    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var toggleContents = document.querySelectorAll('.toggle-content');
@@ -113,6 +95,7 @@
 
 
     </script>
+
     <style>
         .sidebar {
             position: -webkit-sticky; /* Para navegadores webkit */
@@ -158,6 +141,9 @@
             cursor: pointer;
         }
 
+        [class^="bi-"]::before, [class*=" bi-"]::before {
+            vertical-align: middle;
+        }
 
 
 
@@ -169,9 +155,36 @@
     <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top  sticky-navigation" role="navigation">
         <div class="container">
             <!-- NAVIGATION LINK -->
-            <a href="/">
+            <a href="/" style="padding-left: 5%;">
                 <img src="/static/app/images/logo_main.png" alt="" width="220" height="70.1667">
             </a>
+            <ul class="nav navbar-nav navbar-right login-register small-text">
+                <li style="display: block;" class="login dropdown">
+                    <a aria-expanded="false" type="button" data-toggle="dropdown" class="dropdown-toggle" data-hover="dropdown" style="padding-top: 60%;">
+                        <span class="icon-basic-world"></span>
+                    </a>
+                    <ul role="menu" class="dropdown-menu" style="padding: 20px;">
+                        <li style="padding-left: 20px;">
+                            <div>
+                                <form action="/i18n/setlang/" method="post">
+                                    {% csrf_token %}
+                                    <input name="next" type="hidden" value="{{ redirect_to }}" />
+                                    <select name="language" onchange="this.form.submit()" class='btn-group btn-group-justified colored-text'>
+                                        {% get_language_info_list for LANGUAGES as languages %}
+                                        {% for language in languages %}
+                                            {% if language.code == request.LANGUAGE_CODE %}
+                                                <option value="{{ language.code }}" selected>{{ language.name }} ({{ language.code }})</option>
+                                            {% else %}
+                                                <option value="{{ language.code }}">{{ language.name }} ({{ language.code }})</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </form>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
 
         </div>
     </div>
@@ -202,7 +215,7 @@
                 <ul class="nav flex-column">
                     <li class="nav-item">
                         <h4 class="nav-link toggle-content">
-                            <strong> {% trans "Dimensions" %} </strong> <i class="bi bi-caret-down"></i>
+                            <strong style="padding-bottom: 10%;"> {% trans "Dimensions" %} </strong> <i class="bi bi-caret-down"></i>
                         </h4>
                         <ul class="nav flex-column dimension-items" style="display: none;">
                             <li class="nav-item {% if request.path == '/learn/Logic/' %} active {% endif %}">
