@@ -194,7 +194,7 @@
                         <ul class="nav navbar-nav navbar-right login-register small-text">
                             <li style="display: block;" class="login dropdown">
                                 <a aria-expanded="false" type="button" data-toggle="dropdown" class="dropdown-toggle" data-hover="dropdown" style="padding-top: 100%;">
-                                    <span class="glyphicon glyphicon-book"><span class="icon-basic-world"></span></span>
+                                    <span class="icon-basic-world"></span>
                                 </a>
                                 <ul role="menu" class="dropdown-menu" style="padding: 20px;">
                                     <li style="padding-left: 20px;">
@@ -443,7 +443,7 @@
                 <div class="col-md-4 align-self-center">
                     <form name="form" class="project-form" id="batch-form" enctype="multipart/form-data" method="post" action="/show_dashboard/" style="margin-top: 50px;">
                         <h3><strong>{% trans "Batch Mode" %}</strong></h3>
-                        <p><span class='colored-text'>{% trans "IMPORTANT!" %}</span> {% trans "Please upload a txt containing the URLs of the projects, with each URL on a separate line. (Max. 10)" %}</p>
+                        <p><span class='colored-text'>{% trans "IMPORTANT!" %}</span> {% trans "Please upload a <span class='colored-text'><a data-toggle='modal' href='#modalTxt'>txt</a></span> containing the URLs of the projects, with each URL on a separate line. (Max. 10)" %}</p>
                         <input type="hidden" name="dashboard_mode" value="Default">
                         {% trans "<input name='urlsFile' type='file' class='filestyle' data-buttonText='Choose txt'>" %}
                         {% trans '<input name="batch-email" class="form-control input-box placeholder" placeholder="your@email.com" type="text">' %}
@@ -684,7 +684,7 @@
             <div class="colored-line"></div>
           </div>
           <div class="modal-body">
-            {% trans "<img class='framed' src='static/app/images/url-en.png' />" %}
+            {% trans "<img class='framed' style='width: 500px;' src='static/app/images/url-en.png' />" %}
           </div>
           <div class="modal-footer">
           </div>
@@ -709,13 +709,36 @@
             <div class="colored-line"></div>
           </div>
           <div class="modal-body">
-            {% trans "<img class='framed' src='static/app/images/project-en.png' />" %}
+            {% trans "<img class='framed' style='width: 500px;' src='static/app/images/project-en.png' />" %}
           </div>
           <div class="modal-footer">
           </div>
         </div>
 
       </div>
+    </div>
+
+    <!-- Modal Txt -->
+    <div id="modalTxt" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close text-right" data-dismiss="modal">&times;</button>
+                <div class="small-text-medium uppercase colored-text">
+                    {% trans "What is an txt with scratch's urls?" %}
+                </div>
+                <h4 class="modal-title"><strong>{% trans "How is the correct format of the txt?" %}</strong></h4>
+                <div class="colored-line"></div>
+            </div>
+            <div class="modal-body">
+                {% trans "<img class='framed' style='width: 500px;' src='static/app/images/txt-es.png' />" %}
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+
+        </div>
     </div>
 
    <!-- Modal Ask -->
@@ -1402,7 +1425,7 @@
 
 
 
-        <!-- =========================
+    <!-- =========================
               PROGRESS BAR
     ============================== -->
 
