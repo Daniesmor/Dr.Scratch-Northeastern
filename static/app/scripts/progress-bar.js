@@ -3,8 +3,8 @@ $(document).ready(function(){
 
 
     $("#upload").click(function(){
-    $("#mywrapper").hide();
-    $("#pb").show();
+        $("#mywrapper").hide();
+        $("#pb").show();
         $(function() {
         $(".progress").each(function() {
             $(this)
@@ -12,23 +12,23 @@ $(document).ready(function(){
 	            .width(0)
 	            .animate({
 		            width: $(this).data("origWidth")
-	            }, 5500);
+	            }, 2500);
                 });
         });
     });
 
 
     $("#url").click(function(){
-    $("#mywrapper").hide();
-    $("#pb").show();
+        $("#mywrapper").hide();
+        $("#pb").show();
         $(function() {
         $(".progress").each(function() {
             $(this)
-	            .data("origWidth", $(this).width())
-	            .width(0)
-	            .animate({
-		            width: $(this).data("origWidth")
-	            }, 6000);
+                .data("origWidth", $(this).width())
+                .width(0)
+                .animate({
+                    width: $(this).data("origWidth")
+                }, 2500);
                 });
         });
     });
