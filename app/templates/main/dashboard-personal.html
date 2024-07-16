@@ -12,16 +12,24 @@
                     <div class="devpanel">
                         <div class="panel panel-success" id="devpanel">
                             <div class="panel-heading" id="steptwo" >
-                                {% if mastery.competence == "Basic" %}
-                                    <img src="/static/app/images/ferret.png" class="img-responsive col-md-5">
-                                {% elif mastery.competence == "Developing" %}
-                                    <img src="/static/app/images/monkey.png" class="img-responsive col-md-4">
-                                {% elif mastery.competence == "Master" %}
-                                    <img src="/static/app/images/cat.png" class="img-responsive col-md-3">
-                                {% elif mastery.competence == "Advanced" %}
-                                    <img src="/static/app/images/cat.png" class="img-responsive col-md-3">
-                                {% elif mastery.competence == "Finesse" %}
-                                    <img src="/static/app/images/cat.png" class="img-responsive col-md-3">
+                                {% if url != None %}
+                                    <a href="/show_dashboard/" id="Recommender">
+                                        {% if mastery.competence == "Basic" %}
+                                            <img src="/static/app/images/ferret.png" class="img-responsive col-md-5 dropdown" data-toggle="popover" title="{% trans 'Want a Ferret-Advice?' %}" data-content="Click me and I will show a way to Ferret-Boost your project" data-trigger="manual">
+                                        {% elif mastery.competence == "Developing" %}
+                                            <img src="/static/app/images/monkey.png" class="img-responsive col-md-4 dropdown" data-toggle="popover" title="{% trans 'Want a Banana-Tip?' %}" data-content="Click me and I will show you a way to make your project Monkey-rrific !!" data-trigger="manual">
+                                        {% else %}
+                                            <img src="/static/app/images/cat.png" class="img-responsive col-md-3 dropdown" data-toggle="popover" title="{% trans 'Want a Kitty-Guidance?' %}"  data-content="Click me and I will show you a way to make your project Cat-abulous" data-trigger="manual">
+                                        {% endif %}
+                                    </a>
+                                {% else %}
+                                    {% if mastery.competence == "Basic" %}
+                                        <img src="/static/app/images/ferret.png" class="img-responsive col-md-5 " >
+                                    {% elif mastery.competence == "Developing" %}
+                                        <img src="/static/app/images/monkey.png" class="img-responsive col-md-4 " >
+                                    {% else %}
+                                        <img src="/static/app/images/cat.png" class="img-responsive col-md-3 ">
+                                    {% endif %}
                                 {% endif %}
                                 <h2 id="score" class="panel-title dark-text">
                                     <strong>{% trans "Score:" %}</strong>
@@ -218,7 +226,7 @@
                                                         {% if value.0.0 == 0 %}
                                                             <div class="progress">
                                                                 <div class="progress">
-                                                                    <span style="color: grey;"><strong>{{ value.0.0 }} / {{ value.0.1 }}</strong></span>
+                                                                    <span style="color: grey; font-size: 12px;"><strong>{{ value.0.0 }} / {{ value.0.1 }}</strong></span>
                                                                 </div>
                                                             </div>
                                                         {% else %}
