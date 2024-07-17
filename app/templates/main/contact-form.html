@@ -84,9 +84,36 @@
     <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top  sticky-navigation" role="navigation">
         <div class="container">
             <!-- NAVIGATION LINK -->
-            <a href="/">
+            <a href="/" style="padding-left: 5%;">
                 <img src="static/app/images/logo_main.png" alt="" width="220" height="70.1667">
             </a>
+            <ul class="nav navbar-nav navbar-right login-register small-text">
+                <li style="display: block;" class="login dropdown">
+                    <a aria-expanded="false" type="button" data-toggle="dropdown" class="dropdown-toggle" data-hover="dropdown" style="padding-top: 60%;">
+                        <span class="icon-basic-world"></span>
+                    </a>
+                    <ul role="menu" class="dropdown-menu" style="padding: 20px;">
+                        <li style="padding-left: 20px;">
+                            <div>
+                                <form action="/i18n/setlang/" method="post">
+                                    {% csrf_token %}
+                                    <input name="next" type="hidden" value="{{ redirect_to }}" />
+                                    <select name="language" onchange="this.form.submit()" class='btn-group btn-group-justified colored-text'>
+                                        {% get_language_info_list for LANGUAGES as languages %}
+                                        {% for language in languages %}
+                                            {% if language.code == request.LANGUAGE_CODE %}
+                                                <option value="{{ language.code }}" selected>{{ language.name }} ({{ language.code }})</option>
+                                            {% else %}
+                                                <option value="{{ language.code }}">{{ language.name }} ({{ language.code }})</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </form>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
 
         </div>
     </div>
