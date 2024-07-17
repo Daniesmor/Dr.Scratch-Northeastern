@@ -56,45 +56,7 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
-    <script>
-    // Instance the tour
-    $(document).ready(function(){
-        $("#tour").click(function(){
-    var tour = new Tour({
-      storage: false,
-      backdrop: true,
-      steps: [
-      {
-        element: "#stepone",
-        title: "{% trans 'Score' %}",
-        content: "{% trans 'This section shows the total score.' %}"
-      },
-      {
-        element: "#steptwo",
-        title: "{% trans 'Bad habits in programming' %}",
-        content:"{% trans 'If you correct your bad habits in programming, you will avoid problems in the future.'%}"
-      },
-      {
-        element: "#stepthree",
-        title: "{% trans 'Certificate' %}",
-        content:"{% trans 'Download your certificate!'%}"
-      },
-      {
-        element: "#stepfour",
-        title: "{% trans 'Score in detail'%}",
-        content: "{% trans 'Here we show the score in each programming skill as well as links to sites that can help you to level up.' %}",
-        placement:'left'
-      }
-    ]});
-     tour.init();
-    // Initialize the tour
-
-
-            tour.start();
-
-        });
-});
-    </script>
+    
     <script>
         window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
     </script>
@@ -254,32 +216,39 @@
                 document.getElementById("UserInteractivity").value = userInteractivity;
                 document.getElementById("DataRepresentation").value = dataRepresentation;
             }
+
+            // Definir las traducciones
+            var translations = {
+                'games': "{% trans 'Games' %}",
+                'stories': "{% trans 'Stories' %}",
+                'animations': "{% trans 'Animations' %}",
+                'music': "{% trans 'Music' %}",
+                'arts': "{% trans 'Arts' %}"
+            };
     
             // Evento clic en los elementos de texto
             var textElements = document.querySelectorAll(".text-success");
             textElements.forEach(function(element) {
                 element.addEventListener("click", function() {
                     switch (element.textContent.trim()) {
-                        case "Games":
+                        case translations['games']:
                             setSliderValues(3, 4, 3, 4, 4, 3, 3); // Games's Rubric
                             break;
-                        case "Stories":
+                        case translations['stories']:
                             setSliderValues(2, 3, 2, 3, 3, 2, 2); // Stories's Rubric
                             break;
-                        case "Animations":
+                        case translations['animations']:
                             setSliderValues(2, 3, 2, 2, 3, 2, 2); // Animation's Rubric
                             break;
-                        case "Music":
+                        case translations['music']:
                             setSliderValues(2, 2, 0, 4, 4, 2, 2); // Music's Rubric
                             break;
-                        case "Arts":
+                        case translations['arts']:
                             setSliderValues(2, 2, 0, 2, 4, 4, 2); // Art's Rubric
                             break;
                         default:
                             break;
 
-
-                        
                     }
                 });
             });
@@ -363,9 +332,36 @@
         <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top  sticky-navigation" role="navigation">
             <div class="container">
                 <!-- NAVIGATION LINK -->
-                <a href="/">
+                <a href="/" style="padding-left: 4%;">
                     <img src="static/app/images/logo_main.png" alt="" width="220" height="70.1667">
                 </a>
+                <ul class="nav navbar-nav navbar-right login-register small-text">
+                    <li style="display: block;" class="login dropdown">
+                        <a aria-expanded="false" type="button" data-toggle="dropdown" class="dropdown-toggle" data-hover="dropdown" style="padding-top: 60%;">
+                            <span class="icon-basic-world"></span>
+                        </a>
+                        <ul role="menu" class="dropdown-menu" style="padding: 20px;">
+                            <li style="padding-left: 20px;">
+                                <div>
+                                    <form action="/i18n/setlang/" method="post">
+                                        {% csrf_token %}
+                                        <input name="next" type="hidden" value="{{ redirect_to }}" />
+                                        <select name="language" onchange="this.form.submit()" class='btn-group btn-group-justified colored-text'>
+                                            {% get_language_info_list for LANGUAGES as languages %}
+                                            {% for language in languages %}
+                                                {% if language.code == request.LANGUAGE_CODE %}
+                                                    <option value="{{ language.code }}" selected>{{ language.name }} ({{ language.code }})</option>
+                                                {% else %}
+                                                    <option value="{{ language.code }}">{{ language.name }} ({{ language.code }})</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                    </form>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
     
             </div>
         </div>
@@ -692,13 +688,22 @@
                 slider.value = value;
                 updateSliderValue(slider, document.getElementById(sliderId + "-value"));
             }
+
+            // Definir las traducciones
+            var translations = {
+                'games': "{% trans 'Games' %}",
+                'stories': "{% trans 'Stories' %}",
+                'animations': "{% trans 'Animations' %}",
+                'music': "{% trans 'Music' %}",
+                'arts': "{% trans 'Arts' %}"
+            };
     
             // Evento clic en los elementos de texto para establecer los valores predefinidos
             var textElements = document.querySelectorAll(".text-success");
             textElements.forEach(function(element) {
                 element.addEventListener("click", function() {
                     switch (element.textContent.trim()) {
-                        case "Games":
+                        case translations['games']:
                             setSliderAndSpanValues("Abstraction", 2);
                             setSliderAndSpanValues("Parallelization", 3);
                             setSliderAndSpanValues("LogicThinking", 2);
@@ -709,7 +714,7 @@
                             setSliderAndSpanValues("MathOperators", 2);
                             setSliderAndSpanValues("MotionOperators", 3);
                             break;
-                        case "Stories":
+                        case translations['stories']:
                             setSliderAndSpanValues("Abstraction", 1);
                             setSliderAndSpanValues("Parallelization", 2);
                             setSliderAndSpanValues("LogicThinking", 1);
@@ -720,7 +725,7 @@
                             setSliderAndSpanValues("MathOperators", 2);
                             setSliderAndSpanValues("MotionOperators", 1);
                             break;
-                        case "Animations":
+                        case translations['animations']:
                             setSliderAndSpanValues("Abstraction", 1);
                             setSliderAndSpanValues("Parallelization", 2);
                             setSliderAndSpanValues("LogicThinking", 1);
@@ -731,7 +736,7 @@
                             setSliderAndSpanValues("MathOperators", 1);
                             setSliderAndSpanValues("MotionOperators", 3);
                             break;                        
-                        case "Music":
+                        case translations['music']:
                             setSliderAndSpanValues("Abstraction", 1);
                             setSliderAndSpanValues("Parallelization", 1);
                             setSliderAndSpanValues("LogicThinking", 0);
@@ -742,7 +747,7 @@
                             setSliderAndSpanValues("MathOperators", 1);
                             setSliderAndSpanValues("MotionOperators", 1);
                             break;
-                        case "Arts":
+                        case translations['arts']:
                             setSliderAndSpanValues("Abstraction", 1);
                             setSliderAndSpanValues("Parallelization", 1);
                             setSliderAndSpanValues("LogicThinking", 0);
