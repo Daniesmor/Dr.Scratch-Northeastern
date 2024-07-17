@@ -7,6 +7,7 @@ import shutil
 import uuid
 from zipfile import ZipFile
 from .models import BatchCSV
+import re
 
 def skills_translation(request) -> dict:
     """
@@ -144,7 +145,11 @@ def create_csv_main(request, d: dict, folder_path: str) -> str:
         'Van Data representation'
     ]
 
-    global_headers = headers + vanilla_headers
+    aditional = [
+        'tot_blocks'
+    ]
+
+    global_headers = headers + vanilla_headers + aditional
 
     with open(csv_filepath, 'w', newline='') as csv_file:
         writer_csv = csv.DictWriter(csv_file, fieldnames=global_headers)
@@ -152,9 +157,18 @@ def create_csv_main(request, d: dict, folder_path: str) -> str:
 
         for project in d:
             row_to_write = {}
+            try:
+                tot_blocks = d[project].get('block_sprite_usage')['result']['total_blocks']
+                if tot_blocks != None:
+                    row_to_write['tot_blocks'] = tot_blocks
+            except TypeError:
+                row_to_write['tot_blocks'] = 'None'
             for clave in headers:
                 if clave in d[project]:
-                    row_to_write[clave] = d[project].get(clave, '')
+                    val = d[project].get(clave, '')
+                    if clave == "filename":
+                        val = val = re.sub(r"[\;\"\,\n\r]", "", val)
+                    row_to_write[clave] = val
                     if clave == 'points':      
                         row_to_write[f"Van {clave}"] = d[project].get(clave, '')[1]
                 elif clave in mastery_fields.keys():
@@ -381,7 +395,6 @@ def create_summary(request, d: dict) -> dict:
     
     for skill in skills:
         summary[skill] = round(summary[skill] / num_projects, 2)
-
     
     # AVERAGE MASTERY POINTS
     average_mastery_points = round(summary['Points'] / num_projects, 2)
