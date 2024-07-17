@@ -199,7 +199,7 @@ def save_projectsb3(path_file_temporary, id_project):
     dir_zips = os.path.dirname(os.path.dirname(__file__)) + "/uploads/"
 
     unique_id = generate_uniqueid_for_saving(id_project)
-    unique_file_name_for_saving = dir_zips + unique_id + ".sb3"
+    unique_file_name_for_saving = dir_zips + unique_id + ".sb2"
 
     dir_utemp = path_file_temporary.split(id_project)[0].encode('utf-8')
     path_project = os.path.dirname(os.path.dirname(__file__))
@@ -229,6 +229,8 @@ def save_projectsb3(path_file_temporary, id_project):
 def download_scratch_project_from_servers(path_project, id_project):
     scratch_project_inf = ScratchSession().get_project(id_project)
     url_json_scratch = "{}/{}?token={}".format(consts.URL_SCRATCH_SERVER, id_project, scratch_project_inf.project_token)
+    print("URLLLLL -------------------")
+    print(url_json_scratch)
     path_utemp = '{}/utemp/{}'.format(path_project, id_project)
     path_json_file = path_utemp + '_new_project.json'
 
@@ -250,6 +252,8 @@ def download_scratch_project_from_servers(path_project, id_project):
     try:
         json_string_format = response_from_scratch.read()
         json_data = json.loads(json_string_format)
+        print("PATH JSON TEMPORARY FILE in dspfs---------------------------------------------------------")
+        print(json_data)
         resulting_file = open(path_json_file, 'wb')
         resulting_file.write(json_string_format)
         resulting_file.close()
@@ -271,6 +275,9 @@ def send_request_getsb3(id_project, username, method):
 
     path_project = os.path.dirname(os.path.dirname(__file__))
     path_json_file_temporary = download_scratch_project_from_servers(path_project, id_project)
+
+    print("PATH JSON TEMPORARY FILE ---------------------------------------------------------")
+    print(path_json_file_temporary)
 
     now = datetime.now()
 
@@ -333,6 +340,10 @@ def generator_dic(request, id_project, skill_points: dict) -> dict:
         return d
 
     try:
+        print("MAS TRAZASS------------------------------------------------")
+        print(path_project)
+        print(file_obj)
+        print(ext_type_project)
         d = analyze_project(request, path_project, file_obj, ext_type_project, skill_points)
     except Exception:
         logger.error('Impossible analyze project')
@@ -675,6 +686,8 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
     
     if os.path.exists(path_projectsb3):
         json_scratch_project = load_json_project(path_projectsb3)
+        print("TRAZAAA DENTRO ANALYZE PROJECT --------------------------------")
+        print(json_scratch_project)
         dict_mastery = Mastery(path_projectsb3, json_scratch_project, skill_points, dashboard).finalize()
         dict_duplicate_script = DuplicateScripts(path_projectsb3, json_scratch_project).finalize()
         dict_dead_code = DeadCode(path_projectsb3, json_scratch_project,).finalize()
@@ -729,12 +742,16 @@ def analysis_by_upload(request, skill_points: dict, upload):
     unique_id = '{}_{}{}'.format(project_name, datetime.now().strftime("%Y_%m_%d_%H_%M_%S_"), datetime.now().microsecond)
     zip_filename = zip_filename.decode('utf-8')
     version = check_version(zip_filename)
+    version = '2.0'
+    file_saved = dir_zips + unique_id + ".sb2"
+    """
     if version == "1.4":
         file_saved = dir_zips + unique_id + ".sb"
     elif version == "2.0":
         file_saved = dir_zips + unique_id + ".sb2"
     else:
         file_saved = dir_zips + unique_id + ".sb3"
+    """
     # Create log
     path_log = os.path.dirname(os.path.dirname(__file__)) + "/log/"
     log_file = open(path_log + "logFile.txt", "a")

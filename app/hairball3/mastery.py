@@ -14,6 +14,7 @@ class Mastery(Plugin):
         super().__init__(filename, json_project, skill_points, mode , verbose)
         self.possible_scores = {"advanced": 4, "proficient": 3, "developing": 2, "basic": 1} # Falta añadir Finesse
         self.dict_total_blocks = {}
+        self.total_blocks = 0
 
     def process(self):
 
@@ -33,6 +34,7 @@ class Mastery(Plugin):
             for key, list_info in block.items():
                 if key == "opcode":
                     self.dict_blocks[list_info] += 1
+                    self.total_blocks += 1
 
     def analyze(self):
         self.compute_logic()
@@ -99,6 +101,7 @@ class Mastery(Plugin):
         Include the mastery points, max points, average points and competence in the dictionary.
         """
         dict['total_points'] = [points, max_points]
+        dict['total_blocks'] = self.total_blocks
         dict['max_points'] = max_points
         dict['average_points'] = round(average_points, 2)
         dict['competence'] = competence
