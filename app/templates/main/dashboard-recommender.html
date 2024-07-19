@@ -2,8 +2,7 @@
 {% load i18n %}
 {% block content %}
 
-<!-- NAV-MODES -->
-        
+<!-- NAV-MODES -->       
         <div class="container" id="stepone">
             <section id="dashboard">
                
@@ -55,6 +54,20 @@
                 100% {
                     transform: rotate(360deg);
                 }
+            }
+            .dropdown-toggle::after {
+                display: none;
+            }
+                /* Asegura que el dropdown no afecte el tamaño del icono */
+            .login.dropdown .dropdown-menu {
+                position: absolute;
+                top: 100%;
+                right: 0;
+                display: none; /* Oculto por defecto */
+            }
+            /* Mostrar el dropdown cuando se hace clic */
+            .login.dropdown.open .dropdown-menu {
+                display: block;
             }
         </style>
 
@@ -331,5 +344,4 @@
                 </div>
                 <br></br>
             </div>
-
 {% endblock %}

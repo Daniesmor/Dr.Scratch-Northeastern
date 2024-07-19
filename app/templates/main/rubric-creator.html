@@ -322,6 +322,10 @@
             transform: scale(1.2); /* El valor 1.1 puede ajustarse según el nivel de zoom deseado */
         }
 
+        .language-content {
+            cursor: pointer;
+        }
+
 
     </style>
     
@@ -337,8 +341,8 @@
                 </a>
                 <ul class="nav navbar-nav navbar-right login-register small-text">
                     <li style="display: block;" class="login dropdown">
-                        <a aria-expanded="false" type="button" data-toggle="dropdown" class="dropdown-toggle" data-hover="dropdown" style="padding-top: 60%;">
-                            <span class="icon-basic-world"></span>
+                        <a aria-expanded="false" type="button" data-toggle="dropdown" class="dropdown-toggle language-content" data-hover="dropdown" style="padding-top: 60%;">
+                            <span class="icon-basic-world "></span>
                         </a>
                         <ul role="menu" class="dropdown-menu" style="padding: 20px;">
                             <li style="padding-left: 20px;">
@@ -346,7 +350,7 @@
                                     <form action="/i18n/setlang/" method="post">
                                         {% csrf_token %}
                                         <input name="next" type="hidden" value="{{ redirect_to }}" />
-                                        <select name="language" onchange="this.form.submit()" class='btn-group btn-group-justified colored-text'>
+                                        <select name="language" onchange="this.form.submit()" class='btn-group btn-group-justified colored-text language-content'>
                                             {% get_language_info_list for LANGUAGES as languages %}
                                             {% for language in languages %}
                                                 {% if language.code == request.LANGUAGE_CODE %}
