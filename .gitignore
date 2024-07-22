@@ -76,7 +76,6 @@ target/
 app/certificate/
 
 # Translations
-locale/tr/LC_MESSAGES/django.po
 static/img/
 
 .env_prod
