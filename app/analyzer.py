@@ -667,7 +667,7 @@ def translate(request, d, filename, vanilla=False):
 
     elif request.LANGUAGE_CODE == "tr":
         d_translate_tr = {
-            'Soyutlama': [d['Abstraction'], 'Abstraction'], 'Paralellik': [d['Parallelism'], 'Parallelism'],
+            'Soyutlama': [d['Abstraction'], 'Abstraction'], 'Paralellik': [d['Parallelization'], 'Parallelization'],
             'Mantık': [d['Logic'], 'Logic'], 'Senkranizasyon': [d['Synchronization'], 'Synchronization'],
             'Akış kontrolü': [d['FlowControl'], 'FlowControl'], 'Kullanıcı etkileşimi': [d['UserInteractivity'], 'UserInteractivity'],
             'Veri temsili': [d['DataRepresentation'], 'DataRepresentation']
