@@ -109,6 +109,17 @@ def skills_translation(request) -> dict:
                u'Абстракция': 'Abstraction',
                u'Математические операторы':'Math operators',
                u'Операторы движения': 'Motion operators'}
+    elif request.LANGUAGE_CODE == "tr":
+        dic = {
+            u'Logic': 'Mantık',
+            u'Parallelism': 'Paralellik',
+            u'Data representation': 'Veri temsili',
+            u'Synchronization': 'Senkranizasyon',
+            u'User interactivity': 'Kullanıcı etkileşimi',
+            u'Flow control': 'Akış kontrolü',
+            u'Abstraction': 'Soyutlama',
+            u'Math operators': 'Matematiksel operatörler',
+            u'Motion operators': 'Hareket operatörleri'}
     else:
         dic = {u'Logica':'Logic',
                u'Paralelismo':'Parallelism',

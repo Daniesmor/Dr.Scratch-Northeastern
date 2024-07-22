@@ -664,6 +664,20 @@ def translate(request, d, filename, vanilla=False):
         filename.language = "ru"
         filename.save()
         return d_translate_ru
+
+    elif request.LANGUAGE_CODE == "tr":
+        d_translate_tr = {
+            'Soyutlama': [d['Abstraction'], 'Abstraction'], 'Paralellik': [d['Parallelism'], 'Parallelism'],
+            'Mantık': [d['Logic'], 'Logic'], 'Senkranizasyon': [d['Synchronization'], 'Synchronization'],
+            'Akış kontrolü': [d['FlowControl'], 'FlowControl'], 'Kullanıcı etkileşimi': [d['UserInteractivity'], 'UserInteractivity'],
+            'Veri temsili': [d['DataRepresentation'], 'DataRepresentation']
+        }
+        if not vanilla: 
+            d_translate_tr.update({'Matematiksel operatörler': [d['MathOperators'], 'MathOperators'], 'Hareket operatörleri': [d['MotionOperators'], 'MotionOperators']})
+        filename.language = "tr"
+        filename.save()
+        return d_translate_tr
+
     else:
         d_translate_en = {'Abstraction': [d['Abstraction'], 'Abstraction'], 'Parallelism': [d['Parallelization'], 'Parallelization'], 'Logic': [d['Logic'], 'Logic'],
                           'Synchronization': [d['Synchronization'], 'Synchronization'], 'Flow control': [d['FlowControl'], 'FlowControl'],
