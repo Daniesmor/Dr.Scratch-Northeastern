@@ -227,6 +227,7 @@ def create_csv_main(request, d: dict, folder_path: str) -> str:
 
     return csv_filepath
 
+
 def create_csv_dups(d: dict, folder_path: str):
     csv_name = "duplicateScript.csv"
     csv_filepath = os.path.join(folder_path, csv_name)
@@ -239,14 +240,13 @@ def create_csv_dups(d: dict, folder_path: str):
         # create headers
         for project in d.values():
             duplicate_scripts = project.get('duplicateScript', {}).get('csv_format', [])
-            
-            if duplicate_scripts:
-                for block in duplicate_scripts:
-                    max_dup_scripts_temp = max(len(instruction_list) for instruction_list in block)
-                    if max_dup_scripts < max_dup_scripts_temp:
-                        max_dup_scripts = max_dup_scripts_temp
+
+            scripts_num = sum(len(script_list) for script_list in duplicate_scripts)
+            max_dup_scripts = scripts_num if max_dup_scripts < scripts_num else max_dup_scripts
         for i in range(1, max_dup_scripts + 1):
             headers.append(f'duplicateScript_{i}')
+
+        print(headers)
         # open csv file
         with open(csv_filepath, 'w') as csv_file:
             writer_csv = csv.DictWriter(csv_file, fieldnames=headers)
@@ -271,28 +271,28 @@ def create_csv_dups(d: dict, folder_path: str):
     except KeyError:
         print("Error in creation of csv duplicates.")
 
+
 def create_csv_sprites(d: dict, folder_path: str):
     csv_name = "spriteNaming.csv"
     csv_filepath = os.path.join(folder_path, csv_name)
-    headers = ['url', 'filename', 'number']
+    # headers list
+    headers = ['url', 'filename','number']
 
-    # Get the maximum number of sprites
-    total_sprites_names = max(len(proj.get('spriteNaming', {}).get('sprite', [])) for proj in d.values())
-    # Add the names of the sprites as headers
-    headers.extend(f'spriteNaming{i}' for i in range(1, total_sprites_names + 1))
-    # Write in the CSV file
-    with open(csv_filepath, 'w', newline='') as csv_file:
+    total_sprite_names = max(len(proj.get('spriteNaming', {}).get('sprite', [])) for proj in d.values())
+    headers.extend(f'spriteNaming{i}' for i in range(1, total_sprite_names+1))
+    
+    with open(csv_filepath, 'w') as csv_file:
         writer_csv = csv.DictWriter(csv_file, fieldnames=headers)
         writer_csv.writeheader()
 
+        row_to_write = {}
         for project in d.values():
-            row_to_write = {key: project.get(key, 'N/A') for key in headers if key in ['url', 'filename']}
-            row_to_write['number'] = project.get('spriteNaming', {}).get('number', 'N/A')
-            # Fill the sprites
+            row_to_write = {key: project.get(key, 'N/A') for key in headers}
+            
+            # Fill sprites
             sprites = project.get('spriteNaming', {}).get('sprite', [])
             for i, sprite in enumerate(sprites, 1):
                 row_to_write[f'spriteNaming{i}'] = sprite if sprite else 'N/A'
-            # Write the row
             writer_csv.writerow(row_to_write)
   
 def create_csv_backdrops(d: dict, folder_path: str):
@@ -473,7 +473,7 @@ def create_csv(request, d: dict) -> uuid.UUID:
     os.mkdir(folder_path)
     
     create_csv_main(request, d, folder_path)
-    #create_csv_dups(d, folder_path)
+    create_csv_dups(d, folder_path)
     create_csv_sprites(d, folder_path)
     create_csv_backdrops(d, folder_path)
     create_csv_deadcode(d, folder_path)
