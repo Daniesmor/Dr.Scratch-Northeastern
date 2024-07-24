@@ -109,6 +109,17 @@ def skills_translation(request) -> dict:
                u'Абстракция': 'Abstraction',
                u'Математические операторы':'Math operators',
                u'Операторы движения': 'Motion operators'}
+    elif request.LANGUAGE_CODE == "tr":
+        dic = {
+            u'Logic': 'Mantık',
+            u'Parallelism': 'Paralellik',
+            u'Data representation': 'Veri temsili',
+            u'Synchronization': 'Senkranizasyon',
+            u'User interactivity': 'Kullanıcı etkileşimi',
+            u'Flow control': 'Akış kontrolü',
+            u'Abstraction': 'Soyutlama',
+            u'Math operators': 'Matematiksel operatörler',
+            u'Motion operators': 'Hareket operatörleri'}
     else:
         dic = {u'Logica':'Logic',
                u'Paralelismo':'Parallelism',
@@ -177,7 +188,7 @@ def create_csv_main(request, d: dict, folder_path: str) -> str:
                         mastery_list = d[project]['mastery'].get(clave_trans, [])
                         if mastery_list:  
                             if type(mastery_list[0]) == list:
-                                row_to_write[clave] = mastery_list[0][0]               
+                                row_to_write[clave] = f'{mastery_list[0][0]}/{mastery_list[0][1]}'          
                             else:
                                 row_to_write[clave] = mastery_list[0]
                         if clave not in ['Math operators', 'Motion operators']:
@@ -185,7 +196,7 @@ def create_csv_main(request, d: dict, folder_path: str) -> str:
                             van_clave = f"Van {clave}"
                             if mastery_list_van:
                                 if type(mastery_list_van[0]) == list:
-                                    row_to_write[van_clave] = mastery_list_van[0][0]
+                                    row_to_write[van_clave] = f'{mastery_list_van[0][0]}/{mastery_list_van[0][1]}'
                                 else:
                                     row_to_write[van_clave] = mastery_list_van[0]
                     except KeyError:
@@ -216,6 +227,7 @@ def create_csv_main(request, d: dict, folder_path: str) -> str:
 
     return csv_filepath
 
+
 def create_csv_dups(d: dict, folder_path: str):
     csv_name = "duplicateScript.csv"
     csv_filepath = os.path.join(folder_path, csv_name)
@@ -228,12 +240,9 @@ def create_csv_dups(d: dict, folder_path: str):
         # create headers
         for project in d.values():
             duplicate_scripts = project.get('duplicateScript', {}).get('csv_format', [])
-            
-            if duplicate_scripts:
-                for block in duplicate_scripts:
-                    max_dup_scripts_temp = max(len(instruction_list) for instruction_list in block)
-                    if max_dup_scripts < max_dup_scripts_temp:
-                        max_dup_scripts = max_dup_scripts_temp
+
+            scripts_num = sum(len(script_list) for script_list in duplicate_scripts)
+            max_dup_scripts = scripts_num if max_dup_scripts < scripts_num else max_dup_scripts
         for i in range(1, max_dup_scripts + 1):
             headers.append(f'duplicateScript_{i}')
         # open csv file
@@ -250,38 +259,38 @@ def create_csv_dups(d: dict, folder_path: str):
                 duplicate_scripts = project_data.get('duplicateScript', {}).get('csv_format', [])
                 if duplicate_scripts:
                     script_number = 0
-                    for block in duplicate_scripts:
-                        for instruction in block:
+                    for script_list in duplicate_scripts:
+                        for script in script_list:
                             script_number += 1
-                            row_to_write[f'duplicateScript_{script_number}'] = instruction
+                            row_to_write[f'duplicateScript_{script_number}'] = script
                 else:
                     row_to_write.update({f'duplicateScript_{i}': 'N/A' for i in range(1, max_dup_scripts + 1)})        
                 writer_csv.writerow(row_to_write)
     except KeyError:
         print("Error in creation of csv duplicates.")
 
+
 def create_csv_sprites(d: dict, folder_path: str):
     csv_name = "spriteNaming.csv"
     csv_filepath = os.path.join(folder_path, csv_name)
-    headers = ['url', 'filename', 'number']
+    # headers list
+    headers = ['url', 'filename','number']
 
-    # Get the maximum number of sprites
-    total_sprites_names = max(len(proj.get('spriteNaming', {}).get('sprite', [])) for proj in d.values())
-    # Add the names of the sprites as headers
-    headers.extend(f'spriteNaming{i}' for i in range(1, total_sprites_names + 1))
-    # Write in the CSV file
-    with open(csv_filepath, 'w', newline='') as csv_file:
+    total_sprite_names = max(len(proj.get('spriteNaming', {}).get('sprite', [])) for proj in d.values())
+    headers.extend(f'spriteNaming{i}' for i in range(1, total_sprite_names+1))
+    
+    with open(csv_filepath, 'w') as csv_file:
         writer_csv = csv.DictWriter(csv_file, fieldnames=headers)
         writer_csv.writeheader()
 
+        row_to_write = {}
         for project in d.values():
-            row_to_write = {key: project.get(key, 'N/A') for key in headers if key in ['url', 'filename']}
-            row_to_write['number'] = project.get('spriteNaming', {}).get('number', 'N/A')
-            # Fill the sprites
+            row_to_write = {key: project.get(key, 'N/A') for key in headers}
+            
+            # Fill sprites
             sprites = project.get('spriteNaming', {}).get('sprite', [])
             for i, sprite in enumerate(sprites, 1):
                 row_to_write[f'spriteNaming{i}'] = sprite if sprite else 'N/A'
-            # Write the row
             writer_csv.writerow(row_to_write)
   
 def create_csv_backdrops(d: dict, folder_path: str):
@@ -462,7 +471,7 @@ def create_csv(request, d: dict) -> uuid.UUID:
     os.mkdir(folder_path)
     
     create_csv_main(request, d, folder_path)
-    #create_csv_dups(d, folder_path)
+    create_csv_dups(d, folder_path)
     create_csv_sprites(d, folder_path)
     create_csv_backdrops(d, folder_path)
     create_csv_deadcode(d, folder_path)
