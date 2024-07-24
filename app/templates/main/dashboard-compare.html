@@ -1211,10 +1211,10 @@
                 var $hiddenContent = $('#hidden-content');
                 if ($hiddenContent.is(':visible')) {
                     $hiddenContent.slideUp();
-                    $(this).text('Show more');
+                    $(this).text("{% trans 'Show more' %}");
                 } else {
                     $hiddenContent.slideDown();
-                    $(this).text('Show less');
+                    $(this).text("{% trans 'Show less' %}");
                 }
             });
         });
