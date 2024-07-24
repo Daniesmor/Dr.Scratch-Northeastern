@@ -77,6 +77,13 @@ class LanguageManager:
                 "Estàs fent una feina fantàstica, és meravellós, però les meves habilitats de gat han detectat un ratolí a prop, o potser és que",
                 "El teu esforç és excepcional, és fascinant, però els meus instints felines han identificat que algú guarda secrets a la caixa de sorra, o potser és que",
             ]
+        elif self.curr_lan == 'tr':
+            return [
+                "Çok iyi bir iş çıkarıyorsunuz, bu harika, ama kedi gibi koku alma duyum şunu tespit etti",
+                "Mükemmel bir iş çıkarıyorsunuz, bu etkileyici, ama kedi gibi koku alma duyum birisinin ton balığımı yediğini tespit etti, ya da belki",
+                "Harika bir iş çıkarıyorsunuz, bu muhteşem, ama kedi becerilerim yakınlarda bir fare tespit etti, ya da belki",
+                "Çabanız olağanüstü, bu büyüleyici, ama kedisel içgüdülerim birisinin kum kutusunda sırlar sakladığını tespit etti, ya da belki",
+            ]
         else:
             return []
 
@@ -152,6 +159,14 @@ class LanguageManager:
                 "\nEstic segur que el teu projecte serà un gran èxit! :)",
                 "\nNo et rendeixis, cada esforç t'acosta més al teu objectiu! :)",
                 "\nConfio en les teves habilitats, milloraràs el teu projecte! :)",
+            ]
+        elif self.curr_lan == 'tr':
+            return [
+                "\nProjenizi geliştirirken iyi şanslar, yapabilirsiniz!! :)",
+                "\nProjenize devam edin, harika bir iş çıkarıyorsunuz! :)",
+                "\nEminim projeniz büyük bir başarı olacak! :)",
+                "\nPes etmeyin, her çaba sizi hedefinize daha da yaklaştırıyor! :)",
+                "\nYeteneklerinize güveniyorum, projenizi geliştireceksiniz! :)",
             ]
         else:
             return []
@@ -229,6 +244,14 @@ class LanguageManager:
                 "\nEXPLICACIÓ:\nPensa en els scripts duplicats com escriure les mateixes instruccions per a diferents tasques. Si necessites actualitzar les instruccions, has de reescriure-les per a cada tasca, la qual cosa és ineficient. En lloc d'això, escriu un únic conjunt d'instruccions i refèreix-t'hi segons sigui necessari.",
                 "\nEXPLICACIÓ:\nEls scripts duplicats són com pintar diverses parets del mateix color però amb diferents marques de pintura. Si decides canviar el color, necessites repintar cada paret per separat. Utilitzar una pintura consistent permet canvis i manteniment més fàcils.",
             ]
+        elif self.curr_lan == 'tr':
+            return [
+                "\nAÇIKLAMA:\nBir projede aynı bloklardan oluşan ancak farklı parametreler veya değerlerle iki betiğimiz olduğunu hayal edin. Küçük bir değişiklik yapmamız gerekirse ne olur? Her iki betiği de değiştirmemiz gerekecek, bu da kod bakımını zorlaştırır. Böyle durumlarda, programcının bu davranışı tanımlayan özel bir blok oluşturması ve bu yeni bloğu gerektiği yerde kullanması daha uygundur.",
+                "\nAÇIKLAMA:\nYinelenen betikler, hafif malzeme varyasyonlarıyla aynı tarifin birden fazla kopyasına sahip olmak gibidir. Bir malzemeyi değiştirirseniz, tüm kopyaları güncellemeniz gerekir, bu da zahmetlidir. Bunun yerine, bir ana tarif oluşturun ve gerektiğinde ona başvurun.",
+                "\nAÇIKLAMA:\nYinelenen betiklere sahip olmak, alet kutunuzda küçük farklarla birden fazla aynı araca sahip olmak gibidir. Bir tanesi bozulur veya ayar gerektirirse, her birini ayrı ayrı tamir etmeniz gerekir. Daha iyi bir yaklaşım, ayarlanabilir ayarları olan tek bir araca sahip olmaktır.",
+                "\nAÇIKLAMA:\nYinelenen betikleri, farklı görevler için aynı talimatları yazmak gibi düşünün. Talimatları güncellemeniz gerekirse, her görev için yeniden yazmanız gerekir, bu verimsizdir. Bunun yerine, tek bir talimat seti yazın ve gerektiğinde ona başvurun.",
+                "\nAÇIKLAMA:\nYinelenen betikler, aynı rengi boyayan ancak farklı boya markaları kullanan birden fazla duvarı boyamak gibidir. Rengi değiştirmeye karar verirseniz, her duvarı ayrı ayrı yeniden boyamanız gerekir. Tutarlı bir boya kullanmak, değişiklikleri ve bakımı kolaylaştırır.",
+            ]
         else:
             return []
 
@@ -304,6 +327,14 @@ class LanguageManager:
                 "\nEXPLICACIÓ:\nEl codi mort és com tenir papers vells a la teva taula: et distreuen i fan que sigui difícil trobar el que necessites. En desfer-te'n, treballaràs millor.",
                 "\nEXPLICACIÓ:\nEl codi mort és com tenir roba que ja no fas servir a l'armari: només ocupa espai i fa que tot sembli desordenat. En eliminar-la, tot és més fàcil de gestionar.",
                 "\nEXPLICACIÓ:\nEl codi mort és com tenir escombraries a la teva motxilla: és inútil i només molesta. En netejar-la, trobes tot més ràpidament i és més fàcil d'utilitzar.",
+            ]
+        elif self.curr_lan == 'tr':
+            return [
+                "\nAÇIKLAMA:\nÖlü kod, yerde dağınık halde duran kullanılmayan bloklara benzer: her şeyi daha dağınık ve anlaşılması zor hale getirir. Onu kaldırarak, projeniz daha temiz, anlaşılması daha kolay ve daha iyi çalışır hale gelecektir.",
+                "\nAÇIKLAMA:\nÖlü kodlara sahip olmak, odanızda kırık oyuncaklar bulundurmak gibidir: işe yaramazlar ve sadece yer kaplarlar. Onları kaldırarak, her şey daha düzenli olacaktır.",
+                "\nAÇIKLAMA:\nÖlü kod, masanızda eski kağıtların bulunması gibidir: dikkatinizi dağıtır ve ihtiyacınız olanı bulmayı zorlaştırır. Onlardan kurtularak, daha iyi çalışırsınız.",
+                "\nAÇIKLAMA:\nÖlü kod, dolabınızda artık giymediğiniz kıyafetler bulundurmak gibidir: sadece yer kaplar ve her şeyin dağınık görünmesine neden olur. Onları kaldırmak, her şeyi yönetmeyi kolaylaştırır.",
+                "\nAÇIKLAMA:\nÖlü kod, sırt çantanızda çöp bulundurmak gibidir: işe yaramaz ve sadece engel olur. Onu temizleyerek, her şeyi daha hızlı bulur ve kullanımı kolaylaştırırsınız.",
             ]
         else:
             return []
@@ -381,6 +412,14 @@ class LanguageManager:
                 "\nEXPLICACIÓ:\nNomenar sprites és com nomenar instruments en una orquestra: assegura que cada part jugui el seu paper previst de manera harmònica. La claredat en els noms millora la gestió i el desenvolupament del projecte.",
                 "\nEXPLICACIÓ:\nConsidera el nomenament de sprites com etiquetar ingredients en una recepta: fa que muntar el teu projecte sigui més eficient i menys confús. Noms clars agilitzen la col·laboració i la resolució de problemes.",
             ]
+        elif self.curr_lan == 'tr':
+            return [
+                "\nAÇIKLAMA:\nKuklalara anlamlı isimler vermek, alet kutunuzdaki öğeleri etiketlemek gibidir: ihtiyacınız olanı hızlıca bulmanıza yardımcı olur. Net isimler, projenizin anlaşılmasını ve gezinilmesini kolaylaştırır.",
+                "\nAÇIKLAMA:\nKuklalara isim vermek, bir hikayedeki karakterlere isim vermek gibidir: onlara kimlik kazandırır ve etkileşimleri daha net hale getirir. İyi seçilmiş isimler, projenizin okunabilirliğini artırır.",
+                "\nAÇIKLAMA:\nKuklalara isim vermeyi, bir oyundaki rolleri atamak gibi düşünün: her isim, kuklanın amacını yansıtmalıdır. Bu organizasyon, projenizin genel yapısını ve anlaşılmasını geliştirir.",
+                "\nAÇIKLAMA:\nKuklalara isim vermek, bir orkestrada enstrümanlara isim vermek gibidir: her parçanın uyum içinde kendi rolünü oynamasını sağlar. İsimlendirmede netlik, proje yönetimini ve geliştirmeyi iyileştirir.",
+                "\nAÇIKLAMA:\nKukla isimlendirmeyi, bir tarifteki malzemeleri etiketlemek olarak düşünün: projenizi birleştirmenizi daha verimli ve daha az kafa karıştırıcı hale getirir. Net isimler, işbirliğini ve sorun gidermeyi kolaylaştırır.",
+            ]
         else:
             return []
 
@@ -456,6 +495,14 @@ class LanguageManager:
                 "\nEXPLICACIÓ:\nPensa en nomenar fons com designar ubicacions en un mapa: cada nom ha d'indicar clarament el seu propòsit. Això millora l'estructura general i facilita la comprensió del projecte.",
                 "\nEXPLICACIÓ:\nNomenar fons és com posar rètols en un parc temàtic: assegura que cada àrea estigui ben identificada i que els visitants no es perdi. La claredat en els noms millora la gestió del projecte i l'experiència de l'usuari.",
                 "\nEXPLICACIÓ:\nConsidera nomenar fons com etiquetar les diferents seccions d'una revista: fa que navegar pel teu projecte sigui més eficient i menys confús. Noms clars agilitzen la col·laboració i la resolució de problemes.",
+            ]
+        elif self.curr_lan == 'tr':
+            return [
+                "\nAÇIKLAMA:\nDekorlara anlamlı isimler vermek, bir evdeki odaları etiketlemek gibidir: her ortamı hızlıca tanımanıza yardımcı olur. Net isimler, projenizin organize edilmesini ve gezinilmesini kolaylaştırır.",
+                "\nAÇIKLAMA:\nDekorlara isim vermek, bir filmdeki sahnelere başlık vermek gibidir: bağlam sağlar ve hikayenin ilerleyişinin anlaşılmasını artırır. Uygun isimler, projenizin daha sezgisel olmasını sağlar.",
+                "\nAÇIKLAMA:\nDekorlara isim vermeyi, bir haritada konumları belirlemek gibi düşünün: her isim amacını açıkça belirtmelidir. Bu, genel yapıyı geliştirir ve projenin anlaşılmasını kolaylaştırır.",
+                "\nAÇIKLAMA:\nDekorlara isim vermek, bir tema parkında tabelalar koymak gibidir: her alanın iyi tanımlanmasını sağlar ve ziyaretçilerin kaybolmamasını sağlar. İsimlendirmede netlik, proje yönetimini ve kullanıcı deneyimini artırır.",
+                "\nAÇIKLAMA:\nDekor isimlendirmeyi, bir derginin farklı bölümlerini etiketlemek olarak düşünün: projenizde gezinmeyi daha verimli ve daha az kafa karıştırıcı hale getirir. Net isimler, işbirliğini ve sorun gidermeyi kolaylaştırır.",
             ]
         else:
             return []
@@ -630,6 +677,25 @@ class LanguageManager:
                 'Duplicates': {
                     'fail': "Oooops, sembla que no has resolt el problema amb el codi duplicat, però no et preocupis, revisarem com podríem solucionar-ho de nou,",
                     'success': "¡YEAHH, HAS RESOLT EL PROBLEMA AMB EL CODI DUPLICAT, aquesta és una notícia genial! ¿Et sembla bé si continuem millorant el projecte?",
+                }
+            }
+        elif self.curr_lan == 'tr':
+            return {
+                'Backdrops': {
+                    'fail': "Oooops, görünüşe göre dekor isimlendirme sorununu çözemediniz, ama endişelenmeyin, nasıl çözebileceğimizi tekrar gözden geçireceğiz,",
+                    'success': "YEAAHH, DEKOR İSİMLENDİRME SORUNUNU ÇÖZDÜNÜZ, bu harika bir haber! Projeyi geliştirmeye devam etsek iyi olur mu?",
+                },
+                'Sprites': {
+                    'fail': "Oooops, görünüşe göre kukla isimlendirme sorununu çözemediniz, ama endişelenmeyin, nasıl çözebileceğimizi tekrar gözden geçireceğiz,",
+                    'success': "YEAAHH, KUKLA İSİMLENDİRME SORUNUNU ÇÖZDÜNÜZ, bu harika bir haber! Projeyi geliştirmeye devam etsek iyi olur mu?",
+                },
+                'deadCode': {
+                    'fail': "Oooops, görünüşe göre ölü kod sorununu çözemediniz, ama endişelenmeyin, nasıl çözebileceğimizi tekrar gözden geçireceğiz,",
+                    'success': "YEAAHH, ÖLÜ KOD SORUNUNU ÇÖZDÜNÜZ, bu harika bir haber! Projeyi geliştirmeye devam etsek iyi olur mu?",
+                },
+                'Duplicates': {
+                    'fail': "Oooops, görünüşe göre yinelenen kod sorununu henüz çözemediniz, ama endişelenmeyin, nasıl çözebileceğimizi tekrar gözden geçireceğiz,",
+                    'success': "YEAAHH, YİNELENEN KOD SORUNUNU ÇÖZDÜNÜZ, bu harika bir haber! Projeyi geliştirmeye devam etsek iyi olur mu?",
                 }
             }
         else:
