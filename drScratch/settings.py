@@ -99,6 +99,7 @@ LANGUAGES = (
     ('eu', _('Basque')),
     ('it', _('Italiano')),
     ('ru', _('Russian')),
+    ('tr', _('Turkish')),
 )
 
 SITE_ROOT = os.path.dirname(os.path.realpath(__name__))

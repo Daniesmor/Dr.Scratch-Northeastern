@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-22 14:35+0000\n"
+"POT-Creation-Date: 2024-07-24 18:12+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,17 +20,17 @@ msgstr ""
 
 #: app/templates/coder/base.html:74 app/templates/main/statistics.html:66
 msgid "Scores of 2019"
-msgstr ""
+msgstr "2019 puanları"
 
 #: app/templates/coder/base.html:82
-#: app/templates/main/dashboard-compare.html:1127
 #: app/templates/main/dashboard-compare.html:1131
+#: app/templates/main/dashboard-compare.html:1135
 #: app/templates/main/main_organization.html:76
 #: app/templates/main/statistics.html:74
 #: app/templates/organization/base.html:85
 #: app/templates/statistics/statistics.html:73
 msgid " points"
-msgstr ""
+msgstr " puan"
 
 #: app/templates/coder/base.html:91
 #: app/templates/main/main_organization.html:85
@@ -38,29 +38,29 @@ msgstr ""
 #: app/templates/organization/base.html:94
 #: app/templates/statistics/statistics.html:82
 msgid "Total score"
-msgstr ""
+msgstr "Toplam puan"
 
 #: app/templates/coder/base.html:101 app/templates/main/statistics.html:93
 msgid "Number of projects analyzed in 2019"
-msgstr ""
+msgstr "2019'da analiz edilen proje sayısı"
 
 #: app/templates/coder/base.html:109 app/templates/main/statistics.html:101
 #: app/templates/organization/base.html:112
 #: app/templates/statistics/statistics.html:100
 msgid " projects"
-msgstr ""
+msgstr " projeler"
 
 #: app/templates/coder/base.html:118 app/templates/main/statistics.html:110
 #: app/templates/organization/base.html:121
 #: app/templates/statistics/statistics.html:109
 msgid "Total projects"
-msgstr ""
+msgstr "Toplam proje"
 
 #: app/templates/coder/base.html:132 app/templates/main/statistics.html:124
 #: app/templates/organization/base.html:135
 #: app/templates/statistics/statistics.html:123
 msgid "Percent levels"
-msgstr ""
+msgstr "Yüzde seviyeleri"
 
 #: app/templates/coder/base.html:151
 #: app/templates/coder/dashboard-basic.html:213
@@ -79,27 +79,27 @@ msgstr ""
 #: app/templates/organization/dashboard-master.html:281
 #: app/templates/statistics/statistics.html:142
 msgid "Level"
-msgstr ""
+msgstr "Seviye"
 
 #: app/templates/coder/base.html:154 app/templates/main/statistics.html:146
 #: app/templates/organization/base.html:157
 #: app/templates/statistics/statistics.html:145
 #: app/templates/upload/dashboard-unregistered.html:92
 msgid "Basic"
-msgstr ""
+msgstr "Temel"
 
 #: app/templates/coder/base.html:157 app/templates/main/statistics.html:149
 #: app/templates/organization/base.html:160
 #: app/templates/statistics/statistics.html:148
 msgid "Development"
-msgstr ""
+msgstr "Gelişim"
 
 #: app/templates/coder/base.html:160 app/templates/main/statistics.html:152
 #: app/templates/organization/base.html:163
 #: app/templates/statistics/statistics.html:151
 #: app/templates/upload/dashboard-unregistered.html:88
 msgid "Master"
-msgstr ""
+msgstr "Usta"
 
 #: app/templates/coder/base.html:173 app/templates/coder/base.html:180
 #: app/templates/main/statistics.html:165
@@ -109,22 +109,22 @@ msgstr ""
 #: app/templates/statistics/statistics.html:164
 #: app/templates/statistics/statistics.html:171
 msgid "Average rate by code smell"
-msgstr ""
+msgstr "Kod kokusu başına ortalama oran"
 
 #: app/templates/coder/base.html:203 app/templates/main/statistics.html:195
 #: app/templates/organization/base.html:206
 #: app/templates/statistics/statistics.html:194
 msgid "Code smell"
-msgstr ""
+msgstr "Kod kokusu"
 
 #: app/templates/coder/base.html:206 app/templates/coder/base.html:386
 #: app/templates/coder/dashboard-default-developing.html:410
 #: app/templates/coder/dashboard-default-master.html:410
 #: app/templates/coder/dashboard-developing.html:310
 #: app/templates/coder/dashboard-master.html:320
-#: app/templates/learn/base.html:259
-#: app/templates/main/dashboard-compare.html:718
-#: app/templates/main/dashboard-compare.html:817
+#: app/templates/learn/base.html:270
+#: app/templates/main/dashboard-compare.html:722
+#: app/templates/main/dashboard-compare.html:821
 #: app/templates/main/dashboard-default.html:351
 #: app/templates/main/dashboard-default.html:644
 #: app/templates/main/dashboard-default.html:976
@@ -137,16 +137,16 @@ msgstr ""
 #: app/templates/statistics/statistics.html:197
 #: app/templates/upload/dashboard-unregistered-master.html:246
 msgid "Dead code"
-msgstr ""
+msgstr "Ölü kod"
 
 #: app/templates/coder/base.html:209 app/templates/coder/base.html:384
 #: app/templates/coder/dashboard-default-developing.html:364
 #: app/templates/coder/dashboard-default-master.html:364
 #: app/templates/coder/dashboard-developing.html:272
 #: app/templates/coder/dashboard-master.html:274
-#: app/templates/learn/base.html:253
-#: app/templates/main/dashboard-compare.html:671
-#: app/templates/main/dashboard-compare.html:770
+#: app/templates/learn/base.html:264
+#: app/templates/main/dashboard-compare.html:675
+#: app/templates/main/dashboard-compare.html:774
 #: app/templates/main/dashboard-default.html:320
 #: app/templates/main/dashboard-default.html:597
 #: app/templates/main/dashboard-default.html:929
@@ -159,22 +159,22 @@ msgstr ""
 #: app/templates/statistics/statistics.html:200
 #: app/templates/upload/dashboard-unregistered-master.html:240
 msgid "Duplicated scripts"
-msgstr ""
+msgstr "Yinelenen betikler"
 
 #: app/templates/coder/base.html:212 app/templates/coder/base.html:387
-#: app/templates/learn/base.html:262 app/templates/organization/base.html:215
+#: app/templates/learn/base.html:273 app/templates/organization/base.html:215
 #: app/templates/organization/base.html:390
 msgid "Attribute initialization"
-msgstr ""
+msgstr "Özellik başlatma"
 
 #: app/templates/coder/base.html:215
 #: app/templates/coder/dashboard-default-developing.html:386
 #: app/templates/coder/dashboard-default-master.html:386
 #: app/templates/coder/dashboard-developing.html:293
 #: app/templates/coder/dashboard-master.html:296
-#: app/templates/learn/base.html:256
-#: app/templates/main/dashboard-compare.html:694
-#: app/templates/main/dashboard-compare.html:793
+#: app/templates/learn/base.html:267
+#: app/templates/main/dashboard-compare.html:698
+#: app/templates/main/dashboard-compare.html:797
 #: app/templates/main/dashboard-default.html:327
 #: app/templates/main/dashboard-default.html:620
 #: app/templates/main/dashboard-default.html:952
@@ -187,7 +187,7 @@ msgstr ""
 #: app/templates/upload/dashboard-unregistered-developing.html:206
 #: app/templates/upload/dashboard-unregistered-master.html:242
 msgid "Sprite naming"
-msgstr ""
+msgstr "Sprite adlandırma"
 
 #: app/templates/coder/base.html:230 app/templates/coder/base.html:237
 #: app/templates/main/statistics.html:222
@@ -197,76 +197,76 @@ msgstr ""
 #: app/templates/statistics/statistics.html:221
 #: app/templates/statistics/statistics.html:228
 msgid "Average rate by programming skill"
-msgstr ""
+msgstr "Programlama becerisine göre ortalama oran"
 
 #: app/templates/coder/base.html:260 app/templates/main/statistics.html:252
 #: app/templates/organization/base.html:263
 #: app/templates/statistics/statistics.html:251
 msgid "Programming skill"
-msgstr ""
+msgstr "Programlama becerisi"
 
 #: app/templates/coder/base.html:263 app/templates/coder/base.html:378
-#: app/templates/learn/Parallelization.html:6 app/templates/learn/base.html:228
+#: app/templates/learn/Parallelization.html:6 app/templates/learn/base.html:239
 #: app/templates/main/statistics.html:255
 #: app/templates/organization/base.html:266
 #: app/templates/organization/base.html:381
 #: app/templates/statistics/statistics.html:254
 msgid "Parallelism"
-msgstr ""
+msgstr "Paralellik"
 
 #: app/templates/coder/base.html:266 app/templates/coder/base.html:376
-#: app/templates/learn/Logic.html:5 app/templates/learn/base.html:222
+#: app/templates/learn/Logic.html:5 app/templates/learn/base.html:233
 #: app/templates/main/statistics.html:258
 #: app/templates/organization/base.html:269
 #: app/templates/organization/base.html:379
 #: app/templates/statistics/statistics.html:257
 msgid "Logic"
-msgstr ""
+msgstr "Mantık"
 
 #: app/templates/coder/base.html:269 app/templates/coder/base.html:381
-#: app/templates/learn/base.html:237 app/templates/main/rubric-creator.html:474
+#: app/templates/learn/base.html:248 app/templates/main/rubric-creator.html:478
 #: app/templates/main/statistics.html:261
 #: app/templates/organization/base.html:272
 #: app/templates/organization/base.html:384
 msgid "Flow control"
-msgstr ""
+msgstr "Akış kontrolü"
 
 #: app/templates/coder/base.html:272 app/templates/coder/base.html:380
-#: app/templates/learn/base.html:234 app/templates/main/rubric-creator.html:492
+#: app/templates/learn/base.html:245 app/templates/main/rubric-creator.html:496
 #: app/templates/main/statistics.html:264
 #: app/templates/organization/base.html:275
 #: app/templates/organization/base.html:383
 #: app/templates/statistics/statistics.html:263
 msgid "User interactivity"
-msgstr ""
+msgstr "Kullanıcı etkileşimi"
 
 #: app/templates/coder/base.html:275 app/templates/coder/base.html:377
-#: app/templates/learn/base.html:225 app/templates/main/statistics.html:267
+#: app/templates/learn/base.html:236 app/templates/main/statistics.html:267
 #: app/templates/organization/base.html:278
 #: app/templates/organization/base.html:380
 #: app/templates/statistics/statistics.html:266
 msgid "Data representation"
-msgstr ""
+msgstr "Temsili veri"
 
 #: app/templates/coder/base.html:278 app/templates/coder/base.html:382
-#: app/templates/learn/Abstraction.html:5 app/templates/learn/base.html:240
-#: app/templates/main/rubric-creator.html:395
+#: app/templates/learn/Abstraction.html:5 app/templates/learn/base.html:251
+#: app/templates/main/rubric-creator.html:399
 #: app/templates/main/statistics.html:270
 #: app/templates/organization/base.html:281
 #: app/templates/organization/base.html:385
 #: app/templates/statistics/statistics.html:269
 msgid "Abstraction"
-msgstr ""
+msgstr "Soyutlama"
 
 #: app/templates/coder/base.html:281 app/templates/coder/base.html:379
-#: app/templates/learn/Synchronization.html:6 app/templates/learn/base.html:231
-#: app/templates/main/rubric-creator.html:456
+#: app/templates/learn/Synchronization.html:6 app/templates/learn/base.html:242
+#: app/templates/main/rubric-creator.html:460
 #: app/templates/main/statistics.html:273
 #: app/templates/organization/base.html:284
 #: app/templates/organization/base.html:382
 #: app/templates/statistics/statistics.html:272
 msgid "Synchronization"
-msgstr ""
+msgstr "Senkronizasyon"
 
 #: app/templates/coder/base.html:330 app/templates/main/main_new.html:147
 #: app/templates/organization/base.html:333
@@ -274,53 +274,55 @@ msgid ""
 "<input type='submit' value='Change language' class='btn-group btn-group-"
 "justified colored-text'/>"
 msgstr ""
+"<input type='submit' value='Dili değiştir' class='btn-group btn-group-"
+"justified colored-text'/>"
 
 #: app/templates/coder/base.html:342
 #: app/templates/main/main_organization.html:126
 #: app/templates/organization/base.html:345
 #: app/templates/upload/dashboard-organization.html:81
 msgid "Logged in as "
-msgstr ""
+msgstr "Olarak giriş yapıldı "
 
 #: app/templates/coder/base.html:344
 #: app/templates/main/main_organization.html:128
 #: app/templates/organization/base.html:347
 #: app/templates/upload/dashboard-organization.html:83
 msgid "Change password"
-msgstr ""
+msgstr "Şifreyi değiştir"
 
 #: app/templates/coder/base.html:346
 #: app/templates/main/main_organization.html:130
 #: app/templates/organization/base.html:349
 #: app/templates/upload/dashboard-organization.html:85
 msgid "Logout"
-msgstr ""
+msgstr "Çıkış Yap"
 
 #: app/templates/coder/base.html:371 app/templates/coder/main.html:6
 #: app/templates/organization/base.html:374
 #: app/templates/organization/main.html:6
 msgid "Analysis"
-msgstr ""
+msgstr "Analiz"
 
 #: app/templates/coder/base.html:372 app/templates/organization/base.html:375
 msgid "Stats"
-msgstr ""
+msgstr "İstatistikler"
 
-#: app/templates/coder/base.html:374 app/templates/main/main.html:373
+#: app/templates/coder/base.html:374 app/templates/main/main.html:376
 #: app/templates/main/main_new.html:230
 #: app/templates/organization/base.html:377
 msgid "Learn more"
-msgstr ""
+msgstr "Daha fazla bilgi edin"
 
 #: app/templates/coder/base.html:385 app/templates/organization/base.html:388
 msgid "Incorrect names"
-msgstr ""
+msgstr "Yanlış isimler"
 
 #: app/templates/coder/base.html:390 app/templates/coder/settings.html:5
 #: app/templates/organization/base.html:394
 #: app/templates/organization/settings.html:5
 msgid "Settings"
-msgstr ""
+msgstr "Ayarlar"
 
 #: app/templates/coder/base.html:398
 #: app/templates/coder/dashboard-basic.html:296
@@ -352,7 +354,7 @@ msgstr ""
 #: app/templates/main/main_organization.html:273
 #: app/templates/organization/base.html:432
 msgid "How is the file .csv?"
-msgstr ""
+msgstr "Dosya .csv nasıl?"
 
 #: app/templates/coder/base.html:427
 #: app/templates/main/main_organization.html:275
@@ -360,68 +362,69 @@ msgstr ""
 msgid ""
 "You must to write only the number of your students' projects. Easy, isn't it?"
 msgstr ""
+"Sadece öğrencilerinizin projelerinin sayısını yazmalısınız. Kolay, değil mi?"
 
 #: app/templates/coder/base.html:448 app/templates/login/login.html:563
-#: app/templates/main/compare-uploader.html:323
-#: app/templates/main/main.html:747 app/templates/main/main_new.html:709
-#: app/templates/main/rubric-uploader.html:204
+#: app/templates/main/compare-uploader.html:327
+#: app/templates/main/main.html:750 app/templates/main/main_new.html:709
+#: app/templates/main/rubric-uploader.html:208
 #: app/templates/organization/base.html:455
 #: app/templates/upload/dashboard-organization.html:239
 msgid "What is an url?"
-msgstr ""
+msgstr "URL nedir?"
 
 #: app/templates/coder/base.html:450 app/templates/login/login.html:565
-#: app/templates/main/compare-uploader.html:325
-#: app/templates/main/main.html:749 app/templates/main/main_new.html:711
-#: app/templates/main/rubric-uploader.html:206
+#: app/templates/main/compare-uploader.html:329
+#: app/templates/main/main.html:752 app/templates/main/main_new.html:711
+#: app/templates/main/rubric-uploader.html:210
 #: app/templates/organization/base.html:457
 #: app/templates/upload/dashboard-organization.html:241
 msgid "How I can know my Scratch project's url?"
-msgstr ""
+msgstr "Scratch projemin URL'sini nasıl öğrenebilirim?"
 
 #: app/templates/coder/base.html:454 app/templates/organization/base.html:461
 msgid "<img class='framed' src='../static/app/images/url-en.png' />"
 msgstr ""
 
 #: app/templates/coder/base.html:473 app/templates/login/login.html:588
-#: app/templates/main/compare-uploader.html:348
-#: app/templates/main/main.html:772 app/templates/main/main.html:819
+#: app/templates/main/compare-uploader.html:352
+#: app/templates/main/main.html:775 app/templates/main/main.html:822
 #: app/templates/main/main_new.html:734
-#: app/templates/main/rubric-uploader.html:227
+#: app/templates/main/rubric-uploader.html:231
 #: app/templates/organization/base.html:480
 #: app/templates/upload/dashboard-organization.html:264
 msgid "I want to download my project from Scratch!"
-msgstr ""
+msgstr "Projemi Scratch'ten indirmek istiyorum!"
 
 #: app/templates/coder/base.html:475 app/templates/login/login.html:590
-#: app/templates/main/compare-uploader.html:350
-#: app/templates/main/main.html:774 app/templates/main/main.html:821
+#: app/templates/main/compare-uploader.html:354
+#: app/templates/main/main.html:777 app/templates/main/main.html:824
 #: app/templates/main/main_new.html:736
-#: app/templates/main/rubric-uploader.html:229
+#: app/templates/main/rubric-uploader.html:233
 #: app/templates/organization/base.html:482
 #: app/templates/upload/dashboard-organization.html:266
 msgid "How I can download my Scratch project to my computer?"
-msgstr ""
+msgstr "Scratch projemi bilgisayarıma nasıl indirebilirim?"
 
 #: app/templates/coder/base.html:479 app/templates/organization/base.html:486
 msgid "<img class='framed' src='../static/app/images/project-en.png' />"
 msgstr ""
 
 #: app/templates/coder/base.html:499
-#: app/templates/main/compare-uploader.html:387
-#: app/templates/main/main.html:1504 app/templates/main/main_new.html:1449
-#: app/templates/main/rubric-uploader.html:289
+#: app/templates/main/compare-uploader.html:391
+#: app/templates/main/main.html:1507 app/templates/main/main_new.html:1449
+#: app/templates/main/rubric-uploader.html:293
 #: app/templates/organization/base.html:506
 msgid "Wait a moment, please."
-msgstr ""
+msgstr "Bir dakika bekleyin, lütfen."
 
 #: app/templates/coder/base.html:517 app/templates/login/login.html:632
-#: app/templates/main/main.html:1522 app/templates/main/main_new.html:1467
+#: app/templates/main/main.html:1525 app/templates/main/main_new.html:1467
 #: app/templates/main/main_organization.html:318
-#: app/templates/main/rubric-uploader.html:301
+#: app/templates/main/rubric-uploader.html:305
 #: app/templates/organization/base.html:524
 msgid "loading..."
-msgstr ""
+msgstr "yükleniyor..."
 
 #: app/templates/coder/dashboard-basic.html:65
 #: app/templates/coder/dashboard-developing.html:64
@@ -436,7 +439,7 @@ msgstr ""
 #: app/templates/upload/dashboard-unregistered-developing.html:58
 #: app/templates/upload/dashboard-unregistered-master.html:77
 msgid "Score"
-msgstr ""
+msgstr "Puan"
 
 #: app/templates/coder/dashboard-basic.html:66
 #: app/templates/coder/dashboard-developing.html:65
@@ -451,7 +454,7 @@ msgstr ""
 #: app/templates/upload/dashboard-unregistered-developing.html:59
 #: app/templates/upload/dashboard-unregistered-master.html:78
 msgid "This section shows the total score."
-msgstr ""
+msgstr "Bu bölüm toplam puanı gösterir."
 
 #: app/templates/coder/dashboard-basic.html:70
 #: app/templates/coder/dashboard-developing.html:74
@@ -463,7 +466,7 @@ msgstr ""
 #: app/templates/organization/dashboard-developing.html:69
 #: app/templates/organization/dashboard-master.html:75
 msgid "Certificate"
-msgstr ""
+msgstr "Sertifika"
 
 #: app/templates/coder/dashboard-basic.html:71
 #: app/templates/coder/dashboard-developing.html:75
@@ -475,7 +478,7 @@ msgstr ""
 #: app/templates/organization/dashboard-developing.html:70
 #: app/templates/organization/dashboard-master.html:76
 msgid "Download your certificate!"
-msgstr ""
+msgstr "Sertifikanızı indirin!"
 
 #: app/templates/coder/dashboard-basic.html:75
 #: app/templates/coder/dashboard-developing.html:79
@@ -490,7 +493,7 @@ msgstr ""
 #: app/templates/upload/dashboard-unregistered-developing.html:73
 #: app/templates/upload/dashboard-unregistered-master.html:92
 msgid "Score in detail"
-msgstr ""
+msgstr "Puan detayları"
 
 #: app/templates/coder/dashboard-basic.html:76
 #: app/templates/coder/dashboard-developing.html:80
@@ -505,6 +508,8 @@ msgid ""
 "Here we show the score in each programming skill as well as links to sites "
 "that can help you to level up."
 msgstr ""
+"Burada her programlama becerisindeki puanı ve seviyenizi yükseltmenize "
+"yardımcı olabilecek sitelere bağlantıları gösteriyoruz."
 
 #: app/templates/coder/dashboard-basic.html:144
 #: app/templates/coder/dashboard-developing.html:215
@@ -513,7 +518,7 @@ msgstr ""
 #: app/templates/organization/dashboard-developing.html:143
 #: app/templates/organization/dashboard-master.html:152
 msgid "HELP"
-msgstr ""
+msgstr "YARDIM"
 
 #: app/templates/coder/dashboard-basic.html:145
 #: app/templates/coder/dashboard-default-basic.html:286
@@ -531,7 +536,7 @@ msgstr ""
 #: app/templates/upload/dashboard-unregistered-developing.html:110
 #: app/templates/upload/dashboard-unregistered-master.html:148
 msgid "Dr. Scratch(Beta Version)"
-msgstr ""
+msgstr "Dr. Scratch (Beta Sürümü)"
 
 #: app/templates/coder/dashboard-basic.html:162
 #: app/templates/coder/dashboard-default-basic.html:355
@@ -540,8 +545,8 @@ msgstr ""
 #: app/templates/coder/dashboard-developing.html:231
 #: app/templates/coder/dashboard-master.html:245
 #: app/templates/main/dashboard-bulk.html:175
-#: app/templates/main/dashboard-compare.html:424
-#: app/templates/main/dashboard-compare.html:502
+#: app/templates/main/dashboard-compare.html:428
+#: app/templates/main/dashboard-compare.html:506
 #: app/templates/main/dashboard-default.html:537
 #: app/templates/main/dashboard-default.html:870
 #: app/templates/main/dashboard-personal.html:35
@@ -552,7 +557,7 @@ msgstr ""
 #: app/templates/upload/dashboard-unregistered-developing.html:125
 #: app/templates/upload/dashboard-unregistered-master.html:164
 msgid "Score:"
-msgstr ""
+msgstr "Puan:"
 
 #: app/templates/coder/dashboard-basic.html:163
 #: app/templates/coder/dashboard-default-basic.html:356
@@ -575,6 +580,8 @@ msgid ""
 " I have just obtained %(points)s points analyzing my project in Dr. Scratch! "
 "Beat it! @DrScratchTool "
 msgstr ""
+"Projemi Dr. Scratch'te analiz ederek %(points)s puan aldım! Bunu geç! "
+"@DrScratchTool"
 
 #: app/templates/coder/dashboard-basic.html:167
 #: app/templates/coder/dashboard-default-basic.html:360
@@ -583,6 +590,8 @@ msgid ""
 "<h3 class='text-left dark-text'>The level of your project is... "
 "<strong>BASIC! </strong></h3>"
 msgstr ""
+"<h3 class='text-left dark-text'>Projenizin seviyesi... <strong>TEMEL! </"
+"strong></h3>"
 
 #: app/templates/coder/dashboard-basic.html:168
 #: app/templates/coder/dashboard-default-basic.html:361
@@ -593,7 +602,7 @@ msgstr ""
 #: app/templates/organization/dashboard-basic.html:138
 #: app/templates/upload/dashboard-unregistered-basic.html:123
 msgid "You're at the beginning of a <br>great adventure . . . Keep it up!"
-msgstr ""
+msgstr "Başlangıç aşamasındasınız <br> büyük bir macera... Devam edin!"
 
 #: app/templates/coder/dashboard-basic.html:171
 #: app/templates/coder/dashboard-default-basic.html:364
@@ -611,7 +620,7 @@ msgstr ""
 #: app/templates/upload/dashboard-unregistered-developing.html:143
 #: app/templates/upload/dashboard-unregistered-master.html:186
 msgid "Come back to your Scratch project."
-msgstr ""
+msgstr "Scratch projenize geri dönün."
 
 #: app/templates/coder/dashboard-basic.html:182
 #: app/templates/coder/dashboard-default-basic.html:373
@@ -626,7 +635,7 @@ msgstr ""
 #: app/templates/organization/dashboard-developing.html:241
 #: app/templates/organization/dashboard-master.html:253
 msgid "Project certificate"
-msgstr ""
+msgstr "Proje sertifikası"
 
 #: app/templates/coder/dashboard-basic.html:189
 #: app/templates/coder/dashboard-default-basic.html:380
@@ -644,7 +653,7 @@ msgstr ""
 #: app/templates/organization/downloads.html:28
 #: app/templates/organization/downloads.html:61
 msgid "Download"
-msgstr ""
+msgstr "İndirmek"
 
 #: app/templates/coder/dashboard-basic.html:212
 #: app/templates/coder/dashboard-default-basic.html:397
@@ -652,7 +661,7 @@ msgstr ""
 #: app/templates/coder/dashboard-default-master.html:469
 #: app/templates/coder/dashboard-developing.html:372
 #: app/templates/coder/dashboard-master.html:400
-#: app/templates/main/dashboard-compare.html:866
+#: app/templates/main/dashboard-compare.html:870
 #: app/templates/main/dashboard-default.html:759
 #: app/templates/main/dashboard-default.html:1092
 #: app/templates/main/dashboard-personal.html:195
@@ -660,7 +669,7 @@ msgstr ""
 #: app/templates/organization/dashboard-developing.html:268
 #: app/templates/organization/dashboard-master.html:280
 msgid "Level up"
-msgstr ""
+msgstr "Seviye atlamak"
 
 #: app/templates/coder/dashboard-basic.html:232
 #: app/templates/coder/dashboard-developing.html:392
@@ -687,10 +696,10 @@ msgstr ""
 #: app/templates/coder/dashboard-developing.html:288
 #: app/templates/coder/dashboard-master.html:114
 #: app/templates/coder/dashboard-master.html:290
-#: app/templates/main/dashboard-compare.html:688
-#: app/templates/main/dashboard-compare.html:787
-#: app/templates/main/dashboard-compare.html:991
-#: app/templates/main/dashboard-compare.html:1046
+#: app/templates/main/dashboard-compare.html:692
+#: app/templates/main/dashboard-compare.html:791
+#: app/templates/main/dashboard-compare.html:995
+#: app/templates/main/dashboard-compare.html:1050
 #: app/templates/main/dashboard-default.html:614
 #: app/templates/main/dashboard-default.html:946
 #: app/templates/main/dashboard-default.html:1190
@@ -700,7 +709,7 @@ msgstr ""
 #: app/templates/organization/dashboard-developing.html:100
 #: app/templates/organization/dashboard-master.html:105
 msgid "Your project does not have duplicated scripts, good job!"
-msgstr ""
+msgstr "Projenizde yinelenen betikler yok, iyi iş!"
 
 #: app/templates/coder/dashboard-default-basic.html:298
 #: app/templates/coder/dashboard-default-developing.html:286
@@ -713,14 +722,14 @@ msgstr ""
 #: app/templates/coder/dashboard-default-master.html:287
 #: app/templates/main/dashboard-default.html:10
 msgid "Vanilla Mode"
-msgstr ""
+msgstr "Vanilla Modu"
 
 #: app/templates/coder/dashboard-default-basic.html:300
 #: app/templates/coder/dashboard-default-developing.html:288
 #: app/templates/coder/dashboard-default-master.html:288
 #: app/templates/main/dashboard-default.html:11
 msgid "Extended Mode"
-msgstr ""
+msgstr "Genişletilmiş Modu"
 
 #: app/templates/coder/dashboard-default-basic.html:309
 #: app/templates/coder/dashboard-default-developing.html:297
@@ -732,28 +741,28 @@ msgstr ""
 #: app/templates/coder/dashboard-default-developing.html:303
 #: app/templates/coder/dashboard-default-master.html:303
 #: app/templates/learn/spriteNaming.html:5
-#: app/templates/main/dashboard-compare.html:458
-#: app/templates/main/dashboard-compare.html:536
+#: app/templates/main/dashboard-compare.html:462
+#: app/templates/main/dashboard-compare.html:540
 msgid "Sprite Naming"
-msgstr ""
+msgstr "Sprite Adlandırma"
 
 #: app/templates/coder/dashboard-default-basic.html:322
 #: app/templates/coder/dashboard-default-developing.html:310
 #: app/templates/coder/dashboard-default-master.html:310
-#: app/templates/main/dashboard-compare.html:463
-#: app/templates/main/dashboard-compare.html:541
+#: app/templates/main/dashboard-compare.html:467
+#: app/templates/main/dashboard-compare.html:545
 msgid "Backdrop Naming"
-msgstr ""
+msgstr "Arka Plan Adlandırma"
 
 #: app/templates/coder/dashboard-default-basic.html:329
 #: app/templates/coder/dashboard-default-developing.html:317
 #: app/templates/coder/dashboard-default-master.html:317
 #: app/templates/learn/deadCode.html:5
-#: app/templates/main/dashboard-compare.html:453
-#: app/templates/main/dashboard-compare.html:531
+#: app/templates/main/dashboard-compare.html:457
+#: app/templates/main/dashboard-compare.html:535
 #: app/templates/upload/dashboard-unregistered.html:209
 msgid "Dead Code"
-msgstr ""
+msgstr "Ölü Kod"
 
 #: app/templates/coder/dashboard-default-basic.html:417
 #: app/templates/coder/dashboard-default-developing.html:488
@@ -773,8 +782,8 @@ msgstr ""
 #: app/templates/coder/dashboard-default-master.html:596
 #: app/templates/coder/dashboard-developing.html:297
 #: app/templates/coder/dashboard-master.html:303
-#: app/templates/main/dashboard-compare.html:701
-#: app/templates/main/dashboard-compare.html:800
+#: app/templates/main/dashboard-compare.html:705
+#: app/templates/main/dashboard-compare.html:804
 #: app/templates/main/dashboard-default.html:334
 #: app/templates/main/dashboard-default.html:627
 #: app/templates/main/dashboard-default.html:959
@@ -782,7 +791,7 @@ msgstr ""
 #: app/templates/organization/dashboard-developing.html:203
 #: app/templates/organization/dashboard-master.html:203
 msgid "Your project does not have default sprite naming, good job!"
-msgstr ""
+msgstr "Projenizde varsayılan sprite adlandırması yok, iyi iş!"
 
 #: app/templates/coder/dashboard-default-basic.html:511
 #: app/templates/coder/dashboard-default-basic.html:560
@@ -791,7 +800,7 @@ msgstr ""
 #: app/templates/coder/dashboard-default-master.html:624
 #: app/templates/coder/dashboard-default-master.html:673
 msgid "Try to name them more according to the Function they make"
-msgstr ""
+msgstr "Onları yaptıkları işlevlere daha uygun şekilde adlandırmayı deneyin"
 
 #: app/templates/coder/dashboard-default-basic.html:532
 #: app/templates/coder/dashboard-default-developing.html:404
@@ -800,8 +809,8 @@ msgstr ""
 #: app/templates/coder/dashboard-default-master.html:645
 #: app/templates/coder/dashboard-developing.html:305
 #: app/templates/coder/dashboard-master.html:314
-#: app/templates/main/dashboard-compare.html:712
-#: app/templates/main/dashboard-compare.html:811
+#: app/templates/main/dashboard-compare.html:716
+#: app/templates/main/dashboard-compare.html:815
 #: app/templates/main/dashboard-default.html:345
 #: app/templates/main/dashboard-default.html:638
 #: app/templates/main/dashboard-default.html:970
@@ -809,7 +818,7 @@ msgstr ""
 #: app/templates/organization/dashboard-developing.html:211
 #: app/templates/organization/dashboard-master.html:211
 msgid "Your project does not have default backdrop naming, good job!"
-msgstr ""
+msgstr "Projenizde varsayılan arka plan adlandırması yok, iyi iş!"
 
 #: app/templates/coder/dashboard-default-basic.html:581
 #: app/templates/coder/dashboard-default-developing.html:430
@@ -818,8 +827,8 @@ msgstr ""
 #: app/templates/coder/dashboard-default-master.html:694
 #: app/templates/coder/dashboard-developing.html:330
 #: app/templates/coder/dashboard-master.html:340
-#: app/templates/main/dashboard-compare.html:738
-#: app/templates/main/dashboard-compare.html:837
+#: app/templates/main/dashboard-compare.html:742
+#: app/templates/main/dashboard-compare.html:841
 #: app/templates/main/dashboard-default.html:664
 #: app/templates/main/dashboard-default.html:996
 #: app/templates/main/dashboard-personal.html:149
@@ -827,13 +836,13 @@ msgstr ""
 #: app/templates/organization/dashboard-master.html:227
 #: app/templates/upload/dashboard-unregistered-master.html:250
 msgid "Your project does not have dead code, good job!"
-msgstr ""
+msgstr "Projenizde ölü kod yok, iyi iş!"
 
 #: app/templates/coder/dashboard-default-basic.html:619
 #: app/templates/coder/dashboard-default-developing.html:731
 #: app/templates/coder/dashboard-default-master.html:732
 msgid "Erase them in order to have a cleaner Code"
-msgstr ""
+msgstr "Kodunuzu daha temiz hale getirmek için bunları silin"
 
 #: app/templates/coder/dashboard-default-basic.html:637
 #: app/templates/coder/dashboard-default-developing.html:749
@@ -845,17 +854,19 @@ msgstr ""
 #: app/templates/coder/dashboard-default-developing.html:324
 #: app/templates/coder/dashboard-default-master.html:324
 #: app/templates/learn/duplicatedScripts.html:5
-#: app/templates/main/dashboard-compare.html:448
-#: app/templates/main/dashboard-compare.html:526
+#: app/templates/main/dashboard-compare.html:452
+#: app/templates/main/dashboard-compare.html:530
 #: app/templates/upload/dashboard-unregistered.html:162
 msgid "Duplicated Scripts"
-msgstr ""
+msgstr "Yinelenen Betikler"
 
 #: app/templates/coder/dashboard-default-developing.html:346
 msgid ""
 "<h3 class='text-left dark-text'>The level of your project is... <strong> "
 "DEVELOPING! </strong></h3>"
 msgstr ""
+"<h3 class='text-left dark-text'>Projenizin seviyesi... <strong> GELİŞİYOR! </"
+"strong></h3>"
 
 #: app/templates/coder/dashboard-default-developing.html:347
 #: app/templates/main/dashboard-bulk.html:187
@@ -869,7 +880,7 @@ msgstr ""
 #: app/templates/main/dashboard-personal.html:59
 #: app/templates/main/dashboard-personal.html:61
 msgid "You're doing a great job. Keep it up!!! "
-msgstr ""
+msgstr "Harika bir iş çıkarıyorsunuz. Devam edin!!! "
 
 #: app/templates/coder/dashboard-default-developing.html:360
 #: app/templates/coder/dashboard-default-master.html:360
@@ -881,14 +892,14 @@ msgstr ""
 #: app/templates/organization/dashboard-developing.html:180
 #: app/templates/organization/dashboard-master.html:194
 msgid "Bad habits"
-msgstr ""
+msgstr "Kötü Alışkanlıklar"
 
 #: app/templates/coder/dashboard-default-developing.html:366
 #: app/templates/coder/dashboard-default-master.html:366
 #: app/templates/coder/dashboard-developing.html:274
 #: app/templates/coder/dashboard-master.html:276
-#: app/templates/main/dashboard-compare.html:673
-#: app/templates/main/dashboard-compare.html:772
+#: app/templates/main/dashboard-compare.html:677
+#: app/templates/main/dashboard-compare.html:776
 #: app/templates/main/dashboard-default.html:322
 #: app/templates/main/dashboard-default.html:599
 #: app/templates/main/dashboard-default.html:931
@@ -897,14 +908,14 @@ msgstr ""
 #: app/templates/organization/dashboard-master.html:197
 #: app/templates/upload/dashboard-unregistered-master.html:240
 msgid " duplicated scripts."
-msgstr ""
+msgstr " Yinelenen betikler."
 
 #: app/templates/coder/dashboard-default-developing.html:396
 #: app/templates/coder/dashboard-default-master.html:396
 #: app/templates/coder/dashboard-developing.html:299
 #: app/templates/coder/dashboard-master.html:306
-#: app/templates/main/dashboard-compare.html:704
-#: app/templates/main/dashboard-compare.html:803
+#: app/templates/main/dashboard-compare.html:708
+#: app/templates/main/dashboard-compare.html:807
 #: app/templates/main/dashboard-default.html:337
 #: app/templates/main/dashboard-default.html:630
 #: app/templates/main/dashboard-default.html:962
@@ -914,14 +925,14 @@ msgstr ""
 #: app/templates/upload/dashboard-unregistered-developing.html:208
 #: app/templates/upload/dashboard-unregistered-master.html:244
 msgid " sprite naming."
-msgstr ""
+msgstr " Sprite adlandırma."
 
 #: app/templates/coder/dashboard-default-developing.html:399
 #: app/templates/coder/dashboard-default-master.html:399
 #: app/templates/coder/dashboard-developing.html:301
 #: app/templates/coder/dashboard-master.html:309
-#: app/templates/main/dashboard-compare.html:707
-#: app/templates/main/dashboard-compare.html:806
+#: app/templates/main/dashboard-compare.html:711
+#: app/templates/main/dashboard-compare.html:810
 #: app/templates/main/dashboard-default.html:340
 #: app/templates/main/dashboard-default.html:633
 #: app/templates/main/dashboard-default.html:965
@@ -929,14 +940,14 @@ msgstr ""
 #: app/templates/organization/dashboard-developing.html:207
 #: app/templates/organization/dashboard-master.html:207
 msgid "Backdrop naming"
-msgstr ""
+msgstr "Arka plan adlandırma"
 
 #: app/templates/coder/dashboard-default-developing.html:407
 #: app/templates/coder/dashboard-default-master.html:407
 #: app/templates/coder/dashboard-developing.html:307
 #: app/templates/coder/dashboard-master.html:317
-#: app/templates/main/dashboard-compare.html:715
-#: app/templates/main/dashboard-compare.html:814
+#: app/templates/main/dashboard-compare.html:719
+#: app/templates/main/dashboard-compare.html:818
 #: app/templates/main/dashboard-default.html:348
 #: app/templates/main/dashboard-default.html:641
 #: app/templates/main/dashboard-default.html:973
@@ -944,14 +955,14 @@ msgstr ""
 #: app/templates/organization/dashboard-developing.html:213
 #: app/templates/organization/dashboard-master.html:213
 msgid " backdrop naming."
-msgstr ""
+msgstr " Arka plan adlandırma"
 
 #: app/templates/coder/dashboard-default-developing.html:412
 #: app/templates/coder/dashboard-default-master.html:412
 #: app/templates/coder/dashboard-developing.html:312
 #: app/templates/coder/dashboard-master.html:322
-#: app/templates/main/dashboard-compare.html:720
-#: app/templates/main/dashboard-compare.html:819
+#: app/templates/main/dashboard-compare.html:724
+#: app/templates/main/dashboard-compare.html:823
 #: app/templates/main/dashboard-default.html:353
 #: app/templates/main/dashboard-default.html:646
 #: app/templates/main/dashboard-default.html:978
@@ -960,17 +971,17 @@ msgstr ""
 #: app/templates/organization/dashboard-master.html:228
 #: app/templates/upload/dashboard-unregistered-master.html:257
 msgid " dead code."
-msgstr ""
+msgstr " Ölü kod."
 
 #: app/templates/coder/dashboard-default-developing.html:437
 #: app/templates/coder/dashboard-default-master.html:437
-#: app/templates/main/dashboard-compare.html:745
-#: app/templates/main/dashboard-compare.html:844
+#: app/templates/main/dashboard-compare.html:749
+#: app/templates/main/dashboard-compare.html:848
 #: app/templates/main/dashboard-default.html:671
 #: app/templates/main/dashboard-default.html:1003
 #: app/templates/main/dashboard-personal.html:156
 msgid "Display all duplicates"
-msgstr ""
+msgstr "Tüm yinelenenleri göster"
 
 #: app/templates/coder/dashboard-default-master.html:346
 #: app/templates/coder/dashboard-master.html:250
@@ -978,6 +989,8 @@ msgid ""
 "<h3 class='text-left dark-text'>The level of your project is... <strong> "
 "MASTER! </strong></h3>"
 msgstr ""
+"<h3 class='text-left dark-text'>Projenizin seviyesi... <strong> USTA! </"
+"strong></h3>"
 
 #: app/templates/coder/dashboard-default-master.html:347
 #: app/templates/coder/dashboard-master.html:251
@@ -988,7 +1001,7 @@ msgstr ""
 #: app/templates/organization/dashboard-master.html:175
 #: app/templates/upload/dashboard-unregistered-master.html:171
 msgid "You're the master of the universe!!! "
-msgstr ""
+msgstr "Evrenin ustasısınız!!!"
 
 #: app/templates/coder/dashboard-developing.html:69
 #: app/templates/coder/dashboard-master.html:70
@@ -997,7 +1010,7 @@ msgstr ""
 #: app/templates/upload/dashboard-unregistered-developing.html:68
 #: app/templates/upload/dashboard-unregistered-master.html:87
 msgid "Bad habits in programming"
-msgstr ""
+msgstr "Programlamadaki kötü alışkanlıklar"
 
 #: app/templates/coder/dashboard-developing.html:70
 #: app/templates/coder/dashboard-master.html:71
@@ -1009,6 +1022,8 @@ msgid ""
 "If you correct your bad habits in programming, you will avoid problems in "
 "the future."
 msgstr ""
+"Programlamadaki kötü alışkanlıklarınızı düzeltirseniz, gelecekteki "
+"sorunlardan kaçınabilirsiniz."
 
 #: app/templates/coder/dashboard-developing.html:236
 #: app/templates/organization/dashboard-developing.html:164
@@ -1016,11 +1031,13 @@ msgid ""
 "<h3 class='text-left dark-text'>The level of your project is... "
 "<strong>DEVELOPING! </strong></h3>"
 msgstr ""
+"<h3 class='text-left dark-text'>Projenizin seviyesi... <strong>GELİŞEN! </"
+"strong></h3>"
 
 #: app/templates/coder/dashboard-developing.html:237
 #: app/templates/organization/dashboard-developing.html:165
 msgid "You're doing a great job. Keep it up!!!"
-msgstr ""
+msgstr "Harika bir iş çıkarıyorsunuz. Devam edin!!!"
 
 #: app/templates/coder/dashboard-developing.html:257
 #: app/templates/coder/dashboard-master.html:346
@@ -1029,7 +1046,7 @@ msgstr ""
 #: app/templates/upload/dashboard-unregistered-developing.html:193
 #: app/templates/upload/dashboard-unregistered-master.html:259
 msgid "Sprites attributes"
-msgstr ""
+msgstr "Sprite özellikleri"
 
 #: app/templates/coder/dashboard-developing.html:261
 #: app/templates/coder/dashboard-master.html:350
@@ -1038,7 +1055,7 @@ msgstr ""
 #: app/templates/upload/dashboard-unregistered-developing.html:197
 #: app/templates/upload/dashboard-unregistered-master.html:263
 msgid "Your project does not have uninitialized attributes, good job!"
-msgstr ""
+msgstr "Projenizde başlatılmamış özellikler yok, iyi iş!"
 
 #: app/templates/coder/dashboard-developing.html:267
 #: app/templates/coder/dashboard-master.html:356
@@ -1047,40 +1064,42 @@ msgstr ""
 #: app/templates/upload/dashboard-unregistered-developing.html:203
 #: app/templates/upload/dashboard-unregistered-master.html:269
 msgid " sprite attributes."
-msgstr ""
+msgstr " Sprite özellikleri."
 
 #: app/templates/coder/downloads.html:7
 #: app/templates/organization/downloads.html:7
 msgid "Download my CSV files."
-msgstr ""
+msgstr "CSV dosyalarımı indir."
 
 #: app/templates/coder/downloads.html:9
 #: app/templates/organization/downloads.html:9
 msgid "Here you can download the CSV files previously analyzed."
-msgstr ""
+msgstr "Buradan daha önce analiz edilen CSV dosyalarını indirebilirsiniz."
 
 #: app/templates/coder/downloads.html:14
 #: app/templates/organization/downloads.html:17
 #: app/templates/organization/downloads.html:51
 msgid "Date"
-msgstr ""
+msgstr "Tarih"
 
 #: app/templates/coder/downloads.html:15
 #: app/templates/organization/base.html:393
 #: app/templates/organization/downloads.html:18
 #: app/templates/organization/downloads.html:52
 msgid "Downloads"
-msgstr ""
+msgstr "İndirilenler"
 
 #: app/templates/coder/email-sign-up.html:5
 msgid "New coder in Dr. Scratch!"
-msgstr ""
+msgstr "Dr. Scratch'te yeni kodlayıcı!"
 
 #: app/templates/coder/email-sign-up.html:7
 msgid ""
 "You're receiving this email because you have successfully signed up in Dr. "
 "Scratch."
 msgstr ""
+"Bu e-postayı, Dr. Scratch'te başarılı bir şekilde kaydolduğunuz için "
+"alıyorsunuz."
 
 #: app/templates/coder/email-sign-up.html:11
 #: app/templates/organization/email-sign-up.html:11
@@ -1088,7 +1107,7 @@ msgstr ""
 #: app/templates/sign-password/email-reset-pwd.html:13
 #: app/templates/sign/email.html:11
 msgid "Thanks for using our website!"
-msgstr ""
+msgstr "Web sitemizi kullandığınız için teşekkürler!"
 
 #: app/templates/coder/email-sign-up.html:12
 #: app/templates/organization/email-sign-up.html:12
@@ -1096,78 +1115,88 @@ msgstr ""
 #: app/templates/sign-password/email-reset-pwd.html:14
 #: app/templates/sign/email.html:12
 msgid "The Dr. Scratch team"
-msgstr ""
+msgstr "Dr. Scratch ekibi"
 
-#: app/templates/coder/main.html:12 app/templates/main/rubric-uploader.html:150
+#: app/templates/coder/main.html:12 app/templates/main/rubric-uploader.html:154
 #: app/templates/organization/main.html:12
 msgid "Do you want to analyze one project?"
-msgstr ""
+msgstr "Bir projeyi analiz etmek ister misiniz?"
 
-#: app/templates/coder/main.html:14 app/templates/main/main.html:393
+#: app/templates/coder/main.html:14 app/templates/main/main.html:396
 #: app/templates/main/main_new.html:246 app/templates/organization/main.html:14
 msgid "There are two options to analyze your Scratch project now!"
-msgstr ""
+msgstr "Şu anda Scratch projenizi analiz etmek için iki seçeneğiniz var!"
 
 #: app/templates/coder/main.html:18
-#: app/templates/main/compare-uploader.html:233
-#: app/templates/main/main.html:400 app/templates/main/main_new.html:251
-#: app/templates/main/rubric-uploader.html:156
+#: app/templates/main/compare-uploader.html:237
+#: app/templates/main/main.html:403 app/templates/main/main_new.html:251
+#: app/templates/main/rubric-uploader.html:160
 #: app/templates/organization/main.html:19
 msgid ""
 "1. Introduce the <span class='colored-text'><a data-toggle='modal' "
 "href='#modalUrl'>url</a></span> of your Scratch project, you don't have to "
 "download it:"
 msgstr ""
+"1. Giriş yapın <span class='colored-text'><a data-toggle='modal' "
+"href='#modalUrl'>url</a></span> Scratch projenizin, indirmeniz gerekmeden:"
 
 #: app/templates/coder/main.html:19
-#: app/templates/main/compare-uploader.html:241
+#: app/templates/main/compare-uploader.html:245
 #: app/templates/main/dashboard-default.html:715
 #: app/templates/main/dashboard-default.html:1046
-#: app/templates/main/main.html:402 app/templates/main/main_new.html:252
-#: app/templates/main/rubric-uploader.html:157
+#: app/templates/main/main.html:405 app/templates/main/main_new.html:252
+#: app/templates/main/rubric-uploader.html:161
 #: app/templates/organization/main.html:20
 msgid ""
 "<input name=\"urlProject\" id=\"cf-name\" class=\"form-control input-box "
 "placeholder\" placeholder=\"http:/scratch.mit.edu/projects/your_number\" "
 "type=\"text\">"
 msgstr ""
+"<input name=\"urlProject\" id=\"cf-name\" class=\"form-control input-box "
+"placeholder\" placeholder=\"http:/scratch.mit.edu/projects/numaranız\" "
+"type=\"text\">"
 
-#: app/templates/coder/main.html:20 app/templates/main/main.html:407
+#: app/templates/coder/main.html:20 app/templates/main/main.html:410
 #: app/templates/main/main_new.html:253
-#: app/templates/main/rubric-uploader.html:158
+#: app/templates/main/rubric-uploader.html:162
 #: app/templates/organization/main.html:21
 msgid "Analyze by url"
-msgstr ""
+msgstr "URL ile analiz et"
 
 #: app/templates/coder/main.html:25
-#: app/templates/main/compare-uploader.html:246
-#: app/templates/main/main.html:413 app/templates/main/main_new.html:258
-#: app/templates/main/rubric-uploader.html:162
+#: app/templates/main/compare-uploader.html:250
+#: app/templates/main/main.html:416 app/templates/main/main_new.html:258
+#: app/templates/main/rubric-uploader.html:166
 #: app/templates/organization/main.html:26
 msgid ""
 "2. If you have your <span class='colored-text'><a data-toggle='modal' "
 "href='#modalProject'>project</a></span> downloaded in the computer you can "
 "analyze it here:"
 msgstr ""
+"2. Bilgisayarınıza indirdiğiniz <span class='colored-text'><a data-"
+"toggle='modal' href='#modalProject'>proje</a></span> ile burada analiz "
+"edebilirsiniz:"
 
 #: app/templates/coder/main.html:26 app/templates/main/main_new.html:259
-#: app/templates/main/rubric-uploader.html:163
+#: app/templates/main/rubric-uploader.html:167
 #: app/templates/organization/main.html:27
 msgid ""
 "<input  name='zipFile' type='file' class='filestyle' data-buttonText='Choose "
 "Project'>"
 msgstr ""
+"<input  name='zipFile' type='file' class='filestyle' data-"
+"buttonText='Projeyi Seç'>"
 
-#: app/templates/coder/main.html:27 app/templates/main/main.html:420
+#: app/templates/coder/main.html:27 app/templates/main/main.html:423
 #: app/templates/main/main_new.html:260
-#: app/templates/main/rubric-uploader.html:164
+#: app/templates/main/rubric-uploader.html:168
 #: app/templates/organization/main.html:28
 msgid "Analyze my project"
-msgstr ""
+msgstr "Projemi analiz et"
 
 #: app/templates/coder/main.html:34 app/templates/coder/main.html:37
-#: app/templates/main/contact-form.html:169
-#: app/templates/main/contact-form.html:172 app/templates/main/main.html:429
+#: app/templates/main/contact-form.html:173
+#: app/templates/main/contact-form.html:176 app/templates/main/main.html:432
 #: app/templates/main/main_new.html:267 app/templates/main/main_new.html:270
 #: app/templates/main/main_organization.html:190
 #: app/templates/main/main_organization.html:193
@@ -1176,29 +1205,29 @@ msgstr ""
 #: app/templates/organization/main.html:67
 #: app/templates/organization/main.html:70
 msgid "Error! Please choose a .sb or .sb2 file or input an url"
-msgstr ""
+msgstr "Hata! Lütfen bir .sb veya .sb2 dosyası seçin veya bir URL girin."
 
 #: app/templates/coder/main.html:41
-#: app/templates/main/compare-uploader.html:287
-#: app/templates/main/contact-form.html:176 app/templates/main/main.html:438
+#: app/templates/main/compare-uploader.html:291
+#: app/templates/main/contact-form.html:180 app/templates/main/main.html:441
 #: app/templates/main/main_new.html:274
 #: app/templates/main/main_organization.html:197
-#: app/templates/main/rubric-uploader.html:183
+#: app/templates/main/rubric-uploader.html:187
 #: app/templates/organization/main.html:42
 #: app/templates/organization/main.html:74
 msgid "Error! Your project id is wrong"
-msgstr ""
+msgstr "Hata! Proje kimliğiniz yanlış."
 
 #: app/templates/coder/main.html:45
-#: app/templates/main/compare-uploader.html:291
-#: app/templates/main/contact-form.html:180 app/templates/main/main.html:443
+#: app/templates/main/compare-uploader.html:295
+#: app/templates/main/contact-form.html:184 app/templates/main/main.html:446
 #: app/templates/main/main_new.html:278
 #: app/templates/main/main_organization.html:201
-#: app/templates/main/rubric-uploader.html:187
+#: app/templates/main/rubric-uploader.html:191
 #: app/templates/organization/main.html:46
 #: app/templates/organization/main.html:78
 msgid "Error! Your project doesn't exist in Scratch's servers"
-msgstr ""
+msgstr "Hata! Projeniz Scratch sunucularında bulunamadı."
 
 #: app/templates/coder/settings.html:8
 #: app/templates/organization/organization.html:222
@@ -1208,17 +1237,17 @@ msgstr ""
 #: app/templates/sign/organization.html:222
 #: app/templates/sign/registerOrganization.html:195
 msgid "Password"
-msgstr ""
+msgstr "Şifre"
 
 #: app/templates/coder/settings.html:11
 #: app/templates/organization/settings.html:11
 msgid "Change my password"
-msgstr ""
+msgstr "Şifremi Değiştir"
 
 #: app/templates/coder/settings.html:16
 #: app/templates/organization/settings.html:16
 msgid "Photo"
-msgstr ""
+msgstr "Fotoğraf"
 
 #: app/templates/coder/settings.html:21
 #: app/templates/organization/settings.html:21
@@ -1226,36 +1255,40 @@ msgid ""
 "<input  name='img' type='file' class='filestyle' data-buttonText='Choose "
 "img'>"
 msgstr ""
+"<input  name='img' type='file' class='filestyle' data-buttonText='img'yi "
+"seçin'>"
 
 #: app/templates/coder/settings.html:22
 #: app/templates/organization/settings.html:22
 msgid "Change my photo"
-msgstr ""
+msgstr "Fotoğrafımı değiştir"
 
 #: app/templates/coder/stats.html:6 app/templates/main/main_new.html:645
 #: app/templates/main/statistics.html:307
 #: app/templates/organization/stats.html:6
 #: app/templates/statistics/statistics.html:306
 msgid "Statistics"
-msgstr ""
+msgstr "İstatistik"
 
 #: app/templates/discuss.html:78
 msgid "What do you think about Dr. Scratch?"
-msgstr ""
+msgstr "Dr. Scratch hakkında ne düşünüyorsunuz?"
 
 #: app/templates/discuss.html:86
 msgid "Leave your comment"
-msgstr ""
+msgstr "Yorumunuzu bırakın"
 
 #: app/templates/discuss.html:90
 msgid "Sign up or sign in"
-msgstr ""
+msgstr "Kaydolun veya giriş yapın"
 
 #: app/templates/discuss.html:100
 msgid ""
 "Tell us what do you think about Dr. Scratch, your thoughts, suggestions,"
 "etc..."
 msgstr ""
+"Dr. Scratch hakkında ne düşündüğünüzü, görüşlerinizi, önerilerinizi,vb. "
+"yazın..."
 
 #: app/templates/discuss.html:112
 msgid "says.."
@@ -1269,7 +1302,7 @@ msgstr ""
 msgid "Message"
 msgstr ""
 
-#: app/templates/discuss.html:175 app/templates/main/contact-form.html:162
+#: app/templates/discuss.html:175 app/templates/main/contact-form.html:166
 #: app/templates/password/new_password.html:25
 #: app/templates/password/password.html:19
 #: app/templates/sign-password/new-password.html:25
@@ -1279,22 +1312,22 @@ msgstr ""
 
 #: app/templates/error/404.html:9 app/templates/error/500.html:9
 #: app/templates/error/analyzing.html:9
-#: app/templates/main/compare-uploader.html:303
+#: app/templates/main/compare-uploader.html:307
 msgid "Error"
-msgstr ""
+msgstr "Hata"
 
 #: app/templates/error/404.html:37
 msgid "ERROR 404 - Page Not Found"
-msgstr ""
+msgstr "HATA 404 - Sayfa Bulunamadı"
 
 #: app/templates/error/404.html:40
 msgid "Ops! This page doesn't exist"
-msgstr ""
+msgstr "Ops! Bu sayfa mevcut değil"
 
 #: app/templates/error/404.html:69 app/templates/error/500.html:70
 #: app/templates/error/analyzing.html:70 app/templates/login/login.html:104
-#: app/templates/login/login.html:525 app/templates/main/collaborators.html:159
-#: app/templates/main/main.html:337 app/templates/main/main_new.html:201
+#: app/templates/login/login.html:525 app/templates/main/collaborators.html:170
+#: app/templates/main/main.html:340 app/templates/main/main_new.html:201
 #: app/templates/main/main_new.html:671
 #: app/templates/organization/organization.html:106
 #: app/templates/sign/createOrganization.html:81
@@ -1302,93 +1335,95 @@ msgstr ""
 #: app/templates/sign/organization.html:105
 #: app/templates/sign/registerOrganization.html:81
 msgid "Get Started"
-msgstr ""
+msgstr "Başlayın"
 
 #: app/templates/error/404.html:77 app/templates/error/500.html:78
 #: app/templates/error/analyzing.html:78 app/templates/error/base.html:106
-#: app/templates/learn/base.html:281 app/templates/main/collaborators.html:642
-#: app/templates/main/compare-uploader.html:365
-#: app/templates/main/contact-form.html:191
+#: app/templates/learn/base.html:292 app/templates/main/collaborators.html:653
+#: app/templates/main/compare-uploader.html:369
+#: app/templates/main/contact-form.html:195
 #: app/templates/main/dashboard-bulk-landing.html:171
 #: app/templates/main/dashboard-bulk.html:304
-#: app/templates/main/dashboard-compare.html:1096
-#: app/templates/main/dashboard_template.html:399
-#: app/templates/main/main.html:710 app/templates/main/rubric-creator.html:606
-#: app/templates/main/rubric-uploader.html:267
+#: app/templates/main/dashboard-compare.html:1100
+#: app/templates/main/dashboard_template.html:448
+#: app/templates/main/main.html:713 app/templates/main/rubric-creator.html:610
+#: app/templates/main/rubric-uploader.html:271
 msgid "©2024 Dr.Scratch Made with "
-msgstr ""
+msgstr "©2024 Dr. Scratch Yapıldı with "
 
 #: app/templates/error/404.html:77 app/templates/error/500.html:78
 #: app/templates/error/analyzing.html:78 app/templates/error/base.html:106
-#: app/templates/learn/base.html:281 app/templates/main/collaborators.html:642
-#: app/templates/main/compare-uploader.html:365
-#: app/templates/main/contact-form.html:191
+#: app/templates/learn/base.html:292 app/templates/main/collaborators.html:653
+#: app/templates/main/compare-uploader.html:369
+#: app/templates/main/contact-form.html:195
 #: app/templates/main/dashboard-bulk-landing.html:171
 #: app/templates/main/dashboard-bulk.html:304
-#: app/templates/main/dashboard-compare.html:1096
-#: app/templates/main/dashboard_template.html:399
-#: app/templates/main/main.html:710 app/templates/main/rubric-creator.html:606
-#: app/templates/main/rubric-uploader.html:267
+#: app/templates/main/dashboard-compare.html:1100
+#: app/templates/main/dashboard_template.html:448
+#: app/templates/main/main.html:713 app/templates/main/rubric-creator.html:610
+#: app/templates/main/rubric-uploader.html:271
 msgid "by "
-msgstr ""
+msgstr "tarafından "
 
 #: app/templates/error/404.html:77 app/templates/error/500.html:78
 #: app/templates/error/analyzing.html:78 app/templates/error/base.html:106
-#: app/templates/learn/base.html:281 app/templates/main/collaborators.html:642
-#: app/templates/main/compare-uploader.html:365
-#: app/templates/main/contact-form.html:191
+#: app/templates/learn/base.html:292 app/templates/main/collaborators.html:653
+#: app/templates/main/compare-uploader.html:369
+#: app/templates/main/contact-form.html:195
 #: app/templates/main/dashboard-bulk-landing.html:171
 #: app/templates/main/dashboard-bulk.html:304
-#: app/templates/main/dashboard-compare.html:1096
-#: app/templates/main/dashboard_template.html:399
-#: app/templates/main/main.html:710 app/templates/main/rubric-creator.html:606
-#: app/templates/main/rubric-uploader.html:267
+#: app/templates/main/dashboard-compare.html:1100
+#: app/templates/main/dashboard_template.html:448
+#: app/templates/main/main.html:713 app/templates/main/rubric-creator.html:610
+#: app/templates/main/rubric-uploader.html:271
 msgid "Dr.Scratch Team."
-msgstr ""
+msgstr "Dr. Scratch Ekibi."
 
 #: app/templates/error/500.html:38
 msgid "500 - Internal Server Error"
-msgstr ""
+msgstr "500 - Sunucu Hatası"
 
 #: app/templates/error/500.html:41 app/templates/error/analyzing.html:45
 msgid "We apologize for this inconvenience"
-msgstr ""
+msgstr "Bu rahatsızlıktan dolayı özür dileriz"
 
 #: app/templates/error/analyzing.html:42
 msgid "There was an error analyzing your project"
-msgstr ""
+msgstr "Projenizi analiz ederken bir hata oluştu"
 
 #: app/templates/error/analyzing.html:56
 msgid ""
 "Sometimes we have got problems analyzing some projects. We're working on "
 "this."
 msgstr ""
+"Bazen bazı projeleri analiz ederken sorunlar yaşıyoruz. Bunun üzerinde "
+"çalışıyoruz."
 
 #: app/templates/error/sign-up.html:13 app/templates/sign/signup_error.html:13
 msgid "This name already exists. Choose another, please."
-msgstr ""
+msgstr "Bu isim zaten mevcut. Lütfen başka bir tane seçin."
 
 #: app/templates/error/sign-up.html:16
 #: app/templates/organization/organization.html:371
 #: app/templates/sign/signup_error.html:16
 msgid "This email already exists. Choose another, please."
-msgstr ""
+msgstr "Bu e-posta zaten mevcut. Lütfen başka bir tane seçin."
 
 #: app/templates/error/sign-up.html:19 app/templates/sign/signup_error.html:19
 msgid "This hash doesn't exist."
-msgstr ""
+msgstr "Bu hash mevcut değil."
 
 #: app/templates/error/sign-up.html:22 app/templates/sign/signup_error.html:22
 msgid "You must to complete all fields."
-msgstr ""
+msgstr "Tüm alanları doldurmanız gerekiyor."
 
 #: app/templates/error/sign-up.html:25
 msgid "The password and the password confirmation must be the same."
-msgstr ""
+msgstr "Şifre ve şifre onayı aynı olmalıdır."
 
 #: app/templates/error/sign-up.html:28
 msgid "The email and the email confirmation must be the same.."
-msgstr ""
+msgstr "E-posta ve e-posta onayı aynı olmalıdır."
 
 #: app/templates/error/sign-up.html:32 app/templates/error/sign-up.html:35
 #: app/templates/password/user_doesntexist.html:14
@@ -1398,7 +1433,7 @@ msgstr ""
 #: app/templates/sign-password/wrong-form.html:14
 #: app/templates/sign/signup_error.html:25
 msgid "Retry"
-msgstr ""
+msgstr "Yeniden dene"
 
 #: app/templates/learn/Abstraction.html:8
 msgid ""
@@ -1406,6 +1441,9 @@ msgid ""
 "<b>break a problem into smaller parts that are easier to understand, program "
 "and debug.</b>"
 msgstr ""
+"Soyutlama ve problemleri ayrıştırma yeteneği, bir problemi <b>anlaması, "
+"programlaması ve hata ayıklaması daha kolay olan daha küçük parçalara "
+"ayırmanıza</b> yardımcı olur."
 
 #: app/templates/learn/Abstraction.html:14
 #: app/templates/learn/DataRepresentation.html:15
@@ -1414,7 +1452,7 @@ msgstr ""
 #: app/templates/learn/Synchronization.html:15
 #: app/templates/learn/UserInteractivity.html:15
 msgid "If you get 0 points..."
-msgstr ""
+msgstr "0 puan alırsanız..."
 
 #: app/templates/learn/Abstraction.html:15
 msgid ""
@@ -1424,6 +1462,11 @@ msgid ""
 "different programs and each of these programs deal with a particular issue</"
 "b>. Here's an example:"
 msgstr ""
+"Scratch ile programlamaya başladığınızda, bazen en basit çözümün bir "
+"karakterin tüm davranışını tek bir programda kodlamak olduğunu "
+"düşünebilirsiniz. Ancak, <b>ideal olarak, karakter davranışının farklı "
+"programlar tarafından kontrol edilmesi ve her bir programın belirli bir "
+"konuyu ele almasıdır</b>. İşte bir örnek:"
 
 #: app/templates/learn/Abstraction.html:17
 #: app/templates/learn/Abstraction.html:34
@@ -1519,12 +1562,20 @@ msgid ""
 "is divided into two parts, so that we have two different programs, one to "
 "paint the front and another to paint the second:"
 msgstr ""
+"Ekranda bir resim çizen bu proje, resmi oluşturan iki çizgiyi çizen tek bir "
+"programda programlanmıştır. Bu geçerli bir seçenek olmakla birlikte, "
+"programı daha basit bir şekilde programlamak ve bakımını yapmak için "
+"programı iki parçaya bölmek daha iyi bir seçenektir; böylece bir ön planı ve "
+"diğerini arka planı çizen iki farklı programımız olur:"
 
 #: app/templates/learn/Abstraction.html:48
 msgid ""
 "Thus, if we make any changes eg in one of the lines drawn, it is much easier "
 "to know which part of the program we need to go to carry out the changes."
 msgstr ""
+"Böylece, örneğin çizilen çizgilerden birinde değişiklik yaparsak, "
+"değişiklikleri yapmak için hangi program parçasına gitmemiz gerektiğini "
+"bilmek çok daha kolay olur."
 
 #: app/templates/learn/Abstraction.html:58
 #: app/templates/learn/DataRepresentation.html:78
@@ -1533,7 +1584,7 @@ msgstr ""
 #: app/templates/learn/Synchronization.html:41
 #: app/templates/learn/UserInteractivity.html:32
 msgid "If you get 1 point..."
-msgstr ""
+msgstr "1 puan alırsanız..."
 
 #: app/templates/learn/Abstraction.html:59
 msgid ""
@@ -1541,6 +1592,9 @@ msgid ""
 "instructions. These abstractions allow you to create simple programs to "
 "read, program and maintain. Here's an example:"
 msgstr ""
+"Scratch, bir dizi talimattan oluşan yeni kullanıcı tanımlı bloklar "
+"oluşturmanıza olanak tanır. Bu soyutlamalar, basit programlar oluşturmanızı, "
+"okumanızı, programlamanızı ve bakımını yapmanızı sağlar. İşte bir örnek:"
 
 #: app/templates/learn/Abstraction.html:63
 #: app/templates/learn/Abstraction.html:93
@@ -1561,6 +1615,11 @@ msgid ""
 "line. For this you go to the category 'More Blocks' and press the Create "
 "button a block:"
 msgstr ""
+"Bu Scratch projesi ekranda farklı uzunluklarda iki turuncu çizgi çizer. "
+"Örnekte gösterildiği gibi kodu 2 kez tekrar etmek yerine, ekranda bir "
+"turuncu çizgi çizen ve çizginin uzunluğunu belirtebileceğiniz bir "
+"<i>'DrawOrange'</i> bloğu tanımlayabilirsiniz. Bunun için 'Daha Fazla Blok' "
+"kategorisine gidin ve bir blok oluşturmak için Oluştur butonuna basın:"
 
 #: app/templates/learn/Abstraction.html:80
 msgid "define PaintedOrange(length)"
@@ -1575,6 +1634,8 @@ msgid ""
 "Having defined the block <i>'DrawOrange'</i> it can be used in any program "
 "of the project, as we see below:"
 msgstr ""
+"<i>'DrawOrange'</i> bloğunu tanımladıktan sonra, bu bloğu projenin herhangi "
+"bir programında kullanabilirsiniz, aşağıda gördüğümüz gibi:"
 
 #: app/templates/learn/Abstraction.html:94
 msgid "PaintedOrange(100):: looks stack"
@@ -1591,6 +1652,10 @@ msgid ""
 "<i>DrawOrange</i> prompted a length of 100 steps, whereas the second time "
 "length is 200 steps."
 msgstr ""
+"Bu şekilde, kodu tekrar etmekten kaçınırız, bu da projelerimizi "
+"programlamayı ve bakımını daha kolay hale getirir. Görüldüğü gibi, "
+"<i>DrawOrange</i> bloğu ilk kullanıldığında 100 adım uzunluğunda, ikinci "
+"kullanımda ise 200 adım uzunluğunda bir uzunluk belirlenmiştir."
 
 #: app/templates/learn/Abstraction.html:109
 #: app/templates/learn/DataRepresentation.html:98
@@ -1599,7 +1664,7 @@ msgstr ""
 #: app/templates/learn/Synchronization.html:68
 #: app/templates/learn/UserInteractivity.html:62
 msgid "If you get 2 points..."
-msgstr ""
+msgstr "2 puan alırsanız..."
 
 #: app/templates/learn/Abstraction.html:111
 msgid ""
@@ -1610,6 +1675,12 @@ msgid ""
 "identical objects. However, what if I want to change the program? Would have "
 "to go object by object performing this modification."
 msgstr ""
+"Some Scratch projelerinde birçok aynı karakter vardır ve bunlar tam olarak "
+"aynı işlemleri gerçekleştirir. Bunu yapmanın ilk fikri, bir karakter "
+"oluşturmak, tüm davranışlarını planlamak ve hazır olduğunda ihtiyacınız olan "
+"kadar kopyasını yapmaktır. Yani, 20 Marslı istiyorsak, 20 aynı nesne "
+"oluştururuz. Ancak, programı değiştirmek istiyorsak ne olur? Her nesneye tek "
+"tek gidip bu değişiklikleri yapmak zorunda kalırız."
 
 #: app/templates/learn/Abstraction.html:112
 msgid ""
@@ -1617,6 +1688,9 @@ msgid ""
 "abstraction that helps us to program a single object, and dynamically "
 "<b>create exact copies with the same behavior.</b>"
 msgstr ""
+"Böyle durumlar için <b>klonlar</b> kullanmak daha tercih edilir; bu, tek bir "
+"nesneyi programlamamıza ve dinamik olarak <b>aynı davranışa sahip tam "
+"kopyalar oluşturmamıza</b> yardımcı olan bir soyutlamadır."
 
 #: app/templates/learn/Abstraction.html:113
 msgid ""
@@ -1625,6 +1699,10 @@ msgid ""
 "you start implementing the project, constantly be creating clones appear at "
 "the top of the screen and they will fall to the bottom:"
 msgstr ""
+"Bir örnekle nasıl çalıştığını görelim. Bir projede kar yağıyormuş gibi "
+"görünmesini istiyorsunuz. Bir kar tanesi nesnesi çizebiliriz ve projeyi "
+"uygulamaya başladığınızda, ekranda sürekli olarak klonlar oluşturup üstten "
+"düşmeye başlayacaklar:"
 
 #: app/templates/learn/Abstraction.html:118
 #: app/templates/learn/FlowControl.html:48
@@ -1660,16 +1738,20 @@ msgid ""
 "are created at a particular time of project implementation and are deleted "
 "when they are no longer needed."
 msgstr ""
+"Böylece, sadece bir karakteri programlayarak, belirli bir projede "
+"oluşturulup ihtiyaç kalmadığında silinen sonsuz sayıda klon elde edebiliriz."
 
-#: app/templates/learn/BatchMode.html:5 app/templates/learn/base.html:206
-#: app/templates/main/main.html:510
+#: app/templates/learn/BatchMode.html:5 app/templates/learn/base.html:217
+#: app/templates/main/main.html:513
 msgid "Batch Mode"
-msgstr ""
+msgstr "Toplu Modu"
 
 #: app/templates/learn/BatchMode.html:25
 msgid ""
 "You only have to upload a .txt file with the urls of the Scratch's Projects."
 msgstr ""
+"Sadece Scratch projelerinin URL'lerini içeren bir .txt dosyası yüklemeniz "
+"gerekiyor."
 
 #: app/templates/learn/BatchMode.html:34
 #: app/templates/learn/DefaultMode.html:37
@@ -1677,13 +1759,15 @@ msgstr ""
 #: app/templates/main/main_new.html:432
 msgid "It is extremely easy to use, both for begginers and expert programmers."
 msgstr ""
+"Bu, hem yeni başlayanlar hem de uzman programcılar için son derece kolay "
+"kullanılabilir."
 
 #: app/templates/learn/BatchMode.html:38
 #: app/templates/learn/DefaultMode.html:41
 #: app/templates/learn/PersonalMode.html:43 app/templates/login/login.html:292
 #: app/templates/main/main_new.html:436
 msgid "You receive feedback to improve your coding skills."
-msgstr ""
+msgstr "Kodlama becerilerinizi geliştirmek için geri bildirim alırsınız."
 
 #: app/templates/learn/BatchMode.html:46
 #: app/templates/learn/DefaultMode.html:49
@@ -1692,18 +1776,20 @@ msgstr ""
 msgid ""
 "You can keep on improving your programming skills by yourself even from home."
 msgstr ""
+"Evden bile kendi başınıza programlama becerilerinizi geliştirmeye devam "
+"edebilirsiniz."
 
 #: app/templates/learn/BatchMode.html:50
 #: app/templates/learn/DefaultMode.html:53
 #: app/templates/learn/PersonalMode.html:55 app/templates/login/login.html:304
 #: app/templates/main/main_new.html:448
 msgid "You can track your progress through charts and stats."
-msgstr ""
+msgstr "İlerlemenizi grafikler ve istatistiklerle takip edebilirsiniz."
 
 #: app/templates/learn/DataRepresentation.html:6
-#: app/templates/main/rubric-creator.html:510
+#: app/templates/main/rubric-creator.html:514
 msgid "Data Representation"
-msgstr ""
+msgstr "Temsili veri"
 
 #: app/templates/learn/DataRepresentation.html:9
 msgid ""
@@ -1714,6 +1800,11 @@ msgid ""
 "as the level at which we find ourselves, elapsed time, the rating, the "
 "lives, the rewards collected ..."
 msgstr ""
+"Her Scratch projesinin düzgün çalışabilmesi için karakterlerle ilgili bir "
+"dizi bilgiye ihtiyacı vardır. Örneğin, <b>her karakterin konumunu, hangi "
+"yöne baktığını, boyutunu vb. bilmemiz gerekir.</b> Ayrıca, programcılar, "
+"bulunduğumuz seviyeyi, geçen süreyi, puanı, canları, toplanan ödülleri gibi "
+"diğer verileri saklamak için yeni bilgi havuzları oluşturabilirler..."
 
 #: app/templates/learn/DataRepresentation.html:16
 msgid ""
@@ -1724,6 +1815,12 @@ msgid ""
 "Following is the list of attributes that each character and blocks that can "
 "be used to modify:"
 msgstr ""
+"Bir Scratch projesindeki her karakterin, proje süresince her an bir değere "
+"sahip olan ve programlar tarafından değiştirilebilen bir dizi özelliği veya "
+"nitelikleri vardır. Örneğin, bir karakterin boyutunu 'resize for 10' bloğu "
+"ile değiştirerek karakteri biraz daha büyük gösterebilirsiniz. Aşağıda, her "
+"karakterin sahip olduğu ve değiştirilebilecek nitelikler ile "
+"kullanılabilecek blokların listesi verilmiştir:"
 
 #: app/templates/learn/DataRepresentation.html:20
 msgid "Position:"
@@ -1843,6 +1940,11 @@ msgid ""
 "types of data that may need: at what level we are</b>, how many lives you "
 "have left, how many points we, how is called the user ..."
 msgstr ""
+"Karakterlerin niteliklerini değiştirmek dışında, programcılar Scratch "
+"projesinde bilgi depolamak için diğer mekanizmaları da kullanabilirler. "
+"<b>Bu mekanizmalardan biri, çeşitli veri türlerini depolayabilen "
+"değişkenlerdir: hangi seviyede olduğumuz</b>, kaç canımız kaldığı, kaç "
+"puanımız olduğu, kullanıcının adı gibi bilgileri saklayabilirler."
 
 #: app/templates/learn/DataRepresentation.html:80
 msgid ""
@@ -1851,6 +1953,9 @@ msgid ""
 "given the name 'Points' as use it to store the number of points you get our "
 "character."
 msgstr ""
+"Bir değişken oluşturmak için veri kategorisine gitmeli, 'Bir değişken "
+"oluştur' seçeneğine tıklamalı ve bir ad vermelisiniz. Aşağıdaki örnekte, "
+"karakterinizin aldığı puanları saklamak için 'Points' adını verdik."
 
 #: app/templates/learn/DataRepresentation.html:84
 msgid "set [Points v] to [0]"
@@ -1875,6 +1980,13 @@ msgid ""
 "value of the variable points would add 1: If set to 0, I add 1 and is now "
 "worth 1; when set to 1, I add 1 and is now worth 2 ..."
 msgstr ""
+"Yukarıdaki programda, karakterin oyunun başında sahip olmasını istediğimiz "
+"puan sayısını, bu durumda 0, belirliyoruz; bunun için <i>'fixing points at "
+"0'</i> bloğunu kullanıyoruz. Sağdaki programda ise, karakter mavi renge "
+"dokunduğunda, bu bir hedef olabilir, bir puan eklenir; bunun için <i>'change "
+"Points by 1'</i> bloğunu kullanıyoruz. Bu durumda, <i>'change'</i> bloğu, "
+"değişkenin mevcut değerini kontrol eder ve 1 ekler: Eğer başlangıçta 0 ise 1 "
+"ekler ve şimdi 1 olur; başlangıçta 1 ise 1 ekler ve şimdi 2 olur..."
 
 #: app/templates/learn/DataRepresentation.html:99
 msgid ""
@@ -1883,12 +1995,19 @@ msgid ""
 "value at the same time, so they are ideal for storing rewards have been "
 "recovered by a character or set of names, raise a couple of examples.</b>"
 msgstr ""
+"Değişkenlerin yanı sıra, Scratch projede bilgi depolamak için başka bir veri "
+"türü kullanmanıza da izin verir: <b>Listeler. Listeler birden fazla değeri "
+"aynı anda saklayabildiği için, bir karakter tarafından toplanan ödülleri "
+"veya bir dizi adı saklamak için idealdir; iki örnek verelim.</b>"
 
 #: app/templates/learn/DataRepresentation.html:100
 msgid ""
 "To create a list, you have to go to the data category, click on 'Create a "
 "List' and give a name. In the example, we have named our 'Students' list:"
 msgstr ""
+"Bir liste oluşturmak için veri kategorisine gitmeli, 'Bir Liste Oluştur' "
+"seçeneğine tıklamalı ve bir ad vermelisiniz. Örnekte, listemize 'Students' "
+"adını verdik:"
 
 #: app/templates/learn/DataRepresentation.html:104
 #: app/templates/learn/DataRepresentation.html:117
@@ -1919,6 +2038,11 @@ msgid ""
 "Then we ask three times the user to enter a name, and each name entered "
 "insert it in the last position in the list Students."
 msgstr ""
+"Bu programla ne yaptık? İlk olarak, çalışmayı başlatmak için <b>Students "
+"listesindeki tüm öğeleri sileriz</b>, böylece liste tamamen boş olur ve "
+"önceki proje uygulamasından kalan öğeler görünmez. Ardından kullanıcıdan üç "
+"kez bir isim girmesini isteriz ve her girilen ismi Students listesinin "
+"sonuna ekleriz."
 
 #: app/templates/learn/DataRepresentation.html:112
 msgid ""
@@ -1926,6 +2050,8 @@ msgid ""
 "to carry out an exercise to the whiteboard. Look at the new instructions "
 "added to the program:"
 msgstr ""
+"Listeyle ne yaparız? Örneğin, bir gönüllü seçmek için kullanabiliriz; bu "
+"gönüllü, tahtada bir egzersizi yapar. İşte programa eklenen yeni talimatlar:"
 
 #: app/templates/learn/DataRepresentation.html:121
 #: app/templates/learn/FlowControl.html:46
@@ -1954,21 +2080,28 @@ msgid ""
 "Sometimes we take the name that is in position 1, others that it is in "
 "position 2 and the other at 3."
 msgstr ""
+"1 ile 3 arasında rastgele bir sayı ürettik, bu sayılar listedeki elemanları "
+"temsil eder. Bu sayıya karşılık gelen liste elemanını seçtik. Bazen konum "
+"1'deki ismi, bazen konum 2'deki ismi ve diğer zamanlarda konum 3'teki ismi "
+"alırız."
 
 #: app/templates/learn/DataRepresentation.html:128
 msgid ""
 "Lists have many possibilities and many available operations ... you dare to "
 "investigate how they work?"
 msgstr ""
+"Listelerin birçok olasılığı ve mevcut operasyonları vardır... Nasıl "
+"çalıştıklarını araştırmaya cesaret eder misiniz?"
 
-#: app/templates/learn/DefaultMode.html:5 app/templates/learn/base.html:203
+#: app/templates/learn/DefaultMode.html:5 app/templates/learn/base.html:214
 msgid "Default Mode"
-msgstr ""
+msgstr "Varsayılan Modu"
 
 #: app/templates/learn/DefaultMode.html:24 app/templates/login/login.html:276
 #: app/templates/main/main_new.html:420
 msgid "There are two options to analyze a Scratch project with Dr. Scratch"
 msgstr ""
+"Dr. Scratch ile bir Scratch projesini analiz etmek için iki seçeneğiniz var"
 
 #: app/templates/learn/DefaultMode.html:28
 msgid ""
@@ -1977,11 +2110,15 @@ msgid ""
 "projects with Dr. Scratch, you can easily check your Computational Thinking "
 "Score."
 msgstr ""
+"Bir sb3 dosyası yükleyebilir veya sadece proje URL'sini sağlayabilirsiniz; "
+"böylece projeyi önceden bilgisayarınıza indirmenize gerek kalmaz. Dr. "
+"Scratch ile projelerinizi analiz ederek Bilgisayarla Düşünme Puanınızı "
+"kolayca kontrol edebilirsiniz."
 
 #: app/templates/learn/FlowControl.html:5
 #: app/templates/statistics/statistics.html:260
 msgid "Flow Control"
-msgstr ""
+msgstr "Akış Kontrolü"
 
 #: app/templates/learn/FlowControl.html:8
 msgid ""
@@ -1989,6 +2126,10 @@ msgid ""
 "<b>control the behavior of your characters</b>, making, for example, certain "
 "blocks that are repeated a number of times,  or until a situation arises."
 msgstr ""
+"Algoritmik akış kontrolü ile ilgili talimatlar, <b>karakterlerinizin "
+"davranışını kontrol etmenize</b> yardımcı olabilir; örneğin, belirli "
+"blokların bir sayı kadar tekrar edilmesini veya bir durum ortaya çıkana "
+"kadar devam etmesini sağlar."
 
 #: app/templates/learn/FlowControl.html:15
 msgid ""
@@ -1996,6 +2137,9 @@ msgid ""
 "<b>program composed of a set of blocks are executed one after another</b>, "
 "as we see in the picture:"
 msgstr ""
+"Karakterlerinizin davranışını kontrol etmenin en temel yolu, <b>birbiri "
+"ardına yürütülen bir dizi bloktan oluşan bir program oluşturmak</b>tır, bunu "
+"resimde görüyoruz:"
 
 #: app/templates/learn/FlowControl.html:18
 #: app/templates/learn/FlowControl.html:38
@@ -2022,6 +2166,11 @@ msgid ""
 "<i>'move 10 steps'</i> then <i>'turn 15 degrees right'</i>, and so on to the "
 "last block of the program."
 msgstr ""
+"Bu program nasıl çalışır? Kullanıcı yeşil bayrağa tıkladığında, programa "
+"dahil edilen tüm bloklar sırasıyla çalıştırılır. İlk olarak <i>'2 saniye "
+"boyunca ben bir kedi dans ediyorum'</i> bloğu ile başlar, ardından <i>'10 "
+"adım ilerle'</i> bloğunu çalıştırır, sonra <i>'15 derece sağa dön'</i> "
+"bloğunu uygular ve programın son bloğuna kadar devam eder."
 
 #: app/templates/learn/FlowControl.html:35
 msgid ""
@@ -2030,6 +2179,10 @@ msgid ""
 "instruction allowing achieve the same effect, but more comfortable and "
 "manageable way. Consider a couple of examples:"
 msgstr ""
+"Bazen bir dizi bloğun sürekli olarak tekrar edilmesini istediğimizde, aynı "
+"blokları tekrar tekrar yazmak yerine, aynı etkisi sağlayan ancak daha "
+"konforlu ve yönetilebilir bir şekilde yapılmasına olanak tanıyan bir tekrar "
+"talimatı kullanabilirsiniz. İşte iki örnek:"
 
 #: app/templates/learn/FlowControl.html:50
 #: app/templates/learn/Parallelization.html:44
@@ -2041,7 +2194,7 @@ msgstr ""
 
 #: app/templates/learn/FlowControl.html:53
 msgid "How these control blocks works?"
-msgstr ""
+msgstr "Bu kontrol blokları nasıl çalışır?"
 
 #: app/templates/learn/FlowControl.html:54
 msgid ""
@@ -2051,12 +2204,19 @@ msgid ""
 "that the block 'repeat' has an arrow at the bottom indicating that <b>when "
 "they finish executing the blocks back again up</b>."
 msgstr ""
+"<i>'repeat'</i> bloğunda, yürütme bu noktaya geldiğinde, 'repeat' bloğundaki "
+"parametrede belirtilen sayı kadar, örnekte olduğu gibi 3 kez, bu bloğun "
+"içine dahil olan tüm bloklar tekrar edilir. <b>Yürütme tamamlandığında, "
+"blokların tekrar yukarıya döneceğini</b> belirten aşağıda bir ok bulunan "
+"'repeat' bloğunu görebiliriz."
 
 #: app/templates/learn/FlowControl.html:55
 msgid ""
 "The block <i>'forever'</i> works like the 'repeat' but never finish "
 "executing the blocks containing in its interior."
 msgstr ""
+"<i>'forever'</i> bloğu, 'repeat' bloğu gibi çalışır ancak içindeki blokları "
+"hiç bitirmeden sürekli olarak yürütür."
 
 #: app/templates/learn/FlowControl.html:63
 msgid ""
@@ -2064,6 +2224,9 @@ msgid ""
 "blocks is executed, as this depends on a given situation. In these cases, "
 "the block 'repeat until ...' is really useful. Here's an example:"
 msgstr ""
+"Bazen bir dizi bloğun kaç kez çalıştırılacağını önceden bilemeyiz çünkü bu, "
+"belirli bir duruma bağlıdır. Bu tür durumlarda, 'repeat until ...' bloğu "
+"gerçekten kullanışlıdır. İşte bir örnek:"
 
 #: app/templates/learn/FlowControl.html:66
 msgid "repeat until &lt; touching [Enemy v] ?&gt;"
@@ -2085,6 +2248,10 @@ msgid ""
 "inside will finish run and will jump to the next instruction, in this case "
 "say 'You caught me!'."
 msgstr ""
+"Örnekte, karakter 'You don't caught me...' talimatını sürekli olarak tekrar "
+"edecek, düşmana dokunmadığı sürece. Koşul sağlandığında, <i>'repeat "
+"until ...'</i> bloğundaki içerik çalışmayı bitirecek ve bir sonraki "
+"talimata, bu durumda 'You caught me!' demeye geçecektir."
 
 #: app/templates/learn/Logic.html:8
 msgid ""
@@ -2095,10 +2262,18 @@ msgid ""
 "other projects, such as video games are essential to perform different "
 "actions depending on the situation."
 msgstr ""
+"Mantıksal düşünmeyle ilgili talimatlar projelerinizin dinamik olmasına "
+"yardımcı olabilir, <b>bu sayede durumlara bağlı olarak farklı şekilde "
+"davranabilirler</b>. Örneğin hikayelerde, genellikle lineer bir yapı "
+"olduğundan ve her zaman aynı şekilde çalışmasını istediğimizden bu "
+"talimatlar o kadar önemli değildir. Ancak video oyunları gibi diğer "
+"projelerde, duruma bağlı olarak farklı eylemler gerçekleştirmek için "
+"gereklidirler."
 
 #: app/templates/learn/Logic.html:15
 msgid "The most basic block you can start working logical thinking is this:"
 msgstr ""
+"Mantıksal düşünmeye başlamak için kullanabileceğiniz en temel blok şudur:"
 
 #: app/templates/learn/Logic.html:18
 msgid "if &lt; touching color [#0000FF]?  &gt;then"
@@ -2115,12 +2290,16 @@ msgid ""
 "the block is evaluated, and if this is true, the set of blocks that are "
 "within the if executed."
 msgstr ""
+"Bu blok nasıl çalışır? Yürütme bu noktaya geldiğinde, bloktaki koşul "
+"değerlendirilir ve eğer bu koşul doğruysa, 'if' bloğunun içindeki bloklar "
+"çalıştırılır."
 
 #: app/templates/learn/Logic.html:24
 msgid ""
 "In the example, if the character is touching the blue color, he says 'I "
 "reached the goal.'"
 msgstr ""
+"Örnekte, eğer karakter mavi renge dokunuyorsa, 'I reached the goal.' der."
 
 #: app/templates/learn/Logic.html:33
 msgid ""
@@ -2129,6 +2308,10 @@ msgid ""
 "projects. The blocks <i>if / else</i> are very similar to the block <i>if</"
 "i>, but contain two sets of blocks inside."
 msgstr ""
+"Artık <i>if</i> talimatlarını bildiğinize göre, birçok proje türünde çok "
+"pratik olabilecek <i>if / else</i> bloklarını kullanmaya başlayabilirsiniz. "
+"<i>if / else</i> blokları, <i>if</i> bloğuna çok benzer, ancak içinde iki "
+"ayrı blok seti içerir."
 
 #: app/templates/learn/Logic.html:36
 msgid "if &lt; touching color [#0000FF]? &gt;then"
@@ -2145,6 +2328,10 @@ msgid ""
 "within the 'if' is executed, but if the condition is false, then the set of  "
 "blocks that are within the 'else' is executed."
 msgstr ""
+"Bu blok nasıl çalışır? Yürütme bu noktaya geldiğinde, bloktaki koşul "
+"değerlendirilir ve eğer bu koşul doğruysa, 'if' içindeki bloklar "
+"çalıştırılır; ancak koşul yanlışsa, o zaman 'else' içindeki bloklar "
+"çalıştırılır."
 
 #: app/templates/learn/Logic.html:43
 msgid ""
@@ -2152,6 +2339,8 @@ msgid ""
 "reached the goal!', but ,if you are not touching the purple color, says 'I "
 "have not reached the goal'."
 msgstr ""
+"Örnekte, eğer karakter mavi renge dokunuyorsa, 'I reached the goal!' der; "
+"ancak mor renge dokunmuyorsa, 'I have not reached the goal' der."
 
 #: app/templates/learn/Logic.html:52
 msgid ""
@@ -2161,6 +2350,10 @@ msgid ""
 "the conditions. Logical operations are available in Scratch <i>AND, OR and "
 "No</i>."
 msgstr ""
+"Bazı projelerde karar vermek için bazen aynı anda birden fazla koşulu "
+"değerlendirmek gerekebilir. Bu tür durumlarda, <b>koşulları birleştiren "
+"mantıksal işlemleri</b> kullanmak çok yardımcı olur. Scratch'te mantıksal "
+"işlemler <i>AND, OR ve NOT</i> olarak mevcuttur."
 
 #: app/templates/learn/Logic.html:55
 msgid "if &lt;&lt; touching [Enemy v]? &gt; and &lt;(lives) = [0]&gt;&gt; then"
@@ -2199,6 +2392,10 @@ msgid ""
 "evaluated. And the operation otherwise not worth the condition, ie, if the "
 "condition is true, not returns false and vice versa."
 msgstr ""
+"<i>AND</i> işlemi, her iki koşul da doğru olduğunda doğrudur. <i>OR</i> "
+"işlemi ise iki koşuldan biri doğru olduğunda doğrudur. <i>NOT</i> işlemi ise "
+"koşul tersini döndürür; yani, eğer koşul doğruysa, yanlış döner ve tam tersi "
+"de geçerlidir."
 
 #: app/templates/learn/Parallelization.html:9
 msgid ""
@@ -2207,12 +2404,18 @@ msgid ""
 "things occur simultaneously.</b> For example, two characters perform an "
 "action while a character or do several things at once."
 msgstr ""
+"Çoğu Scratch yaratımında belirli bir seviyede paralellik gereklidir. Ama "
+"paralellik ne anlama gelir? <b>Paralellik, birden fazla şeyin aynı anda "
+"gerçekleşme olasılığıdır.</b> Örneğin, iki karakter bir eylemi "
+"gerçekleştirirken diğer bir karakter birden fazla şey yapabilir."
 
 #: app/templates/learn/Parallelization.html:16
 msgid ""
 "The most basic and most obvious way to achieve parallelism is to have "
 "several programs that start with <i>'When green flag is clicked'</i>:"
 msgstr ""
+"Paralelliği sağlamak için en temel ve en bariz yöntem, birden fazla "
+"programın <i>'When green flag is clicked'</i> ile başlamasıdır:"
 
 #: app/templates/learn/Parallelization.html:21
 msgid ""
@@ -2223,6 +2426,12 @@ msgid ""
 "different characters, if you want everyone to undertake an action at "
 "beginning of execution."
 msgstr ""
+"Böylece, kullanıcı yeşil bayrağa tıkladığında, bu blok ile başlayan tüm "
+"programlar aynı anda veya paralel olarak çalışmaya başlar. Bir karakterde "
+"birden fazla program bu blok ile başlayabilir, böylece karakterin birden "
+"fazla şey yapmasını sağlayabilirsiniz; ya da farklı karakterlerin "
+"programlarında, böylece herkesin yürütmeye başladığında bir eylem "
+"gerçekleştirmesini sağlayabilirsiniz."
 
 #: app/templates/learn/Parallelization.html:30
 msgid ""
@@ -2230,6 +2439,9 @@ msgid ""
 "things occur when the user presses a key or clicks on an object</b>. "
 "Consider a couple of examples:"
 msgstr ""
+"Programınızda paralellik sağlamak için bir diğer yol, <b>kullanıcı bir tuşa "
+"bastığında veya bir nesneye tıkladığında birden fazla şeyin gerçekleşmesini "
+"sağlamaktır</b>. İşte birkaç örnek:"
 
 #: app/templates/learn/Parallelization.html:33
 #: app/templates/learn/Parallelization.html:37
@@ -2257,7 +2469,7 @@ msgstr ""
 
 #: app/templates/learn/Parallelization.html:53
 msgid "How these blocks works?"
-msgstr ""
+msgstr "Bu bloklar nasıl çalışır?"
 
 #: app/templates/learn/Parallelization.html:54
 msgid ""
@@ -2266,6 +2478,10 @@ msgid ""
 "in this case, both the cat and the child run at the same time <i>'say A for "
 "2 seconds'</i>"
 msgstr ""
+"İlk örnekte, bir tuşa basıldığında belirli bir eylemi gerçekleştiren iki "
+"farklı karakter görüyoruz. Bu nedenle, kullanıcı bir tuşa bastığında, bu "
+"durumda hem kedi hem de çocuk aynı anda <i>'say A for 2 seconds'</i> "
+"komutunu çalıştırır."
 
 #: app/templates/learn/Parallelization.html:55
 msgid ""
@@ -2273,10 +2489,14 @@ msgid ""
 "with <i>'when clicking this object'</i>. Therefore, when the user clicks on "
 "this character, both programs will begin to run simultaneously, in parallel."
 msgstr ""
+"İkinci örnekte, bir karakterin <i>'when clicking this object'</i> ile "
+"başlayan iki programı olduğunu görüyoruz. Bu nedenle, kullanıcı bu karaktere "
+"tıkladığında, her iki program da aynı anda, paralel olarak çalışmaya "
+"başlayacaktır."
 
 #: app/templates/learn/Parallelization.html:64
 msgid "There are several events more that can achieve parallelism:"
-msgstr ""
+msgstr "Paralellik sağlamak için kullanılabilecek birkaç diğer olay da vardır:"
 
 #: app/templates/learn/Parallelization.html:66
 msgid "when backdrop switches to [backdrop1 v]"
@@ -2309,35 +2529,46 @@ msgid ""
 "things happen in your programs simultaneously. Do you dare to investigate "
 "how works?"
 msgstr ""
+"Gördüğünüz gibi, belirli bir senaryoya arka plan değiştiğinde, belirli bir "
+"mesaj aldığında, ses seviyesi belirli bir eşiği aştığında, video hareketi "
+"belirli bir piksel sayısından fazla olduğunda veya zamanlayıcı istediğiniz "
+"değeri geçtiğinde çalışmaya başlayan birkaç program oluşturabilirsiniz. "
+"Dolayısıyla, programlarınızda aynı anda birden fazla şeyin gerçekleşmesini "
+"sağlamak için birçok seçenek vardır. Nasıl çalıştığını araştırmaya cesaret "
+"edebilir misiniz?"
 
-#: app/templates/learn/PersonalMode.html:5 app/templates/learn/base.html:209
-#: app/templates/main/main.html:538
+#: app/templates/learn/PersonalMode.html:5 app/templates/learn/base.html:220
+#: app/templates/main/main.html:541
 msgid "Personalized Mode"
-msgstr ""
+msgstr "Özelleştirilmiş Modu"
 
 #: app/templates/learn/PersonalMode.html:24
 msgid "The functionality of this mode is divided in 3 steps:"
-msgstr ""
+msgstr "Bu modun işlevselliği 3 adıma ayrılmıştır:"
 
 #: app/templates/learn/PersonalMode.html:25
 msgid "1. Creation of the Rubric with the grades of each dimension."
-msgstr ""
+msgstr "1. Her boyutun notlarıyla birlikte Rubrik'in oluşturulması."
 
 #: app/templates/learn/PersonalMode.html:26
 msgid "2. Sharing the link to the Rubric created in the previous step."
-msgstr ""
+msgstr "2. Önceki adımda oluşturulan Rubrik'in bağlantısının paylaşılması."
 
 #: app/templates/learn/PersonalMode.html:28
 msgid ""
 "3. Upload of the projects via an url, .sb3 file or a .txt file with multiple "
 "projects."
 msgstr ""
+"3. Projelerin bir URL, .sb3 dosyası veya birden fazla proje içeren .txt "
+"dosyası aracılığıyla yüklenmesi."
 
 #: app/templates/learn/Synchronization.html:9
 msgid ""
 "Instructions related to synchronization <b>allow our characters to organize "
 "things happen in the order we want</b>."
 msgstr ""
+"Senkranizasyon ile ilgili talimatlar <b>karakterlerimizin olayları "
+"istediğimiz sıraya göre düzenlemesini sağlar</b>."
 
 #: app/templates/learn/Synchronization.html:16
 msgid ""
@@ -2346,6 +2577,10 @@ msgid ""
 "you write as a parameter block. An example of how this block can be used to "
 "synchronize two characters:"
 msgstr ""
+"Karakterlerinizin davranışını senkronize etmenin en kolay yolu, karakterin "
+"parametre olarak yazdığınız süre kadar beklemesini sağlayan bir <i>'wait'</"
+"i> bloğu kullanmaktır. İşte bu bloğun iki karakteri senkronize etmek için "
+"nasıl kullanılabileceğine dair bir örnek:"
 
 #: app/templates/learn/Synchronization.html:19
 #: app/templates/learn/Synchronization.html:45
@@ -2385,6 +2620,10 @@ msgid ""
 "character expected, are equal to the number of seconds that the other "
 "character speaks, so they never talk at the same time."
 msgstr ""
+"Bu durumda, iki karakteri bir konuşmayı sürdürecek şekilde senkronize etmek "
+"için <i>'wait'</i> blokları kullanılır; böylece biri konuşurken diğeri "
+"bekler ve tam tersi. Her iki karakterin beklediği süre, diğer karakterin "
+"konuştuğu süreye eşittir, böylece hiçbiri aynı anda konuşmaz."
 
 #: app/templates/learn/Synchronization.html:42
 msgid ""
@@ -2394,6 +2633,11 @@ msgid ""
 "previously, it is more efficient to use other modes of synchronization and "
 "messages. Here's an example:"
 msgstr ""
+"Bloklar <i>'wait'</i> kullanarak senkronizasyon yapmak, programlar küçük ve "
+"birkaç karakter içerdiğinde çok basittir. Ancak programlar daha büyük "
+"olduğunda, birçok karakter bulunduğunda veya reaksiyon oluşturma koşulları "
+"önceden ölçülemiyorsa, diğer senkronizasyon yöntemlerini ve mesajları "
+"kullanmak daha verimli olur. İşte bir örnek:"
 
 #: app/templates/learn/Synchronization.html:47
 msgid "if &lt; touching [mouse pointer v]?&gt;then"
@@ -2426,6 +2670,14 @@ msgid ""
 "whit the mouse, butterfly says, 'You caught my companion. Now you have to "
 "catch me!'."
 msgstr ""
+"Bu senkronizasyon blokları nasıl çalışır? Bir karakterde bir durum "
+"oluştuğunda başka bir karakterde bir reaksiyon oluşturmak istiyorsak, "
+"<b>mesajlaşmayı</b> kullanabiliriz. Örneğin, fare kediye dokunduğunda, "
+"projedeki tüm karakterlere gönderilecek olan 'Yakalandı!' mesajı gönderilir. "
+"Böylece, kelebek 'Yakalandı!' mesajını aldığında, <i>''yakalandı'' mesajını "
+"aldığında</i> bloğundaki talimatlar çalışır. Bu şekilde, kullanıcı fareyi "
+"kediye dokundurduğunda, kelebek 'Yoldaşımı yakaladınız. Şimdi beni "
+"yakalamalısınız!' der."
 
 #: app/templates/learn/Synchronization.html:69
 msgid ""
@@ -2433,6 +2685,10 @@ msgid ""
 "things happen in the order we want, using other blocks, such as <i>'wait "
 "until'</i> or <i>'when the background changes to ...'</i>."
 msgstr ""
+"Mesaj göndermenin yanı sıra, karakterleri senkronize ederek olayların "
+"istediğimiz sırayla gerçekleşmesini sağlamak için diğer blokları da "
+"kullanabilirsiniz, örneğin <i>'bekle ...' </i> veya <i>'arka plan ... "
+"değiştiğinde'</i> blokları."
 
 #: app/templates/learn/Synchronization.html:71
 msgid "wait until &lt;(lives) =[0]&gt;"
@@ -2458,6 +2714,11 @@ msgid ""
 "case, <i>'said Game Over'</i> and <i>'stop all'</i>, which ends the "
 "execution of the project."
 msgstr ""
+"In the first example, when program execution reaches that point, it will "
+"stop until the condition is met—in this case, until the lives are equal to "
+"0. Once the lives equal 0, the program continues executing the remaining "
+"blocks, which in this case are <i>'say Game Over'</i> and <i>'stop all'</i>, "
+"ending the execution of the project."
 
 #: app/templates/learn/Synchronization.html:83
 msgid ""
@@ -2466,10 +2727,14 @@ msgid ""
 "the instruction 'when the backdrop changes to Spring', ie to be displayed "
 "and will say 'spring has come!'."
 msgstr ""
+"In the second example, when the scene changes to the backdrop named "
+"'Spring', the character will execute the blocks placed after the instruction "
+"'when the backdrop changes to Spring'. This will result in the character "
+"being displayed and saying 'Spring has come!'."
 
 #: app/templates/learn/UserInteractivity.html:6
 msgid "User Interactivity"
-msgstr ""
+msgstr "ullanıcı Etkileşimi"
 
 #: app/templates/learn/UserInteractivity.html:9
 msgid ""
@@ -2479,12 +2744,20 @@ msgid ""
 "can use the keyboard or mouse to move a character, you can answer questions "
 "or playing computer webcam, among many other possibilities."
 msgstr ""
+"Kullanıcı etkileşimi ile ilgili talimatlar, <b>Scratch projelerinizi daha "
+"etkileşimli hale getirmeye yardımcı olabilir</b>, yani projeyi çalıştıran "
+"kişi, projede yeni durumlar yaratan eylemler gerçekleştirebilir. Örneğin, "
+"bir karakteri hareket ettirmek için klavye veya fare kullanabilir, soruları "
+"yanıtlayabilir veya bilgisayar kamerasıyla oynayabilirsiniz; bunlar ve daha "
+"pek çok olasılık mevcuttur."
 
 #: app/templates/learn/UserInteractivity.html:16
 msgid ""
 "The most basic block you can start working interactivity with the user is "
 "<i>'when green flag clicked'</i>."
 msgstr ""
+"En temel etkileşimli blok, kullanıcı ile etkileşime geçmeye başlamanın yolu "
+"<i>'yeşil bayrağa tıklandığında'</i>' bloğudur."
 
 #: app/templates/learn/UserInteractivity.html:23
 msgid ""
@@ -2493,12 +2766,18 @@ msgid ""
 "green flag clicked'</i> begin to run. You can have as many programs as you "
 "need to start with this block."
 msgstr ""
+"Bu blok nasıl çalışır? Scratch projenizi çalıştırmak isteyen kullanıcı yeşil "
+"bayrağa tıkladığında, <i>'yeşil bayrağa tıklandığında'</i> bloğunun altına "
+"yerleştirilmiş tüm bloklar çalışmaya başlar. Bu blok ile başlamak için "
+"ihtiyacınız olan kadar çok programınız olabilir."
 
 #: app/templates/learn/UserInteractivity.html:33
 msgid ""
 "Now that you have begun to interact with the user running your Scratch "
 "project, perhaps you can try some of the following blocks:"
 msgstr ""
+"Artık Scratch projenizi çalıştıran kullanıcı ile etkileşime geçtiğinize "
+"göre, belki de aşağıdaki bloklardan bazılarını deneyebilirsiniz:"
 
 #: app/templates/learn/UserInteractivity.html:35
 msgid " when [right arrow v] key pressed"
@@ -2539,6 +2818,11 @@ msgid ""
 "responses, move characters with the mouse, or perform actions when the user "
 "clicks an object."
 msgstr ""
+"Gördüğünüz gibi, kullanıcıların karakterlerinizle etkileşime geçmesine izin "
+"verebilirsiniz: tuşlara basarak hareket etmelerini sağlamak, sorulara yanıt "
+"yazarak karakterlerinizin kullanıcı yanıtlarını kullanmasını sağlamak, "
+"fareyle karakterleri hareket ettirmek veya kullanıcı bir nesneye "
+"tıkladığında eylemler gerçekleştirmek gibi."
 
 #: app/templates/learn/UserInteractivity.html:63
 msgid ""
@@ -2547,6 +2831,10 @@ msgid ""
 "interact with characters from Scratch or sound to trigger certain actions.</"
 "b>"
 msgstr ""
+"Scratch'in kullanıcı etkileşimi açısından en eğlenceli olanaklarından biri, "
+"<b>kullanıcının webcam'ini veya mikrofonunu kullanarak Scratch "
+"karakterleriyle etkileşime geçebilmesi veya ses kullanarak belirli eylemleri "
+"tetikleyebilmesidir.</b>"
 
 #: app/templates/learn/UserInteractivity.html:65
 msgid "if &lt;(loudness) >[30]&gt; then"
@@ -2572,11 +2860,16 @@ msgid ""
 "The possibilities of these blocks are very large and allows your creations "
 "Scratch are fully interactive with users."
 msgstr ""
+"Görüldüğü gibi, mikrofon tarafından yakalanan çevresel ses belirli bir eşiği "
+"aştığında veya bir nesne ya da arka plandaki video hareketi gerçekleştiğinde "
+"belirli blok setlerinin çalışmasını sağlayabiliriz. Bu blokların olanakları "
+"oldukça geniştir ve Scratch projelerinizin kullanıcılarla tamamen "
+"etkileşimli olmasına olanak tanır."
 
 #: app/templates/learn/attrInit.html:5 app/templates/main/statistics.html:204
 #: app/templates/statistics/statistics.html:203
 msgid "Attribute Initialization"
-msgstr ""
+msgstr "Öznitelik Başlatma"
 
 #: app/templates/learn/attrInit.html:8
 msgid ""
@@ -2586,6 +2879,11 @@ msgid ""
 "execution of a project, like their position, their size, their color, their "
 "orientation..."
 msgstr ""
+"Birçok programcının programlamayı öğrenirken tekrar ettiği hatalardan biri, "
+"nesnelerin özniteliklerini doğru bir şekilde başlatmamaktır. Öznitelikler "
+"nedir? Bunlar, bir projenin çalıştırılması sırasında değiştirilebilen "
+"karakterlerin özellikleridir; örneğin, konumları, boyutları, renkleri, "
+"yönelimleri..."
 
 #: app/templates/learn/attrInit.html:10
 msgid ""
@@ -2595,6 +2893,11 @@ msgid ""
 "have the block 'go to' under the block 'when green flag clicked', in order "
 "to place the character in its initial position."
 msgstr ""
+"Karakterin özelliklerini değiştiren bloklarınız olduğunda, her zaman program "
+"başladığında istediğimiz değeri atayan bir programa sahip olmalısınız. "
+"Örneğin, bir karakterin konumunu değiştiriyorsanız, karakteri başlangıç "
+"konumuna yerleştirmek için 'when green flag clicked' bloğunun altına 'go to' "
+"bloğunu yerleştirmelisiniz."
 
 #: app/templates/learn/attrInit.html:13
 msgid "when [right arrow v] key pressed //Not initialized correctly."
@@ -2617,17 +2920,17 @@ msgstr ""
 msgid "when [right arrow v] key pressed  //Initialized correctly."
 msgstr ""
 
-#: app/templates/learn/base.html:199
+#: app/templates/learn/base.html:210
 msgid "Tutorials"
-msgstr ""
+msgstr "Öğreticiler"
 
-#: app/templates/learn/base.html:218
+#: app/templates/learn/base.html:229
 msgid "Dimensions"
-msgstr ""
+msgstr "Boyutlar"
 
-#: app/templates/learn/base.html:249
+#: app/templates/learn/base.html:260
 msgid "Bad Habits"
-msgstr ""
+msgstr "Kötü alışkanlıklar"
 
 #: app/templates/learn/deadCode.html:8
 msgid ""
@@ -2635,6 +2938,9 @@ msgid ""
 "For example, when you have a program that isn't start with a hat block, or "
 "when there is a program that is waiting for a message that never is sent."
 msgstr ""
+"Ölü kod, hiç çalışmayan program parçalarıdır. Nasıl oluşabilir? Örneğin, bir "
+"başlık bloğuyla başlamayan bir programınız varsa ya da hiçbir zaman "
+"gönderilmeyen bir mesajı bekleyen bir program varsa, ölü kod oluşabilir."
 
 #: app/templates/learn/deadCode.html:11
 msgid "forever //Blocks that do not start with a hat block."
@@ -2661,12 +2967,17 @@ msgid ""
 "These situations usually causes that projects doesn't work as expected of "
 "them,so,try to avoid dead code in your programs!"
 msgstr ""
+"Bu durumlar genellikle projelerin beklenen şekilde çalışmamasına neden olur, "
+"bu yüzden programlarınızda ölü kodlardan kaçınmaya çalışın!"
 
 #: app/templates/learn/duplicatedScripts.html:8
 msgid ""
 "Imagine that in a project we have two programs formed by the same blocks and "
 "where only vary the parameters or values of the blocks."
 msgstr ""
+"Bir projede, aynı bloklardan oluşan iki program olduğunu ve yalnızca "
+"blokların parametrelerinin veya değerlerinin farklılık gösterdiğini hayal "
+"edin."
 
 #: app/templates/learn/duplicatedScripts.html:12
 #: app/templates/learn/duplicatedScripts.html:21
@@ -2701,6 +3012,10 @@ msgid ""
 "more appropriate that the programmer make his own block that defines this "
 "behaviour and use this new block in all programs where needed."
 msgstr ""
+"Küçük bir değişiklik yaparsak ne olur? Her iki programı da değiştirmemiz "
+"gerekecek ve bu, kodun bakımını zorlaştıracaktır. Bu tür durumlarda, "
+"programcının bu davranışı tanımlayan kendi bloğunu oluşturması ve bu yeni "
+"bloğu ihtiyaç duyulan tüm programlarda kullanması daha uygun olacaktır."
 
 #: app/templates/learn/duplicatedScripts.html:34
 msgid "define walk (repetitions)(step)(pause)"
@@ -2723,6 +3038,8 @@ msgid ""
 "Thus, if you want a change, you just have to go to the block defined by the "
 "programmer."
 msgstr ""
+"Bu şekilde, bir değişiklik yapmak istediğinizde, yalnızca programcı "
+"tarafından tanımlanan bloğa gitmeniz yeterlidir."
 
 #: app/templates/learn/spriteNaming.html:8
 msgid ""
@@ -2734,19 +3051,27 @@ msgid ""
 "good practice naming(to recognize easily) each character and scenario of our "
 "projects, because our programs can be read more fast. Avoid default names!"
 msgstr ""
+"Scratch ile programlamaya başladığınızda, genellikle yeni karakterlerin veya "
+"arka planların varsayılan adlarını bırakmak yaygındır (sprite 1, sprite 2, "
+"backdrop 1, backdrop 2, vb.). Az sayıda karakter veya arka plan olduğunda, "
+"her birinin adını bilmek oldukça kolaydır. Ancak, karakterlerin veya arka "
+"planların sayısı arttıkça bu daha karmaşık hale gelir. Bu nedenle, "
+"projelerinizde her bir karakteri ve arka planı tanımayı kolaylaştıracak "
+"şekilde adlandırmak iyi bir uygulamadır, çünkü programlarınız daha hızlı "
+"okunabilir. Varsayılan adlardan kaçının!"
 
-#: app/templates/login/login.html:81 app/templates/main/collaborators.html:136
-#: app/templates/main/main.html:314 app/templates/main/main_new.html:178
+#: app/templates/login/login.html:81 app/templates/main/collaborators.html:147
+#: app/templates/main/main.html:317 app/templates/main/main_new.html:178
 #: app/templates/organization/organization.html:79
 #: app/templates/sign/organization.html:78
 msgid "Sign in"
-msgstr ""
+msgstr "Kayıt olmak"
 
 #: app/templates/login/login.html:92
 #: app/templates/organization/organization.html:92
 #: app/templates/sign/organization.html:91
 msgid "Remember me"
-msgstr ""
+msgstr "Beni Hatırla"
 
 #: app/templates/login/login.html:127
 #: app/templates/sign/createOrganization.html:104
@@ -2758,7 +3083,7 @@ msgstr ""
 #: app/templates/sign/registerOrganization.html:104
 #: app/templates/sign/registerOrganization.html:163
 msgid "Dr. Scratch for Organizations"
-msgstr ""
+msgstr "Organizasyonlar için Dr. Scratch"
 
 #: app/templates/login/login.html:129
 #: app/templates/sign/createOrganization.html:106
@@ -2771,6 +3096,12 @@ msgid ""
 "students' Scratch projects. You'll have a smart dashboard where you can see "
 "the most important information about your students and their development."
 msgstr ""
+"Dr. Scratch web sitesine (kuruluşlar için versiyon) hoş geldiniz, Scratch "
+"projelerinizi çeşitli bilişim alanlarında değerlendiren analitik bir "
+"araçtır. Bu analiz aracı, öğrencilerinizin Scratch projelerini "
+"değerlendirmek için yararlı bir araçtır. Öğrencileriniz ve onların gelişimi "
+"hakkında en önemli bilgileri görebileceğiniz akıllı bir panele sahip "
+"olacaksınız."
 
 #: app/templates/login/login.html:133
 #: app/templates/organization/organization.html:135
@@ -2786,74 +3117,79 @@ msgstr ""
 #: app/templates/sign/registerOrganization.html:110
 #: app/templates/sign/registerOrganization.html:208
 msgid "Sign up!"
-msgstr ""
+msgstr "Üye olmak!"
 
 #: app/templates/login/login.html:187 app/templates/main/main_new.html:331
 msgid "WHY?"
-msgstr ""
+msgstr "NEDEN?"
 
 #: app/templates/login/login.html:189 app/templates/main/main_new.html:333
 #: app/templates/sign/createOrganization.html:165
 #: app/templates/sign/createUser.html:165
 #: app/templates/sign/registerOrganization.html:165
 msgid "Why "
-msgstr ""
+msgstr "Neden "
 
 #: app/templates/login/login.html:189 app/templates/main/main_new.html:333
 #: app/templates/sign/createOrganization.html:165
 #: app/templates/sign/createUser.html:165
 #: app/templates/sign/registerOrganization.html:165
 msgid "you’ll love Dr. Scratch"
-msgstr ""
+msgstr "Dr. Scratch'ı çok seveceksiniz"
 
-#: app/templates/login/login.html:193 app/templates/main/main.html:611
+#: app/templates/login/login.html:193 app/templates/main/main.html:614
 #: app/templates/main/main_new.html:337
 msgid "A powerful tool to analyze your Scratch projects"
-msgstr ""
+msgstr "Scratch projelerinizi analiz etmek için güçlü bir araç"
 
 #: app/templates/login/login.html:205 app/templates/main/main_new.html:349
 msgid "Simple & Fun"
-msgstr ""
+msgstr "Basit ve Eğlenceli"
 
 #: app/templates/login/login.html:207 app/templates/main/main_new.html:351
 msgid ""
 "Your students can easily learn how to improve their programming skills in a "
 "fun way."
 msgstr ""
+"Öğrencileriniz, eğlenceli bir şekilde programlama becerilerini nasıl "
+"geliştireceklerini kolayca öğrenebilirler."
 
 #: app/templates/login/login.html:218 app/templates/main/main_new.html:362
 msgid "Improve your skills"
-msgstr ""
+msgstr "Becerilerinizi geliştirin"
 
 #: app/templates/login/login.html:220 app/templates/main/main_new.html:364
 msgid ""
 "We provide feedback on several aspects which are related to Computational "
 "Thinking."
 msgstr ""
+"Bilgisayarca Düşünme ile ilgili çeşitli konularda geri bildirim sağlıyoruz."
 
 #: app/templates/login/login.html:231 app/templates/main/main_new.html:375
 msgid "Always improving"
-msgstr ""
+msgstr "Her zaman gelişiyor"
 
 #: app/templates/login/login.html:233 app/templates/main/main_new.html:377
 msgid ""
 "We're continually enhancing the features of Dr. Scratch, and we'd love to "
 "hear your thoughts"
 msgstr ""
+"Dr. Scratch’ın özelliklerini sürekli geliştiriyoruz ve düşüncelerinizi "
+"duymaktan memnuniyet duyarız."
 
 #: app/templates/login/login.html:270 app/templates/main/main_new.html:414
 msgid "How"
-msgstr ""
+msgstr "Nasıl"
 
 #: app/templates/login/login.html:272 app/templates/main/main_new.html:416
 #: app/templates/organization/organization.html:190
 #: app/templates/sign/organization.html:189
 msgid "How "
-msgstr ""
+msgstr "Nasıl "
 
 #: app/templates/login/login.html:272 app/templates/main/main_new.html:416
 msgid "it works"
-msgstr ""
+msgstr "Çalışıyor"
 
 #: app/templates/login/login.html:277 app/templates/main/main_new.html:421
 msgid "project.png"
@@ -2866,118 +3202,136 @@ msgid ""
 "projects with Dr. Scratch, you can easily check your Computational Thinking "
 "Score."
 msgstr ""
+"Bir sb2 dosyası yükleyebilir veya projeyi bilgisayarınıza indirme ihtiyacı "
+"olmadan sadece proje URL'sini verebilirsiniz. Dr. Scratch ile projelerinizi "
+"analiz ederek, Bilgisayarla Düşünme Puanınızı kolayca kontrol edebilirsiniz."
 
 #: app/templates/login/login.html:323 app/templates/main/main_new.html:467
 msgid "NEW FEATURES"
-msgstr ""
+msgstr "YENİ ÖZELLİKLER"
 
 #: app/templates/login/login.html:325 app/templates/main/main_new.html:469
 msgid "Coming "
-msgstr ""
+msgstr "Gelen "
 
 #: app/templates/login/login.html:325 app/templates/main/main_new.html:469
 msgid "Soon"
-msgstr ""
+msgstr "Yakında"
 
 #: app/templates/login/login.html:329 app/templates/main/main_new.html:473
 msgid "We are working on new features to improve Dr. Scratch"
-msgstr ""
+msgstr "Dr. Scratch'ı geliştirmek için yeni özellikler üzerinde çalışıyoruz."
 
 #: app/templates/login/login.html:344
 msgid "Multilingual Website"
-msgstr ""
+msgstr "Çok Dilli Web Sitesi"
 
-#: app/templates/login/login.html:348 app/templates/main/collaborators.html:270
-#: app/templates/main/collaborators.html:422
+#: app/templates/login/login.html:348 app/templates/main/collaborators.html:281
+#: app/templates/main/collaborators.html:433
 #: app/templates/main/main_new.html:492
 msgid ""
 "We know the importance of receiving feedback on your own language to "
 "understand every little detail or hint, so we'll translate Dr. Scratch to "
 "facilitate coding learning to as many people as possible."
 msgstr ""
+"Her detay veya ipucunu anlamanın önemini biliyoruz, bu yüzden Dr. Scratch'i "
+"mümkün olduğunca çok kişiye kodlama öğrenimini kolaylaştırmak için kendi "
+"dilinize çevireceğiz."
 
 #: app/templates/login/login.html:359
 msgid "Teacher Accounts"
-msgstr ""
+msgstr "Öğretmen Hesapları"
 
 #: app/templates/login/login.html:363 app/templates/main/main_new.html:507
 msgid ""
 "Teachers will be able to group (and follow) their students to keep track of "
 "their progress in a fast and simple way."
 msgstr ""
+"Öğretmenler, öğrencilerini gruplandırabilir (ve takip edebilir) ve "
+"ilerlemelerini hızlı ve basit bir şekilde takip edebilirler."
 
 #: app/templates/login/login.html:374
 msgid "Cloud Platform"
-msgstr ""
+msgstr "Bulut Platformu"
 
 #: app/templates/login/login.html:378 app/templates/main/main_new.html:522
 msgid ""
 "We are in the process of migrating our servers to the Cloud with the aim of "
 "providing a better performance."
 msgstr ""
+"Sunucularımızı daha iyi bir performans sağlamak amacıyla buluta taşıma "
+"sürecindeyiz."
 
 #: app/templates/login/login.html:403 app/templates/main/main_new.html:547
 msgid ""
 "With Dr. Scratch plug-ins for Chrome and Firefox, students will analyze "
 "their project WHILE programming on the Scratch website."
 msgstr ""
+"Dr. Scratch eklentileri ile Chrome ve Firefox için öğrenciler, Scratch web "
+"sitesinde programlama yaparken projelerini analiz edebilecekler."
 
 #: app/templates/login/login.html:414 app/templates/main/main_new.html:558
 msgid "Gamification"
-msgstr ""
+msgstr "Oyun oynamak"
 
 #: app/templates/login/login.html:418 app/templates/main/main_new.html:562
 msgid ""
 "We'd like to take learners curiosity one step further. Do you have cool "
 "ideas to gamify our platform?"
 msgstr ""
+"Öğrencilerin merakını bir adım daha ileriye taşımak istiyoruz. Platformumuzu "
+"oyunlaştırmak için harika fikirleriniz var mı?"
 
 #: app/templates/login/login.html:429
 msgid "Social Network"
-msgstr ""
+msgstr "Sosyal ağ"
 
 #: app/templates/login/login.html:433 app/templates/main/main_new.html:577
 msgid ""
 "The new social network funcionalities will allow users to communicate with "
 "each other to exchange ideas and challenges."
 msgstr ""
+"Yeni sosyal ağ özellikleri, kullanıcıların birbirleriyle iletişim kurarak "
+"fikir ve zorlukları paylaşmalarını sağlayacak."
 
 #: app/templates/login/login.html:453 app/templates/main/main_new.html:597
 msgid "Contact"
-msgstr ""
+msgstr "Temas etmek"
 
-#: app/templates/login/login.html:455 app/templates/main/main.html:695
+#: app/templates/login/login.html:455 app/templates/main/main.html:698
 #: app/templates/main/main_new.html:599
 msgid "<strong>Contact </strong> Dr. Scratch team</h2>"
-msgstr ""
+msgstr "<strong>Temas etmek </strong> Dr. Scratch Ekibi</h2>"
 
 #: app/templates/login/login.html:459 app/templates/main/main_new.html:603
 msgid "We would be pleased to receive your feedback"
-msgstr ""
+msgstr "Geri bildiriminizi memnuniyetle bekliyoruz"
 
 #: app/templates/login/login.html:498 app/templates/main/main_new.html:642
 msgid ""
 "We would like to thank many people for their collaboration and we have done "
 "one special section."
 msgstr ""
+"Birçok kişinin katkılarına teşekkür etmek istiyoruz ve bunun için özel bir "
+"bölüm oluşturduk."
 
 #: app/templates/login/login.html:501 app/templates/main/main_new.html:646
 msgid "Collaborators"
-msgstr ""
+msgstr "İşbirlikçiler"
 
 #: app/templates/login/login.html:520 app/templates/main/main_new.html:666
 msgid "Are you a Dr. Scratch user?"
-msgstr ""
+msgstr "Dr. Scratch kullanıcısı mısınız?"
 
 #: app/templates/login/login.html:523 app/templates/main/main_new.html:669
 msgid "Join now!"
-msgstr ""
+msgstr "Şimdi Katıl!"
 
 #: app/templates/login/login.html:569 app/templates/main/main_new.html:715
 msgid "<img class='framed' src='static/app/images/url-en.png' />"
 msgstr ""
 
-#: app/templates/login/login.html:594 app/templates/main/main.html:825
+#: app/templates/login/login.html:594 app/templates/main/main.html:828
 #: app/templates/main/main_new.html:740
 msgid "<img class='framed' src='static/app/images/project-en.png' />"
 msgstr ""
@@ -2985,17 +3339,17 @@ msgstr ""
 #: app/templates/login/login.html:614
 #: app/templates/main/main_organization.html:300
 msgid "Wait a moment please"
-msgstr ""
+msgstr "Bir dakika lütfen"
 
-#: app/templates/main/collaborators.html:114 app/templates/main/main.html:292
-#: app/templates/main/main.html:843 app/templates/main/main_new.html:156
+#: app/templates/main/collaborators.html:125 app/templates/main/main.html:295
+#: app/templates/main/main.html:846 app/templates/main/main_new.html:156
 #: app/templates/main/main_new.html:758
 msgid "Sign up"
-msgstr ""
+msgstr "Üye olmak"
 
-#: app/templates/main/collaborators.html:122
-#: app/templates/main/collaborators.html:144 app/templates/main/main.html:300
-#: app/templates/main/main.html:322 app/templates/main/main_new.html:164
+#: app/templates/main/collaborators.html:133
+#: app/templates/main/collaborators.html:155 app/templates/main/main.html:303
+#: app/templates/main/main.html:325 app/templates/main/main_new.html:164
 #: app/templates/main/main_new.html:186
 #: app/templates/organization/organization.html:89
 #: app/templates/sign/organization.html:88
@@ -3004,16 +3358,16 @@ msgid ""
 "style='margin-bottom: 15px;'>"
 msgstr ""
 
-#: app/templates/main/collaborators.html:123 app/templates/main/main.html:301
+#: app/templates/main/collaborators.html:134 app/templates/main/main.html:304
 #: app/templates/main/main_new.html:165
 msgid ""
 "<input type='text' name='email' id='email' placeholder='Email' style='margin-"
 "bottom: 15px;'>"
 msgstr ""
 
-#: app/templates/main/collaborators.html:124
-#: app/templates/main/collaborators.html:145 app/templates/main/main.html:302
-#: app/templates/main/main.html:323 app/templates/main/main_new.html:166
+#: app/templates/main/collaborators.html:135
+#: app/templates/main/collaborators.html:156 app/templates/main/main.html:305
+#: app/templates/main/main.html:326 app/templates/main/main_new.html:166
 #: app/templates/main/main_new.html:187
 #: app/templates/organization/organization.html:90
 #: app/templates/sign/organization.html:89
@@ -3022,29 +3376,29 @@ msgid ""
 "style='margin-bottom: 15px;'>"
 msgstr ""
 
-#: app/templates/main/collaborators.html:125 app/templates/main/main.html:303
+#: app/templates/main/collaborators.html:136 app/templates/main/main.html:306
 #: app/templates/main/main_new.html:167
 msgid ""
 "<input class='form-control' type='password' name='hashkey' id='hashkey' "
 "placeholder='Hashkey' style='margin-bottom: 15px;'>"
 msgstr ""
 
-#: app/templates/main/collaborators.html:126 app/templates/main/main.html:304
-#: app/templates/main/main.html:1465 app/templates/main/main_new.html:168
+#: app/templates/main/collaborators.html:137 app/templates/main/main.html:307
+#: app/templates/main/main.html:1468 app/templates/main/main_new.html:168
 #: app/templates/main/main_new.html:1419
 msgid ""
 "<input type='submit' value='Sign up' id='sign-up' class='btn-group btn-group-"
 "justified colored-text'>"
 msgstr ""
 
-#: app/templates/main/collaborators.html:147 app/templates/main/main.html:325
+#: app/templates/main/collaborators.html:158 app/templates/main/main.html:328
 #: app/templates/main/main_new.html:189
 #: app/templates/organization/organization.html:94
 #: app/templates/sign/organization.html:93
 msgid "I forgot my password"
-msgstr ""
+msgstr "Şifremi unuttum"
 
-#: app/templates/main/collaborators.html:149 app/templates/main/main.html:327
+#: app/templates/main/collaborators.html:160 app/templates/main/main.html:330
 #: app/templates/main/main_new.html:191
 #: app/templates/organization/organization.html:97
 #: app/templates/sign/organization.html:96
@@ -3053,420 +3407,442 @@ msgid ""
 "justified colored-text'>"
 msgstr ""
 
-#: app/templates/main/collaborators.html:180
+#: app/templates/main/collaborators.html:191
 msgid "Thanks all of you!"
-msgstr ""
+msgstr "Size hepinize teşekkürler!"
 
-#: app/templates/main/collaborators.html:182
+#: app/templates/main/collaborators.html:193
 msgid ""
 "We are so pleased to receive so much help of you and we thought that the "
 "best way of show our appreciation is including your work in the website. In "
 "this space you can see who people help us to improve Dr. Scratch!"
 msgstr ""
+"Sizden bu kadar çok yardım aldığımız için çok mutluyuz ve minnettarlığımızı "
+"göstermek için en iyi yolun çalışmalarınızı web sitesinde sergilemek "
+"olduğuna karar verdik. Bu alanda, Dr. Scratch'ı geliştirmemize yardımcı olan "
+"kişileri görebilirsiniz!"
 
-#: app/templates/main/collaborators.html:248
+#: app/templates/main/collaborators.html:259
 msgid "Who we are"
-msgstr ""
+msgstr "Biz kimiz"
 
-#: app/templates/main/collaborators.html:252
+#: app/templates/main/collaborators.html:263
 msgid "Dr. Scratch's team likes to thank you for your contributions."
-msgstr ""
+msgstr "Dr. Scratch ekibi katkılarınız için teşekkür etmek ister."
 
-#: app/templates/main/collaborators.html:266
+#: app/templates/main/collaborators.html:277
 msgid "Team Members"
-msgstr ""
+msgstr "Takım üyeleri"
 
-#: app/templates/main/collaborators.html:271
-#: app/templates/main/collaborators.html:423
+#: app/templates/main/collaborators.html:282
+#: app/templates/main/collaborators.html:434
 msgid ""
 "Would you like help us to translate Dr. Scratch to your language? Many "
 "people have already helped us! "
 msgstr ""
+"Dr. Scratch'ı kendi dilinize çevirmemize yardım etmek ister misiniz? Birçok "
+"kişi bize zaten yardımcı oldu!"
 
-#: app/templates/main/collaborators.html:286
-#: app/templates/main/collaborators.html:308
-#: app/templates/main/collaborators.html:328
-#: app/templates/main/collaborators.html:350
-#: app/templates/main/collaborators.html:372
-#: app/templates/main/collaborators.html:391
+#: app/templates/main/collaborators.html:297
+#: app/templates/main/collaborators.html:319
+#: app/templates/main/collaborators.html:339
+#: app/templates/main/collaborators.html:361
+#: app/templates/main/collaborators.html:383
+#: app/templates/main/collaborators.html:402
 msgid "Developer"
-msgstr ""
+msgstr "Geliştirici"
 
-#: app/templates/main/collaborators.html:326
+#: app/templates/main/collaborators.html:337
 msgid "Angela Vargas"
 msgstr ""
 
-#: app/templates/main/collaborators.html:348
+#: app/templates/main/collaborators.html:359
 msgid "Cristian Chushig"
 msgstr ""
 
-#: app/templates/main/collaborators.html:418
+#: app/templates/main/collaborators.html:429
 msgid "Translations"
-msgstr ""
+msgstr "Çeviriler"
 
-#: app/templates/main/collaborators.html:437
-#: app/templates/main/collaborators.html:523 drScratch/settings.py:97
+#: app/templates/main/collaborators.html:448
+#: app/templates/main/collaborators.html:534 drScratch/settings.py:97
 msgid "Portuguese"
-msgstr ""
+msgstr "Portekizce"
 
-#: app/templates/main/collaborators.html:459 drScratch/settings.py:98
+#: app/templates/main/collaborators.html:470 drScratch/settings.py:98
 msgid "Greek"
-msgstr ""
+msgstr "Yunan"
 
-#: app/templates/main/collaborators.html:477
+#: app/templates/main/collaborators.html:488
 msgid "Pau Nin"
 msgstr ""
 
-#: app/templates/main/collaborators.html:479 drScratch/settings.py:95
+#: app/templates/main/collaborators.html:490 drScratch/settings.py:95
 msgid "Catalan"
-msgstr ""
+msgstr "Katalanca"
 
-#: app/templates/main/collaborators.html:497
+#: app/templates/main/collaborators.html:508
 msgid "Gonzalo García Fernández"
 msgstr ""
 
-#: app/templates/main/collaborators.html:499 drScratch/settings.py:96
+#: app/templates/main/collaborators.html:510 drScratch/settings.py:96
 msgid "Galician"
-msgstr ""
+msgstr "Galiçyaca"
 
-#: app/templates/main/collaborators.html:521
+#: app/templates/main/collaborators.html:532
 msgid "Adelmo Eloy"
 msgstr ""
 
-#: app/templates/main/collaborators.html:547
+#: app/templates/main/collaborators.html:558
 msgid "Workshops"
-msgstr ""
+msgstr "Atölyeler"
 
-#: app/templates/main/collaborators.html:551
+#: app/templates/main/collaborators.html:562
 msgid ""
 "We are collaborating with several schools where we can prove the website "
 "with children and see which features they need."
 msgstr ""
+"Çocuklarla web sitesini test edebileceğimiz ve hangi özelliklere ihtiyaç "
+"duyduklarını görebileceğimiz birkaç okul ile iş birliği yapıyoruz."
 
-#: app/templates/main/collaborators.html:552
+#: app/templates/main/collaborators.html:563
 msgid "Thanks all of children and teachers who help us with the development!"
-msgstr ""
+msgstr "Yardım eden tüm çocuklara ve öğretmenlere teşekkürler!"
 
-#: app/templates/main/collaborators.html:578
+#: app/templates/main/collaborators.html:589
 msgid "CEIP Lope de Vega"
 msgstr ""
 
-#: app/templates/main/collaborators.html:582
+#: app/templates/main/collaborators.html:593
 msgid "Teacher: Jorge Lobo"
-msgstr ""
+msgstr "Öğretmen: Jorge Lobo"
 
-#: app/templates/main/collaborators.html:611
+#: app/templates/main/collaborators.html:622
 msgid "CEIP Gonzalo Fernández de Córdoba"
 msgstr ""
 
-#: app/templates/main/collaborators.html:615
+#: app/templates/main/collaborators.html:626
 msgid "Teacher: Chema Gonzalez"
-msgstr ""
+msgstr "Öğretmen: Chema Gonzalez"
 
-#: app/templates/main/collaborators.html:633
+#: app/templates/main/collaborators.html:644
 msgid "<strong>More thanks</strong></h2>"
-msgstr ""
+msgstr "<strong>Daha fazla teşekkürler</strong></h2>"
 
-#: app/templates/main/compare-uploader.html:218
+#: app/templates/main/compare-uploader.html:222
 msgid "Do you want to compare two projects?"
-msgstr ""
+msgstr "İki projeyi karşılaştırmak ister misiniz?"
 
-#: app/templates/main/compare-uploader.html:219
+#: app/templates/main/compare-uploader.html:223
 msgid "Upload your two projects to compare them now!"
-msgstr ""
-
-#: app/templates/main/compare-uploader.html:224
-msgid "Original Project"
-msgstr ""
+msgstr "Şimdi iki projenizi yükleyin ve karşılaştırın!"
 
 #: app/templates/main/compare-uploader.html:228
-msgid "New Project"
-msgstr ""
+msgid "Original Project"
+msgstr "Orijinal Proje"
 
-#: app/templates/main/compare-uploader.html:237
+#: app/templates/main/compare-uploader.html:232
+msgid "New Project"
+msgstr "Orijinal Proje"
+
+#: app/templates/main/compare-uploader.html:241
 msgid ""
 "<input name=\"urlProject\" id=\"cf-name-base\" class=\"form-control input-"
 "box placeholder\" placeholder=\"http:/scratch.mit.edu/projects/your_number\" "
 "type=\"text\">"
 msgstr ""
+"<input name=\"urlProject\" id=\"cf-name-base\" class=\"form-control input-"
+"box placeholder\" placeholder=\"http:/scratch.mit.edu/projects/Numaran\" "
+"type=\"text\">"
 
-#: app/templates/main/compare-uploader.html:250
+#: app/templates/main/compare-uploader.html:254
 msgid ""
 "<input name='zipFile' id='file-base' type='file' class='filestyle' data-"
 "buttonText='Choose Project'>"
 msgstr ""
+"<input name='zipFile' id='file-base' type='file' class='filestyle' data-"
+"buttonText='Projeyi Seçin'>"
 
-#: app/templates/main/compare-uploader.html:254
+#: app/templates/main/compare-uploader.html:258
 msgid ""
 "<input name='zipFile' id='file' type='file' class='filestyle' data-"
 "buttonText='Choose Project'>"
 msgstr ""
+"<input name='zipFile' id='file' type='file' class='filestyle' data-"
+"buttonText='Projeyi Seçin'>"
 
-#: app/templates/main/compare-uploader.html:261
+#: app/templates/main/compare-uploader.html:265
 #: app/templates/main/dashboard-default.html:719
 #: app/templates/main/dashboard-default.html:1049
 msgid "Is the new project an update from the original?"
-msgstr ""
+msgstr "Yeni proje, orijinalinin bir güncellemesi mi?"
 
-#: app/templates/main/compare-uploader.html:266
+#: app/templates/main/compare-uploader.html:270
 #: app/templates/main/dashboard-default.html:724
 #: app/templates/main/dashboard-default.html:1054
 msgid "Yes"
-msgstr ""
+msgstr "Evet"
 
-#: app/templates/main/compare-uploader.html:272
+#: app/templates/main/compare-uploader.html:276
 #: app/templates/main/dashboard-default.html:730
 #: app/templates/main/dashboard-default.html:1060
 msgid "No"
-msgstr ""
+msgstr "Hayir"
 
-#: app/templates/main/compare-uploader.html:277
-#: app/templates/main/main.html:598
+#: app/templates/main/compare-uploader.html:281
+#: app/templates/main/main.html:601
 msgid "Compare Projects"
-msgstr ""
+msgstr "Projeleri Karşılaştır"
 
-#: app/templates/main/compare-uploader.html:280
-#: app/templates/main/compare-uploader.html:283
-#: app/templates/main/main.html:433 app/templates/main/rubric-uploader.html:176
-#: app/templates/main/rubric-uploader.html:179
+#: app/templates/main/compare-uploader.html:284
+#: app/templates/main/compare-uploader.html:287
+#: app/templates/main/main.html:436 app/templates/main/rubric-uploader.html:180
+#: app/templates/main/rubric-uploader.html:183
 msgid "Error! Please choose a .sb or .sb3 file or input an url"
-msgstr ""
+msgstr "Hata! Lütfen bir .sb veya .sb3 dosyası seçin ya da bir URL girin."
 
-#: app/templates/main/compare-uploader.html:306
+#: app/templates/main/compare-uploader.html:310
 msgid "You can only submit a URL or a File, not both at the same time."
 msgstr ""
+"Yalnızca bir URL veya bir dosya gönderebilirsiniz, aynı anda ikisini birden "
+"değil."
 
-#: app/templates/main/compare-uploader.html:309
-#: app/templates/main/dashboard-compare.html:1035
-#: app/templates/main/dashboard-compare.html:1090
+#: app/templates/main/compare-uploader.html:313
+#: app/templates/main/dashboard-compare.html:1039
+#: app/templates/main/dashboard-compare.html:1094
 #: app/templates/main/dashboard-default.html:1234
 #: app/templates/main/dashboard-personal.html:331
 msgid "Close"
-msgstr ""
+msgstr "Kapalı"
 
-#: app/templates/main/compare-uploader.html:329
-#: app/templates/main/main.html:753 app/templates/main/rubric-uploader.html:210
+#: app/templates/main/compare-uploader.html:333
+#: app/templates/main/main.html:756 app/templates/main/rubric-uploader.html:214
 msgid ""
 "<img class='framed' style='width: 500px;' src='static/app/images/url-en."
 "png' />"
 msgstr ""
 
-#: app/templates/main/compare-uploader.html:354
-#: app/templates/main/main.html:778 app/templates/main/rubric-uploader.html:233
+#: app/templates/main/compare-uploader.html:358
+#: app/templates/main/main.html:781 app/templates/main/rubric-uploader.html:237
 msgid ""
 "<img class='framed' style='width: 500px;' src='static/app/images/project-en."
 "png' />"
 msgstr ""
 
-#: app/templates/main/compare-uploader.html:399
+#: app/templates/main/compare-uploader.html:403
 msgid "comparing..."
-msgstr ""
+msgstr "karşılaştırma..."
 
-#: app/templates/main/contact-form.html:130
-#: app/templates/main/contact-form.html:147
+#: app/templates/main/contact-form.html:134
+#: app/templates/main/contact-form.html:151
 msgid "Tell us how your experience went..."
-msgstr ""
+msgstr "Deneyiminizi bize anlatın..."
 
-#: app/templates/main/contact-form.html:132
+#: app/templates/main/contact-form.html:136
 msgid "Fill out the form and we will contact you as soon as possible"
-msgstr ""
+msgstr "Formu doldurun ve en kısa sürede sizinle iletişime geçeceğiz."
 
-#: app/templates/main/contact-form.html:137
+#: app/templates/main/contact-form.html:141
 msgid "Your name"
-msgstr ""
-
-#: app/templates/main/contact-form.html:138
-msgid "Enter your name"
-msgstr ""
-
-#: app/templates/main/contact-form.html:139
-#: app/templates/main/contact-form.html:144
-msgid "Obligatory"
-msgstr ""
+msgstr "Adınız"
 
 #: app/templates/main/contact-form.html:142
-msgid "Your email"
-msgstr ""
+msgid "Enter your name"
+msgstr "Adınızı giriniz"
 
 #: app/templates/main/contact-form.html:143
-msgid "Enter email"
-msgstr ""
+#: app/templates/main/contact-form.html:148
+msgid "Obligatory"
+msgstr "Zorunlu"
 
-#: app/templates/main/contact-form.html:150
+#: app/templates/main/contact-form.html:146
+msgid "Your email"
+msgstr "E-posta adresiniz"
+
+#: app/templates/main/contact-form.html:147
+msgid "Enter email"
+msgstr "E-posta girin"
+
+#: app/templates/main/contact-form.html:154
 msgid ""
 "<input  name='contact_media' type='file' class='filestyle' data-"
 "buttonText='Upload media'>"
 msgstr ""
+"<input  name='contact_media' type='file' class='filestyle' data-"
+"buttonText='Medya yükle'>"
 
 #: app/templates/main/dashboard-bulk-emailv.html:161
 #: app/templates/main/dashboard-bulk.html:209
 #: app/templates/main/dashboard-bulk_ol.html:120
 msgid "Analysis Complete!!"
-msgstr ""
+msgstr "Analiz Tamamlandı!!"
 
 #: app/templates/main/dashboard-bulk-emailv.html:165
 #: app/templates/main/dashboard-bulk.html:213
 #: app/templates/main/dashboard-bulk_ol.html:124
 msgid "You can download the csv clicking "
-msgstr ""
+msgstr "CSV'yi indirmek için tıklayın"
 
 #: app/templates/main/dashboard-bulk-emailv.html:165
 #: app/templates/main/dashboard-bulk.html:213
 #: app/templates/main/dashboard-bulk_ol.html:124
 msgid "HERE"
-msgstr ""
+msgstr "BURADA"
 
 #: app/templates/main/dashboard-bulk-emailv.html:174
 #: app/templates/main/dashboard-bulk.html:222
 #: app/templates/main/dashboard-bulk_ol.html:133
 msgid "Summary: "
-msgstr ""
+msgstr "Özet: "
 
 #: app/templates/main/dashboard-bulk-emailv.html:175
 #: app/templates/main/dashboard-bulk.html:223
 msgid "Projects Analyzed: "
-msgstr ""
+msgstr "Analiz Edilen Projeler: "
 
 #: app/templates/main/dashboard-bulk-emailv.html:176
 #: app/templates/main/dashboard-bulk.html:224
 #: app/templates/main/dashboard-bulk_ol.html:136
 msgid "Average Score: "
-msgstr ""
+msgstr "Not ortalaması: "
 
 #: app/templates/main/dashboard-bulk-emailv.html:210
 #: app/templates/main/dashboard-bulk.html:258
 #: app/templates/main/dashboard-bulk_ol.html:170
 msgid "Average Mastery: "
-msgstr ""
+msgstr "Ortalama Ustalık: "
 
 #: app/templates/main/dashboard-bulk-landing.html:156
 msgid "Thanks for using Dr.Scratch!!"
-msgstr ""
+msgstr "Dr. Scratch'i kullandığınız için teşekkürler!!"
 
 #: app/templates/main/dashboard-bulk-landing.html:157
 msgid ""
 "Our servers are processing each of your projects. When finished, we will "
 "notify your email with a full report including the CSV with the results."
 msgstr ""
+"Sunucularımız projelerinizi işliyor. İşlem tamamlandığında, sonuçları içeren "
+"CSV dosyasıyla birlikte ayrıntılı bir raporu e-posta adresinize göndereceğiz."
 
 #: app/templates/main/dashboard-bulk.html:183
 msgid "The mean level of your projects is..."
-msgstr ""
+msgstr "Projelerinizin ortalama seviyesi..."
 
 #: app/templates/main/dashboard-bulk_ol.html:190
 msgid "©2024 Dr. Scratch"
-msgstr ""
+msgstr "©2024 Dr. Scratch"
 
-#: app/templates/main/dashboard-compare.html:413
-#: app/templates/main/dashboard-compare.html:583
-#: app/templates/main/dashboard-compare.html:873
+#: app/templates/main/dashboard-compare.html:417
+#: app/templates/main/dashboard-compare.html:587
+#: app/templates/main/dashboard-compare.html:877
 msgid "BEFORE"
-msgstr ""
+msgstr "ÖNCE"
 
-#: app/templates/main/dashboard-compare.html:429
-#: app/templates/main/dashboard-compare.html:507
+#: app/templates/main/dashboard-compare.html:433
+#: app/templates/main/dashboard-compare.html:511
 msgid "Blocks and Sprites Usage:"
-msgstr ""
+msgstr "Bloklar ve Karakter Kullanımı:"
 
-#: app/templates/main/dashboard-compare.html:432
-#: app/templates/main/dashboard-compare.html:510
+#: app/templates/main/dashboard-compare.html:436
+#: app/templates/main/dashboard-compare.html:514
 msgid "Total Blocks"
-msgstr ""
-
-#: app/templates/main/dashboard-compare.html:434
-msgid " blocks"
-msgstr ""
+msgstr "Toplam Blok Sayısı"
 
 #: app/templates/main/dashboard-compare.html:438
-#: app/templates/main/dashboard-compare.html:516
+msgid " blocks"
+msgstr " bloklar"
+
+#: app/templates/main/dashboard-compare.html:442
+#: app/templates/main/dashboard-compare.html:520
 msgid "Total Sprites"
-msgstr ""
+msgstr "Toplam Karakter Sayısı"
 
-#: app/templates/main/dashboard-compare.html:440
-#: app/templates/main/dashboard-compare.html:460
+#: app/templates/main/dashboard-compare.html:444
+#: app/templates/main/dashboard-compare.html:464
 msgid " sprites"
-msgstr ""
+msgstr " karakter sayısı"
 
-#: app/templates/main/dashboard-compare.html:445
-#: app/templates/main/dashboard-compare.html:523
+#: app/templates/main/dashboard-compare.html:449
+#: app/templates/main/dashboard-compare.html:527
 msgid "Bad Smells:"
-msgstr ""
+msgstr "Kötü Kokular:"
 
-#: app/templates/main/dashboard-compare.html:450
+#: app/templates/main/dashboard-compare.html:454
 msgid " duplicated"
-msgstr ""
+msgstr " çoğaltılmış"
 
-#: app/templates/main/dashboard-compare.html:455
+#: app/templates/main/dashboard-compare.html:459
 msgid " dead blocks"
-msgstr ""
+msgstr " ölü bloklar"
 
-#: app/templates/main/dashboard-compare.html:465
+#: app/templates/main/dashboard-compare.html:469
 msgid " backdrops"
-msgstr ""
+msgstr " arka plan"
 
-#: app/templates/main/dashboard-compare.html:471
-#: app/templates/main/dashboard-compare.html:549
+#: app/templates/main/dashboard-compare.html:475
+#: app/templates/main/dashboard-compare.html:553
 msgid " Go to Vanilla Mode."
-msgstr ""
+msgstr " Vanilla Moduna Geç"
 
-#: app/templates/main/dashboard-compare.html:491
-#: app/templates/main/dashboard-compare.html:602
-#: app/templates/main/dashboard-compare.html:883
+#: app/templates/main/dashboard-compare.html:495
+#: app/templates/main/dashboard-compare.html:606
+#: app/templates/main/dashboard-compare.html:887
 msgid "AFTER"
-msgstr ""
+msgstr "SONRA"
 
-#: app/templates/main/dashboard-compare.html:512
+#: app/templates/main/dashboard-compare.html:516
 msgid " blocks "
-msgstr ""
+msgstr " bloklar "
 
-#: app/templates/main/dashboard-compare.html:518
-#: app/templates/main/dashboard-compare.html:538
+#: app/templates/main/dashboard-compare.html:522
+#: app/templates/main/dashboard-compare.html:542
 msgid " sprites "
-msgstr ""
+msgstr " karakter sayısı "
 
-#: app/templates/main/dashboard-compare.html:528
+#: app/templates/main/dashboard-compare.html:532
 msgid " duplicated "
-msgstr ""
+msgstr " çoğaltılmış "
 
-#: app/templates/main/dashboard-compare.html:533
+#: app/templates/main/dashboard-compare.html:537
 msgid " dead blocks "
-msgstr ""
+msgstr " ölü bloklar "
 
-#: app/templates/main/dashboard-compare.html:543
+#: app/templates/main/dashboard-compare.html:547
 msgid " backdrops "
-msgstr ""
+msgstr " arka plan "
 
-#: app/templates/main/dashboard-compare.html:563
+#: app/templates/main/dashboard-compare.html:567
+#: app/templates/main/dashboard-compare.html:1214
 msgid "Show more"
-msgstr ""
+msgstr "Daha fazla göster"
 
-#: app/templates/main/dashboard-compare.html:574
+#: app/templates/main/dashboard-compare.html:578
 msgid "Similarity Percentage"
-msgstr ""
+msgstr "Benzerlik Yüzdesi"
 
-#: app/templates/main/dashboard-compare.html:575
+#: app/templates/main/dashboard-compare.html:579
 msgid "Percentage of Similarity between the 2 Projects"
-msgstr ""
+msgstr "İki Proje Arasındaki Benzerlik Yüzdesi"
 
-#: app/templates/main/dashboard-compare.html:622
+#: app/templates/main/dashboard-compare.html:626
 msgid "Block Types Distribution (Before)"
-msgstr ""
+msgstr "Blok Türleri Dağılımı (Önce)"
 
-#: app/templates/main/dashboard-compare.html:623
-#: app/templates/main/dashboard-compare.html:640
+#: app/templates/main/dashboard-compare.html:627
+#: app/templates/main/dashboard-compare.html:644
 msgid "Distribution of Block Types in the Projects"
-msgstr ""
+msgstr "Projelerdeki Blok Türlerinin Dağılımı"
 
-#: app/templates/main/dashboard-compare.html:639
+#: app/templates/main/dashboard-compare.html:643
 msgid "Block Types Distribution (After)"
-msgstr ""
+msgstr "Blok Türleri Dağılımı (Sonra)"
 
-#: app/templates/main/dashboard-compare.html:665
+#: app/templates/main/dashboard-compare.html:669
 msgid "Original Bad habits"
-msgstr ""
+msgstr "Orijinal Kötü Alışkanlıklar"
 
-#: app/templates/main/dashboard-compare.html:666
-#: app/templates/main/dashboard-compare.html:765
+#: app/templates/main/dashboard-compare.html:670
+#: app/templates/main/dashboard-compare.html:769
 #: app/templates/main/dashboard-default.html:315
 #: app/templates/main/dashboard-default.html:592
 #: app/templates/main/dashboard-default.html:924
@@ -3475,496 +3851,551 @@ msgid ""
 "Specific parts of the project that do not contribute to good programming "
 "practices"
 msgstr ""
+"İyi programlama uygulamalarına katkıda bulunmayan projedeki belirli kısımlar"
 
-#: app/templates/main/dashboard-compare.html:764
+#: app/templates/main/dashboard-compare.html:768
 #: app/templates/main/dashboard-default.html:314
 msgid "New Bad habits"
-msgstr ""
+msgstr "Yeni Kötü Alışkanlıklar"
 
-#: app/templates/main/dashboard-compare.html:867
+#: app/templates/main/dashboard-compare.html:871
 #: app/templates/main/dashboard-default.html:760
 #: app/templates/main/dashboard-default.html:1093
 #: app/templates/main/dashboard-personal.html:196
 msgid "Dimensions Evaluated in your Scratch Project"
-msgstr ""
+msgstr "Scratch Projenizde Değerlendirilen Boyutlar"
 
-#: app/templates/main/dashboard-compare.html:877
-#: app/templates/main/dashboard-compare.html:887
+#: app/templates/main/dashboard-compare.html:881
+#: app/templates/main/dashboard-compare.html:891
 #: app/templates/main/dashboard-personal.html:202
 msgid "Grade of each Dimension"
-msgstr ""
+msgstr "Her Boyutun Puanı"
 
-#: app/templates/main/dashboard-compare.html:986
-#: app/templates/main/dashboard-compare.html:1041
+#: app/templates/main/dashboard-compare.html:990
+#: app/templates/main/dashboard-compare.html:1045
 #: app/templates/main/dashboard-default.html:1185
 #: app/templates/main/dashboard-personal.html:282
 msgid "Duplicates"
-msgstr ""
+msgstr "Kopyalar"
 
-#: app/templates/main/dashboard-compare.html:999
-#: app/templates/main/dashboard-compare.html:1054
+#: app/templates/main/dashboard-compare.html:1003
+#: app/templates/main/dashboard-compare.html:1058
 #: app/templates/main/dashboard-default.html:1198
 #: app/templates/main/dashboard-personal.html:295
 msgid "Display Original Blocks!"
-msgstr ""
+msgstr "Orijinal Blokları Göster!"
 
-#: app/templates/main/dashboard-compare.html:1004
-#: app/templates/main/dashboard-compare.html:1059
+#: app/templates/main/dashboard-compare.html:1008
+#: app/templates/main/dashboard-compare.html:1063
 #: app/templates/main/dashboard-default.html:1203
 #: app/templates/main/dashboard-personal.html:300
 msgid "Display Solution!"
-msgstr ""
-
-#: app/templates/main/dashboard-compare.html:1126
-msgid "Congrats!!"
-msgstr ""
-
-#: app/templates/main/dashboard-compare.html:1127
-msgid "You have improved this project by "
-msgstr ""
+msgstr "Çözümü Göster!"
 
 #: app/templates/main/dashboard-compare.html:1130
-msgid "Oops..."
-msgstr ""
+msgid "Congrats!!"
+msgstr "Tebrikler!!"
 
 #: app/templates/main/dashboard-compare.html:1131
+msgid "You have improved this project by "
+msgstr "Bu projeyi şu kadar geliştirdiniz "
+
+#: app/templates/main/dashboard-compare.html:1134
+msgid "Oops..."
+msgstr "Eyvah..."
+
+#: app/templates/main/dashboard-compare.html:1135
 msgid "You have dropped this project by "
-msgstr ""
+msgstr "Bu projeyi şu kadar kötüleştirdiniz "
 
-#: app/templates/main/dashboard-compare.html:1264
+#: app/templates/main/dashboard-compare.html:1217
+msgid "Show less"
+msgstr "Az göster"
+
+#: app/templates/main/dashboard-compare.html:1268
 msgid "This is the original ' + compareType + '."
-msgstr ""
+msgstr "Bu orijinal ' + compareType + '."
 
-#: app/templates/main/dashboard-compare.html:1269
+#: app/templates/main/dashboard-compare.html:1273
 msgid ""
 "Congratulations!! You have erase all your ' + compareType + ' of your project"
-msgstr ""
+msgstr "Tebrikler!! Projenizdeki tüm ' + compareType + ' öğelerini sildiniz."
 
-#: app/templates/main/dashboard-compare.html:1271
+#: app/templates/main/dashboard-compare.html:1275
 msgid ""
 "Congrats!! You have decrease the number of ' + compareType + ' in your "
 "project, keep it up !!"
 msgstr ""
+"Tebrikler!! Projenizdeki ' + compareType + ' sayısını azalttınız, devam "
+"edin !!"
 
-#: app/templates/main/dashboard-compare.html:1273
+#: app/templates/main/dashboard-compare.html:1277
 msgid ""
 "Oops... You have increase the number of ' + compareType + ' in your project, "
 "try to erase them !!"
 msgstr ""
+"Oops... Projenizdeki ' + compareType + ' sayısını artırdınız, onları silmeye "
+"çalışın !!"
 
-#: app/templates/main/dashboard-compare.html:1275
+#: app/templates/main/dashboard-compare.html:1279
 msgid ""
 "You have the same the number of ' + compareType + ' in your project, try to "
 "erase them !!"
 msgstr ""
+"Projenizdeki ' + compareType + ' sayısı aynı kaldı, onları silmeye çalışın !!"
 
 #: app/templates/main/dashboard-default.html:264
 msgid "New Score:"
-msgstr ""
+msgstr "Yeni Puan:"
 
 #: app/templates/main/dashboard-default.html:271
 msgid "The new level of your project is..."
-msgstr ""
+msgstr "Projenizin yeni seviyesi..."
 
 #: app/templates/main/dashboard-default.html:520
 #: app/templates/main/dashboard-default.html:853
 #: app/templates/main/dashboard-personal.html:18
 msgid "Want a Ferret-Advice?"
-msgstr ""
+msgstr "Ferret Tavsiyesi mi Almak İstersiniz?"
 
 #: app/templates/main/dashboard-default.html:522
 #: app/templates/main/dashboard-default.html:855
 #: app/templates/main/dashboard-personal.html:20
 msgid "Want a Banana-Tip?"
-msgstr ""
+msgstr "Bir Muz-Tavsiyesi Mi İstersiniz?"
 
 #: app/templates/main/dashboard-default.html:524
 #: app/templates/main/dashboard-default.html:857
 #: app/templates/main/dashboard-personal.html:22
 msgid "Want a Kitty-Guidance?"
-msgstr ""
+msgstr "Bir Kedi-Kılavuzu Mu İstersiniz?"
 
 #: app/templates/main/dashboard-default.html:559
 #: app/templates/main/dashboard-default.html:892
 #: app/templates/main/dashboard-personal.html:51
 msgid "The level of your project is..."
-msgstr ""
+msgstr "Projenizin seviyesi..."
 
 #: app/templates/main/dashboard-default.html:686
 #: app/templates/main/dashboard-default.html:1018
 #: app/templates/main/dashboard-personal.html:169
 msgid "Certificate of the Evaluation of your Scratch Project"
-msgstr ""
+msgstr "Scratch Projenizin Değerlendirme Sertifikası"
 
 #: app/templates/main/dashboard-default.html:706
 #: app/templates/main/dashboard-default.html:1037
 msgid "Compare project"
-msgstr ""
+msgstr "Projeyi Karşılaştır"
 
 #: app/templates/main/dashboard-default.html:707
 #: app/templates/main/dashboard-default.html:1038
 msgid "Upload the new project in order to compare it with the actual"
-msgstr ""
+msgstr "Yeni projeyi mevcut projeyle karşılaştırmak için yükleyin."
 
 #: app/templates/main/dashboard-default.html:716
-#: app/templates/main/main.html:574
+#: app/templates/main/main.html:577
 msgid "Please enter a project!"
-msgstr ""
+msgstr "Lütfen bir proje girin!"
 
 #: app/templates/main/dashboard-default.html:734
 #: app/templates/main/dashboard-default.html:1064
 msgid "Compare projects"
-msgstr ""
+msgstr "Projeyi Karşılaştır"
 
 #: app/templates/main/dashboard-default.html:766
 #: app/templates/main/dashboard-default.html:1099
 msgid "Grade from 1 to 3 of each Dimension"
-msgstr ""
+msgstr "Her Boyutun 1'den 3'e Derecelendirmesi"
 
-#: app/templates/main/main.html:231
+#: app/templates/main/main.html:234
 msgid "Your browser does not support the video tag."
-msgstr ""
+msgstr "Tarayıcınız video etiketini desteklemiyor."
 
-#: app/templates/main/main.html:363
+#: app/templates/main/main.html:366
 msgid "This is a Beta version"
-msgstr ""
+msgstr "Bu bir Beta sürümüdür."
 
-#: app/templates/main/main.html:365 app/templates/main/main.html:699
+#: app/templates/main/main.html:368 app/templates/main/main.html:702
 msgid ""
 "We are still working on it. If you have any comments or ideas please contact "
 "us"
 msgstr ""
+"Üzerinde çalışmaya devam ediyoruz. Yorumlarınız veya fikirleriniz varsa "
+"lütfen bizimle iletişime geçin."
 
-#: app/templates/main/main.html:365 app/templates/main/main.html:699
+#: app/templates/main/main.html:368 app/templates/main/main.html:702
 msgid "here"
-msgstr ""
+msgstr "Burada"
 
-#: app/templates/main/main.html:369 app/templates/main/main_new.html:226
+#: app/templates/main/main.html:372 app/templates/main/main_new.html:226
 msgid ""
 "Welcome to the Dr. Scratch website, an analytical tool that evaluates your "
 "Scratch projects in a variety of computational areas. This analyzer is a "
 "helpful tool to evaluate your own projects, or those of your Scratch "
 "students."
 msgstr ""
+"Dr. Scratch web sitesine hoş geldiniz, Scratch projelerinizi çeşitli "
+"hesaplamalı alanlarda değerlendiren bir analiz aracı. Bu analiz aracı, kendi "
+"projelerinizi veya Scratch öğrencilerinizin projelerini değerlendirmek için "
+"yararlı bir araçtır."
 
-#: app/templates/main/main.html:404
+#: app/templates/main/main.html:407
 msgid "Please paste a project url"
-msgstr ""
+msgstr "Lütfen bir proje URL'si yapıştırın"
 
-#: app/templates/main/main.html:415
+#: app/templates/main/main.html:418
 msgid ""
 "<input name=\"zipFile\" id=\"cf-upload\" type=\"file\" class=\"filestyle\" "
 "data-buttonText=\"Choose Project\">"
 msgstr ""
+"<input name=\"zipFile\" id=\"cf-upload\" type=\"file\" class=\"filestyle\" "
+"data-buttonText=\"Proje Seçin\">"
 
-#: app/templates/main/main.html:417
+#: app/templates/main/main.html:420
 msgid "Please upload a project"
-msgstr ""
+msgstr "Lütfen bir proje yükleyin"
 
-#: app/templates/main/main.html:512
+#: app/templates/main/main.html:515
 msgid "IMPORTANT!"
-msgstr ""
+msgstr "ÖNEMLİ!"
 
-#: app/templates/main/main.html:512
+#: app/templates/main/main.html:515
 msgid ""
 "Please upload a <span class='colored-text'><a data-toggle='modal' "
 "href='#modalTxt'>txt</a></span> containing the URLs of the projects, with "
 "each URL on a separate line. Or a zip containing the .sb3 (Max. 10)"
 msgstr ""
+"Lütfen her URL'yi ayrı bir satıra yerleştirerek projelerin URL'lerini içeren "
+"bir <span class='colored-text'><a data-toggle='modal' href='#modalTxt'>txt</"
+"a></span> dosyası yükleyin. Alternatif olarak, en fazla 10 adet .sb3 "
+"dosyasını içeren bir zip dosyası yükleyebilirsiniz."
 
-#: app/templates/main/main.html:515
+#: app/templates/main/main.html:518
 msgid ""
 "<input name='urlsFile' type='file' class='filestyle' data-buttonText='Choose "
 "txt or zip'>"
 msgstr ""
+"<input name='urlsFile' type='file' class='filestyle' data-buttonText='txt "
+"veya zip Seçin'>"
 
-#: app/templates/main/main.html:516
+#: app/templates/main/main.html:519
 msgid ""
 "<input name=\"batch-email\" class=\"form-control input-box placeholder\" "
 "placeholder=\"your@email.com\" type=\"text\">"
 msgstr ""
+"<input name=\"batch-email\" class=\"form-control input-box placeholder\" "
+"placeholder=\"your@email.com\" type=\"text\">"
 
-#: app/templates/main/main.html:517
+#: app/templates/main/main.html:520
 msgid "Please enter an email!"
-msgstr ""
+msgstr "Lütfen bir e-posta adresi girin!"
 
-#: app/templates/main/main.html:518
+#: app/templates/main/main.html:521
 msgid "Please upload a txt/zip file!"
-msgstr ""
+msgstr "Lütfen bir txt/zip dosyası yükleyin!"
 
-#: app/templates/main/main.html:519
+#: app/templates/main/main.html:522
 #: app/templates/main/main_organization.html:183
-#: app/templates/main/rubric-uploader.html:168
+#: app/templates/main/rubric-uploader.html:172
 #: app/templates/organization/main.html:62
 #: app/templates/upload/dashboard-organization.html:155
 msgid "Analyze my projects"
-msgstr ""
+msgstr "Projelerimi analiz et"
 
-#: app/templates/main/main.html:540
+#: app/templates/main/main.html:543
 msgid ""
 "The personalized mode allows you to create a personalized rubric for "
 "evaluate projects by your own criteria, after this you can share a link "
 "associated to your rubric to evaluate your students."
 msgstr ""
+"Özelleştirilmiş mod, projeleri kendi kriterlerinize göre değerlendirmek için "
+"kişiselleştirilmiş bir rubrik oluşturmanıza olanak tanır. Sonrasında, "
+"öğrencilerinizi değerlendirmek için bu rubrikle ilişkilendirilmiş bir "
+"bağlantıyı paylaşabilirsiniz."
 
-#: app/templates/main/main.html:544
+#: app/templates/main/main.html:547
 msgid "Create rubric"
-msgstr ""
+msgstr "Rubrik oluştur"
 
-#: app/templates/main/main.html:570
+#: app/templates/main/main.html:573
 msgid "Recommender Assistant"
-msgstr ""
+msgstr "Öneri Asistanı"
 
-#: app/templates/main/main.html:571
+#: app/templates/main/main.html:574
 msgid "NEW!!!"
-msgstr ""
+msgstr "YENİ!!!"
 
-#: app/templates/main/main.html:571
+#: app/templates/main/main.html:574
 msgid ""
 "This mode gives you a feedback about the bad smells of your project and how "
 "to solved them with a assistant style."
 msgstr ""
+"Bu mod, projenizdeki kötü kokuları ve bunları bir asistan tarzında nasıl "
+"çözeceğinizi hakkında geri bildirim sağlar."
 
-#: app/templates/main/main.html:573
+#: app/templates/main/main.html:576
 msgid ""
 "<input id=\"input-recom\" name=\"urlProject_recom\"  class=\"form-control "
 "input-box placeholder\" placeholder=\"http:/scratch.mit.edu/projects/"
 "your_number\" type=\"text\">"
 msgstr ""
+"<input id=\"input-recom\" name=\"urlProject_recom\"  class=\"form-control "
+"input-box placeholder\" placeholder=\"http:/scratch.mit.edu/projects/"
+"numaranız\" type=\"text\">"
 
-#: app/templates/main/main.html:575
+#: app/templates/main/main.html:578
 msgid "Analyze my Bad Smells"
-msgstr ""
+msgstr "Bad Smells'larımı Analiz Et"
 
-#: app/templates/main/main.html:592
+#: app/templates/main/main.html:595
 msgid "Comparison Mode"
-msgstr ""
+msgstr "Kıyaslama Modu"
 
-#: app/templates/main/main.html:594
+#: app/templates/main/main.html:597
 msgid ""
 "The comparison mode allows you to compare two different projects, enabling "
 "you to highlight their key differences and gain detailed insights into each."
 msgstr ""
+"Kıyaslama modu, iki farklı projeyi karşılaştırmanıza olanak tanır, böylece "
+"ana farklılıklarını vurgulayabilir ve her birine dair detaylı bilgiler elde "
+"edebilirsiniz."
 
-#: app/templates/main/main.html:626
+#: app/templates/main/main.html:629
 msgid "Winner of "
-msgstr ""
+msgstr "Kazananı "
 
-#: app/templates/main/main.html:639
+#: app/templates/main/main.html:642
 msgid ""
 "For the first time, a Spanish team, made up of researchers from the Rey Juan "
 "Carlos University of Madrid and professors from the Sevillian association "
 "Programamos, has been awarded a Google RISE Award, for the project Dr. "
 "Scratch."
 msgstr ""
+"İlk kez, Madrid'deki Rey Juan Carlos Üniversitesi'nden araştırmacılar ve "
+"Sevilya'daki Programamos derneğinden profesörlerden oluşan bir İspanyol "
+"ekibi, Dr. Scratch projesi için bir Google RISE Ödülü ile ödüllendirildi."
 
-#: app/templates/main/main.html:640
+#: app/templates/main/main.html:643
 msgid "Article of "
-msgstr ""
+msgstr "Makale "
 
-#: app/templates/main/main.html:657
+#: app/templates/main/main.html:660
 msgid "Check the"
-msgstr ""
+msgstr "Kontrol edin"
 
-#: app/templates/main/main.html:657
+#: app/templates/main/main.html:660
 msgid " wiki "
-msgstr ""
+msgstr " wiki "
 
-#: app/templates/main/main.html:657
+#: app/templates/main/main.html:660
 msgid "of Dr.Scratch."
-msgstr ""
+msgstr "Dr. Scratch'ın."
 
-#: app/templates/main/main.html:795 app/templates/main/rubric-uploader.html:250
+#: app/templates/main/main.html:798 app/templates/main/rubric-uploader.html:254
 msgid "What is an txt with scratch's urls?"
-msgstr ""
+msgstr "Scratch URL'leri içeren bir txt nedir?"
 
-#: app/templates/main/main.html:797 app/templates/main/rubric-uploader.html:252
+#: app/templates/main/main.html:800 app/templates/main/rubric-uploader.html:256
 msgid "How is the correct format of the txt?"
-msgstr ""
+msgstr "Txt dosyasının doğru formatı nasıl olmalıdır?"
 
-#: app/templates/main/main.html:801 app/templates/main/rubric-uploader.html:256
+#: app/templates/main/main.html:804 app/templates/main/rubric-uploader.html:260
 msgid ""
 "<img class='framed' style='width: 500px;' src='static/app/images/txt-es."
 "png' />"
 msgstr ""
 
-#: app/templates/main/main.html:854 app/templates/main/main_new.html:775
+#: app/templates/main/main.html:857 app/templates/main/main_new.html:775
 msgid "It's easy -and free- sign up an account in Dr. Scratch"
-msgstr ""
+msgstr "Dr. Scratch'ta hesap oluşturmak kolaydır -ücretsizdir-"
 
-#: app/templates/main/main.html:860 app/templates/main/main_new.html:781
+#: app/templates/main/main.html:863 app/templates/main/main_new.html:781
 msgid "Choose a Dr. Scratch Username"
-msgstr ""
+msgstr "Dr. Scratch Kullanıcı Adı Seçin"
 
-#: app/templates/main/main.html:862 app/templates/main/main_new.html:783
+#: app/templates/main/main.html:865 app/templates/main/main_new.html:783
 msgid ""
 "<input type='text' name='username' id='username' placeholder='Username' />"
 msgstr ""
+"<input type='text' name='username' id='username' placeholder='Kullanıcı "
+"adı' />"
 
-#: app/templates/main/main.html:866 app/templates/main/main_new.html:786
+#: app/templates/main/main.html:869 app/templates/main/main_new.html:786
 msgid "Choose a Password"
-msgstr ""
+msgstr "Bir Şifre Seçin"
 
-#: app/templates/main/main.html:868 app/templates/main/main_new.html:788
+#: app/templates/main/main.html:871 app/templates/main/main_new.html:788
 #: app/templates/main/main_new.html:793
 msgid ""
 "<input type='password' name='password' id='password' placeholder='Password'/>"
 msgstr ""
+"<input type='password' name='password' id='password' placeholder='Şifre'/>"
 
-#: app/templates/main/main.html:872 app/templates/main/main_new.html:791
+#: app/templates/main/main.html:875 app/templates/main/main_new.html:791
 msgid "Confirm Password"
-msgstr ""
+msgstr "Şifreyi Onaylayın"
 
-#: app/templates/main/main.html:875
+#: app/templates/main/main.html:878
 msgid ""
 "<input type='password' name='password_confirm' id='password_confirm' "
 "placeholder='Password'/>"
 msgstr ""
+"<input type='password' name='password_confirm' id='password_confirm' "
+"placeholder='Şifre'/>"
 
-#: app/templates/main/main.html:880
+#: app/templates/main/main.html:883
 msgid ""
 "If you are minor of 16, enter your parent's or guardian's email address and "
 "we will send them an email to confirm this account."
 msgstr ""
+"16 yaşından küçükseniz, ebeveyninizin veya vasinizin e-posta adresini girin "
+"ve bu hesabı onaylamaları için onlara bir e-posta göndereceğiz."
 
-#: app/templates/main/main.html:887 app/templates/main/main_new.html:1382
+#: app/templates/main/main.html:890 app/templates/main/main_new.html:1382
 msgid "Email address"
-msgstr ""
+msgstr "E-posta adresi"
 
-#: app/templates/main/main.html:888 app/templates/main/main_new.html:1383
+#: app/templates/main/main.html:891 app/templates/main/main_new.html:1383
 msgid "Parent's or guardian's email address"
-msgstr ""
+msgstr "Veli veya vasinin e-posta adresi"
 
-#: app/templates/main/main.html:895 app/templates/main/main_new.html:1389
+#: app/templates/main/main.html:898 app/templates/main/main_new.html:1389
 msgid "Confirm email address"
-msgstr ""
+msgstr "E-posta adresini onayla"
 
-#: app/templates/main/main.html:905 app/templates/main/main_new.html:810
+#: app/templates/main/main.html:908 app/templates/main/main_new.html:810
 msgid "Your responses to these questions will be kept private."
-msgstr ""
+msgstr "Bu sorulara verdiğiniz yanıtlar gizli tutulacaktır."
 
-#: app/templates/main/main.html:908 app/templates/main/main_new.html:815
+#: app/templates/main/main.html:911 app/templates/main/main_new.html:815
 msgid "Why do we ask for this info?"
-msgstr ""
+msgstr "Neden bu bilgileri istiyoruz?"
 
-#: app/templates/main/main.html:911 app/templates/main/main.html:924
+#: app/templates/main/main.html:914 app/templates/main/main.html:927
 msgid "Birth Month and Year"
-msgstr ""
+msgstr "Doğum Ayı ve Yılı"
 
-#: app/templates/main/main.html:913
+#: app/templates/main/main.html:916
 msgid ""
 "We use this information to calculate the age range of people who use Dr. "
 "Scratch, and to confirm that you are the owner of the account if you contact "
 "us.  Your birth month and year will not be made public."
 msgstr ""
+"Bu bilgiyi, Dr. Scratch'ı kullanan kişilerin yaş aralığını hesaplamak ve "
+"bizimle iletişime geçtiğinizde hesabın size ait olduğunu doğrulamak için "
+"kullanıyoruz. Doğum ayınız ve yılınız kamuya açıklanmayacaktır."
 
-#: app/templates/main/main.html:916 app/templates/main/main.html:948
+#: app/templates/main/main.html:919 app/templates/main/main.html:951
 msgid "Gender"
-msgstr ""
+msgstr "Cinsiyet"
 
-#: app/templates/main/main.html:918
+#: app/templates/main/main.html:921
 msgid ""
 "This helps the Dr. Scratch design team understand who is using Dr. Scratch, "
 "and provides information that helps us broaden participation.  This "
 "information is not visible on your account, and is only used to describe "
 "overall participation."
 msgstr ""
-
-#: app/templates/main/main.html:926
-msgid "- Month -"
-msgstr ""
-
-#: app/templates/main/main.html:927
-msgid "January"
-msgstr ""
-
-#: app/templates/main/main.html:928
-msgid "February"
-msgstr ""
+"Bu, Dr. Scratch tasarım ekibine Dr. Scratch'ı kimlerin kullandığını anlamaya "
+"yardımcı olur ve katılımı artırmamıza yardımcı olacak bilgiler sağlar. Bu "
+"bilgi hesabınızda görünmez ve yalnızca genel katılımı tanımlamak için "
+"kullanılır."
 
 #: app/templates/main/main.html:929
-msgid "March"
-msgstr ""
+msgid "- Month -"
+msgstr "- Ay -"
 
 #: app/templates/main/main.html:930
-msgid "April"
-msgstr ""
+msgid "January"
+msgstr "Ocak"
 
 #: app/templates/main/main.html:931
-msgid "May"
-msgstr ""
+msgid "February"
+msgstr "Şubat"
 
 #: app/templates/main/main.html:932
-msgid "June"
-msgstr ""
+msgid "March"
+msgstr "Mart"
 
 #: app/templates/main/main.html:933
-msgid "July"
-msgstr ""
+msgid "April"
+msgstr "Nisan"
 
 #: app/templates/main/main.html:934
-msgid "August"
-msgstr ""
+msgid "May"
+msgstr "Mayıs"
 
 #: app/templates/main/main.html:935
-msgid "September"
-msgstr ""
+msgid "June"
+msgstr "Haziran"
 
 #: app/templates/main/main.html:936
-msgid "October"
-msgstr ""
+msgid "July"
+msgstr "Temmuz"
 
 #: app/templates/main/main.html:937
-msgid "November"
-msgstr ""
+msgid "August"
+msgstr "Ağustoso"
 
 #: app/templates/main/main.html:938
+msgid "September"
+msgstr "Eylül"
+
+#: app/templates/main/main.html:939
+msgid "October"
+msgstr "Ekim"
+
+#: app/templates/main/main.html:940
+msgid "November"
+msgstr "Kasım"
+
+#: app/templates/main/main.html:941
 msgid "December"
-msgstr ""
+msgstr "Aralık"
 
-#: app/templates/main/main.html:942
+#: app/templates/main/main.html:945
 msgid "- Year -"
-msgstr ""
+msgstr "- Yıl -"
 
-#: app/templates/main/main.html:949
+#: app/templates/main/main.html:952
 msgid "Male"
-msgstr ""
+msgstr "Erkek"
 
-#: app/templates/main/main.html:951
+#: app/templates/main/main.html:954
 msgid "Female"
-msgstr ""
+msgstr "Dişi"
 
-#: app/templates/main/main.html:961
+#: app/templates/main/main.html:964
 msgid "Country"
-msgstr ""
+msgstr "Ülke"
 
-#: app/templates/main/main.html:963
+#: app/templates/main/main.html:966
 msgid "- Country -"
-msgstr ""
+msgstr "- Ülke -"
 
 #: app/templates/main/main_new.html:104
 msgid "Why?"
-msgstr ""
+msgstr "Neden?"
 
 #: app/templates/main/main_new.html:105
 msgid "How?"
-msgstr ""
+msgstr "Nasıl?"
 
 #: app/templates/main/main_new.html:106
 msgid "Working on"
-msgstr ""
+msgstr "Üzerinde çalışıyoruz"
 
 #: app/templates/main/main_new.html:107
 msgid "Contact us"
-msgstr ""
+msgstr "Bize ulaşın"
 
 #: app/templates/main/main_new.html:109
 msgid "Organizations"
-msgstr ""
+msgstr "Organizasyonlar"
 
 #: app/templates/main/main_new.html:224
 msgid "Analyze your Scratch projects"
-msgstr ""
+msgstr "Analyze your Scratch projects"
 
 #: app/templates/main/main_new.html:488
 msgid "Multilingual website"
@@ -4069,410 +4500,521 @@ msgid ""
 msgstr ""
 
 #: app/templates/main/rubric-creator.html:222
-#: app/templates/main/rubric-creator.html:589
-#: app/templates/main/rubric-creator.html:694
+#: app/templates/main/rubric-creator.html:593
+#: app/templates/main/rubric-creator.html:698
 msgid "Games"
-msgstr ""
+msgstr "Oyunlar"
 
 #: app/templates/main/rubric-creator.html:223
-#: app/templates/main/rubric-creator.html:588
-#: app/templates/main/rubric-creator.html:695
+#: app/templates/main/rubric-creator.html:592
+#: app/templates/main/rubric-creator.html:699
 msgid "Stories"
-msgstr ""
+msgstr "Hikayeler"
 
 #: app/templates/main/rubric-creator.html:224
-#: app/templates/main/rubric-creator.html:587
-#: app/templates/main/rubric-creator.html:696
+#: app/templates/main/rubric-creator.html:591
+#: app/templates/main/rubric-creator.html:700
 msgid "Animations"
-msgstr ""
+msgstr "Animasyonlar"
 
 #: app/templates/main/rubric-creator.html:225
-#: app/templates/main/rubric-creator.html:586
-#: app/templates/main/rubric-creator.html:697
+#: app/templates/main/rubric-creator.html:590
+#: app/templates/main/rubric-creator.html:701
 msgid "Music"
-msgstr ""
+msgstr "Müzik"
 
 #: app/templates/main/rubric-creator.html:226
-#: app/templates/main/rubric-creator.html:585
-#: app/templates/main/rubric-creator.html:698
+#: app/templates/main/rubric-creator.html:589
+#: app/templates/main/rubric-creator.html:702
 msgid "Arts"
-msgstr ""
+msgstr "Sanat"
 
-#: app/templates/main/rubric-creator.html:388
+#: app/templates/main/rubric-creator.html:392
 msgid "Build your rubric!"
-msgstr ""
+msgstr "Kendi değerlendirmenizi oluşturun!"
 
-#: app/templates/main/rubric-creator.html:403
+#: app/templates/main/rubric-creator.html:407
 msgid ""
 "Abstraction is not relevant to me at this moment. I am focused on concrete "
 "and specific details of the program."
 msgstr ""
+"Soyutlama şu anda benim için ilgili değil. Programın somut ve belirli "
+"detaylarına odaklanıyorum."
 
-#: app/templates/main/rubric-creator.html:404
+#: app/templates/main/rubric-creator.html:408
 msgid ""
 "Abstraction is minimal. I prefer to stay close to the source code and do not "
 "need high levels of generalization."
 msgstr ""
+"Soyutlama minimal. Kaynak koda yakın kalmayı tercih ediyorum ve yüksek "
+"seviyede genelleştirmeye ihtiyaç duymuyorum."
 
-#: app/templates/main/rubric-creator.html:405
+#: app/templates/main/rubric-creator.html:409
 msgid ""
 "Abstraction has some importance, but it is not essential. I am interested in "
 "understanding the overall functioning."
 msgstr ""
+"Soyutlama bazı öneme sahip, ancak temel bir gereklilik değil. Genel işleyişi "
+"anlamakla ilgileniyorum."
 
-#: app/templates/main/rubric-creator.html:406
+#: app/templates/main/rubric-creator.html:410
 msgid ""
 "Abstraction is important. I value patterns in the code to facilitate its "
 "maintenance and extension."
 msgstr ""
+"Soyutlama önemlidir. Kodda desenleri değerlendiriyorum çünkü bu, bakımını ve "
+"genişletilmesini kolaylaştırır."
 
-#: app/templates/main/rubric-creator.html:407
+#: app/templates/main/rubric-creator.html:411
 msgid ""
 "Abstraction is crucial. I value modular and reusable code, which abstracts "
 "concepts to improve clarity and efficiency."
 msgstr ""
+"Soyutlama çok önemlidir. Modüler ve yeniden kullanılabilir kodu "
+"değerlendiriyorum; bu, kavramları soyutlayarak netlik ve verimliliği artırır."
 
-#: app/templates/main/rubric-creator.html:408
+#: app/templates/main/rubric-creator.html:412
 msgid ""
 "Abstraction is absolutely vital. The code must be abstract and flexible to "
 "adapt to future changes and reuse."
 msgstr ""
+"Soyutlama kesinlikle hayati öneme sahiptir. Kodun soyut ve esnek olması, "
+"gelecekteki değişikliklere uyum sağlaması ve yeniden kullanılabilirliği için "
+"gereklidir."
 
-#: app/templates/main/rubric-creator.html:422
+#: app/templates/main/rubric-creator.html:426
 msgid "Parallelization"
-msgstr ""
+msgstr "Paralelleştirme"
 
-#: app/templates/main/rubric-creator.html:427
+#: app/templates/main/rubric-creator.html:431
 msgid ""
 "Parallelization is not crucial at this moment. There is no need to execute "
 "tasks simultaneously in the code."
 msgstr ""
+"Paralelleştirme şu anda kritik değil. Kodda görevlerin aynı anda "
+"yürütülmesine ihtiyaç yok."
 
-#: app/templates/main/rubric-creator.html:428
+#: app/templates/main/rubric-creator.html:432
 msgid ""
 "Parallelization is minimal. There is no significant need for parallel "
 "processing in the code."
-msgstr ""
+msgstr "Paralelleştirme minimal. Kodda paralel işlemeye büyük bir ihtiyaç yok."
 
-#: app/templates/main/rubric-creator.html:429
+#: app/templates/main/rubric-creator.html:433
 msgid ""
 "Parallelization has some importance. There is a moderate need to execute "
 "tasks in parallel in the code."
 msgstr ""
+"Paralelleştirme biraz önemlidir. Kodda görevlerin paralel olarak "
+"yürütülmesine orta derecede bir ihtiyaç vardır."
 
-#: app/templates/main/rubric-creator.html:430
+#: app/templates/main/rubric-creator.html:434
 msgid ""
 "Parallelization is important. Proper parallel processing is required to "
 "enhance the code performance."
 msgstr ""
+"Paralelleştirme önemlidir. Kodun performansını artırmak için uygun paralel "
+"işleme gereklidir."
 
-#: app/templates/main/rubric-creator.html:431
+#: app/templates/main/rubric-creator.html:435
 msgid ""
 "Parallelization is crucial. Simultaneous execution of tasks is essential to "
 "optimize code performance and efficiency."
 msgstr ""
+"Paralelleştirme kritik öneme sahiptir. Görevlerin eşzamanlı olarak "
+"yürütülmesi, kodun performansını ve verimliliğini optimize etmek için "
+"gereklidir."
 
-#: app/templates/main/rubric-creator.html:432
+#: app/templates/main/rubric-creator.html:436
 msgid ""
 "Parallelization is absolutely vital. The ability to perform parallel "
 "processing is fundamental for system performance."
 msgstr ""
+"Paralelleştirme kesinlikle hayati öneme sahiptir. Paralel işleme yeteneği, "
+"sistem performansı için temel bir gerekliliktir."
 
-#: app/templates/main/rubric-creator.html:439
+#: app/templates/main/rubric-creator.html:443
 msgid "Logic Thinking"
-msgstr ""
+msgstr "Mantıksal Düşünme"
 
-#: app/templates/main/rubric-creator.html:444
+#: app/templates/main/rubric-creator.html:448
 msgid ""
 "Logical thinking is not relevant to me at this moment. I am focused on other "
 "aspects of the problem."
 msgstr ""
+"Bu anda mantıksal düşünme benim için önemli değil. Problemin diğer yönlerine "
+"odaklanıyorum."
 
-#: app/templates/main/rubric-creator.html:445
+#: app/templates/main/rubric-creator.html:449
 msgid ""
 "Logical thinking is minimal. I prefer to follow a more intuitive approach in "
 "my decisions and actions."
 msgstr ""
+"Mantıksal düşünme minimal. Karar ve eylemlerimde daha sezgisel bir yaklaşımı "
+"tercih ediyorum."
 
-#: app/templates/main/rubric-creator.html:446
+#: app/templates/main/rubric-creator.html:450
 msgid ""
 "Logical thinking has some importance, but it is not fundamental. Sometimes, "
 "I rely more on my instinct than on pure logic."
 msgstr ""
+"Mantıksal düşünme bazı önem taşır, ancak temel değildir. Bazen saf mantıktan "
+"daha çok içgüdülerime güvenirim."
 
-#: app/templates/main/rubric-creator.html:447
+#: app/templates/main/rubric-creator.html:451
 msgid ""
 "Logical thinking is important. I use logic to solve problems and make "
 "decisions more efficiently."
 msgstr ""
+"Mantıksal düşünme önemlidir. Problemleri çözmek ve kararları daha verimli "
+"bir şekilde almak için mantığı kullanırım."
 
-#: app/templates/main/rubric-creator.html:448
+#: app/templates/main/rubric-creator.html:452
 msgid ""
 "Logical thinking is crucial. I rely on logic to analyze complex situations "
 "and find effective solutions."
 msgstr ""
+"Mantıksal düşünme kritik öneme sahiptir. Karmaşık durumları analiz etmek ve "
+"etkili çözümler bulmak için mantığa güvenirim."
 
-#: app/templates/main/rubric-creator.html:449
+#: app/templates/main/rubric-creator.html:453
 msgid ""
 "Logical thinking is absolutely vital. All code must follow strict logic for "
 "problem-solving."
 msgstr ""
+"Mantıksal düşünme kesinlikle hayati öneme sahiptir. Tüm kodun problem çözme "
+"için sıkı bir mantığa uyması gerekir."
 
-#: app/templates/main/rubric-creator.html:461
+#: app/templates/main/rubric-creator.html:465
 msgid ""
 "Synchronization is not relevant at this moment. I am not concerned about "
 "coordinating activities in the code."
 msgstr ""
+"Senkranizasyon şu anda benim için önemli değil. Kodda aktiviteleri koordine "
+"etmekle ilgilenmiyorum."
 
-#: app/templates/main/rubric-creator.html:462
+#: app/templates/main/rubric-creator.html:466
 msgid ""
 "Synchronization is minimal. I do not consider managing concurrency or "
 "process synchronization crucial."
 msgstr ""
+"Senkranizasyon minimaldir. Eşzamanlılık veya süreç senkronizasyonunu "
+"yönetmenin önemli olduğunu düşünmüyorum."
 
-#: app/templates/main/rubric-creator.html:463
+#: app/templates/main/rubric-creator.html:467
 msgid ""
 "Synchronization has some importance. I can allow some operations to run "
 "asynchronously."
 msgstr ""
+"Senkranizasyonun bazı önemi var. Bazı işlemlerin eşzamanlı olarak "
+"çalışmasına izin verebilirim."
 
-#: app/templates/main/rubric-creator.html:464
+#: app/templates/main/rubric-creator.html:468
 msgid ""
 "Synchronization is important. It is crucial to ensure that shared resources "
 "are handled correctly."
 msgstr ""
+"Senkranizasyon önemlidir. Paylaşılan kaynakların doğru şekilde yönetilmesini "
+"sağlamak kritik öneme sahiptir."
 
-#: app/templates/main/rubric-creator.html:465
+#: app/templates/main/rubric-creator.html:469
 msgid ""
 "Synchronization is crucial. It is essential to control concurrency to ensure "
 "data consistency and integrity in the code."
 msgstr ""
+"Senkranizasyon kritik öneme sahiptir. Veri tutarlılığını ve bütünlüğünü "
+"sağlamak için eşzamanlılığı kontrol etmek gereklidir."
 
-#: app/templates/main/rubric-creator.html:466
+#: app/templates/main/rubric-creator.html:470
 msgid ""
 "Synchronization is absolutely vital. Efficient concurrency is fundamental "
 "for system performance and reliability."
 msgstr ""
+"Senkranizasyon kesinlikle hayati öneme sahiptir. Verimli eşzamanlılık, "
+"sistem performansı ve güvenilirliği için temeldir."
 
-#: app/templates/main/rubric-creator.html:479
+#: app/templates/main/rubric-creator.html:483
 msgid ""
 "Flow control is not relevant at this moment. I do not need control "
 "structures to direct code execution."
 msgstr ""
+"Akış kontrolü şu anda benim için geçerli değil. Kodun yürütülmesini "
+"yönlendirmek için kontrol yapılarına ihtiyacım yok."
 
-#: app/templates/main/rubric-creator.html:480
+#: app/templates/main/rubric-creator.html:484
 msgid ""
 "Flow control is minimal. I prefer to follow a more linear approach in code "
 "execution without many control structures."
 msgstr ""
+"Akış kontrolü minimum seviyede. Kod yürütülmesinde çok fazla kontrol yapısı "
+"olmadan daha lineer bir yaklaşımı tercih ediyorum."
 
-#: app/templates/main/rubric-creator.html:481
+#: app/templates/main/rubric-creator.html:485
 msgid ""
 "Flow control has some importance. I can manage code execution with a few "
 "basic control structures."
 msgstr ""
+"Akış kontrolü bazı önem taşır. Kod yürütülmesini birkaç temel kontrol yapısı "
+"ile yönetebilirim."
 
-#: app/templates/main/rubric-creator.html:482
+#: app/templates/main/rubric-creator.html:486
 msgid ""
 "Flow control is important. Code execution must be directed and decisions "
 "made based on different conditions."
 msgstr ""
+"Akış kontrolü önemlidir. Kod yürütülmesi yönlendirilmelidir ve farklı "
+"koşullara dayanarak kararlar verilmelidir."
 
-#: app/templates/main/rubric-creator.html:483
+#: app/templates/main/rubric-creator.html:487
 msgid ""
 "Flow control is crucial. Ensuring logic and coherence of program execution "
 "flow is necessary."
 msgstr ""
+"Akış kontrolü kritik öneme sahiptir. Program yürütme akışının mantıklı ve "
+"uyumlu olmasını sağlamak gereklidir."
 
-#: app/templates/main/rubric-creator.html:484
+#: app/templates/main/rubric-creator.html:488
 msgid ""
 "Flow control is absolutely vital. Proper flow control management determines "
 "the efficiency and effectiveness of the program."
 msgstr ""
+"Akış kontrolü tamamen hayati önemdedir. Doğru akış kontrolü yönetimi, "
+"programın verimliliğini ve etkinliğini belirler."
 
-#: app/templates/main/rubric-creator.html:497
+#: app/templates/main/rubric-creator.html:501
 msgid ""
 "User interactivity is not relevant at this moment. I do not need the code to "
 "respond to user input."
 msgstr ""
+"Kullanıcı etkileşimi şu anda ilgili değil. Kodun kullanıcı girişlerine yanıt "
+"vermesi gerekmiyor."
 
-#: app/templates/main/rubric-creator.html:498
+#: app/templates/main/rubric-creator.html:502
 msgid ""
 "User interactivity is minimal. The code does not require much direct "
 "interaction with the user."
 msgstr ""
+"Kullanıcı etkileşimi minimal. Kodun kullanıcı ile doğrudan etkileşime "
+"geçmesi gerekmiyor."
 
-#: app/templates/main/rubric-creator.html:499
+#: app/templates/main/rubric-creator.html:503
 msgid ""
 "User interactivity has some importance. The code can be executed without too "
 "much direct user interaction."
 msgstr ""
+"Kullanıcı etkileşimi bazı önem taşıyor. Kod, çok fazla doğrudan kullanıcı "
+"etkileşimi olmadan da çalışabilir."
 
-#: app/templates/main/rubric-creator.html:500
+#: app/templates/main/rubric-creator.html:504
 msgid ""
 "User interactivity is important. The code must respond appropriately to user "
 "actions."
 msgstr ""
+"Kullanıcı etkileşimi önemlidir. Kod, kullanıcı eylemlerine uygun bir şekilde "
+"yanıt vermelidir."
 
-#: app/templates/main/rubric-creator.html:501
+#: app/templates/main/rubric-creator.html:505
 msgid ""
 "User interactivity is crucial. The code must be highly interactive with "
 "quick response to user actions."
 msgstr ""
+"Kullanıcı etkileşimi çok önemlidir. Kod, kullanıcı eylemlerine hızlı bir "
+"şekilde yanıt verecek şekilde yüksek derecede etkileşimli olmalıdır."
 
-#: app/templates/main/rubric-creator.html:502
+#: app/templates/main/rubric-creator.html:506
 msgid ""
 "User interactivity is absolutely vital. The ability to interact effectively "
 "with the user is fundamental."
 msgstr ""
+"Kullanıcı etkileşimi kesinlikle hayati öneme sahiptir. Kullanıcı ile etkili "
+"bir şekilde etkileşim kurabilme yeteneği temeldir."
 
-#: app/templates/main/rubric-creator.html:515
+#: app/templates/main/rubric-creator.html:519
 msgid ""
 "Data representation is not crucial at this moment. It does not significantly "
 "affect code execution."
 msgstr ""
+"Veri temsili bu anda kritik değil. Kodun çalışmasını önemli ölçüde etkilemez."
 
-#: app/templates/main/rubric-creator.html:516
+#: app/templates/main/rubric-creator.html:520
 msgid ""
 "Data representation is minimal. A complex structure for storing or "
 "manipulating data is not required."
 msgstr ""
+"Veri temsili minimum düzeyde. Verileri depolamak veya işlemek için karmaşık "
+"bir yapı gerekmiyor."
 
-#: app/templates/main/rubric-creator.html:517
+#: app/templates/main/rubric-creator.html:521
 msgid ""
 "Data representation has some importance. Basic structures are needed to "
 "manage the data."
 msgstr ""
+"Veri temsili biraz önemlidir. Verileri yönetmek için temel yapıların "
+"kullanılması gereklidir."
 
-#: app/templates/main/rubric-creator.html:518
+#: app/templates/main/rubric-creator.html:522
 msgid ""
 "Data representation is important. Proper design of data structure "
 "facilitates code understanding and maintenance."
 msgstr ""
+"Veri temsili önemlidir. Veri yapısının doğru tasarımı, kodun anlaşılmasını "
+"ve bakımını kolaylaştırır."
 
-#: app/templates/main/rubric-creator.html:519
+#: app/templates/main/rubric-creator.html:523
 msgid ""
 "Data representation is crucial. It is essential for optimizing code "
 "performance and scalability."
 msgstr ""
+"Veri temsili çok önemlidir. Kodun performansını ve ölçeklenebilirliğini "
+"optimize etmek için gereklidir."
 
-#: app/templates/main/rubric-creator.html:520
+#: app/templates/main/rubric-creator.html:524
 msgid ""
 "Data representation is absolutely vital. Poor data representation can lead "
 "to critical errors."
 msgstr ""
+"Veri temsili kesinlikle hayati önem taşır. Kötü veri temsili kritik hatalara "
+"yol açabilir."
 
-#: app/templates/main/rubric-creator.html:528
+#: app/templates/main/rubric-creator.html:532
 msgid "Math Operators"
-msgstr ""
+msgstr "Matematiksel Operatörler"
 
-#: app/templates/main/rubric-creator.html:533
+#: app/templates/main/rubric-creator.html:537
 msgid ""
 "Mathematical operators are not crucial at this moment. Performing complex "
 "mathematical operations is not required."
 msgstr ""
+"Matematiksel operatörler şu anda kritik değildir. Karmaşık matematiksel "
+"işlemler gerçekleştirmek gerekmemektedir."
 
-#: app/templates/main/rubric-creator.html:534
+#: app/templates/main/rubric-creator.html:538
 msgid ""
 "The use of mathematical operators is minimal. Only basic operations are "
 "needed for simple calculations."
 msgstr ""
+"Matematiksel operatörlerin kullanımı minimaldir. Sadece basit hesaplamalar "
+"için temel işlemler gerekmektedir."
 
-#: app/templates/main/rubric-creator.html:535
+#: app/templates/main/rubric-creator.html:539
 msgid ""
 "Mathematical operators have some importance. Basic operations are required "
 "to perform some tasks."
 msgstr ""
+"Matematiksel operatörlerin bazı önemi vardır. Bazı görevleri yerine getirmek "
+"için temel işlemler gereklidir."
 
-#: app/templates/main/rubric-creator.html:536
+#: app/templates/main/rubric-creator.html:540
 msgid ""
 "Mathematical operators are important. They are used to perform essential "
 "calculations that directly affect functionality."
 msgstr ""
+"Matematiksel operatörler önemlidir. İşlevselliği doğrudan etkileyen temel "
+"hesaplamaları yapmak için kullanılırlar."
 
-#: app/templates/main/rubric-creator.html:537
+#: app/templates/main/rubric-creator.html:541
 msgid ""
 "Mathematical operators are crucial. Their correct usage is fundamental to "
 "ensure accuracy and consistency in calculations."
 msgstr ""
+"Matematiksel operatörler kritik öneme sahiptir. Doğru kullanımları, "
+"hesaplamalarda doğruluk ve tutarlılığı sağlamak için temel gereklidir."
 
-#: app/templates/main/rubric-creator.html:538
+#: app/templates/main/rubric-creator.html:542
 msgid ""
 "Mathematical operators are absolutely vital. They are indispensable for "
 "operations that determine the final result."
 msgstr ""
+"Matematiksel operatörler kesinlikle hayati öneme sahiptir. Sonuçları "
+"belirleyen işlemler için vazgeçilmezdirler."
 
-#: app/templates/main/rubric-creator.html:545
+#: app/templates/main/rubric-creator.html:549
 msgid "Motion Operators"
-msgstr ""
+msgstr "Hareket Operatörleri"
 
-#: app/templates/main/rubric-creator.html:550
+#: app/templates/main/rubric-creator.html:554
 msgid ""
 "Motion operators are not crucial at this moment. Extensive manipulation of "
 "movements in the code is not required."
 msgstr ""
+"Hareket operatörleri şu anda kritik değil. Kodda geniş çaplı hareket "
+"manipülasyonlarına ihtiyaç duyulmamaktadır."
 
-#: app/templates/main/rubric-creator.html:551
+#: app/templates/main/rubric-creator.html:555
 msgid ""
 "Motion operators are minimal. There is no significant need for motion "
 "control in the code."
 msgstr ""
+"Hareket operatörleri minimum düzeyde. Kodda hareket kontrolü için belirgin "
+"bir ihtiyaç bulunmamaktadır."
 
-#: app/templates/main/rubric-creator.html:552
+#: app/templates/main/rubric-creator.html:556
 msgid ""
 "Motion operators have some importance. There is a moderate need for movement "
 "manipulation in the code."
 msgstr ""
+"Hareket operatörlerinin bir miktar önemi vardır. Kodda hareket manipülasyonu "
+"için orta düzeyde bir ihtiyaç bulunmaktadır."
 
-#: app/templates/main/rubric-creator.html:553
+#: app/templates/main/rubric-creator.html:557
 msgid ""
 "Motion operators are important. Proper motion control is necessary for the "
 "functionality of the code."
 msgstr ""
+"Hareket operatörleri önemlidir. Kodun işlevselliği için uygun hareket "
+"kontrolü gereklidir."
 
-#: app/templates/main/rubric-creator.html:554
+#: app/templates/main/rubric-creator.html:558
 msgid ""
 "Motion operators are crucial. Precise motion control is essential for the "
 "proper functioning of the code."
 msgstr ""
+"Hareket operatörleri kritik öneme sahiptir. Kodun doğru şekilde çalışması "
+"için hassas hareket kontrolü gereklidir."
 
-#: app/templates/main/rubric-creator.html:555
+#: app/templates/main/rubric-creator.html:559
 msgid ""
 "Motion operators are absolutely vital. The ability to manipulate movements "
 "effectively is fundamental."
 msgstr ""
+"Hareket operatörleri kesinlikle hayati öneme sahiptir. Hareketleri etkili "
+"bir şekilde manipüle etme yeteneği temeldir."
 
-#: app/templates/main/rubric-creator.html:560
+#: app/templates/main/rubric-creator.html:564
 msgid "Generate rubric"
-msgstr ""
+msgstr "Rubrik oluştur"
 
-#: app/templates/main/rubric-creator.html:575
+#: app/templates/main/rubric-creator.html:579
 msgid "You can share this url:"
-msgstr ""
+msgstr "Bu URL'yi paylaşabilirsiniz:"
 
-#: app/templates/main/rubric-creator.html:577
+#: app/templates/main/rubric-creator.html:581
 msgid "First fill the form"
-msgstr ""
+msgstr "Önce formu doldurun"
 
-#: app/templates/main/rubric-creator.html:583
+#: app/templates/main/rubric-creator.html:587
 msgid "Here there are some rubrics examples:"
-msgstr ""
+msgstr "İşte bazı rubrik örnekleri:"
 
-#: app/templates/main/rubric-uploader.html:152
+#: app/templates/main/rubric-uploader.html:156
 msgid "There are three options to analyze your Scratch project now!"
-msgstr ""
+msgstr "Şu anda Scratch projenizi analiz etmek için üç seçeneğiniz var!"
 
-#: app/templates/main/rubric-uploader.html:166
+#: app/templates/main/rubric-uploader.html:170
 msgid ""
 "3. Upload projects with a <span class='colored-text'><a data-toggle='modal' "
 "href='#modalTxt'>txt</a></span> file:"
 msgstr ""
+"3. Projeleri bir <span class='colored-text'><a data-toggle='modal' "
+"href='#modalTxt'>txt</a></span> dosyası ile yükleyin:"
 
-#: app/templates/main/rubric-uploader.html:167
+#: app/templates/main/rubric-uploader.html:171
 msgid ""
 "<input  name='urlsFile' type='file' class='filestyle' data-"
 "buttonText='Choose txt'>"
 msgstr ""
+"<input  name='urlsFile' type='file' class='filestyle' data-"
+"buttonText='Txt'yi seçin'>"
 
 #: app/templates/main/statistics.html:311
 msgid "These statistics are update every night at 00.00h CEST."
@@ -4865,20 +5407,24 @@ msgstr ""
 
 #: drScratch/settings.py:93
 msgid "Spanish"
-msgstr ""
+msgstr "İspanyol"
 
 #: drScratch/settings.py:94
 msgid "English"
-msgstr ""
+msgstr "İngilizce"
 
 #: drScratch/settings.py:99
 msgid "Basque"
-msgstr ""
+msgstr "Bask"
 
 #: drScratch/settings.py:100
 msgid "Italiano"
-msgstr ""
+msgstr "İtalyan"
 
 #: drScratch/settings.py:101
 msgid "Russian"
-msgstr ""
+msgstr "Rusça"
+
+#: drScratch/settings.py:102
+msgid "Turkish"
+msgstr "Türkçe"
