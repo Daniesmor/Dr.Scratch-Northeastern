@@ -261,10 +261,10 @@ def create_csv_dups(d: dict, folder_path: str):
                 duplicate_scripts = project_data.get('duplicateScript', {}).get('csv_format', [])
                 if duplicate_scripts:
                     script_number = 0
-                    for block in duplicate_scripts:
-                        for instruction in block:
+                    for script_list in duplicate_scripts:
+                        for script in script_list:
                             script_number += 1
-                            row_to_write[f'duplicateScript_{script_number}'] = instruction
+                            row_to_write[f'duplicateScript_{script_number}'] = script
                 else:
                     row_to_write.update({f'duplicateScript_{i}': 'N/A' for i in range(1, max_dup_scripts + 1)})        
                 writer_csv.writerow(row_to_write)
