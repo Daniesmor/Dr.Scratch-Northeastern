@@ -188,7 +188,7 @@ def create_csv_main(request, d: dict, folder_path: str) -> str:
                         mastery_list = d[project]['mastery'].get(clave_trans, [])
                         if mastery_list:  
                             if type(mastery_list[0]) == list:
-                                row_to_write[clave] = mastery_list[0][0]               
+                                row_to_write[clave] = f'{mastery_list[0][0]}/{mastery_list[0][1]}'          
                             else:
                                 row_to_write[clave] = mastery_list[0]
                         if clave not in ['Math operators', 'Motion operators']:
@@ -196,7 +196,7 @@ def create_csv_main(request, d: dict, folder_path: str) -> str:
                             van_clave = f"Van {clave}"
                             if mastery_list_van:
                                 if type(mastery_list_van[0]) == list:
-                                    row_to_write[van_clave] = mastery_list_van[0][0]
+                                    row_to_write[van_clave] = f'{mastery_list_van[0][0]}/{mastery_list_van[0][1]}'
                                 else:
                                     row_to_write[van_clave] = mastery_list_van[0]
                     except KeyError:
