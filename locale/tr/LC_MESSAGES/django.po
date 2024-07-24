@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-24 18:12+0000\n"
+"POT-Creation-Date: 2024-07-24 18:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -367,7 +367,7 @@ msgstr ""
 #: app/templates/coder/base.html:448 app/templates/login/login.html:563
 #: app/templates/main/compare-uploader.html:327
 #: app/templates/main/main.html:750 app/templates/main/main_new.html:709
-#: app/templates/main/rubric-uploader.html:208
+#: app/templates/main/rubric-uploader.html:245
 #: app/templates/organization/base.html:455
 #: app/templates/upload/dashboard-organization.html:239
 msgid "What is an url?"
@@ -376,7 +376,7 @@ msgstr "URL nedir?"
 #: app/templates/coder/base.html:450 app/templates/login/login.html:565
 #: app/templates/main/compare-uploader.html:329
 #: app/templates/main/main.html:752 app/templates/main/main_new.html:711
-#: app/templates/main/rubric-uploader.html:210
+#: app/templates/main/rubric-uploader.html:247
 #: app/templates/organization/base.html:457
 #: app/templates/upload/dashboard-organization.html:241
 msgid "How I can know my Scratch project's url?"
@@ -390,7 +390,7 @@ msgstr ""
 #: app/templates/main/compare-uploader.html:352
 #: app/templates/main/main.html:775 app/templates/main/main.html:822
 #: app/templates/main/main_new.html:734
-#: app/templates/main/rubric-uploader.html:231
+#: app/templates/main/rubric-uploader.html:268
 #: app/templates/organization/base.html:480
 #: app/templates/upload/dashboard-organization.html:264
 msgid "I want to download my project from Scratch!"
@@ -400,7 +400,7 @@ msgstr "Projemi Scratch'ten indirmek istiyorum!"
 #: app/templates/main/compare-uploader.html:354
 #: app/templates/main/main.html:777 app/templates/main/main.html:824
 #: app/templates/main/main_new.html:736
-#: app/templates/main/rubric-uploader.html:233
+#: app/templates/main/rubric-uploader.html:270
 #: app/templates/organization/base.html:482
 #: app/templates/upload/dashboard-organization.html:266
 msgid "How I can download my Scratch project to my computer?"
@@ -413,7 +413,7 @@ msgstr ""
 #: app/templates/coder/base.html:499
 #: app/templates/main/compare-uploader.html:391
 #: app/templates/main/main.html:1507 app/templates/main/main_new.html:1449
-#: app/templates/main/rubric-uploader.html:293
+#: app/templates/main/rubric-uploader.html:330
 #: app/templates/organization/base.html:506
 msgid "Wait a moment, please."
 msgstr "Bir dakika bekleyin, lütfen."
@@ -421,7 +421,7 @@ msgstr "Bir dakika bekleyin, lütfen."
 #: app/templates/coder/base.html:517 app/templates/login/login.html:632
 #: app/templates/main/main.html:1525 app/templates/main/main_new.html:1467
 #: app/templates/main/main_organization.html:318
-#: app/templates/main/rubric-uploader.html:305
+#: app/templates/main/rubric-uploader.html:342
 #: app/templates/organization/base.html:524
 msgid "loading..."
 msgstr "yükleniyor..."
@@ -1117,7 +1117,8 @@ msgstr "Web sitemizi kullandığınız için teşekkürler!"
 msgid "The Dr. Scratch team"
 msgstr "Dr. Scratch ekibi"
 
-#: app/templates/coder/main.html:12 app/templates/main/rubric-uploader.html:154
+#: app/templates/coder/main.html:12 app/templates/main/rubric-uploader.html:180
+#: app/templates/main/rubric-uploader.html:186
 #: app/templates/organization/main.html:12
 msgid "Do you want to analyze one project?"
 msgstr "Bir projeyi analiz etmek ister misiniz?"
@@ -1130,7 +1131,7 @@ msgstr "Şu anda Scratch projenizi analiz etmek için iki seçeneğiniz var!"
 #: app/templates/coder/main.html:18
 #: app/templates/main/compare-uploader.html:237
 #: app/templates/main/main.html:403 app/templates/main/main_new.html:251
-#: app/templates/main/rubric-uploader.html:160
+#: app/templates/main/rubric-uploader.html:192
 #: app/templates/organization/main.html:19
 msgid ""
 "1. Introduce the <span class='colored-text'><a data-toggle='modal' "
@@ -1145,7 +1146,7 @@ msgstr ""
 #: app/templates/main/dashboard-default.html:715
 #: app/templates/main/dashboard-default.html:1046
 #: app/templates/main/main.html:405 app/templates/main/main_new.html:252
-#: app/templates/main/rubric-uploader.html:161
+#: app/templates/main/rubric-uploader.html:193
 #: app/templates/organization/main.html:20
 msgid ""
 "<input name=\"urlProject\" id=\"cf-name\" class=\"form-control input-box "
@@ -1158,7 +1159,7 @@ msgstr ""
 
 #: app/templates/coder/main.html:20 app/templates/main/main.html:410
 #: app/templates/main/main_new.html:253
-#: app/templates/main/rubric-uploader.html:162
+#: app/templates/main/rubric-uploader.html:194
 #: app/templates/organization/main.html:21
 msgid "Analyze by url"
 msgstr "URL ile analiz et"
@@ -1166,7 +1167,7 @@ msgstr "URL ile analiz et"
 #: app/templates/coder/main.html:25
 #: app/templates/main/compare-uploader.html:250
 #: app/templates/main/main.html:416 app/templates/main/main_new.html:258
-#: app/templates/main/rubric-uploader.html:166
+#: app/templates/main/rubric-uploader.html:198
 #: app/templates/organization/main.html:26
 msgid ""
 "2. If you have your <span class='colored-text'><a data-toggle='modal' "
@@ -1178,7 +1179,7 @@ msgstr ""
 "edebilirsiniz:"
 
 #: app/templates/coder/main.html:26 app/templates/main/main_new.html:259
-#: app/templates/main/rubric-uploader.html:167
+#: app/templates/main/rubric-uploader.html:199
 #: app/templates/organization/main.html:27
 msgid ""
 "<input  name='zipFile' type='file' class='filestyle' data-buttonText='Choose "
@@ -1189,7 +1190,7 @@ msgstr ""
 
 #: app/templates/coder/main.html:27 app/templates/main/main.html:423
 #: app/templates/main/main_new.html:260
-#: app/templates/main/rubric-uploader.html:168
+#: app/templates/main/rubric-uploader.html:200
 #: app/templates/organization/main.html:28
 msgid "Analyze my project"
 msgstr "Projemi analiz et"
@@ -1212,7 +1213,7 @@ msgstr "Hata! Lütfen bir .sb veya .sb2 dosyası seçin veya bir URL girin."
 #: app/templates/main/contact-form.html:180 app/templates/main/main.html:441
 #: app/templates/main/main_new.html:274
 #: app/templates/main/main_organization.html:197
-#: app/templates/main/rubric-uploader.html:187
+#: app/templates/main/rubric-uploader.html:224
 #: app/templates/organization/main.html:42
 #: app/templates/organization/main.html:74
 msgid "Error! Your project id is wrong"
@@ -1223,7 +1224,7 @@ msgstr "Hata! Proje kimliğiniz yanlış."
 #: app/templates/main/contact-form.html:184 app/templates/main/main.html:446
 #: app/templates/main/main_new.html:278
 #: app/templates/main/main_organization.html:201
-#: app/templates/main/rubric-uploader.html:191
+#: app/templates/main/rubric-uploader.html:228
 #: app/templates/organization/main.html:46
 #: app/templates/organization/main.html:78
 msgid "Error! Your project doesn't exist in Scratch's servers"
@@ -1347,7 +1348,7 @@ msgstr "Başlayın"
 #: app/templates/main/dashboard-compare.html:1100
 #: app/templates/main/dashboard_template.html:448
 #: app/templates/main/main.html:713 app/templates/main/rubric-creator.html:610
-#: app/templates/main/rubric-uploader.html:271
+#: app/templates/main/rubric-uploader.html:308
 msgid "©2024 Dr.Scratch Made with "
 msgstr "©2024 Dr. Scratch Yapıldı with "
 
@@ -1361,7 +1362,7 @@ msgstr "©2024 Dr. Scratch Yapıldı with "
 #: app/templates/main/dashboard-compare.html:1100
 #: app/templates/main/dashboard_template.html:448
 #: app/templates/main/main.html:713 app/templates/main/rubric-creator.html:610
-#: app/templates/main/rubric-uploader.html:271
+#: app/templates/main/rubric-uploader.html:308
 msgid "by "
 msgstr "tarafından "
 
@@ -1375,7 +1376,7 @@ msgstr "tarafından "
 #: app/templates/main/dashboard-compare.html:1100
 #: app/templates/main/dashboard_template.html:448
 #: app/templates/main/main.html:713 app/templates/main/rubric-creator.html:610
-#: app/templates/main/rubric-uploader.html:271
+#: app/templates/main/rubric-uploader.html:308
 msgid "Dr.Scratch Team."
 msgstr "Dr. Scratch Ekibi."
 
@@ -3596,8 +3597,8 @@ msgstr "Projeleri Karşılaştır"
 
 #: app/templates/main/compare-uploader.html:284
 #: app/templates/main/compare-uploader.html:287
-#: app/templates/main/main.html:436 app/templates/main/rubric-uploader.html:180
-#: app/templates/main/rubric-uploader.html:183
+#: app/templates/main/main.html:436 app/templates/main/rubric-uploader.html:217
+#: app/templates/main/rubric-uploader.html:220
 msgid "Error! Please choose a .sb or .sb3 file or input an url"
 msgstr "Hata! Lütfen bir .sb veya .sb3 dosyası seçin ya da bir URL girin."
 
@@ -3616,14 +3617,14 @@ msgid "Close"
 msgstr "Kapalı"
 
 #: app/templates/main/compare-uploader.html:333
-#: app/templates/main/main.html:756 app/templates/main/rubric-uploader.html:214
+#: app/templates/main/main.html:756 app/templates/main/rubric-uploader.html:251
 msgid ""
 "<img class='framed' style='width: 500px;' src='static/app/images/url-en."
 "png' />"
 msgstr ""
 
 #: app/templates/main/compare-uploader.html:358
-#: app/templates/main/main.html:781 app/templates/main/rubric-uploader.html:237
+#: app/templates/main/main.html:781 app/templates/main/rubric-uploader.html:274
 msgid ""
 "<img class='framed' style='width: 500px;' src='static/app/images/project-en."
 "png' />"
@@ -4063,14 +4064,15 @@ msgstr "ÖNEMLİ!"
 msgid ""
 "Please upload a <span class='colored-text'><a data-toggle='modal' "
 "href='#modalTxt'>txt</a></span> containing the URLs of the projects, with "
-"each URL on a separate line. Or a zip containing the .sb3 (Max. 10)"
+"each URL on a separate line. Or a <span class='colored-text'>zip</span> "
+"containing the .sb3 (Max. 10)"
 msgstr ""
 "Lütfen her URL'yi ayrı bir satıra yerleştirerek projelerin URL'lerini içeren "
 "bir <span class='colored-text'><a data-toggle='modal' href='#modalTxt'>txt</"
 "a></span> dosyası yükleyin. Alternatif olarak, en fazla 10 adet .sb3 "
 "dosyasını içeren bir zip dosyası yükleyebilirsiniz."
 
-#: app/templates/main/main.html:518
+#: app/templates/main/main.html:518 app/templates/main/rubric-uploader.html:204
 msgid ""
 "<input name='urlsFile' type='file' class='filestyle' data-buttonText='Choose "
 "txt or zip'>"
@@ -4078,7 +4080,7 @@ msgstr ""
 "<input name='urlsFile' type='file' class='filestyle' data-buttonText='txt "
 "veya zip Seçin'>"
 
-#: app/templates/main/main.html:519
+#: app/templates/main/main.html:519 app/templates/main/rubric-uploader.html:205
 msgid ""
 "<input name=\"batch-email\" class=\"form-control input-box placeholder\" "
 "placeholder=\"your@email.com\" type=\"text\">"
@@ -4086,17 +4088,17 @@ msgstr ""
 "<input name=\"batch-email\" class=\"form-control input-box placeholder\" "
 "placeholder=\"your@email.com\" type=\"text\">"
 
-#: app/templates/main/main.html:520
+#: app/templates/main/main.html:520 app/templates/main/rubric-uploader.html:206
 msgid "Please enter an email!"
 msgstr "Lütfen bir e-posta adresi girin!"
 
-#: app/templates/main/main.html:521
+#: app/templates/main/main.html:521 app/templates/main/rubric-uploader.html:207
 msgid "Please upload a txt/zip file!"
 msgstr "Lütfen bir txt/zip dosyası yükleyin!"
 
 #: app/templates/main/main.html:522
 #: app/templates/main/main_organization.html:183
-#: app/templates/main/rubric-uploader.html:172
+#: app/templates/main/rubric-uploader.html:208
 #: app/templates/organization/main.html:62
 #: app/templates/upload/dashboard-organization.html:155
 msgid "Analyze my projects"
@@ -4191,15 +4193,15 @@ msgstr " wiki "
 msgid "of Dr.Scratch."
 msgstr "Dr. Scratch'ın."
 
-#: app/templates/main/main.html:798 app/templates/main/rubric-uploader.html:254
+#: app/templates/main/main.html:798 app/templates/main/rubric-uploader.html:291
 msgid "What is an txt with scratch's urls?"
 msgstr "Scratch URL'leri içeren bir txt nedir?"
 
-#: app/templates/main/main.html:800 app/templates/main/rubric-uploader.html:256
+#: app/templates/main/main.html:800 app/templates/main/rubric-uploader.html:293
 msgid "How is the correct format of the txt?"
 msgstr "Txt dosyasının doğru formatı nasıl olmalıdır?"
 
-#: app/templates/main/main.html:804 app/templates/main/rubric-uploader.html:260
+#: app/templates/main/main.html:804 app/templates/main/rubric-uploader.html:297
 msgid ""
 "<img class='framed' style='width: 500px;' src='static/app/images/txt-es."
 "png' />"
@@ -4996,25 +4998,26 @@ msgstr "Önce formu doldurun"
 msgid "Here there are some rubrics examples:"
 msgstr "İşte bazı rubrik örnekleri:"
 
-#: app/templates/main/rubric-uploader.html:156
+#: app/templates/main/rubric-uploader.html:188
 msgid "There are three options to analyze your Scratch project now!"
 msgstr "Şu anda Scratch projenizi analiz etmek için üç seçeneğiniz var!"
 
-#: app/templates/main/rubric-uploader.html:170
+#: app/templates/main/rubric-uploader.html:203
+#, fuzzy
+#| msgid ""
+#| "Please upload a <span class='colored-text'><a data-toggle='modal' "
+#| "href='#modalTxt'>txt</a></span> containing the URLs of the projects, with "
+#| "each URL on a separate line. Or a zip containing the .sb3 (Max. 10)"
 msgid ""
-"3. Upload projects with a <span class='colored-text'><a data-toggle='modal' "
-"href='#modalTxt'>txt</a></span> file:"
+"3. Upload a <span class='colored-text'><a data-toggle='modal' "
+"href='#modalTxt'>txt</a></span> containing the URLs of the projects, with "
+"each URL on a separate line. Or a <span class='colored-text'>zip</span> "
+"containing the .sb3"
 msgstr ""
-"3. Projeleri bir <span class='colored-text'><a data-toggle='modal' "
-"href='#modalTxt'>txt</a></span> dosyası ile yükleyin:"
-
-#: app/templates/main/rubric-uploader.html:171
-msgid ""
-"<input  name='urlsFile' type='file' class='filestyle' data-"
-"buttonText='Choose txt'>"
-msgstr ""
-"<input  name='urlsFile' type='file' class='filestyle' data-"
-"buttonText='Txt'yi seçin'>"
+"Lütfen her URL'yi ayrı bir satıra yerleştirerek projelerin URL'lerini içeren "
+"bir <span class='colored-text'><a data-toggle='modal' href='#modalTxt'>txt</"
+"a></span> dosyası yükleyin. Alternatif olarak, en fazla 10 adet .sb3 "
+"dosyasını içeren bir zip dosyası yükleyebilirsiniz."
 
 #: app/templates/main/statistics.html:311
 msgid "These statistics are update every night at 00.00h CEST."
@@ -5428,3 +5431,17 @@ msgstr "Rusça"
 #: drScratch/settings.py:102
 msgid "Turkish"
 msgstr "Türkçe"
+
+#~ msgid ""
+#~ "3. Upload projects with a <span class='colored-text'><a data-"
+#~ "toggle='modal' href='#modalTxt'>txt</a></span> file:"
+#~ msgstr ""
+#~ "3. Projeleri bir <span class='colored-text'><a data-toggle='modal' "
+#~ "href='#modalTxt'>txt</a></span> dosyası ile yükleyin:"
+
+#~ msgid ""
+#~ "<input  name='urlsFile' type='file' class='filestyle' data-"
+#~ "buttonText='Choose txt'>"
+#~ msgstr ""
+#~ "<input  name='urlsFile' type='file' class='filestyle' data-"
+#~ "buttonText='Txt'yi seçin'>"
