@@ -245,8 +245,6 @@ def create_csv_dups(d: dict, folder_path: str):
             max_dup_scripts = scripts_num if max_dup_scripts < scripts_num else max_dup_scripts
         for i in range(1, max_dup_scripts + 1):
             headers.append(f'duplicateScript_{i}')
-
-        print(headers)
         # open csv file
         with open(csv_filepath, 'w') as csv_file:
             writer_csv = csv.DictWriter(csv_file, fieldnames=headers)
