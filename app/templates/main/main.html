@@ -512,7 +512,7 @@
                     <form name="form" class="project-form" id="batch-form" enctype="multipart/form-data" method="post" action="/show_dashboard/" style="margin-top: 50px;">
                         <h3><strong>{% trans "Batch Mode" %}</strong></h3>
 
-                        <p><span class='colored-text'>{% trans "IMPORTANT!" %}</span> {% trans "Please upload a <span class='colored-text'><a data-toggle='modal' href='#modalTxt'>txt</a></span> containing the URLs of the projects, with each URL on a separate line. Or a zip containing the .sb3 (Max. 10)" %}</p>
+                        <p><span class='colored-text'>{% trans "IMPORTANT!" %}</span> {% trans "Please upload a <span class='colored-text'><a data-toggle='modal' href='#modalTxt'>txt</a></span> containing the URLs of the projects, with each URL on a separate line. Or a <span class='colored-text'>zip</span> containing the .sb3 (Max. 10)" %}</p>
 
                         <input type="hidden" name="dashboard_mode" value="Default">
                         {% trans "<input name='urlsFile' type='file' class='filestyle' data-buttonText='Choose txt or zip'>" %}
