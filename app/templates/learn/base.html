@@ -96,6 +96,16 @@
 
     </script>
 
+    <script>
+        $(document).ready(function() {
+            scratchblocks.renderMatching('pre.blocks', {
+            style:     'scratch3',   // Optional, defaults to 'scratch2'.
+            languages: ['en'], // Optional, defaults to ['en'].
+            scale: 0.5,                // Optional, defaults to 1
+            });
+        })
+    </script>
+
     <style>
         .sidebar {
             position: -webkit-sticky; /* Para navegadores webkit */
