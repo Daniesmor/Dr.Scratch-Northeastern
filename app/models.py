@@ -8,6 +8,8 @@ class File(models.Model):
     filename = models.CharField(max_length=100)
     organization = models.CharField(max_length=100, default='drscratch')
     coder = models.CharField(max_length=100, default='drscratch')
+    creation_date = models.DateField(auto_now=False)
+    modified_date = models.DateField(auto_now=False)
     # type_user = models.CharField(max_length=100, default='drscratch')
     method = models.CharField(max_length=100)
     time = models.DateField(auto_now=False)

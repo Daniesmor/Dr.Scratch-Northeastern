@@ -275,16 +275,17 @@ def send_request_getsb3(id_project, username, method):
 
     path_project = os.path.dirname(os.path.dirname(__file__))
     path_json_file_temporary = download_scratch_project_from_servers(path_project, id_project)
-
-    print("PATH JSON TEMPORARY FILE ---------------------------------------------------------")
-    print(path_json_file_temporary)
+    scratch_project_dates = ScratchSession().get_dates(id_project)
 
     now = datetime.now()
+    creation = scratch_project_dates['created']
+    modified = scratch_project_dates['modified']
 
     if Organization.objects.filter(username=username):
         file_obj = File(filename=file_url,
                         organization=username,
-                        method=method, time=now,
+                        method=method, time=now, 
+                        creation_date= creation, modified_date= modified,
                         score=0, abstraction=0, parallelization=0,
                         logic=0, synchronization=0, flowControl=0,
                         userInteractivity=0, dataRepresentation=0,
@@ -294,6 +295,7 @@ def send_request_getsb3(id_project, username, method):
         file_obj = File(filename=file_url,
                         coder=username,
                         method=method, time=now,
+                        creation_date= creation, modified_date= modified,
                         score=0, abstraction=0, parallelization=0,
                         logic=0, synchronization=0, flowControl=0,
                         userInteractivity=0, dataRepresentation=0,
@@ -302,6 +304,7 @@ def send_request_getsb3(id_project, username, method):
     else:
         file_obj = File(filename=file_url,
                         method=method, time=now,
+                        creation_date= creation, modified_date= modified,
                         score=0, abstraction=0, parallelization=0,
                         logic=0, synchronization=0, flowControl=0,
                         userInteractivity=0, dataRepresentation=0,

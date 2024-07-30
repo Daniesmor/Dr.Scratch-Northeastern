@@ -41,15 +41,20 @@ class ScratchSession:
         self.csrf_token = None
         
         self.proxies = {
-      
             'http': 'socks5h://tor_proxy:9050',
             'https': 'socks5h://tor_proxy:9050'
-
         }
         
     def get_project(self, project):
         project_id = (project.id if isinstance(project, (RemixtreeProject, Project)) else project)
-        print(requests.get(f'{consts.URL_SCRATCH_API}/{project_id}/', proxies=self.proxies).json())
+        print(f'{consts.URL_SCRATCH_API}/{project_id}/')
         return Project( 
             requests.get(f'{consts.URL_SCRATCH_API}/{project_id}/', proxies=self.proxies).json()
         )
+    
+    def get_dates(self, project):
+        project_id = (project.id if isinstance(project, (RemixtreeProject, Project)) else project)
+        print(f'{consts.URL_SCRATCH_INFO_API}/{project_id}/')
+        info_response = requests.get(f'{consts.URL_SCRATCH_INFO_API}/{project_id}/', proxies=self.proxies).json()
+        dates = info_response['history']
+        return dates
