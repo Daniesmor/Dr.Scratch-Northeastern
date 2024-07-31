@@ -24,6 +24,8 @@ from app.models import Coder, File, Organization
 from app.scratchclient import ScratchSession
 from app.recomender import RecomenderSystem
 import app.consts_drscratch as consts
+import re
+import jsonpickle
 
 
 
@@ -112,7 +114,6 @@ def _make_compare(request, skill_points: dict):
                 path[project] = request.session.get('current_project_path')
 
         for key,value in path.items():
-            print(key, value)
             json[key] = load_json_project(value)    
         dict_scratch_golfing = ScratchGolfing(json.get('Original'), json.get('New')).finalize()
         dict_scratch_golfing = dict_scratch_golfing['result']['scratch_golfing']
@@ -191,7 +192,8 @@ def write_activity_in_logfile(file_name):
 def generate_uniqueid_for_saving(id_project):
     date_now = datetime.now()
     date_now_string = date_now.strftime("%Y_%m_%d_%H_%M_%S_%f")
-    return id_project + "_" + date_now_string
+    project_name = str(uuid.uuid4())
+    return project_name + "_" + date_now_string
 
 
 def save_projectsb3(path_file_temporary, id_project):
@@ -199,7 +201,7 @@ def save_projectsb3(path_file_temporary, id_project):
     dir_zips = os.path.dirname(os.path.dirname(__file__)) + "/uploads/"
 
     unique_id = generate_uniqueid_for_saving(id_project)
-    unique_file_name_for_saving = dir_zips + unique_id + ".sb2"
+    unique_file_name_for_saving = dir_zips + unique_id + ".sb3"
 
     dir_utemp = path_file_temporary.split(id_project)[0].encode('utf-8')
     path_project = os.path.dirname(os.path.dirname(__file__))
@@ -253,7 +255,7 @@ def download_scratch_project_from_servers(path_project, id_project):
         json_string_format = response_from_scratch.read()
         json_data = json.loads(json_string_format)
         print("PATH JSON TEMPORARY FILE in dspfs---------------------------------------------------------")
-        print(json_data)
+        #print(json_data)
         resulting_file = open(path_json_file, 'wb')
         resulting_file.write(json_string_format)
         resulting_file.close()
@@ -268,57 +270,82 @@ def download_scratch_project_from_servers(path_project, id_project):
 
 def send_request_getsb3(id_project, username, method):
     """
-    Send request to getsb3 app
+    Check the dates
+    If the project has been modified: Send request to getsb3 app
+    else render last modification
     """
-
-    file_url = '{}{}'.format(id_project, '.sb3')
-
-    path_project = os.path.dirname(os.path.dirname(__file__))
-    path_json_file_temporary = download_scratch_project_from_servers(path_project, id_project)
+    print("MI ID PROJECT")
+    print(id_project)
     scratch_project_dates = ScratchSession().get_dates(id_project)
-
-    now = datetime.now()
     creation = scratch_project_dates['created']
     modified = scratch_project_dates['modified']
 
-    if Organization.objects.filter(username=username):
-        file_obj = File(filename=file_url,
-                        organization=username,
-                        method=method, time=now, 
-                        creation_date = creation, modified_date= modified,
-                        score=0, abstraction=0, parallelization=0,
-                        logic=0, synchronization=0, flowControl=0,
-                        userInteractivity=0, dataRepresentation=0,
-                        spriteNaming=0, initialization=0,
-                        deadCode=0, duplicateScript=0)
-    elif Coder.objects.filter(username=username):
-        file_obj = File(filename=file_url,
-                        coder=username,
-                        method=method, time=now,
-                        creation_date = creation, modified_date= modified,
-                        score=0, abstraction=0, parallelization=0,
-                        logic=0, synchronization=0, flowControl=0,
-                        userInteractivity=0, dataRepresentation=0,
-                        spriteNaming=0, initialization=0,
-                        deadCode=0, duplicateScript=0)
+    # Check if the project exists or is new
+    projects = File.objects.filter(scratch_project_id=id_project).last()
+        
+    if projects != None:
+        path_scratch_project_sb3 = ''
+        ext_type_project = ''
+        file_obj = projects
+        print("SE ESTA RECILANDO EL PROJECTO")
     else:
-        file_obj = File(filename=file_url,
-                        method=method, time=now,
-                        creation_date = creation, modified_date= modified,
-                        score=0, abstraction=0, parallelization=0,
-                        logic=0, synchronization=0, flowControl=0,
-                        userInteractivity=0, dataRepresentation=0,
-                        spriteNaming=0, initialization=0,
-                        deadCode=0, duplicateScript=0)
-    
-    file_obj.save()
+        print("SE ESTA DESCARGADNO UN PROJECTO NUEVO")
+        file_url = '{}{}'.format(id_project, '.sb3')
 
-    write_activity_in_logfile(file_obj)
-    path_scratch_project_sb3, ext_type_project = save_projectsb3(path_json_file_temporary, id_project)
+        path_project = os.path.dirname(os.path.dirname(__file__))
+        path_json_file_temporary = download_scratch_project_from_servers(path_project, id_project)
+        
+        now = datetime.now()
 
+        path_scratch_project_sb3, ext_type_project = save_projectsb3(path_json_file_temporary, id_project)
+        pattern = r'/(?P<file_uuid>[^/_]+)_'
+        project_file_uuid = re.search(pattern, path_scratch_project_sb3)
+        project_file_uuid = project_file_uuid.group('file_uuid')
+        file_uuid_obj = uuid.UUID(hex=str(project_file_uuid), version=4)
+
+        if Organization.objects.filter(username=username):
+            file_obj = File(filename=file_url,
+                            file_uuid=file_uuid_obj,
+                            scratch_project_id=id_project,
+                            organization=username,
+                            method=method, time=now, 
+                            creation_date=creation, modified_date=modified,
+                            score=0, abstraction=0, parallelization=0,
+                            logic=0, synchronization=0, flowControl=0,
+                            userInteractivity=0, dataRepresentation=0,
+                            spriteNaming=0, initialization=0,
+                            deadCode=0, duplicateScript=0,
+                            full_analysis={})
+        elif Coder.objects.filter(username=username):
+            file_obj = File(filename=file_url,
+                            file_uuid=file_uuid_obj,
+                            scratch_project_id=id_project,
+                            coder=username,
+                            method=method, time=now,
+                            creation_date=creation, modified_date=modified,
+                            score=0, abstraction=0, parallelization=0,
+                            logic=0, synchronization=0, flowControl=0,
+                            userInteractivity=0, dataRepresentation=0,
+                            spriteNaming=0, initialization=0,
+                            deadCode=0, duplicateScript=0,
+                            full_analysis={})
+        else:
+            file_obj = File(filename=file_url,
+                            file_uuid=file_uuid_obj,
+                            scratch_project_id=id_project,
+                            method=method, time=now,
+                            creation_date=creation, modified_date=modified,
+                            score=0, abstraction=0, parallelization=0,
+                            logic=0, synchronization=0, flowControl=0,
+                            userInteractivity=0, dataRepresentation=0,
+                            spriteNaming=0, initialization=0,
+                            deadCode=0, duplicateScript=0,
+                            full_analysis={})
+        
+        file_obj.save()
+
+        write_activity_in_logfile(file_obj)
     return path_scratch_project_sb3, file_obj, ext_type_project
-
-
 
 def generator_dic(request, id_project, skill_points: dict) -> dict:
     """
@@ -341,13 +368,16 @@ def generator_dic(request, id_project, skill_points: dict) -> dict:
         traceback.print_exc()
         d = {'Error': 'no_exists'}
         return d
-
+    
     try:
         print("MAS TRAZASS------------------------------------------------")
         print(path_project)
         print(file_obj)
         print(ext_type_project)
-        d = analyze_project(request, path_project, file_obj, ext_type_project, skill_points)
+        if (path_project == ''):    
+            d = jsonpickle.loads(file_obj.full_analysis)
+        else:
+            d = analyze_project(request, path_project, file_obj, ext_type_project, skill_points)
     except Exception:
         logger.error('Impossible analyze project')
         traceback.print_exc()
@@ -376,7 +406,6 @@ def check_version(filename):
         version = '3.0'
     else:
         version = '1.4'
-
     return version
 
 
@@ -691,9 +720,6 @@ def translate(request, d, filename, vanilla=False):
         filename.save()
         return d_translate_en
 
-
-
-
 def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_points: dict):
 
     dict_analysis = {}
@@ -704,7 +730,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
     if os.path.exists(path_projectsb3):
         json_scratch_project = load_json_project(path_projectsb3)
         print("TRAZAAA DENTRO ANALYZE PROJECT --------------------------------")
-        print(json_scratch_project)
+        #print(json_scratch_project)
         dict_mastery = Mastery(path_projectsb3, json_scratch_project, skill_points, dashboard).finalize()
         dict_duplicate_script = DuplicateScripts(path_projectsb3, json_scratch_project).finalize()
         dict_dead_code = DeadCode(path_projectsb3, json_scratch_project,).finalize()
@@ -713,14 +739,14 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         result_block_sprite_usage = Block_Sprite_Usage(path_projectsb3, json_scratch_project).finalize()
         refactored_code = RefactorDuplicate(json_scratch_project, dict_duplicate_script).refactor_duplicates()
 
-        print("--------------------- DUPLICATED CODE DICT ---------------------------")
-        print(refactored_code)
-        print("--------------------- DEAD CODE DICT ---------------------------")
-        print(dict_dead_code)
-        print("--------------------- SPRITE NAMING DICT -----------------------")
-        print(result_sprite_naming)
-        print("--------------------- BACKDROP NAMING DICT ----------------------")
-        print(result_backdrop_naming)
+        print("--------------------- DUPLICATED CODE DICT (Silenced: analyzer.py) ---------------------------")
+        #print(refactored_code)
+        print("--------------------- DEAD CODE DICT (Silenced: analyzer.py) ---------------------------")
+        #print(dict_dead_code)
+        print("--------------------- SPRITE NAMING DICT (Silenced: analyzer.py) -----------------------")
+        #print(result_sprite_naming)
+        print("--------------------- BACKDROP NAMING DICT (Silenced: analyzer.py) ----------------------")
+        #print(result_backdrop_naming)
         print("------------------------------------------------------------------")
         
         # RECOMENDER SECTION
@@ -740,7 +766,13 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         dict_analysis.update(proc_backdrop_naming(result_backdrop_naming, file_obj))
         dict_analysis.update(proc_refactored_code(refactored_code))
         dict_analysis.update(proc_block_sprite_usage(result_block_sprite_usage, file_obj))
-        
+
+        print("TIPO DE JSON")
+        print(type(dict_analysis))
+        json_dict = jsonpickle.dumps(dict_analysis)
+        print(json_dict)
+        file_obj.full_analysis = json_dict
+        file_obj.save()
         # dict_analysis.update(proc_urls(request, dict_mastery, file_obj))
         # dictionary.update(proc_initialization(resultInitialization, filename))
         return dict_analysis
@@ -759,16 +791,12 @@ def analysis_by_upload(request, skill_points: dict, upload):
     unique_id = '{}_{}{}'.format(project_name, datetime.now().strftime("%Y_%m_%d_%H_%M_%S_"), datetime.now().microsecond)
     zip_filename = zip_filename.decode('utf-8')
     version = check_version(zip_filename)
-    version = '2.0'
-    file_saved = dir_zips + unique_id + ".sb2"
-    """
     if version == "1.4":
         file_saved = dir_zips + unique_id + ".sb"
     elif version == "2.0":
         file_saved = dir_zips + unique_id + ".sb2"
     else:
         file_saved = dir_zips + unique_id + ".sb3"
-    """
     # Create log
     path_log = os.path.dirname(os.path.dirname(__file__)) + "/log/"
     log_file = open(path_log + "logFile.txt", "a")
@@ -783,7 +811,7 @@ def analysis_by_upload(request, skill_points: dict, upload):
     try:
         ext_type_project=None
         dict_drscratch_analysis = analyze_project(request, file_name, filename_obj, ext_type_project, skill_points)
-        print(dict_drscratch_analysis)
+        #print(dict_drscratch_analysis)
     except Exception:
         traceback.print_exc()
         filename_obj.method = 'project/error'

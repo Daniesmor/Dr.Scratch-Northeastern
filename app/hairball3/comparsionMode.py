@@ -93,7 +93,7 @@ class ComparsionMode(Plugin):
         script_text = "\n\n".join([script.convert_to_text() for script in sprite_scripts])
         
         print("deupracion convert_format")
-        print(script_text)
+        #print(script_text)
         return script_text
 
     
