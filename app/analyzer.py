@@ -26,7 +26,8 @@ from app.recomender import RecomenderSystem
 import app.consts_drscratch as consts
 import re
 import jsonpickle
-
+from datetime import datetime
+from dateutil import parser
 
 
 def save_analysis_in_file_db(request, zip_filename):
@@ -279,11 +280,13 @@ def send_request_getsb3(id_project, username, method):
     scratch_project_dates = ScratchSession().get_dates(id_project)
     creation = scratch_project_dates['created']
     modified = scratch_project_dates['modified']
+    creation = parser.parse(creation)
+    modified = parser.parse(modified)   
 
     # Check if the project exists or is new
     projects = File.objects.filter(scratch_project_id=id_project).last()
-        
-    if projects != None:
+
+    if (projects != None) and (modified >= projects.modified_date):
         path_scratch_project_sb3 = ''
         ext_type_project = ''
         file_obj = projects
