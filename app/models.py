@@ -29,6 +29,7 @@ class File(models.Model):
     initialization = models.IntegerField()
     deadCode = models.IntegerField()
     duplicateScript = models.IntegerField()
+    project_parent_id = models.IntegerField(null=True, blank=True)
     full_analysis = models.JSONField(null=True, blank=True)
 
 class BatchCSV(models.Model):

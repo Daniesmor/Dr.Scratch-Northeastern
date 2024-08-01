@@ -62,6 +62,8 @@ urlpatterns = [
         
     # Dashboards
     url(r'^show_dashboard/(?P<skill_points>.{1,6})?$', app_views.show_dashboard, name='show_dashboard'),
+    #url(r'^show_dashboard/(?P<id_project>\d+)/(?P<date_project>)+$', 
+    path('show_dashboard/<int:id_project>/<str:date_project>/', app_views.show_especific_project, name='show_especific_project'),
     url(r'^download_certificate', app_views.download_certificate, name='certificate'),
 
     # Conact form

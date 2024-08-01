@@ -28,6 +28,7 @@ import re
 import jsonpickle
 from datetime import datetime
 from dateutil import parser
+from itertools import chain
 
 
 def save_analysis_in_file_db(request, zip_filename):
@@ -287,6 +288,9 @@ def send_request_getsb3(id_project, username, method):
     print("MODIFIED PARSEADO DEL NUEVO")
     print(modified)
     author = ScratchSession().get_author(id_project)
+    parent_id = ScratchSession().get_parent_id(id_project)
+    print("SOY EL HIJO DE")
+    print(parent_id)
 
     # Check if the project exists or is new
     projects = File.objects.filter(scratch_project_id=id_project).last()
@@ -327,6 +331,7 @@ def send_request_getsb3(id_project, username, method):
                             userInteractivity=0, dataRepresentation=0,
                             spriteNaming=0, initialization=0,
                             deadCode=0, duplicateScript=0,
+                            project_parent_id=parent_id,
                             full_analysis={})
         elif Coder.objects.filter(username=username):
             file_obj = File(filename=file_url,
@@ -341,6 +346,7 @@ def send_request_getsb3(id_project, username, method):
                             userInteractivity=0, dataRepresentation=0,
                             spriteNaming=0, initialization=0,
                             deadCode=0, duplicateScript=0,
+                            project_parent_id=parent_id,
                             full_analysis={})
         else:
             file_obj = File(filename=file_url,
@@ -354,6 +360,7 @@ def send_request_getsb3(id_project, username, method):
                             userInteractivity=0, dataRepresentation=0,
                             spriteNaming=0, initialization=0,
                             deadCode=0, duplicateScript=0,
+                            project_parent_id=parent_id,
                             full_analysis={})
         
         file_obj.save()
@@ -364,6 +371,38 @@ def send_request_getsb3(id_project, username, method):
 def get_project_branching(id_project):
     projects = File.objects.filter(scratch_project_id=id_project)
     return projects
+
+def get_project_childs(id_project):
+    """
+    Create a dict with every child id (keys), and his list commits (value)
+    """
+    childs = {}
+    projects = File.objects.filter(project_parent_id=id_project)
+    print("mi hijiños")
+    print(projects)
+    for project in projects:
+        if childs.get(project.scratch_project_id) == None:
+            childs[project.scratch_project_id] = []
+            childs[project.scratch_project_id] = [File.objects.filter(scratch_project_id=project.scratch_project_id,project_parent_id=id_project)]
+
+    return childs
+
+def get_sorted_projects(branching):
+    main_projects = list(branching['main'])
+    main_projects = [(project,'main') for project in main_projects]
+    print("main_project")
+    print(main_projects)
+
+    child_projects = []
+    for queryset_list in branching['childs'].values():
+        for queryset in queryset_list:
+            child_projects.extend(list(queryset))
+    child_projects = [(project,'child') for project in child_projects]
+    print("child_project")
+    print(child_projects)
+
+    all_projects = sorted(chain(main_projects, child_projects), key=lambda project: project[0].modified_date)
+    return all_projects
 
 def generator_dic(request, id_project, skill_points: dict) -> dict:
     """
@@ -392,11 +431,21 @@ def generator_dic(request, id_project, skill_points: dict) -> dict:
         print(path_project)
         print(file_obj)
         print(ext_type_project)
+
         if (path_project == ''):    
             d = jsonpickle.loads(file_obj.full_analysis)
         else:
             d = analyze_project(request, path_project, file_obj, ext_type_project, skill_points)
-        d['branching'] = get_project_branching(id_project)
+        d['branching'] = {}
+        d['branching']['childs'] = {}
+        d['branching']['main'] = get_project_branching(id_project)
+        d['branching']['childs'] = get_project_childs(id_project)
+        branch = get_sorted_projects(d['branching'])
+        print("mi brancing")
+        print(branch)
+        d['branching'] = branch
+        file_obj.full_analysis = jsonpickle.dumps(d)
+        file_obj.save()
     except Exception:
         logger.error('Impossible analyze project')
         traceback.print_exc()
@@ -788,10 +837,12 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
 
         print("TIPO DE JSON")
         print(type(dict_analysis))
-        json_dict = jsonpickle.dumps(dict_analysis)
-        print(json_dict)
-        file_obj.full_analysis = json_dict
-        file_obj.save()
+
+
+        #json_dict = jsonpickle.dumps(dict_analysis)
+        #print(json_dict)
+        #file_obj.full_analysis = json_dict
+        #file_obj.save()
         # dict_analysis.update(proc_urls(request, dict_mastery, file_obj))
         # dictionary.update(proc_initialization(resultInitialization, filename))
         return dict_analysis

@@ -55,6 +55,8 @@ from app.hairball3.comparsionMode import ComparsionMode
 from app.exception import DrScratchException
 from app.hairball3.scratchGolfing import ScratchGolfing
 from app.hairball3.block_sprite_usage import Block_Sprite_Usage
+from dateutil import parser
+import jsonpickle
 
 import logging
 import coloredlogs
@@ -178,7 +180,30 @@ def show_dashboard(request, skill_points=None):
                 elif d["dashboard_mode"] == 'Recommender':
                     return render(request, user + '/dashboard-recommender.html', d)
     else:
-        return HttpResponseRedirect('/')    
+        return HttpResponseRedirect('/')   
+
+def show_especific_project(request, id_project, date_project):
+    if request.method == 'GET':
+        user = str(identify_user_type(request))
+        date_project = parser.parse(date_project)
+        print("mi print date")
+        print(date_project)
+        project = File.objects.get(scratch_project_id = id_project,modified_date = date_project)
+        d = jsonpickle.loads(project.full_analysis)
+        print(d)
+  
+        if d.get('Error') == 'analyzing':
+            return render(request, 'error/analyzing.html')
+        elif d.get('Error') == 'MultiValueDict':
+            return render(request, user + '/main.html', {'error': True})
+        elif d.get('Error') == 'id_error':
+            return render(request, user + '/main.html', {'id_error': True})
+        elif d.get('Error') == 'no_exists':
+            return render(request, user + '/main.html', {'no_exists': True})
+        else:
+            return render(request, user + '/dashboard-default.html', d)
+    else:
+        return HttpResponseRedirect('/')   
 
 @csrf_exempt
 def get_recommender(request, skill_points=None):

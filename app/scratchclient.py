@@ -64,3 +64,10 @@ class ScratchSession:
         info_response = requests.get(f'{consts.URL_SCRATCH_INFO_API}/{project_id}/', proxies=self.proxies).json()
         username = info_response['author']['username']
         return username
+    
+    def get_parent_id(self, project):
+        project_id = (project.id if isinstance(project, (RemixtreeProject, Project)) else project)
+        print(f'{consts.URL_SCRATCH_INFO_API}/{project_id}/')
+        info_response = requests.get(f'{consts.URL_SCRATCH_INFO_API}/{project_id}/', proxies=self.proxies).json()
+        parent_id = info_response['remix']['parent']
+        return parent_id
