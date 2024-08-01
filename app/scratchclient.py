@@ -54,7 +54,13 @@ class ScratchSession:
     
     def get_dates(self, project):
         project_id = (project.id if isinstance(project, (RemixtreeProject, Project)) else project)
-        print(f'{consts.URL_SCRATCH_INFO_API}/{project_id}/')
         info_response = requests.get(f'{consts.URL_SCRATCH_INFO_API}/{project_id}/', proxies=self.proxies).json()
         dates = info_response['history']
         return dates
+    
+    def get_author(self, project):
+        project_id = (project.id if isinstance(project, (RemixtreeProject, Project)) else project)
+        print(f'{consts.URL_SCRATCH_INFO_API}/{project_id}/')
+        info_response = requests.get(f'{consts.URL_SCRATCH_INFO_API}/{project_id}/', proxies=self.proxies).json()
+        username = info_response['author']['username']
+        return username

@@ -12,6 +12,7 @@ class File(models.Model):
     coder = models.CharField(max_length=100, default='drscratch')
     creation_date = models.DateTimeField(null=True, blank=True)
     modified_date = models.DateTimeField(null=True, blank=True)
+    scratch_author = models.CharField(max_length=100, default='drscratch')
     # type_user = models.CharField(max_length=100, default='drscratch')
     method = models.CharField(max_length=100)
     time = models.DateTimeField(auto_now=False)

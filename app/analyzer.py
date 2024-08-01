@@ -280,13 +280,21 @@ def send_request_getsb3(id_project, username, method):
     scratch_project_dates = ScratchSession().get_dates(id_project)
     creation = scratch_project_dates['created']
     modified = scratch_project_dates['modified']
+    print("MODIFIED SIN PARSEAR DEL NUEVO")
+    print(modified)
     creation = parser.parse(creation)
     modified = parser.parse(modified)   
+    print("MODIFIED PARSEADO DEL NUEVO")
+    print(modified)
+    author = ScratchSession().get_author(id_project)
 
     # Check if the project exists or is new
     projects = File.objects.filter(scratch_project_id=id_project).last()
+    if projects != None:
+        print("modified del antigio")
+        print(projects.modified_date)
 
-    if (projects != None) and (modified >= projects.modified_date):
+    if (projects != None) and (modified <= projects.modified_date):
         path_scratch_project_sb3 = ''
         ext_type_project = ''
         file_obj = projects
@@ -313,6 +321,7 @@ def send_request_getsb3(id_project, username, method):
                             organization=username,
                             method=method, time=now, 
                             creation_date=creation, modified_date=modified,
+                            scratch_author=author,
                             score=0, abstraction=0, parallelization=0,
                             logic=0, synchronization=0, flowControl=0,
                             userInteractivity=0, dataRepresentation=0,
@@ -326,6 +335,7 @@ def send_request_getsb3(id_project, username, method):
                             coder=username,
                             method=method, time=now,
                             creation_date=creation, modified_date=modified,
+                            scratch_author=author,
                             score=0, abstraction=0, parallelization=0,
                             logic=0, synchronization=0, flowControl=0,
                             userInteractivity=0, dataRepresentation=0,
@@ -338,6 +348,7 @@ def send_request_getsb3(id_project, username, method):
                             scratch_project_id=id_project,
                             method=method, time=now,
                             creation_date=creation, modified_date=modified,
+                            scratch_author=author,
                             score=0, abstraction=0, parallelization=0,
                             logic=0, synchronization=0, flowControl=0,
                             userInteractivity=0, dataRepresentation=0,
@@ -349,6 +360,10 @@ def send_request_getsb3(id_project, username, method):
 
         write_activity_in_logfile(file_obj)
     return path_scratch_project_sb3, file_obj, ext_type_project
+
+def get_project_branching(id_project):
+    projects = File.objects.filter(scratch_project_id=id_project)
+    return projects
 
 def generator_dic(request, id_project, skill_points: dict) -> dict:
     """
@@ -381,6 +396,7 @@ def generator_dic(request, id_project, skill_points: dict) -> dict:
             d = jsonpickle.loads(file_obj.full_analysis)
         else:
             d = analyze_project(request, path_project, file_obj, ext_type_project, skill_points)
+        d['branching'] = get_project_branching(id_project)
     except Exception:
         logger.error('Impossible analyze project')
         traceback.print_exc()

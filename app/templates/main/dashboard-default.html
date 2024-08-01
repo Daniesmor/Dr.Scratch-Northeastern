@@ -1170,7 +1170,59 @@
             </div>
         </div>
 
+        <style>
+            .gitgraph .gitgraph-commit .gitgraph-commit-hash {
+              display: none; /* Oculta el hash del commit */
+            }
+        </style>
+
+        <div id="gitgraph"></div>
         
+        <script>
+          // Espera a que el DOM se cargue completamente
+          document.addEventListener("DOMContentLoaded", function() {
+            const { createGitgraph } = window.GitgraphJS;
+      
+            var customTagStyle = {
+                bgColor: 'orange',
+                strokeColor: 'orange',
+                borderRadius: 0,
+                pointerWidth: 0,
+            };
+            // Selecciona el contenedor del gráfico
+            const graphContainer = document.getElementById("gitgraph");
+      
+            // Crea el gráfico
+            const gitgraph = createGitgraph(graphContainer);
+            // Agrega algunos commits
+            const master = gitgraph.branch("Last");
+            {% for project in branching %}
+      
+                {% with 0 as smells %}
+                    {% with smells|add:project.initialization as smells %}
+                        {% with smells|add:project.spriteNaming as smells %}
+                            {% with smells|add:project.deadCode as smells %}
+                                {% with smells|add:project.duplicateScript as smells %}
+                                    master.commit({ 
+                                        subject: "{{ project.modified_date }}", 
+                                        author: "Author: {{ project.scratch_author }}", 
+                                    }).tag("Score: {{ project.score }}").tag({
+                                        name: "Smells: {{ smells }}",
+                                        style: customTagStyle,
+                                    });
+                                {% endwith %}
+                            {% endwith %}
+                        {% endwith %}
+                    {% endwith %}
+                {% endwith %}
+                
+              
+                
+
+            {% endfor %}
+
+          });
+        </script>
         
 
         <!-- MODAL -->
