@@ -1215,64 +1215,51 @@
             });
             
             let branches = {};
+            branches['main'] = gitgraph.branch({
+                name: "main",
+            });
             //const branches['{{ branch }}'] = gitgraph.branch("Last");
-            {% for commit, branch in branching %}
-            {% if branch != 'main' %}
-                {% with '#A3D5D1' as color %}
-                if (!branches['{{ branch }}']) {
-                    branches['{{ branch }}'] = gitgraph.branch({
+            {% for commit, branch, father_branch in branching %}
+                {% if branch != 'main' %}
+                    {% with '#A3D5D1' as color %}
+                    if (!branches['{{ branch }}']) {
+                        branches['{{ branch }}'] = branches['{{ father_branch }}'].branch({
                         name: "{{ branch }}",
-                        style: {
-                            color: "{{ color }}", 
-                            dot: {
-                                color: "{{ color }}", 
-                            },
-                        },
-                        commitDefaultOptions: {
+                        
+                        });
+                    } 
+                        
+                    
+                    {% endwith %}
+                {% else %}
+                    {% with '#979797' as color %} 
+                    if (!branches['{{ branch }}']) {
+                        branches['{{ branch }}'] = gitgraph.branch({
+                            name: "{{ branch }}",
                             style: {
-                                label: {
-                                    color: "{{ color }}",
-                                },
+                                color: "{{ color }}", 
                                 dot: {
-                                    color: "{{ color }}"
+                                    color: "{{ color }}", 
                                 },
-                                message: {
-                                    color: "{{ color }}"
+                            },
+                            commitDefaultOptions: {
+                                style: {
+                                    label: {
+                                        color: "{{ color }}"
+                                    },
+                                    dot: {
+                                        color: "{{ color }}"
+                                    },
+                                    message: {
+                                        color: "{{ color }}"
+                                    }
                                 }
                             }
-                        }
-                    });
-                }
-                {% endwith %}
-            {% else %}
-                {% with '#979797' as color %} 
-                if (!branches['{{ branch }}']) {
-                    branches['{{ branch }}'] = gitgraph.branch({
-                        name: "{{ branch }}",
-                        style: {
-                            color: "{{ color }}", 
-                            dot: {
-                                color: "{{ color }}", 
-                            },
-                        },
-                        commitDefaultOptions: {
-                            style: {
-                                label: {
-                                    color: "{{ color }}"
-                                },
-                                dot: {
-                                    color: "{{ color }}"
-                                },
-                                message: {
-                                    color: "{{ color }}"
-                                }
-                            }
-                        }
-                        // Color cuando branch == 'main'
-                    });
-                }
-                {% endwith %}
-            {% endif %}
+                            // Color cuando branch == 'main'
+                        });
+                    }
+                    {% endwith %}
+                {% endif %}
 
                 {% with 0 as smells %}
                     {% with smells|add:commit.initialization as smells %}

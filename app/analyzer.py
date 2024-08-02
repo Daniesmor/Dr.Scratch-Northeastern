@@ -387,17 +387,40 @@ def get_project_childs(id_project):
 
     return childs
 
-def get_sorted_projects(branching):
+def get_sorted_projects(branching, id_project):
     main_projects = list(branching['main'])
-    main_projects = [(project,'main') for project in main_projects]
-    print("main_project")
+    main_projects = [(project, 'main', 'main') for project in main_projects]
+    print("main_projects")
     print(main_projects)
 
     child_projects = []
+    remix_counter = 0
     for queryset_list in branching['childs'].values():
         for queryset in queryset_list:
-            child_projects.extend(list(queryset))
-    child_projects = [(project,'remix') for project in child_projects]
+            for project in queryset:
+                child_projects.append((project, f'remix {remix_counter}'))
+        remix_counter += 1
+
+    # Convertir listas de tuplas a diccionarios para fácil acceso
+    main_projects_dict = {project[0].scratch_project_id: (project[0], project[1]) for project in main_projects}
+    child_projects_dict = {project[0].scratch_project_id: (project[0], project[1]) for project in child_projects}
+
+    # Añadir nodos padre para remix
+    for idx, project in enumerate(child_projects):
+        project_obj, remix_tag = project
+        father_node = ''
+        father_id = project_obj.project_parent_id
+
+        if father_id in main_projects_dict:
+            father_node = main_projects_dict[father_id][1]
+        elif father_id in child_projects_dict:
+            father_node = child_projects_dict[father_id][1]
+
+        # Actualizar la tupla con el nodo padre
+        child_projects[idx] = (project_obj, remix_tag, father_node)
+
+
+
     print("child_project")
     print(child_projects)
 
@@ -440,7 +463,7 @@ def generator_dic(request, id_project, skill_points: dict) -> dict:
         d['branching']['childs'] = {}
         d['branching']['main'] = get_project_branching(id_project)
         d['branching']['childs'] = get_project_childs(id_project)
-        branch = get_sorted_projects(d['branching'])
+        branch = get_sorted_projects(d['branching'],id_project)
         print("mi brancing")
         print(branch)
         d['branching'] = branch
