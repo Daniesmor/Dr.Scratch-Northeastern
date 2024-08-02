@@ -397,7 +397,7 @@ def get_sorted_projects(branching):
     for queryset_list in branching['childs'].values():
         for queryset in queryset_list:
             child_projects.extend(list(queryset))
-    child_projects = [(project,'child') for project in child_projects]
+    child_projects = [(project,'remix') for project in child_projects]
     print("child_project")
     print(child_projects)
 

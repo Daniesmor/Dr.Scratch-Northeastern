@@ -1181,7 +1181,17 @@
         <script>
           // Espera a que el DOM se cargue completamente
           document.addEventListener("DOMContentLoaded", function() {
-            const { createGitgraph } = window.GitgraphJS;
+            const { createGitgraph, TemplateName, templateExtend } = window.GitgraphJS;
+
+            // Define un template extendido con colores personalizados
+            const myTemplate = templateExtend(TemplateName.Metro, {
+                //colors: ["#A3D5D1"], // Cambia este array con los colores que necesitas
+                commit: {
+                    message: {
+                        displayHash: false, // No mostrar el hash del commit
+                    },
+                },
+            });
 
       
             var customTagStyle = {
@@ -1195,79 +1205,74 @@
       
             // Crea el gráfico
             const gitgraph = createGitgraph(graphContainer, {
-                template: "metro", 
+                template: myTemplate, 
                 orientation: "vertical",
                 commit: {
-                message: {
-                    displayHash: false, 
-                }
-                }
+                    message: {
+                        displayHash: false, 
+                    },
+                },
             });
-            /*
-            // Agrega algunos commits
-            const master = gitgraph.branch("Last");
-            {% for project in branching.main %}
-      
-                {% with 0 as smells %}
-                    {% with smells|add:project.initialization as smells %}
-                        {% with smells|add:project.spriteNaming as smells %}
-                            {% with smells|add:project.deadCode as smells %}
-                                {% with smells|add:project.duplicateScript as smells %}
-                                    master.commit({ 
-                                        subject: "{{ project.modified_date }}", 
-                                        author: "Author: {{ project.scratch_author }}",
-                                        
-                                        onClick: () => window.open('{% url 'show_especific_project' project.scratch_project_id project.modified_date|date:'c' %}', '_blank') 
-                                    }).tag({
-                                        name: "Score: {{ project.score }} Smells: {{ smells }}",
-                                        style: customTagStyle,
-                                    });
-                                {% endwith %}
-                            {% endwith %}
-                        {% endwith %}
-                    {% endwith %}
-                {% endwith %}
-                
-            {% endfor %}
-
-                  
-            {% for key, queryset_list in branching.childs.items %}
-
-                const child = gitgraph.branch("child");
-                {% for queryset in queryset_list %}
-                    {% for project in queryset %}
-                                console.log("{{ project.modified_date }}")
-                                
-                    {% with 0 as smells %}
-                     {% with smells|add:project.initialization as smells %}
-                      {% with smells|add:project.spriteNaming as smells %}
-                       {% with smells|add:project.deadCode as smells %}
-                        {% with smells|add:project.duplicateScript as smells %}            
-                            child.commit({ 
-                                subject: "{{ project.modified_date }}", 
-                                author: "Author: {{ project.scratch_author }}",
-                                onClick: () => window.open('{% url 'show_especific_project' project.scratch_project_id project.modified_date|date:'c' %}', '_blank') 
-                            }).tag({
-                                name: "Score: {{ project.score }} Smells: {{ smells }}",
-                                style: customTagStyle,
-                            });
-                         {% endwith %}
-                        {% endwith %}
-                       {% endwith %}
-                      {% endwith %}
-                     {% endwith %}
-                    {% endfor %}
-        
-                {% endfor %}
-            {% endfor %}
             
-            */
             let branches = {};
             //const branches['{{ branch }}'] = gitgraph.branch("Last");
             {% for commit, branch in branching %}
-                if (!('{{ branch }}' in branches)) {
-                    branches['{{ branch }}'] = gitgraph.branch("{{ branch }}");
+            {% if branch != 'main' %}
+                {% with '#A3D5D1' as color %}
+                if (!branches['{{ branch }}']) {
+                    branches['{{ branch }}'] = gitgraph.branch({
+                        name: "{{ branch }}",
+                        style: {
+                            color: "{{ color }}", 
+                            dot: {
+                                color: "{{ color }}", 
+                            },
+                        },
+                        commitDefaultOptions: {
+                            style: {
+                                label: {
+                                    color: "{{ color }}",
+                                },
+                                dot: {
+                                    color: "{{ color }}"
+                                },
+                                message: {
+                                    color: "{{ color }}"
+                                }
+                            }
+                        }
+                    });
                 }
+                {% endwith %}
+            {% else %}
+                {% with '#979797' as color %} 
+                if (!branches['{{ branch }}']) {
+                    branches['{{ branch }}'] = gitgraph.branch({
+                        name: "{{ branch }}",
+                        style: {
+                            color: "{{ color }}", 
+                            dot: {
+                                color: "{{ color }}", 
+                            },
+                        },
+                        commitDefaultOptions: {
+                            style: {
+                                label: {
+                                    color: "{{ color }}"
+                                },
+                                dot: {
+                                    color: "{{ color }}"
+                                },
+                                message: {
+                                    color: "{{ color }}"
+                                }
+                            }
+                        }
+                        // Color cuando branch == 'main'
+                    });
+                }
+                {% endwith %}
+            {% endif %}
 
                 {% with 0 as smells %}
                     {% with smells|add:commit.initialization as smells %}
@@ -1277,10 +1282,24 @@
                                     branches['{{ branch }}'].commit({ 
                                         subject: "{{ commit.modified_date }}", 
                                         author: "Author: {{ commit.scratch_author }}",
-                                        
+                                        onClick: () => window.open('{% url 'show_especific_project' commit.scratch_project_id commit.modified_date|date:'c' %}', '_blank') 
                                     }).tag({
                                         name: "Score: {{ commit.score }} Smells: {{ smells }}",
-                                        style: customTagStyle,
+                                        style: {
+                                            {% if commit.score <= 7 %}
+                                                bgColor: '#D9534F',
+                                                strokeColor: '#D9534F',
+                                            {% elif commit.score <= 21 %}
+                                                bgColor: '#F0AD4E',  // Color para scores entre 8 y 21
+                                                strokeColor: '#F0AD4E',
+                                            {% else %}
+                                                bgColor: '#5CB85C',  // Color para scores mayores de 21
+                                                strokeColor: '#5CB85C',
+                                            {% endif %}
+
+                                            borderRadius: 0,
+                                            pointerWidth: 0,
+                                        },
                                     });
                                 {% endwith %}
                             {% endwith %}
