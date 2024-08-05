@@ -382,7 +382,7 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
                 'LANGUAGE_CODE': request.LANGUAGE_CODE,
                 'POST': {
                     'urlsFile': projects,
-                    'dashboard_mode': dashboard_mode, 
+                    'dashboard_mode': 'Default', 
                     'email': request.POST['batch-email']       
                 }
             }
