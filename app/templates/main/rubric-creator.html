@@ -325,6 +325,12 @@
         .language-content {
             cursor: pointer;
         }
+        .img-fluid.zoomable {
+            cursor: pointer;
+        }
+        .form-label.text-primary.label-pair a:hover {
+            text-decoration: none;
+        }
 
 
     </style>
@@ -396,7 +402,7 @@
                                     <form action="" id="rubric-generator">
                                         <div class="form-group">
                                             <label for="Abstraction" class="form-label text-primary label-pair">
-                                                {% trans 'Abstraction' %}: <span id="Abstraction-value"></span> 
+                                                <a href="/learn/Abstraction/" target="_blank" style="color: inherit;">{% trans 'Abstraction' %}</a> : <span id="Abstraction-value"></span> 
                                                 <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
                                             </label>
                                         
@@ -423,7 +429,7 @@
                                         <div class="form-group">
 
                                             <label for="Parallelization" class="form-label text-primary label-pair">
-                                                {% trans 'Parallelization' %}: <span id="Parallelization-value"></span> 
+                                                <a href="/learn/Parallelization/" target="_blank" style="color: inherit;">{% trans 'Parallelization' %}</a>: <span id="Parallelization-value"></span> 
                                                 <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
                                             </label>
 
@@ -440,7 +446,7 @@
                                     
                                         <div class="form-group">
                                             <label for="LogicThinking" class="form-label text-primary label-pair">
-                                                {% trans 'Logic Thinking' %}: <span id="LogicThinking-value"></span> 
+                                                <a href="/learn/Logic/" target="_blank" style="color: inherit;">{% trans 'Logic Thinking' %}</a>: <span id="LogicThinking-value"></span> 
                                                 <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
                                             </label>
 
@@ -457,7 +463,7 @@
                                     
                                         <div class="form-group">
                                             <label for="Synchronization" class="form-label text-primary label-pair">
-                                                {% trans 'Synchronization' %}: <span id="Synchronization-value"></span> 
+                                                <a href="/learn/Synchronization/" target="_blank" style="color: inherit;">{% trans 'Synchronization' %}</a>: <span id="Synchronization-value"></span> 
                                                 <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
                                             </label>
 
@@ -475,7 +481,7 @@
                                     
                                         <div class="form-group">
                                             <label for="FlowControl" class="form-label text-primary label-pair">
-                                                {% trans 'Flow control' %}: <span id="FlowControl-value"></span> 
+                                                <a href="/learn/FlowControl/" target="_blank" style="color: inherit;">{% trans 'Flow control' %}</a>: <span id="FlowControl-value"></span> 
                                                 <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
                                             </label>
                                             
@@ -493,7 +499,7 @@
                                         
                                         <div class="form-group">
                                             <label for="UserInteractivity" class="form-label text-primary label-pair">
-                                                {% trans 'User interactivity' %}: <span id="UserInteractivity-value"></span> 
+                                                <a href="/learn/UserInteractivity/" target="_blank" style="color: inherit;">{% trans 'User interactivity' %}</a>: <span id="UserInteractivity-value"></span> 
                                                 <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
                                             </label>
 
@@ -511,7 +517,7 @@
                                     
                                         <div class="form-group">
                                             <label for="DataRepresentation" class="form-label text-primary label-pair">
-                                                {% trans 'Data Representation' %}: <span id="DataRepresentation-value"></span> 
+                                                <a href="/learn/DataRepresentation/" target="_blank" style="color: inherit;">{% trans 'Data Representation' %}</a>: <span id="DataRepresentation-value"></span> 
                                                 <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
                                             </label>
 
