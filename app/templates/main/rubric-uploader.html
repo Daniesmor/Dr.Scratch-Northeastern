@@ -82,36 +82,39 @@
         });
     </script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelector('#form-personalized').addEventListener('submit', function(event) {
-            var emailInput = document.querySelector('input[name="batch-email"]');
-            var fileInput = document.querySelector('input[name="urlsFile"]');
-            var emailWarning = document.getElementById('email-warning');
-            var txtWarning = document.getElementById('txt-warning');
-            var emailInput = document.querySelector('input[name="batch-email"]');
-            var valid = true;
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('#form-personalized').addEventListener('submit', function(event) {
+                if (event.submitter.id !== 'urls') {
+                    return;
+                }
         
-            if (!emailInput.value.trim()) {
-                emailWarning.style.display = 'block'; 
-                valid = false; 
-            } else {
-                emailWarning.style.display = 'none'; 
-            }
+                var emailInput = document.querySelector('input[name="batch-email"]');
+                var fileInput = document.querySelector('input[name="urlsFile"]');
+                var emailWarning = document.getElementById('email-warning');
+                var txtWarning = document.getElementById('txt-warning');
+                var valid = true;
         
-            if (!fileInput.files.length) {
-                txtWarning.style.display = 'block'; 
-                valid = false; 
-            } else {
-                txtWarning.style.display = 'none'; 
-            }
+                if (!emailInput.value.trim()) {
+                    emailWarning.style.display = 'block'; 
+                    valid = false; 
+                } else {
+                    emailWarning.style.display = 'none'; 
+                }
         
-            if (!valid) {
-                event.preventDefault();
-            }
-        });    
-    });
-</script>
+                if (!fileInput.files.length) {
+                    txtWarning.style.display = 'block'; 
+                    valid = false; 
+                } else {
+                    txtWarning.style.display = 'none'; 
+                }
+        
+                if (!valid) {
+                    event.preventDefault();
+                }
+            });    
+        });
+    </script>
 
 
     <style>
@@ -199,7 +202,6 @@
                 {% trans "<input  name='zipFile' type='file' class='filestyle' data-buttonText='Choose Project'>" %}
                 <button id="upload" name='_upload' type="submit" class="btn btn-primary standard-button">{% trans "Analyze my project" %}</button>
                 <br></br>
-                <input type="hidden" name="dashboard_mode" value="Default">
                 {% trans "3. Upload a <span class='colored-text'><a data-toggle='modal' href='#modalTxt'>txt</a></span> containing the URLs of the projects, with each URL on a separate line. Or a <span class='colored-text'>zip</span> containing the .sb3" %}
                 {% trans "<input name='urlsFile' type='file' class='filestyle' data-buttonText='Choose txt or zip'>" %}
                 {% trans '<input name="batch-email" class="form-control input-box placeholder" placeholder="your@email.com" type="text">' %}

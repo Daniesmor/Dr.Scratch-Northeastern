@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-24 18:27+0000\n"
+"POT-Creation-Date: 2024-08-05 21:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -224,7 +224,7 @@ msgid "Logic"
 msgstr "Mantık"
 
 #: app/templates/coder/base.html:269 app/templates/coder/base.html:381
-#: app/templates/learn/base.html:248 app/templates/main/rubric-creator.html:478
+#: app/templates/learn/base.html:248 app/templates/main/rubric-creator.html:484
 #: app/templates/main/statistics.html:261
 #: app/templates/organization/base.html:272
 #: app/templates/organization/base.html:384
@@ -232,7 +232,7 @@ msgid "Flow control"
 msgstr "Akış kontrolü"
 
 #: app/templates/coder/base.html:272 app/templates/coder/base.html:380
-#: app/templates/learn/base.html:245 app/templates/main/rubric-creator.html:496
+#: app/templates/learn/base.html:245 app/templates/main/rubric-creator.html:502
 #: app/templates/main/statistics.html:264
 #: app/templates/organization/base.html:275
 #: app/templates/organization/base.html:383
@@ -250,7 +250,7 @@ msgstr "Temsili veri"
 
 #: app/templates/coder/base.html:278 app/templates/coder/base.html:382
 #: app/templates/learn/Abstraction.html:5 app/templates/learn/base.html:251
-#: app/templates/main/rubric-creator.html:399
+#: app/templates/main/rubric-creator.html:405
 #: app/templates/main/statistics.html:270
 #: app/templates/organization/base.html:281
 #: app/templates/organization/base.html:385
@@ -260,7 +260,7 @@ msgstr "Soyutlama"
 
 #: app/templates/coder/base.html:281 app/templates/coder/base.html:379
 #: app/templates/learn/Synchronization.html:6 app/templates/learn/base.html:242
-#: app/templates/main/rubric-creator.html:460
+#: app/templates/main/rubric-creator.html:466
 #: app/templates/main/statistics.html:273
 #: app/templates/organization/base.html:284
 #: app/templates/organization/base.html:382
@@ -367,7 +367,7 @@ msgstr ""
 #: app/templates/coder/base.html:448 app/templates/login/login.html:563
 #: app/templates/main/compare-uploader.html:327
 #: app/templates/main/main.html:750 app/templates/main/main_new.html:709
-#: app/templates/main/rubric-uploader.html:245
+#: app/templates/main/rubric-uploader.html:248
 #: app/templates/organization/base.html:455
 #: app/templates/upload/dashboard-organization.html:239
 msgid "What is an url?"
@@ -376,7 +376,7 @@ msgstr "URL nedir?"
 #: app/templates/coder/base.html:450 app/templates/login/login.html:565
 #: app/templates/main/compare-uploader.html:329
 #: app/templates/main/main.html:752 app/templates/main/main_new.html:711
-#: app/templates/main/rubric-uploader.html:247
+#: app/templates/main/rubric-uploader.html:250
 #: app/templates/organization/base.html:457
 #: app/templates/upload/dashboard-organization.html:241
 msgid "How I can know my Scratch project's url?"
@@ -390,7 +390,7 @@ msgstr ""
 #: app/templates/main/compare-uploader.html:352
 #: app/templates/main/main.html:775 app/templates/main/main.html:822
 #: app/templates/main/main_new.html:734
-#: app/templates/main/rubric-uploader.html:268
+#: app/templates/main/rubric-uploader.html:271
 #: app/templates/organization/base.html:480
 #: app/templates/upload/dashboard-organization.html:264
 msgid "I want to download my project from Scratch!"
@@ -400,7 +400,7 @@ msgstr "Projemi Scratch'ten indirmek istiyorum!"
 #: app/templates/main/compare-uploader.html:354
 #: app/templates/main/main.html:777 app/templates/main/main.html:824
 #: app/templates/main/main_new.html:736
-#: app/templates/main/rubric-uploader.html:270
+#: app/templates/main/rubric-uploader.html:273
 #: app/templates/organization/base.html:482
 #: app/templates/upload/dashboard-organization.html:266
 msgid "How I can download my Scratch project to my computer?"
@@ -413,7 +413,7 @@ msgstr ""
 #: app/templates/coder/base.html:499
 #: app/templates/main/compare-uploader.html:391
 #: app/templates/main/main.html:1507 app/templates/main/main_new.html:1449
-#: app/templates/main/rubric-uploader.html:330
+#: app/templates/main/rubric-uploader.html:333
 #: app/templates/organization/base.html:506
 msgid "Wait a moment, please."
 msgstr "Bir dakika bekleyin, lütfen."
@@ -421,7 +421,7 @@ msgstr "Bir dakika bekleyin, lütfen."
 #: app/templates/coder/base.html:517 app/templates/login/login.html:632
 #: app/templates/main/main.html:1525 app/templates/main/main_new.html:1467
 #: app/templates/main/main_organization.html:318
-#: app/templates/main/rubric-uploader.html:342
+#: app/templates/main/rubric-uploader.html:345
 #: app/templates/organization/base.html:524
 msgid "loading..."
 msgstr "yükleniyor..."
@@ -1117,8 +1117,8 @@ msgstr "Web sitemizi kullandığınız için teşekkürler!"
 msgid "The Dr. Scratch team"
 msgstr "Dr. Scratch ekibi"
 
-#: app/templates/coder/main.html:12 app/templates/main/rubric-uploader.html:180
-#: app/templates/main/rubric-uploader.html:186
+#: app/templates/coder/main.html:12 app/templates/main/rubric-uploader.html:184
+#: app/templates/main/rubric-uploader.html:190
 #: app/templates/organization/main.html:12
 msgid "Do you want to analyze one project?"
 msgstr "Bir projeyi analiz etmek ister misiniz?"
@@ -1131,7 +1131,7 @@ msgstr "Şu anda Scratch projenizi analiz etmek için iki seçeneğiniz var!"
 #: app/templates/coder/main.html:18
 #: app/templates/main/compare-uploader.html:237
 #: app/templates/main/main.html:403 app/templates/main/main_new.html:251
-#: app/templates/main/rubric-uploader.html:192
+#: app/templates/main/rubric-uploader.html:196
 #: app/templates/organization/main.html:19
 msgid ""
 "1. Introduce the <span class='colored-text'><a data-toggle='modal' "
@@ -1146,7 +1146,7 @@ msgstr ""
 #: app/templates/main/dashboard-default.html:715
 #: app/templates/main/dashboard-default.html:1046
 #: app/templates/main/main.html:405 app/templates/main/main_new.html:252
-#: app/templates/main/rubric-uploader.html:193
+#: app/templates/main/rubric-uploader.html:197
 #: app/templates/organization/main.html:20
 msgid ""
 "<input name=\"urlProject\" id=\"cf-name\" class=\"form-control input-box "
@@ -1159,7 +1159,7 @@ msgstr ""
 
 #: app/templates/coder/main.html:20 app/templates/main/main.html:410
 #: app/templates/main/main_new.html:253
-#: app/templates/main/rubric-uploader.html:194
+#: app/templates/main/rubric-uploader.html:198
 #: app/templates/organization/main.html:21
 msgid "Analyze by url"
 msgstr "URL ile analiz et"
@@ -1167,7 +1167,7 @@ msgstr "URL ile analiz et"
 #: app/templates/coder/main.html:25
 #: app/templates/main/compare-uploader.html:250
 #: app/templates/main/main.html:416 app/templates/main/main_new.html:258
-#: app/templates/main/rubric-uploader.html:198
+#: app/templates/main/rubric-uploader.html:202
 #: app/templates/organization/main.html:26
 msgid ""
 "2. If you have your <span class='colored-text'><a data-toggle='modal' "
@@ -1179,7 +1179,7 @@ msgstr ""
 "edebilirsiniz:"
 
 #: app/templates/coder/main.html:26 app/templates/main/main_new.html:259
-#: app/templates/main/rubric-uploader.html:199
+#: app/templates/main/rubric-uploader.html:203
 #: app/templates/organization/main.html:27
 msgid ""
 "<input  name='zipFile' type='file' class='filestyle' data-buttonText='Choose "
@@ -1190,7 +1190,7 @@ msgstr ""
 
 #: app/templates/coder/main.html:27 app/templates/main/main.html:423
 #: app/templates/main/main_new.html:260
-#: app/templates/main/rubric-uploader.html:200
+#: app/templates/main/rubric-uploader.html:204
 #: app/templates/organization/main.html:28
 msgid "Analyze my project"
 msgstr "Projemi analiz et"
@@ -1213,7 +1213,7 @@ msgstr "Hata! Lütfen bir .sb veya .sb2 dosyası seçin veya bir URL girin."
 #: app/templates/main/contact-form.html:180 app/templates/main/main.html:441
 #: app/templates/main/main_new.html:274
 #: app/templates/main/main_organization.html:197
-#: app/templates/main/rubric-uploader.html:224
+#: app/templates/main/rubric-uploader.html:227
 #: app/templates/organization/main.html:42
 #: app/templates/organization/main.html:74
 msgid "Error! Your project id is wrong"
@@ -1224,7 +1224,7 @@ msgstr "Hata! Proje kimliğiniz yanlış."
 #: app/templates/main/contact-form.html:184 app/templates/main/main.html:446
 #: app/templates/main/main_new.html:278
 #: app/templates/main/main_organization.html:201
-#: app/templates/main/rubric-uploader.html:228
+#: app/templates/main/rubric-uploader.html:231
 #: app/templates/organization/main.html:46
 #: app/templates/organization/main.html:78
 msgid "Error! Your project doesn't exist in Scratch's servers"
@@ -1347,8 +1347,8 @@ msgstr "Başlayın"
 #: app/templates/main/dashboard-bulk.html:304
 #: app/templates/main/dashboard-compare.html:1100
 #: app/templates/main/dashboard_template.html:448
-#: app/templates/main/main.html:713 app/templates/main/rubric-creator.html:610
-#: app/templates/main/rubric-uploader.html:308
+#: app/templates/main/main.html:713 app/templates/main/rubric-creator.html:616
+#: app/templates/main/rubric-uploader.html:311
 msgid "©2024 Dr.Scratch Made with "
 msgstr "©2024 Dr. Scratch Yapıldı with "
 
@@ -1361,8 +1361,8 @@ msgstr "©2024 Dr. Scratch Yapıldı with "
 #: app/templates/main/dashboard-bulk.html:304
 #: app/templates/main/dashboard-compare.html:1100
 #: app/templates/main/dashboard_template.html:448
-#: app/templates/main/main.html:713 app/templates/main/rubric-creator.html:610
-#: app/templates/main/rubric-uploader.html:308
+#: app/templates/main/main.html:713 app/templates/main/rubric-creator.html:616
+#: app/templates/main/rubric-uploader.html:311
 msgid "by "
 msgstr "tarafından "
 
@@ -1375,8 +1375,8 @@ msgstr "tarafından "
 #: app/templates/main/dashboard-bulk.html:304
 #: app/templates/main/dashboard-compare.html:1100
 #: app/templates/main/dashboard_template.html:448
-#: app/templates/main/main.html:713 app/templates/main/rubric-creator.html:610
-#: app/templates/main/rubric-uploader.html:308
+#: app/templates/main/main.html:713 app/templates/main/rubric-creator.html:616
+#: app/templates/main/rubric-uploader.html:311
 msgid "Dr.Scratch Team."
 msgstr "Dr. Scratch Ekibi."
 
@@ -1452,8 +1452,8 @@ msgstr ""
 #: app/templates/learn/Parallelization.html:15
 #: app/templates/learn/Synchronization.html:15
 #: app/templates/learn/UserInteractivity.html:15
-msgid "If you get 0 points..."
-msgstr "0 puan alırsanız..."
+msgid "If you get 1 point..."
+msgstr "1 puan alırsanız..."
 
 #: app/templates/learn/Abstraction.html:15
 msgid ""
@@ -1584,8 +1584,8 @@ msgstr ""
 #: app/templates/learn/Parallelization.html:29
 #: app/templates/learn/Synchronization.html:41
 #: app/templates/learn/UserInteractivity.html:32
-msgid "If you get 1 point..."
-msgstr "1 puan alırsanız..."
+msgid "If you get 2 points..."
+msgstr "2 puan alırsanız..."
 
 #: app/templates/learn/Abstraction.html:59
 msgid ""
@@ -1664,8 +1664,10 @@ msgstr ""
 #: app/templates/learn/Parallelization.html:63
 #: app/templates/learn/Synchronization.html:68
 #: app/templates/learn/UserInteractivity.html:62
-msgid "If you get 2 points..."
-msgstr "2 puan alırsanız..."
+#, fuzzy
+#| msgid "If you get 0 points..."
+msgid "If you get 3 points..."
+msgstr "0 puan alırsanız..."
 
 #: app/templates/learn/Abstraction.html:111
 msgid ""
@@ -1788,7 +1790,7 @@ msgid "You can track your progress through charts and stats."
 msgstr "İlerlemenizi grafikler ve istatistiklerle takip edebilirsiniz."
 
 #: app/templates/learn/DataRepresentation.html:6
-#: app/templates/main/rubric-creator.html:514
+#: app/templates/main/rubric-creator.html:520
 msgid "Data Representation"
 msgstr "Temsili veri"
 
@@ -3597,8 +3599,8 @@ msgstr "Projeleri Karşılaştır"
 
 #: app/templates/main/compare-uploader.html:284
 #: app/templates/main/compare-uploader.html:287
-#: app/templates/main/main.html:436 app/templates/main/rubric-uploader.html:217
-#: app/templates/main/rubric-uploader.html:220
+#: app/templates/main/main.html:436 app/templates/main/rubric-uploader.html:220
+#: app/templates/main/rubric-uploader.html:223
 msgid "Error! Please choose a .sb or .sb3 file or input an url"
 msgstr "Hata! Lütfen bir .sb veya .sb3 dosyası seçin ya da bir URL girin."
 
@@ -3617,14 +3619,14 @@ msgid "Close"
 msgstr "Kapalı"
 
 #: app/templates/main/compare-uploader.html:333
-#: app/templates/main/main.html:756 app/templates/main/rubric-uploader.html:251
+#: app/templates/main/main.html:756 app/templates/main/rubric-uploader.html:254
 msgid ""
 "<img class='framed' style='width: 500px;' src='static/app/images/url-en."
 "png' />"
 msgstr ""
 
 #: app/templates/main/compare-uploader.html:358
-#: app/templates/main/main.html:781 app/templates/main/rubric-uploader.html:274
+#: app/templates/main/main.html:781 app/templates/main/rubric-uploader.html:277
 msgid ""
 "<img class='framed' style='width: 500px;' src='static/app/images/project-en."
 "png' />"
@@ -4072,7 +4074,7 @@ msgstr ""
 "a></span> dosyası yükleyin. Alternatif olarak, en fazla 10 adet .sb3 "
 "dosyasını içeren bir zip dosyası yükleyebilirsiniz."
 
-#: app/templates/main/main.html:518 app/templates/main/rubric-uploader.html:204
+#: app/templates/main/main.html:518 app/templates/main/rubric-uploader.html:207
 msgid ""
 "<input name='urlsFile' type='file' class='filestyle' data-buttonText='Choose "
 "txt or zip'>"
@@ -4080,7 +4082,7 @@ msgstr ""
 "<input name='urlsFile' type='file' class='filestyle' data-buttonText='txt "
 "veya zip Seçin'>"
 
-#: app/templates/main/main.html:519 app/templates/main/rubric-uploader.html:205
+#: app/templates/main/main.html:519 app/templates/main/rubric-uploader.html:208
 msgid ""
 "<input name=\"batch-email\" class=\"form-control input-box placeholder\" "
 "placeholder=\"your@email.com\" type=\"text\">"
@@ -4088,17 +4090,17 @@ msgstr ""
 "<input name=\"batch-email\" class=\"form-control input-box placeholder\" "
 "placeholder=\"your@email.com\" type=\"text\">"
 
-#: app/templates/main/main.html:520 app/templates/main/rubric-uploader.html:206
+#: app/templates/main/main.html:520 app/templates/main/rubric-uploader.html:209
 msgid "Please enter an email!"
 msgstr "Lütfen bir e-posta adresi girin!"
 
-#: app/templates/main/main.html:521 app/templates/main/rubric-uploader.html:207
+#: app/templates/main/main.html:521 app/templates/main/rubric-uploader.html:210
 msgid "Please upload a txt/zip file!"
 msgstr "Lütfen bir txt/zip dosyası yükleyin!"
 
 #: app/templates/main/main.html:522
 #: app/templates/main/main_organization.html:183
-#: app/templates/main/rubric-uploader.html:208
+#: app/templates/main/rubric-uploader.html:211
 #: app/templates/organization/main.html:62
 #: app/templates/upload/dashboard-organization.html:155
 msgid "Analyze my projects"
@@ -4193,15 +4195,15 @@ msgstr " wiki "
 msgid "of Dr.Scratch."
 msgstr "Dr. Scratch'ın."
 
-#: app/templates/main/main.html:798 app/templates/main/rubric-uploader.html:291
+#: app/templates/main/main.html:798 app/templates/main/rubric-uploader.html:294
 msgid "What is an txt with scratch's urls?"
 msgstr "Scratch URL'leri içeren bir txt nedir?"
 
-#: app/templates/main/main.html:800 app/templates/main/rubric-uploader.html:293
+#: app/templates/main/main.html:800 app/templates/main/rubric-uploader.html:296
 msgid "How is the correct format of the txt?"
 msgstr "Txt dosyasının doğru formatı nasıl olmalıdır?"
 
-#: app/templates/main/main.html:804 app/templates/main/rubric-uploader.html:297
+#: app/templates/main/main.html:804 app/templates/main/rubric-uploader.html:300
 msgid ""
 "<img class='framed' style='width: 500px;' src='static/app/images/txt-es."
 "png' />"
@@ -4502,40 +4504,40 @@ msgid ""
 msgstr ""
 
 #: app/templates/main/rubric-creator.html:222
-#: app/templates/main/rubric-creator.html:593
-#: app/templates/main/rubric-creator.html:698
+#: app/templates/main/rubric-creator.html:599
+#: app/templates/main/rubric-creator.html:704
 msgid "Games"
 msgstr "Oyunlar"
 
 #: app/templates/main/rubric-creator.html:223
-#: app/templates/main/rubric-creator.html:592
-#: app/templates/main/rubric-creator.html:699
+#: app/templates/main/rubric-creator.html:598
+#: app/templates/main/rubric-creator.html:705
 msgid "Stories"
 msgstr "Hikayeler"
 
 #: app/templates/main/rubric-creator.html:224
-#: app/templates/main/rubric-creator.html:591
-#: app/templates/main/rubric-creator.html:700
+#: app/templates/main/rubric-creator.html:597
+#: app/templates/main/rubric-creator.html:706
 msgid "Animations"
 msgstr "Animasyonlar"
 
 #: app/templates/main/rubric-creator.html:225
-#: app/templates/main/rubric-creator.html:590
-#: app/templates/main/rubric-creator.html:701
+#: app/templates/main/rubric-creator.html:596
+#: app/templates/main/rubric-creator.html:707
 msgid "Music"
 msgstr "Müzik"
 
 #: app/templates/main/rubric-creator.html:226
-#: app/templates/main/rubric-creator.html:589
-#: app/templates/main/rubric-creator.html:702
+#: app/templates/main/rubric-creator.html:595
+#: app/templates/main/rubric-creator.html:708
 msgid "Arts"
 msgstr "Sanat"
 
-#: app/templates/main/rubric-creator.html:392
+#: app/templates/main/rubric-creator.html:398
 msgid "Build your rubric!"
 msgstr "Kendi değerlendirmenizi oluşturun!"
 
-#: app/templates/main/rubric-creator.html:407
+#: app/templates/main/rubric-creator.html:413
 msgid ""
 "Abstraction is not relevant to me at this moment. I am focused on concrete "
 "and specific details of the program."
@@ -4543,7 +4545,7 @@ msgstr ""
 "Soyutlama şu anda benim için ilgili değil. Programın somut ve belirli "
 "detaylarına odaklanıyorum."
 
-#: app/templates/main/rubric-creator.html:408
+#: app/templates/main/rubric-creator.html:414
 msgid ""
 "Abstraction is minimal. I prefer to stay close to the source code and do not "
 "need high levels of generalization."
@@ -4551,7 +4553,7 @@ msgstr ""
 "Soyutlama minimal. Kaynak koda yakın kalmayı tercih ediyorum ve yüksek "
 "seviyede genelleştirmeye ihtiyaç duymuyorum."
 
-#: app/templates/main/rubric-creator.html:409
+#: app/templates/main/rubric-creator.html:415
 msgid ""
 "Abstraction has some importance, but it is not essential. I am interested in "
 "understanding the overall functioning."
@@ -4559,7 +4561,7 @@ msgstr ""
 "Soyutlama bazı öneme sahip, ancak temel bir gereklilik değil. Genel işleyişi "
 "anlamakla ilgileniyorum."
 
-#: app/templates/main/rubric-creator.html:410
+#: app/templates/main/rubric-creator.html:416
 msgid ""
 "Abstraction is important. I value patterns in the code to facilitate its "
 "maintenance and extension."
@@ -4567,7 +4569,7 @@ msgstr ""
 "Soyutlama önemlidir. Kodda desenleri değerlendiriyorum çünkü bu, bakımını ve "
 "genişletilmesini kolaylaştırır."
 
-#: app/templates/main/rubric-creator.html:411
+#: app/templates/main/rubric-creator.html:417
 msgid ""
 "Abstraction is crucial. I value modular and reusable code, which abstracts "
 "concepts to improve clarity and efficiency."
@@ -4575,7 +4577,7 @@ msgstr ""
 "Soyutlama çok önemlidir. Modüler ve yeniden kullanılabilir kodu "
 "değerlendiriyorum; bu, kavramları soyutlayarak netlik ve verimliliği artırır."
 
-#: app/templates/main/rubric-creator.html:412
+#: app/templates/main/rubric-creator.html:418
 msgid ""
 "Abstraction is absolutely vital. The code must be abstract and flexible to "
 "adapt to future changes and reuse."
@@ -4584,11 +4586,11 @@ msgstr ""
 "gelecekteki değişikliklere uyum sağlaması ve yeniden kullanılabilirliği için "
 "gereklidir."
 
-#: app/templates/main/rubric-creator.html:426
+#: app/templates/main/rubric-creator.html:432
 msgid "Parallelization"
 msgstr "Paralelleştirme"
 
-#: app/templates/main/rubric-creator.html:431
+#: app/templates/main/rubric-creator.html:437
 msgid ""
 "Parallelization is not crucial at this moment. There is no need to execute "
 "tasks simultaneously in the code."
@@ -4596,13 +4598,13 @@ msgstr ""
 "Paralelleştirme şu anda kritik değil. Kodda görevlerin aynı anda "
 "yürütülmesine ihtiyaç yok."
 
-#: app/templates/main/rubric-creator.html:432
+#: app/templates/main/rubric-creator.html:438
 msgid ""
 "Parallelization is minimal. There is no significant need for parallel "
 "processing in the code."
 msgstr "Paralelleştirme minimal. Kodda paralel işlemeye büyük bir ihtiyaç yok."
 
-#: app/templates/main/rubric-creator.html:433
+#: app/templates/main/rubric-creator.html:439
 msgid ""
 "Parallelization has some importance. There is a moderate need to execute "
 "tasks in parallel in the code."
@@ -4610,7 +4612,7 @@ msgstr ""
 "Paralelleştirme biraz önemlidir. Kodda görevlerin paralel olarak "
 "yürütülmesine orta derecede bir ihtiyaç vardır."
 
-#: app/templates/main/rubric-creator.html:434
+#: app/templates/main/rubric-creator.html:440
 msgid ""
 "Parallelization is important. Proper parallel processing is required to "
 "enhance the code performance."
@@ -4618,7 +4620,7 @@ msgstr ""
 "Paralelleştirme önemlidir. Kodun performansını artırmak için uygun paralel "
 "işleme gereklidir."
 
-#: app/templates/main/rubric-creator.html:435
+#: app/templates/main/rubric-creator.html:441
 msgid ""
 "Parallelization is crucial. Simultaneous execution of tasks is essential to "
 "optimize code performance and efficiency."
@@ -4627,7 +4629,7 @@ msgstr ""
 "yürütülmesi, kodun performansını ve verimliliğini optimize etmek için "
 "gereklidir."
 
-#: app/templates/main/rubric-creator.html:436
+#: app/templates/main/rubric-creator.html:442
 msgid ""
 "Parallelization is absolutely vital. The ability to perform parallel "
 "processing is fundamental for system performance."
@@ -4635,11 +4637,11 @@ msgstr ""
 "Paralelleştirme kesinlikle hayati öneme sahiptir. Paralel işleme yeteneği, "
 "sistem performansı için temel bir gerekliliktir."
 
-#: app/templates/main/rubric-creator.html:443
+#: app/templates/main/rubric-creator.html:449
 msgid "Logic Thinking"
 msgstr "Mantıksal Düşünme"
 
-#: app/templates/main/rubric-creator.html:448
+#: app/templates/main/rubric-creator.html:454
 msgid ""
 "Logical thinking is not relevant to me at this moment. I am focused on other "
 "aspects of the problem."
@@ -4647,7 +4649,7 @@ msgstr ""
 "Bu anda mantıksal düşünme benim için önemli değil. Problemin diğer yönlerine "
 "odaklanıyorum."
 
-#: app/templates/main/rubric-creator.html:449
+#: app/templates/main/rubric-creator.html:455
 msgid ""
 "Logical thinking is minimal. I prefer to follow a more intuitive approach in "
 "my decisions and actions."
@@ -4655,7 +4657,7 @@ msgstr ""
 "Mantıksal düşünme minimal. Karar ve eylemlerimde daha sezgisel bir yaklaşımı "
 "tercih ediyorum."
 
-#: app/templates/main/rubric-creator.html:450
+#: app/templates/main/rubric-creator.html:456
 msgid ""
 "Logical thinking has some importance, but it is not fundamental. Sometimes, "
 "I rely more on my instinct than on pure logic."
@@ -4663,7 +4665,7 @@ msgstr ""
 "Mantıksal düşünme bazı önem taşır, ancak temel değildir. Bazen saf mantıktan "
 "daha çok içgüdülerime güvenirim."
 
-#: app/templates/main/rubric-creator.html:451
+#: app/templates/main/rubric-creator.html:457
 msgid ""
 "Logical thinking is important. I use logic to solve problems and make "
 "decisions more efficiently."
@@ -4671,7 +4673,7 @@ msgstr ""
 "Mantıksal düşünme önemlidir. Problemleri çözmek ve kararları daha verimli "
 "bir şekilde almak için mantığı kullanırım."
 
-#: app/templates/main/rubric-creator.html:452
+#: app/templates/main/rubric-creator.html:458
 msgid ""
 "Logical thinking is crucial. I rely on logic to analyze complex situations "
 "and find effective solutions."
@@ -4679,7 +4681,7 @@ msgstr ""
 "Mantıksal düşünme kritik öneme sahiptir. Karmaşık durumları analiz etmek ve "
 "etkili çözümler bulmak için mantığa güvenirim."
 
-#: app/templates/main/rubric-creator.html:453
+#: app/templates/main/rubric-creator.html:459
 msgid ""
 "Logical thinking is absolutely vital. All code must follow strict logic for "
 "problem-solving."
@@ -4687,7 +4689,7 @@ msgstr ""
 "Mantıksal düşünme kesinlikle hayati öneme sahiptir. Tüm kodun problem çözme "
 "için sıkı bir mantığa uyması gerekir."
 
-#: app/templates/main/rubric-creator.html:465
+#: app/templates/main/rubric-creator.html:471
 msgid ""
 "Synchronization is not relevant at this moment. I am not concerned about "
 "coordinating activities in the code."
@@ -4695,7 +4697,7 @@ msgstr ""
 "Senkranizasyon şu anda benim için önemli değil. Kodda aktiviteleri koordine "
 "etmekle ilgilenmiyorum."
 
-#: app/templates/main/rubric-creator.html:466
+#: app/templates/main/rubric-creator.html:472
 msgid ""
 "Synchronization is minimal. I do not consider managing concurrency or "
 "process synchronization crucial."
@@ -4703,7 +4705,7 @@ msgstr ""
 "Senkranizasyon minimaldir. Eşzamanlılık veya süreç senkronizasyonunu "
 "yönetmenin önemli olduğunu düşünmüyorum."
 
-#: app/templates/main/rubric-creator.html:467
+#: app/templates/main/rubric-creator.html:473
 msgid ""
 "Synchronization has some importance. I can allow some operations to run "
 "asynchronously."
@@ -4711,7 +4713,7 @@ msgstr ""
 "Senkranizasyonun bazı önemi var. Bazı işlemlerin eşzamanlı olarak "
 "çalışmasına izin verebilirim."
 
-#: app/templates/main/rubric-creator.html:468
+#: app/templates/main/rubric-creator.html:474
 msgid ""
 "Synchronization is important. It is crucial to ensure that shared resources "
 "are handled correctly."
@@ -4719,7 +4721,7 @@ msgstr ""
 "Senkranizasyon önemlidir. Paylaşılan kaynakların doğru şekilde yönetilmesini "
 "sağlamak kritik öneme sahiptir."
 
-#: app/templates/main/rubric-creator.html:469
+#: app/templates/main/rubric-creator.html:475
 msgid ""
 "Synchronization is crucial. It is essential to control concurrency to ensure "
 "data consistency and integrity in the code."
@@ -4727,7 +4729,7 @@ msgstr ""
 "Senkranizasyon kritik öneme sahiptir. Veri tutarlılığını ve bütünlüğünü "
 "sağlamak için eşzamanlılığı kontrol etmek gereklidir."
 
-#: app/templates/main/rubric-creator.html:470
+#: app/templates/main/rubric-creator.html:476
 msgid ""
 "Synchronization is absolutely vital. Efficient concurrency is fundamental "
 "for system performance and reliability."
@@ -4735,7 +4737,7 @@ msgstr ""
 "Senkranizasyon kesinlikle hayati öneme sahiptir. Verimli eşzamanlılık, "
 "sistem performansı ve güvenilirliği için temeldir."
 
-#: app/templates/main/rubric-creator.html:483
+#: app/templates/main/rubric-creator.html:489
 msgid ""
 "Flow control is not relevant at this moment. I do not need control "
 "structures to direct code execution."
@@ -4743,7 +4745,7 @@ msgstr ""
 "Akış kontrolü şu anda benim için geçerli değil. Kodun yürütülmesini "
 "yönlendirmek için kontrol yapılarına ihtiyacım yok."
 
-#: app/templates/main/rubric-creator.html:484
+#: app/templates/main/rubric-creator.html:490
 msgid ""
 "Flow control is minimal. I prefer to follow a more linear approach in code "
 "execution without many control structures."
@@ -4751,7 +4753,7 @@ msgstr ""
 "Akış kontrolü minimum seviyede. Kod yürütülmesinde çok fazla kontrol yapısı "
 "olmadan daha lineer bir yaklaşımı tercih ediyorum."
 
-#: app/templates/main/rubric-creator.html:485
+#: app/templates/main/rubric-creator.html:491
 msgid ""
 "Flow control has some importance. I can manage code execution with a few "
 "basic control structures."
@@ -4759,7 +4761,7 @@ msgstr ""
 "Akış kontrolü bazı önem taşır. Kod yürütülmesini birkaç temel kontrol yapısı "
 "ile yönetebilirim."
 
-#: app/templates/main/rubric-creator.html:486
+#: app/templates/main/rubric-creator.html:492
 msgid ""
 "Flow control is important. Code execution must be directed and decisions "
 "made based on different conditions."
@@ -4767,7 +4769,7 @@ msgstr ""
 "Akış kontrolü önemlidir. Kod yürütülmesi yönlendirilmelidir ve farklı "
 "koşullara dayanarak kararlar verilmelidir."
 
-#: app/templates/main/rubric-creator.html:487
+#: app/templates/main/rubric-creator.html:493
 msgid ""
 "Flow control is crucial. Ensuring logic and coherence of program execution "
 "flow is necessary."
@@ -4775,7 +4777,7 @@ msgstr ""
 "Akış kontrolü kritik öneme sahiptir. Program yürütme akışının mantıklı ve "
 "uyumlu olmasını sağlamak gereklidir."
 
-#: app/templates/main/rubric-creator.html:488
+#: app/templates/main/rubric-creator.html:494
 msgid ""
 "Flow control is absolutely vital. Proper flow control management determines "
 "the efficiency and effectiveness of the program."
@@ -4783,7 +4785,7 @@ msgstr ""
 "Akış kontrolü tamamen hayati önemdedir. Doğru akış kontrolü yönetimi, "
 "programın verimliliğini ve etkinliğini belirler."
 
-#: app/templates/main/rubric-creator.html:501
+#: app/templates/main/rubric-creator.html:507
 msgid ""
 "User interactivity is not relevant at this moment. I do not need the code to "
 "respond to user input."
@@ -4791,7 +4793,7 @@ msgstr ""
 "Kullanıcı etkileşimi şu anda ilgili değil. Kodun kullanıcı girişlerine yanıt "
 "vermesi gerekmiyor."
 
-#: app/templates/main/rubric-creator.html:502
+#: app/templates/main/rubric-creator.html:508
 msgid ""
 "User interactivity is minimal. The code does not require much direct "
 "interaction with the user."
@@ -4799,7 +4801,7 @@ msgstr ""
 "Kullanıcı etkileşimi minimal. Kodun kullanıcı ile doğrudan etkileşime "
 "geçmesi gerekmiyor."
 
-#: app/templates/main/rubric-creator.html:503
+#: app/templates/main/rubric-creator.html:509
 msgid ""
 "User interactivity has some importance. The code can be executed without too "
 "much direct user interaction."
@@ -4807,7 +4809,7 @@ msgstr ""
 "Kullanıcı etkileşimi bazı önem taşıyor. Kod, çok fazla doğrudan kullanıcı "
 "etkileşimi olmadan da çalışabilir."
 
-#: app/templates/main/rubric-creator.html:504
+#: app/templates/main/rubric-creator.html:510
 msgid ""
 "User interactivity is important. The code must respond appropriately to user "
 "actions."
@@ -4815,7 +4817,7 @@ msgstr ""
 "Kullanıcı etkileşimi önemlidir. Kod, kullanıcı eylemlerine uygun bir şekilde "
 "yanıt vermelidir."
 
-#: app/templates/main/rubric-creator.html:505
+#: app/templates/main/rubric-creator.html:511
 msgid ""
 "User interactivity is crucial. The code must be highly interactive with "
 "quick response to user actions."
@@ -4823,7 +4825,7 @@ msgstr ""
 "Kullanıcı etkileşimi çok önemlidir. Kod, kullanıcı eylemlerine hızlı bir "
 "şekilde yanıt verecek şekilde yüksek derecede etkileşimli olmalıdır."
 
-#: app/templates/main/rubric-creator.html:506
+#: app/templates/main/rubric-creator.html:512
 msgid ""
 "User interactivity is absolutely vital. The ability to interact effectively "
 "with the user is fundamental."
@@ -4831,14 +4833,14 @@ msgstr ""
 "Kullanıcı etkileşimi kesinlikle hayati öneme sahiptir. Kullanıcı ile etkili "
 "bir şekilde etkileşim kurabilme yeteneği temeldir."
 
-#: app/templates/main/rubric-creator.html:519
+#: app/templates/main/rubric-creator.html:525
 msgid ""
 "Data representation is not crucial at this moment. It does not significantly "
 "affect code execution."
 msgstr ""
 "Veri temsili bu anda kritik değil. Kodun çalışmasını önemli ölçüde etkilemez."
 
-#: app/templates/main/rubric-creator.html:520
+#: app/templates/main/rubric-creator.html:526
 msgid ""
 "Data representation is minimal. A complex structure for storing or "
 "manipulating data is not required."
@@ -4846,7 +4848,7 @@ msgstr ""
 "Veri temsili minimum düzeyde. Verileri depolamak veya işlemek için karmaşık "
 "bir yapı gerekmiyor."
 
-#: app/templates/main/rubric-creator.html:521
+#: app/templates/main/rubric-creator.html:527
 msgid ""
 "Data representation has some importance. Basic structures are needed to "
 "manage the data."
@@ -4854,7 +4856,7 @@ msgstr ""
 "Veri temsili biraz önemlidir. Verileri yönetmek için temel yapıların "
 "kullanılması gereklidir."
 
-#: app/templates/main/rubric-creator.html:522
+#: app/templates/main/rubric-creator.html:528
 msgid ""
 "Data representation is important. Proper design of data structure "
 "facilitates code understanding and maintenance."
@@ -4862,7 +4864,7 @@ msgstr ""
 "Veri temsili önemlidir. Veri yapısının doğru tasarımı, kodun anlaşılmasını "
 "ve bakımını kolaylaştırır."
 
-#: app/templates/main/rubric-creator.html:523
+#: app/templates/main/rubric-creator.html:529
 msgid ""
 "Data representation is crucial. It is essential for optimizing code "
 "performance and scalability."
@@ -4870,7 +4872,7 @@ msgstr ""
 "Veri temsili çok önemlidir. Kodun performansını ve ölçeklenebilirliğini "
 "optimize etmek için gereklidir."
 
-#: app/templates/main/rubric-creator.html:524
+#: app/templates/main/rubric-creator.html:530
 msgid ""
 "Data representation is absolutely vital. Poor data representation can lead "
 "to critical errors."
@@ -4878,11 +4880,11 @@ msgstr ""
 "Veri temsili kesinlikle hayati önem taşır. Kötü veri temsili kritik hatalara "
 "yol açabilir."
 
-#: app/templates/main/rubric-creator.html:532
+#: app/templates/main/rubric-creator.html:538
 msgid "Math Operators"
 msgstr "Matematiksel Operatörler"
 
-#: app/templates/main/rubric-creator.html:537
+#: app/templates/main/rubric-creator.html:543
 msgid ""
 "Mathematical operators are not crucial at this moment. Performing complex "
 "mathematical operations is not required."
@@ -4890,7 +4892,7 @@ msgstr ""
 "Matematiksel operatörler şu anda kritik değildir. Karmaşık matematiksel "
 "işlemler gerçekleştirmek gerekmemektedir."
 
-#: app/templates/main/rubric-creator.html:538
+#: app/templates/main/rubric-creator.html:544
 msgid ""
 "The use of mathematical operators is minimal. Only basic operations are "
 "needed for simple calculations."
@@ -4898,7 +4900,7 @@ msgstr ""
 "Matematiksel operatörlerin kullanımı minimaldir. Sadece basit hesaplamalar "
 "için temel işlemler gerekmektedir."
 
-#: app/templates/main/rubric-creator.html:539
+#: app/templates/main/rubric-creator.html:545
 msgid ""
 "Mathematical operators have some importance. Basic operations are required "
 "to perform some tasks."
@@ -4906,7 +4908,7 @@ msgstr ""
 "Matematiksel operatörlerin bazı önemi vardır. Bazı görevleri yerine getirmek "
 "için temel işlemler gereklidir."
 
-#: app/templates/main/rubric-creator.html:540
+#: app/templates/main/rubric-creator.html:546
 msgid ""
 "Mathematical operators are important. They are used to perform essential "
 "calculations that directly affect functionality."
@@ -4914,7 +4916,7 @@ msgstr ""
 "Matematiksel operatörler önemlidir. İşlevselliği doğrudan etkileyen temel "
 "hesaplamaları yapmak için kullanılırlar."
 
-#: app/templates/main/rubric-creator.html:541
+#: app/templates/main/rubric-creator.html:547
 msgid ""
 "Mathematical operators are crucial. Their correct usage is fundamental to "
 "ensure accuracy and consistency in calculations."
@@ -4922,7 +4924,7 @@ msgstr ""
 "Matematiksel operatörler kritik öneme sahiptir. Doğru kullanımları, "
 "hesaplamalarda doğruluk ve tutarlılığı sağlamak için temel gereklidir."
 
-#: app/templates/main/rubric-creator.html:542
+#: app/templates/main/rubric-creator.html:548
 msgid ""
 "Mathematical operators are absolutely vital. They are indispensable for "
 "operations that determine the final result."
@@ -4930,11 +4932,11 @@ msgstr ""
 "Matematiksel operatörler kesinlikle hayati öneme sahiptir. Sonuçları "
 "belirleyen işlemler için vazgeçilmezdirler."
 
-#: app/templates/main/rubric-creator.html:549
+#: app/templates/main/rubric-creator.html:555
 msgid "Motion Operators"
 msgstr "Hareket Operatörleri"
 
-#: app/templates/main/rubric-creator.html:554
+#: app/templates/main/rubric-creator.html:560
 msgid ""
 "Motion operators are not crucial at this moment. Extensive manipulation of "
 "movements in the code is not required."
@@ -4942,7 +4944,7 @@ msgstr ""
 "Hareket operatörleri şu anda kritik değil. Kodda geniş çaplı hareket "
 "manipülasyonlarına ihtiyaç duyulmamaktadır."
 
-#: app/templates/main/rubric-creator.html:555
+#: app/templates/main/rubric-creator.html:561
 msgid ""
 "Motion operators are minimal. There is no significant need for motion "
 "control in the code."
@@ -4950,7 +4952,7 @@ msgstr ""
 "Hareket operatörleri minimum düzeyde. Kodda hareket kontrolü için belirgin "
 "bir ihtiyaç bulunmamaktadır."
 
-#: app/templates/main/rubric-creator.html:556
+#: app/templates/main/rubric-creator.html:562
 msgid ""
 "Motion operators have some importance. There is a moderate need for movement "
 "manipulation in the code."
@@ -4958,7 +4960,7 @@ msgstr ""
 "Hareket operatörlerinin bir miktar önemi vardır. Kodda hareket manipülasyonu "
 "için orta düzeyde bir ihtiyaç bulunmaktadır."
 
-#: app/templates/main/rubric-creator.html:557
+#: app/templates/main/rubric-creator.html:563
 msgid ""
 "Motion operators are important. Proper motion control is necessary for the "
 "functionality of the code."
@@ -4966,7 +4968,7 @@ msgstr ""
 "Hareket operatörleri önemlidir. Kodun işlevselliği için uygun hareket "
 "kontrolü gereklidir."
 
-#: app/templates/main/rubric-creator.html:558
+#: app/templates/main/rubric-creator.html:564
 msgid ""
 "Motion operators are crucial. Precise motion control is essential for the "
 "proper functioning of the code."
@@ -4974,7 +4976,7 @@ msgstr ""
 "Hareket operatörleri kritik öneme sahiptir. Kodun doğru şekilde çalışması "
 "için hassas hareket kontrolü gereklidir."
 
-#: app/templates/main/rubric-creator.html:559
+#: app/templates/main/rubric-creator.html:565
 msgid ""
 "Motion operators are absolutely vital. The ability to manipulate movements "
 "effectively is fundamental."
@@ -4982,27 +4984,27 @@ msgstr ""
 "Hareket operatörleri kesinlikle hayati öneme sahiptir. Hareketleri etkili "
 "bir şekilde manipüle etme yeteneği temeldir."
 
-#: app/templates/main/rubric-creator.html:564
+#: app/templates/main/rubric-creator.html:570
 msgid "Generate rubric"
 msgstr "Rubrik oluştur"
 
-#: app/templates/main/rubric-creator.html:579
+#: app/templates/main/rubric-creator.html:585
 msgid "You can share this url:"
 msgstr "Bu URL'yi paylaşabilirsiniz:"
 
-#: app/templates/main/rubric-creator.html:581
+#: app/templates/main/rubric-creator.html:587
 msgid "First fill the form"
 msgstr "Önce formu doldurun"
 
-#: app/templates/main/rubric-creator.html:587
+#: app/templates/main/rubric-creator.html:593
 msgid "Here there are some rubrics examples:"
 msgstr "İşte bazı rubrik örnekleri:"
 
-#: app/templates/main/rubric-uploader.html:188
+#: app/templates/main/rubric-uploader.html:192
 msgid "There are three options to analyze your Scratch project now!"
 msgstr "Şu anda Scratch projenizi analiz etmek için üç seçeneğiniz var!"
 
-#: app/templates/main/rubric-uploader.html:203
+#: app/templates/main/rubric-uploader.html:206
 #, fuzzy
 #| msgid ""
 #| "Please upload a <span class='colored-text'><a data-toggle='modal' "
