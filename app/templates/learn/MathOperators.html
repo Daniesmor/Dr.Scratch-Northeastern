@@ -1,0 +1,123 @@
+{% extends 'learn/base.html' %}
+{% load i18n %}
+{% block content %}
+
+<div class="container" style="text-align: left;">
+    <h2> {% trans "Math Operators" %} </h2>
+    <div class="panel panel-default">
+        <div class="panel-body col-lg-10">
+            {% trans "The dimension of Math Operators measures the use of mathematical operators and functions in your projects. These operators are essential for performing calculations, making decisions based on numerical values, and manipulating data. Mastery of these operators allows you to create more dynamic and interactive projects in Scratch." %}
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body col-lg-10">
+            <section id="level0">
+                <h3>{% trans "If you get 1 point..." %}</h3>
+                {% trans "At the most basic level, you can use arithmetic operators to perform simple calculations. These include addition, subtraction, multiplication, and division. Here's a basic example showing these operators in use:" %}<br><br>
+                <pre class="blocks col-lg-4 col-lg-offset-4">
+                    {% trans "when green flag clicked" %}
+                    {% trans "set [result v] to ((5) + (3))" %}
+                    {% trans "say (result) for (3) secs" %}
+                    {% trans "set [result v] to ((10) - (2))" %}
+                    {% trans "say (result) for (3) secs" %}
+                    {% trans "set [result v] to ((4) * (2))" %}
+                    {% trans "say (result) for (3) secs" %}
+                    {% trans "set [result v] to ((8) / (2))" %}
+                    {% trans "say (result) for (3) secs" %}
+                </pre>
+                <div class="col-lg-12">
+                    <br>
+                    {% trans "In this example, each arithmetic operation is executed sequentially, and the result is displayed on the screen. This demonstrates basic arithmetic calculations using Scratch's mathematical blocks." %}
+                </div>
+                
+            </section>
+        </div>
+    </div>
+    
+    <div class="panel panel-default">
+        <div class="panel-body col-lg-10">
+            <section id="level1">
+                <h3>{% trans "If you get 2 points..." %}</h3>
+                {% trans "Building on basic arithmetic, you can use comparison operators to perform more complex operations. These operators include greater than, less than, and equal to. They are useful for making decisions based on numerical values. Here's an example:" %} <br><br>
+                <pre class="blocks col-lg-6 col-lg-offset-3">
+                    {% trans "when green flag clicked" %}
+                    {% trans "set [number1 v] to (5)" %}
+                    {% trans "set [number2 v] to (8)" %}
+                    {% trans "if <(number1) < (number2)> then" %}
+                    {% trans "say [Number1 is less than Number2] for (3) secs" %}
+                    {% trans "else" %}
+                    {% trans "say [Number1 is not less than Number2] for (3) secs" %}
+                    {% trans "end" %}
+                    {% trans "if <(number1) = (5)> then" %}
+                    {% trans "say [Number1 equals 5]" %}
+                    {% trans "end" %}
+                </pre>
+                <div class="col-lg-12">
+                    <br>
+                    {% trans "In this example, the program uses comparison operators to check if one number is less than another and to verify if a number equals a specific value. This allows for conditional logic based on numerical comparisons." %}
+                </div>
+            
+            </section>
+        </div>
+    </div>
+    
+    <div class="panel panel-default">
+        <div class="panel-body col-lg-10">
+            <section id="level2">
+                <h3>{% trans "If you get 3 points..." %}</h3>
+                {% trans "Beyond basic arithmetic and comparison, Scratch allows for more advanced string manipulations using operators for handling text. These include joining strings, finding the length of a string, and checking if a string contains another string. Here's how you can use these string operators:" %}<br><br>
+                <pre class="blocks col-lg-6 col-lg-offset-3">
+                    {% trans "when green flag clicked" %}
+                    {% trans "set [text1 v] to [Hello]" %}
+                    {% trans "set [text2 v] to [World]" %}
+                    {% trans "set [combinedText v] to (join (text1) (text2))" %}
+                    {% trans "say (combinedText) for (3) secs" %}
+                    {% trans "set [textLength v] to (length of (combinedText))" %}
+                    {% trans "say (textLength) for (3) secs" %}
+                    {% trans "if <(combinedText) contains [Hello]> then" %}
+                    {% trans "say [Text contains 'Hello'] for (3) secs" %}
+                    {% trans "else" %}
+                    {% trans "say [Text does not contain 'Hello'] for (3) secs" %}
+                    {% trans "end" %}
+                </pre>
+                <div class="col-lg-12">
+                    <br>
+                    {% trans "In this example, we demonstrate how to concatenate strings, find the length of the concatenated string, and check if a string contains a specific substring. These operations are useful for manipulating and processing text data in your Scratch projects." %}
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <div class="panel panel-default">
+        <div class="panel-body col-lg-10">
+            <section id="level3">
+                <h3>{% trans "If you get 4 points..." %}</h3>
+                <div class="col-lg-12">
+                    {% trans "For advanced projects, you can use trigonometric functions to perform calculations involving angles. Scratch supports functions for cosine, sine, and tangent, which are useful for more complex mathematical computations and animations. Here's an example of how to use these trigonometric functions:" %}
+                </div>
+                <br>
+                <pre class="blocks col-lg-6 col-lg-offset-3">
+                    {% trans "when green flag clicked" %}
+                    {% trans "set [angle v] to (45)" %}
+                    {% trans "set [cosineValue v] to (cos (angle))" %}
+                    {% trans "say (join [Cosine of ] (angle))" %}
+                    {% trans "say (cosineValue) for (3) secs" %}
+                    {% trans "set [sineValue v] to (sin (angle))" %}
+                    {% trans "say (join [Sine of ] (angle))" %}
+                    {% trans "say (sineValue) for (3) secs" %}
+                    {% trans "set [tangentValue v] to (tan (angle))" %}
+                    {% trans "say (join [Tangent of ] (angle))" %}
+                    {% trans "say (tangentValue) for (3) secs" %}
+                </pre>
+                <br>
+                <div class="col-lg-12">
+                    <br>
+                    {% trans "In this example, the program calculates the cosine, sine, and tangent of a given angle and displays the results. This demonstrates the use of trigonometric functions to perform advanced mathematical operations." %}
+                    <br><br>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}
