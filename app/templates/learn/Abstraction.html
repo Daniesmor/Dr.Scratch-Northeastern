@@ -56,6 +56,33 @@
         <div class="panel-body col-lg-10">
             <section id="level1">
                 <h3>{% trans "If you get 2 points..." %}</h3>
+                <div class="col-lg-12">
+                    {% trans "In some Scratch projects we have many identical characters that exactly perform the same actions. The first idea that comes to mind to do this is to create a character, schedule all his behavior and once you're ready, make as many copies as you need. Therefore, if we want 20 Martians, create 20 identical objects. However, what if I want to change the program? Would have to go object by object performing this modification." %}<br><br>
+                    {% trans "For such situations it is preferable to use <b>clones</b>, a type of abstraction that helps us to program a single object, and dynamically <b>create exact copies with the same behavior.</b>" %}<br>
+                    {% trans "Let's see how it works with an example. Imagine you want to pretend that it is snowing on a project. We can draw an object that is a snowflake, and once you start implementing the project, constantly be creating clones appear at the top of the screen and they will fall to the bottom:" %}
+                </div>
+                <br>
+                <pre class="blocks col-lg-6 col-lg-offset-3">
+                    {% trans "when green flag clicked" %}
+                    {% trans "forever" %}
+                    {% trans "create clone of [myself v]" %}
+                    {% trans "wait (0.2) secs" %}
+                    {% trans "go to x:(pick random(-200) to (200)) y:(200)" %}
+                    {% trans "glide (3) secs to x:(x position) y:(-180)" %}
+                    {% trans "delete this clone" %}
+                </pre>
+                <br>
+                <div class="col-lg-12">
+                    {% trans "Thus, just by programming a character, we can have infinite clones  which are created at a particular time of project implementation and are deleted when they are no longer needed." %}
+                </div>
+                
+            </section>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body col-lg-10">
+            <section id="level2">
+                <h3>{% trans "If you get 3 points..." %}</h3>
                 {% trans "Scratch allows new user-defined blocks that consist of a sequence of instructions. These abstractions allow you to create simple programs to read, program and maintain. Here's an example:" %} <br><br>
                 <pre class="blocks col-lg-4 col-lg-offset-4">
                     {% trans "when green flag clicked" %}
@@ -105,26 +132,36 @@
     </div>
     <div class="panel panel-default">
         <div class="panel-body col-lg-10">
-            <section id="level2">
-                <h3>{% trans "If you get 3 points..." %}</h3>
+            <section id="level3">
+                <h3>{% trans "If you get 4 points..." %}</h3>
                 <div class="col-lg-12">
-                    {% trans "In some Scratch projects we have many identical characters that exactly perform the same actions. The first idea that comes to mind to do this is to create a character, schedule all his behavior and once you're ready, make as many copies as you need. Therefore, if we want 20 Martians, create 20 identical objects. However, what if I want to change the program? Would have to go object by object performing this modification." %}<br><br>
-                    {% trans "For such situations it is preferable to use <b>clones</b>, a type of abstraction that helps us to program a single object, and dynamically <b>create exact copies with the same behavior.</b>" %}<br>
-                    {% trans "Let's see how it works with an example. Imagine you want to pretend that it is snowing on a project. We can draw an object that is a snowflake, and once you start implementing the project, constantly be creating clones appear at the top of the screen and they will fall to the bottom:" %}
+                    {% trans "To achieve a score of 4 points, you need to use <b>Advanced Clones</b>. This involves using blocks like <i>'broadcast'</i>, <i>'wait'</i>, and <i>'repeat'</i> with at least three instructions or <i>'if'</i> blocks with multiple conditions. Here is an example of a more advanced clone project using these concepts:" %}<br><br>
                 </div>
                 <br>
-                <pre class="blocks col-lg-4 col-lg-offset-4">
+                <pre class="blocks col-lg-4 ">
                     {% trans "when green flag clicked" %}
-                    {% trans "forever" %}
-                    {% trans "create clone of [myself v]" %}
-                    {% trans "wait (0.2) secs" %}
+                    {% trans "repeat (10)" %}
+                    {% trans "create clone of [snowflake v]" %}
+                    {% trans "wait (0.5) secs" %}
+                    {% trans "end" %}
+                </pre>
+                <pre class="blocks col-lg-6 col-lg-offset-1">
+                    {% trans "when I start as a clone" %}
+                    {% trans "set [xSpeed v] to (pick random (-5) to (5))" %}
+                    {% trans "set [ySpeed v] to (pick random (-5) to (5))" %}
                     {% trans "go to x:(pick random(-200) to (200)) y:(200)" %}
-                    {% trans "glide (3) secs to x:(x position) y:(-180)" %}
+                    {% trans "forever" %}
+                    {% trans "change x by (xSpeed)" %}
+                    {% trans "change y by (ySpeed)" %}
+                    {% trans "if &lt;(y position) < (-200)&gt; then" %}
                     {% trans "delete this clone" %}
+                    {% trans "end" %}
+                    {% trans "end" %}
                 </pre>
                 <br>
                 <div class="col-lg-12">
-                    {% trans "Thus, just by programming a character, we can have infinite clones  which are created at a particular time of project implementation and are deleted when they are no longer needed." %}
+                    <br>
+                    {% trans "In this example, the main script creates clones with a delay between each creation. Each clone sets random speeds and moves in those directions, bouncing off the edges of the screen and deleting themselves when they reach the bottom. This example incorporates waiting, repeating, and complex conditions to manage clones efficiently." %}
                 </div>
                 <br><br>
             </section>
