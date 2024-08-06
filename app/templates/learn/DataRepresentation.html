@@ -99,7 +99,7 @@
                 {% trans "In addition to the variables, Scratch lets you use another data type to store project information: <b>The lists. The lists can store more than one value at the same time, so they are ideal for storing rewards have been recovered by a character or set of names, raise a couple of examples.</b>" %}
                 {% trans "To create a list, you have to go to the data category, click on 'Create a List' and give a name. In the example, we have named our 'Students' list:" %}
                 <br><br>
-                <pre class="blocks col-lg-5 col-lg-offset-3">
+                <pre class="blocks col-lg-7 col-lg-offset-2">
                     {% trans "when green flag clicked" %}
                     {% trans "delete (all v) of [Students v]" %}
                     {% trans "repeat (3)" %}
@@ -112,7 +112,7 @@
                     {% trans "What we do with the list? We could, for example, use it to get a volunteer to carry out an exercise to the whiteboard. Look at the new instructions added to the program:" %}
                 </div>
                 <br><br><br><br>
-                <pre class="blocks col-lg-6 col-lg-offset-3">
+                <pre class="blocks col-lg-9 col-lg-offset-1">
                     {% trans "when green flag clicked" %}
                     {% trans "delete (all v) of [Students v]" %}
                     {% trans "repeat (3)" %}
@@ -128,6 +128,43 @@
                     {% trans "Lists have many possibilities and many available operations ... you dare to investigate how they work?" %}
                 </div>
                 <br><br>
+            </section>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-body col-lg-10">
+            <section id="level3">
+                <h3>{% trans "If you get 4 points..." %}</h3>
+                {% trans "Using boolean logic is essential for effective data representation because it allows you to handle and evaluate multiple conditions simultaneously. This enables more precise and flexible decision-making in your Scratch project, improving how your code responds to various scenarios and data inputs." %}<br><br>
+                {% trans "These blocks can be:" %}
+                <br><br>
+                <pre class="blocks col-lg-5 col-lg-offset-3">
+                    {% trans "<(value1) = (value2)>" %}
+                    {% trans "<(value1) > (value2)>" %}
+                    {% trans "&lt;(condition1) and  (condition2)&gt;" %}
+                    {% trans "&lt;(condition1) or  (condition2)&gt;" %}
+                    {% trans "&lt;not (condition)&gt;" %}
+                </pre>
+                <div class="col-lg-12">
+                    <br>
+                    {% trans "An example of the use of these blocks is:" %}
+                    <br><br>
+                </div>
+                <pre class="blocks col-lg-10 col-lg-offset-1">
+                    {% trans "if &lt;&lt; (score) > [10] &gt; and &lt;touching color [#FF0000]&gt;&gt; then" %}
+                        {% trans "say [You win!] for (2) secs" %}
+                        {% trans "else" %}
+                        {% trans "if&lt;&lt; (score) < [10] &gt; or &lt;not &lt;touching color [#FF0000]&gt;&gt;&gt; then" %}
+                        {% trans "say [Try again!] for (2) secs" %}
+                        {% trans "end" %}
+                        {% trans "end" %}
+                </pre>
+                <div class="col-lg-12">
+                    <br>
+                    {% trans "By using these boolean logic blocks, you can create more complex and interactive elements in your Scratch project." %}
+                    <br><br>
+                </div>
             </section>
         </div>
     </div>

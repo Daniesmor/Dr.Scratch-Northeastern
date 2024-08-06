@@ -31,7 +31,7 @@
             <section id="level1">
                 <h3>{% trans "If you get 2 points..." %}</h3>
                 {% trans "Now that you have begun to interact with the user running your Scratch project, perhaps you can try some of the following blocks:" %}<br><br>
-                <pre class="blocks col-lg-4 col-lg-offset-4">
+                <pre class="blocks col-lg-6 col-lg-offset-3">
                     {% trans " when [right arrow v] key pressed" %}
                     {% trans "move (10) steps" %}
                     <br></br>
@@ -61,7 +61,7 @@
             <section id="level2">
                 <h3>{% trans "If you get 3 points..." %}</h3>
                     {% trans "One of the funniest Scratch possibilities in terms of user interactivity is the possibility that <b>the user can use your webcam or microphone to interact with characters from Scratch or sound to trigger certain actions.</b>" %}<br><br>
-                <pre class="blocks col-lg-4 col-lg-offset-4">
+                <pre class="blocks col-lg-6 col-lg-offset-3">
                     {% trans "if &lt;(loudness) >[30]&gt; then" %}
                     {% trans "say [There is much noise...]" %}
                     {% trans "end" %}
@@ -74,6 +74,25 @@
                     {% trans "As you can see in the examples, we can make certain sets of blocks are executed when the ambient sound captured by the microphone is greater than a certain threshold, or when video motion occurs over an object or background. The possibilities of these blocks are very large and allows your creations Scratch are fully interactive with users." %}
                 </div>
                 <br><br>
+            </section>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body col-lg-10">
+            <section id="level3">
+                <h3>{% trans "If you get 4 points..." %}</h3>
+                {% trans "To achieve a score of 4 points, you need to implement advanced user interactivity using external blocks such as LEGO Mindstorms ones. Incorporate these types of blocks help us to create sophisticated interactions. For example, you could use sensors or external inputs to control your Scratch project. Here is an example:" %}<br><br>
+                <pre class="blocks col-lg-6 col-lg-offset-3">
+                    {% trans "if &lt;(Distance) < (5)&gt; then" %}
+                    {% trans "say [Object very close!] for (2) secs" %}
+                    {% trans "stop [all v]" %}
+                    {% trans "end" %}
+                </pre>
+                <br>
+                <div class="col-lg-12">
+                    {% trans "In this example, if the sensor of Distance of the Lego Mindstorm is less than 5, the Scratch project will stop and say a message. This is a very simple example, but you can imagine how you can use this type of blocks to create sophisticated interactions." %}
+                    <br><br>
+                </div>
             </section>
         </div>
     </div>
