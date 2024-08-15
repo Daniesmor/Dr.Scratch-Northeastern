@@ -6,11 +6,16 @@ from django.contrib.auth.models import User
 
 class File(models.Model):
     filename = models.CharField(max_length=100)
+    file_uuid = models.UUIDField(default=uuid.uuid4, blank=True)
+    scratch_project_id = models.IntegerField(null=True, blank=True)
     organization = models.CharField(max_length=100, default='drscratch')
     coder = models.CharField(max_length=100, default='drscratch')
+    creation_date = models.DateTimeField(null=True, blank=True)
+    modified_date = models.DateTimeField(null=True, blank=True)
+    scratch_author = models.CharField(max_length=100, default='drscratch')
     # type_user = models.CharField(max_length=100, default='drscratch')
     method = models.CharField(max_length=100)
-    time = models.DateField(auto_now=False)
+    time = models.DateTimeField(auto_now=False)
     language = models.TextField(default="en")
     score = models.IntegerField()
     abstraction = models.IntegerField()
@@ -24,6 +29,8 @@ class File(models.Model):
     initialization = models.IntegerField()
     deadCode = models.IntegerField()
     duplicateScript = models.IntegerField()
+    project_parent_id = models.IntegerField(null=True, blank=True)
+    full_analysis = models.JSONField(null=True, blank=True)
 
 class BatchCSV(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

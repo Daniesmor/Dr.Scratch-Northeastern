@@ -1170,7 +1170,100 @@
             </div>
         </div>
 
+
+        <div id="gitgraph"></div>
         
+        <script>
+
+          document.addEventListener("DOMContentLoaded", function() {
+            const { createGitgraph, TemplateName, templateExtend } = window.GitgraphJS;
+
+            const myTemplate = templateExtend(TemplateName.Metro, {
+                //colors: ["#A3D5D1"],
+                commit: {
+                    message: {
+                        displayHash: false, 
+                    },
+                },
+            });
+
+      
+            var customTagStyle = {
+                bgColor: 'orange',
+                strokeColor: 'orange',
+                borderRadius: 0,
+                pointerWidth: 0,
+            };
+            const graphContainer = document.getElementById("gitgraph");
+      
+            const gitgraph = createGitgraph(graphContainer, {
+                template: myTemplate, 
+                orientation: "vertical-reverse",
+                commit: {
+                    message: {
+                        displayHash: false, 
+                    },
+                },
+            });
+            
+            let branches = {};
+            branches['main'] = gitgraph.branch({
+                name: "main",
+            });                                    
+
+            {% for commit, branch, father_branch in branching %}
+
+                {% if branch != 'main' %}
+                    
+                    {% with '#A3D5D1' as color %}
+                    if (!branches['{{ branch }}']) {
+                        console.log("se estan creando ramas nuevas")
+                        branches['{{ branch }}'] = branches['{{ father_branch }}'].branch({
+                        name: "{{ branch }}",    
+                        });
+                    }         
+                    {% endwith %}
+                {% endif %}
+
+                {% with 0 as smells %}
+                    {% with smells|add:commit.initialization as smells %}
+                        {% with smells|add:commit.spriteNaming as smells %}
+                            {% with smells|add:commit.deadCode as smells %}
+                                {% with smells|add:commit.duplicateScript as smells %}
+                                    
+                                    branches['{{ branch }}'].commit({ 
+                                        subject: "{{ commit.modified_date }}", 
+                                        author: "Author: {{ commit.scratch_author }}",
+                                        onClick: () => window.open('{% url 'show_especific_project' commit.scratch_project_id commit.modified_date|date:'c' %}', '_blank') 
+                                    }).tag({
+                                        name: "Score: {{ commit.score }} Smells: {{ smells }}",
+                                        style: {
+                                            {% if commit.score <= 7 %}
+                                                bgColor: '#D9534F',
+                                                strokeColor: '#D9534F',
+                                            {% elif commit.score <= 21 %}
+                                                bgColor: '#F0AD4E',  
+                                                strokeColor: '#F0AD4E',
+                                            {% else %}
+                                                bgColor: '#5CB85C', 
+                                                strokeColor: '#5CB85C',
+                                            {% endif %}
+
+                                            borderRadius: 0,
+                                            pointerWidth: 0,
+                                        }
+                                    });
+
+                                {% endwith %}
+                            {% endwith %}
+                        {% endwith %}
+                    {% endwith %}
+                {% endwith %}
+
+            {% endfor %}
+
+          });
+        </script>
         
 
         <!-- MODAL -->
