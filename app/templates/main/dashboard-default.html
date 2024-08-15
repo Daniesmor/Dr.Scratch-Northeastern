@@ -677,6 +677,7 @@
                         {% endif %}
                     </div>
                     
+                    {% if filename %}
                     <div class="improve">
                         <div class="panel panel-success" id="improve">
                             <div id="stepfour">
@@ -696,6 +697,7 @@
                             </div>
                         </div>
                     </div>
+                    {% endif %}
                     
                     {% if url != None %}
                     <div class="improve">
@@ -1009,6 +1011,7 @@
                         {% endif %}
                     </div>
                     
+                    {% if filename %}
                     <div class="improve">
                         <div class="panel panel-success" id="improve">
                             <div id="stepfour">
@@ -1021,13 +1024,15 @@
                                 <div class="panel-success" style="word-break: break-word;" >
                                     <h5>{{ filename }} <form name="form" class="project-form" enctype="multipart/form-data" method="post" action="/download_certificate">
                                     {% csrf_token %}
-                                    <input type="hidden" name="level" value="{{ mastery.points.0 }}/{{ mastery.points.1 }}">
+                                    <input type="hidden" name="level" value="{{ mastery_vanilla.points.0 }}/{{ mastery_vanilla.points.1 }}">
                                     <button value="{{ filename }}" name="filename" type="submit" id ="certificate" style="margin-top: 3%;">{% trans "Download" %}</button>
-                                    </form></h5>
+                                  </form></h5>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    {% endif %}
+
                     {% if url != None %}
                     <div class="improve">
                         <div class="panel panel-success" id="improve">
