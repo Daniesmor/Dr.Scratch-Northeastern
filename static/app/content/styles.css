@@ -582,35 +582,43 @@ strong,
 #bg-personalized {
 	background: url(../images/personalized_background.png) no-repeat center ;
 	background-size: contain;
-	transition-duration: 1s; /* Agrega una transición suave entre los cambios */
+	transition-duration: 0.5s; 
   	cursor: pointer;
 }
 
 #bg-personalized:hover {
 	background: url(../images/personalized_background_hover.png) no-repeat center ;
 	background-size: contain;
-	transition-duration: 1s;
+	transition-duration: 0.5s;
 
 }
 
 #bg-csv {
 	background: url(../images/csv_background.png) no-repeat center ;
 	background-size: contain;
+	transition-duration: 0.5s; 
+  	cursor: pointer;
 }
 
 #bg-csv:hover {
 	background: url(../images/csv_background_hover.png) no-repeat center ;
 	background-size: contain;
+	transition-duration: 0.5s;
 }
+
 
 #bg-classic {
 	background: url(../images/classic_background.png) no-repeat center ;
 	background-size: contain;
+	transition-duration: 0.5s; 
+  	cursor: pointer;
 }
 
 #bg-classic:hover {
 	background: url(../images/classic_background_hover.png) no-repeat center ;
 	background-size: contain;
+	background-size: contain;
+	transition-duration: 0.5s;
 }
 
 #bg-coming {
