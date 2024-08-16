@@ -59,14 +59,12 @@
 
 
     <style>
-        /* Para el ancho y alto de las imagenes. Modificalo a gusto =)  */
         .carousel-inner > .item > img,
         .carousel-inner > .item > a > img {
             width: 100%;
             height: 500px;
             margin: auto;
         }
-        /* Para los margenes del contendor de las fotos. Podes cambiarle el ancho a gusto tambien! */
         .carousel-control {
             width: 10%;
         }
@@ -79,7 +77,6 @@
         document.addEventListener("DOMContentLoaded", function () {
             var personalizedOptions = document.getElementById("personalized-options");
     
-            // Manejador de eventos para el cambio en el campo dashboard_mode
             document.querySelector("[name='dashboard_mode']").addEventListener("change", function () {
                 var selectedOption = this.value;
                 if (selectedOption === "Personalized") {
@@ -96,7 +93,6 @@
             var form = document.forms["form"];
             var select = form.elements["dashboard_mode"];
     
-            // Situation when you change the value of a Slider
             var personalizedInputs = form.querySelectorAll('.form-range');
             personalizedInputs.forEach(function(input) {
                 input.addEventListener('input', function() {
