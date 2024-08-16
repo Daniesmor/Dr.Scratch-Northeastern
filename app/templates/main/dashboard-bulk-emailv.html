@@ -65,40 +65,40 @@
     <link rel="stylesheet" href="./static/app/content/red.css">
 
     <script>
-                    window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
-                    </script>
+        window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
+    </script>
 
     <script>
-    // Instance the tour
-    // Initialize the tour
-    $(document).ready(function(){
-     $("#tour").click(function(){
-    var tour = new Tour({
-      storage: false,
-      backdrop: true,
-     steps: [
-      {
-        element: "#stepone",
-        title: "{% trans 'Score' %}",
-        content: "{% trans 'This section shows the total score.' %}"
-      },
-      {
-        element: "#steptwo",
-        title: "{% trans 'Certificate' %}",
-        content:"{% trans 'Download your certificate!'%}"
-      },
-      {
-        element: "#stepthree",
-        title: "{% trans 'Score in detail'%}",
-        content: "{% trans 'Here we show the score in each programming skill as well as links to sites that can help you to level up.' %}",
-        placement:'left'
-      }
-    ]});
-            tour.init();
-            tour.start();
+        // Instance the tour
+        // Initialize the tour
+        $(document).ready(function(){
+        $("#tour").click(function(){
+        var tour = new Tour({
+        storage: false,
+        backdrop: true,
+        steps: [
+        {
+            element: "#stepone",
+            title: "{% trans 'Score' %}",
+            content: "{% trans 'This section shows the total score.' %}"
+        },
+        {
+            element: "#steptwo",
+            title: "{% trans 'Certificate' %}",
+            content:"{% trans 'Download your certificate!'%}"
+        },
+        {
+            element: "#stepthree",
+            title: "{% trans 'Score in detail'%}",
+            content: "{% trans 'Here we show the score in each programming skill as well as links to sites that can help you to level up.' %}",
+            placement:'left'
+        }
+        ]});
+                tour.init();
+                tour.start();
 
-        });
-});
+            });
+    });
     </script>
     <script>
     $(document).ready(function(){
@@ -145,142 +145,107 @@
 
 </head>
 <body>
-    <div id="wrap">
-            
-    <!-- JUMBOTRON -->
-<div class="container">
-
-
-  <!-- Score in detail -->
-    <div class="col-md-7">
-        <section id="dashboard">
-            <div class="container-fluid" id="stepfour">
-                <div class="row marketing">
-                    <div class="jumbotron" style="max-width: 40%;">
-                        <div class="table-responsive" style="box-sizing:border-box; min-height:.01%; overflow-x:auto; text-align: center; padding-top: 0px;">
-                            <h4>{% trans "Analysis Complete!!" %}</h4>
-                            <table class="table tablesorter">
-                                <thead>
-                                    <th></th>
-                                    <h5 class="text-primary">{% trans "You can download the csv clicking " %}<a href="{{ url }}"><span class="text-danger">{% trans "HERE" %}</span></a></h5>
-                                </thead>
-                                <tbody>
-                                    
-                                
-                                    
-                                </tbody>
-                                
-                            </table>
-                            <h5 class="text-warning">{% trans "Summary: " %}</h5>
-                            <h5 class="text-info">{% trans 'Projects Analyzed: ' %}{{ summary.num_projects }}</h5>
-                            <h6 class="text-warning">{% trans "Average Score: " %}</h6>
-                                {% for skill, value in summary.items %}
-                                    {% if skill != 'num_projects' and skill != 'maxi' and skill != 'Mastery' %}
-                                        {% if value.0 >= value.2 %}
-                                            <h5><span class="text-info">{{ skill }}: </span><span class="text-success" style="font-size: 20px;">
-                                                {% if value.0|floatformat:"-1" == value.0|floatformat:"0" %}
-                                                    {{ value.0|floatformat:"0" }}
-                                                {% else %}
-                                                    {{ value.0 }}
-                                                {% endif %}
-                                                /
-                                                {% if value.1|floatformat:"-1" == value.1|floatformat:"0" %}
-                                                    {{ value.1|floatformat:"0" }}
-                                                {% else %}
-                                                    {{ value.1 }}
-                                                {% endif %}
-                                            </span></h5>
-                                        {% else %}
-                                            <h5><span class="text-info">{{ skill }}: </span><span class="text-danger" style="font-size: 20px;">
-                                                {% if value.0|floatformat:"-1" == value.0|floatformat:"0" %}
-                                                    {{ value.0|floatformat:"0" }}
-                                                {% else %}
-                                                    {{ value.0 }}
-                                                {% endif %}
-                                                /
-                                                {% if value.1|floatformat:"-1" == value.1|floatformat:"0" %}
-                                                    {{ value.1|floatformat:"0" }}
-                                                {% else %}
-                                                    {{ value.1 }}
-                                                {% endif %}
-                                            </span></h5>
+    <div id="wrap" style="max-width: 1200px; margin: 0 auto; width: 100%;">
+        <!-- JUMBOTRON -->
+        <div class="container" style="max-width: 100%; margin: 0 auto; padding: 0;">
+            <!-- Score in detail -->
+            <div class="col-12 col-md-7" style="max-width: 100%; margin: 0 auto;">
+                <section id="dashboard">
+                    <div class="container-fluid" id="stepfour" style="padding: 0;">
+                        <div class="row marketing" style="margin: 0;">
+                            <div class="jumbotron" style="max-width: 90%; margin: 0 auto; width: 100%;">
+                                <div class="table-responsive" style="box-sizing: border-box; min-height: .01%; overflow-x: auto; text-align: center; padding-top: 0;">
+                                    <h4>{% trans "Analysis Complete!!" %}</h4>
+                                    <table class="table tablesorter">
+                                        <thead>
+                                            <th></th>
+                                            <h5 class="text-primary">{% trans "You can download the csv clicking " %}<a href="{{ url }}"><span class="text-danger">{% trans "HERE" %}</span></a></h5>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                    <h5 class="text-warning">{% trans "Summary: " %}</h5>
+                                    <h5 class="text-info">{% trans 'Projects Analyzed: ' %}{{ summary.num_projects }}</h5>
+                                    <h6 class="text-warning">{% trans "Average Score: " %}</h6>
+                                    {% for skill, value in summary.items %}
+                                        {% if skill != 'num_projects' and skill != 'maxi' and skill != 'Mastery' %}
+                                            {% if value.0 >= value.2 %}
+                                                <h5><span class="text-info">{{ skill }}: </span><span class="text-success" style="font-size: 20px;">
+                                                    {% if value.0|floatformat:"-1" == value.0|floatformat:"0" %}
+                                                        {{ value.0|floatformat:"0" }}
+                                                    {% else %}
+                                                        {{ value.0 }}
+                                                    {% endif %}
+                                                    /
+                                                    {% if value.1|floatformat:"-1" == value.1|floatformat:"0" %}
+                                                        {{ value.1|floatformat:"0" }}
+                                                    {% else %}
+                                                        {{ value.1 }}
+                                                    {% endif %}
+                                                </span></h5>
+                                            {% else %}
+                                                <h5><span class="text-info">{{ skill }}: </span><span class="text-danger" style="font-size: 20px;">
+                                                    {% if value.0|floatformat:"-1" == value.0|floatformat:"0" %}
+                                                        {{ value.0|floatformat:"0" }}
+                                                    {% else %}
+                                                        {{ value.0 }}
+                                                    {% endif %}
+                                                    /
+                                                    {% if value.1|floatformat:"-1" == value.1|floatformat:"0" %}
+                                                        {{ value.1|floatformat:"0" }}
+                                                    {% else %}
+                                                        {{ value.1 }}
+                                                    {% endif %}
+                                                </span></h5>
+                                            {% endif %}
                                         {% endif %}
+                                    {% endfor %}
+                                    <h6 class="text-warning">{% trans "Average Mastery: " %}</h6>
+                                    {% if summary.Mastery == 'Master' %}
+                                        <h5 class="text-success">{{ summary.Mastery }}</h5>  
+                                    {% elif summary.Mastery == 'Developing' %}
+                                        <h5 class="text-warning">{{ summary.Mastery }}</h5>  
+                                    {% else %}
+                                        <h5 class="text-danger">{{ summary.Mastery }}</h5>  
                                     {% endif %}
-                                {% endfor %}
-                            <h6 class="text-warning">{% trans "Average Mastery: " %}</h6>
-                            {% if summary.Mastery == 'Master' %}
-                                <h5 class="text-success">{{ summary.Mastery }}</h5>  
-                            {% elif summary.Mastery == 'Developing' %}
-                                <h5 class="text-warning">{{ summary.Mastery }}</h5>  
-                            {% else %}
-                                <h5 class="text-danger">{{ summary.Mastery }}</h5>  
-                            {% endif %}
-                            <a href="https://www.drscratch.org/">
-                                <img src="https://www.drscratch.org/static/app/images/logo_main.png" alt="" width="220" height="70.1667">
-                            </a>                                    
-                            
+                                    <a href="https://www.drscratch.org/">
+                                        <img src="https://www.drscratch.org/static/app/images/logo_main.png" alt="" style="width: 220px; height: auto; max-width: 100%;">
+                                    </a>                                    
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </section>
             </div>
-        </section>
-        <div id="refactor">
-            {% for refactor_dict in refactor.refactor_list %}
-            <p>
-                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#originalCollapse{{ forloop.counter }}" aria-expanded="false" aria-controls="originalCollapse{{ forloop.counter }}">
-                  Display Original Blocks!
-                </button>
-                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#refactoredCollapse{{ forloop.counter }}" aria-expanded="false" aria-controls="refactoredCollapse{{ forloop.counter }}">
-                    Display Solution!
-                  </button>
-              </p>
-              <div class="collapse" id="originalCollapse{{ forloop.counter }}">
-                <div class="card card-body">
-                    <pre class="blocks">
-                        {{ refactor_dict.original }}
-                    </pre>
-                </div>
-              </div>
-              <div class="collapse" id="refactoredCollapse{{ forloop.counter }}">
-                <div class="card card-body">
-                    <pre class="blocks">
-                        {{ refactor_dict.refactored }}
-                    </pre>
-                </div>
-              </div>
-            {% endfor %}
         </div>
-     </div>
-</div>
-
-    
     </div>
     
-        <script>
-            // Función para establecer la misma altura en todas las columnas
-            function equalizeColumnHeight() {
-                var maxColumnHeight = 0;
-                // Iterar sobre todas las columnas
-                $('.col-md-4').each(function() {
-                    // Obtener la altura de la columna actual
-                    var columnHeight = $(this).height();
-                    // Comparar con la altura máxima encontrada hasta ahora
-                    if (columnHeight > maxColumnHeight) {
-                        maxColumnHeight = columnHeight;
-                    }
-                });
-                // Establecer la misma altura en todas las columnas
-                $('.col-md-4').height(maxColumnHeight);
-            }
-        
-            // Llamar a la función cuando el documento esté listo y cuando se redimensione la ventana
-            $(document).ready(equalizeColumnHeight);
-            $(window).resize(equalizeColumnHeight);
-        </script>
-        
-        <!-- Scripts de Bootstrap y jQuery -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <script>
+        // Función para establecer la misma altura en todas las columnas
+        function equalizeColumnHeight() {
+            var maxColumnHeight = 0;
+            // Iterar sobre todas las columnas
+            $('.col-md-4').each(function() {
+                // Obtener la altura de la columna actual
+                var columnHeight = $(this).height();
+                // Comparar con la altura máxima encontrada hasta ahora
+                if (columnHeight > maxColumnHeight) {
+                    maxColumnHeight = columnHeight;
+                }
+            });
+            // Establecer la misma altura en todas las columnas
+            $('.col-md-4').height(maxColumnHeight);
+        }
+    
+        // Llamar a la función cuando el documento esté listo y cuando se redimensione la ventana
+        $(document).ready(equalizeColumnHeight);
+        $(window).resize(equalizeColumnHeight);
+    </script>
+    
+    <!-- Scripts de Bootstrap y jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 
 </body>
