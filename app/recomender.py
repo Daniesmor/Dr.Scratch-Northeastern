@@ -106,9 +106,9 @@ class RecomenderSystem():
             if (len(sprite_list) > 1):
                 sprites = ", ".join(sprite_list)
                 if (self.curr_lan == 'en'):
-                    message += f" you have a lot of sprites with the default name, for example in your case you have {self.MAGENTA}{len(sprite_list)} sprites{self.RESET} with the default names. Look, the solution it's simple, try to change the names of {self.MAGENTA}{sprites}{self.RESET} for a more descriptive names according to their functionalities."
+                    message += f" you have a lot of sprites with the default name, for example in your case you have {self.MAGENTA}{len(sprite_list)} sprites{self.RESET} with the default names. To solve it, try to change the names of {self.MAGENTA}{sprites}{self.RESET} for a more descriptive names according to their functionalities."
                 elif (self.curr_lan == 'es'):
-                    message += f" tienes muchos sprites con el nombre por defecto, por ejemplo en tu caso tienes {self.MAGENTA}{len(sprite_list)} sprites{self.RESET} con nombres por defecto. Mira, la solución es simple, intenta cambiar los nombres de {self.MAGENTA}{sprites}{self.RESET} por nombres más descriptivos según sus funcionalidades."
+                    message += f" tienes muchos sprites con el nombre por defecto, por ejemplo en tu caso tienes {self.MAGENTA}{len(sprite_list)} sprites{self.RESET} con nombres por defecto. Mira, para solucionarlo, intenta cambiar los nombres de {self.MAGENTA}{sprites}{self.RESET} por nombres más descriptivos según sus funcionalidades."
             else:
                 if self.curr_lan == 'en':
                     message += f" you have one sprite with the default name provided by Scratch, try to change the sprite {self.MAGENTA}{sprite_list[0]}{self.RESET} name for a more descriptive name according to the function of the sprite."
@@ -155,14 +155,14 @@ class RecomenderSystem():
             if (len(backdrop_list) > 1):
                 backdrops = ", ".join(backdrop_list)
                 if self.curr_lan == 'en':
-                    message += f" you have a lot of backdrops with the default name, for example in your case you have {self.MAGENTA}{len(backdrop_list)} backdrops{self.RESET} with the default names. Look, the solution is simple, you have to change the names of {backdrops} for more descriptive names according to their aspect."
+                    message += f" you have a lot of backdrops with the default name, for example in your case you have {self.MAGENTA}{len(backdrop_list)} backdrops{self.RESET} with the default names. To solve it, you have to change the names of {backdrops} for more descriptive names."
                 elif self.curr_lan == 'es':
-                    message += f" tienes muchos fondos con el nombre por defecto, por ejemplo en tu caso tienes {self.MAGENTA}{len(backdrop_list)} fondos{self.RESET} con nombres por defecto. Mira, la solución es simple, debes cambiar los nombres de {backdrops} por nombres más descriptivos según su aspecto."
+                    message += f" tienes muchos fondos con el nombre por defecto, por ejemplo en tu caso tienes {self.MAGENTA}{len(backdrop_list)} fondos{self.RESET} con nombres por defecto. Mira, para solucionarlo, debes cambiar los nombres de {backdrops} por nombres más descriptivos."
             else:
                 if self.curr_lan == 'en':
-                    message += f" you have one backdrop with the default name provided by Scratch, try change the backdrop {self.MAGENTA}{backdrop_list[0]}{self.RESET} name, for a more descriptive name according to the aspect of the backdrop."
+                    message += f" you have one backdrop with the default name provided by Scratch, try changing the backdrop {self.MAGENTA}{backdrop_list[0]}{self.RESET} name, for a more descriptive name."
                 elif self.curr_lan == 'es':
-                    message += f" tienes un fondo con el nombre por defecto proporcionado por Scratch, intenta cambiar el nombre del fondo {self.MAGENTA}{backdrop_list[0]}{self.RESET} por un nombre más descriptivo según el aspecto del fondo."
+                    message += f" tienes un fondo con el nombre por defecto proporcionado por Scratch, intenta cambiar el nombre del fondo {self.MAGENTA}{backdrop_list[0]}{self.RESET} por un nombre más descriptivo."
 
             # Select one of the explanation phrases of deadCode
             rand_explanation_index = random.randint(0, len(explanation_phrases) - 1) 
@@ -207,14 +207,14 @@ class RecomenderSystem():
             # Create a message for duplicatedScripts
             if duplicatedScripts > 1:
                 if self.curr_lan == 'en':
-                    message += f" you have {self.MAGENTA}{duplicatedScripts} scripts duplicated{self.RESET} in your code, this means you have the same blocks repeated. Instead of duplicating code, you can use one instance of it.\n \nBut don't worry, let's solve that. For now, we will try to solve just a few. Look, it's simple: below this text, you have a selector with arrows. In tab {self.MAGENTA}1{self.RESET}, you can see your duplicated code, and in tab {self.MAGENTA}2{self.RESET}, you can see the refactored code. You just need to replace the duplicated code with the refactored code in your project."
+                    message += f" you have {self.MAGENTA}{duplicatedScripts} scripts duplicated{self.RESET} in your code, this means you have the same blocks repeated. Instead of duplicating code, you can use one instance of it.\n \nBut don't worry, let's solve that. For now, we will try to solve just a few. To solve it: below this text, you have a selector with arrows. In tab {self.MAGENTA}1{self.RESET}, you can see your duplicated code, and in tab {self.MAGENTA}2{self.RESET}, you can see the refactored code. You just need to replace the duplicated code with the refactored code in your project."
                 elif self.curr_lan == 'es':
-                    message += f" tienes {self.MAGENTA}{duplicatedScripts} scripts duplicados{self.RESET} en tu código, lo que significa que tienes los mismos bloques repetidos. En lugar de duplicar código, puedes usar una sola instancia de él.\n \nPero no te preocupes, vamos a solucionarlo. Por ahora, intentaremos resolver solo unos pocos. Mira, es simple: debajo de este texto, tienes un selector con flechas. En la pestaña {self.MAGENTA}1{self.RESET}, puedes ver tu código duplicado, y en la pestaña {self.MAGENTA}2{self.RESET}, puedes ver el código refactorizado. Solo necesitas reemplazar el código duplicado con el código refactorizado en tu proyecto."
+                    message += f" tienes {self.MAGENTA}{duplicatedScripts} scripts duplicados{self.RESET} en tu código, lo que significa que tienes los mismos bloques repetidos. En lugar de duplicar código, puedes usar una sola instancia de él.\n \nPero no te preocupes, vamos a solucionarlo. Por ahora, intentaremos resolver solo unos pocos. Para solucionarlo: debajo de este texto, tienes un selector con flechas. En la pestaña {self.MAGENTA}1{self.RESET}, puedes ver tu código duplicado, y en la pestaña {self.MAGENTA}2{self.RESET}, puedes ver el código refactorizado. Solo necesitas reemplazar el código duplicado con el código refactorizado en tu proyecto."
             elif duplicatedScripts == 1:
                 if self.curr_lan == 'en':
-                    message += f" you have one script duplicated{self.RESET} in your code, this means you have the same blocks repeated. Instead of duplicating code, you can use one instance of it.\n \nBut don't worry, let's solve that. For now, we will try to solve just a few. Look, it's simple: below this text, you have a selector with arrows. In tab {self.MAGENTA}1{self.RESET}, you can see your duplicated code, and in tab {self.MAGENTA}2{self.RESET}, you can see the refactored code. You just need to replace the duplicated code with the refactored code in your project."
+                    message += f" you have one script duplicated{self.RESET} in your code, this means you have the same blocks repeated. Instead of duplicating code, you can use one instance of it.\n \nBut don't worry, let's solve that. For now, we will try to solve just a few. To solve it: below this text, you have a selector with arrows. In tab {self.MAGENTA}1{self.RESET}, you can see your duplicated code, and in tab {self.MAGENTA}2{self.RESET}, you can see the refactored code. You just need to replace the duplicated code with the refactored code in your project."
                 elif self.curr_lan == 'es':
-                    message += f" tienes un script duplicado{self.RESET} en tu código, lo que significa que tienes los mismos bloques repetidos. En lugar de duplicar código, puedes usar una sola instancia de él.\n \nPero no te preocupes, vamos a solucionarlo. Por ahora, intentaremos resolver solo unos pocos. Mira, es simple: debajo de este texto, tienes un selector con flechas. En la pestaña {self.MAGENTA}1{self.RESET}, puedes ver tu código duplicado, y en la pestaña {self.MAGENTA}2{self.RESET}, puedes ver el código refactorizado. Solo necesitas reemplazar el código duplicado con el código refactorizado en tu proyecto."
+                    message += f" tienes un script duplicado{self.RESET} en tu código, lo que significa que tienes los mismos bloques repetidos. En lugar de duplicar código, puedes usar una sola instancia de él.\n \nPero no te preocupes, vamos a solucionarlo. Por ahora, intentaremos resolver solo unos pocos. Para solucionarlo: debajo de este texto, tienes un selector con flechas. En la pestaña {self.MAGENTA}1{self.RESET}, puedes ver tu código duplicado, y en la pestaña {self.MAGENTA}2{self.RESET}, puedes ver el código refactorizado. Solo necesitas reemplazar el código duplicado con el código refactorizado en tu proyecto."
 
 
             # First we have remove the first line
