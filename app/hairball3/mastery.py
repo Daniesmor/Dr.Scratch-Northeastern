@@ -361,14 +361,13 @@ class Mastery(Plugin):
         """
 
         basic = self.check_list({'operator_add', 'operator_subtract', 'operator_multiply', 'operator_divide'})
-        developing = self.check_list({'operator_gt', 'operator_lt', 'operator_equals'})
+        developing = self.check_formula()
         proficient = self.check_list({'operator_join', 'operator_letter_of', 'operator_length', 'operator_contains'})
         advanced = self.check_trigonometry()
 
         scale_dict = {"advanced": advanced, "proficient": proficient, "developing": developing, "basic": basic}
 
         self.set_dimension_score(scale_dict, "MathOperators")
-        
 
     def compute_motion_operators(self):
         """
@@ -384,6 +383,48 @@ class Mastery(Plugin):
         scale_dict = {"advanced": advanced, "proficient": proficient, "developing": developing, "basic": basic}
 
         self.set_dimension_score(scale_dict, "MotionOperators") 
+
+    def check_formula(self):
+        """
+        Checks if the script contains a base operator with 3 or more nested operators within its inputs.
+        """
+
+        operators = ['operator_add', 'operator_subtract', 'operator_multiply',
+                    'operator_divide', 'operator_mathop', 'operator_random']
+
+        # Iterate over all blocks to find base operators
+        for block in self.list_total_blocks:
+            if block['opcode'] in operators:
+                # Count the nested operators within this base operator
+                counter = self.count_nested_operators(block, operators)
+                print(f"Nested operators for block {block['opcode']}: {counter}")
+                
+                # If we find 3 or more nested operators, return True
+                if counter >= 3:
+                    return True
+        return False
+
+    def count_nested_operators(self, block, operators):
+        """
+        Recursively counts the number of nested operators within a block, not counting the initial block.
+        """
+        
+        count = 0 
+        
+        for _, value in block['inputs'].items():
+            # Check if there is a string representing a block ID
+            block_ids = [v for v in value if isinstance(v, str) and v in self.dict_total_blocks]
+            
+            for connected_block_id in block_ids:
+                connected_block = self.dict_total_blocks[connected_block_id]
+                
+                # If the connected block is an operator, count that operator and keep searching
+                if connected_block['opcode'] in operators:
+                    count += 1
+                    # Recursively count operators within this operator
+                    count += self.count_nested_operators(connected_block, operators)
+        
+        return count
 
     def check_scripts_flag(self, n_scripts):
         if self.dict_blocks['event_whenflagclicked'] >= n_scripts:  # N Scripts on green flag
