@@ -312,9 +312,15 @@ BLOCK_TEXT = {
     "VIDEOSENSING_VIDEOON": "video (%1 v) on (%2 v)",
     "VIDEOSENSING_VIDEOTOGGLE": "turn video (%1 v)",
     "VIDEOSENSING_SETVIDEOTRANSPARENCYTO": "set video transparency to (%1)",
+    "TRANSLATE_GETTRANSLATE": "translate (%1) to (%2 v)",
     "TEXT2SPEECH_SPEAKANDWAIT": "speak (%1)",
     "TEXT2SPEECH_SETVOICE": "set voice to (%1 v)",
     "TEXT2SPEECH_SETLANGUAGE": "set language to (%1 v)",
+    "MAKEYMAKEY_WHENCODEPRESSED": "when (%1 v) in order",
+    "MAKEYMAKEY_KEYPRESSED": "when (%1 v) key pressed",
+    "VIDEOSENSING_SETVIDEOTRANSPARENCY": "when video motion > (%1)",
+    "MICROBIT_WHENTILTED": "when (%1 v) button pressed",
+    "MICROBIT_BUTTONPRESSED?": "when (%1 v) button pressed?",
 }
 
 STARTER_BLOCKS = {"EVENT_WHENFLAGCLICKED",
