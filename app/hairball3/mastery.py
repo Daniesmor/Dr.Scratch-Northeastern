@@ -310,11 +310,14 @@ class Mastery(Plugin):
         """
         Check the advanced user interactivity skills
         """
+        non_controllers_ext = ['music', 'pen', 'videoSensing', 'text2speech', 'translate']
+
         extensions = self.json_project.get('extensions', [])
-        if len(extensions) != 0:
-            return True
-        else:
-            return False
+        print("---EXTENSIONS---")
+        print(extensions)
+        print("----------------")
+
+        return any(extension not in non_controllers_ext for extension in extensions)
 
         
     def compute_parallelization(self):
