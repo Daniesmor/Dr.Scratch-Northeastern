@@ -364,7 +364,7 @@ class Mastery(Plugin):
         """
 
         basic = self.check_list({'operator_add', 'operator_subtract', 'operator_multiply', 'operator_divide'})
-        developing = self.check_simple_math()
+        developing = self.check_formula()
         proficient = self.check_list({'operator_join', 'operator_letter_of', 'operator_length', 'operator_contains'})
         advanced = self.check_trigonometry()
 
@@ -379,7 +379,7 @@ class Mastery(Plugin):
 
         basic = self.check_list({'motion_movesteps', 'motion_gotoxy', 'motion_changexby', 'motion_goto', 'motion_changeyby', 'motion_setx', 'motion_sety'})
         developing = self.check_list({'motion_turnleft', 'motion_turnright', 'motion_setrotationstyles', 'motion_pointindirection', 'motion_pointtowards'})
-        proficient = self.check_list({'motion_glideto', 'motion_glidesecstoxy'})
+        proficient = self.check_list({'motion_glideto', 'motion_glidesecstoxy', 'motion_changexby','motion_changeyby'})
         advanced = self.check_motion_complex_sequences()
         # finesse = PREGUNTAR GREGORIO
 
@@ -387,20 +387,6 @@ class Mastery(Plugin):
 
         self.set_dimension_score(scale_dict, "MotionOperators") 
 
-    def check_simple_math(self):
-        """
-        Checks if the script contains any base operator (simple operation).
-        """
-
-        operators = ['operator_add', 'operator_subtract', 'operator_multiply',
-                    'operator_divide', 'operator_mathop', 'operator_random']
-
-        for block in self.list_total_blocks:
-            if block['opcode'] in operators:
-                return True
-
-        return False
-    
 
     def check_formula(self):
         """
@@ -418,7 +404,7 @@ class Mastery(Plugin):
                 print(f"Nested operators for block {block['opcode']}: {counter}")
                 
                 # If we find 3 or more nested operators, return True
-                if counter >= 3:
+                if counter >= 2:
                     return True
         return False
 
