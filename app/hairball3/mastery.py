@@ -403,8 +403,8 @@ class Mastery(Plugin):
                 counter = self.count_nested_operators(block, operators)
                 print(f"Nested operators for block {block['opcode']}: {counter}")
                 
-                # If we find 3 or more nested operators, return True
-                if counter >= 2:
+                # If we find 1 or more nested operators, return True
+                if counter >= 1:
                     return True
         return False
 
@@ -704,7 +704,7 @@ class Mastery(Plugin):
                     msg = block['inputs']['BROADCAST_INPUT'][1][2]
                     if self.has_conditional_or_loop(msg):
                         counter += 1
-                except IndexError:
+                except IndexError:  
                     pass
         if counter >= min_msg:
             check = True
