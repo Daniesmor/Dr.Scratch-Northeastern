@@ -251,6 +251,7 @@ class Mastery(Plugin):
         developing = self.check_list({'control_start_as_clone'})
         proficient = self.check_list({'procedures_definition'})
         advanced = self.check_advanced_clones()
+        print("ADVANCED CLONES:", advanced)
         # finesse = PREGUNTAR GREGORIO
 
         scale_dict = {"advanced": advanced, "proficient": proficient, "developing": developing, "basic": basic}
@@ -599,24 +600,75 @@ class Mastery(Plugin):
     
     def check_loops(self, block):
 
-        check = False
-        counter = 0
+        loops = {'control_forever', 'control_repeat', 'control_repeat_until'}
+
+        def process_block(block, loops):
+            """Función recursiva que añade cada bloque único al set."""
+
+            if block is None:
+                return
+            
+            # Si el bloque ya ha sido procesado, no lo añadimos de nuevo
+            block_id = block.get('opcode')  # Suponiendo que cada bloque tiene un identificador único
+            if block_id in visited_blocks:
+                return
+
+            # Añade el bloque actual al set de bloques visitados
+            visited_blocks.add(block_id)
+
+            # Procesa bucles
+            if block['opcode'] in loops:
+                # Procesa los bloques dentro del bucle
+                next_block = self.dict_total_blocks.get(block['inputs']['SUBSTACK'][1])
+                while next_block is not None:
+                    process_block(next_block, loops)  # Llamada recursiva para procesar bloques anidados
+                    next_block = self.dict_total_blocks.get(next_block.get('next'))
+
+            # Procesa condicionales (control_if_else y control_if)
+            elif block['opcode'] == 'control_if_else':
+                # Procesa SUBSTACK primero
+                next_block = self.dict_total_blocks.get(block['inputs']['SUBSTACK'][1])
+                while next_block is not None:
+                    process_block(next_block, loops)
+                    next_block = self.dict_total_blocks.get(next_block.get('next'))
+
+                # Luego procesa SUBSTACK2
+                next_block = self.dict_total_blocks.get(block['inputs'].get('SUBSTACK2', [None])[1])
+                while next_block is not None:
+                    process_block(next_block, loops)
+                    next_block = self.dict_total_blocks.get(next_block.get('next'))
+
+            elif block['opcode'] == 'control_if':
+                # Procesa solo SUBSTACK
+                next_block = self.dict_total_blocks.get(block['inputs']['SUBSTACK'][1])
+                while next_block is not None:
+                    process_block(next_block, loops)
+                    next_block = self.dict_total_blocks.get(next_block.get('next'))
+
+            else:
+                # Procesa el siguiente bloque si no es un condicional o bucle
+                next_block = self.dict_total_blocks.get(block.get('next'))
+                while next_block is not None:
+                    process_block(next_block, loops)
+                    next_block = self.dict_total_blocks.get(next_block.get('next'))
+
+        # Comienza el procesamiento del bloque principal
+        visited_blocks = set()  # Creamos un conjunto vacío para guardar los bloques únicos
         min_blocks = 3
 
-        list = {'control_forever', 'control_repeat', 'control_repeat_until'}
-
-        if block['opcode'] in list:
-            try: 
-                next = self.dict_total_blocks.get(block['inputs']['SUBSTACK'][1])
-                while next is not None:
-                    counter += 1
-                    next = self.dict_total_blocks.get(next['next'])
-                if counter >= min_blocks:
-                    check = True
+        if block['opcode'] in loops:
+            try:
+                process_block(block, loops)
+                total_blocks = len(visited_blocks)  # Contamos los bloques únicos
+                print(f"Total unique blocks processed: {total_blocks}")
+                if total_blocks >= min_blocks:
+                    return True
             except KeyError:
                 pass
         
-        return check
+        return False
+
+
     
     def check_conditional(self, block):
 
