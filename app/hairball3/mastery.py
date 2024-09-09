@@ -813,9 +813,18 @@ class Mastery(Plugin):
         Returns True if there is a nested conditional
         """
 
+        loops = {'control_forever', 'control_repeat', 'control_repeat_until'}
+
         while substack is not None:
             if substack.get('opcode') == 'control_if' or substack.get('opcode') == 'control_if_else':
                 return True
+            elif substack.get('opcode') in loops:
+                try:
+                    loop_substack = self.dict_total_blocks.get(substack['inputs']['SUBSTACK'][1])
+                    if self.has_nested_conditional(loop_substack):
+                        return True
+                except KeyError:
+                    pass
             substack = self.dict_total_blocks.get(substack['next'])
 
         return False
@@ -857,9 +866,28 @@ class Mastery(Plugin):
         Returns True if there is a nested conditional
         """
 
+        loops = {'control_forever', 'control_repeat', 'control_repeat_until'}
+
         while substack is not None:
-            if substack['opcode'] == 'control_forever' or substack['opcode'] == 'control_repeat' or  substack['opcode'] == 'control_repeat_until':
+            if substack['opcode'] in loops:
                 return True
+            if substack['opcode'] == 'control_if':
+                try:
+                    substack_if = self.dict_total_blocks.get(substack['inputs']['SUBSTACK'][1])
+                    if self.has_nested_loops(substack_if):
+                        return True
+                except KeyError:
+                    pass
+            elif substack['opcode'] == 'control_if_else':
+                try:
+                    substack_if = self.dict_total_blocks.get(substack['inputs']['SUBSTACK'][1])
+                    substack_if_else = self.dict_total_blocks.get(substack['inputs']['SUBSTACK2'][1])
+                    if self.has_nested_loops(substack_if):
+                        return True
+                    elif self.has_nested_loops(substack_if_else):
+                        return True
+                except KeyError:
+                    pass
             substack = self.dict_total_blocks.get(substack['next'])
 
         return False
