@@ -319,8 +319,59 @@ BLOCK_TEXT = {
     "MAKEYMAKEY_WHENCODEPRESSED": "when (%1 v) in order",
     "MAKEYMAKEY_KEYPRESSED": "when (%1 v) key pressed",
     "VIDEOSENSING_SETVIDEOTRANSPARENCY": "when video motion > (%1)",
-    "MICROBIT_WHENTILTED": "when (%1 v) button pressed",
-    "MICROBIT_BUTTONPRESSED?": "when (%1 v) button pressed?",
+    "MICROBIT_WHENBUTTONPRESSED": "when (%1 v) button pressed",
+    "MICROBIT_ISBUTTONPRESSED": "(%1 v) button pressed?",
+    "MICROBIT_WHENGESTURE" : "when (%1 v)",
+    "MICROBIT_DISPLAYSYMBOL": "display (%1 v)",
+    "MICROBIT_DISPLAYTEXT": "display text (%1)",
+    "MICROBIT_DISPLAYCLEAR": "clear display",
+    "MICROBIT_WHENTILTED": "when titled (%1 v)",
+    "MICROBIT_ISTILTED": "titled (%1 v)",
+    "MICROBIT_GETTILTANGLE": "tilt angle (%1 v)",
+    "MICROBIT_WHENPINCONNECTED": "when pin (%1 v) connected",
+    "EV3_MOTORTURNCLOCKWISE": "motor (%1 v) turn this way for (%2) seconds",
+    "EV3_MOTORTURNCOUNTERCLOCKWISE": "motor (%1 v) turn that way for (%2) seconds",
+    "EV3_MOTORSETPOWER": "motor (%1 v) set power (%2)%",
+    "EV3_GETMOTORPOSITION": "motor (%1 v) position",
+    "EV3_WHENBUTTONPRESSED": "button (%1 v) pressed",
+    "EV3_WHENDISTANCELESSTHAN": "when distance < (%1)",
+    "EV3_WHENBRIGHTNESSLESSTHAN": "when brightness < (%1)",
+    "EV3_BUTTONPRESSED": "button (%1 v) pressed?",
+    "EV3_GETDISTANCE": "distance",
+    "EV3_GETBRIGHTNESS": "brightness",
+    "EV3_BEEP": "beep note (%1) for (%2) secs",
+    "BOOST_MOTORONFOR": "turn motor (%1 v) for (%2) seconds",
+    "BOOST_MOTORONFORROTATION": "turn motor (%1 v) for (%2) rotations",
+    "BOOST_MOTORON": "turn motor (%1) on",
+    "BOOST_MOTOROFF": "turn motor (%1) off",
+    "BOOST_SETMOTORPOWER": "set motor (%1 v) speed to (%2)%",
+    "BOOST_SETMOTORDIRECTION": "set motor (%1 v) direction (%2 v)",
+    "BOOST_GETMOTORPOSITION": "motor (%1 v) position",
+    "BOOST_WHENCOLOR": "when (%1 v) brick seen",
+    "BOOST_GETTILTANGLE": "tilt angle (%1 v)",
+    "BOOST_SEEINGCOLOR": "seeing (%1 v) brick?",
+    "BOOST_WHENTILTED": "when tilted (%1 v)",
+    "BOOST_SETLIGHTHUE": "set light color to (%1)",
+    "WEDO2_MOTORONFOR": "turn (%1 v) on for (%2) seconds",
+    "WEDO2_MOTORON": "turn (%1 v) on",
+    "WEDO2_MOTOROFF": "turn (%1 v) off",
+    "WEDO2_STARTMOTORPOWER": "set (%1 v) power to (%2)",
+    "WEDO2_SETMOTORDIRECTION": "set (%1 v) direction to (%2 v)",
+    "WEDO2_SETLIGHTHUE": "set light color to (%1)",
+    "WEDO2_WHENDISTANCE": "when distance (%1 v) (%2)",
+    "WEDO2_WHENTILTED": "when tilted (%1 v)",
+    "WEDO2_GETDISTANCE": "distance",
+    "WEDO2_ISTILTED": "tilted (%1 v)",
+    "WEDO2_GETTILTANGLE": "tilt angle (%1 v)",
+    "GDXFOR_WHENGESTURE": "when (%1 v)",
+    "GDXFOR_WHENFORCEPUSHEDORPULLED": "when force sensor (%1 v)",
+    "GDXFOR_GETFORCE": "force",
+    "GDXFOR_WHENTILTED": "whenTilted (%1 v)",
+    "GDXFOR_ISTILTED": "tilted (%1 v)?",
+    "GDXFOR_GETTILT": "tilt angle (%1 v)",
+    "GDXFOR_ISFREEFALLING": "falling?",
+    "GDXFOR_GETSPINSPEED": "spin speed (%1 v)",
+    "GDXFOR_GETACCELERATION": "acceleration (%1 v)"
 }
 
 STARTER_BLOCKS = {"EVENT_WHENFLAGCLICKED",
@@ -473,7 +524,8 @@ class Script():
         Converts an unique block into a text format using the syntax from scratchblocks (https://en.scratch-wiki.info/wiki/Block_Plugin/Syntax)
         """
         name = str(block_name["opcode"]).upper()
-        print("name:", block_name)
+        print("block name:", block_name)
+        print("name:", name)
         if name not in BLOCK_TEXT and name not in STARTER_BLOCKS:
             block_text = block_name["mutation"]["proccode"]
         else:
