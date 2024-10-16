@@ -174,25 +174,25 @@ class Mastery(Plugin):
         score = 0
 
         for key, value in scale_dict.items():
-            if type(value) == bool and value is True:
+            if type(value) == bool and value is True and self.check_lt_max_score(dimension, key):
                 if key in self.possible_scores.keys():
                     print(dimension + " : " + key)
-                    score = self.extrapolate_to_rubric(dimension, key)
+                    score = self.possible_scores[key]
                     self.dict_mastery[dimension] = [score, self.skill_points[dimension]] 
                     return
         print(dimension + " : " + "None")
         self.dict_mastery[dimension] = [score, self.skill_points[dimension]] 
         return
 
-    def extrapolate_to_rubric(self, dimension, level):
+    def check_lt_max_score(self, dimension, level):
         """
-        Extrapolate the points to the max points of skill rubric
+        Check if the score is lower than the maximum score
         """
-        if self.possible_scores[level] >= self.skill_points[dimension]:
-            score = self.skill_points[dimension]
+
+        if self.possible_scores[level] > self.skill_points[dimension]:
+            return False
         else:
-            score = self.possible_scores[level]
-        return score
+            return True
 
     def compute_logic(self):
         """
@@ -201,11 +201,11 @@ class Mastery(Plugin):
 
         basic = self.check_list({'control_if'})
         developing = self.check_list({'control_if_else'})
-        master = self.check_list({'operator_and', 'operator_or', 'operator_not'})
+        proficient = self.check_list({'operator_and', 'operator_or', 'operator_not'})
         advanced = self.check_nested_conditionals()
         # finesse = PREGUNTAR GREGORIO
 
-        scale_dict = {"advanced": advanced, "master": master, "developing": developing, "basic": basic}
+        scale_dict = {"advanced": advanced, "proficient": proficient, "developing": developing, "basic": basic}
 
         self.set_dimension_score(scale_dict, "Logic")
         
@@ -608,58 +608,56 @@ class Mastery(Plugin):
             if block is None:
                 return
             
-            # Si el bloque ya ha sido procesado, no lo añadimos de nuevo
-            block_id = block.get('opcode')  # Suponiendo que cada bloque tiene un identificador único
+            # If the block has already been processed, don't add it again
+            block_id = block.get('opcode')
             if block_id in visited_blocks:
                 return
 
-            # Añade el bloque actual al set de bloques visitados
+            # Add the current block to the set of visited blocks
             visited_blocks.add(block_id)
 
-            # Procesa bucles
+            # Loops Processment
             if block['opcode'] in loops:
-                # Procesa los bloques dentro del bucle
                 next_block = self.dict_total_blocks.get(block['inputs']['SUBSTACK'][1])
                 while next_block is not None:
-                    process_block(next_block, loops)  # Llamada recursiva para procesar bloques anidados
+                    process_block(next_block, loops)  # Recursive call to process nested loops
                     next_block = self.dict_total_blocks.get(next_block.get('next'))
 
-            # Procesa condicionales (control_if_else y control_if)
+            # Conditionals(If-Else) Processment
             elif block['opcode'] == 'control_if_else':
-                # Procesa SUBSTACK primero
+                # SUBSTACK1 Processment
                 next_block = self.dict_total_blocks.get(block['inputs']['SUBSTACK'][1])
                 while next_block is not None:
-                    process_block(next_block, loops)
+                    process_block(next_block, loops) # Recursive call to process loops
                     next_block = self.dict_total_blocks.get(next_block.get('next'))
-
-                # Luego procesa SUBSTACK2
+                # SUBSTACK2 Processment
                 next_block = self.dict_total_blocks.get(block['inputs'].get('SUBSTACK2', [None])[1])
                 while next_block is not None:
-                    process_block(next_block, loops)
+                    process_block(next_block, loops) # Recursive call to process loops
                     next_block = self.dict_total_blocks.get(next_block.get('next'))
 
+            # Conditionals(If) Processment
             elif block['opcode'] == 'control_if':
-                # Procesa solo SUBSTACK
                 next_block = self.dict_total_blocks.get(block['inputs']['SUBSTACK'][1])
                 while next_block is not None:
-                    process_block(next_block, loops)
+                    process_block(next_block, loops) # Recursive call to process loops
                     next_block = self.dict_total_blocks.get(next_block.get('next'))
 
+            # Other blocks Processment
             else:
-                # Procesa el siguiente bloque si no es un condicional o bucle
                 next_block = self.dict_total_blocks.get(block.get('next'))
                 while next_block is not None:
-                    process_block(next_block, loops)
+                    process_block(next_block, loops) # Recursive call to process loops
                     next_block = self.dict_total_blocks.get(next_block.get('next'))
 
-        # Comienza el procesamiento del bloque principal
-        visited_blocks = set()  # Creamos un conjunto vacío para guardar los bloques únicos
+        # Script Processment
+        visited_blocks = set()  # Set for not having repeated blocks
         min_blocks = 3
 
         if block['opcode'] in loops:
             try:
                 process_block(block, loops)
-                total_blocks = len(visited_blocks)  # Contamos los bloques únicos
+                total_blocks = len(visited_blocks) # Total unique blocks processed
                 print(f"Total unique blocks processed: {total_blocks}")
                 if total_blocks >= min_blocks:
                     return True
