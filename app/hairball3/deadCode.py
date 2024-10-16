@@ -44,8 +44,9 @@ class DeadCode(Plugin):
                         if type(blocks_dicc) is dict:
                             event_var = any(blocks_dicc["opcode"] == event for event in consts.PLUGIN_DEADCODE_LIST_EVENT_VARS)
                             loop_block = any(blocks_dicc["opcode"] == loop for loop in consts.PLUGIN_DEADCODE_LIST_LOOP_BLOCKS)
+                            menu_block = any(blocks_dicc["opcode"] == menu for menu in consts.PLUGIN_DEADCODE_LIST_MENU_BLOCKS)
 
-                            if not event_var:
+                            if not event_var and not menu_block:
                                 if not self.opcode_argument_reporter in blocks_dicc["opcode"]:
                                     if blocks_dicc.get("parent",) is None and blocks_dicc["next"] is None:
                                         script = Script()
