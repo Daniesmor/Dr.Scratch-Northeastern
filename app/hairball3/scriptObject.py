@@ -11,17 +11,18 @@ BLOCK_TEXT = {
     "CONTROL_WAIT": "wait (%1) seconds",
     "CONTROL_WAIT_UNTIL": "wait until <%1>",
     "CONTROL_REPEAT_UNTIL": "repeat until <%1>",
-    "CONTROL_WHILE": "while <%1>",
-    "CONTROL_FOREACH": "for each %1 in %2",
+    "CONTROL_WHILE": "while <%1>{\n}:: control",
+    "CONTROL_FOREACH": "for each %1 in %2 {\n}:: control",
     "CONTROL_START_AS_CLONE": "when I start as a clone",
     "CONTROL_CREATE_CLONE_OF": "create clone of (%1 v)",
     "CONTROL_CREATE_CLONE_OF_MYSELF": "myself",
     "CONTROL_DELETE_THIS_CLONE": "delete this clone",
     "CONTROL_COUNTER": "counter",
-    "CONTROL_INCRCOUNTER": "increment counter",
-    "CONTROL_CLEARCOUNTER": "clear counter",
+    "CONTROL_INCR_COUNTER": "increment counter:: control",
+    "CONTROL_CLEAR_COUNTER": "clear counter:: control",
+    "CONTROL_GET_COUNTER": "(counter)",
     "CONTROL_ALLATONCE": "all at once",
-    "CONTROL_FOR_EACH": "for each [%1 v] in (%2)",
+    "CONTROL_FOR_EACH": "for each [%1 v] in (%2){\n}:: control",
     "DATA_SETVARIABLETO": "set [%1 v] to (%2)",
     "DATA_CHANGEVARIABLEBY": "change [%1 v] by (%2)",
     "DATA_SHOWVARIABLE": "show variable [%1 v]",
@@ -294,6 +295,8 @@ BLOCK_TEXT = {
     "PEN_SETPENCOLORPARAMTO": "set pen (%1 v) to (%2)",
     "PEN_SETPENSIZETO": "set pen size to (%1)",
     "PEN_CHANGEPENCOLORPARAMBY": "change pen (%1 v) by (%2)",
+    "PEN_SETPENSHADETONUMBER": "set pen shade to (%1)",
+    "PEN_CHANGEPENSHADEBY": "change pen shade by (%1)",
     "PEN_CHANGEPENSIZEBY": "change pen size by (%1)",
     "PEN_CHANGEPENHUEBY": "change color by (%1)",
     "PEN_PENDOWN": "pen down",
@@ -308,11 +311,13 @@ BLOCK_TEXT = {
     "MUSIC_PLAYNOTEFORBEATS": "play note (%1) for (%2) beats",
     "MUSIC_RESTFORBEATS": "rest for (%1) beats",
     "MUSIC_PLAYDRUMFORBEATS": "play drum (%1 v) for (%2) beats",
+    "music_menu_INSTRUMENT": "play drum (%1 v) for (%2) beats",
     "VIDEOSENSING_WHENMOTIONGREATERTHAN": "when video motion > (%1)",
     "VIDEOSENSING_VIDEOON": "video (%1 v) on (%2 v)",
     "VIDEOSENSING_VIDEOTOGGLE": "turn video (%1 v)",
     "VIDEOSENSING_SETVIDEOTRANSPARENCYTO": "set video transparency to (%1)",
     "TRANSLATE_GETTRANSLATE": "translate (%1) to (%2 v)",
+    "TRANSLATE_GETVIEWERLANGUAGE": "language",
     "TEXT2SPEECH_SPEAKANDWAIT": "speak (%1)",
     "TEXT2SPEECH_SETVOICE": "set voice to (%1 v)",
     "TEXT2SPEECH_SETLANGUAGE": "set language to (%1 v)",
@@ -405,7 +410,10 @@ class Script():
                 if type(value) is str:
                     # Case where there is another block instead of a variable
                     if len(value) == 20 or value in block_dict.keys():
-                        new_block[f'block_{current_counter}'][f'input_{n_input}'] = self.parser_block(block_dict, value)
+                        try:
+                            new_block[f'block_{current_counter}'][f'input_{n_input}'] = self.parser_block(block_dict, value)
+                        except KeyError:
+                            pass
                     else:
                         new_block[f'block_{current_counter}'][f'var_{self.counter_vars}'] = value
 
