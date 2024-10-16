@@ -30,6 +30,18 @@ PLUGIN_DEADCODE_LIST_LOOP_BLOCKS = [
     "control_repeat_until"
 ]
 
+PLUGIN_DEADCODE_LIST_MENU_BLOCKS = [
+    "sensing_touchingobjectmenu",
+    "music_menu_INSTRUMENT",
+    "pen_menu_colorParam",
+    "note",
+    "text2speech_menu_voices",
+    "text2speech_menu_languages",
+    "translate_menu_languages",
+    "music_menu_DRUM"
+
+]
+
 PLUGIN_MASTERY_MAX_POINTS = 21
 PLUGIN_MASTERY_AVG_POINTS = 3.0
 
