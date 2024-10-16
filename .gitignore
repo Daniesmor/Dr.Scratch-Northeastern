@@ -79,4 +79,3 @@ app/certificate/
 static/img/
 
 .env_prod
-.env

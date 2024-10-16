@@ -53,9 +53,6 @@
     <!-- DEFAULT COLOR/ CURRENTLY USING -->
     <link rel="stylesheet" href="../../static/app/content/red.css">
 
-    <!-- CAPTCHA OF GOOGLE -->
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-
     
 
     <script>
@@ -152,7 +149,6 @@
                     <textarea class="form-control" name="contact_text" rows="3"></textarea>
                 </div>
                 {% trans "<input  name='contact_media' type='file' class='filestyle' data-buttonText='Upload media'>" %}
-                <div class="g-recaptcha" data-sitekey="{{ captcha_pubkey }}"></div>
                 <br>
                 {% if messages %}
                     <ul class="messages">

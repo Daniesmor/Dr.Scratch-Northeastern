@@ -24,3 +24,8 @@ $ docker exec -it drscratchv3_django bash
 ```console
 make translate
 ```
+## For use Batch Mode and Contact Form
+For use Batch Mode and Contact Form you will need to set up an email, you can use the provider you preffer. Remember that it's important the email can be used in a website environment. For set up the email in Dr. Scratch in order to use the Batch Mode and the Contact Form, you have to open the **.env** file and fill the put the email and the password in his corresponding line. **DEFAULT_FROM_EMAIL** and **EMAIL_HOST_USER** for the email and **EMAIL_HOST_PASSWORD** for the password.  
+
+¿Why i have to do this?
+The Batch Mode allows you to analyze multiple projects and then send the results to an email, because of this you will need a email host provider in order to send this results to an specific email. The same situation happens with the Contact Form.
