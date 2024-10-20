@@ -40,9 +40,12 @@ import shutil
 import unicodedata
 import csv
 from datetime import datetime, timedelta, date
+from requests import Request
 import traceback
 import re
 import app.consts_drscratch as consts
+from django.utils.translation import get_language
+from types import SimpleNamespace
 from app.scratchclient import ScratchSession
 from app.pyploma import generate_certificate
 from app.hairball3.mastery import Mastery
@@ -64,7 +67,7 @@ import coloredlogs
 from .tasks import init_batch
 
 # Analyzer imports
-from .analyzer import analyze_project, generator_dic, return_scratch_project_identifier, send_request_getsb3, _make_compare, analysis_by_upload, analysis_by_url
+from .analyzer import analyze_project, generator_dic, return_scratch_project_identifier, send_request_getsb3, _make_compare, analysis_by_upload, analysis_by_url, analyze_babia_project
 from .batch import skills_translation
 
 # Recomender System imports
@@ -1726,5 +1729,90 @@ def get_analysis_d(request, skill_points=None):
     return JsonResponse(context)
 
 
+###################################
+##
+##      BABIA PROJECTS
+##
+###################################
 
 
+def get_babia(request):
+    # TEMP DATA
+    numbers = ''
+    skill_rubric = generate_rubric(numbers)
+
+    # Create a fake request instead of fill the form
+    fake_request = SimpleNamespace()
+    fake_request.method = 'POST'
+    fake_request.POST = {'_url': '',
+                         'urlProject': 'https://scratch.mit.edu/projects/1051644584/'}
+    fake_request.GET = SimpleNamespace()
+    fake_request.session = SimpleNamespace()
+    fake_request.LANGUAGE_CODE = get_language()
+
+    
+
+
+    d = build_dictionary_with_automatic_analysis(fake_request, skill_rubric)
+    babia_dict = format_babia_dict(d[0]['babia'])
+
+    context = {
+        'babia_dict': json.dumps(babia_dict)
+    }
+
+    return render(request, 'babia/project_babia.html', context)
+
+"""
+
+def format_babia_dict(d_babia: dict):
+    #print(d_babia)
+
+    data = {
+        "id": "Root",
+        "children": [],
+    }
+
+    for sprite_idx, (sprite_key, sprite_item) in enumerate(d_babia['sprites'].items()):
+        sprite_data = {
+            "id": sprite_key,
+            "children": [],
+        }
+        for script_key, script_value in sprite_item.items():
+            script_data = {
+                "id": script_key,
+                "area": 2,
+                "Blocks": script_value,
+                "ccn": 3,
+            }
+            sprite_data["children"].append(script_data)
+        data["children"].append(sprite_data)
+        #data["children"][sprite_idx]["id"] = sprite_key
+        #data["children"][sprite_idx]["children"] = []
+        #data["children"][sprite_idx]["id"]
+    print(data)
+    return data
+
+"""
+def format_babia_dict(d_babia: dict):
+    #print(d_babia)
+
+    data = {
+        "id": "Root",
+        "children": [],
+    }
+
+    for sprite_idx, (sprite_key, sprite_item) in enumerate(d_babia['sprites'].items()):
+        for script_key, script_value in sprite_item.items():
+            script_data = {
+                "id": script_key,
+                "area": 2,
+                "Blocks": script_value,
+                "ccn": 3,
+            }
+            #sprite_data["children"].append(script_data)
+            data["children"].append(script_data)
+        #data["children"][sprite_idx]["id"] = sprite_key
+        #data["children"][sprite_idx]["children"] = []
+        #data["children"][sprite_idx]["id"]
+    print(data)
+    return data
