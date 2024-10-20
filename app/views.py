@@ -1762,10 +1762,12 @@ def get_babia(request):
 
     return render(request, 'babia/project_babia.html', context)
 
-"""
+
+import random
 
 def format_babia_dict(d_babia: dict):
     #print(d_babia)
+    colors =  ["#eb4034", "#4554ff", "#03ff96"]
 
     data = {
         "id": "Root",
@@ -1778,11 +1780,13 @@ def format_babia_dict(d_babia: dict):
             "children": [],
         }
         for script_key, script_value in sprite_item.items():
+            elem = 0
+            color = colors[elem]
             script_data = {
                 "id": script_key,
                 "area": 2,
                 "Blocks": script_value,
-                "ccn": 3,
+                "building_color": random.choice(colors),
             }
             sprite_data["children"].append(script_data)
         data["children"].append(sprite_data)
@@ -1791,6 +1795,7 @@ def format_babia_dict(d_babia: dict):
         #data["children"][sprite_idx]["id"]
     print(data)
     return data
+
 
 """
 def format_babia_dict(d_babia: dict):
@@ -1816,3 +1821,4 @@ def format_babia_dict(d_babia: dict):
         #data["children"][sprite_idx]["id"]
     print(data)
     return data
+"""
