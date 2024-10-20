@@ -38,8 +38,8 @@ PLUGIN_DEADCODE_LIST_MENU_BLOCKS = [
     "text2speech_menu_voices",
     "text2speech_menu_languages",
     "translate_menu_languages",
-    "music_menu_DRUM"
-
+    "music_menu_DRUM",
+    
 ]
 
 PLUGIN_MASTERY_MAX_POINTS = 21

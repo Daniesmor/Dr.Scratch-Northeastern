@@ -20,6 +20,7 @@ from app.hairball3.refactor import RefactorDuplicate
 from app.hairball3.spriteNaming import SpriteNaming
 from app.hairball3.scratchGolfing import ScratchGolfing
 from app.hairball3.block_sprite_usage import Block_Sprite_Usage
+from app.hairball3.babiaInfo import Babia
 from app.models import Coder, File, Organization
 from app.scratchclient import ScratchSession
 from app.recomender import RecomenderSystem
@@ -229,7 +230,7 @@ def save_projectsb3(path_file_temporary, id_project):
 def download_scratch_project_from_servers(path_project, id_project):
     scratch_project_inf = ScratchSession().get_project(id_project)
     url_json_scratch = "{}/{}?token={}".format(consts.URL_SCRATCH_SERVER, id_project, scratch_project_inf.project_token)
-    print("URLLLLL -------------------")
+    print("URL JSON PROJECT -------------------")
     print(url_json_scratch)
     path_utemp = '{}/utemp/{}'.format(path_project, id_project)
     path_json_file = path_utemp + '_new_project.json'
@@ -252,8 +253,6 @@ def download_scratch_project_from_servers(path_project, id_project):
     try:
         json_string_format = response_from_scratch.read()
         json_data = json.loads(json_string_format)
-        print("PATH JSON TEMPORARY FILE in dspfs---------------------------------------------------------")
-        print(json_data)
         resulting_file = open(path_json_file, 'wb')
         resulting_file.write(json_string_format)
         resulting_file.close()
@@ -329,6 +328,8 @@ def generator_dic(request, id_project, skill_points: dict) -> dict:
             request.session['current_project_path'] = path_project
         except AttributeError:
             pass
+        except TypeError:
+            pass 
     except DrScratchException:
         logger.error('DrScratchException')
         d = {'Error': 'no_exists'}
@@ -340,10 +341,6 @@ def generator_dic(request, id_project, skill_points: dict) -> dict:
         return d
 
     try:
-        print("MAS TRAZASS------------------------------------------------")
-        print(path_project)
-        print(file_obj)
-        print(ext_type_project)
         d = analyze_project(request, path_project, file_obj, ext_type_project, skill_points)
     except Exception:
         logger.error('Impossible analyze project')
@@ -564,6 +561,13 @@ def proc_backdrop_naming(lines, file_obj):
 
     return dic
 
+def proc_babia(dict_result) -> dict:
+    dict_babia = {}
+    dict_babia["babia"] = dict_result
+
+    return dict_babia
+
+
 
 def translate(request, d, filename, vanilla=False):
     """
@@ -700,9 +704,8 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
     
     if os.path.exists(path_projectsb3):
         json_scratch_project = load_json_project(path_projectsb3)
-        print("TRAZAAA DENTRO ANALYZE PROJECT --------------------------------")
-        print(json_scratch_project)
         dict_mastery = Mastery(path_projectsb3, json_scratch_project, skill_points, dashboard).finalize()
+        dict_babia = Babia(path_projectsb3, json_scratch_project).finalize()
         dict_duplicate_script = DuplicateScripts(path_projectsb3, json_scratch_project).finalize()
         dict_dead_code = DeadCode(path_projectsb3, json_scratch_project,).finalize()
         result_sprite_naming = SpriteNaming(path_projectsb3, json_scratch_project).finalize()
@@ -718,8 +721,10 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         print(result_sprite_naming)
         print("--------------------- BACKDROP NAMING DICT ----------------------")
         print(result_backdrop_naming)
+        print("--------------------- BABIA DICT ----------------------")
+        print(dict_babia)
         print("------------------------------------------------------------------")
-        
+
         # RECOMENDER SECTION
         if (dashboard == 'Recommender'):
             dict_recom = {}
@@ -737,6 +742,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         dict_analysis.update(proc_backdrop_naming(result_backdrop_naming, file_obj))
         dict_analysis.update(proc_refactored_code(refactored_code))
         dict_analysis.update(proc_block_sprite_usage(result_block_sprite_usage, file_obj))
+        dict_analysis.update(proc_babia(dict_babia))
         
         # dict_analysis.update(proc_urls(request, dict_mastery, file_obj))
         # dictionary.update(proc_initialization(resultInitialization, filename))
@@ -822,4 +828,20 @@ def analysis_by_url(request, url, skill_points: dict):
             'multiproject': False
         })
         return dic
+    
+
+
+def analyze_babia_project(request, path_projectsb3, file_obj):
+
+    dict_analysis = {}
+
+    if os.path.exists(path_projectsb3):
+        json_scratch_project = load_json_project(path_projectsb3)
+        dict_mastery = Babia(path_projectsb3, json_scratch_project).finalize()
+        
+        # dict_analysis.update(proc_urls(request, dict_mastery, file_obj))
+        # dictionary.update(proc_initialization(resultInitialization, filename))
+        return dict_analysis
+    else:
+        return dict_analysis
     

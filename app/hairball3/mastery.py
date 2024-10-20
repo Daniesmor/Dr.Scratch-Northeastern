@@ -661,7 +661,6 @@ class Mastery(Plugin):
             try:
                 process_block(block, loops)
                 total_blocks = len(visited_blocks) # Total unique blocks processed
-                print(f"Total unique blocks processed: {total_blocks}")
                 if total_blocks >= min_blocks:
                     return True
             except KeyError:

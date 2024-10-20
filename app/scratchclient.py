@@ -49,7 +49,7 @@ class ScratchSession:
         
     def get_project(self, project):
         project_id = (project.id if isinstance(project, (RemixtreeProject, Project)) else project)
-        print(requests.get(f'{consts.URL_SCRATCH_API}/{project_id}/', proxies=self.proxies).json())
+        #print(requests.get(f'{consts.URL_SCRATCH_API}/{project_id}/', proxies=self.proxies).json())
         return Project( 
             requests.get(f'{consts.URL_SCRATCH_API}/{project_id}/', proxies=self.proxies).json()
         )
