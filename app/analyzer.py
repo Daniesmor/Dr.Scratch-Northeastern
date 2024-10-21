@@ -756,16 +756,13 @@ def analysis_by_upload(request, skill_points: dict, upload):
     unique_id = '{}_{}{}'.format(project_name, datetime.now().strftime("%Y_%m_%d_%H_%M_%S_"), datetime.now().microsecond)
     zip_filename = zip_filename.decode('utf-8')
     version = check_version(zip_filename)
-    version = '2.0'
-    file_saved = dir_zips + unique_id + ".sb2"
-    """
     if version == "1.4":
         file_saved = dir_zips + unique_id + ".sb"
     elif version == "2.0":
         file_saved = dir_zips + unique_id + ".sb2"
     else:
         file_saved = dir_zips + unique_id + ".sb3"
-    """
+    
     # Create log
     path_log = os.path.dirname(os.path.dirname(__file__)) + "/log/"
     log_file = open(path_log + "logFile.txt", "a")
