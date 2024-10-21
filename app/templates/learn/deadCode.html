@@ -6,22 +6,22 @@
     <div class="panel panel-default">
         <div class="panel-body col-lg-10">
             {% trans "Dead code are parts of programs that never are executed. How can it form? For example, when you have a program that isn't start with a hat block, or when there is a program that is waiting for a message that never is sent." %}
-        <br><br>
-            <pre class="blocks col-lg-6">
+            <br><br>
+            <pre class="blocks col-lg-7 col-lg-offset-2">
                 {% trans "forever //Blocks that do not start with a hat block." %}
                 {% trans "if &lt; key [left arrow v] pressed ? &gt; then" %}
                 {% trans "change x by (10)" %}
             </pre>
-            <pre class="blocks col-lg-6">
+            <pre class="blocks col-lg-7 col-lg-offset-2">
                 {% trans "when I receive [startcc v] //Blocks that start with a hat block." %}
                 {% trans "switch costume to [costume2 v]" %}
                 {% trans "say [Let's start] for (2) secs" %}
             </pre>
-        <br>
-        </div>
-        <div class="panel-body col-lg-10">
-            {% trans "These situations usually causes that projects doesn't work as expected of them,so,try to avoid dead code in your programs!" %}
-        </div>
+            <div class="col-lg-12">
+                <br>
+                {% trans "These situations usually causes that projects doesn't work as expected of them,so,try to avoid dead code in your programs!" %}
+            </div>
+        </div>  
     </div>
 </div>
 {% endblock %}
