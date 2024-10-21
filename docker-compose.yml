@@ -28,6 +28,8 @@ services:
       - "9050:9050"
   rabbitmq:
     image: rabbitmq:3-management
+    volumes:
+      - .:/var/www
     ports:
       - "5672:5672"
       - "15672:15672"
