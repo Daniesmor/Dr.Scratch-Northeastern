@@ -14,14 +14,15 @@
                     <h3>{% trans "If you get 1 point..." %}</h3>
                     {% trans "The most basic block you can start working logical thinking is this:" %} <br><br>
 
-                    <pre class='blocks'>
+                    <pre class='blocks col-lg-6 col-lg-offset-3'>
                         {% trans "if &lt; touching color [#0000FF]?  &gt;then" %}
                         {% trans "say [I have reached the goal!] for (2) secs" %}
                     </pre>
-                    <br>
-
-                    {% trans "<b>How this block works?</b> When execution reaches this point, the condition on the block is evaluated, and if this is true, the set of blocks that are within the if executed." %}
-                    {% trans "In the example, if the character is touching the blue color, he says 'I reached the goal.'" %}<br>
+                    <div class="col-lg-12">
+                        <br>
+                        {% trans "<b>How this block works?</b> When execution reaches this point, the condition on the block is evaluated, and if this is true, the set of blocks that are within the if executed." %}
+                        {% trans "In the example, if the character is touching the blue color, he says 'I reached the goal.'" %}<br>
+                    </div>
                 </section>
             </div>
         </div>
@@ -32,15 +33,17 @@
                     <h3>{% trans "If you get 2 points..." %}</h3>
                     {% trans "Now that you know the instructions <i>if</i>, perhaps you can start using blocks <i>if / else</i>, which can be very practical in many types of projects. The blocks <i>if / else</i> are very similar to the block <i>if</i>, but contain two sets of blocks inside." %}<br><br>
 
-                    <pre class='blocks'>
+                    <pre class='blocks col-lg-6 col-lg-offset-3'>
                         {% trans "if &lt; touching color [#0000FF]? &gt;then" %}
                         {% trans "say [I have reached the goal!] for (2) secs" %}
                         {% trans "else" %}
                         {% trans "say [I have reached the goal!] for (2) secs" %}
                     </pre>
-                    <br>
-                    {% trans "<b>How this block works?</b> When execution reaches this point, the condition on the block is evaluated, and if this is true, the set of blocks that are within the 'if' is executed, but if the condition is false, then the set of  blocks that are within the 'else' is executed." %}
-                    {% trans "In the example, if the character is touching the blue color, he says  'I reached the goal!', but ,if you are not touching the purple color, says 'I have not reached the goal'." %}
+                    <div class="col-lg-12">
+                        <br>
+                        {% trans "<b>How this block works?</b> When execution reaches this point, the condition on the block is evaluated, and if this is true, the set of blocks that are within the 'if' is executed, but if the condition is false, then the set of  blocks that are within the 'else' is executed." %}
+                        {% trans "In the example, if the character is touching the blue color, he says  'I reached the goal!', but ,if you are not touching the purple color, says 'I have not reached the goal'." %}
+                    </div>  
                 </section>
             </div>
         </div>
@@ -50,8 +53,7 @@
                 <section id="level2">
                     <h3>{% trans "If you get 3 points..." %}</h3>
                     {% trans "To make decisions on some projects sometimes is necessary to evaluate more than one condition at the same time to know what to execute. In these situations it is very helpful to use <b>logical operations</b> that combine the conditions. Logical operations are available in Scratch <i>AND, OR and No</i>." %}<br><br>
-
-                    <pre class='blocks'>
+                    <pre class='blocks col-lg-8 col-lg-offset-2'>
                         {% trans "if &lt;&lt; touching [Enemy v]? &gt; and &lt;(lives) = [0]&gt;&gt; then" %}
                         {% trans "say [Game over]" %}
                         {% trans "stop [all v]" %}
@@ -63,8 +65,10 @@
                         {% trans "say [You still have undiscovered levels] for (2) secs" %}
                         {% trans "end" %}
                     </pre>
-                    <br>
-                    {% trans "The operation <i>AND</i> is true when both conditions are true evaluated. The <i>OR</i> operation is true when one of two conditions are true evaluated. And the operation otherwise not worth the condition, ie, if the condition is true, not returns false and vice versa." %}<br><br>
+                    <div class="col-lg-12">
+                        <br>
+                        {% trans "The operation <i>AND</i> is true when both conditions are true evaluated. The <i>OR</i> operation is true when one of two conditions are true evaluated. And the operation otherwise not worth the condition, ie, if the condition is true, not returns false and vice versa." %}<br><br>
+                    </div>
                 </section>
             </div>
         </div>
@@ -75,7 +79,7 @@
                     <h3>{% trans "If you get 4 points..." %}</h3>
                     {% trans "To manage situations more effectively, it's essential to use <b>nested conditionals</b>. This involves placing one conditional statement inside another, which allows for more nuanced and sophisticated decision-making in your code." %}<br><br>
 
-                    <pre class='blocks'>
+                    <pre class='blocks col-lg-8 col-lg-offset-2'>
                         {% trans "if &lt;&lt; (score) > (50) &gt; and &lt;touching [Power-Up v]? &gt;&gt; then" %}
                         {% trans "    if <(lives) > [1]> then" %}
                         {% trans "        change [score v] by (10)" %}
@@ -90,12 +94,12 @@
                         {% trans "    end" %}
                         {% trans "end" %}
                     </pre>
-                    <br>
-
-                    {% trans "<b>How this block works? </b>The outer 'if' statement checks if both conditions: 'score greater than 50' AND 'touching Power-Up' are true. If both conditions are true, it evaluates the nested 'if' statement inside. The nested 'if' checks if the number of lives is greater than 1. If this condition is true, the score is increased by 10. If not, the number of lives is increased by 1." %} <br>
-                    {% trans "If the outer 'if' condition is false, it evaluates another nested 'if' statement that checks if the time is less than 30. If this condition is true, the sprite says 'Hurry up!' for 2 seconds. If not, the script stops all." %} <br><br>
-
-                    {% trans "Using nested conditionals allows you to create more nuanced and detailed responses in your projects, making them more interactive and responsive to multiple conditions at once." %} <br><br>
+                    <div class="col-lg-12">
+                        <br>
+                        {% trans "<b>How this block works? </b>The outer 'if' statement checks if both conditions: 'score greater than 50' AND 'touching Power-Up' are true. If both conditions are true, it evaluates the nested 'if' statement inside. The nested 'if' checks if the number of lives is greater than 1. If this condition is true, the score is increased by 10. If not, the number of lives is increased by 1." %} <br><br>
+                        {% trans "If the outer 'if' condition is false, it evaluates another nested 'if' statement that checks if the time is less than 30. If this condition is true, the sprite says 'Hurry up!' for 2 seconds. If not, the script stops all." %} <br><br>
+                        {% trans "Using nested conditionals allows you to create more nuanced and detailed responses in your projects, making them more interactive and responsive to multiple conditions at once." %} <br><br>
+                    </div>
                 </section>
             </div>
         </div>
