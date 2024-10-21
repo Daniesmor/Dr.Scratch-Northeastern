@@ -631,10 +631,13 @@ class Mastery(Plugin):
                     process_block(next_block, loops) # Recursive call to process loops
                     next_block = self.dict_total_blocks.get(next_block.get('next'))
                 # SUBSTACK2 Processment
-                next_block = self.dict_total_blocks.get(block['inputs'].get('SUBSTACK2', [None])[1])
-                while next_block is not None:
-                    process_block(next_block, loops) # Recursive call to process loops
-                    next_block = self.dict_total_blocks.get(next_block.get('next'))
+                try:
+                    next_block = self.dict_total_blocks.get(block['inputs'].get('SUBSTACK2', [None])[1])
+                    while next_block is not None:
+                        process_block(next_block, loops) # Recursive call to process loops
+                        next_block = self.dict_total_blocks.get(next_block.get('next'))
+                except IndexError:
+                    pass
 
             # Conditionals(If) Processment
             elif block['opcode'] == 'control_if':
