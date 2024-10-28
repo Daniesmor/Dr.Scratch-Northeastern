@@ -46,10 +46,6 @@ class BatchCSV(models.Model):
     flowControl = models.FloatField()
     max_abstraction = models.FloatField()
     abstraction = models.FloatField()
-    max_math_operators = models.FloatField()
-    math_operators = models.FloatField()
-    max_motion_operators = models.FloatField()
-    motion_operators = models.FloatField()
     mastery = models.CharField(max_length=50)
     date = models.DateTimeField(default=datetime.datetime.now)
 

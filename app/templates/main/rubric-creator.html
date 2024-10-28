@@ -159,8 +159,6 @@
                 var flowControlInput = document.getElementById("FlowControl");
                 var userInteractivityInput = document.getElementById("UserInteractivity");
                 var dataRepresentationInput = document.getElementById("DataRepresentation");
-                var mathOperators = document.getElementById("MathOperators");
-                var motionOperators = document.getElementById("MotionOperators");
 
 
                 var abstractionValue = abstractionInput.value;
@@ -170,8 +168,6 @@
                 var flowControlValue = flowControlInput.value;
                 var userInteractivityValue = userInteractivityInput.value;
                 var dataRepresentationValue = dataRepresentationInput.value;
-                var mathOperatorsValue = mathOperators.value;
-                var motionOperatorsValue = motionOperators.value;
 
                 var digits = abstractionValue +
                         parallelizationValue +
@@ -179,9 +175,7 @@
                         synchronizationValue + 
                         flowControlValue + 
                         userInteractivityValue + 
-                        dataRepresentationValue +
-                        mathOperatorsValue +
-                        motionOperatorsValue;
+                        dataRepresentationValue;
 
                 
                 var digits = hideDigits(parseInt(digits))
@@ -421,7 +415,7 @@
                                             </div>
                                             
                                                                                     
-                                            <input type="range" class="form-range" min="0" max="4" id="Abstraction" name="Abstraction">
+                                            <input type="range" class="form-range" min="0" max="3" id="Abstraction" name="Abstraction">
                                         </div>
 
                                         
@@ -441,7 +435,7 @@
                                                 <p id="Parallelization-phrase-4" class="phrase phrase-Parallelization" >{% trans 'Parallelization is crucial. Simultaneous execution of tasks is essential to optimize code performance and efficiency.' %}</p>
                                                 <p id="Parallelization-phrase-5" class="phrase phrase-Parallelization" >{% trans 'Parallelization is absolutely vital. The ability to perform parallel processing is fundamental for system performance.' %}</p>
                                             </div>                                            
-                                            <input type="range" class="form-range" min="0"s max="4" id="Parallelization" name="Parallelization">
+                                            <input type="range" class="form-range" min="0"s max="3" id="Parallelization" name="Parallelization">
                                         </div>
                                     
                                         <div class="form-group">
@@ -458,7 +452,7 @@
                                                 <p id="LogicThinking-phrase-4" class="phrase phrase-LogicThinking" >{% trans 'Logical thinking is crucial. I rely on logic to analyze complex situations and find effective solutions.' %}</p>
                                                 <p id="LogicThinking-phrase-5" class="phrase phrase-LogicThinking" >{% trans 'Logical thinking is absolutely vital. All code must follow strict logic for problem-solving.' %}</p>
                                             </div>
-                                            <input type="range" class="form-range" min="0"s max="4" id="LogicThinking" name="LogicThinking">
+                                            <input type="range" class="form-range" min="0"s max="3" id="LogicThinking" name="LogicThinking">
                                         </div>
                                     
                                         <div class="form-group">
@@ -476,7 +470,7 @@
                                                 <p id="Synchronization-phrase-5" class="phrase phrase-Synchronization" >{% trans 'Synchronization is absolutely vital. Efficient concurrency is fundamental for system performance and reliability.' %}</p>
                                             </div>                                            
                                             
-                                            <input type="range" class="form-range" min="0"s max="4" id="Synchronization" name="Synchronization">
+                                            <input type="range" class="form-range" min="0"s max="3" id="Synchronization" name="Synchronization">
                                         </div>
                                     
                                         <div class="form-group">
@@ -494,7 +488,7 @@
                                                 <p id="FlowControl-phrase-5" class="phrase phrase-FlowControl" >{% trans 'Flow control is absolutely vital. Proper flow control management determines the efficiency and effectiveness of the program.' %}</p>
                                             </div>
                                         
-                                            <input type="range" class="form-range" min="0"s max="4" id="FlowControl" name="FlowControl">
+                                            <input type="range" class="form-range" min="0"s max="3" id="FlowControl" name="FlowControl">
                                         </div>
                                         
                                         <div class="form-group">
@@ -512,7 +506,7 @@
                                                 <p id="UserInteractivity-phrase-5" class="phrase phrase-UserInteractivity" >{% trans 'User interactivity is absolutely vital. The ability to interact effectively with the user is fundamental.' %}</p>
                                             </div>
                                             
-                                            <input type="range" class="form-range" min="0"s max="4" id="UserInteractivity" name="UserInteractivity">
+                                            <input type="range" class="form-range" min="0"s max="3" id="UserInteractivity" name="UserInteractivity">
                                         </div>
                                     
                                         <div class="form-group">
@@ -529,42 +523,7 @@
                                                 <p id="DataRepresentation-phrase-4" class="phrase phrase-DataRepresentation" >{% trans 'Data representation is crucial. It is essential for optimizing code performance and scalability.' %}</p>
                                                 <p id="DataRepresentation-phrase-5" class="phrase phrase-DataRepresentation" >{% trans 'Data representation is absolutely vital. Poor data representation can lead to critical errors.' %}</p>
                                             </div>
-                                            <input type="range" class="form-range" min="0"s max="4" id="DataRepresentation" name="DataRepresentation">
-                                        </div>
-                                        
-
-                                        <div class="form-group">
-                                            <label for="MathOperators" class="form-label text-primary label-pair">
-                                                <a href="/learn/MathOperators/" target="_blank" style="color: inherit;">{% trans 'Math Operators' %}</a> <span id="MathOperators-value"></span> 
-                                                <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse8" aria-expanded="false" aria-controls="collapse8">
-                                            </label>
-
-                                            <div id="collapse8" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-                                                <p id="MathOperators-phrase-0" class="phrase phrase-MathOperators" >{% trans 'Mathematical operators are not crucial at this moment. Performing complex mathematical operations is not required.' %}</p>
-                                                <p id="MathOperators-phrase-1" class="phrase phrase-MathOperators" >{% trans 'The use of mathematical operators is minimal. Only basic operations are needed for simple calculations.' %}</p>
-                                                <p id="MathOperators-phrase-2" class="phrase phrase-MathOperators" >{% trans 'Mathematical operators have some importance. Basic operations are required to perform some tasks.' %}</p>
-                                                <p id="MathOperators-phrase-3" class="phrase phrase-MathOperators" >{% trans 'Mathematical operators are important. They are used to perform essential calculations that directly affect functionality.' %}</p>
-                                                <p id="MathOperators-phrase-4" class="phrase phrase-MathOperators" >{% trans 'Mathematical operators are crucial. Their correct usage is fundamental to ensure accuracy and consistency in calculations.' %}</p>
-                                                <p id="MathOperators-phrase-5" class="phrase phrase-MathOperators" >{% trans 'Mathematical operators are absolutely vital. They are indispensable for operations that determine the final result.' %}</p>
-                                            </div>
-                                            <input type="range" class="form-range" min="0"s max="4" id="MathOperators" name="MathOperators">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="MotionOperators" class="form-label text-primary label-pair">
-                                                <a href="/learn/MotionOperators/" target="_blank" style="color: inherit;">{% trans 'Motion Operators' %}</a>: <span id="MotionOperators-value"></span> 
-                                                <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse9" aria-expanded="false" aria-controls="collapse9">
-                                            </label>
-
-                                            <div id="collapse9" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-                                                <p id="MotionOperators-phrase-0" class="phrase phrase-MotionOperators" >{% trans 'Motion operators are not crucial at this moment. Extensive manipulation of movements in the code is not required.' %}</p>
-                                                <p id="MotionOperators-phrase-1" class="phrase phrase-MotionOperators" >{% trans 'Motion operators are minimal. There is no significant need for motion control in the code.' %}</p>
-                                                <p id="MotionOperators-phrase-2" class="phrase phrase-MotionOperators" >{% trans 'Motion operators have some importance. There is a moderate need for movement manipulation in the code.' %}</p>
-                                                <p id="MotionOperators-phrase-3" class="phrase phrase-MotionOperators" >{% trans 'Motion operators are important. Proper motion control is necessary for the functionality of the code.' %}</p>
-                                                <p id="MotionOperators-phrase-4" class="phrase phrase-MotionOperators" >{% trans 'Motion operators are crucial. Precise motion control is essential for the proper functioning of the code.' %}</p>
-                                                <p id="MotionOperators-phrase-5" class="phrase phrase-MotionOperators" >{% trans 'Motion operators are absolutely vital. The ability to manipulate movements effectively is fundamental.' %}</p>
-                                            </div>
-                                            <input type="range" class="form-range" min="0"s max="4" id="MotionOperators" name="MotionOperators">
+                                            <input type="range" class="form-range" min="0"s max="3" id="DataRepresentation" name="DataRepresentation">
                                         </div>
                                     
                                         <button id="url" name='_url' type="submit" class="btn btn-primary standard-button">{% trans "Generate rubric" %}</button>
@@ -721,8 +680,6 @@
                             setSliderAndSpanValues("FlowControl", 3);
                             setSliderAndSpanValues("UserInteractivity", 2);
                             setSliderAndSpanValues("DataRepresentation", 2);
-                            setSliderAndSpanValues("MathOperators", 2);
-                            setSliderAndSpanValues("MotionOperators", 3);
                             break;
                         case translations['stories']:
                             setSliderAndSpanValues("Abstraction", 1);
@@ -732,8 +689,6 @@
                             setSliderAndSpanValues("FlowControl", 2);
                             setSliderAndSpanValues("UserInteractivity", 1);
                             setSliderAndSpanValues("DataRepresentation", 1);
-                            setSliderAndSpanValues("MathOperators", 2);
-                            setSliderAndSpanValues("MotionOperators", 1);
                             break;
                         case translations['animations']:
                             setSliderAndSpanValues("Abstraction", 1);
@@ -743,8 +698,6 @@
                             setSliderAndSpanValues("FlowControl", 2);
                             setSliderAndSpanValues("UserInteractivity", 1);
                             setSliderAndSpanValues("DataRepresentation", 1);
-                            setSliderAndSpanValues("MathOperators", 1);
-                            setSliderAndSpanValues("MotionOperators", 3);
                             break;                        
                         case translations['music']:
                             setSliderAndSpanValues("Abstraction", 1);
@@ -754,8 +707,6 @@
                             setSliderAndSpanValues("FlowControl", 2);
                             setSliderAndSpanValues("UserInteractivity", 1);
                             setSliderAndSpanValues("DataRepresentation", 1);
-                            setSliderAndSpanValues("MathOperators", 1);
-                            setSliderAndSpanValues("MotionOperators", 1);
                             break;
                         case translations['arts']:
                             setSliderAndSpanValues("Abstraction", 1);
@@ -765,8 +716,6 @@
                             setSliderAndSpanValues("FlowControl", 2);
                             setSliderAndSpanValues("UserInteractivity", 2);
                             setSliderAndSpanValues("DataRepresentation", 1);
-                            setSliderAndSpanValues("MathOperators", 1);
-                            setSliderAndSpanValues("MotionOperators", 2);
                             break;
                         default:
                             break;

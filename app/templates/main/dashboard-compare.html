@@ -426,7 +426,7 @@
                                                 <div class="row" style="display: flex; align-items: center;">
                                                     <div class="col-12 text-center" id="modal_new_score" style="margin-left: 27%;">
                                                         <h3 class="dark-text"><strong> {% trans "Score:" %} </strong></h3>
-                                                        <h2 id="original-score" class="dark-text" style="font-size: 70px;"> {{ Original.mastery_vanilla.points.0 }}/{{ Original.mastery_vanilla.points.1 }}</h2>
+                                                        <h2 id="original-score" class="dark-text" style="font-size: 70px;"> {{ Original.mastery.points.0 }}/{{ Original.mastery.points.1 }}</h2>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -504,7 +504,7 @@
                                                 <div class="row" style="display: flex; align-items: center;">
                                                     <div class="col-12 text-center" id="modal_new_score" style="margin-left: 27%;">
                                                         <h3 class="dark-text"><strong> {% trans "Score:" %} </strong></h3>
-                                                        <h2 id="new-score" class="text-success" style="font-size: 70px;"> {{ New.mastery_vanilla.points.0 }}/{{ New.mastery_vanilla.points.1 }}</h2>
+                                                        <h2 id="new-score" class="text-success" style="font-size: 70px;"> {{ New.mastery.points.0 }}/{{ New.mastery.points.1 }}</h2>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -657,7 +657,7 @@
                 <div class="row" style="padding-top: 2%;">
                     <div class="col-md-6">
                         <div id="bad-habits">
-                            {% if Original.mastery_vanilla.points.0 != New.mastery_vanilla.points.0 %}
+                            {% if Original.mastery.points.0 != New.mastery.points.0 %}
                                 <div class="improve">
                             {% else %}
                                 <div class="improve" style="padding-top: 90px;">
@@ -756,7 +756,7 @@
                     </div>
                     <div class="col-md-6">
                         <div id="bad-habits">
-                            {% if Original.mastery_vanilla.points.0 != New.mastery_vanilla.points.0 %}
+                            {% if Original.mastery.points.0 != New.mastery.points.0 %}
                                 <div class="improve">
                             {% else %}
                                 <div class="improve" style="padding-top: 90px;">
@@ -894,7 +894,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody id="more-content-body">
-                                                        {% for key, value in Original.mastery_vanilla.items %}
+                                                        {% for key, value in Original.mastery.items %}
                                                         {% if forloop.counter0|divisibleby:1 %}<tr>{% endif %}
                                                         {% if key != "points" %}
                                                         {% if key != "competence" %}
@@ -1117,8 +1117,8 @@
 
     <script>
         $(document).ready(function() {
-            var baseScore = {{ Original.mastery_vanilla.points.0 }};
-            var projectScore = {{ New.mastery_vanilla.points.0 }};
+            var baseScore = {{ Original.mastery.points.0 }};
+            var projectScore = {{ New.mastery.points.0 }};
             
             if (baseScore !== projectScore) {
                 var modalTitle = '';
@@ -1304,10 +1304,10 @@
                 var data = {};
                 var dataBefore = {};
                 var htmlkey = '';
-                {% for key,value in New.mastery_vanilla.items %}
+                {% for key,value in New.mastery.items %}
                     data['{{ key }}'] = '{{ value }}',
                 {% endfor %}
-                {% for key,value in Original.mastery_vanilla.items %}
+                {% for key,value in Original.mastery.items %}
                     dataBefore['{{ key }}'] = '{{ value }}',
                 {% endfor %}
                 console.log(data);

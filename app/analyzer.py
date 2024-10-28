@@ -456,9 +456,7 @@ def proc_urls(request, dict_mastery, file_obj):
 
     if mode not in non_personalized:
         dict_extended = dict_mastery['extended'].copy()
-        dict_vanilla = dict_mastery['vanilla'].copy()
         dict_urls["url_extended"] = get_urls(dict_extended)
-        dict_urls["url_vanilla"] = get_urls(dict_vanilla)
     elif mode == 'Personalized':
         dict_personal = dict_mastery['personalized'].copy()
         print(dict_personal)
@@ -478,16 +476,11 @@ def proc_mastery(request, dict_mastery, file_obj):
     non_personalized = ['Default', 'Comparison', 'Recommender']
     if mode in non_personalized:
         dict_extended = dict_mastery['extended'].copy()
-        dict_vanilla = dict_mastery['vanilla'].copy()
         set_file_obj(request, file_obj, dict_extended)
-        set_file_obj(request, file_obj, dict_vanilla, 'Vanilla')
         d_extended_translated = translate(request, dict_extended, file_obj)
-        d_vanilla_translated = translate(request, dict_vanilla, file_obj, vanilla=True)
-        dic = {"mastery": d_extended_translated, "mastery_vanilla": d_vanilla_translated}
+        dic = {"mastery": d_extended_translated}
         dic["mastery"]["competence"] = dict_extended["competence"]
-        dic["mastery"]["points"] = dict_extended["total_points"]
-        dic["mastery_vanilla"]["competence"] = dict_vanilla["competence"]
-        dic["mastery_vanilla"]["points"] = dict_vanilla["total_points"]     
+        dic["mastery"]["points"] = dict_extended["total_points"]   
     elif mode == 'Personalized':
         dict_personal = dict_mastery['personalized'].copy()
         set_file_obj(request, file_obj, dict_personal)
@@ -510,9 +503,6 @@ def set_file_obj(request, file_obj, dict, mode=None):
     file_obj.flow_control = dict["FlowControl"][0]
     file_obj.userInteractivity = dict["UserInteractivity"][0]
     file_obj.dataRepresentation = dict["DataRepresentation"][0]
-    if mode != 'Vanilla':
-        file_obj.mathOperators = dict["MathOperators"][0]
-        file_obj.mathOperators = dict["MotionOperators"][0]
     file_obj.save()
 
 
@@ -565,7 +555,7 @@ def proc_backdrop_naming(lines, file_obj):
     return dic
 
 
-def translate(request, d, filename, vanilla=False):
+def translate(request, d, filename):
     """
     Translate the output of Hairball
     """
@@ -575,8 +565,6 @@ def translate(request, d, filename, vanilla=False):
                           'Pensamiento lógico': [d['Logic'], 'Logic'], 'Sincronización': [d['Synchronization'], 'Synchronization'],
                           'Control de flujo': [d['FlowControl'], 'FlowControl'], 'Interactividad con el usuario': [d['UserInteractivity'], 'UserInteractivity'],
                           'Representación de la información': [d['DataRepresentation'], 'DataRepresentation']}
-        if not vanilla: # Check that not is Vanilla Mode
-            d_translate_es.update({'Operadores matemáticos': [d['MathOperators'], 'MathOperators'], 'Operadores de movimiento': [d['MotionOperators'], 'MotionOperators']})
         filename.language = "es"
         filename.save()
         return d_translate_es
@@ -584,8 +572,6 @@ def translate(request, d, filename, vanilla=False):
         d_translate_en = {'Abstraction': [d['Abstraction'], 'Abstraction'], 'Parallelism': [d['Parallelization'], 'Parallelization'], 'Logic': [d['Logic'], 'Logic'],
                           'Synchronization': [d['Synchronization'], 'Synchronization'], 'Flow control': [d['FlowControl'], 'FlowControl'],
                           'User interactivity': [d['UserInteractivity'], 'UserInteractivity'], 'Data representation': [d['DataRepresentation'], 'DataRepresentation']}
-        if not vanilla: 
-            d_translate_en.update({'Math operators': [d['MathOperators'], 'MathOperators'], 'Motion operators': [d['MotionOperators'], 'MotionOperators']})
         filename.language = "en"
         filename.save()
         return d_translate_en
@@ -594,8 +580,6 @@ def translate(request, d, filename, vanilla=False):
                           'Sincronització': [d['Synchronization'], 'Synchronization'], 'Controls de flux': [d['FlowControl'], 'FlowControl'],
                           "Interactivitat de l'usuari": [d['UserInteractivity'], 'UserInteractivity'],
                           'Representació de dades': [d['DataRepresentation'], 'DataRepresentation']}
-        if not vanilla: 
-            d_translate_ca.update({'Operadors matemàtics': [d['MathOperators'], 'MathOperators'], 'Operadors de moviment':  [d['MotionOperators'], 'MotionOperators']})
         filename.language = "ca"
         filename.save()
         return d_translate_ca
@@ -604,8 +588,6 @@ def translate(request, d, filename, vanilla=False):
                           'Sincronización': [d['Synchronization'], 'Synchronization'], 'Control de fluxo': [d['FlowControl'], 'FlowControl'],
                           "Interactividade do susario": [d['UserInteractivity'], 'UserInteractivity'],
                           'Representación dos datos': [d['DataRepresentation'], 'DataRepresentation']}
-        if not vanilla: 
-            d_translate_gl.update({'Operadores matemáticos': [d['MathOperators'], 'MathOperators'], 'Operadores de movemento': [d['MotionOperators'], 'MotionOperators']})
         filename.language = "gl"
         filename.save()
         return d_translate_gl
@@ -615,8 +597,6 @@ def translate(request, d, filename, vanilla=False):
                           'Sincronização': [d['Synchronization'], 'Synchronization'], 'Controle de fluxo': [d['FlowControl'], 'FlowControl'],
                           "Interatividade com o usuário": [d['UserInteractivity'], 'UserInteractivity'],
                           'Representação de dados': [d['DataRepresentation'], 'DataRepresentation']}
-        if not vanilla: 
-            d_translate_pt.update({'Operadores matemáticos': [d['MathOperators'], 'MathOperators'], 'Operadores de movimento': [d['MotionOperators'], 'MotionOperators']})
         filename.language = "pt"
         filename.save()
         return d_translate_pt
@@ -626,8 +606,6 @@ def translate(request, d, filename, vanilla=False):
                           'Συγχρονισμός': [d['Synchronization'], 'Synchronization'], 'Έλεγχος ροής': [d['FlowControl'], 'FlowControl'],
                           'Αλληλεπίδραση χρήστη': [d['UserInteractivity'], 'UserInteractivity'],
                           'Αναπαράσταση δεδομένων': [d['DataRepresentation'], 'DataRepresentation']}
-        if not vanilla: 
-            d_translate_el.update({'Μαθηματικοί χειριστές': [d['MathOperators'], 'MathOperators'], 'Χειριστές κίνησης': [d['MotionOperators'], 'MotionOperators']})
         filename.language = "el"
         filename.save()
         return d_translate_el
@@ -637,8 +615,6 @@ def translate(request, d, filename, vanilla=False):
                           'Sinkronizatzea': [d['Synchronization'], 'Synchronization'], 'Kontrol fluxua': [d['FlowControl'], 'FlowControl'],
                           'Erabiltzailearen elkarreragiletasuna': [d['UserInteractivity'], 'UserInteractivity'],
                           'Datu adierazlea': [d['DataRepresentation'], 'DataRepresentation']}
-        if not vanilla: 
-            d_translate_eu.update({'Eragile matematikoak': [d['MathOperators'], 'MathOperators'], 'Mugimendu-eragileak': [d['MotionOperators'], 'MotionOperators']})
         filename.language = "eu"
         filename.save()
         return d_translate_eu
@@ -648,8 +624,6 @@ def translate(request, d, filename, vanilla=False):
                           'Sincronizzazione': [d['Synchronization'], 'Synchronization'], 'Controllo di flusso': [d['FlowControl'], 'FlowControl'],
                           'Interattività utente': [d['UserInteractivity'], 'UserInteractivity'],
                           'Rappresentazione dei dati': [d['DataRepresentation'], 'DataRepresentation']}
-        if not vanilla: 
-            d_translate_it.update({'Operatori matematici':  [d['MathOperators'], 'MathOperators'], 'Operatori del movimento': [d['MotionOperators'], 'MotionOperators']})
         filename.language = "it"
         filename.save()
         return d_translate_it
@@ -659,8 +633,6 @@ def translate(request, d, filename, vanilla=False):
                           'Логика': [d['Logic'], 'Logic'], 'cинхронизация': [d['Synchronization'], 'Synchronization'],
                           'Управление потоком': [d['FlowControl'], 'FlowControl'], 'Интерактивность': [d['UserInteractivity'], 'UserInteractivity'],
                           'Представление данных': [d['DataRepresentation'], 'DataRepresentation']}
-        if not vanilla: 
-            d_translate_ru.update({'Математические операторы': [d['MathOperators'], 'MathOperators'], 'Операторы движения': [d['MotionOperators'], 'MotionOperators']})
         filename.language = "ru"
         filename.save()
         return d_translate_ru
@@ -672,8 +644,6 @@ def translate(request, d, filename, vanilla=False):
             'Akış kontrolü': [d['FlowControl'], 'FlowControl'], 'Kullanıcı etkileşimi': [d['UserInteractivity'], 'UserInteractivity'],
             'Veri temsili': [d['DataRepresentation'], 'DataRepresentation']
         }
-        if not vanilla: 
-            d_translate_tr.update({'Matematiksel operatörler': [d['MathOperators'], 'MathOperators'], 'Hareket operatörleri': [d['MotionOperators'], 'MotionOperators']})
         filename.language = "tr"
         filename.save()
         return d_translate_tr
@@ -682,8 +652,6 @@ def translate(request, d, filename, vanilla=False):
         d_translate_en = {'Abstraction': [d['Abstraction'], 'Abstraction'], 'Parallelism': [d['Parallelization'], 'Parallelization'], 'Logic': [d['Logic'], 'Logic'],
                           'Synchronization': [d['Synchronization'], 'Synchronization'], 'Flow control': [d['FlowControl'], 'FlowControl'],
                           'User interactivity': [d['UserInteractivity'], 'UserInteractivity'], 'Data representation': [d['DataRepresentation'], 'DataRepresentation']}
-        if not vanilla: 
-            d_translate_en.update({'Math Operators': [d['MathOperators'], 'MathOperators'], 'Motion Operators': [d['MotionOperators'], 'MotionOperators']})
         filename.language = "any"
         filename.save()
         return d_translate_en

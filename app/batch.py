@@ -20,9 +20,7 @@ def skills_translation(request) -> dict:
                u'Synchronization':'Synchronization',
                u'User interactivity':'User interactivity',
                u'Flow control':'Flow control',
-               u'Abstraction':'Abstraction',
-               u'Math operators':'Math operators',
-               u'Motion operators': 'Motion operators'}
+               u'Abstraction':'Abstraction'}
     elif request.LANGUAGE_CODE == "es":
         #page = unicodedata.normalize('NFKD',page).encode('ascii', 'ignore')
         dic = {'Pensamiento lógico':'Logic',
@@ -31,9 +29,7 @@ def skills_translation(request) -> dict:
                'Sincronización':'Synchronization',
                'Interactividad con el usuario':'User',
                'Control de flujo':'Flow control',
-               'Abstracción':'Abstraction',
-               'Operadores matemáticos':'Math operators',
-               'Operadores de movimiento': 'Motion operators'}
+               'Abstracción':'Abstraction'}
     elif request.LANGUAGE_CODE == "ca":
         #page = unicodedata.normalize('NFKD', page).encode('ascii', 'ignore')
         dic = {u'Lògica':'Logic',
@@ -42,9 +38,7 @@ def skills_translation(request) -> dict:
                u'Sincronització':'Synchronization',
                u"Interactivitat de l'usuari":'User interactivity',
                u'Controls de flux':'Flow control',
-               u'Abstracció':'Abstraction',
-               u'Operadors matemàtics':'Math operators',
-               u'Operadors de moviment': 'Motion operators'}
+               u'Abstracció':'Abstraction'}
     elif request.LANGUAGE_CODE == "gl":
         #page = unicodedata.normalize('NFKD',page).encode('ascii', 'ignore')
         dic = {'Lóxica':'Logic',
@@ -53,9 +47,7 @@ def skills_translation(request) -> dict:
                'Sincronización':'Synchronization',
                'Interactividade do susario':'User interactivity',
                'Control de fluxo':'Flow control',
-               'Abstracción':'Abstraction',
-               'Operadores matemáticos':'Math operators',
-               'Operadores de movemento': 'Motion operators'}
+               'Abstracción':'Abstraction'}
     elif request.LANGUAGE_CODE == "pt":
         #page = unicodedata.normalize('NFKD',page).encode('ascii', 'ignore')
         dic = {'Lógica':'Logic',
@@ -64,9 +56,7 @@ def skills_translation(request) -> dict:
                'Sincronização':'Synchronization',
                'Interatividade com o usuário':'User interactivity',
                'Controle de fluxo':'Flow control',
-               'Abstração':'Abstraction',
-               'Operadores matemáticos':'Math operators',
-               'Operadores de movimento': 'Motion operators'}
+               'Abstração':'Abstraction'}
     elif request.LANGUAGE_CODE == "el":
         dic = {u'Λογική':'Logic',
            u'Παραλληλισμός':'Parallelism',
@@ -74,9 +64,7 @@ def skills_translation(request) -> dict:
            u'Συγχρονισμός':'Synchronization',
            u'Αλληλεπίδραση χρήστη':'User interactivity',
            u'Έλεγχος ροής':'Flow control',
-           u'Αφαίρεση':'Abstraction',
-           u'Μαθηματικοί χειριστές':'Math operators',
-           u'Χειριστές κίνησης': 'Motion operators'}
+           u'Αφαίρεση':'Abstraction'}
     elif request.LANGUAGE_CODE == "eu":
         #page = unicodedata.normalize('NFKD',page).encode('ascii', 'ignore')
         dic = {u'Logika':'Logic',
@@ -85,9 +73,7 @@ def skills_translation(request) -> dict:
            u'Sinkronizatzea':'Synchronization',
            u'Erabiltzailearen elkarreragiletasuna':'User interactivity',
            u'Kontrol fluxua':'Flow control',
-           u'Abstrakzioa':'Abstraction',
-           u'Eragile matematikoak':'Math operators',
-           u'Mugimendu-eragileak': 'Motion operators'}
+           u'Abstrakzioa':'Abstraction'}
     elif request.LANGUAGE_CODE == "it":
         #page = unicodedata.normalize('NFKD',page).encode('ascii','ignore')
         dic = {u'Logica':'Logic',
@@ -96,9 +82,7 @@ def skills_translation(request) -> dict:
            u'Sincronizzazione':'Synchronization',
            u'Interattività utente':'User interactivity',
            u'Controllo di flusso':'Flow control',
-           u'Astrazione':'Abstraction',
-           u'Operatori matematici':'Math operators',
-           u'Operatori del movimento': 'Motion operators'}
+           u'Astrazione':'Abstraction'}
     elif request.LANGUAGE_CODE == "ru":
         dic = {u'Логика': 'Logic',
                u'Параллельность действий': 'Parallelism',
@@ -106,9 +90,7 @@ def skills_translation(request) -> dict:
                u'cинхронизация': 'Synchronization',
                u'Интерактивность': 'User interactivity',
                u'Управление потоком': 'Flow control',
-               u'Абстракция': 'Abstraction',
-               u'Математические операторы':'Math operators',
-               u'Операторы движения': 'Motion operators'}
+               u'Абстракция': 'Abstraction'}
     elif request.LANGUAGE_CODE == "tr":
         dic = {
             u'Logic': 'Mantık',
@@ -117,9 +99,7 @@ def skills_translation(request) -> dict:
             u'Synchronization': 'Senkranizasyon',
             u'User interactivity': 'Kullanıcı etkileşimi',
             u'Flow control': 'Akış kontrolü',
-            u'Abstraction': 'Soyutlama',
-            u'Math operators': 'Matematiksel operatörler',
-            u'Motion operators': 'Hareket operatörleri'}
+            u'Abstraction': 'Soyutlama'}
     else:
         dic = {u'Logica':'Logic',
                u'Paralelismo':'Parallelism',
@@ -127,9 +107,7 @@ def skills_translation(request) -> dict:
                u'Sincronizacao':'Synchronization',
                u'Interatividade':'User interactivity',
                u'Controle':'Flow control',
-               u'Abstracao':'Abstraction',
-               u'Operadores matemáticos':'Math operators',
-               u'Operadores de movimento': 'Motion operators'}
+               u'Abstracao':'Abstraction'}
     
     return dic
 
@@ -144,23 +122,16 @@ def create_csv_main(request, d: dict, folder_path: str) -> str:
     headers = [
         'url', 'filename', 'points', 
         'Abstraction', 'Parallelism', 'Logic', 'Synchronization',
-        'Flow control', 'User interactivity', 'Data representation',
-        'Math operators', 'Motion operators', 'DuplicateScripts',
-        'DeadCode', 'SpriteNaming', 'BackdropNaming', 
+        'Flow control', 'User interactivity', 'Data representation', 
+        'DuplicateScripts', 'DeadCode', 'SpriteNaming', 'BackdropNaming', 
         'Error', 'dashboard_mode'
-    ]
-
-    vanilla_headers = [
-        'Van points','Van Abstraction','Van Parallelism', 'Van Logic', 
-        'Van Synchronization', 'Van Flow control', 'Van User interactivity',
-        'Van Data representation'
     ]
 
     aditional = [
         'tot_blocks'
     ]
 
-    global_headers = headers + vanilla_headers + aditional
+    global_headers = headers + aditional
 
     with open(csv_filepath, 'w', newline='') as csv_file:
         writer_csv = csv.DictWriter(csv_file, fieldnames=global_headers)
@@ -191,14 +162,6 @@ def create_csv_main(request, d: dict, folder_path: str) -> str:
                                 row_to_write[clave] = f'{mastery_list[0][0]}/{mastery_list[0][1]}'          
                             else:
                                 row_to_write[clave] = mastery_list[0]
-                        if clave not in ['Math operators', 'Motion operators']:
-                            mastery_list_van = d[project]['mastery_vanilla'].get(clave_trans, [])
-                            van_clave = f"Van {clave}"
-                            if mastery_list_van:
-                                if type(mastery_list_van[0]) == list:
-                                    row_to_write[van_clave] = f'{mastery_list_van[0][0]}/{mastery_list_van[0][1]}'
-                                else:
-                                    row_to_write[van_clave] = mastery_list_van[0]
                     except KeyError:
                         row_to_write[clave] = 'Error'
                 elif clave == 'DuplicateScripts':
@@ -451,10 +414,6 @@ def create_obj(data: dict, csv_filepath: str) -> uuid.UUID:
         max_flowControl=data['Flow control'][1],
         abstraction=data['Abstraction'][0],
         max_abstraction=data['Abstraction'][1],
-        math_operators=data['Math operators'][0],
-        max_math_operators=data['Math operators'][1],
-        motion_operators=data['Motion operators'][0],
-        max_motion_operators=data['Motion operators'][1],
         mastery=data['Mastery']
     )
 

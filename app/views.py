@@ -228,8 +228,6 @@ def batch(request, csv_identifier):
         'User interactivity': [csv.userInteractivity, csv.max_userInteractivity],
         'Flow control': [csv.flowControl, csv.max_flowControl],
         'Abstraction': [csv.abstraction, csv.max_abstraction],
-        'Math operators': [csv.math_operators, csv.max_math_operators],
-        'Motion operators': [csv.motion_operators, csv.max_motion_operators],
         'Mastery': csv.mastery
     }
     
@@ -283,8 +281,7 @@ def process_contact_form(request):
 
 def generate_rubric(skill_points: str) -> dict:
     mastery = ['Abstraction', 'Parallelization', 'Logic', 'Synchronization', 
-               'FlowControl', 'UserInteractivity', 'DataRepresentation',
-               'MathOperators', 'MotionOperators']
+               'FlowControl', 'UserInteractivity', 'DataRepresentation']
        
     skill_rubric = {}
     if skill_points != '':
@@ -292,7 +289,7 @@ def generate_rubric(skill_points: str) -> dict:
             skill_rubric[skill_name] = int(points)   
     else:
         for skill_name in mastery:
-            skill_rubric[skill_name] = 4 # Falta añadir Finesse           
+            skill_rubric[skill_name] = 3 # Falta añadir Finesse           
     return skill_rubric  
 
 def calc_num_projects(batch_path: str) -> int:

@@ -98,8 +98,6 @@ def get_csv_sum(csv) -> dict:
         'User interactivity': [csv.userInteractivity, csv.max_userInteractivity],
         'Flow control': [csv.flowControl, csv.max_flowControl],
         'Abstraction': [csv.abstraction, csv.max_abstraction],
-        'Math operators': [csv.math_operators, csv.max_math_operators],
-        'Motion operators': [csv.motion_operators, csv.max_motion_operators],
         'Mastery': csv.mastery
     }
     return summary
@@ -132,7 +130,7 @@ def send_mail(email: str, csv_id: UUID) -> None:
     try:
         email.send(fail_silently=False)
     except:
-        print(f"Error seding mail: {email}")
+        print(f"Error sending mail: {email}")
 
 def register_timestamp(csv_id: UUID, start_time, end_endtime: datetime) -> None:
     timestamp = (end_endtime - start_time).total_seconds() + 60
