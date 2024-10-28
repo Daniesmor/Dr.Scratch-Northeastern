@@ -376,7 +376,24 @@ BLOCK_TEXT = {
     "GDXFOR_GETTILT": "tilt angle (%1 v)",
     "GDXFOR_ISFREEFALLING": "falling?",
     "GDXFOR_GETSPINSPEED": "spin speed (%1 v)",
-    "GDXFOR_GETACCELERATION": "acceleration (%1 v)"
+    "GDXFOR_GETACCELERATION": "acceleration (%1 v)",
+    "LEARNINGMLTEXTS_ADDTEXTTOLABEL": "add text (%1) to label (%2)::#00A87A",
+    "LEARNINGMLIMAGES_ADDIMAGETOLABEL": "add image (%1) to label (%2)::#00A87A",
+    "LEARNINGMLIMAGES_TRAIN": "Learn from image dataset::#00A87A",
+    "LEARNINGMLTEXTS_TRAINANDWAIT": "Learn from texts dataset and wait::#00A87A",
+    "LEARNINGMLIMAGES_VIDEOTOGGLE": "Turn  video (%1 v)::#00A87A",
+    "LEARNINGMLIMAGES_WHENTRAINED": "When model has been trained:: event hat #00A87A",
+    "LEARNINGMLIMAGES_CONFIDENCEIMAGE": "Confidence for image (%1):: reporter #00A87A",
+    "LEARNINGMLIMAGES_CLASSIFYIMAGE": "Classify image (%1):: reporter #00A87A",
+    "LEARNINGMLTEXTS_CLASSIFYTEXT": "Classify text (%1):: reporter #00A87A",
+    "LEARNINGMLTEXTS_CONFIDENCETEXT": "Confidence for text (%1):: reporter #00A87A",
+    "LEARNINGMLNUMERICAL_CLASSIFYNUMBERS": "Classify numbers (%1):: reporter #00A87A",
+    "LEARNINGMLNUMERICAL_CONFIDENCENUMERICAL": "Confidence for numbers (%1):: reporter #00A87A",
+    "LEARNINGMLTEXTS_CLASSIFYTEXT": "Classify text (%1):: reporter #00A87A",
+    "LEARNINGMLIMAGES_CURRENTCOSTUME": "Current costume:: reporter #00A87A",
+    "LEARNINGMLIMAGES_VIDEOIMAGE": "Video image:: reporter #00A87A",
+    "LEARNINGMLTEXTS_STATUSTEXT": "Model status:: reporter #00A87A"
+    
 }
 
 STARTER_BLOCKS = {"EVENT_WHENFLAGCLICKED",
@@ -387,7 +404,8 @@ STARTER_BLOCKS = {"EVENT_WHENFLAGCLICKED",
     "EVENT_WHENBACKDROPSWITCHESTO",
     "EVENT_WHENGREATERTHAN",
     "CONTROL_START_AS_CLONE",
-    "PROCEDURES_DEFINITION"}
+    "PROCEDURES_DEFINITION",
+    "LEARNINGMLIMAGES_WHENTRAINED"}
 
 class Script():
     def __init__(self):
