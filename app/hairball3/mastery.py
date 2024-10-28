@@ -311,7 +311,7 @@ class Mastery(Plugin):
         """
         Check the advanced user interactivity skills
         """
-        non_controllers_ext = ['music', 'pen', 'videoSensing', 'text2speech', 'translate']
+        non_controllers_ext = ['music', 'pen', 'videoSensing', 'text2speech', 'translate', 'learningmlTexts', 'learningmlImages']
 
         extensions = self.json_project.get('extensions', [])
         print("---EXTENSIONS---")
