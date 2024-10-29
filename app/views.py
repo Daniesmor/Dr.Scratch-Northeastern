@@ -1741,20 +1741,23 @@ def get_babia(request):
     numbers = ''
     skill_rubric = generate_rubric(numbers)
 
-    # Create a fake request instead of fill the form
+    # Create a fake request instead of fill the form ______________________________________
+    """
+    This is a fake provisional request for testing purposes.
+    """
     fake_request = SimpleNamespace()
     fake_request.method = 'POST'
     fake_request.POST = {'_url': '',
-                         'urlProject': 'https://scratch.mit.edu/projects/1051644584/'}
+                         'urlProject': 'https://scratch.mit.edu/projects/440181849/'}
     fake_request.GET = SimpleNamespace()
     fake_request.session = SimpleNamespace()
     fake_request.LANGUAGE_CODE = get_language()
-
+    # _____________________________________________________________________________________
     
 
 
     d = build_dictionary_with_automatic_analysis(fake_request, skill_rubric)
-    babia_dict = format_babia_dict(d[0]['babia'])
+    babia_dict = format_babia_dict(d[0])
 
     context = {
         'babia_dict': json.dumps(babia_dict)
@@ -1765,60 +1768,76 @@ def get_babia(request):
 
 import random
 
-def format_babia_dict(d_babia: dict):
-    #print(d_babia)
-    colors =  ["#eb4034", "#4554ff", "#03ff96"]
+def format_babia_dict(d: dict):
+    global_babia = d['babia']
+    deadCode_babia = d['deadCode']['babia']
+    colors = {}
+
+    #print("deadCode babia")
+    #print(deadCode_babia)
+
+
+    #colors =  ["#eb4034", "#4554ff", "#03ff96"]
 
     data = {
         "id": "Root",
         "children": [],
     }
 
-    for sprite_idx, (sprite_key, sprite_item) in enumerate(d_babia['sprites'].items()):
+
+    amounts = [(sprite, script, amount) for sprite, scripts in deadCode_babia.items() for script, amount in scripts.items()]
+    max_value = max(amounts, key=lambda x: x[2])[2]
+    #print("mi max value", max_value)
+    min_value = min(amounts, key=lambda x: x[2])[2]
+    #print("mi min value", min_value)
+
+    import colorsys
+
+    for sprite, scripts in deadCode_babia.items():
+        for script, amount in scripts.items():
+
+            normalized_factor = ((amount - min_value) / (max_value-min_value))*2
+            color_factor = (2 - normalized_factor) + 0.3
+
+            # Ejemplo: Color original en HEX
+            hex_color = "#3498db"
+
+            hex_color = hex_color.lstrip('#')
+            rgb = tuple(int(hex_color[i:i+2], 16) / 255.0 for i in (0, 2, 4))
+            
+            # Convertir RGB a HLS (Hue, Lightness, Saturation)
+            hls = colorsys.rgb_to_hls(*rgb)
+            
+            # Ajustar la luminosidad multiplicando por el factor
+            new_hls = (hls[0], min(1, hls[1] * color_factor), hls[2])
+            
+            # Convertir de nuevo a RGB
+            new_rgb = colorsys.hls_to_rgb(*new_hls)
+            
+            # Convertir de RGB a HEX            
+            # Convertir de RGB a HEX
+            colors[script] = '#%02x%02x%02x' % tuple(int(c * 255) for c in new_rgb)
+
+    for sprite_key, sprite_item in global_babia['sprites'].items():
         sprite_data = {
             "id": sprite_key,
             "children": [],
         }
         for script_key, script_value in sprite_item.items():
-            elem = 0
-            color = colors[elem]
             script_data = {
                 "id": script_key,
                 "area": 2,
-                "Blocks": script_value,
-                "building_color": random.choice(colors),
+                "Blocks": len(script_value),
+                "building_color": colors[script_key],
+                "script_blocks": " ".join(script_value)
             }
+            
             sprite_data["children"].append(script_data)
         data["children"].append(sprite_data)
-        #data["children"][sprite_idx]["id"] = sprite_key
-        #data["children"][sprite_idx]["children"] = []
-        #data["children"][sprite_idx]["id"]
-    print(data)
+    #print(data)
+
+    
+
     return data
 
 
-"""
-def format_babia_dict(d_babia: dict):
-    #print(d_babia)
-
-    data = {
-        "id": "Root",
-        "children": [],
-    }
-
-    for sprite_idx, (sprite_key, sprite_item) in enumerate(d_babia['sprites'].items()):
-        for script_key, script_value in sprite_item.items():
-            script_data = {
-                "id": script_key,
-                "area": 2,
-                "Blocks": script_value,
-                "ccn": 3,
-            }
-            #sprite_data["children"].append(script_data)
-            data["children"].append(script_data)
-        #data["children"][sprite_idx]["id"] = sprite_key
-        #data["children"][sprite_idx]["children"] = []
-        #data["children"][sprite_idx]["id"]
-    print(data)
-    return data
-"""
