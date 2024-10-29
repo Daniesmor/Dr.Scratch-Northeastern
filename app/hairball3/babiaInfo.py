@@ -1,6 +1,7 @@
 import json
 from app.hairball3.plugin import Plugin
 import app.consts_drscratch as consts
+from app.hairball3.scriptObject import Script
 import logging
 import coloredlogs
 
@@ -19,7 +20,7 @@ class Babia(Plugin):
         self.babia_dict['sprites'] = {}
 
     def process(self):
-
+        block_list = []
         # print(self.json_project.items())
 
         for key, list_info in self.json_project.items():
@@ -28,18 +29,31 @@ class Babia(Plugin):
                     
                     if dict_target['name'] != 'Stage':
                         currScript = 0
-                        
+                        #print("-------------------------------------------------------------")
                         self.babia_dict['num_sprites'] += 1
                         self.babia_dict['sprites'][dict_target['name']] = {}
                         for dicc_key, dicc_value in dict_target.items():
                             if dicc_key == "blocks":
+                                blocks_list = [] 
                                 for blocks, blocks_value in dicc_value.items():
                                     if type(blocks_value) is dict:
                                         # seach scripts
+                                        
                                         if blocks_value['topLevel'] == True:
+                                            print(blocks_list)
                                             currScript += 1
-                                            self.babia_dict['sprites'][dict_target['name']][f'script_{currScript}'] = 0
-                                        self.babia_dict['sprites'][dict_target['name']][f'script_{currScript}'] += 1 #Incremet one block 
+                                            #print("-------------------------------------------------------------")
+                                            blocks_list = []
+                                            #self.babia_dict['sprites'][dict_target['name']][f'script_{currScript}'] = 0
+                                        #print(blocks_value)
+                                        script = Script()
+                                        block = script.convert_block_to_text(blocks_value)
+                                        #print("block:--------------------------",block)
+                                        blocks_list.append(str(block))
+                                        
+                                        
+                                        #self.babia_dict['sprites'][dict_target['name']][f'script_{currScript}'] += 1 #Incremet one block 
+                                        self.babia_dict['sprites'][dict_target['name']][f'script_{currScript}'] = blocks_list
                                         #self.list_total_blocks.append(blocks_value)
                                         #self.dict_total_blocks[blocks] = blocks_value
 
@@ -63,17 +77,17 @@ class Babia(Plugin):
                     max_script_len = script_len
                 if script_len < min_script_len:
                     min_script_len = script_len
-        print("mi max:", max_script_len)
-        print("mi min:", min_script_len)
+        #print("mi max:", max_script_len)
+        #print("mi min:", min_script_len)
 
         
         for sprite_idx, (sprite_name, sprite_value) in enumerate(self.babia_dict['sprites'].items()):
-            print(sprite_name)
-            print(sprite_value)
+            #print(sprite_name)
+            #print(sprite_value)
             for script_idx, (script_name, script_len) in enumerate(sprite_value.items()):
                 
                 script_len = (script_len - min_script_len)/(max_script_len - min_script_len)
-                print(script_name, script_len, self.babia_dict['sprites'][sprite_name][script_name])
+                #print(script_name, script_len, self.babia_dict['sprites'][sprite_name][script_name])
                 self.babia_dict['sprites'][sprite_name][script_name] = script_len
         
 

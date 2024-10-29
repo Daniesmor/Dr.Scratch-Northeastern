@@ -535,7 +535,7 @@ class Script():
         #print("block name:", block_name)
         #print("name:", name)
         if name not in BLOCK_TEXT and name not in STARTER_BLOCKS:
-            block_text = block_name["mutation"]["proccode"]
+            block_text = block_name.get("mutation", {}).get("proccode", "")
         else:
             block_text = BLOCK_TEXT[name]
 

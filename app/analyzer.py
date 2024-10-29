@@ -397,11 +397,11 @@ def proc_block_sprite_usage(result_block_sprite_usage, filename):
     return dict_block_sprite_usage
 
 def proc_dead_code(dict_dead_code, filename):
-
     dict_dc = {}
     dict_dc["deadCode"] = dict_dc
     dict_dc["deadCode"]["number"] = dict_dead_code['result']['total_dead_code_scripts']
-
+    dict_dc["deadCode"]["babia"] = dict_dead_code['babia']
+    
     for dict_sprite_dead_code_blocks in dict_dead_code['result']['list_dead_code_scripts']:
         for sprite_name, list_blocks in dict_sprite_dead_code_blocks.items():
             dict_dc["deadCode"][sprite_name] = list_blocks
