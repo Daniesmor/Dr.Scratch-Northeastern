@@ -1748,7 +1748,7 @@ def get_babia(request):
     fake_request = SimpleNamespace()
     fake_request.method = 'POST'
     fake_request.POST = {'_url': '',
-                         'urlProject': 'https://scratch.mit.edu/projects/440181849/'}
+                         'urlProject': 'https://scratch.mit.edu/projects/945720625/'}
     fake_request.GET = SimpleNamespace()
     fake_request.session = SimpleNamespace()
     fake_request.LANGUAGE_CODE = get_language()
@@ -1824,13 +1824,26 @@ def format_babia_dict(d: dict):
             "children": [],
         }
         for script_key, script_value in sprite_item.items():
+            """ 
             script_data = {
                 "id": script_key,
                 "area": 2,
-                "Blocks": len(script_value),
+                "Blocks": len(script_value.split('\n')),
                 "building_color": colors[script_key],
-                "script_blocks": " ".join(script_value)
+                "script_blocks": script_value
             }
+            """
+            print("-------------------------------------")
+            print(" ".join(script_value.split('\n')))
+            print("--------------------------------------")
+            script_data = {
+                "id": script_key,
+                "area": 2,
+                "Blocks": len(script_value.split('\n')),
+                "building_color": colors[script_key],
+                "script_blocks": script_value
+            }
+            
             
             sprite_data["children"].append(script_data)
         data["children"].append(sprite_data)

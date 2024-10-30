@@ -30,7 +30,6 @@ class RefactorDuplicate():
         """
         out = {}
 
-
         for dict_key, dicc_value in dict_target.items():
             if dict_key == "blocks":
                 for blocks, blocks_value in dicc_value.items():
@@ -43,7 +42,7 @@ class RefactorDuplicate():
         """
         Sets a dictionary containing the scripts of each sprite in Script() format
         """
-
+            
         for key, list_dict_targets in self.json_project.items():
             if key == "targets":
                 for dict_target in list_dict_targets:
