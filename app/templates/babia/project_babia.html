@@ -10,22 +10,33 @@
   <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.2.0/dist/aframe-extras.min.js"></script>
   <script src="../../static/app/scripts/dist/aframe-babia-components.js"></script>
   <script src="https://unpkg.com/aframe-environment-component@1.0.0/dist/aframe-environment-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-geometry-merger-component/dist/aframe-geometry-merger-component.min.js"></script>
+  <link rel="stylesheet" href="../../static/app/content/scratchblocks2.css">
   <script src="../../static/app/scripts/scratchblocks-v3.4-min.js"></script>
-  <script
-    src="https://unpkg.com/aframe-geometry-merger-component/dist/aframe-geometry-merger-component.min.js"></script>
-</head>
+
+  <script>
+    window.onload = function() {
+      scratchblocks.renderMatching('pre.blocks', {
+        style: 'scratch3',   // Optional, defaults to 'scratch2'.
+        languages: ['en'], // Optional, defaults to ['en'].
+        scale: 1,                // Optional, defaults to 1
+      });
+    };
+  </script>
+  </head>
+
 
 <body>
-
-  <div class="building_info" height="100px" width="100px">
+  <div class="building_info" height="100px" width="100px" style="overflow: auto;">
     <h1>
       Script Selected:
     </h1>
-    <p id="script_blocks" class="blocks">
+    <pre id="script_blocks" class="blocks">
       Please, select a building.
-    </p>
+    </pre>
   </div>
 
+  
   <a-scene id="scene">
 
     <a-entity environment="playArea: 2"></a-entity>
@@ -52,7 +63,6 @@
     </a-entity>
 
   </a-scene>
-
   <style>
     .gitlab-corner-wrapper {
       overflow: hidden;
@@ -168,13 +178,20 @@
       transform: translateY(-50%);
       margin-right: 0.8%;
       z-index: 9999;
-      width: 20%;
+      width: 30%;
       height: 95%;
       background-color: white;
       border: 1px solid black;
       padding: 10px; 
     }
   </style>
+  <script>
+    scratchblocks.renderMatching('pre.blocks', {
+      style:     'scratch3',   // Optional, defaults to 'scratch2'.
+      languages: ['en', 'de'], // Optional, defaults to ['en'].
+      scale: 1,                // Optional, defaults to 1
+    });
+  </script>
 
 </body>
 
