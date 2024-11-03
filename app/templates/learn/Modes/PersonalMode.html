@@ -1,0 +1,153 @@
+{% extends 'learn/base.html' %}
+{% load i18n %}
+{% load static %}
+    {% block content %}
+    <div class="container" style="text-align: left;">
+        <h2> {% trans "Personalized Mode" %} </h2>
+        <div class="container">
+            <div class="row">
+
+                <!-- BRIEF IMAGE -->
+                <div style="visibility: visible; animation-duration: 1.75s; animation-name: fadeInLeft;" class="col-md-6 pull-right wow fadeInLeft animated" data-wow-offset="20" data-wow-duration="1.75s">
+
+     <div class="brief-image-right">
+
+                        <!--
+                              <div class="js-video [vimeo, widescreen]">
+
+                            <iframe src="http://player.vimeo.com/video/114430745" width="500" height="333" frameborder="0" allowfullscreen="" mozallowfullscreen="" webkitallowfullscreen=""></iframe>
+                        </div>
+                        -->
+
+                        <!-- PDF LINK -->
+                      <div class="pdf-link" style="margin-top: 15px;">
+                        <div class="text-center">
+                          <a href="{% static 'app/documents/PersonalMode.pdf' %}" target="_blank" class="btn btn-red-light">
+                              {% trans "Download PDF Guide" %}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+
+                <!-- BRIEF HEADING -->
+                <div style="visibility: visible; animation-duration: 1.75s; animation-name: fadeInRight;" class="col-md-6 content-section pull-left wow fadeInRight animated" data-wow-offset="20" data-wow-duration="1.75s">
+                  <p class="text-left">
+                    <p><em>{% trans "The functionality of this mode is divided in 3 steps:" %}</em></p>
+                    <p style="margin-top: 0px;"><em>{% trans "1. Creation of the Rubric with the grades of each dimension." %}</em></p>
+                    <p style="margin-top: 0px;"><em>{% trans "2. Sharing the link to the Rubric created in the previous step." %}</em></p>
+                    <br>
+                    <img src="static/app/images/link_share.png" style="margin-left: 12%;"></img>
+                    <br><br>
+                    <p style="margin-top: 2px;"><em>{% trans "3. Upload of the projects via an <a data-toggle='modal' href='#modalUrl'>url</a>, a <a data-toggle='modal' href='#modalProject'>.sb3 file</a>, a zip file with .sb3 files or a <a data-toggle='modal' href='#modalTxt'>.txt file</a> with multiple projects." %}</em></p>
+                    <br>
+                    <img src="static/app/images/url_project.png" style="margin-left: 2%;"></img>
+                    <img src="static/app/images/file_project.png" style="margin-left: 2%;"></img>
+                    <img src="static/app/images/csv_project.png" style="margin-left: 7%;"></img>
+                    <br><br>
+                    <p align=justify>
+                      {% trans "By analyzing your projects with Dr. Scratch's Personal Rubric, you can easily check your Computational Thinking Score in your own way." %}
+                    </p>
+                  </p>
+                    <!-- FEATURE LIST -->
+                    <div class="row">
+                      <div class="col-md-6 col-sm-6">
+                        <ul class="feature-list text-left">
+                          <li><p>
+                            <span class="icon-basic-clessidre colored-text"></span>
+                            {% trans "Analyze one or multiple projects to gain insights into your programming progress." %}
+                          </p></li>
+                          <li><p>
+                            <span class="icon-basic-lightbulb colored-text"></span>
+                            {% trans "Receive personalized feedback that helps you enhance your unique coding style and strengths." %}
+                          </p></li>
+                        </ul>
+                      </div>
+                      <div class="col-md-6 col-sm-6">
+                        <ul class="feature-list text-left">
+                          <li><p>
+                            <span class="icon-basic-home colored-text"></span>
+                            {% trans "Monitor your development with a focus on personalized improvement across each project." %}
+                          </p></li>
+                          <li><p>
+                            <span class="icon-ecommerce-graph3 colored-text"></span>
+                            {% trans "Access tailored charts and statistics to track your personal growth in computational thinking." %}
+                          </p></li>
+                        </ul>
+                      </div>
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalUrl" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close text-right" data-dismiss="modal">&times;</button>
+                  <div class="small-text-medium uppercase colored-text">
+                      {% trans "What is an url?" %}
+                  </div>
+                  <h4 class="modal-title"><strong>{% trans "How I can know my Scratch project's url?" %}</strong></h4>
+                  <div class="colored-line"></div>
+              </div>
+              <div class="modal-body">
+                  {% trans "<img class='framed' style='width: 500px;' src='static/app/images/url-en.png' />" %}
+              </div>
+              <div class="modal-footer">
+              </div>
+          </div>
+      </div>
+    </div>
+    
+    
+    <!-- Modal Project -->
+    <div id="modalProject" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close text-right" data-dismiss="modal">&times;</button>
+              <div class="small-text-medium uppercase colored-text">
+                  {% trans "I want to download my project from Scratch!" %}
+              </div>
+              <h4 class="modal-title"><strong>{% trans "How I can download my Scratch project to my computer?" %}</strong></h4>
+              <div class="colored-line"></div>
+          </div>
+          <div class="modal-body">
+              {% trans "<img class='framed' style='width: 500px;' src='static/app/images/project-en.png' />" %}
+          </div>
+          <div class="modal-footer">
+          </div>
+      </div>
+    
+      </div>
+    </div>
+    
+    <!-- Modal Txt -->
+    <div id="modalTxt" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close text-right" data-dismiss="modal">&times;</button>
+              <div class="small-text-medium uppercase colored-text">
+                  {% trans "What is an txt with scratch's urls?" %}
+              </div>
+              <h4 class="modal-title"><strong>{% trans "How is the correct format of the txt?" %}</strong></h4>
+              <div class="colored-line"></div>
+          </div>
+          <div class="modal-body">
+              {% trans "<img class='framed' style='width: 500px;' src='static/app/images/txt-es.png' />" %}
+          </div>
+          <div class="modal-footer">
+          </div>
+      </div>
+    
+      </div>
+    </div>
+
+    {% endblock %}
