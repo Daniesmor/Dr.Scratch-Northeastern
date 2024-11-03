@@ -412,11 +412,11 @@ def identify_admin(user_type):
         is_admin = 1
     return is_admin
 
-def learn(request, page):
+def learn(request, category, page):
     """
     Shows pages to learn more about CT
     """
-
+    
     flag_user = 0
 
     if request.user.is_authenticated:
@@ -427,15 +427,15 @@ def learn(request, page):
 
     if page in dic:
         page = dic[page]
-    
-    page = '{}{}{}'.format('learn/', page, '.html')
+
+    page_path = f'learn/{category}/{page}.html'
 
     if request.user.is_authenticated:
         user = identify_user_type(request)
         username = request.user.username
-        return render(request, page, {'flagUser': flag_user, 'user': user, 'username': username})
+        return render(request, page_path, {'flagUser': flag_user, 'user': user, 'username': username})
     else:
-        return render(request, page)
+        return render(request, page_path)
 
 def contact(request):
     """
