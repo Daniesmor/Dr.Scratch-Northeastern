@@ -1,0 +1,105 @@
+{% extends 'learn/base.html' %}
+{% load i18n %}
+{% load static %}
+    {% block content %}
+    <div class="container" style="text-align: left;">
+        <h2> {% trans "Batch Mode" %} </h2>
+        <div class="container">
+            <div class="row">
+
+                <!-- BRIEF IMAGE -->
+                <div style="visibility: visible; animation-duration: 1.75s; animation-name: fadeInLeft;" class="col-md-6 pull-right wow fadeInLeft animated" data-wow-offset="20" data-wow-duration="1.75s">
+
+     <div class="brief-image-right">
+                        <!--
+                              <div class="js-video [vimeo, widescreen]">
+
+                            <iframe src="http://player.vimeo.com/video/114430745" width="500" height="333" frameborder="0" allowfullscreen="" mozallowfullscreen="" webkitallowfullscreen=""></iframe>
+                        </div>
+                        -->
+
+                        <!-- PDF LINK -->
+                      <div class="pdf-link" style="margin-top: 15px;">
+                        <div class="text-center">
+                          <a href="{% static 'app/documents/BatchMode.pdf' %}" target="_blank" class="btn btn-red-light">
+                              {% trans "Download PDF Guide" %}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+
+                <!-- BRIEF HEADING -->
+                <div style="visibility: visible; animation-duration: 1.75s; animation-name: fadeInRight;" class="col-md-6 content-section pull-left wow fadeInRight animated" data-wow-offset="20" data-wow-duration="1.75s">
+
+                  <p class="text-left">
+                    <p><em>{% trans "There are two options to analyze a bunch of Scratch projects with Dr. Scratch" %}</em></p>
+                    <br>
+                    <img src="static/app/images/csv_project.png" style="margin-left: 10%;"></img>
+                    <p align=justify>
+                      <br>
+                        {% trans "You can upload a ZIP folder with the Scratch projects downloaded or a <a data-toggle='modal' href='#modalTxt'>TXT file</a> with the URLs of the projects. " %}
+                    </p>
+                    <p align=justify>
+                        {% trans "Later you will need to introduce your email to get your results." %}
+                    </p>
+                    <p align=justify>
+                        {% trans "By analyzing your a bunch projects simultaneously with Dr. Scratch, you can easily check your Computational Thinking Score in a faster way." %}
+                    </p>
+                  </p>
+                    <!-- FEATURE LIST -->
+                    <div class="row">
+                      <div class="col-md-6 col-sm-6">
+                        <ul class="feature-list text-left">
+                            <li><p>
+                                <span class="icon-basic-clessidre colored-text"></span>
+                                {% trans "Easily analyze multiple Scratch projects simultaneously." %}
+                            </p></li>
+                            <li><p>
+                                <span class="icon-basic-lightbulb colored-text"></span>
+                                {% trans "Get comprehensive feedback for each project to enhance your coding skills." %}
+                            </p></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <ul class="feature-list text-left">
+                            <li><p>
+                                <span class="icon-basic-home colored-text"></span>
+                                {% trans "Review your progress across multiple projects in one go." %}
+                            </p></li>
+                            <li><p>
+                                <span class="icon-ecommerce-graph3 colored-text"></span>
+                                {% trans "Visualize your improvement through aggregated charts and stats." %}
+                            </p></li>
+                        </ul>
+                    </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Txt -->
+<div id="modalTxt" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close text-right" data-dismiss="modal">&times;</button>
+            <div class="small-text-medium uppercase colored-text">
+                {% trans "What is an txt with scratch's urls?" %}
+            </div>
+            <h4 class="modal-title"><strong>{% trans "How is the correct format of the txt?" %}</strong></h4>
+            <div class="colored-line"></div>
+        </div>
+        <div class="modal-body">
+            {% trans "<img class='framed' style='width: 500px;' src='static/app/images/txt-es.png' />" %}
+        </div>
+        <div class="modal-footer">
+        </div>
+    </div>
+  
+    </div>
+  </div>
+    {% endblock %}
