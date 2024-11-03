@@ -673,7 +673,7 @@
                                         <div class="panel-body text-left typ">
                                             <a class="glyphicon glyphicon-repeat"/>
                                             <a id="duplicated-scripts" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Duplicated scripts' %}" 
-                                            data-trigger="manual" href="/learn/duplicatedScripts/" target="_blank"> 
+                                            data-trigger="manual" href="/learn/BadSmells/duplicatedScripts/" target="_blank"> 
                                                 {{ Original.duplicateScript.number }} {% trans " duplicated scripts." %}
                                             </a>
                                             <div id="duplicated-scripts-content" class="collapse">
@@ -704,7 +704,7 @@
                                             {% if Original.spriteNaming.number == 0 %}
                                                 {% trans 'Your project does not have default sprite naming, good job!' %}
                                             {% endif %}
-                                            " data-trigger="manual" href="/learn/spriteNaming/" target="_blank"> 
+                                            " data-trigger="manual" href="/learn/BadSmells/spriteNaming/" target="_blank"> 
                                                 {{ Original.spriteNaming.number }} {% trans " sprite naming." %}
                                             </a><br>
                                             <a class="glyphicon glyphicon-pencil"/> 
@@ -715,12 +715,12 @@
                                             {% if Original.backdropNaming.number == 0 %}
                                                     {% trans 'Your project does not have default backdrop naming, good job!' %}
                                             {% endif %}
-                                                " data-trigger="manual" href="/learn/backdropNaming/" target="_blank"> 
+                                                " data-trigger="manual" href="/learn/BadSmells/backdropNaming/" target="_blank"> 
                                                     {{ Original.backdropNaming.number }} {% trans " backdrop naming." %}
                                             </a><br>
                                             <a class="glyphicon glyphicon-remove-sign"/>
                                             <a id="dead-code" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Dead code' %}" 
-                                            data-trigger="manual" href="/learn/deadCode/" target="_blank"> 
+                                            data-trigger="manual" href="/learn/BadSmells/deadCode/" target="_blank"> 
                                                 {{ Original.deadCode.number }} {% trans " dead code." %}
                                             </a>
                                             <div id="dead-code-content" class="collapse">
@@ -772,7 +772,7 @@
                                         <div class="panel-body text-left typ">
                                             <a class="glyphicon glyphicon-repeat"/>
                                             <a id="duplicated-scripts" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Duplicated scripts' %}" 
-                                            data-trigger="manual" href="/learn/duplicatedScripts/" target="_blank"> 
+                                            data-trigger="manual" href="/learn/BadSmells/duplicatedScripts/" target="_blank"> 
                                                 {{ New.duplicateScript.number }} {% trans " duplicated scripts." %}
                                             </a>
                                             <div id="duplicated-scripts-content" class="collapse">
@@ -803,7 +803,7 @@
                                             {% if New.spriteNaming.number == 0 %}
                                                 {% trans 'Your project does not have default sprite naming, good job!' %}
                                             {% endif %}
-                                            " data-trigger="manual" href="/learn/spriteNaming/" target="_blank"> 
+                                            " data-trigger="manual" href="/learn/BadSmells/spriteNaming/" target="_blank"> 
                                                 {{ New.spriteNaming.number }} {% trans " sprite naming." %}
                                             </a><br>
                                             <a class="glyphicon glyphicon-pencil"/> 
@@ -814,12 +814,12 @@
                                             {% if New.backdropNaming.number == 0 %}
                                                     {% trans 'Your project does not have default backdrop naming, good job!' %}
                                             {% endif %}
-                                                " data-trigger="manual" href="/learn/backdropNaming/" target="_blank"> 
+                                                " data-trigger="manual" href="/learn/BadSmells/backdropNaming/" target="_blank"> 
                                                     {{ New.backdropNaming.number }} {% trans " backdrop naming." %}
                                             </a><br>
                                             <a class="glyphicon glyphicon-remove-sign"/>
                                             <a id="dead-code" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Dead code' %}" 
-                                            data-trigger="manual" href="/learn/deadCode/" target="_blank"> 
+                                            data-trigger="manual" href="/learn/BadSmells/deadCode/" target="_blank"> 
                                                 {{ New.deadCode.number }} {% trans " dead code." %}
                                             </a>
                                             <div id="dead-code-content" class="collapse">
@@ -904,7 +904,7 @@
                                                                 {% else %}
                                                                 <img src="/static/app/images/little_bulb.png" alt="">
                                                                 {% endif %}
-                                                                <a href="/learn/{{ value.1 }}/" target="_blank">{{ key }}</a>
+                                                                <a href="/learn/Dimensions/{{ value.1 }}/" target="_blank">{{ key }}</a>
                                                             </td>
                                                             <td colspan="2">
                                                                 {% if value.0.0 == 0 %}
