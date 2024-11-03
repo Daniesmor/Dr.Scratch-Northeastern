@@ -108,12 +108,12 @@
 
     <style>
         .sidebar {
-            position: -webkit-sticky; /* Para navegadores webkit */
             position: sticky;
-            top: 20px; /* Distancia desde la parte superior del contenedor principal */
-            height: calc(100vh - 40px); /* Altura del sidebar */
-            overflow-y: auto; /* Habilita el desplazamiento vertical si el contenido es más largo que la altura del sidebar */
+            top: 90px; /* Ajusta este valor según la altura de tu top bar */
+            height: calc(100vh - 90px); /* Ajusta también aquí, restando la altura del top bar */
+            overflow-y: auto;
         }
+
 
         /* Estilos adicionales según tus preferencias */
         .sidebar ul {
@@ -159,6 +159,24 @@
                 /* Otros estilos personalizados */
             }
         
+        .btn-red-light {
+            background-color: #FF8B8B; /* Color rojo claro */
+            color: white; /* Color del texto */
+            border: none; /* Eliminar borde */
+        }
+
+        .btn-red-light:focus {
+            outline: none; /* Eliminar el borde de enfoque */
+            box-shadow: none; /* Eliminar el efecto de sombra de enfoque */
+        }
+
+        .btn-red-light:hover {
+            background-color: #f06563; /* Color al pasar el ratón */
+        }
+
+        .btn-red-light:active {
+            background-color: #d93e4a; /* Color al hacer clic */
+        }
 
 
 
@@ -214,14 +232,20 @@
                             <strong> {% trans "Tutorials" %} </strong> <i class="bi bi-caret-down"> </i>
                         </h4>
                         <ul class="nav flex-column tutorial-items" style="display: none;">
-                            <li class="nav-item {% if request.path == '/learn/DefaultMode/' %} active {% endif %}">
-                                <a class="nav-link" href="/learn/DefaultMode/">{% trans "Default Mode" %}</a>
+                            <li class="nav-item {% if request.path == '/learn/Modes/DefaultMode/' %} active {% endif %}">
+                                <a class="nav-link" href="/learn/Modes/DefaultMode/">{% trans "Default Mode" %}</a>
                             </li>
-                            <li class="nav-item {% if request.path == '/learn/BatchMode/' %} active {% endif %}">
-                                <a class="nav-link" href="/learn/BatchMode/">{% trans "Batch Mode" %}</a>
+                            <li class="nav-item {% if request.path == '/learn/Modes/BatchMode/' %} active {% endif %}">
+                                <a class="nav-link" href="/learn/Modes/BatchMode/">{% trans "Batch Mode" %}</a>
                             </li>
-                            <li class="nav-item {% if request.path == '/learn/PersonalMode/' %} active {% endif %}">
-                                <a class="nav-link" href="/learn/PersonalMode/">{% trans "Personalized Mode" %}</a>
+                            <li class="nav-item {% if request.path == '/learn/Modes/PersonalMode/' %} active {% endif %}">
+                                <a class="nav-link" href="/learn/Modes/PersonalMode/">{% trans "Personalized Mode" %}</a>
+                            </li>
+                            <li class="nav-item {% if request.path == '/learn/Modes/ComparisonMode/' %} active {% endif %}">
+                                <a class="nav-link" href="/learn/Modes/ComparisonMode/">{% trans "Comparison Mode" %}</a>
+                            </li>
+                            <li class="nav-item {% if request.path == '/learn/Modes/RecommenderAssistant/' %} active {% endif %}">
+                                <a class="nav-link" href="/learn/Modes/RecommenderAssistant/">{% trans "Recommender Assistant" %}</a>
                             </li>
                         </ul>
                     </li>
@@ -233,32 +257,32 @@
                             <strong style="padding-bottom: 10%;"> {% trans "Dimensions" %} </strong> <i class="bi bi-caret-down"></i>
                         </h4>
                         <ul class="nav flex-column dimension-items" style="display: none;">
-                            <li class="nav-item {% if request.path == '/learn/Logic/' %} active {% endif %}">
-                                <a class="nav-link" href="/learn/Logic/">{% trans "Logic" %}</a>
+                            <li class="nav-item {% if request.path == '/learn/Dimensions/Logic/' %} active {% endif %}">
+                                <a class="nav-link" href="/learn/Dimensions/Logic/">{% trans "Logic" %}</a>
                             </li>
-                            <li class="nav-item {% if request.path == '/learn/DataRepresentation/' %} active {% endif %}">
-                                <a class="nav-link" href="/learn/DataRepresentation/">{% trans "Data representation" %}</a>
+                            <li class="nav-item {% if request.path == '/learn/Dimensions/DataRepresentation/' %} active {% endif %}">
+                                <a class="nav-link" href="/learn/Dimensions/DataRepresentation/">{% trans "Data representation" %}</a>
                             </li>
-                            <li class="nav-item {% if request.path == '/learn/Parallelization/' %} active {% endif %}">
-                                <a class="nav-link" href="/learn/Parallelization/">{% trans "Parallelism" %}</a>
+                            <li class="nav-item {% if request.path == '/learn/Dimensions/Parallelization/' %} active {% endif %}">
+                                <a class="nav-link" href="/learn/Dimensions/Parallelization/">{% trans "Parallelism" %}</a>
                             </li>
-                            <li class="nav-item {% if request.path == '/learn/Synchronization/' %} active {% endif %}">
-                                <a class="nav-link" href="/learn/Synchronization/">{% trans "Synchronization" %}</a>
+                            <li class="nav-item {% if request.path == '/learn/Dimensions/Synchronization/' %} active {% endif %}">
+                                <a class="nav-link" href="/learn/Dimensions/Synchronization/">{% trans "Synchronization" %}</a>
                             </li>
-                            <li class="nav-item {% if request.path == '/learn/UserInteractivity/' %} active {% endif %}">
-                                <a class="nav-link" href="/learn/UserInteractivity/">{% trans "User interactivity" %}</a>
+                            <li class="nav-item {% if request.path == '/learn/Dimensions/UserInteractivity/' %} active {% endif %}">
+                                <a class="nav-link" href="/learn/Dimensions/UserInteractivity/">{% trans "User interactivity" %}</a>
                             </li>
-                            <li class="nav-item {% if request.path == '/learn/FlowControl/' %} active {% endif %}">
-                                <a class="nav-link" href="/learn/FlowControl/">{% trans "Flow control" %}</a>
+                            <li class="nav-item {% if request.path == '/learn/Dimensions/FlowControl/' %} active {% endif %}">
+                                <a class="nav-link" href="/learn/Dimensions/FlowControl/">{% trans "Flow control" %}</a>
                             </li>
-                            <li class="nav-item {% if request.path == '/learn/Abstraction/' %} active {% endif %}">
-                                <a class="nav-link" href="/learn/Abstraction/">{% trans "Abstraction" %}</a>
+                            <li class="nav-item {% if request.path == '/learn/Dimensions/Abstraction/' %} active {% endif %}">
+                                <a class="nav-link" href="/learn/Dimensions/Abstraction/">{% trans "Abstraction" %}</a>
                             </li>
-                            <li class="nav-item {% if request.path == '/learn/MathOperators/' %} active {% endif %}">
-                                <a class="nav-link" href="/learn/MathOperators/">{% trans "Math Operators" %}</a>
+                            <li class="nav-item {% if request.path == '/learn/Dimensions/MathOperators/' %} active {% endif %}">
+                                <a class="nav-link" href="/learn/Dimensions/MathOperators/">{% trans "Math Operators" %}</a>
                             </li>
-                            <li class="nav-item {% if request.path == '/learn/MotionOperators/' %} active {% endif %}">
-                                <a class="nav-link" href="/learn/MotionOperators/">{% trans "Motion Operators" %}</a>
+                            <li class="nav-item {% if request.path == '/learn/Dimensions/MotionOperators/' %} active {% endif %}">
+                                <a class="nav-link" href="/learn/Dimensions/MotionOperators/">{% trans "Motion Operators" %}</a>
                             </li>
                         </ul>
                     </li>
@@ -270,17 +294,17 @@
                             <strong> {% trans "Bad Habits" %} </strong> <i class="bi bi-caret-down"></i>
                         </h4>
                         <ul class="nav flex-column bad-habits-items" style="display: none;">
-                            <li class="nav-item {% if request.path == '/learn/duplicatedScripts/' %} active {% endif %}">
-                                <a class="nav-link" href="/learn/duplicatedScripts/">{% trans "Duplicated scripts" %}</a>
+                            <li class="nav-item {% if request.path == '/learn/BadSmells/duplicatedScripts/' %} active {% endif %}">
+                                <a class="nav-link" href="/learn/BadSmells/duplicatedScripts/">{% trans "Duplicated scripts" %}</a>
                             </li>
-                            <li class="nav-item {% if request.path == '/learn/deadCode/' %} active {% endif %}">
-                                <a class="nav-link" href="/learn/deadCode/">{% trans "Dead code" %}</a>
+                            <li class="nav-item {% if request.path == '/learn/BadSmells/deadCode/' %} active {% endif %}">
+                                <a class="nav-link" href="/learn/BadSmells/deadCode/">{% trans "Dead code" %}</a>
                             </li>
-                            <li class="nav-item {% if request.path == '/learn/spriteNaming/' %} active {% endif %}">
-                                <a class="nav-link" href="/learn/spriteNaming/">{% trans "Sprite naming" %}</a>
+                            <li class="nav-item {% if request.path == '/learn/BadSmells/spriteNaming/' %} active {% endif %}">
+                                <a class="nav-link" href="/learn/BadSmells/spriteNaming/">{% trans "Sprite naming" %}</a>
                             </li>
-                            <li class="nav-item {% if request.path == '/learn/backdropNaming/' %} active {% endif %}">
-                                <a class="nav-link" href="/learn/backdropNaming/">{% trans "Backdrop naming" %}</a>
+                            <li class="nav-item {% if request.path == '/learn/BadSmells/backdropNaming/' %} active {% endif %}">
+                                <a class="nav-link" href="/learn/BadSmells/backdropNaming/">{% trans "Backdrop naming" %}</a>
                             </li>
                         </ul>
                     </li>
