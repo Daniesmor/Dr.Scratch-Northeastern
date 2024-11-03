@@ -1,0 +1,130 @@
+{% extends 'learn/base.html' %}
+{% load i18n %}
+{% load static %}
+    {% block content %}
+    <div class="container" style="text-align: left;">
+        <h2> {% trans "Comparison Mode" %} </h2>
+        <div class="container">
+            <div class="row">
+
+                <!-- BRIEF IMAGE -->
+                <div style="visibility: visible; animation-duration: 1.75s; animation-name: fadeInLeft;" class="col-md-6 pull-right wow fadeInLeft animated" data-wow-offset="20" data-wow-duration="1.75s">
+
+     <div class="brief-image-right">
+                        <!--
+                              <div class="js-video [vimeo, widescreen]">
+
+                            <iframe src="http://player.vimeo.com/video/114430745" width="500" height="333" frameborder="0" allowfullscreen="" mozallowfullscreen="" webkitallowfullscreen=""></iframe>
+                        </div>
+                        -->
+
+                        <!-- PDF LINK -->
+                      <div class="pdf-link" style="margin-top: 15px;">
+                        <div class="text-center">
+                          <a href="{% static 'app/documents/ComparisonMode.pdf' %}" target="_blank" class="btn btn-red-light">
+                              {% trans "Download PDF Guide" %}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+
+                <!-- BRIEF HEADING -->
+                <div style="visibility: visible; animation-duration: 1.75s; animation-name: fadeInRight;" class="col-md-6 content-section pull-left wow fadeInRight animated" data-wow-offset="20" data-wow-duration="1.75s">
+
+                    <p class="text-left">
+                        <p><em>{% trans "There are 3 posibilities to compare two Scratch projects with Dr. Scratch" %}</em></p>
+                        <br>
+                        <img src="static/app/images/url_project.png" style="margin-left: 2%;"></img>
+                        <img src="static/app/images/file_project.png" style="margin-left: 2%;"></img>
+                    <p align=justify>
+                      <br>
+                        {% trans "You can provide both <a data-toggle='modal' href='#modalUrl'>projects url</a>, upload both <a data-toggle='modal' href='#modalProject'>.sb3 files</a> or you can mix them and upload a .sb3 file and provide a project url." %}
+                    </p>
+                    <p align=justify>
+                        {% trans "Finally you have to indicate if both projects have the same functionality or not." %}
+                    </p>
+                    <p align=justify>
+                        {% trans "By comparing your projects with Dr. Scratch, you can easily check your Computational Thinking Progression." %}
+                    </p>
+                    </p>
+                    <!-- FEATURE LIST -->
+                    <div class="row">
+                      <div class="col-md-6 col-sm-6">
+                        <ul class="feature-list text-left">
+                            <li><p>
+                                <span class="icon-basic-magnifier colored-text"></span>
+                                {% trans "You can compare two Scratch projects to analyze differences in computational thinking skills and programming elements used." %}
+                            </p></li>
+                            <li><p>
+                                <span class="icon-basic-lightbulb colored-text"></span>
+                                {% trans "Identify unique strengths and areas for improvement in each project to enhance your coding capabilities." %}
+                            </p></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <ul class="feature-list text-left">
+                            <li><p>
+                                <span class="icon-basic-gear colored-text"></span>
+                                {% trans "Receive personalized feedback based on the comparison to understand how each project stands out." %}
+                            </p></li>
+                            <li><p>
+                                <span class="icon-ecommerce-graph2 colored-text"></span>
+                                {% trans "Track comparative stats and insights for a more tailored improvement plan." %}
+                            </p></li>
+                        </ul>
+                    </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<div id="modalUrl" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close text-right" data-dismiss="modal">&times;</button>
+                <div class="small-text-medium uppercase colored-text">
+                    {% trans "What is an url?" %}
+                </div>
+                <h4 class="modal-title"><strong>{% trans "How I can know my Scratch project's url?" %}</strong></h4>
+                <div class="colored-line"></div>
+            </div>
+            <div class="modal-body">
+                {% trans "<img class='framed' style='width: 500px;' src='static/app/images/url-en.png' />" %}
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+  </div>
+  
+  
+  <!-- Modal Project -->
+  <div id="modalProject" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close text-right" data-dismiss="modal">&times;</button>
+            <div class="small-text-medium uppercase colored-text">
+                {% trans "I want to download my project from Scratch!" %}
+            </div>
+            <h4 class="modal-title"><strong>{% trans "How I can download my Scratch project to my computer?" %}</strong></h4>
+            <div class="colored-line"></div>
+        </div>
+        <div class="modal-body">
+            {% trans "<img class='framed' style='width: 500px;' src='static/app/images/project-en.png' />" %}
+        </div>
+        <div class="modal-footer">
+        </div>
+    </div>
+  
+    </div>
+  </div>
+
+    {% endblock %}
