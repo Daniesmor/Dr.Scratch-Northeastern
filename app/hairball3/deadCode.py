@@ -27,6 +27,8 @@ class DeadCode(Plugin):
 
         for dict_key, dicc_value in dict_target.items():
             if dict_key == "blocks":
+                print("DICC VALUEEE")
+                print(dicc_value)
                 for blocks, blocks_value in dicc_value.items():
                     if type(blocks_value) is dict:
                         out[blocks] = blocks_value
@@ -36,7 +38,6 @@ class DeadCode(Plugin):
     def analyze(self):
 
         sprites = {}
-        
 
         for key, value in self.json_project.items():
             if key == "targets":
@@ -61,16 +62,34 @@ class DeadCode(Plugin):
 
                             if not event_var and not menu_block:
                                 if not self.opcode_argument_reporter in blocks_dicc["opcode"]:
-                                    if blocks_dicc.get("parent",) is None and blocks_dicc["next"] is None:
+                                    if blocks_dicc.get("parent",) is None:
                                         script = Script()
                                         block = script.convert_block_to_text(blocks_dicc)
                                         blocks_list.append(str(block))
+                                        
+                                        print("MI DEADCODE -----------------------------------------")
+                                        if blocks_dicc.get("next",) != None:
+                                            next_block_id = blocks_dicc.get("next",)
+                                            while (next_block_id != None):
+                                                # Verifica si el siguiente bloque está en `dicc["blocks"]` y lo imprime
+                                                next_block = dicc["blocks"].get(next_block_id)
+                                                
+                                                print("Bloque actual:", blocks_dicc)
+                                                print("ID del siguiente bloque:", next_block_id)
+                                                block = script.convert_block_to_text(next_block)
+                                                blocks_list.append(str(block))
+                                                self.dict_babia[sprite][f'script_{currScript}'] += 1 
+                                                next_block_id = next_block.get("next",)
+                                                """ 
+                                                if next_block:
+                                                    print("Siguiente bloque encontrado:", next_block)
+                                                else:
+                                                    print("Siguiente bloque no encontrado en `dicc['blocks']`")
+                                                """
                                         #print("SE HAN EOCONTRADO 1")
                                         #print("Estoy en el sprite:", sprite)
                                         #print("Estoy en el script:", currScript)
                                         self.dict_babia[sprite][f'script_{currScript}'] += 1 #Incremet one block 
-
-
                                     # Check dead loop blocks
                                     if loop_block and blocks_dicc["opcode"] not in blocks_list:
                                         if not blocks_dicc["inputs"]:

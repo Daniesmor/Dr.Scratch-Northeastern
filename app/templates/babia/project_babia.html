@@ -3,16 +3,21 @@
 
 <head>
   <meta charset="utf-8">
-  <title>A-Frame CodeCity Component - Basic</title>
+  <title>ScratchCity - Dr. Scratch</title>
   <meta name="description" content="Basic example for CodeCity component.">
   </meta>
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.2.0/dist/aframe-extras.min.js"></script>
   <script src="../../static/app/scripts/dist/aframe-babia-components.js"></script>
+  <script src="../../static/app/scripts/dist/stl.js"></script>
   <script src="https://unpkg.com/aframe-environment-component@1.0.0/dist/aframe-environment-component.min.js"></script>
   <script src="https://unpkg.com/aframe-geometry-merger-component/dist/aframe-geometry-merger-component.min.js"></script>
   <link rel="stylesheet" href="../../static/app/content/scratchblocks2.css">
   <script src="../../static/app/scripts/scratchblocks-v3.4-min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/jgbarah/aframe-stl-exporter-component@aframe-1.5.0/dist/aframe-stl-exporter-component.min.js"></script>
+  <link src="./overlay.css" rel="stylesheet" />
+
+
 
   <script>
     window.onload = function() {
@@ -23,11 +28,14 @@
       });
     };
   </script>
-  </head>
+</head>
 
 
 <body>
   <div class="building_info" height="100px" width="100px" style="overflow: auto;">
+    <div class="container">
+      <button id="export_btn" class="button"><span>Export as STL</span></button>
+    </div>
     <h1>
       Script Selected:
     </h1>
@@ -37,9 +45,9 @@
   </div>
 
   
-  <a-scene id="scene">
+  
+  <a-scene id="scene" background="color:  #c9f4f9" stl-exporter>
 
-    <a-entity environment="playArea: 2"></a-entity>
 
     <!--a-entity id="cityevolve" codecity='width: 60; depth: 50; algorithm: pivot;
     extra: 1.05; streets: true;
@@ -185,13 +193,6 @@
       padding: 10px; 
     }
   </style>
-  <script>
-    scratchblocks.renderMatching('pre.blocks', {
-      style:     'scratch3',   // Optional, defaults to 'scratch2'.
-      languages: ['en', 'de'], // Optional, defaults to ['en'].
-      scale: 1,                // Optional, defaults to 1
-    });
-  </script>
 
 </body>
 
