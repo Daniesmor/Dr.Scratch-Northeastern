@@ -1770,7 +1770,9 @@ import random
 
 def format_babia_dict(d: dict):
     global_babia = d['babia']
-    deadCode_babia = d['deadCode']['babia']
+    deadCode_babia = d['deadCode']
+
+    print(deadCode_babia)
     colors = {}
 
     #print("deadCode babia")
