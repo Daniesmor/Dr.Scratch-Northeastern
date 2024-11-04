@@ -1748,7 +1748,7 @@ def get_babia(request):
     fake_request = SimpleNamespace()
     fake_request.method = 'POST'
     fake_request.POST = {'_url': '',
-                         'urlProject': 'https://scratch.mit.edu/projects/945720625/'}
+                         'urlProject': 'https://scratch.mit.edu/projects/754343099/'}
     fake_request.GET = SimpleNamespace()
     fake_request.session = SimpleNamespace()
     fake_request.LANGUAGE_CODE = get_language()
@@ -1784,20 +1784,30 @@ def format_babia_dict(d: dict):
         "children": [],
     }
 
+    import colorsys
 
+
+    """
+    
     amounts = [(sprite, script, amount) for sprite, scripts in deadCode_babia.items() for script, amount in scripts.items()]
     max_value = max(amounts, key=lambda x: x[2])[2]
     #print("mi max value", max_value)
     min_value = min(amounts, key=lambda x: x[2])[2]
     #print("mi min value", min_value)
 
-    import colorsys
 
     for sprite, scripts in deadCode_babia.items():
         for script, amount in scripts.items():
 
-            normalized_factor = ((amount - min_value) / (max_value-min_value))*2
-            color_factor = (2 - normalized_factor) + 0.3
+            try:
+                normalized_factor = ((amount - min_value) / (max_value-min_value))*2
+            except ZeroDivisionError:
+                normalized_factor = 2
+            
+            if normalized_factor == 0:
+                color_factor = (2 - normalized_factor) - 0.3
+            else: 
+                color_factor = (2 - normalized_factor) + 0.3
 
             # Ejemplo: Color original en HEX
             hex_color = "#3498db"
@@ -1817,6 +1827,50 @@ def format_babia_dict(d: dict):
             # Convertir de RGB a HEX            
             # Convertir de RGB a HEX
             colors[script] = '#%02x%02x%02x' % tuple(int(c * 255) for c in new_rgb)
+
+    """
+
+    amounts = [(sprite_key, script_key, len(script_value)) for sprite_key, sprite_item in global_babia['sprites'].items() for script_key, script_value in sprite_item.items()]
+    max_value = max(amounts, key=lambda x: x[2])[2]
+    #print("mi max value", max_value)
+    min_value = min(amounts, key=lambda x: x[2])[2]
+    #print("mi min value", min_value)
+
+    print("El min de bloques:", min_value)
+    print("El max de bloques:", max_value)
+    for sprite_key, sprite_item in global_babia['sprites'].items():
+        for script_key, script_value in sprite_item.items():
+            amount = len(script_value)
+            print("ESTE ES MI AMOUNT -------------------------")
+            print(amount)
+            try:
+                normalized_factor = ((amount - min_value) / (max_value-min_value))*2
+            except ZeroDivisionError:
+                normalized_factor = 2
+            
+            if normalized_factor == 0:
+                color_factor = (2 - normalized_factor) - 0.3
+            else: 
+                color_factor = (2 - normalized_factor) + 0.3
+
+            # Ejemplo: Color original en HEX
+            hex_color = "#3498db"
+
+            hex_color = hex_color.lstrip('#')
+            rgb = tuple(int(hex_color[i:i+2], 16) / 255.0 for i in (0, 2, 4))
+            
+            # Convertir RGB a HLS (Hue, Lightness, Saturation)
+            hls = colorsys.rgb_to_hls(*rgb)
+            
+            # Ajustar la luminosidad multiplicando por el factor
+            new_hls = (hls[0], min(1, hls[1] * color_factor), hls[2])
+            
+            # Convertir de nuevo a RGB
+            new_rgb = colorsys.hls_to_rgb(*new_hls)
+            
+            # Convertir de RGB a HEX            
+            # Convertir de RGB a HEX
+            colors[script_key] = '#%02x%02x%02x' % tuple(int(c * 255) for c in new_rgb)
 
     for sprite_key, sprite_item in global_babia['sprites'].items():
         sprite_data = {
