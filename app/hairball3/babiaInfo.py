@@ -53,7 +53,7 @@ class Babia(Plugin):
                         if block["topLevel"]:
                             new_script = Script()
                             new_script.set_script_dict(block_dict=sprite_blocks, start=key)
-                            print(new_script.convert_to_text())
+                            #print(new_script.convert_to_text())
                             sprite_scripts.append(new_script)
 
                     self.sprite_dict[sprite_name] = sprite_scripts
@@ -87,7 +87,7 @@ class Babia(Plugin):
                                         # seach scripts
                                         
                                         if blocks_value['topLevel']:
-                                            print(blocks_list)
+                                            #print(blocks_list)
                                             currScript += 1
                                             #print("-------------------------------------------------------------")
                                             blocks_list = []

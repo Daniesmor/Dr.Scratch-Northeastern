@@ -27,8 +27,8 @@ class DeadCode(Plugin):
 
         for dict_key, dicc_value in dict_target.items():
             if dict_key == "blocks":
-                print("DICC VALUEEE")
-                print(dicc_value)
+                #print("DICC VALUEEE")
+                #print(dicc_value)
                 for blocks, blocks_value in dicc_value.items():
                     if type(blocks_value) is dict:
                         out[blocks] = blocks_value
@@ -45,37 +45,59 @@ class DeadCode(Plugin):
                     sprite = dicc["name"]
                     self.dict_babia[sprite] = {}
                     #print(self.dict_babia)
+                    sprites[sprite] = {}
                     currScript = 0
                     blocks_list = []
+                    script_block_list = {}
                     for _, blocks_dicc in dicc["blocks"].items():
                         if type(blocks_dicc) is dict:
                             if blocks_dicc['topLevel'] == True:
+                                blocks_list = []
                                 currScript += 1
+                                #script_block_list[sprite][f'script_{currScript}'] = []
                                 #print("Dentro del sprite:", sprite)
                                 #print("Estamos definiendo el script:",currScript)
                                 
                                 self.dict_babia[sprite][f'script_{currScript}'] = 0
 
+                                
+
                             event_var = any(blocks_dicc["opcode"] == event for event in consts.PLUGIN_DEADCODE_LIST_EVENT_VARS)
                             loop_block = any(blocks_dicc["opcode"] == loop for loop in consts.PLUGIN_DEADCODE_LIST_LOOP_BLOCKS)
                             menu_block = any(blocks_dicc["opcode"] == menu for menu in consts.PLUGIN_DEADCODE_LIST_MENU_BLOCKS)
+                            procedures = any(blocks_dicc["opcode"] == procedure for procedure in ["procedures_prototype", "procedures_definition"])
+
+                            if blocks_dicc.get("opcode") == "procedures_definition":
+                                print("Que raro soy", sprite)
+                                print(blocks_dicc)
+
+                            
+                            if event_var:
+                                if blocks_dicc.get("next",) == None:
+                                    print("Soy un event var sin hijos", blocks_dicc)
+                                    script = Script()
+                                    block = script.convert_block_to_text(blocks_dicc)
+                                    blocks_list.append(str(block))
+                                    self.dict_babia[sprite][f'script_{currScript}'] += 1 
+                                 
 
                             if not event_var and not menu_block:
                                 if not self.opcode_argument_reporter in blocks_dicc["opcode"]:
-                                    if blocks_dicc.get("parent",) is None:
+                                    if blocks_dicc.get("parent") == None:
                                         script = Script()
                                         block = script.convert_block_to_text(blocks_dicc)
                                         blocks_list.append(str(block))
+                                        self.dict_babia[sprite][f'script_{currScript}'] += 1 #Incremet one block 
+
                                         
-                                        print("MI DEADCODE -----------------------------------------")
                                         if blocks_dicc.get("next",) != None:
                                             next_block_id = blocks_dicc.get("next",)
                                             while (next_block_id != None):
                                                 # Verifica si el siguiente bloque está en `dicc["blocks"]` y lo imprime
                                                 next_block = dicc["blocks"].get(next_block_id)
                                                 
-                                                print("Bloque actual:", blocks_dicc)
-                                                print("ID del siguiente bloque:", next_block_id)
+                                                #print("Bloque actual:", blocks_dicc)
+                                                #print("ID del siguiente bloque:", next_block_id)
                                                 block = script.convert_block_to_text(next_block)
                                                 blocks_list.append(str(block))
                                                 self.dict_babia[sprite][f'script_{currScript}'] += 1 
@@ -86,10 +108,10 @@ class DeadCode(Plugin):
                                                 else:
                                                     print("Siguiente bloque no encontrado en `dicc['blocks']`")
                                                 """
+
                                         #print("SE HAN EOCONTRADO 1")
                                         #print("Estoy en el sprite:", sprite)
                                         #print("Estoy en el script:", currScript)
-                                        self.dict_babia[sprite][f'script_{currScript}'] += 1 #Incremet one block 
                                     # Check dead loop blocks
                                     if loop_block and blocks_dicc["opcode"] not in blocks_list:
                                         if not blocks_dicc["inputs"]:
@@ -115,11 +137,16 @@ class DeadCode(Plugin):
                                                 #print("SE HAN EOCONTRADO 4")
                                                 self.dict_babia[sprite][f'script_{currScript}'] += 1 #Incremet one block 
 
-                    if blocks_list:
-                        scripts = []
-                        for block in blocks_list:
-                            sprites[sprite] = blocks_list
-                            self.dead_code_instances += 1
+                                #print(f"Block list en el sprite {sprite} y script {currScript}")
+                                #print(blocks_list)
+                            if blocks_list:
+                                scripts = []
+                                for block in blocks_list:
+                                    #sprites[sprite] = {}
+                                    sprites[sprite][f'script_{currScript}'] = blocks_list
+                                    self.dead_code_instances += 1
+                            
+                            
 
         self.dict_deadcode = sprites
 
