@@ -55,28 +55,13 @@
     streets_width: 1; border: 1;
     absolute: true; quarter_elevation: .1;
     ' position="-0 0 -3"></a-entity-->
-    <!-- Define el panel -->
-    <!-- Controlador izquierdo con el panel como hijo -->
-    <!-- Controls and Camera -->
-    <a-entity lounge-entry-point>
-      <a-entity movement-controls="fly: false" position="3 -3.5 0">
-              <a-entity camera position="0 0 0" look-controls></a-entity>
-              <a-entity cursor="rayOrigin:mouse" raycaster="objects: .babiaxraycasterclass">
-              </a-entity>
-              <a-entity laser-controls="hand: right" oculus-touch-controls="hand: right" raycaster="objects: .babiaxraycasterclass">
-              </a-entity>
-              
-      </a-entity>
-    </a-entity>
-
-
     <!-- Resto de tu escena -->
     <a-entity position="0 0 -3" babia-city='width: 10; depth: 10; streets: true; color: ccn;
         extra: 1.5; base_thick: 0.3; split: naive; fmaxarea: area; fheight: Blocks;
         data: {{ babia_dict|safe }}' scale="2 0.1 2" titles: true></a-entity>
 
 
-
+    <!-- Controls and Camera -->
     <a-entity movement-controls="fly: true" position="0 1.2 12">
       <a-entity camera position="0 3 4" look-controls></a-entity>
       <a-entity laser-controls raycaster="objects: .babiaxraycasterclass, #navbarpopup, #navbarpopup--close-icon, #iteractionpopup, #iteractionpopup--close-icon, 
