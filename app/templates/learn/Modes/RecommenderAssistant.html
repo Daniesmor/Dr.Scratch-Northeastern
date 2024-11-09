@@ -1,0 +1,101 @@
+{% extends 'learn/base.html' %}
+{% load i18n %}
+{% load static %}
+    {% block content %}
+    <div class="container" style="text-align: left;">
+        <h2> {% trans "Recommender Assistant" %} </h2>
+        <div class="container">
+            <div class="row">
+
+                <!-- BRIEF IMAGE -->
+                <div style="visibility: visible; animation-duration: 1.75s; animation-name: fadeInLeft;" class="col-md-6 pull-right wow fadeInLeft animated" data-wow-offset="20" data-wow-duration="1.75s">
+
+     <div class="brief-image-right">
+                    <div class="js-video widescreen">
+                        <iframe width="500" height="333" src="https://www.youtube.com/embed/pTjitRVsM-s" 
+                                title="Recommender Assistant Tutorial" frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen></iframe>
+                    </div>
+        
+                    
+
+                        <!-- PDF LINK -->
+                      <div class="pdf-link" style="margin-top: 15px;">
+                        <div class="text-center">
+                          <a href="{% static 'app/documents/RecommenderAssistant.pdf' %}" target="_blank" class="btn btn-red-light">
+                              {% trans "Download PDF Guide" %}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+
+                <!-- BRIEF HEADING -->
+                <div style="visibility: visible; animation-duration: 1.75s; animation-name: fadeInRight;" class="col-md-6 content-section pull-left wow fadeInRight animated" data-wow-offset="20" data-wow-duration="1.75s">
+
+                    <p class="text-left">
+                        <p><em>{% trans "You only need to provide the <a data-toggle='modal' href='#modalUrl'>url</a> to your project in order to get recommendations with Dr. Scratch" %}</em></p>
+                        <br>
+                        <img src="static/app/images/url_project.png" style="margin-left: 2%;"></img>
+                    <p align=justify>
+                      <br>
+                        {% trans "By analyzing your projects with Dr. Scratch Recommender Assistant, you can easily improve your projects with the help of the recommendations." %}
+                    </p>
+                    </p>
+                    <!-- FEATURE LIST -->
+                    <div class="row">
+                      <div class="col-md-6 col-sm-6">
+                        <ul class="feature-list text-left">
+                            <li><p>
+                                <span class="icon-basic-clessidre colored-text"></span>
+                                {% trans "Identify coding habits that may slow down or complicate your project." %}
+                            </p></li>
+                            <li><p>
+                                <span class="icon-basic-lightbulb colored-text"></span>
+                                {% trans "Receive recommendations to replace ineffective coding practices with better ones." %}
+                            </p></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <ul class="feature-list text-left">
+                            <li><p>
+                                <span class="icon-basic-home colored-text"></span>
+                                {% trans "Enhance your project's reliability by correcting common coding pitfalls." %}
+                            </p></li>
+                            <li><p>
+                                <span class="icon-ecommerce-graph3 colored-text"></span>
+                                {% trans "Track your improvement as you adopt more efficient coding practices." %}
+                            </p></li>
+                        </ul>
+                    </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalUrl" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close text-right" data-dismiss="modal">&times;</button>
+                    <div class="small-text-medium uppercase colored-text">
+                        {% trans "What is an url?" %}
+                    </div>
+                    <h4 class="modal-title"><strong>{% trans "How I can know my Scratch project's url?" %}</strong></h4>
+                    <div class="colored-line"></div>
+                </div>
+                <div class="modal-body">
+                    {% trans "<img class='framed' style='width: 500px;' src='static/app/images/url-en.png' />" %}
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+      </div>
+      
+
+    {% endblock %}

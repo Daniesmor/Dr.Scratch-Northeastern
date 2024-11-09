@@ -1,0 +1,32 @@
+{% extends 'learn/base.html' %}
+{% load i18n %}
+{% block content %}
+<div class="container" style="text-align: left;">
+    <h2> {% trans "Backdrop Naming" %} </h2>
+    <div class="panel panel-default">
+        <div class="panel-body col-lg-10 ">
+            {% trans "Many beginners make the mistake of using default names for backdrops, such as 'Backdrop1'. This may seem simple, but it complicates project management and comprehension." %}
+            <br><br>
+            {% trans "When default names like 'Backdrop1' or 'Backdrop2' are used, it becomes harder to understand the role of each backdrop without checking them individually. This can confuse both the programmer and others working on the project." %}
+            <br><br>
+            {% trans "A better approach is to give backdrops meaningful names that describe their role, like 'Beach' instead of 'Backdrop1'. This helps identify each backdrop easily, improving clarity and making the project easier to manage." %}
+            <br><br>
+            <pre class="blocks col-lg-6">
+                {% trans "// Poor Backdrop Naming" %}
+                {% trans "when green flag clicked" %}
+                {% trans "switch backdrop to [Backdrop1 v]" %}
+                {% trans "wait (2) seconds" %}
+                {% trans "switch backdrop to [Backdrop2 v]" %}
+            </pre>
+            <pre class="blocks col-lg-5 col-lg-offset-1">
+                {% trans "// Good Backdrop Naming" %}
+                {% trans "when green flag clicked" %}
+                {% trans "switch backdrop to [Beach v]" %}
+                {% trans "wait (2) seconds" %}
+                {% trans "switch backdrop to [Mountain v]" %}
+            </pre>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
