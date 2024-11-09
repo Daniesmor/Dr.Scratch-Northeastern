@@ -117,7 +117,7 @@ urlpatterns = [
     #url(r'^404', 'app.views.error404',),
 
     # Learn
-    url(r'^learn/(\w+)', app_views.learn, name='learn'),
+    url(r'^learn/(Modes|Dimensions|BadSmells)/(\w+)', app_views.learn, name='learn'),
     url(r'^$', app_views.main, name='main'),
     #url(r'^.*', app_views.redirect_main, name='redirect_main'),
 

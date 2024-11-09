@@ -1,0 +1,33 @@
+{% extends 'learn/base.html' %}
+{% load i18n %}
+{% block content %}
+<div class="container" style="text-align: left;">
+    <h2> {% trans "Sprite Naming" %} </h2>
+    <div class="panel panel-default">
+        <div class="panel-body col-lg-10">
+            {% trans "When you start programming with Scratch, it is common to leave the default names for sprites, such as 'Sprite1' or 'Sprite2'. While this may seem fine with a small number of objects, it becomes confusing as the number of sprites grows." %}
+            <br><br>
+            {% trans "Using default names like 'Sprite1' or 'Sprite2' hinders interaction among objects, especially when referencing one sprite from another. It makes the program harder to read, and finding which sprite is being referred to becomes more difficult." %}
+            <br><br>
+            {% trans "A good practice is to give meaningful names to sprites that reflect their role, such as 'Player' or 'Enemy'. This makes it easier to manage interactions between sprites and improves the overall readability of the project, especially when it becomes larger or more complex." %}
+            <br><br>
+            <pre class="blocks col-lg-6">
+                {% trans "// Poor Sprite Naming" %}
+                {% trans "when green flag clicked" %}
+                {% trans "if &lt;touching [Sprite1 v]?&gt; then" %}
+                {% trans "say [Hello] for (2) seconds" %}
+                {% trans "end" %}
+            </pre>
+            <pre class="blocks col-lg-5 col-lg-offset-1">
+                {% trans "// Good Sprite Naming" %}
+                {% trans "when green flag clicked" %}
+                {% trans "if &lt;touching [Player v]?&gt; then" %}
+                {% trans "say [Hello] for (2) seconds" %}
+                {% trans "end" %}
+            </pre>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

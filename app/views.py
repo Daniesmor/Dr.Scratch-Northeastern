@@ -251,47 +251,35 @@ def process_contact_form(request):
             'contact_email': 'Please, fill your email.',
             'contact_text': 'Please, fill the text area.'
         }
-        recaptcha_response = request.POST.get('g-recaptcha-response')
         
         for field, error_message in required_fields.items():
             if not request.POST.get(field, ''):
                 messages.error(request, error_message)
                 request.session['form_data'] = request.POST
                 return HttpResponseRedirect('/contact')
-        
-        if recaptcha_response:
-            secret_key = settings.RECAPTCHA_PRIVATE_KEY
-            response = requests.post('https://www.google.com/recaptcha/api/siteverify', {
-                'secret': secret_key,
-                'response': recaptcha_response
-            })
-            data = response.json()
-            if data['success']:
-                contact_name = request.POST.get('contact_name')
-                contact_email = request.POST.get('contact_email')
-                contact_text = request.POST.get('contact_text')
-                contact_media = request.FILES.get('contact_media')
+            contact_name = request.POST.get('contact_name')
+            contact_email = request.POST.get('contact_email')
+            contact_text = request.POST.get('contact_text')
+            contact_media = request.FILES.get('contact_media')
 
-                message = f'''
-                Name: {contact_name},
-                Email: {contact_email},
-                Text: {contact_text},
-                Media: {contact_media}
-                '''
+            message = f'''
+            Name: {contact_name},
+            Email: {contact_email},
+            Text: {contact_text},
+            Media: {contact_media}
+            '''
 
-                # Asunto del correo electrónico
-                subject = '[CONTACT FORM]'
+            # Asunto del correo electrónico
+            subject = '[CONTACT FORM]'
 
-                email = EmailMessage(subject, message, settings.EMAIL_HOST_USER, ['drscratch@gsyc.urjc.es'])
-                if contact_media:
-                    email.attach(contact_media.name, contact_media.read(), contact_media.content_type)
+            email = EmailMessage(subject, message, settings.EMAIL_HOST_USER, ['drscratch@gsyc.urjc.es'])
+            if contact_media:
+                email.attach(contact_media.name, contact_media.read(), contact_media.content_type)
 
-                email.send()
-                # Renderizar la plantilla de respuesta
-                return HttpResponseRedirect('/')    
-        else:
-            messages.error(request, 'Please, fill the captcha first.')
-            return HttpResponseRedirect('/contact')
+            email.send()
+            # Renderizar la plantilla de respuesta
+            return HttpResponseRedirect('/')    
+       
     else:
         return HttpResponse('METHOD NOT ALLOW', status=405)
 
@@ -427,11 +415,11 @@ def identify_admin(user_type):
         is_admin = 1
     return is_admin
 
-def learn(request, page):
+def learn(request, category, page):
     """
     Shows pages to learn more about CT
     """
-
+    
     flag_user = 0
 
     if request.user.is_authenticated:
@@ -442,26 +430,22 @@ def learn(request, page):
 
     if page in dic:
         page = dic[page]
-    
-    page = '{}{}{}'.format('learn/', page, '.html')
+
+    page_path = f'learn/{category}/{page}.html'
 
     if request.user.is_authenticated:
         user = identify_user_type(request)
         username = request.user.username
-        return render(request, page, {'flagUser': flag_user, 'user': user, 'username': username})
+        return render(request, page_path, {'flagUser': flag_user, 'user': user, 'username': username})
     else:
-        return render(request, page)
+        return render(request, page_path)
 
 def contact(request):
     """
     Shows contact form
     """
     user = "main"
-    captcha_pubkey = settings.RECAPTCHA_PUBLIC_KEY
-    context = {
-        'captcha_pubkey' : captcha_pubkey
-    }
-    return render(request, user + '/contact-form.html', context) 
+    return render(request, user + '/contact-form.html') 
 
 
 def download_certificate(request):

@@ -1,0 +1,113 @@
+{% extends 'learn/base.html' %}
+{% load i18n %}
+{% block content %}
+
+<div class="container" style="text-align: left;">
+    <h2> {% trans "Math Operators" %} </h2>
+    <div class="panel panel-default">
+        <div class="panel-body col-lg-10">
+            {% trans "The dimension of Math Operators measures the use of mathematical operators and functions in your projects. These operators are essential for performing calculations, making decisions based on numerical values, and manipulating data. Mastery of these operators allows you to create more dynamic and interactive projects in Scratch." %}
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body col-lg-10">
+            <section id="level0">
+                <h3>{% trans "If you get 1 point..." %}</h3>
+                {% trans "At the most basic level, you can use arithmetic operators to perform simple calculations. These include addition, subtraction, multiplication, and division. Here's a basic example showing these operators in use:" %}<br><br>
+                <pre class="blocks col-lg-5 col-lg-offset-3">
+                    {% trans "when green flag clicked" %}
+                    {% trans "set [result v] to ((5) + (3))" %}
+                    {% trans "say (result) for (3) secs" %}
+                    {% trans "set [result v] to ((10) - (2))" %}
+                    {% trans "say (result) for (3) secs" %}
+                    {% trans "set [result v] to ((4) * (2))" %}
+                    {% trans "say (result) for (3) secs" %}
+                    {% trans "set [result v] to ((8) / (2))" %}
+                    {% trans "say (result) for (3) secs" %}
+                </pre>
+                <div class="col-lg-12">
+                    <br>
+                    {% trans "In this example, each arithmetic operation is executed sequentially, and the result is displayed on the screen. This demonstrates basic arithmetic calculations using Scratch's mathematical blocks." %}
+                </div>
+                
+            </section>
+        </div>
+    </div>
+    
+    <div class="panel panel-default">
+        <div class="panel-body col-lg-10">
+            <section id="level1">
+                <h3>{% trans "If you get 2 points..." %}</h3>
+                {% trans "To achieve 2 points, the project has to include a mathematical formula, such as implementing the Pythagorean Theorem or using Linear Equations. Here's an example using the Pythagorean Theorem to calculate the hypotenuse of a right triangle:" %} <br><br>
+                <pre class="blocks col-lg-8 col-lg-offset-2">
+                    {% trans "when green flag clicked" %}
+                    {% trans "set [a v] to (3)" %}
+                    {% trans "set [b v] to (4)" %}
+                    {% trans "set [hypotenuse v] to ([sqrt v] of (((a)*(a)) + ((b)*(b))))" %}
+                    {% trans "say (hypotenuse) for (3) secs" %}
+                </pre>
+                <div class="col-lg-12">
+                    <br>
+                    {% trans "In this example, the project calculates the hypotenuse of a right triangle where sides 'a' and 'b' are 3 and 4 units respectively. The formula used is the Pythagorean Theorem: a² + b² = c², where 'c' is the hypotenuse. The square root function is applied to get the value of the hypotenuse." %}
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    
+    <div class="panel panel-default">
+        <div class="panel-body col-lg-10">
+            <section id="level2">
+                <h3>{% trans "If you get 3 points..." %}</h3>
+                {% trans "Beyond basic arithmetic and comparison, Scratch allows for more advanced string manipulations using operators for handling text. These include joining strings, finding the length of a string, and checking if a string contains another string. Here's how you can use these string operators:" %}<br><br>
+                <pre class="blocks col-lg-7 col-lg-offset-2">
+                    {% trans "when green flag clicked" %}
+                    {% trans "set [text1 v] to [Hello]" %}
+                    {% trans "set [text2 v] to [World]" %}
+                    {% trans "set [combinedText v] to (join (text1) (text2))" %}
+                    {% trans "say (combinedText) for (3) secs" %}
+                    {% trans "set [textLength v] to (length of (combinedText))" %}
+                    {% trans "say (textLength) for (3) secs" %}
+                    {% trans "if <(combinedText) contains [Hello]> then" %}
+                    {% trans "say [Text contains 'Hello'] for (3) secs" %}
+                    {% trans "else" %}
+                    {% trans "say [Text does not contain 'Hello'] for (3) secs" %}
+                    {% trans "end" %}
+                </pre>
+                <div class="col-lg-12">
+                    <br>
+                    {% trans "In this example, we demonstrate how to concatenate strings, find the length of the concatenated string, and check if a string contains a specific substring. These operations are useful for manipulating and processing text data in your Scratch projects." %}
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <div class="panel panel-default">
+        <div class="panel-body col-lg-10">
+            <section id="level3">
+                <h3>{% trans "If you get 4 points..." %}</h3>
+                <div class="col-lg-12">
+                    {% trans "For advanced projects, you can use trigonometric functions to perform calculations involving angles. Scratch supports functions for sine, which are useful for solving triangles using the Law of Sines. Here's an example of how to implement the Law of Sines to find an unknown side of a triangle:" %}
+                    <br><br>
+                </div>
+                <pre class="blocks col-lg-11 col-lg-offset-1">
+                    {% trans "when green flag clicked" %}
+                    {% trans "set [angle A v] to (30)" %}
+                    {% trans "set [angle B v] to (45)" %}
+                    {% trans "set [side a v] to (10)" %}
+                    {% trans "set [side b v] to ((side a)*(([sin v] of (angle A))/([sin v] of (angle B))))" %}
+                    {% trans "say (join [Side b is ] (side b)) for (3) secs" %}
+                </pre>
+                <br>
+                <div class="col-lg-12">
+                    <br>
+                    {% trans "In this example, the program calculates the length of side 'b' of a triangle using the Law of Sines: (a/sin A) = (b/sin B). Given angle A, angle B, and side a, the length of side b is computed and displayed. This demonstrates the use of the sine function to solve problems involving triangles." %}
+                    <br><br>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    
+</div>
+{% endblock %}

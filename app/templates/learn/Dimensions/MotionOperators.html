@@ -1,0 +1,108 @@
+{% extends 'learn/base.html' %}
+{% load i18n %}
+{% block content %}
+
+<div class="container" style="text-align: left;">
+    <h2> {% trans "Motion Operators" %} </h2>
+    <div class="panel panel-default">
+        <div class="panel-body col-lg-10">
+            {% trans "The dimension of Motion Operators measures the use of movement operators in your projects. These operators are essential for controlling the motion and positioning of sprites in Scratch. Effective use of motion operators allows you to create dynamic and engaging animations and interactions in your projects." %}
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body col-lg-10">
+            <section id="level0">
+                <h3>{% trans "If you get 1 point..." %}</h3>
+                {% trans "At the most basic level, you can use operators to move a sprite along the X and Y axes. These basic movement blocks allow you to control the position of a sprite on the screen. Here's a simple example of how these blocks can be used:" %}<br><br>
+                <pre class="blocks col-lg-4 col-lg-offset-4">
+                    {% trans "when green flag clicked" %}
+                    {% trans "go to x:(0) y:(0)" %}
+                    {% trans "move (50) steps" %}
+                    {% trans "go to x:(-50) y:(50)" %}
+                    {% trans "move (-30) steps" %}
+                    {% trans "go to x:(0) y:(0)" %}
+                </pre>
+                <div class="col-lg-12">
+                    <br>
+                    {% trans "In this example, the sprite moves to different positions on the screen by setting its X and Y coordinates and moving a certain number of steps. This demonstrates basic movement along the X and Y axes." %}
+                </div>
+                
+            </section>
+        </div>
+    </div>
+    
+    <div class="panel panel-default">
+        <div class="panel-body col-lg-10">
+            <section id="level1">
+                <h3>{% trans "If you get 2 points..." %}</h3>
+                {% trans "Moving beyond basic X and Y movement, you can also control the angular movement of a sprite. This includes rotating the sprite by a certain number of degrees. Here's an example of using angular movement blocks:" %} <br><br>
+                <pre class="blocks col-lg-4 col-lg-offset-4">
+                    {% trans "when green flag clicked" %}
+                    {% trans "go to x:(0) y:(0)" %}
+                    {% trans "point in direction (90)" %}
+                    {% trans "move (100) steps" %}
+                    {% trans "turn cw (90) degrees" %}
+                    {% trans "move (100) steps" %}
+                    {% trans "turn ccw (180) degrees" %}
+                    {% trans "move (100) steps" %}
+                </pre>
+                <div class="col-lg-12">
+                    <br>
+                    {% trans "In this example, the sprite starts at a specific position, points in a given direction, and moves while turning at different angles. This demonstrates basic angular movement and rotation." %}
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <div class="panel panel-default">
+        <div class="panel-body col-lg-10">
+            <section id="level2">
+                <h3>{% trans "If you get 3 points..." %}</h3>
+                {% trans "To create smooth and controlled motion, you can use the glide blocks to move a sprite over a specified time period. This allows for more precise control over the sprite’s movement. Here's an example:" %}<br><br>
+                <pre class="blocks col-lg-5 col-lg-offset-4">
+                    {% trans "when green flag clicked" %}
+                    {% trans "go to x:(-150) y:(0)" %}
+                    {% trans "glide (1) secs to x:(-100) y:(0)" %}
+                    {% trans "glide (0.75) secs to x:(-50) y:(0)" %}
+                    {% trans "glide (0.5) secs to x:(0) y:(0)" %}
+                    {% trans "glide (0.25) secs to x:(50) y:(0)" %}
+                    {% trans "glide (0.1) secs to x:(100) y:(0)" %}
+                </pre>
+                <div class="col-lg-12">
+                    <br>
+                    {% trans "In this example, the sprite gradually glides from left to right across the screen, with the speed of the glide increasing over time. This demonstrates how to control speed using glide blocks for a more dynamic effect." %}                </div>
+            </section>
+        </div>
+    </div>
+    
+    <div class="panel panel-default">
+        <div class="panel-body col-lg-10">
+            <section id="level3">
+                <h3>{% trans "If you get 4 points..." %}</h3>
+                <div class="col-lg-12">
+                    {% trans "For more complex motion, you can combine various movement blocks to create intricate movement patterns. This involves using multiple movement instructions to achieve a more dynamic and engaging result. Here's an example of a complex movement sequence:" %}
+                </div>
+                <br>
+                <pre class="blocks col-lg-12 col-lg-offset-1">
+                    {% trans "when green flag clicked" %}
+                    {% trans "repeat (4)" %}
+                    {% trans "move (100) steps" %}
+                    {% trans "turn cw (90) degrees" %}
+                    {% trans "repeat (2)" %}
+                    {% trans "glide (1) secs to x:(pick random (-100) to (100)) y:(pick random (-100) to (100))" %}
+                    {% trans "end" %}
+                    {% trans "end" %}
+                    {% trans "glide (1) secs to x:(0) y:(0)" %}
+                </pre>
+                <div class="col-lg-12">
+                    <br>
+                    {% trans "In this example, the sprite first performs a square movement pattern and then glides to random positions within the screen. The use of nested repeat blocks and glide instructions creates a dynamic and varied movement sequence." %}                    <br><br>
+                </div>
+                
+            </section>
+        </div>
+    </div>
+    
+    
+</div>
+{% endblock %}

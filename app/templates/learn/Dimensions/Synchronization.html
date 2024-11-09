@@ -1,0 +1,120 @@
+{% extends 'learn/base.html' %}
+{% load i18n %}
+{% block content %}
+
+<div class="container" style="text-align: left;">
+    <h2> {% trans "Synchronization" %} </h2>
+    <div class="panel panel-default">
+        <div class="panel-body col-lg-10">
+    {% trans "Instructions related to synchronization <b>allow our characters to organize things happen in the order we want</b>." %}
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body col-lg-10">
+            <section id="level0">
+                <h3>{% trans "If you get 1 point..." %}</h3>
+                {% trans "The easiest way to synchronize the behavior of your characters is using a <i>'wait'</i> block, which makes the character waits the number of seconds you write as a parameter block. An example of how this block can be used to synchronize two characters:" %}<br><br>
+                <pre class="blocks col-lg-7 col-lg-offset-2">
+                    {% trans "when green flag clicked" %}
+                    {% trans "say [Hello, how are you?] for (2) secs" %}
+                    {% trans "wait (2) secs" %}
+                    {% trans "say [Well, do you want to play hide-and seek?] for (3) secs" %}
+                    {% trans "wait (1) secs" %}
+                    {% trans "say [Let's go] for (2) secs" %}
+                    {% trans "when green flag clicked" %}
+                    {% trans "wait (2) secs" %}
+                    {% trans "say [I'm fine, thanks!] for (2) secs" %}
+                    {% trans "wait (3) secs" %}
+                    {% trans "say [Yes] for (1) secs" %}
+                </pre>
+                <div class="col-lg-12">
+                    <br>
+                    {% trans "In this case it uses blocks <i>'wait'</i> to synchronize these two characters to maintain a conversation, so that while one speaks, the other character waits, and vice versa. Note that the number of seconds that each character expected, are equal to the number of seconds that the other character speaks, so they never talk at the same time." %}
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-body col-lg-10">
+            <section id="level1">
+                <h3>{% trans "If you get 2 points..." %}</h3>
+                {% trans "Synchronization using blocks <i>'wait'</i> is very simple when programs are small and have few characters, but when are larger, or when we have several characters, or when conditions to generate a reaction can not be measured previously, it is more efficient to use other modes of synchronization and messages. Here's an example:" %} <br><br>
+                <pre class="blocks col-lg-6">
+                    {% trans "when green flag clicked" %}
+                    {% trans "say [Hello, how are you?] for (2) secs" %}
+                    {% trans "forever" %}
+                    {% trans "if &lt; touching [mouse pointer v]?&gt;then" %}
+                    {% trans "broadcast [catched! v]" %}
+                    {% trans "end" %}
+                </pre>
+                <pre class="blocks col-lg-6">
+                    {% trans "when I receive [catched! v]" %}
+                    {% trans "say [You have catched my friend] for (2) secs" %}
+                    {% trans "say [Now, you have to catch me!] for (2) secs" %}
+                </pre>
+                <div class="col-lg-12">
+                    <br>
+                    {% trans "How do these syncblocks work? When a situation occurs in a character we want to cause a reaction in another character, we can use <b>messaging</b>. In the example, when the mouse touches the cat, the message 'Caught!', which will be sent to all the characters of the project is sent. Thus, when the butterfly receives the message 'Caught!', the instructions on the block <i>'when receive 'caught!'</i>'. Therefore, when the user touches the cat whit the mouse, butterfly says, 'You caught my companion. Now you have to catch me!'." %}
+                </div>
+                <br>
+            </section>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body col-lg-10">
+            <section id="level2">
+                <h3>{% trans "If you get 3 points..." %}</h3>
+                {% trans "In addition to sending messages, you can synchronize characters to make things happen in the order we want, using other blocks, such as <i>'wait until'</i> or <i>'when the background changes to ...'</i>." %}<br><br>
+                <pre class="blocks col-lg-5 ">
+                    {% trans "wait until &lt;(lives) =[0]&gt;" %}
+                    {% trans "say [Game over] for (2) secs" %}
+                    {% trans "stop [all v]" %}
+                </pre>
+                <pre class="blocks col-lg-5 col-lg-offset-1">
+                    {% trans "when backdrop switches to [Spring v]" %}
+                    {% trans "show" %}
+                    {% trans "say [Spring has come!] for (2) secs" %}
+                </pre>
+                <br>
+                <div class="col-lg-12">
+                    <br>
+                    {% trans "In the first example, when program execution reaches that point will stop until the condition is met in this case, until life is equal to 0. When lives equal to 0, then continue execution of the remaining blocks, this case, <i>'said Game Over'</i> and <i>'stop all'</i>, which ends the execution of the project." %}<br>
+                    {% trans "In the second example, the moment when the scene changes to the backdrop with the name 'Spring', the character will execute the blocks placed after the instruction 'when the backdrop changes to Spring', ie to be displayed and will say 'spring has come!'." %}
+                </div>
+                <br><br>
+            </section>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body col-lg-10">
+            <section id="level3">
+                <h3>{% trans "If you get 4 points..." %}</h3>
+                {% trans "To achieve a score of 4 points, you need to demonstrate advanced handling of messages and synchronization. Create complex interactions where multiple characters and conditions interact. For instance, use messaging along with <i>'if'</i> blocks and loops to manage complex sequences and reactions. Your project should show a sophisticated use of these tools to coordinate actions across different sprites and events effectively." %} <br><br>
+                {% trans "An example can be:" %} <br><br>
+                <pre class="blocks col-lg-5">
+                    {% trans "when green flag clicked" %}
+                    {% trans "repeat until &lt;(score) =[10]&gt;" %}
+                    {% trans "if &lt;touching [edge v]?&gt; then" %}
+                    {% trans "broadcast [score updated! v]" %}
+                    {% trans "end" %}
+                    {% trans "end" %}
+                </pre>
+                <pre class="blocks col-lg-6 col-lg-offset-1">
+                    {% trans "when I receive [score updated! v]" %}
+                    {% trans "change [score v] by (1)" %}
+                    {% trans "if &lt;(score) =[10]&gt; then" %}
+                    {% trans "say [You reached 10 points!] for (2) secs" %}
+                    {% trans "stop [all v]" %}
+                    {% trans "end" %}
+                </pre>
+                <div class="col-lg-12">
+                    <br>
+                    {% trans "In this example, messaging and conditions are used to create complex synchronization. The first block waits until the score reaches 10, broadcasting a message when the edge is touched. The second block handles the message, updates the score, and stops the project when the score reaches 10." %}
+                    <br><br>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}
