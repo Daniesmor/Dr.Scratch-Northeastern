@@ -57,43 +57,24 @@
     ' position="-0 0 -3"></a-entity-->
     <!-- Define el panel -->
     <!-- Controlador izquierdo con el panel como hijo -->
-  <a-entity 
-    id="left-controller" 
-    laser-controls="hand: left">
-    
-    <!-- Panel fijo en la mano izquierda -->
-    <a-entity 
-      id="left-hand-panel" 
-      position="0.1 0 -0.2" 
-      rotation="0 90 0">
-      
-      <!-- Fondo del panel -->
-      <a-plane 
-        width="0.3" 
-        height="0.2" 
-        color="#333" 
-        material="opacity: 0.8">
-      </a-plane>
-
-      <!-- Contenido del panel -->
-      <a-text 
-        value="Información del edificio\nSelecciona un objeto" 
-        position="0 0 0.01" 
-        align="center" 
-        color="#FFF" 
-        width="1.5">
-      </a-text>
+    <!-- Controls and Camera -->
+    <a-entity lounge-entry-point>
+      <a-entity movement-controls="fly: false" position="3 -3.5 0">
+              <a-entity camera position="0 0 0" look-controls></a-entity>
+              <a-entity cursor="rayOrigin:mouse" raycaster="objects: .babiaxraycasterclass">
+              </a-entity>
+              <a-entity laser-controls="hand: right" oculus-touch-controls="hand: right" raycaster="objects: .babiaxraycasterclass">
+              </a-entity>
+              
+      </a-entity>
     </a-entity>
-  </a-entity>
 
-  <!-- Resto de tu escena -->
-  <a-entity position="0 0 -3" babia-city='width: 10; depth: 10; streets: true; color: ccn;
-      extra: 1.5; base_thick: 0.3; split: naive; fmaxarea: area; fheight: Blocks;
-      data: {{ babia_dict|safe }}' scale="2 0.1 2" titles: true></a-entity>
 
+    <!-- Resto de tu escena -->
     <a-entity position="0 0 -3" babia-city='width: 10; depth: 10; streets: true; color: ccn;
-                          extra: 1.5; base_thick: 0.3; split: naive; fmaxarea: area; fheight: Blocks;
-                          data: {{ babia_dict|safe }}' scale="2 0.1 2" titles: true></a-entity>
+        extra: 1.5; base_thick: 0.3; split: naive; fmaxarea: area; fheight: Blocks;
+        data: {{ babia_dict|safe }}' scale="2 0.1 2" titles: true></a-entity>
+
 
 
     <a-entity movement-controls="fly: true" position="0 1.2 12">
@@ -102,6 +83,8 @@
           #cityinformation, #cityinformation--close-icon"></a-entity>
       <a-entity cursor="rayOrigin:mouse" raycaster="objects: .babiaxraycasterclass, #navbarpopup, #navbarpopup--close-icon, #iteractionpopup, #iteractionpopup--close-icon, 
           #cityinformation, #cityinformation--close-icon"></a-entity>
+      <a-entity laser-controls="hand: right" oculus-touch-controls="hand: right" raycaster="objects: .babiaxraycasterclass">
+      <a-entity id="leftHand" oculus-touch-controls="hand: left"></a-entity>
       <a-entity></a-entity>
     </a-entity>
 
