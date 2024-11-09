@@ -402,9 +402,10 @@ def proc_dead_code(dict_dead_code, filename):
     dict_dc["deadCode"]["number"] = dict_dead_code['result']['total_dead_code_scripts']
     #dict_dc["deadCode"]['plugins']["babia"] = dict_dead_code['babia']
     
+    dict_dc["deadCode"]["scripts"] = {}
     for dict_sprite_dead_code_blocks in dict_dead_code['result']['list_dead_code_scripts']:
         for sprite_name, list_blocks in dict_sprite_dead_code_blocks.items():
-            dict_dc["deadCode"][sprite_name] = list_blocks
+            dict_dc["deadCode"]["scripts"][sprite_name] = list_blocks
 
     filename.deadCode = dict_dead_code['result']['total_dead_code_scripts']
     filename.save()
