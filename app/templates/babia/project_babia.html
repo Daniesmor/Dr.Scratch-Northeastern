@@ -47,6 +47,16 @@
   
   
   <a-scene id="scene" background="color:  #c9f4f9" stl-exporter>
+    <a-assets> <!-- Define the HTML template --> 
+      <div id="panelHtml" style="display: none;"> 
+        <div class="building_info" style="width: 100px; height: 100px; overflow: auto;"> 
+          <div class="container"> 
+            <button id="export_btn" class="button"><span>Export as STL</span></button> 
+          </div> <h1>Script Selected:</h1> 
+          <pre id="script_blocks" class="blocks">Please, select a building.</pre> 
+        </div> 
+      </div> 
+    </a-assets>
 
 
     <!--a-entity id="cityevolve" codecity='width: 60; depth: 50; algorithm: pivot;
@@ -68,19 +78,8 @@
           #cityinformation, #cityinformation--close-icon"></a-entity>
       <a-entity cursor="rayOrigin:mouse" raycaster="objects: .babiaxraycasterclass, #navbarpopup, #navbarpopup--close-icon, #iteractionpopup, #iteractionpopup--close-icon, 
           #cityinformation, #cityinformation--close-icon"></a-entity>
-      <a-entity id="leftHand" oculus-touch-controls="hand: left">
-        <!-- Panel que estará fijo en el controlador izquierdo -->
-        <a-plane id="panel" width="1" height="0.5" color="blue" 
-                 position="0 0 -1" rotation="0 0 0">
-          <!-- Título dentro del panel -->
-          <a-text value="Título de Prueba" 
-                  align="center" 
-                  position="0 0 0.01" 
-                  color="white" 
-                  scale="0.5 0.5 0.5" 
-                  style="font-weight: bold; text-align: center;">
-          </a-text>
-        </a-plane>
+      <a-entity id="leftHand" oculus-touch-controls="hand: left"> 
+        <a-plane id="panel" width="1" height="0.5" position="0 0 -1" rotation="0 0 0" color="blue" material="shader: html; target: #panelHtml; fps: 30;"> </a-plane> 
       </a-entity>
       <a-entity></a-entity>
     </a-entity>
