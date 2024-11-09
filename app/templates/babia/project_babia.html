@@ -68,9 +68,20 @@
           #cityinformation, #cityinformation--close-icon"></a-entity>
       <a-entity cursor="rayOrigin:mouse" raycaster="objects: .babiaxraycasterclass, #navbarpopup, #navbarpopup--close-icon, #iteractionpopup, #iteractionpopup--close-icon, 
           #cityinformation, #cityinformation--close-icon"></a-entity>
-      <a-entity cursor="rayOrigin:mouse" raycaster="objects: .babiaxraycasterclass">
-      <a-entity laser-controls="hand: right" oculus-touch-controls="hand: right" raycaster="objects: .babiaxraycasterclass"></a-entity>
-      <a-entity id="leftHand" oculus-touch-controls="hand: left"></a-entity>
+      <a-entity id="leftHand" oculus-touch-controls="hand: left">
+        <!-- Panel que estará fijo en el controlador izquierdo -->
+        <a-plane id="panel" width="1" height="0.5" color="blue" 
+                 position="0 0 -1" rotation="0 0 0">
+          <!-- Título dentro del panel -->
+          <a-text value="Título de Prueba" 
+                  align="center" 
+                  position="0 0 0.01" 
+                  color="white" 
+                  scale="0.5 0.5 0.5" 
+                  style="font-weight: bold; text-align: center;">
+          </a-text>
+        </a-plane>
+      </a-entity>
       <a-entity></a-entity>
     </a-entity>
 
