@@ -113,8 +113,7 @@
                             preLegend.className = `typed-family`; 
                             
                             // Creates the block image
-                            console.log(`{{ block|escapejs }}`)
-                            var deadBlockContent = `{{ block.value|escapejs }}`;
+                            var deadBlockContent = `{{ block.0|escapejs }}`;
                             var preElement = document.createElement('pre');
                             preElement.className = 'blocks';
                             preElement.innerHTML = deadBlockContent;

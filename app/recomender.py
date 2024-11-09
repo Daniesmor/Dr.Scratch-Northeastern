@@ -53,8 +53,8 @@ class RecomenderSystem():
                 elif self.curr_lan == 'es':
                     message += f" no has utilizado muchos bloques en diferentes sprites, quizás sería una buena idea eliminarlos, ¿estás de acuerdo?\nIntenta eliminar los siguientes bloques: "
 
-            for sprite, script_dicc in dict_deadCode["result"]["list_dead_code_scripts"]["scripts"].items():
-                for script_name, scripts in script_dicc:
+            for sprite, script_dicc in deadCode_list.items():
+                for script_name, scripts in script_dicc.items():
                     if tot_deadCode == 1:
                         if self.curr_lan == 'en':
                             message += f" you haven't used one block in the sprite {self.MAGENTA}{sprite}{self.RESET}, maybe it would be a good idea to remove it, do you agree?\nTry removing the block: "
@@ -238,6 +238,9 @@ class RecomenderSystem():
             # Select one of the farwell phrases
             rand_farwell_index = random.randint(0, len(self.farwells) - 1) 
             farwell += self.farwells[rand_farwell_index]
+
+            print("mis bloques")
+            print(blocks)
 
             feedback = {
                 'type': type,
