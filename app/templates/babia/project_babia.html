@@ -56,32 +56,40 @@
     absolute: true; quarter_elevation: .1;
     ' position="-0 0 -3"></a-entity-->
     <!-- Define el panel -->
-    <a-entity id="left-controller-panel" position="0.1 0 -0.3" rotation="0 45 0">
-      <a-plane color="#FFFFFF" width="0.3" height="0.2" material="opacity: 0.8" position="0 0 -0.05">
-        <a-text value="Información del edificio" color="#000000" align="center" width="1.5" position="0 0.05 0"></a-text>
-        <a-text value="Aquí puedes añadir detalles." color="#000000" align="center" width="1.5" position="0 -0.05 0"></a-text>
-      </a-plane>
-    </a-entity>
-
     <!-- Controlador izquierdo con el panel como hijo -->
+  <a-entity 
+    id="left-controller" 
+    laser-controls="hand: left">
+    
+    <!-- Panel fijo en la mano izquierda -->
     <a-entity 
-      id="left-controller" 
-      laser-controls="hand: left" 
-      raycaster="objects: .selectable">
-      <a-entity 
-        id="panel" 
-        position="0 0 -0.3" 
-        rotation="0 0 0" 
-        geometry="primitive: plane; height: 0.3; width: 0.5" 
-        material="color: #FFF; opacity: 0.7">
-          <a-text 
-            value="Contenido de panel" 
-            position="0 0.1 0" 
-            align="center" 
-            color="#333">
-          </a-text>
-      </a-entity>
+      id="left-hand-panel" 
+      position="0.1 0 -0.2" 
+      rotation="0 90 0">
+      
+      <!-- Fondo del panel -->
+      <a-plane 
+        width="0.3" 
+        height="0.2" 
+        color="#333" 
+        material="opacity: 0.8">
+      </a-plane>
+
+      <!-- Contenido del panel -->
+      <a-text 
+        value="Información del edificio\nSelecciona un objeto" 
+        position="0 0 0.01" 
+        align="center" 
+        color="#FFF" 
+        width="1.5">
+      </a-text>
     </a-entity>
+  </a-entity>
+
+  <!-- Resto de tu escena -->
+  <a-entity position="0 0 -3" babia-city='width: 10; depth: 10; streets: true; color: ccn;
+      extra: 1.5; base_thick: 0.3; split: naive; fmaxarea: area; fheight: Blocks;
+      data: {{ babia_dict|safe }}' scale="2 0.1 2" titles: true></a-entity>
 
     <a-entity position="0 0 -3" babia-city='width: 10; depth: 10; streets: true; color: ccn;
                           extra: 1.5; base_thick: 0.3; split: naive; fmaxarea: area; fheight: Blocks;
