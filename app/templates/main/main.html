@@ -506,7 +506,13 @@
                 </div>
                 <div class="col-md-4 align-self-center">
                     <form name="form" class="project-form" id="batch-form" enctype="multipart/form-data" method="post" action="/show_dashboard/" style="margin-top: 50px;">
-                        <h3><strong>{% trans "Batch Mode" %}</strong></h3>
+                        <h3>
+                            <strong>
+                                <a target="_blank" href="/learn/Modes/BatchMode/" style="text-decoration: none; color: inherit;" title="Click to learn more about the Batch Mode">
+                                    {% trans "Batch Mode" %}
+                                </a>
+                            </strong>
+                        </h3>
 
                         <p><span class='colored-text'>{% trans "IMPORTANT!" %}</span> {% trans "Please upload a <span class='colored-text'><a data-toggle='modal' href='#modalTxt'>txt</a></span> containing the URLs of the projects, with each URL on a separate line. Or a <span class='colored-text'>zip</span> containing the .sb3 (Max. 10)" %}</p>
 
@@ -534,7 +540,13 @@
             <div class="row">
                 
                 <div class="col-md-4 align-self-center" style="margin-top: 80px;">
-                    <h3><strong>{% trans "Personalized Mode" %}</strong></h3>
+                    <h3>
+                        <strong>
+                            <a target="_blank" href="/learn/Modes/PersonalMode/" style="text-decoration: none; color: inherit;" title="Click to learn more about the Personalized Mode">
+                                {% trans "Personalized Mode" %}
+                            </a>
+                        </strong>
+                    </h3>
                     <p class="h4">
                         {% trans "The personalized mode allows you to create a personalized rubric for evaluate projects by your own criteria, after this you can share a link associated to your rubric to evaluate your students." %}
                     </p>
@@ -566,7 +578,14 @@
                 <div class="col-md-4 align-self-center">
                     <br>
                     <form name="form_recom" class="project-form" id="recommender-form" enctype="multipart/form-data" method="post" action="/show_dashboard/" style="margin-top: 50px;">
-                        <h3><strong>{% trans "Recommender Assistant" %}</strong></h3>
+                        <h3>
+                            <strong>
+                                <a target="_blank" href="/learn/Modes/RecommenderAssistant/" style="text-decoration: none; color: inherit;" title="Click to learn more about the Recommender Assistant">
+                                    {% trans "Recommender Assistant" %}
+                                </a>
+                            </strong>
+                        </h3>
+                        
                         <p class="h4"><span class='colored-text'>{% trans "NEW!!!" %}</span> {% trans "This mode gives you a feedback about the bad smells of your project and how to solve them with a assistant interface." %}</p>
                         <input type="hidden" name="dashboard_mode" value="Recommender">
                         {% trans '<input id="input-recom" name="urlProject_recom"  class="form-control input-box placeholder" placeholder="http:/scratch.mit.edu/projects/your_number" type="text">' %}
@@ -588,7 +607,13 @@
         <div class="container">            
             <div class="row">
                 <div class="col-md-4 align-self-center" style="margin-top: 50px;">
-                    <h3><strong>{% trans "Comparison Mode" %}</strong></h3>
+                    <h3>
+                        <strong>
+                            <a target="_blank" href="/learn/Modes/ComparisonMode/" style="text-decoration: none; color: inherit;" title="Click to learn more about the Comparison Mode">
+                                {% trans "Comparison Mode" %}
+                            </a>
+                        </strong>
+                    </h3>
                     <p class="h4">
                         {% trans "The comparison mode allows you to compare two different projects, enabling you to highlight their key differences and gain detailed insights into each." %}
                     </p>
