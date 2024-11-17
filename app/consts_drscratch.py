@@ -1,9 +1,13 @@
 PLUGIN_DEADCODE_LIST_EVENT_VARS = [
-    "event_broadcastandwait", "event_whenflagclicked",
+    "event_whenflagclicked",
     "event_whengreaterthan", "event_whenkeypressed",
     "event_whenthisspriteclicked", "event_whenbackdropswitchesto",
     "control_start_as_clone", "procedures_definition",
     "event_whenbroadcastreceived"
+]
+
+PLUGIN_NON_STARTING_EVENTS = [
+    "event_broadcastandwait", "event_broadcast"
 ]
 
 PLUGIN_BACKDROPNAMING_DEFAULT_NAMES = [
