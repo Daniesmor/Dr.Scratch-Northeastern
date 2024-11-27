@@ -28,67 +28,59 @@
 
 </head>
  
-<body id="learn">
+<body >
 <!-- Header -->
 <div class="jumbotron">
 
-    <div class="container">
-        <img src="../../static/app/images/logo_main.png"/>
+    <div class="container" style="margin-left: 21%;">
+        <a href="\">
+            <img src="../../static/app/images/logo_main.png"/>
+        </a>
     </div>
 
     <div class="container">
             <p>
-                <h1 class= text-center>
-                     {% trans "There was an error analyzing your project" %}
-                </h1>
+                {% if error == "analyzing" %}
+                    <h1 class= text-center>
+                        {% trans "There was an error analyzing your project" %}
+                    </h1>
+                {% elif error == "MultiValueDict" %}
+                    <h1 class= text-center>
+                        {% trans "There was an error analyzing your project" %}
+                    </h1>
+                {% elif error == "id_error" %}
+                    <h1 class= text-center>
+                        {% trans "There was an error with the Project ID." %}
+                    </h1>
+                {% elif error == "no_exists" %}
+                    <h1 class= text-center>
+                        {% trans "Project not found." %}
+                    </h1>
+                {% endif %}
                 <h2 class="text-center">
                      {% trans  "We apologize for this inconvenience" %} 
                 </h2>
+                <h3 class="text-center">
+                    {% trans "Please try again later or contact us if the error persists" %}
+                </h3>
+                <div class="pager">
+                    <a style="visibility: visible; animation-duration: 2s; animation-name: fadeInRight;" href="/contacts" class="btn btn-primary standard-button" data-wow-duration="2s" data-wow-offset="10" type="button">{% trans "Contact us" %}</a>
+                </div>
             </p>
     </div>
 </div>
 <!-- End Header -->
 
-<!-- Sign up -->
-<div class="pager">
-        <h4>
-            
-               {% trans "Sometimes we have got problems analyzing some projects. We're working on this." %}
-
-               <a href="https://github.com/Daniesmor/Dr.Scratch-Northeastern"> 
-                  <i class="bi bi-github"></i>
-               </a>
-               <a href="https://twitter.com/DrScratchTool">
-                  <i class="bi bi-twitter-x"></i>
-               </a>
-               <a href="mailto:drscratch@gsyc.urjc.es">
-                  <i class="bi bi-envelope"></i>
-               </a>
-        </h4>
-</div>
-<div class="pager">
-    <a style="visibility: visible; animation-duration: 2s; animation-name: fadeInRight;" href="/" class="btn btn-primary standard-button" data-wow-duration="2s" data-wow-offset="10" type="button">{% trans "Get Started" %}</a>
-</div>
-<!-- Sign up -->
-
-
 <!-- Footer -->
 <div id="footer" class="container">
-    <footer class="footer grey-bg">
+    <footer class="footer grey-bg" style="text-align: center; font-size: 20px;">
         <p>{% trans "©2024 Dr.Scratch Made with " %} <span style="color: #e25555;">&#9829;</span> {% trans "by " %} <a href="/collaborators">{% trans "Dr.Scratch Team." %}</a></p>
-            <!-- SOCIAL ICONS -->
-            <ul class="social-icons">
-                <li>
-                    <a href="https://github.com/Daniesmor/Dr.Scratch-Northeastern"> 
-                    <i class="bi bi-github" style="color: black;"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="https://twitter.com/DrScratchTool">
-                    <i class="bi bi-twitter-x" style="color: black;"></i>
-                    </a>
-                </li>    
-            </ul>
+        <a href="https://github.com/Daniesmor/Dr.Scratch-Northeastern"> 
+            <i class="bi bi-github"></i>
+         </a>
+         <a href="https://twitter.com/DrScratchTool">
+            <i class="bi bi-twitter-x"></i>
+         </a>
     </footer>
 </div>
 <!-- End Footer -->
