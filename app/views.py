@@ -143,12 +143,7 @@ def show_dashboard(request, skill_points=None):
             numbers = ''
         print(f"Mi url {url}")
         skill_rubric = generate_rubric(numbers)
-        user = str(identify_user_type(request))
-        if request.POST.get('dashboard_mode') == 'Comparison':
-            print("Comparison mode:", request.POST)
-            d = build_dictionary_with_automatic_analysis(request, skill_rubric)
-            print("Context Dictionary:", d)
-            return render(request, user + '/dashboard-compare.html', d)   
+        user = str(identify_user_type(request)) 
         print("Mode:", request.POST)
         d = build_dictionary_with_automatic_analysis(request, skill_rubric)
         print("Context Dictionary:")
@@ -171,6 +166,8 @@ def show_dashboard(request, skill_points=None):
                 return render(request, user + '/dashboard-personal.html', d)               
             elif d.get('dashboard_mode') == 'Recommender':
                 return render(request, user + '/dashboard-recommender.html', d)
+            elif d.get('dashboard_mode') == 'Comparison':
+                return render(request, user + '/dashboard-compare.html', d)     
     else:
         return HttpResponseRedirect('/')    
 
@@ -192,17 +189,9 @@ def get_recommender(request, skill_points=None):
         print(d)
         print("Skill rubric")
         print(skill_rubric)
-        d = d[0]
-        if d['Error'] == 'analyzing':
-            return render(request, 'error/analyzing.html')
-        elif d['Error'] == 'MultiValueDict':
-            return render(request, user + '/main.html', {'error': True})
-        elif d['Error'] == 'id_error':
-            return render(request, user + '/main.html', {'id_error': True})
-        elif d['Error'] == 'no_exists':
-            return render(request, user + '/main.html', {'no_exists': True})
-        else:
-            return JsonResponse(d['recomenderSystem'])        
+        d = d.get(0)
+        
+        return JsonResponse(d['recomenderSystem'])        
     else:
         return HttpResponseRedirect('/')
 
