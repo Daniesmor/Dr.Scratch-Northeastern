@@ -30,6 +30,9 @@ class Mastery(Plugin):
                                     self.list_total_blocks.append(blocks_value)
                                     self.dict_total_blocks[blocks] = blocks_value
 
+        if self.list_total_blocks == []:
+            raise Exception("No blocks found")
+
         for block in self.list_total_blocks:
             for key, list_info in block.items():
                 if key == "opcode":
@@ -251,7 +254,6 @@ class Mastery(Plugin):
         developing = self.check_list({'control_start_as_clone'})
         proficient = self.check_list({'procedures_definition'})
         advanced = self.check_advanced_clones()
-        print("ADVANCED CLONES:", advanced)
         # finesse = PREGUNTAR GREGORIO
 
         scale_dict = {"advanced": advanced, "proficient": proficient, "developing": developing, "basic": basic}
@@ -314,9 +316,6 @@ class Mastery(Plugin):
         non_controllers_ext = ['music', 'pen', 'videoSensing', 'text2speech', 'translate', 'learningmlTexts', 'learningmlImages']
 
         extensions = self.json_project.get('extensions', [])
-        print("---EXTENSIONS---")
-        print(extensions)
-        print("----------------")
 
         return any(extension not in non_controllers_ext for extension in extensions)
 
@@ -402,7 +401,6 @@ class Mastery(Plugin):
             if block['opcode'] in operators:
                 # Count the nested operators within this base operator
                 counter = self.count_nested_operators(block, operators)
-                print(f"Nested operators for block {block['opcode']}: {counter}")
                 
                 # If we find 1 or more nested operators, return True
                 if counter >= 1:
@@ -661,7 +659,6 @@ class Mastery(Plugin):
             try:
                 process_block(block, loops)
                 total_blocks = len(visited_blocks) # Total unique blocks processed
-                print(f"Total unique blocks processed: {total_blocks}")
                 if total_blocks >= min_blocks:
                     return True
             except KeyError:
