@@ -24,7 +24,7 @@ configuration/*
 mydatabase
 logFile.txt
 output.aux
-env/
+.env
 build/
 develop-eggs/
 dist/
