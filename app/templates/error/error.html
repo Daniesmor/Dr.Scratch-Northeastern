@@ -1,0 +1,243 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html class="nivo-lightbox-notouch" lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="description" content="Analyze your Scratch projects to assess your Computational Thinking skills">
+    <meta name="keywords" content="Stamp, Startup, Multipurpose, Bootstrap, Landing page, Template, Registration, Landing">
+    <meta name="author" content="Programamos URJC Libresoft FECyT">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+    <link rel="stylesheet" href="../../static/app/content/scratchblocks2.css">
+    <!-- <script src="../../static/app/scripts/bootstrap-modal.js"></script> -->
+    <script src="../../static/app/scripts/translations.js"></script>
+    <!-- <script src="../../static/app/scripts/bootstrap.js"></script> -->
+    <link rel="stylesheet" href="../../static/app/content/bootstrap-tour.css">
+    <script src="../../static/app/scripts/bootstrap.min.js"></script>
+    <script src="../../static/app/scripts/bootstrap-tour.js"></script>
+    <script src="../../static/app/scripts/googleAnalytics.js"></script>
+    <script src="../../static/app/scripts/scratchblocks-v3.4-min.js"></script>
+        <title>{% trans "Error" %} </title>
+        <link rel="stylesheet" href="/static/app/content/style.css">
+        <!-- =========================
+         FAV AND TOUCH ICONS AND FONT
+        ============================== -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link rel="icon" href="/static/app/images/favicon.ico">
+        <link rel="stylesheet" href="static/app/icons/icons.css">
+        <link type="text/css" rel="stylesheet" href="/static/app/content/css_002.css">
+        <link type="text/css" rel="stylesheet" href="/static/app/content/css.css">
+        <!-- =========================
+         STYLESHEETS
+        ============================== -->
+        <!-- BOOTSTRAP AND ANIMATION -->
+        <link rel="stylesheet" href="/static/app/content/bootstrap.min.css">
+        <link rel="stylesheet" href="/static/app/content/animate.css">
+    
+        <!-- CAROUSEL AND LIGHTBOX -->
+        <link rel="stylesheet" href="../../static/app/content/owl_002.css">
+        <link rel="stylesheet" href="../../static/app/content/owl.css">
+        <link rel="stylesheet" href="../../static/app/content/nivo-lightbox.css">
+        <link rel="stylesheet" href="../../static/app/content/default.css">
+    
+        <!-- CUSTOM STYLESHEETS -->
+        <link rel="stylesheet" href="../../static/app/content/styles.css">
+        <link rel="stylesheet" href="/static/app/content/master.css">
+        <!-- RESPONSIVE FIXES -->
+        <link rel="stylesheet" href="../../static/app/content/responsive.css">
+    
+        <!-- DEFAULT COLOR/ CURRENTLY USING -->
+        <link rel="stylesheet" href="../../static/app/content/red.css">
+    
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <style>
+        .jumbotron {
+            color: black;
+        }
+    </style>
+
+
+
+</head>
+ 
+<body >
+<!-- Header -->
+ <!-- TOP BAR -->
+ <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top  sticky-navigation" role="navigation">
+    <div class="container">
+        <!-- NAVIGATION LINK -->
+        <a href="/" style="padding-left: 5%;">
+            <img src="/static/app/images/logo_main.png" alt="" width="220" height="70.1667">
+        </a>
+        <ul class="nav navbar-nav navbar-right login-register small-text">
+            <li style="display: block;" class="login dropdown">
+                <a aria-expanded="false" type="button" data-toggle="dropdown" class="dropdown-toggle language-content" data-hover="dropdown" style="padding-top: 60%;">
+                    <span class="icon-basic-world"></span>
+                </a>
+                <ul role="menu" class="dropdown-menu" style="padding: 20px;">
+                    <li style="padding-left: 20px;">
+                        <div>
+                            <form action="/i18n/setlang/" method="post">
+                                {% csrf_token %}
+                                <input name="next" type="hidden" value="{{ redirect_to }}" />
+                                <select name="language" onchange="this.form.submit()" class='btn-group btn-group-justified colored-text language-content'>
+                                    {% get_language_info_list for LANGUAGES as languages %}
+                                    {% for language in languages %}
+                                        {% if language.code == request.LANGUAGE_CODE %}
+                                            <option value="{{ language.code }}" selected>{{ language.name }} ({{ language.code }})</option>
+                                        {% else %}
+                                            <option value="{{ language.code }}">{{ language.name }} ({{ language.code }})</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+    </div>
+</div>
+<div class="jumbotron" style="padding-top: 90px;">
+
+    <div class="container" style="padding-top: 90px;">
+        <p>
+            {% if error == "analyzing" %}
+                <h1 class="text-center" style="color: black;">
+                    {% trans "There was an error analyzing your project" %}
+                </h1>
+                <div class="container text-center" style="margin-top: 15px;">
+                    <div class="card shadow-sm" style="max-width: 100%; margin: 0 auto; border: none; padding: 30px;">
+                        <!-- Encabezado: Possible Causes -->
+                        <div class="card-header" style="background-color: #ffe2e6; font-size: 1.2rem; font-weight: bold; color: #dc3545;">
+                            <i class="bi bi-exclamation-triangle-fill" ></i> {% trans "Possible Causes" %}
+                        </div>
+                        <!-- Cuerpo: Lista de causas -->
+                        <div class="card-body" style="background-color: #ffffff; padding: 20px 20px; height: 100%; border-radius: 0 0 5px 5px;">
+                            <ul style="list-style: none; padding: 0; margin: 0; text-align: left;">
+                                <li style="margin-bottom: 25px; font-size: 1rem; color: #333;">
+                                    <i class="bi bi-dot text-danger"></i> {% trans "<strong>The project is not a Scratch Project. </strong> Please check if you have uploaded the correct project file." %}
+                                </li>
+                                <li style="font-size: 1rem; color: #333;">
+                                    <i class="bi bi-dot text-danger"></i> <strong>{% trans "The project is not a .sb3 file." %} </strong> {% trans "Please check if you have uploaded a .sb2 or a .sb file and change it to the newer version." %} 
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% elif error == "MultiValueDict" %}
+                <h1 class="text-center">
+                    {% trans "There was an error analyzing your project" %}
+                </h1>
+            {% elif error == "id_error" %}
+                <h1 class="text-center">
+                    {% trans "There was an error with the Project ID." %}
+                </h1>
+                <div class="container text-center" style="margin-top: 15px;">
+                    <div class="card shadow-sm" style="max-width: 750px; margin: 0 auto; border: none; padding: 30px;">
+                        <!-- Encabezado: Possible Causes -->
+                        <div class="card-header" style="background-color: #ffe2e6; font-size: 1.2rem; font-weight: bold; color: #dc3545;">
+                            <i class="bi bi-exclamation-triangle-fill" ></i> {% trans "Possible Causes" %}
+                        </div>
+                        <!-- Cuerpo: Lista de causas -->
+                        <div class="card-body" style="background-color: #ffffff; padding: 20px 20px; height: 100%; border-radius: 0 0 5px 5px;">
+                            <ul style="list-style: none; padding: 0; margin: 0; text-align: left;">
+                                <li style="margin-bottom: 25px; font-size: 1rem; color: #333;">
+                                    <i class="bi bi-dot text-danger"></i> <strong> {% trans "The provided ID does not match the format:" %} </strong>
+                                    <p class="text-center">
+                                        <code>https://scratch.mit.edu/projects/your_number/</code>
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% elif error == "no_exists" %}
+                <h1 class="text-center">
+                    {% trans "Project not found." %}
+                </h1>
+                <div class="container text-center" style="margin-top: 15px;">
+                    <div class="card shadow-sm" style="max-width: 750px; margin: 0 auto; border: none; padding: 30px;">
+                        <!-- Encabezado: Possible Causes -->
+                        <div class="card-header" style="background-color: #ffe2e6; font-size: 1.2rem; font-weight: bold; color: #dc3545;">
+                            <i class="bi bi-exclamation-triangle-fill" ></i> {% trans "Possible Causes" %}
+                        </div>
+                        <!-- Cuerpo: Lista de causas -->
+                        <div class="card-body" style="background-color: #ffffff; padding: 20px 20px; height: 100%; border-radius: 0 0 5px 5px;">
+                            <ul style="list-style: none; padding: 0; margin: 0; text-align: left;">
+                                <li style="margin-bottom: 25px; font-size: 1rem; color: #333;">
+                                    <i class="bi bi-dot text-danger"></i> {% trans "<strong>The project does not exist. </strong> Please check if you have entered the correct project ID." %}
+                                </li>
+                                <li style="font-size: 1rem; color: #333;">
+                                    <i class="bi bi-dot text-danger"></i> <strong>{% trans "The project has not been shared." %} </strong> <a data-toggle="modal" href="#modalShareProject">{% trans "How to share a project?" %} </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            <h2 class="text-center">
+                {% trans "We apologize for this inconvenience" %}
+            </h2>
+            <h3 class="text-center">
+                {% trans "Please try again later or contact us if the error persists" %}
+            </h3>
+            <div class="pager">
+                <a style="visibility: visible; animation-duration: 2s; animation-name: fadeInRight;" href="/contacts" class="btn btn-primary standard-button" data-wow-duration="2s" data-wow-offset="10" type="button">{% trans "Contact us" %}</a>
+            </div>
+
+        </p>
+    </div>
+    
+    
+</div>
+<!-- End Header -->
+
+
+<div id="modalShareProject" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close text-right" data-dismiss="modal">&times;</button>
+                <div class="small-text-medium uppercase colored-text">
+                    {% trans "How to share a Scratch Project?" %}
+                </div>
+                <h4 class="modal-title"><strong>{% trans "How I can share my Scratch project's url?" %}</strong></h4>
+                <div class="colored-line"></div>
+            </div>
+            <div class="modal-body">
+                {% trans "<img class='framed' style='width: 500px;' src='static/app/images/share-en.png' />" %}
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+  </div>
+  
+
+<!-- FOOTER -->
+<footer class="footer grey-bg" >
+    <p>{% trans "©2024 Dr.Scratch Made with " %} <span style="color: #e25555;">&#9829;</span> {% trans "by " %} <a href="/collaborators">{% trans "Dr.Scratch Team." %}</a></p>
+        <!-- SOCIAL ICONS -->
+        <ul class="social-icons">
+            <li>
+                <a href="https://github.com/Daniesmor/Dr.Scratch-Northeastern"> 
+                <i class="bi bi-github" style="color: black;"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://twitter.com/DrScratchTool">
+                <i class="bi bi-twitter-x" style="color: black;"></i>
+                </a>
+            </li>    
+        </ul>
+</footer>
+<!-- End Footer -->
+
+</body>
+</html>
+
+

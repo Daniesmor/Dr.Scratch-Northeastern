@@ -71,23 +71,26 @@ def _make_compare(request, skill_points: dict):
     """
     Make comparison of two projects
     """
+    project_counter = 0
     counter = 0
     d = {}
     path = {}
     json = {}
+    d[project_counter] = {}
+
     if request.method == "POST":
         if "_urls" in request.POST:
             for url in request.POST.getlist('urlProject'):
                 print("Url:", url)
                 project = check_project(counter)
-                d[project] = analysis_by_url(request, url, skill_points)
+                d[project_counter][project] = analysis_by_url(request, url, skill_points)
                 path[project] = request.session.get('current_project_path')
                 counter += 1
         elif "_uploads" in request.POST:
             for upload in request.FILES.getlist('zipFile'):
                 project = check_project(counter)
                 print("Upload:", upload)
-                d[project] = analysis_by_upload(request, skill_points, upload)
+                d[project_counter][project] = analysis_by_upload(request, skill_points, upload)
                 path[project] = request.session.get('current_project_path')
                 counter += 1
         elif "_mix" in request.POST:
@@ -95,30 +98,41 @@ def _make_compare(request, skill_points: dict):
             base_type = request.POST.get('baseProjectType')
             if base_type == "urlProject":
                 url = request.POST.getlist('urlProject')[0]
-                d[project] = analysis_by_url(request, url, skill_points)
+                d[project_counter][project] = analysis_by_url(request, url, skill_points)
                 path[project] = request.session.get('current_project_path')
                 counter += 1
                 upload = request.FILES.get('zipFile')
                 project = check_project(counter)
-                d[project] = analysis_by_upload(request, skill_points, upload)
+                d[project_counter][project] = analysis_by_upload(request, skill_points, upload)
                 path[project] = request.session.get('current_project_path')
             else:
                 upload = request.FILES.get('zipFile')
-                d[project] = analysis_by_upload(request, skill_points, upload)
+                d[project_counter][project] = analysis_by_upload(request, skill_points, upload)
                 path[project] = request.session.get('current_project_path')
                 counter += 1
                 project = check_project(counter)
                 url = request.POST.getlist('urlProject')[1]
-                d[project] = analysis_by_url(request, url, skill_points)
+                d[project_counter][project] = analysis_by_url(request, url, skill_points)
                 path[project] = request.session.get('current_project_path')
+
+        for key in ['Original', 'New']:
+            if key in d[project_counter] and isinstance(d[project_counter][key], dict):
+                if d[project_counter][key].get('Error') != 'None':
+                    d[project_counter]['Error'] = d[project_counter][key]['Error']
+                    return d
 
         for key,value in path.items():
             print(key, value)
             json[key] = load_json_project(value)    
+
         dict_scratch_golfing = ScratchGolfing(json.get('Original'), json.get('New')).finalize()
         dict_scratch_golfing = dict_scratch_golfing['result']['scratch_golfing']
-        d['Compare'] = dict_scratch_golfing
-        check_same_functionality(request, d)
+
+        d[project_counter]['Compare'] = dict_scratch_golfing
+        check_same_functionality(request, d, project_counter)
+
+        d[project_counter]['dashboard_mode'] = "Comparison"
+        
 
         return d
     else:
@@ -131,18 +145,18 @@ def check_project(counter):
         project = "New"
     return project
 
-def check_same_functionality(request, d):
+def check_same_functionality(request, d, project_counter):
     """
     Check if the projects have the same functionality
     """
     same_functionality = request.POST.get('same_functionality') == "True"
     print("Same functionality:", same_functionality)
     if same_functionality:
-            d['Compare'].update({
+            d[project_counter]['Compare'].update({
                 'same_functionality': True
             })
     else: 
-        d['Compare'].update({
+        d[project_counter]['Compare'].update({
             'same_functionality': False
         })
 
@@ -242,16 +256,28 @@ def download_scratch_project_from_servers(path_project, id_project):
         # Two ways, id does not exist in servers or id is in other server
         logger.error('HTTPError')
         url_json_scratch = "{}/{}".format(consts.URL_GETSB3, id_project)
-        response_from_scratch = urlopen(url_json_scratch)
-        path_json_file = path_utemp + '_old_project.json'
+        try:
+            response_from_scratch = urlopen(url_json_scratch)
+            path_json_file = path_utemp + '_old_project.json'
+        except URLError:
+            logger.error('URLError')
+            traceback.print_exc()
+            response_from_scratch = None
     except URLError:
         logger.error('URLError')
         traceback.print_exc()
+        response_from_scratch = None
     except:
         traceback.print_exc()
 
     try:
-        json_string_format = response_from_scratch.read()
+        if response_from_scratch is None:
+            raise AttributeError("response_from_scratch is None")
+        elif not hasattr(response_from_scratch, "read"):
+            raise AttributeError("response_from_scratch no tiene método read()")
+        else:
+            json_string_format = response_from_scratch.read()
+        
         json_data = json.loads(json_string_format)
         resulting_file = open(path_json_file, 'wb')
         resulting_file.write(json_string_format)
@@ -262,6 +288,9 @@ def download_scratch_project_from_servers(path_project, id_project):
     except IOError as e:
         logger.error('IOError %s' % e.message)
         raise IOError
+    except AttributeError as e:
+        logger.error("AttributeError: %s", str(e))
+        raise AttributeError("AttributeError: %s" % str(e))
 
     return path_json_file
 
@@ -272,8 +301,12 @@ def send_request_getsb3(id_project, username, method):
 
     file_url = '{}{}'.format(id_project, '.sb3')
 
-    path_project = os.path.dirname(os.path.dirname(__file__))
-    path_json_file_temporary = download_scratch_project_from_servers(path_project, id_project)
+    try:
+        path_project = os.path.dirname(os.path.dirname(__file__))
+        path_json_file_temporary = download_scratch_project_from_servers(path_project, id_project)
+    except AttributeError as e:
+        logger.error('AttributeError: %s', str(e))
+        raise DrScratchException
 
     print("PATH JSON TEMPORARY FILE ---------------------------------------------------------")
     print(path_json_file_temporary)
@@ -705,6 +738,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
     
     if os.path.exists(path_projectsb3):
         json_scratch_project = load_json_project(path_projectsb3)
+
         dict_mastery = Mastery(path_projectsb3, json_scratch_project, skill_points, dashboard).finalize()
         dict_babia = Babia(path_projectsb3, json_scratch_project).finalize()
         dict_duplicate_script = DuplicateScripts(path_projectsb3, json_scratch_project).finalize()
