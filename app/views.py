@@ -40,9 +40,12 @@ import shutil
 import unicodedata
 import csv
 from datetime import datetime, timedelta, date
+from requests import Request
 import traceback
 import re
 import app.consts_drscratch as consts
+from django.utils.translation import get_language
+from types import SimpleNamespace
 from app.scratchclient import ScratchSession
 from app.pyploma import generate_certificate
 from app.hairball3.mastery import Mastery
@@ -64,7 +67,7 @@ import coloredlogs
 from .tasks import init_batch
 
 # Analyzer imports
-from .analyzer import analyze_project, generator_dic, return_scratch_project_identifier, send_request_getsb3, _make_compare, analysis_by_upload, analysis_by_url
+from .analyzer import analyze_project, generator_dic, return_scratch_project_identifier, send_request_getsb3, _make_compare, analysis_by_upload, analysis_by_url, analyze_babia_project
 from .batch import skills_translation
 
 # Recomender System imports
@@ -1693,5 +1696,107 @@ def get_analysis_d(request, skill_points=None):
     return JsonResponse(context)
 
 
+###################################
+##
+##      BABIA PROJECTS
+##
+###################################
+
+
+def get_babia(request):
+    # TEMP DATA
+    numbers = ''
+    skill_rubric = generate_rubric(numbers)
+
+    # Create a fake request instead of fill the form ______________________________________
+    """
+    This is a fake provisional request for testing purposes.
+    """
+    fake_request = SimpleNamespace()
+    fake_request.method = 'POST'
+    fake_request.POST = {'_url': '',
+                         'urlProject': 'https://scratch.mit.edu/projects/282489021/'}
+    fake_request.GET = SimpleNamespace()
+    fake_request.session = SimpleNamespace()
+    fake_request.LANGUAGE_CODE = get_language()
+    # _____________________________________________________________________________________
+    
+
+
+    d = build_dictionary_with_automatic_analysis(fake_request, skill_rubric)
+    babia_dict = format_babia_dict(d[0])
+
+    context = {
+        'babia_dict': json.dumps(babia_dict)
+    }
+
+    return render(request, 'babia/project_babia.html', context)
+
+
+import random
+
+def format_babia_dict(d: dict):
+    global_babia = d['babia']
+    deadCode_babia = d['deadCode']['scripts']
+
+    print("Mi deadCode")
+    print(deadCode_babia)
+    colors = {}
+
+    #print("deadCode babia")
+    #print(deadCode_babia)
+
+
+    #colors =  ["#eb4034", "#4554ff", "#03ff96"]
+
+    data = {
+        "id": "Root",
+        "children": [],
+    }
+
+    for sprite_name, script_dicc in deadCode_babia.items():
+        colors[sprite_name] = {}
+        for script_key, script_value in script_dicc.items():
+            colors[sprite_name][script_key] = '#3a85fc'
+    
+
+
+    for sprite_key, sprite_item in global_babia['sprites'].items():
+        sprite_data = {
+            "id": sprite_key,
+            "children": [],
+        }
+        for script_key, script_value in sprite_item.items():
+            """ 
+            script_data = {
+                "id": script_key,
+                "area": 2,
+                "Blocks": len(script_value.split('\n')),
+                "building_color": colors[script_key],
+                "script_blocks": script_value
+            }
+            """
+            #print("-------------------------------------")
+            #print(" ".join(script_value.split('\n')))
+            #print("--------------------------------------")
+            if script_key not in colors[sprite_key]:
+                colors[sprite_key][script_key] = "#ffffff"
+            
+            script_data = {
+                "id": script_key,
+                "area": 2,
+                "Blocks": len(script_value.split('\n')),
+                "building_color": colors[sprite_key][script_key],
+                "script_blocks": script_value
+            }
+            
+            
+            sprite_data["children"].append(script_data)
+        data["children"].append(sprite_data)
+    #print(data)
+
+    
+
+    return data
 
 

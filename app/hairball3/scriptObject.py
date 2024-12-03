@@ -330,8 +330,8 @@ BLOCK_TEXT = {
     "MICROBIT_DISPLAYSYMBOL": "display (%1 v)",
     "MICROBIT_DISPLAYTEXT": "display text (%1)",
     "MICROBIT_DISPLAYCLEAR": "clear display",
-    "MICROBIT_WHENTILTED": "when titled (%1 v)",
-    "MICROBIT_ISTILTED": "titled (%1 v)",
+    "MICROBIT_WHENTILTED": "when tilted (%1 v)",
+    "MICROBIT_ISTILTED": "tilted (%1 v)",
     "MICROBIT_GETTILTANGLE": "tilt angle (%1 v)",
     "MICROBIT_WHENPINCONNECTED": "when pin (%1 v) connected",
     "EV3_MOTORTURNCLOCKWISE": "motor (%1 v) turn this way for (%2) seconds",
@@ -550,10 +550,10 @@ class Script():
         Converts an unique block into a text format using the syntax from scratchblocks (https://en.scratch-wiki.info/wiki/Block_Plugin/Syntax)
         """
         name = str(block_name["opcode"]).upper()
-        print("block name:", block_name)
-        print("name:", name)
+        #print("block name:", block_name)
+        #print("name:", name)
         if name not in BLOCK_TEXT and name not in STARTER_BLOCKS:
-            block_text = block_name["mutation"]["proccode"]
+            block_text = block_name.get("mutation", {}).get("proccode", "")
         else:
             block_text = BLOCK_TEXT[name]
 

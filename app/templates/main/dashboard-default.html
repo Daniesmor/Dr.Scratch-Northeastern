@@ -216,18 +216,20 @@
                                         </a>
                                         <div id="dead-code-content" class="collapse">
                                             <div class="container-fluid">
-                                                {% for key, value in deadCode.items %}
-                                                    {% if key != 'deadCode' %}
-                                                        {% if key != 'number' %}
-                                                            <b> {{ key }}: </b><br>
-                                                            {% for dead_block in value %}
-                                                                <pre class="blocks">
-                                                                    {{ dead_block }}
-                                                                </pre>
-                                                            {% endfor %}
-                                                            <br>
+                                                {% for sprite_name, script_dicc in deadCode.scripts.items %}
+                                                    {% for key, value in script_dicc.items %}
+                                                        {% if key != 'deadCode' %}
+                                                            {% if key != 'number' %}
+                                                                <b> Sprite: {{ sprite_name }}: </b><br>
+                                                                {% for dead_block in value %}
+                                                                    <pre class="blocks">
+                                                                        {{ dead_block }}
+                                                                    </pre>
+                                                                {% endfor %}
+                                                                <br>
+                                                            {% endif %}
                                                         {% endif %}
-                                                    {% endif %}
+                                                    {% endfor %}
                                                 {% endfor %}
                                                 {% if deadCode.number == 0 %}
                                                     {% trans 'Your project does not have dead code, good job!' %}

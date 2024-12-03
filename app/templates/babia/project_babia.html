@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>ScratchCity - Dr. Scratch</title>
+  <meta name="description" content="Basic example for CodeCity component.">
+  </meta>
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.2.0/dist/aframe-extras.min.js"></script>
+  <script src="../../static/app/scripts/dist/aframe-babia-components.js"></script>
+  <script src="../../static/app/scripts/dist/stl.js"></script>
+  <script src="https://unpkg.com/aframe-environment-component@1.0.0/dist/aframe-environment-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-geometry-merger-component/dist/aframe-geometry-merger-component.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aframe-html-shader@0.2.0/dist/aframe-html-shader.min.js"></script>
+  <link rel="stylesheet" href="../../static/app/content/scratchblocks2.css">
+  <script src="../../static/app/scripts/scratchblocks-v3.4-min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/jgbarah/aframe-stl-exporter-component@aframe-1.5.0/dist/aframe-stl-exporter-component.min.js"></script>
+  <link src="./overlay.css" rel="stylesheet" />
+
+
+
+  <script>
+    window.onload = function() {
+      scratchblocks.renderMatching('pre.blocks', {
+        style: 'scratch3',   // Optional, defaults to 'scratch2'.
+        languages: ['en'], // Optional, defaults to ['en'].
+        scale: 1,                // Optional, defaults to 1
+      });
+    };
+  </script>
+</head>
+
+
+<body>
+  <div class="building_info" height="100px" width="100px" style="overflow: auto;">
+    <div class="container">
+      <button id="export_btn" class="button"><span>Export as STL</span></button>
+    </div>
+    <h1>
+      Script Selected:
+    </h1>
+    <pre id="script_blocks" class="blocks">
+      Please, select a building.
+    </pre>
+  </div>
+
+  
+  
+  <a-scene id="scene" background="color:  #c9f4f9" stl-exporter>
+    <!-- 
+    <a-assets> 
+      <div id="panelHtml" style="display: none;"> 
+        <div class="building_info" style="width: 100px; height: 100px; overflow: auto;"> 
+          <div class="container"> 
+            <button id="export_btn" class="button">
+              <span>Export as STL</span>
+            </button> 
+          </div> 
+          <h1>Script Selected:</h1> 
+          <pre id="script_blocks" class="blocks">Please, select a building.</pre> 
+        </div> 
+      </div> 
+    </a-assets>
+    -->
+
+    <!--a-entity id="cityevolve" codecity='width: 60; depth: 50; algorithm: pivot;
+    extra: 1.05; streets: true;
+    base_thick: .1; streets_thick: .1;
+    streets_width: 1; border: 1;
+    absolute: true; quarter_elevation: .1;
+    ' position="-0 0 -3"></a-entity-->
+    <!-- Resto de tu escena -->
+    <a-entity position="0 0 -3" babia-city='width: 10; depth: 10; streets: true; color: ccn;
+        extra: 1.5; base_thick: 0.3; split: naive; fmaxarea: area; fheight: Blocks;
+        data: {{ babia_dict|safe }}' scale="2 0.1 2" titles: true></a-entity>
+
+
+    <!-- Controls and Camera -->
+    <a-entity movement-controls="fly: true" position="0 1.2 12">
+      <a-entity camera position="0 3 4" look-controls></a-entity>
+      <a-entity laser-controls raycaster="objects: .babiaxraycasterclass, #navbarpopup, #navbarpopup--close-icon, #iteractionpopup, #iteractionpopup--close-icon, 
+          #cityinformation, #cityinformation--close-icon"></a-entity>
+      <a-entity cursor="rayOrigin:mouse" raycaster="objects: .babiaxraycasterclass, #navbarpopup, #navbarpopup--close-icon, #iteractionpopup, #iteractionpopup--close-icon, 
+          #cityinformation, #cityinformation--close-icon"></a-entity>
+      <!--<a-entity id="leftHand" oculus-touch-controls="hand: left"> <a-plane id="panel" width="1" height="0.5" position="0 0 -1" rotation="0 0 0" color="blue" material="shader: html; target: #panelHtml; fps: 30;"> </a-plane> </a-entity>-->
+    </a-entity>
+
+  </a-scene>
+  <style>
+    .gitlab-corner-wrapper {
+      overflow: hidden;
+      width: 100px;
+      height: 100px;
+      position: absolute;
+      top: 0;
+      right: 0
+    }
+
+    .gitlab-corner {
+      position: absolute;
+      top: -16px;
+      right: -50px;
+      transform: rotate(45deg);
+      background: #548;
+      border: 44px solid #548;
+      border-bottom: none;
+      border-top: #548 solid 16px
+    }
+
+    .gitlab-corner svg {
+      width: 60px;
+      height: 60px;
+      margin-bottom: -4px
+    }
+
+    .cls-1 {
+      fill: #fc6d26
+    }
+
+    .cls-2 {
+      fill: #e24329
+    }
+
+    .cls-3 {
+      fill: #fca326
+    }
+
+    .gitlab-corner:hover .cls-1 {
+      animation: cycle .6s
+    }
+
+    .gitlab-corner:hover .cls-2 {
+      animation: cycleMid .6s
+    }
+
+    .gitlab-corner:hover .cls-3 {
+      animation: cycleEnd .6s
+    }
+
+    @keyframes cycle {
+
+      100%,
+      15%,
+      60% {
+        fill: #fc6d26
+      }
+
+      30%,
+      75% {
+        fill: #e24329
+      }
+
+      45%,
+      90% {
+        fill: #fca326
+      }
+    }
+
+    @keyframes cycleMid {
+
+      100%,
+      15%,
+      60% {
+        fill: #e24329
+      }
+
+      30%,
+      75% {
+        fill: #fca326
+      }
+
+      45%,
+      90% {
+        fill: #fc6d26
+      }
+    }
+
+    @keyframes cycleEnd {
+
+      100%,
+      15%,
+      60% {
+        fill: #fca326
+      }
+
+      30%,
+      75% {
+        fill: #fc6d26
+      }
+
+      45%,
+      90% {
+        fill: #e24329
+      }
+    }
+
+    .building_info {
+      position: fixed; 
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      margin-right: 0.8%;
+      z-index: 9999;
+      width: 30%;
+      height: 95%;
+      background-color: white;
+      border: 1px solid black;
+      padding: 10px; 
+    }
+  </style>
+
+</body>
+
+</html>
