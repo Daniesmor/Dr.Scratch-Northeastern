@@ -20,6 +20,9 @@ urlpatterns = [
     # url(r'^/v3/static/(?P<path>.*)$' , serve,
     #                              {'document_root': settings.MEDIA_ROOT}),
     url(r'^(.*)/static/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+
+    # BABIA PROJECTS
+    url(r'^get_babia/$', app_views.get_babia, name='get_babia'),
     
     # API ANALYSIS
     url(r'^get_analysis_d/(?P<skill_points>.{1,6})?$', app_views.get_analysis_d, name='get_analysis_d'),
