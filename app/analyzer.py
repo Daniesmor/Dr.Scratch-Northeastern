@@ -200,7 +200,7 @@ def save_projectsb3(path_file_temporary, id_project):
     dir_zips = os.path.dirname(os.path.dirname(__file__)) + "/uploads/"
 
     unique_id = generate_uniqueid_for_saving(id_project)
-    unique_file_name_for_saving = dir_zips + unique_id + ".sb2"
+    unique_file_name_for_saving = dir_zips + unique_id + ".sb3"
 
     dir_utemp = path_file_temporary.split(id_project)[0].encode('utf-8')
     path_project = os.path.dirname(os.path.dirname(__file__))

@@ -62,7 +62,6 @@ class DeadCode(Plugin):
         """
         for script_name, self.blocks_list in blocks_by_script.items():
             currSprite[script_name] = self.blocks_list
-            self.dead_code_instances += len(self.blocks_list)   
 
 
     def proccess_and_store_script(self, dicc: dict, sprites: dict) -> dict:
@@ -74,10 +73,6 @@ class DeadCode(Plugin):
         self.blocks_list = []
         for blocks, blocks_dicc in dicc["blocks"].items():
             if isinstance(blocks_dicc, dict):
-                # blocks_value = dicc["blocks"]
-                # blocks =  _
-                
-
                 self.blocks_list = self.proccess_block(blocks_dicc, dicc, blocks)
                 if self.blocks_list:
                     blocks_by_script[f'script_{self.currScript}'] = self.blocks_list
@@ -96,40 +91,17 @@ class DeadCode(Plugin):
         is_menu = self.is_menu_block(blocks_dicc)
 
             
-
         if is_event:
-            print("Soy un event:", blocks_dicc["opcode"])
-            print(blocks)
-            print(dicc["blocks"][blocks])
             self.handle_event_block(dicc, blocks)
             
         if not is_event and not is_menu:
-           
-            if blocks_dicc["opcode"] == "control_forever":
-                print("Soy un FOREVER ALONE")
-                print(blocks_dicc)
-                #first_substack = blocks_dicc["inputs"]["SUBSTACK"][1]
-                #print("FIRST SUBSTACK:", dicc["blocks"][first_substack])
-
-                
-                # SI NO ES UN LOOPBLOCK HAY QUE REGISTRARLO Y MIRAR SU NEXT
-                # SI EL NEXT ES UN LOOPBLOCK HAY QUE HACER LO MISMO QUE ANTES
-
-            
-            
-            
-            
             if not self.opcode_argument_reporter in blocks_dicc["opcode"]:
                 self.handle_general_block(blocks_dicc, dicc, blocks) 
                 
                 # Check dead loop blocks
                 if self.is_loop_block(blocks_dicc) and blocks_dicc["opcode"] not in self.blocks_list:
                     if blocks_dicc["parent"] == None:
-                        self.handle_loop_block(blocks_dicc, dicc, blocks)
-                        
-
-                    
-                    
+                        self.handle_loop_block(blocks_dicc, dicc, blocks)                  
         return self.blocks_list
     
 
@@ -144,7 +116,6 @@ class DeadCode(Plugin):
 
     def handle_event_block(self, dicc, blocks):
         if not self.has_next_block(dicc["blocks"][blocks]):
-            print("NO TENGO NADA")
             self.store_script(dicc, blocks)
 
 
@@ -155,91 +126,55 @@ class DeadCode(Plugin):
             if self.has_next_block(blocks_dicc):
                 next_block_id = blocks_dicc.get("next")
                 while (next_block_id != None):
-                    # Checks if the next block is in `dicc["blocks"]` and prints it
-                    
+                    # Checks if the next block is in `dicc["blocks"]` and prints it    
                     next_block = dicc["blocks"].get(next_block_id)
                     self.store_script(dicc, blocks)
                     next_block_id = next_block.get("next")
 
-
-
     
     def handle_loop_block(self, blocks_dicc, dicc, blocks):   
-        print("ESTOY EN HANDLE GRACIAS A:",blocks_dicc)
         if not blocks_dicc["inputs"]:
-            print("AQUI NO NO?")
             # Empty loop block, but inside of a block structure
             self.store_script(dicc, blocks)
         elif "SUBSTACK" not in blocks_dicc["inputs"]:
-            print("AQUI NO NO?")
             self.store_script(dicc, blocks)
-        else:  # Could be normal loop block
-            print("Soy un forever:", blocks_dicc)
-            
-            self.dead_code_instances += 1
-
-            # Obtener el primer substack
+        else:  # Could be normal loop block            
             first_substack_id = blocks_dicc["inputs"]["SUBSTACK"][1]
             first_substack_dicc = dicc["blocks"].get(first_substack_id)
             
             if first_substack_dicc is not None:
-                #self.store_script(first_substack_dicc)
-                self.dead_code_instances += 1
-                # Si el bloque es un loop, se maneja recursivamente
                 if self.is_loop_block(first_substack_dicc):
                     self.handle_loop_block(first_substack_dicc, dicc, blocks)
                 else:
                     # Iterar sobre los bloques siguientes
                     while first_substack_dicc is not None and self.has_next_block(first_substack_dicc):
-                        print("ES AQUIO EL BUCLE???")
                         first_substack_id = first_substack_dicc.get("next")
                         first_substack_dicc = dicc["blocks"].get(first_substack_id)
 
                         if first_substack_dicc is not None:
                             if self.is_loop_block(first_substack_dicc):
-                                #self.store_script(first_substack_dicc)
-                                self.dict_babia[self.sprite][f'script_{self.currScript}'] += 1 #Incremet one block
-                                self.dead_code_instances += 1
                                 self.handle_loop_block(first_substack_dicc, dicc, blocks)
-                            else: 
-                                self.dict_babia[self.sprite][f'script_{self.currScript}'] += 1 #Incremet one block
-                                self.dead_code_instances += 1
-                                #self.store_script(first_substack_dicc)
-                        else:
-                            print(f"Advertencia: el bloque con ID '{first_substack_id}' no se encuentra en 'dicc'.")
-                            break  # Salir del ciclo si no se encuentra el siguiente bloque
-            #blocks = list(dicc["blocks"])[0]
-            #script = Script()
-            #script.set_script_dict(block_dict=dicc["blocks"], start=blocks)
-            #script_text = script.convert_to_text()
-            #self.blocks_list = [script_text]      
             self.store_script(dicc, blocks)          
-
-            
-            
-                
-                
+          
 
     def store_script(self, dicc, blocks):
-        #block = script.convert_block_to_text(blocks_dicc)
-        #print("Estoy almacenando:", block)
-        #self.blocks_list.append(str(block))
-        #print("Sprite:", self.sprite)
-        #print("Asi queda mi lista:", self.blocks_list)
-        #blocks = list(dicc["blocks"])[0]
-        script = Script()
-        script.set_script_dict(block_dict=dicc["blocks"], start=blocks)
-        script_text = script.convert_to_text()
+        """
+        Store script in block_list.
+        """
+        script_text = self.get_script_text(dicc["blocks"], blocks)
         clean_script_text = [line for line in script_text.split('\n') if line.strip()]
         
         if script_text not in self.blocks_list:
-            print(clean_script_text)
             self.blocks_list = [script_text]  
-            print("SE ESTA HACIENDO EL STORE DE:")
-            print(script_text)
             self.dict_babia[self.sprite][f'script_{self.currScript}'] = len(clean_script_text) #Incremet one block
-            self.dead_code_instances += 1
 
+    def get_script_text(self, dicc_blocks, start):
+        """
+        Get current script in visual format.
+        """
+        script = Script()
+        script.set_script_dict(block_dict=dicc_blocks, start=start)
+        return script.convert_to_text()
 
     def has_next_block(self, blocks_dicc):
         """
@@ -253,6 +188,10 @@ class DeadCode(Plugin):
         self.analyze()
 
         result = "{}".format(self.filename)
+
+        for _, scripts in self.dict_babia.items():
+            for _, script_len in scripts.items():
+                self.dead_code_instances += script_len
 
         if self.dead_code_instances > 0:
             result += "\n"
