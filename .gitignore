@@ -21,6 +21,8 @@ configuration/*
 *.sb2
 *.sb
 *.json
+*.zip
+*.csv
 mydatabase
 logFile.txt
 output.aux
