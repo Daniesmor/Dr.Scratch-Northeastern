@@ -1,0 +1,281 @@
+{% load i18n %}
+
+<div id="Extended" class="tabcontent">
+    {% if mastery.competence == "Master" %}
+        <div id="confeti-container"></div>
+    {% endif %}
+    
+    <div class="container">
+        <section id="blackboard" class="services col-md-5">
+            <!-- POINTS PANEL -->
+            <div id="devpanels">
+                <div class="devpanel" style="padding-top: 5%;">
+                    <div class="panel panel-success" id="devpanel">
+                        <div class="panel-heading" id="steptwo" >
+                            {% if mastery.competence == "Basic" %}
+                                <img src="/static/app/images/ferret.png" class="img-responsive col-md-5" >
+                            {% elif mastery.competence == "Developing" %}
+                                <img src="/static/app/images/monkey.png" class="img-responsive col-md-4" >
+                            {% else %}
+                                <img src="/static/app/images/cat.png" class="img-responsive col-md-3">
+                            {% endif %}
+                            <h2 id="score" class="panel-title dark-text">
+                                <strong id="score-text">{% trans "Score:" %}</strong>
+                                <span id="score0">
+                                    {% if mastery.points.0|floatformat:"-1" == mastery.points.0|floatformat:"0" %}
+                                        {{ mastery.points.0|floatformat:"0" }}
+                                    {% else %}
+                                        {{ mastery.points.0 }}
+                                    {% endif %}
+                                </span>
+                                /
+                                <span id="score1">
+                                    {% if mastery.points.1|floatformat:"-1" == mastery.points.1|floatformat:"0" %}
+                                        {{ mastery.points.1|floatformat:"0" }}
+                                    {% else %}
+                                        {{ mastery.points.1 }}
+                                    {% endif %}                          
+                                </span>
+                                    
+                            <a class="twitter-share-button" data-text="{% blocktrans with points=mastery_vanilla.points.0 %} I have just obtained {{ points }} points analyzing my project in Dr. Scratch! Beat it! @DrScratchTool {% endblocktrans %}"href="https://twitter.com/share">Tweet</a></h2>
+                        </div>
+                        <div class="panel-body" id="original-panel-body">
+                            <div class="container col-md-12">
+                                <div id="motivational-text">
+                                    <h3 class='text-left dark-text'>{% trans 'The level of your project is...' %} <strong> {{ mastery.competence|upper }}! </strong></h3>
+                                    {% if mastery.competence == "Basic" %}
+                                    <p class='text-left dark-text'> {% trans "You're at the beginning of a <br>great adventure . . . Keep it up!" %}</br></p>
+                                    {% elif mastery.competence == "Developing" %}
+                                        <p class='text-left dark-text' > {% trans "You're doing a great job. Keep it up!!! " %}</p>
+                                    {% elif mastery.competence == "Master" %}
+                                        <p class='text-left dark-text' > {% trans "You're the master of the universe!!! " %}</p>
+                                    {% elif mastery.competence == "Advanced" %}
+                                        <p class='text-left dark-text' > {% trans "You're doing a great job. Keep it up!!! " %}</p>
+                                    {% elif mastery.competence == "Finesse" %}
+                                        <p class='text-left dark-text'> {% trans "You're doing a great job. Keep it up!!! " %}</p>
+                                    {% endif %}
+                                </div> 
+                            </div>
+
+                        </div>
+                        {% if url != None %}
+                            <a href="{{ url }}" target="_blank" id="back-to-project"><span class="glyphicon glyphicon-hand-right"></span>{% trans "Come back to your Scratch project." %}</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div id="bad-habits">
+                {% if mastery.competence != "Basic" %}
+                <div class="improve">
+                    <div class="panel panel-success" id="improve">
+                        <div id="stepthree">
+                            <div class="panel-heading" >
+                                <h2 id="score" class="panel-title dark-text" name="original-bad-habits">
+                                    {% trans "Bad habits"%} 
+                                    <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Specific parts of the project that do not contribute to good programming practices' %}"></i>
+                                </h2>
+                            </div>
+                            <div class="panel-body text-left typ">
+                                <a class="glyphicon glyphicon-repeat"/>
+                                <a id="duplicated-scripts" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Duplicated scripts' %}" 
+                                data-trigger="manual" href="/learn/BadSmells/duplicatedScripts/" target="_blank"> 
+                                    {{ duplicateScript.number }} {% trans " duplicated scripts." %}
+                                </a>
+                                <div id="duplicated-scripts-content" class="collapse">
+                                    <div class="container-fluid">
+                                        {% for k, list_duplicate_blocks in duplicateScript.items %}
+                                        {% if k == 'scripts' %}
+                                            
+                                            {% for list_blocks in list_duplicate_blocks %}
+                                                <pre class="blocks">
+                                                    {{ list_blocks }}
+                                                </pre>
+                                            {% endfor %}
+                                        {% endif %}
+                                        {% endfor %}
+                                        {% if duplicateScript.number == 0 %}
+                                            {% trans 'Your project does not have duplicated scripts, good job!' %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <br>
+                                <a class="glyphicon glyphicon-pencil"/>
+                                <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Sprite naming' %}" 
+                                data-content="
+                                {% for value in spriteNaming.sprite %}
+                                    {{ value }}
+                                    <br>
+                                {% endfor %}
+                                {% if spriteNaming.number == 0 %}
+                                    {% trans 'Your project does not have default sprite naming, good job!' %}
+                                {% endif %}
+                                " data-trigger="manual" href="/learn/BadSmells/spriteNaming/" target="_blank"> 
+                                    {{ spriteNaming.number }} {% trans " sprite naming." %}
+                                </a><br>
+                                <a class="glyphicon glyphicon-pencil"/> 
+                                <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Backdrop naming' %}" data-content="
+                                {% for value in backdropNaming.backdrop %}
+                                        {{ value }} <br>
+                                {% endfor %}
+                                {% if backdropNaming.number == 0 %}
+                                        {% trans 'Your project does not have default backdrop naming, good job!' %}
+                                {% endif %}
+                                    " data-trigger="manual" href="/learn/BadSmells/backdropNaming/" target="_blank"> 
+                                        {{ backdropNaming.number }} {% trans " backdrop naming." %}
+                                </a><br>
+                                <a class="glyphicon glyphicon-remove-sign"/>
+                                <a id="dead-code" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Dead code' %}" 
+                                data-trigger="manual" href="/learn/BadSmells/deadCode/" target="_blank"> 
+                                    {{ deadCode.number }} {% trans " dead code." %}
+                                </a>
+                                <div id="dead-code-content" class="collapse">
+                                    <div class="container-fluid">
+                                        {% for key, value in deadCode.items %}
+                                            {% if key != 'deadCode' %}
+                                                {% if key != 'number' %}
+                                                    <b> {{ key }}: </b><br>
+                                                    {% for dead_block in value %}
+                                                        <pre class="blocks">
+                                                            {{ dead_block }}
+                                                        </pre>
+                                                    {% endfor %}
+                                                    <br>
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if deadCode.number == 0 %}
+                                            {% trans 'Your project does not have dead code, good job!' %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% if refactor.refactor_list %}
+                                <button type="button" class="btn btn-primary" onclick="modalContentChange('duplicated-scripts-content-r')" style="margin-bottom: 2%;">
+                                    {% trans 'Display all duplicates' %}
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="improve">
+                <div class="panel panel-success" id="improve">
+                    <div id="stepfour">
+                        <div class="panel-heading" >
+                            <h2 id="score" class="panel-title dark-text">
+                                {% trans "Project certificate"%}
+                                <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Certificate of the Evaluation of your Scratch Project' %}"></i>
+                            </h2>
+                        </div>
+                        <div class="panel-success" style="word-break: break-word;" >
+                            <h5>{{ filename }} <form name="form" class="project-form" enctype="multipart/form-data" method="post" action="/download_certificate">
+                            {% csrf_token %}
+                            <input type="hidden" name="level" value="{{ mastery.points.0 }}/{{ mastery.points.1 }}">
+                            <button value="{{ filename }}" name="filename" type="submit" id ="certificate" style="margin-top: 3%;">{% trans "Download" %}</button>
+                            </form></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </section>
+            
+        </section>
+
+
+        <div class="col-md-7">
+            <section id="dashboard" style="padding-top: 3.5%;">
+                <div class="container-fluid">
+                    <div class="row marketing">
+                        <div class="jumbotron">
+                            <div class="table-responsive">
+                                <div id="stepfive">
+                                    
+                                    <table class="table tablesorter">
+                                        <thead>
+                                            <tr>
+                                            <th>
+                                                <h4>
+                                                    {% trans "Level up" %}
+                                                    <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Dimensions Evaluated in your Scratch Project' %}"></i>
+                                                </h4>
+                                            </th>
+                                            <th class="col-md-5">
+                                                <h4>
+                                                    {% trans "Level" %}
+                                                    <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Grade from 1 to 3 of each Dimension' %}"></i>
+                                                </h4>
+                                            </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        
+                                        
+                                        {% for key, value in mastery.items %}
+                                        
+                                        {% if forloop.counter0|divisibleby:1 %}<tr>{% endif %}
+                                        {% if key != "points" %}
+                                        {% if key != "competence" %}
+        
+                                            <td style="text-align: left;">
+                                                {% if value.0.0 == value.0.1 %}
+                                                <span class="glyphicon glyphicon-star" id="star"></span>
+                                                {% else %}
+                                                <img src="/static/app/images/little_bulb.png" alt="">
+                                                {% endif %}
+                                                <a href="/learn/Dimensions/{{ value.1 }}/" target="_blank">{{ key }}</a>
+                                            </td>
+                                            <td id="{{ value.1 }}">
+                                                {% if value.0.0 == 0 %}
+                                                    <div class="progress">
+                                                        <div class="progress">
+                                                            <span style="color: grey; font-size: 12px;"><strong>{{ value.0.0 }} / {{ value.0.1 }}</strong></span>
+                                                        </div>
+                                                    </div>
+                                                {% else %}
+                                                    <div class="progress">
+                                                        <div id="progressBar" class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="{{ value.0.0 }}" aria-valuemin="0" aria-valuemax="{{ value.0.1 }}" style="width: {% widthratio value.0.0 value.0.1 100 %}%">
+                                                            <span><strong>
+                                                                {% if value.0.0|floatformat:"-1" == value.0.0|floatformat:"0" %}
+                                                                    {{ value.0.0|floatformat:"0" }}
+                                                                {% else %}
+                                                                    {{ value.0.0 }}
+                                                                {% endif %}
+                                                                /
+                                                                {% if value.0.1|floatformat:"-1" == value.0.1|floatformat:"0" %}
+                                                                    {{ value.0.1|floatformat:"0" }}
+                                                                {% else %}
+                                                                    {{ value.0.1 }}
+                                                                {% endif %}
+                                                            </strong></span>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                            </td>
+                    
+                                        {% endif %}
+                                        {% endif %}
+                                        {% if forloop.counter|divisibleby:1 or forloop.last %}
+                                        </tr>
+                                        {% endif %}
+                                        {% endfor %}
+
+                                        
+                                        
+                                        </tbody>
+                                        </table>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</div>

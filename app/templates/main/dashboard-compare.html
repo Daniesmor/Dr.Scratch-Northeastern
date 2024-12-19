@@ -120,58 +120,6 @@
         </script>
 
         <script>
-            document.addEventListener('DOMContentLoaded', (event) => {
-                // Function to handle link click
-                function handleLinkClick(event, urlProjectValue) {
-                    event.preventDefault();  // Prevent the default link click behavior
-
-                    // Define the data to be sent
-                    const data = {
-                        dashboard_mode: 'Default',
-                        urlProject: urlProjectValue,
-                        _url: 'url' // Assuming you handle file uploads differently
-                    };
-
-                    // Create a hidden form element
-                    const form = document.createElement('form');
-                    form.method = 'POST';
-                    form.action = event.currentTarget.href;
-                    form.target = '_blank';
-
-                    // Append CSRF token
-                    const csrfToken = '{{ csrf_token }}';
-                    const csrfInput = document.createElement('input');
-                    csrfInput.type = 'hidden';
-                    csrfInput.name = 'csrfmiddlewaretoken';
-                    csrfInput.value = csrfToken;
-                    form.appendChild(csrfInput);
-
-                    // Append data to the form
-                    for (const key in data) {
-                        const input = document.createElement('input');
-                        input.type = 'hidden';
-                        input.name = key;
-                        input.value = data[key];
-                        form.appendChild(input);
-                    }
-
-                    // Append form to the body and submit
-                    document.body.appendChild(form);
-                    form.submit();
-                }
-
-                // Add event listeners to the links
-                document.getElementById('back-to-vanilla-base').addEventListener('click', function(event) {
-                    handleLinkClick(event, '{{ Original.url }}');
-                });
-
-                document.getElementById('back-to-vanilla-project').addEventListener('click', function(event) {
-                    handleLinkClick(event, '{{ New.url }}');
-                });
-            });
-        </script>
-
-        <script>
             $(document).ready(function(){
                 var isMouseOverPopover = false;
             
@@ -354,52 +302,6 @@
     <body>
         <div id="wrap" style="width: 100%;">
             <!-- TOP BAR -->
-            <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top  sticky-navigation" role="navigation">
-                <div class="container">
-                    <!-- NAVIGATION LINK -->
-                    <a href="/" style="padding-left: 4%;">
-                        <img src="static/app/images/logo_main.png" alt="" width="220" height="70.1667">
-                    </a>
-                    <ul class="nav navbar-nav navbar-right login-register small-text">
-                        <li style="display: block;" class="login dropdown">
-                            <a aria-expanded="false" type="button" data-toggle="dropdown" class="dropdown-toggle language-content" data-hover="dropdown" style="padding-top: 50%;">
-                                <span class="icon-basic-world"></span>
-                            </a>
-                            <ul role="menu" class="dropdown-menu" style="padding: 20px;">
-                                <li style="padding-left: 20px;">
-                                    <div>
-                                        <form id="language-form" action="/i18n/setlang/" method="post">
-                                            {% csrf_token %}
-                                            <input name="next" type="hidden" value="{{ redirect_to }}" />
-                                            <select name="language" id="language-selector" onchange="submitLanguageForm()" class='btn-group btn-group-justified colored-text language-content'>
-                                                {% get_language_info_list for LANGUAGES as languages %}
-                                                {% for language in languages %}
-                                                    {% if language.code == request.LANGUAGE_CODE %}
-                                                        <option value="{{ language.code }}" selected>{{ language.name }} ({{ language.code }})</option>
-                                                    {% else %}
-                                                        <option value="{{ language.code }}">{{ language.name }} ({{ language.code }})</option>
-                                                    {% endif %}
-                                                {% endfor %}
-                                            </select>
-                                        </form>
-                                        <form id="dashboard-form" action="/show_dashboard/" method="post" style="display: none;">
-                                            {% csrf_token %}
-                                            <input type="hidden" name="dashboard_mode" value="{{ Original.dashboard_mode }}">
-                                            <input type="hidden" name="urlProject" value="{{ Original.url }}">
-                                            <input type="hidden" name="urlProject" value="{{ New.url }}">
-                                            <input type="hidden" name="same_functionality" value="{{ Compare.same_functionality }}">
-                                            <input type="hidden" name="_urls" value="url">
-                                        </form>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <!-- /END TOP BAR -->
-            <div id="url-container" data-url="{% url 'get_analysis_d' %}"></div>
-            <!-- MAIN CONTENT -->
             <!-- C MODE -->
         <div id="Compare" class="tabcontent">
             <div class="container">
@@ -1094,24 +996,6 @@
                 <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans 'Close' %}</button>
             </div>
         </div>
-
-        <!-- FOOTER -->
-        <footer class="footer grey-bg">
-            <p>{% trans "©2024 Dr.Scratch Made with " %} <span style="color: #e25555;">&#9829;</span> {% trans "by " %} <a href="/collaborators">{% trans "Dr.Scratch Team." %}</a></p>
-                <!-- SOCIAL ICONS -->
-                <ul class="social-icons">
-                    <li>
-                        <a href="https://github.com/Daniesmor/Dr.Scratch-Northeastern"> 
-                        <i class="bi bi-github" style="color: black;"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://twitter.com/DrScratchTool">
-                        <i class="bi bi-twitter-x" style="color: black;"></i>
-                        </a>
-                    </li>    
-                </ul>
-        </footer>
 
     </div>
 

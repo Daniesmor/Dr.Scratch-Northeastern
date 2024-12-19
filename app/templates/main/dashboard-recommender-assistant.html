@@ -1,0 +1,343 @@
+{% load i18n %}
+
+<div id="Recommender" class="tabcontent">
+    <div class="container" id="stepone">
+        <section id="dashboard" style="padding-top: 0px;">
+           
+        </section>
+    </div>
+    
+    <style>
+        /* Estilos para la sección */
+        .bg-success {
+          background-color: #E6F0FF; /* Establece el color de fondo gris */
+          height: 600px; /* Establece la altura en 500px */
+          width: 100%; /* Establece el ancho al 100% de la pantalla */
+        }
+
+        .square-container {
+            margin-top: 20px;
+            width: 100px; /* Establece el ancho del contenedor en 50px */
+            height: 100px; /* Establece la altura del contenedor en 50px */
+            background-color: white; /* Establece el color de fondo blanco */
+            border-radius: 10px; /* Establece el radio del borde en 10px */
+            text-align: center; /* Centra el texto horizontalmente */
+            line-height: 50px; /* Alinea verticalmente el texto */
+        }
+
+        .square-screen {
+            margin-top: 20px;
+            width: 100%; /* Establece el ancho del contenedor en 50px */
+            height: 500px; /* Establece la altura del contenedor en 50px */
+            background-color: #F9F9F9; /* Establece el color de fondo blanco */
+            border-radius: 10px; /* Establece el radio del borde en 10px */
+            text-align: center; /* Centra el texto horizontalmente */
+            line-height: 50px; /* Alinea verticalmente el texto */
+        }
+
+        .spinner {
+        display: none; /* Oculto por defecto */
+        border: 4px solid rgba(0, 0, 0, 0.1);
+        border-left-color: rgb(255, 162, 24);
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        animation: spin 1s linear infinite;
+        margin-left: 10px; /* Espacio entre el botón y el spinner */
+        }
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        .dropdown-toggle::after {
+            display: none;
+        }
+            /* Asegura que el dropdown no afecte el tamaño del icono */
+        .login.dropdown .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            display: none; /* Oculto por defecto */
+        }
+        /* Mostrar el dropdown cuando se hace clic */
+        .login.dropdown.open .dropdown-menu {
+            display: block;
+        }
+    </style>
+
+
+    
+
+    <!-- RECOMENDER (STYLES AND SCRIPTS) -->
+    <style>
+        .typed-family {
+            font-family: 'Courier New', Courier, monospace;
+            color: #333;
+            white-space: pre-wrap;
+            text-align: left;
+            font-size: 15px;
+        }
+    </style>
+
+    <script>
+        function initPrompt(data = null) {
+            if (data == null) {
+                // Fetch and process the message to type
+                var message = "{{ recomenderSystem.message|escapejs }}";
+                console.log(message);
+                var explanation = "{{ recomenderSystem.explanation|escapejs }}";
+                var farwell = "{{ recomenderSystem.farwell|escapejs }}";
+                message = message.replace(/\u001b\[95m/g, '<span style="color: magenta;">').replace(/\u001b\[0m/g, '</span>');
+                
+                // Check if there are any blocks to process
+                var blocksExist = {% if recomenderSystem.blocks %} true {% else %} false {% endif %};
+
+                if (blocksExist) {
+                    // Create and hide pre elements for each block
+                    {% for block in recomenderSystem.blocks %}
+                        var indexBlock = "{{ forloop.counter0|add:1 }}"; // Out ids starts on 1 instead of 0, this easy for block selector
+                        var blockName = `recomBlock${indexBlock}`;
+
+                        // Creates the legend "This block is in the sprite bla"
+                        var preLegend = document.createElement('p');
+                        var blockLegend = `{{ block.1|escapejs }}`;
+                        blockLegend = blockLegend.replace(/\u001b\[95m/g, '<span style="color: magenta;">').replace(/\u001b\[0m/g, '</span>');
+                        preLegend.innerHTML = blockLegend;
+                        preLegend.className = `typed-family`; 
+                        
+                        // Creates the block image
+                        var deadBlockContent = `{{ block.0|escapejs }}`;
+                        var preElement = document.createElement('pre');
+                        preElement.className = 'blocks';
+                        preElement.innerHTML = deadBlockContent;
+
+                        // Creates the container that contains the block and the legend
+                        var blockContainer = document.createElement('div');
+                        blockContainer.id = blockName;
+                        blockContainer.style.display = 'none';
+                        document.getElementById('blocks-recomender').appendChild(blockContainer);   
+                        blockContainer.appendChild(preLegend);
+                        blockContainer.appendChild(preElement);
+                        
+                        // Update total value of the block selector
+                        document.getElementById('totSelValue').textContent = "{{ forloop.counter0|add:1 }}";
+                    {% endfor %}
+                } 
+            } else {
+                // Fetch and process the message to type
+                var message = data.message;
+                console.log(message);
+                var explanation = data.explanation;
+                var farwell = data.farwell;
+
+                // Reemplaza las secuencias de escape ANSI con etiquetas de estilo HTML
+                message = message.replace(/\u001b\[95m/g, '<span style="color: magenta;">').replace(/\u001b\[0m/g, '</span>');
+
+                // Check if there are any blocks to process
+                var blocksExist = data.blocks && data.blocks.length > 0;
+
+                if (blocksExist) {
+                    // Create and hide pre elements for each block
+                    data.blocks.forEach((block, index) => {
+                        var indexBlock = index + 1; // Out ids starts on 1 instead of 0, this easy for block selector
+                        var blockName = `recomBlock${indexBlock}`;
+
+                        // Creates the legend "This block is in the sprite bla"
+                        var preLegend = document.createElement('p');
+                        var blockLegend = block[1];
+                        blockLegend = blockLegend.replace(/\u001b\[95m/g, '<span style="color: magenta;">').replace(/\u001b\[0m/g, '</span>');
+                        preLegend.innerHTML = blockLegend;
+                        preLegend.className = `typed-family`;
+
+                        // Creates the block image
+                        var deadBlockContent = block[0];
+                        var preElement = document.createElement('pre');
+                        preElement.className = 'blocks';
+                        preElement.innerHTML = deadBlockContent;
+
+                        // Creates the container that contains the block and the legend
+                        var blockContainer = document.createElement('div');
+                        blockContainer.id = blockName;
+                        blockContainer.style.display = 'none';
+                        document.getElementById('blocks-recomender').appendChild(blockContainer);
+                        blockContainer.appendChild(preLegend);
+                        blockContainer.appendChild(preElement);
+
+                        // Update total value of the block selector
+                        document.getElementById('totSelValue').textContent = indexBlock;
+                    });
+                }        
+            }
+            
+
+            // Function to control the block selector
+            function listenSelector() {
+                var prevSelector = document.getElementById('prevBlock');
+                var nextSelector = document.getElementById('nextBlock');
+                var currSelValueElem = document.getElementById('currSelValue');
+                var totSelValueElem = document.getElementById('totSelValue');
+
+                var currSelValue = parseInt(currSelValueElem.textContent);
+                var totSelValue = parseInt(totSelValueElem.textContent);              
+
+                prevSelector.addEventListener("click", function() {
+                    if (currSelValue >= 2) {
+                        document.getElementById(`recomBlock${currSelValue}`).style.display = 'none';
+                        currSelValue--;
+                        currSelValueElem.textContent = currSelValue; 
+                        
+                        document.getElementById(`recomBlock${currSelValue}`).style.display = 'block';
+                    }
+                });
+
+                nextSelector.addEventListener("click", function() {
+                    if (currSelValue < totSelValue) {
+                        document.getElementById(`recomBlock${currSelValue}`).style.display = 'none';
+                        currSelValue++;
+                        currSelValueElem.textContent = currSelValue; 
+                        document.getElementById(`recomBlock${currSelValue}`).style.display = 'block';
+                    }  
+                });
+            }
+
+            // Function to initialize Typed.js for farewell message
+            function typed_farwell() {
+                var typed_farwell = new Typed('#typed-farwell', {
+                    strings: [farwell],
+                    typeSpeed: 20,
+                    backSpeed: 25,
+                    backDelay: 1000,
+                    loop: false,
+                    showCursor: false,
+                    onComplete: function() {
+                        document.getElementById('test-again').style.display = "block";
+                    }
+                });
+            }
+
+            // Function to initialize Typed.js for explanation message
+            function typed_explanation() {
+                var typed_explanation = new Typed('#typed-explanation', {
+                    strings: [explanation],
+                    typeSpeed: 20,
+                    backSpeed: 25,
+                    backDelay: 1000,
+                    loop: false,
+                    showCursor: false,
+                    onComplete: function() {
+                        typed_farwell();
+                    }
+                });
+            }
+            
+            // Initialize Typed.js for initial message
+            var typed_message = new Typed('#typed-message', {
+                strings: [message],
+                typeSpeed: 20,
+                backSpeed: 25,
+                backDelay: 1000,
+                loop: false,
+                showCursor: false,
+                onComplete: function() {
+                    if (blocksExist) {
+                        var blockSelector = document.getElementById('block-selector');
+                        blockSelector.style.display = 'block';
+
+                        var blockRecomender = document.getElementById('blocks-recomender');
+                        blockRecomender.style.display = 'block';
+
+                        // Show the first block (index 1)
+                        document.getElementById('recomBlock1').style.display = 'block';
+                        listenSelector();
+
+                        // Type explanation message after block section
+                        typed_explanation();
+                    } else {
+                        typed_explanation();
+                    }
+                }
+            });
+            
+        }
+        // Function to reload AJAX data of scratch projects
+        var urlProject = "{{ url|escapejs }}";
+        $(document).ready(function() {
+            $('#test-again').click(function(e) {
+                e.preventDefault()
+                $('#loading-spinner').show();
+                $.ajax({
+                    type: 'POST',
+                    data: {
+                        'dashboard_mode': 'Default',
+                        'urlProject': urlProject,
+                        '_url': '',
+                        'curr_type': '{{ recomenderSystem.type|escapejs }}'
+                    },
+                    url: '{% url "get_recommender" %}',
+                    success: function(data) {
+                        document.getElementById('loading-spinner').style.display = 'none';
+                        document.getElementById('test-again').style.display = 'none';
+                        document.getElementById('typed-message').innerHTML = '';
+                        document.getElementById('typed-explanation').innerHTML = '';
+                        document.getElementById('typed-farwell').innerHTML = '';
+                        document.getElementById('blocks-recomender').style.display = 'none';
+                        document.getElementById('block-selector').style.display = 'none';
+
+                        // Initialize dynamic content again
+                        initPrompt(data);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error reloading data:', error);
+                    }
+                });
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            initPrompt();
+        });
+    </script>
+
+    
+        <div class="container d-flex justify-content-center">
+            <div class="col-md-9">
+                <section id="dashboard" style="padding-top: 3.5%;">
+                    <div class="card" style="min-height: 80px;">
+                        <div class="container-fluid">   
+                            <div class="row" style="margin-top: 10px;">
+                                <div class="col-md-1 d-flex">
+                                    <img src="/static/app/images/cat_chat.png" class="position-absolute top-20 start-90" style="max-width: 100%; width: 100%; padding: 10px;" alt="">
+                                </div>
+                                <div class="col-md-11">
+                                    <div id="typed-message" class="typed-family"></div>
+                                    <div id="block-selector" style="display: none;">
+                                        <a id="prevBlock" style="cursor: pointer;"> &lt; </a><span class="typed-family" id="currSelValue">1</span><span class="typed-family"> / </span><span  class="typed-family" id="totSelValue">30</span><a id="nextBlock" style="cursor: pointer;"> &gt;</a>                                     
+                                    </div>
+                                    <div id="blocks-recomender" class="typed-family"></div>
+                                    <br>
+                                    <div id="typed-explanation" class="typed-family"></div>
+                                    <br>
+                                    <div id="typed-farwell" class="typed-family"></div>
+                                    <br>
+                                    <div class="d-flex align-items-center">
+                                        <button id="test-again" class="typed-family btn btn-primary" style="display: none; color: #ffff;">Fixed it!</button>  
+                                        <div class="spinner" id="loading-spinner"></div>
+                                    </div>        
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    <br></br>
+    
+                </section>
+            </div>
+            <br></br>
+        </div>
+</div>

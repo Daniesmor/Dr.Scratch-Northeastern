@@ -1,0 +1,321 @@
+{% load i18n %}
+
+
+<div id="Comparison" class="tabcontent">
+    <section id="blackboard compare" class="services col-md-8" style="padding-top: 3.5%; width: 70%; margin-left: 15%;">
+        <!-- Este es el contenido inicial que se reemplazará al recibir la respuesta -->
+        <div class="improve">
+            <div class="panel panel-success" id="improve">
+                <div id="stepfour">
+                    <div class="panel-heading">
+                        <h2 id="score" class="panel-title dark-text">
+                            {% trans "Compare project"%}
+                            <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Upload the new project in order to compare it with the actual' %}"></i>
+                        </h2>
+                    </div>
+                    <div class="panel-success" style="word-break: break-word;">
+                        <form id="form-compare" name="form" class="project-form" enctype="multipart/form-data" method="post" style="margin: 10px" target="_blank">
+                            <input type="hidden" name="dashboard_mode" value="Default">
+                            <input type="hidden" name="_url_compare" value="Url">
+                            <input type="hidden" name="urlProject" value="{{ url }}">
+                            {% trans '<input name="urlProject" id="cf-name" class="form-control input-box placeholder" placeholder="http:/scratch.mit.edu/projects/your_number" type="text">' %}
+                            <p id="project-warning" style="display: none;"><span class='colored-text'>{% trans "Please enter a project!" %}</span></p>
+                            <div class="form-check">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    {% trans "Is the new project an update from the original?" %}
+                                </label>
+                                <div class="col-md-6" style="padding-left: 25%; padding-top: 8px;">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="same_functionality" id="inlineRadio1" value="True" required>
+                                        <label class="form-check-label" for="inlineRadio1">{% trans 'Yes' %}</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" style="padding-right: 25%; padding-top: 8px;">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="same_functionality" id="inlineRadio1" value="False" required>
+                                        <label class="form-check-label" for="inlineRadio1">{% trans 'No' %}</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <button id="compare-projects-button" class="btn btn-primary standard-button">{% trans "Compare projects" %}</button>
+                            {% csrf_token %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.getElementById("compare-projects-button").addEventListener("click", function (event) {
+            event.preventDefault();
+
+            const form = document.getElementById("form-compare");
+            const formData = new FormData(form);
+
+            fetch('{% url "get_comparison" %}', {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok " + response.statusText);
+                }
+                return response.json();  // Aquí se espera un JSON con los datos de los proyectos
+            })
+            .then(data => {
+                // Crear el HTML para reemplazar el contenido de #blackboard
+                let htmlContent = `
+                <div class="container">
+            <section id="dashboard" style="display: flex; align-items: center; padding-top: 3.5%;">
+                <div class="col-md-6">
+                    <div class="container">
+                        <section id="dashboard" class="services col-md-5" style="padding-top: 0px;">
+                            <div class="jumbotron" style="padding-top: 5px; padding-left: 10%;">
+                                <div class="panel ">
+                                    <div class="panel-heading" id="steptwo">
+                                        <h2 id="score" class="panel-title dark-text">
+                                            <strong>
+                                                Original Project
+                                            </strong>
+                                        </h2>
+                                    </div>
+                                    <div class="panel-body" style="display: flex; align-items: center;">
+                                        <div class="container col-md-12">
+                                            <div class="row" style="display: flex; align-items: center;">
+                                                <div class="col-12 text-center" id="modal_new_score">
+                                                    <h3 class="dark-text" style="margin-top: 0;"><strong>Score:</strong></h3>
+                                                    <h2 id="original-score" class="dark-text" style="font-size: 70px;">
+                                                        ${data.Original.mastery_vanilla.points[0]} / ${data.Original.mastery_vanilla.points[1]}
+                                                    </h2>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-top: 15px;">
+                                                <h3 class="dark-text" style="font-size: 20px;"><strong>Blocks and Sprites Usage:</strong></h3>
+                                                <div class="col-12 align-items-center">
+                                                    <div class="col-sm-6 align-items-center">
+                                                        <img src="/static/app/images/golfing_blocks.png" height="70px" class="mr-3 hover-image dropdown" data-toggle="popover" title="Total Blocks" data-type="Original" data-compare-type="total blocks" data-trigger="manual">
+                                                        <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="original-total-blocks">
+                                                            ${data.Original.block_sprite_usage.result.total_blocks} blocks
+                                                        </h2>
+                                                    </div>
+                                                    <div class="col-sm-6 align-items-center">
+                                                        <img src="/static/app/images/golfing_sprites.png" height="70px" class="display-flex hover-image dropdown" data-toggle="popover" title="Total Sprites" data-type="Original" data-compare-type="total sprites" data-trigger="manual">
+                                                        <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="original-total-sprites">
+                                                            ${data.Original.block_sprite_usage.result.total_sprites} sprites
+                                                        </h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <h3 class="dark-text" style="font-size: 20px;"><strong>Bad Smells:</strong></h3>
+                                                <div class="col-12 align-items-center">
+                                                    <div class="col-sm-6 align-items-center">
+                                                        <img src="/static/app/images/duplicated.png" height="70px" class="mr-3 dropdown" data-toggle="popover" title="Duplicated Scripts" data-type="Original" data-compare-type="duplicated scripts" data-trigger="manual">
+                                                        <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="original-duplicate">
+                                                            ${data.Original.duplicateScript.number} duplicated
+                                                        </h2>
+                                                    </div>
+                                                    <div class="col-sm-6 align-items-center">
+                                                        <img src="/static/app/images/dead_code.png" height="70px" class="display-flex dropdown" data-toggle="popover" title="Dead Code" data-type="Original" data-compare-type="dead code" data-trigger="manual">
+                                                        <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="original-dead">
+                                                            ${data.Original.deadCode.number} dead blocks
+                                                        </h2>
+                                                    </div>
+                                                    <div class="col-sm-6 align-items-center">
+                                                        <img src="/static/app/images/member.jpg" height="70px" class="mr-3 dropdown" data-toggle="popover" title="Sprite Naming" data-type="Original" data-compare-type="sprite naming" data-trigger="manual">
+                                                        <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="original-sprite">
+                                                            ${data.Original.spriteNaming.number} sprites
+                                                        </h2>
+                                                    </div>
+                                                    <div class="col-sm-6 align-items-center">
+                                                        <img src="/static/app/images/backdrop_naming.jpeg" height="70px" class="display-flex dropdown" data-toggle="popover" title="Backdrop Naming" data-type="Original" data-compare-type="backdrop naming" data-trigger="manual">
+                                                        <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="original-backdrop">
+                                                            ${data.Original.backdropNaming.number} backdrops
+                                                        </h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="container">
+                        <section id="dashboard" class="services col-md-5" style="padding-top: 0px;">
+                            <div class="jumbotron" style="padding-top: 5px; padding-left: 10%;">
+                                <div class="panel ">
+                                    <div class="panel-heading" id="steptwo">
+                                        <h2 id="score" class="panel-title dark-text">
+                                            <strong>
+                                                New Project
+                                            </strong>
+                                        </h2>
+                                    </div>
+                                    <div class="panel-body" style="display: flex; align-items: center;">
+                                        <div class="container col-md-12">
+                                            <div class="row" style="display: flex; align-items: center;">
+                                                <div class="col-12 text-center" id="modal_new_score">
+                                                    <h3 class="dark-text" style="margin-top: 0;"><strong>Score:</strong></h3>
+                                                    <h2 id="new-score" class="dark-text" style="font-size: 70px;">
+                                                        ${data.New.mastery_vanilla.points[0]} / ${data.New.mastery_vanilla.points[1]}
+                                                    </h2>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-top: 15px;">
+                                                <h3 class="dark-text" style="font-size: 20px;"><strong>Blocks and Sprites Usage:</strong></h3>
+                                                <div class="col-12 align-items-center">
+                                                    <div class="col-sm-6 align-items-center">
+                                                        <img src="/static/app/images/golfing_blocks.png" height="70px" class="mr-3 dropdown" data-toggle="popover" title="Total Blocks" data-compare-type="total blocks" data-original-number="${data.Compare.original.total_blocks}" data-new-number="${data.Compare.new.total_blocks}" data-trigger="manual">
+                                                        <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="new-total-blocks">
+                                                            ${data.New.block_sprite_usage.result.total_blocks} blocks
+                                                        </h2>
+                                                    </div>
+                                                    <div class="col-sm-6 align-items-center">
+                                                        <img src="/static/app/images/golfing_sprites.png" height="70px" class="display-flex dropdown" data-toggle="popover" title="Total Sprites" data-compare-type="total sprites" data-original-number="${data.Compare.original.total_sprites}" data-new-number="${data.Compare.new.total_sprites}" data-trigger="manual">
+                                                        <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="new-total-sprites">
+                                                            ${data.New.block_sprite_usage.result.total_sprites} sprites
+                                                        </h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <h3 class="dark-text" style="font-size: 20px;"><strong>Bad Smells:</strong></h3>
+                                                <div class="col-12  align-items-center">
+                                                    <div class="col-sm-6  align-items-center">
+                                                        <img src="/static/app/images/duplicated.png" height="70px" class="mr-3 dropdown" data-toggle="popover" title="Duplicated Scripts" data-compare-type="duplicated scripts" data-original-number="${data.Original.duplicateScript.number}" data-new-number="${data.New.duplicateScript.number}" data-trigger="manual">
+                                                        <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="new-duplicate">
+                                                            ${data.New.duplicateScript.number} duplicated
+                                                        </h2>
+                                                    </div>
+                                                    <div class="col-sm-6 align-items-center">
+                                                        <img src="/static/app/images/dead_code.png" height="70px" class="display-flex dropdown" data-toggle="popover" title="Dead Code" data-compare-type="dead code" data-original-number="${data.Original.deadCode.number}" data-new-number="${data.New.deadCode.number}" data-trigger="manual">
+                                                        <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="new-dead">
+                                                            ${data.New.deadCode.number} dead blocks
+                                                        </h2>
+                                                    </div>
+                                                    <div class="col-sm-6 align-items-center">
+                                                        <img src="/static/app/images/member.jpg" height="70px" class="mr-3 dropdown" data-toggle="popover" title="Sprite Naming" data-compare-type="sprite naming" data-original-number="${data.Original.spriteNaming.number}" data-new-number="${data.New.spriteNaming.number}" data-trigger="manual">
+                                                        <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="new-sprite">
+                                                            ${data.New.spriteNaming.number} sprites
+                                                        </h2>
+                                                    </div>
+                                                    <div class="col-sm-6 align-items-center">
+                                                        <img src="/static/app/images/backdrop_naming.jpeg" height="70px" class="display-flex dropdown" data-toggle="popover" title="Backdrop Naming" data-compare-type="backdrop naming" data-original-number="${data.Original.backdropNaming.number}" data-new-number="${data.New.backdropNaming.number}" data-trigger="manual">
+                                                        <h2 class="dark-text" style="font-size: 18px; margin: 0;" id="new-backdrop">
+                                                            ${data.New.backdropNaming.number} backdrops
+                                                        </h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <button id="show-more-button" class="btn btn-primary standard-button" style="width: auto; margin-bottom: 2%;">Show more</button>`;
+
+        const hiddenContent = `
+        <div id="hidden-content" style="display: none;">
+            <div class="container">
+                <div class="row" style="width: auto;">
+                    <div class="improve">
+                        <div class="panel panel-success" id="improve">
+                            <div id="stepfour">
+                                <div class="panel-heading">
+                                    <h2 id="score" class="panel-title dark-text">
+                                        {% trans "Similarity Percentage"%}
+                                        <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Percentage of Similarity between the 2 Projects' %}"></i>
+                                    </h2>
+                                </div>
+                                <div class="panel-body text-center typ">
+                                    <div class="col-md-3">
+                                        <h4 style="font-size: 20px;">
+                                            <strong>
+                                                {% trans "Original Project" %}
+                                            </strong>
+                                        </h4>
+                                    </div>
+                                    <div class="col-md-6" style="padding-top: 1%;">
+                                        <!-- Barra de progreso -->
+                                        <div class="progress">
+                                            <div id="similarity-progress" class="progress-bar-similarity progress-bar-success" role="progressbar" aria-valuenow="${data.Compare.similarity}" aria-valuemin="0" aria-valuemax="100" style="width:${data.Compare.similarity}%;">
+                                                <span style="font-size: 16px; margin-bottom: 5%;"><strong> ${data.Compare.similarity}% </strong></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h4 style="font-size: 20px;">
+                                            <strong>
+                                                {% trans "New Project" %}
+                                            </strong>
+                                        </h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row" style="padding-top: 2%;">
+                    <div class="col-md-6">
+                        <div class="improve">
+                            <div class="panel panel-success" id="improve">
+                                <div id="stepfour">
+                                    <div class="panel-heading">
+                                        <h2 id="score" class="panel-title dark-text">
+                                            {% trans "Block Types Distribution (Original)" %}
+                                            <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Distribution of Block Types in the Projects' %}"></i>
+                                        </h2>
+                                    </div>
+                                    <div class="panel-success" style="word-break: break-word;">
+                                        <canvas id="originalProjectChart" width="100" height="100"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="improve">
+                            <div class="panel panel-success" id="improve">
+                                <div id="stepfour">
+                                    <div class="panel-heading">
+                                        <h2 id="score" class="panel-title dark-text">
+                                            {% trans "Block Types Distribution (New)" %}
+                                            <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Distribution of Block Types in the Projects' %}"></i>
+                                        </h2>
+                                    </div>
+                                    <div class="panel-success" style="word-break: break-word;">
+                                        <canvas id="newProjectChart" width="100" height="100"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        `;
+        
+        htmlContent += hiddenContent;
+
+                // Sustituir el contenido de la sección #blackboard
+                document.getElementById("Comparison").innerHTML = htmlContent;
+            })
+            .catch(error => {
+                console.error("There was a problem with the fetch operation:", error);
+            });
+        });
+    </script>
+</div>
