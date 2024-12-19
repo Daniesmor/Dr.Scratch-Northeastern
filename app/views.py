@@ -156,7 +156,6 @@ def show_dashboard(request, skill_points=None):
                 'ETA': calc_eta(d['num_projects'])
             }
             return render(request, user + '/dashboard-bulk-landing.html', context)
-        
         elif d.get('Error') != "None":
             return render(request, 'error/error.html', {'error': d.get('Error')})
         else: 
@@ -192,6 +191,46 @@ def get_recommender(request, skill_points=None):
         d = d.get(0)
         
         return JsonResponse(d['recomenderSystem'])        
+    else:
+        return HttpResponseRedirect('/')
+    
+def remove_circular_references(dictionary):
+    if isinstance(dictionary, dict):
+        # Crear un nuevo diccionario donde cada clave se verifica individualmente
+        result = {}
+        for k, v in dictionary.items():
+            if isinstance(v, dict) and k in v:
+                # Si una clave interna es igual a la externa, se elimina solo la interna
+                new_value = {inner_k: inner_v for inner_k, inner_v in v.items() if inner_k != k}
+                result[k] = remove_circular_references(new_value)
+            else:
+                # Continuar procesando recursivamente
+                result[k] = remove_circular_references(v)
+        return result
+    elif isinstance(dictionary, list):
+        # Procesar listas recursivamente
+        return [remove_circular_references(v) for v in dictionary]
+    return dictionary
+    
+    
+@csrf_exempt
+def get_comparison(request, skill_points=None):
+    if request.method == 'POST':
+        numbers = ''
+        skill_rubric = generate_rubric(numbers)
+        user = str(identify_user_type(request))
+        print("Mode:", request.POST)
+        d = build_dictionary_with_automatic_analysis(request, skill_rubric)
+        print("-------------------- COMPARISON -------------------------")
+        print("Context Dictionary:")
+        print(d)
+        print("Skill rubric")
+        print(skill_rubric)
+        d = d.get(0)
+        print("-------------------- DIC COMPARISON -------------------------")  
+        print(remove_circular_references(d['Comparison']))
+
+        return JsonResponse(remove_circular_references(d['Comparison']))
     else:
         return HttpResponseRedirect('/')
 
@@ -336,6 +375,8 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
                 dict_metrics[project_counter] = analysis_by_url(request, url, skill_points)
             else:
                 dict_metrics[project_counter] =  {'Error': 'MultiValueDict'}
+        elif '_url_compare' in request.POST:
+            dict_metrics = _make_compare(request, skill_points)
         elif '_urls' in request.POST:
             projects_file = request.FILES['urlsFile']
             
