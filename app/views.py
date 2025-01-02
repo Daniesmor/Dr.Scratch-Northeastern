@@ -330,7 +330,7 @@ def extract_batch_projects(projects_file: object) -> int:
             temp_extraction =  os.path.join(base_dir, 'uploads', 'batch_mode', unique_id)
             with ZipFile(temp_file, 'r') as zip_ref:
                 zip_ref.extractall(temp_extraction)
-    return temp_extraction
+    return temp_extraction, project_name
 
 def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dict:
     dict_metrics = {}
@@ -374,7 +374,7 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
                 num_projects = len(projects)
             else:
                 # Str with temp path of projects
-                projects_path = extract_batch_projects(projects_file)
+                projects_path, batch_id = extract_batch_projects(projects_file)
                 num_projects = calc_num_projects(projects_path)
                 projects = projects_path
     
@@ -383,7 +383,8 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
                 'POST': {
                     'urlsFile': projects,
                     'dashboard_mode': 'Default', 
-                    'email': request.POST['batch-email']       
+                    'email': request.POST['batch-email'],
+                    'batch_id': batch_id      
                 }
             }
             init_batch.delay(request_data, skill_points) # Call to analyzer task

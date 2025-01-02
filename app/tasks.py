@@ -11,7 +11,7 @@ from django.core.mail import EmailMessage
 from django.core.mail import EmailMessage as DjangoEmailMessage
 from django.shortcuts import get_object_or_404
 from django.conf import settings
-from uuid import UUID
+import uuid
 from .models import BatchCSV
 from datetime import datetime
 from django.template.loader import render_to_string
@@ -20,27 +20,47 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from types import SimpleNamespace
 from io import BytesIO
+import json
 
 
-def proccess_url(request_data_obj: object, skill_points: dict) -> dict:
-    # Obtain request data
+def remove_circular_references(obj, seen=None):
+    if seen is None:
+        seen = set()
+
+    if id(obj) in seen:
+        return None  # O puedes retornar un valor predeterminado, como un diccionario vacío
+    seen.add(id(obj))
+
+    if isinstance(obj, dict):
+        return {key: remove_circular_references(value, seen) for key, value in obj.items()}
+    elif isinstance(obj, list):
+        return [remove_circular_references(item, seen) for item in obj]
+    else:
+        return obj
+
+def process_url(request_data_obj: object, skill_points: dict) -> str:
     projects_file = request_data_obj.POST['urlsFile']
     dashboard_mode = request_data_obj.POST['dashboard_mode']
+    curr_dir = os.path.dirname(os.path.abspath(__file__))
+    csvs_dir = os.path.abspath(os.path.join(curr_dir, "..", "csvs"))
+    temp_json_file = os.path.join(csvs_dir, f"{str(uuid.uuid4())[:8]}_temp_metrics.json")
 
-    if (type(projects_file) != list):
-        # projects_file is path of the batch
-        
-        dict_metrics = {}
+    if type(projects_file) != list:
+        if os.path.isdir(projects_file):
+            dir_name = os.listdir(projects_file)[0]
+            projects_file = os.path.join(projects_file, dir_name)
+        # projects_file es un directorio con archivos
         for root, dirs, files in os.walk(projects_file):
             for i, file in enumerate(files):
                 file_path = os.path.join(root, file)
                 if os.path.exists(file_path):
                     try:
+                        print("ya aqui????")
                         with open(file_path, 'rb') as f:
                             file_name = os.path.basename(file_path)
                             file_data = BytesIO(f.read())
+                            print("ya aquiasdasd????")
 
-                            # Intance InMemoryUploadedFile (necessary for analysis_by_upload)
                             inmemory_file = InMemoryUploadedFile(
                                 file=file_data,
                                 field_name=None,
@@ -52,32 +72,32 @@ def proccess_url(request_data_obj: object, skill_points: dict) -> dict:
                             request_data_obj.user = SimpleNamespace(is_authenticated=True, username=None)
                             request_data_obj.session = {}
 
-                            dict_metrics[i] = analysis_by_upload(request_data_obj, skill_points, inmemory_file)
+                            print(f"\033[32m ----------> Analyzing: {file_name}\033[0m")
+                            metrics = analysis_by_upload(request_data_obj, skill_points, inmemory_file)
+                            
                     except Exception as e:
                         print(f"Error processing file {file_path}: {e}")
-                else:
-                    print(f"File not found: {file_path}")
-        if os.path.exists(projects_file):
-            shutil.rmtree(projects_file)
+            if os.path.exists(projects_file):
+                shutil.rmtree(projects_file)
     else:
-        # projects_file is a list of urls
-        # Initialize dicts for metrics
-        dict_metrics = {} 
-
-        # Proccess each URL of the list
+        # projects_file es una lista de URLs
         for i, url in enumerate(projects_file):
-            #if i >= 10:
-            #   break 
             url = url.decode('utf-8').strip()
-            dict_metrics[i] = analysis_by_url(request_data_obj, url, skill_points)
-            dict_metrics[i].update({
-                'url': url,
-                'filename': url,
-                'dashboard_mode': dashboard_mode,
-            })
-    return dict_metrics
+            try:
+                metrics = analysis_by_url(request_data_obj, url, skill_points)
+                metrics.update({
+                    'url': url,
+                    'filename': url,
+                    'dashboard_mode': dashboard_mode,
+                })
 
-def mk_url(csv_id: UUID) -> str:
+            except Exception as e:
+                print(f"Error processing URL {url}: {e}")
+
+    print(f"\033[34mResults saved in {temp_json_file}\033[0m")
+    return temp_json_file
+
+def mk_url(csv_id: uuid) -> str:
     url = ''
     if (settings.PRODUCTION == True):
         url = '{}/{}'.format('https://www.drscratch.org/batch',csv_id)
@@ -104,7 +124,7 @@ def get_csv_sum(csv) -> dict:
     }
     return summary
 
-def mk_html(csv_id: UUID, url: str) -> str:
+def mk_html(csv_id: uuid, url: str) -> str:
     try:
         csv = get_object_or_404(BatchCSV, id=csv_id)
         csv_filepath = csv.filepath
@@ -122,7 +142,7 @@ def mk_html(csv_id: UUID, url: str) -> str:
     except ObjectDoesNotExist:
         return ''
 
-def send_mail(email: str, csv_id: UUID) -> None:
+def send_mail(email: str, csv_id: uuid) -> None:
     url = mk_url(csv_id)
     ehtml = mk_html(csv_id, url)
     subject = '[Dr.Scratch Batch Analysis Finish]'
@@ -134,7 +154,7 @@ def send_mail(email: str, csv_id: UUID) -> None:
     except:
         print(f"Error seding mail: {email}")
 
-def register_timestamp(csv_id: UUID, start_time, end_endtime: datetime) -> None:
+def register_timestamp(csv_id: uuid, start_time, end_endtime: datetime) -> None:
     timestamp = (end_endtime - start_time).total_seconds() + 60
 
     obj = get_object_or_404(BatchCSV, id=csv_id)
@@ -148,13 +168,14 @@ def init_batch(self, request_data, skill_points):
     request_data_obj = SimpleNamespace(**request_data)
     re_email = request_data_obj.POST ['email']
 
-    dict_metrics = proccess_url(request_data_obj, skill_points)
-    csv_id = create_csv(request_data_obj, dict_metrics) 
+    temp_dict_metrics = process_url(request_data_obj, skill_points)
+    csv_id = create_csv(request_data_obj, temp_dict_metrics) 
+    """
     send_mail(re_email, csv_id)
 
     # Stop and register time for ETA
     end_time = datetime.now()
     register_timestamp(csv_id, start_time, end_time)
-    
+    """
 
         

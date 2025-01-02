@@ -6,8 +6,11 @@ import os
 import shutil
 import uuid
 from zipfile import ZipFile
-from .models import BatchCSV
+from .models import BatchCSV, File
 import re
+import json
+import ast
+
 
 def skills_translation(request) -> dict:
     """
@@ -133,6 +136,21 @@ def skills_translation(request) -> dict:
     
     return dic
 
+def safe_get(data, keys, default=None):
+    for key in keys:
+        if isinstance(data, dict) and key in data:
+            data = data[key]
+        else:
+            return default
+    return data
+
+
+def safe_get_index(data, index, default=None):
+    if isinstance(data, list) and len(data) > index:
+        return data[index]
+    return default
+
+
 def create_csv_main(request, d: dict, folder_path: str) -> str:
     csv_name = "main.csv"
     csv_filepath = os.path.join(folder_path, csv_name)
@@ -169,59 +187,37 @@ def create_csv_main(request, d: dict, folder_path: str) -> str:
         for project in d:
             row_to_write = {}
             try:
-                tot_blocks = d[project].get('block_sprite_usage')['result']['total_blocks']
-                if tot_blocks != None:
-                    row_to_write['tot_blocks'] = tot_blocks
+                tot_blocks = safe_get(d[project], ['block_sprite_usage', 'result', 'total_blocks'], default=None)
+                row_to_write['tot_blocks'] = tot_blocks if tot_blocks is not None else 'None'
             except TypeError:
                 row_to_write['tot_blocks'] = 'None'
+
             for clave in headers:
                 if clave in d[project]:
                     val = d[project].get(clave, '')
                     if clave == "filename":
-                        val = val = re.sub(r"[\;\"\,\n\r]", "", val)
+                        val = re.sub(r"[\;\"\,\n\r]", "", val)
                     row_to_write[clave] = val
-                    if clave == 'points':      
-                        row_to_write[f"Van {clave}"] = d[project].get(clave, '')[1]
+                    if clave == 'points':
+                        row_to_write[f"Van {clave}"] = safe_get_index(val, 1, default='')
                 elif clave in mastery_fields.keys():
                     clave_trans = mastery_fields[clave]
                     try:
-                        mastery_list = d[project]['mastery'].get(clave_trans, [])
-                        if mastery_list:  
-                            if type(mastery_list[0]) == list:
-                                row_to_write[clave] = f'{mastery_list[0][0]}/{mastery_list[0][1]}'          
+                        mastery_list = safe_get(d[project], ['mastery', clave_trans], default=[])
+                        if isinstance(mastery_list, list) and mastery_list:
+                            if isinstance(mastery_list[0], list):
+                                row_to_write[clave] = f'{mastery_list[0][0]}/{mastery_list[0][1]}'
                             else:
                                 row_to_write[clave] = mastery_list[0]
-                        if clave not in ['Math operators', 'Motion operators']:
-                            mastery_list_van = d[project]['mastery_vanilla'].get(clave_trans, [])
-                            van_clave = f"Van {clave}"
-                            if mastery_list_van:
-                                if type(mastery_list_van[0]) == list:
-                                    row_to_write[van_clave] = f'{mastery_list_van[0][0]}/{mastery_list_van[0][1]}'
-                                else:
-                                    row_to_write[van_clave] = mastery_list_van[0]
+                        mastery_list_van = safe_get(d[project], ['mastery_vanilla', clave_trans], default=[])
+                        if isinstance(mastery_list_van, list) and mastery_list_van:
+                            if isinstance(mastery_list_van[0], list):
+                                row_to_write[f"Van {clave}"] = f'{mastery_list_van[0][0]}/{mastery_list_van[0][1]}'
+                            else:
+                                row_to_write[f"Van {clave}"] = mastery_list_van[0]
                     except KeyError:
                         row_to_write[clave] = 'Error'
-                elif clave == 'DuplicateScripts':
-                    try:
-                        row_to_write[clave] = d[project]['duplicateScript'].get('number', '')
-                    except KeyError:
-                        row_to_write[clave] = 'Error'
-                elif clave == 'DeadCode':
-                    try:
-                        row_to_write[clave] = d[project]['deadCode'].get('number', '')
-                    except KeyError:
-                        row_to_write[clave] = 'Error'
-                elif clave == 'SpriteNaming':
-                    try:
-                        row_to_write[clave] = d[project]['spriteNaming'].get('number', '')
-                    except KeyError:
-                        row_to_write[clave] = 'Error'
-                elif clave == "BackdropNaming":
-                    try:
-                        row_to_write[clave] = d[project]['backdropNaming'].get('number', '')
-                    except KeyError:
-                        row_to_write[clave] = 'Error'
-                else:   
+                else:
                     row_to_write[clave] = ''
             writer_csv.writerow(row_to_write)
 
@@ -460,9 +456,37 @@ def create_obj(data: dict, csv_filepath: str) -> uuid.UUID:
 
     return cs_data.id
 
+def safe_json_load(value):
+    try:
+        return ast.literal_eval(value)
+    except json.JSONDecodeError:
+        print(f"Error decoding JSON: {value}")
+        return None
 
+def create_csv(request, temp_dict_metrics) -> uuid.UUID:
+    batch_id = request.POST["batch_id"]
+    batches = File.objects.filter(batch_id=batch_id)
+    for batch in batches:
+        print("METRICS VANILLA")
+        print(batch.vanilla_metrics)
+        print("METRICS EXTENDED")
+        print(batch.extended_metrics)
+        print("BAD SMELLS")
+        print("Duplicate:",batch.duplicateScript)
+        print("SpriteName:",batch.spriteNaming)
+        print("BackdropName:",batch.initialization)
 
-def create_csv(request, d: dict) -> uuid.UUID:
+    """
+    with open(temp_dict_metrics, 'r') as dict_metrics:
+        d = json.loads(dict_metrics.read())
+    
+    d = {int(key): value for key, value in d.items()}
+    for key in d:
+        d[key] = safe_json_load(d[key])
+
+    print("DICCIOANRIO---------------------")
+    print(d)
+    
     summary = {}
     now = datetime.now()
     folder_name = str(uuid.uuid4()) + '_' + now.strftime("%Y%m%d%H%M%S")
@@ -478,5 +502,7 @@ def create_csv(request, d: dict) -> uuid.UUID:
     summary = create_summary(request, d) 
     csv_filepath = zip_folder(folder_path)
     id = create_obj(summary, csv_filepath)
-
+    os.remove(temp_dict_metrics)
+    
     return id
+    """

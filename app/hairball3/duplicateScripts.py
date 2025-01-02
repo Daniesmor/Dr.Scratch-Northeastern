@@ -39,11 +39,12 @@ class DuplicateScripts(Plugin):
         """
         Sets a dictionary containing the scripts of each sprite in Script() format
         """
-
+        
         for key, list_dict_targets in self.json_project.items():
             if key == "targets":
                 for dict_target in list_dict_targets:
                     sprite_name = dict_target['name']
+                    
                     sprite_blocks = self.get_blocks(dict_target)
 
                     sprite_scripts = []
@@ -53,8 +54,8 @@ class DuplicateScripts(Plugin):
                             new_script = Script()
                             new_script.set_script_dict(block_dict=sprite_blocks, start=key)
                             sprite_scripts.append(new_script)
-
                     self.sprite_dict[sprite_name] = sprite_scripts
+        
 
 
     def analyze(self):
@@ -62,28 +63,25 @@ class DuplicateScripts(Plugin):
         Searches for intra duplicates of each sprite and outputs them
         """
         self.set_sprite_dict()
-        
         for sprite, scripts in self.sprite_dict.items():
             seen = set()
             sprite_duplicates = {}
+            
             for script in scripts:
                 blocks = tuple(script.get_blocks())
-
                 if blocks not in sprite_duplicates.keys():
                     if len(blocks) > 5:
                         sprite_duplicates[blocks] = [(script, sprite)]
                 else:
                     sprite_duplicates[blocks].append((script, sprite))
-
                 seen.add(blocks)
-
 
             for key in seen:
                 if key in sprite_duplicates:
                     if len(sprite_duplicates[key]) <= 1:
                         sprite_duplicates.pop(key, None)
-
             self.duplicates.update(sprite_duplicates)
+
 
         print("self.duplicates-------")
         print(self.duplicates)
@@ -101,9 +99,7 @@ class DuplicateScripts(Plugin):
         return self.duplicates
 
     def finalize(self) -> dict:
-
         self.analyze()
-
         result = ("%d duplicate scripts found" % self.total_duplicate)
         result += "\n"
         for duplicate in self.list_duplicate:

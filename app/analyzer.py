@@ -30,7 +30,10 @@ import app.consts_drscratch as consts
 def save_analysis_in_file_db(request, zip_filename):
     now = datetime.now()
     method = "project"
-
+    if request.POST['batch_id']:
+        batch_id = request.POST['batch_id']
+    else:
+        batch_id = None
     if request.user.is_authenticated:
         username = request.user.username
     else:
@@ -39,27 +42,21 @@ def save_analysis_in_file_db(request, zip_filename):
     if Organization.objects.filter(username=username):
         filename_obj = File(filename=zip_filename,
                         organization=username,
-                        method=method, time=now,
-                        score=0, abstraction=0, parallelization=0,
-                        logic=0, synchronization=0, flowControl=0,
-                        userInteractivity=0, dataRepresentation=0,
+                        method=method, batch_id=batch_id, time=now,
+                        score=0, vanilla_metrics={}, extended_metrics={},
                         spriteNaming=0, initialization=0,
                         deadCode=0, duplicateScript=0)
     elif Coder.objects.filter(username=username):
         filename_obj = File(filename=zip_filename,
                         coder=username,
-                        method=method, time=now,
-                        score=0, abstraction=0, parallelization=0,
-                        logic=0, synchronization=0, flowControl=0,
-                        userInteractivity=0, dataRepresentation=0,
+                        method=method, batch_id=batch_id, time=now,
+                        score=0, vanilla_metrics={}, extended_metrics={},
                         spriteNaming=0, initialization=0,
                         deadCode=0, duplicateScript=0)
     else:
         filename_obj = File(filename=zip_filename,
-                        method=method, time=now,
-                        score=0, abstraction=0, parallelization=0,
-                        logic=0, synchronization=0, flowControl=0,
-                        userInteractivity=0, dataRepresentation=0,
+                        method=method, batch_id=batch_id, time=now,
+                        score=0, vanilla_metrics={}, extended_metrics={},
                         spriteNaming=0, initialization=0,
                         deadCode=0, duplicateScript=0)
 
@@ -266,7 +263,7 @@ def download_scratch_project_from_servers(path_project, id_project):
 
     return path_json_file
 
-def send_request_getsb3(id_project, username, method):
+def send_request_getsb3(id_project, username, method, batch=None):
     """
     Send request to getsb3 app
     """
@@ -284,27 +281,21 @@ def send_request_getsb3(id_project, username, method):
     if Organization.objects.filter(username=username):
         file_obj = File(filename=file_url,
                         organization=username,
-                        method=method, time=now,
-                        score=0, abstraction=0, parallelization=0,
-                        logic=0, synchronization=0, flowControl=0,
-                        userInteractivity=0, dataRepresentation=0,
+                        method=method, batch_id=None, time=now,
+                        score=0, vanilla_metrics={}, extended_metrics={},
                         spriteNaming=0, initialization=0,
                         deadCode=0, duplicateScript=0)
     elif Coder.objects.filter(username=username):
         file_obj = File(filename=file_url,
                         coder=username,
-                        method=method, time=now,
-                        score=0, abstraction=0, parallelization=0,
-                        logic=0, synchronization=0, flowControl=0,
-                        userInteractivity=0, dataRepresentation=0,
+                        method=method, batch_id=None, time=now,
+                        score=0, vanilla_metrics={}, extended_metrics={},
                         spriteNaming=0, initialization=0,
                         deadCode=0, duplicateScript=0)
     else:
         file_obj = File(filename=file_url,
-                        method=method, time=now,
-                        score=0, abstraction=0, parallelization=0,
-                        logic=0, synchronization=0, flowControl=0,
-                        userInteractivity=0, dataRepresentation=0,
+                        method=method, batch_id=None, time=now,
+                        score=0, vanilla_metrics={}, extended_metrics={},
                         spriteNaming=0, initialization=0,
                         deadCode=0, duplicateScript=0)
     
@@ -500,19 +491,11 @@ def proc_mastery(request, dict_mastery, file_obj):
     return dic
 
 def set_file_obj(request, file_obj, dict, mode=None):
-
     file_obj.score = dict["total_points"][0]
     file_obj.competence = dict["competence"]
-    file_obj.abstraction = dict["Abstraction"][0]
-    file_obj.parallelization = dict["Parallelization"][0]
-    file_obj.logic = dict["Logic"][0]
-    file_obj.synchronization = dict["Synchronization"][0]
-    file_obj.flow_control = dict["FlowControl"][0]
-    file_obj.userInteractivity = dict["UserInteractivity"][0]
-    file_obj.dataRepresentation = dict["DataRepresentation"][0]
+    file_obj.vanilla_metrics = dict
     if mode != 'Vanilla':
-        file_obj.mathOperators = dict["MathOperators"][0]
-        file_obj.mathOperators = dict["MotionOperators"][0]
+        file_obj.extended_metrics = dict
     file_obj.save()
 
 
@@ -700,8 +683,8 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
     
     if os.path.exists(path_projectsb3):
         json_scratch_project = load_json_project(path_projectsb3)
-        print("TRAZAAA DENTRO ANALYZE PROJECT --------------------------------")
-        print(json_scratch_project)
+        print("TRAZA DENTRO ANALYZE PROJECT (activar para ver dict del proyecto completo) --------------------------------")
+        #print(json_scratch_project)
         dict_mastery = Mastery(path_projectsb3, json_scratch_project, skill_points, dashboard).finalize()
         dict_duplicate_script = DuplicateScripts(path_projectsb3, json_scratch_project).finalize()
         dict_dead_code = DeadCode(path_projectsb3, json_scratch_project,).finalize()
@@ -710,15 +693,15 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         result_block_sprite_usage = Block_Sprite_Usage(path_projectsb3, json_scratch_project).finalize()
         refactored_code = RefactorDuplicate(json_scratch_project, dict_duplicate_script).refactor_duplicates()
 
-        print("--------------------- DUPLICATED CODE DICT ---------------------------")
+        print("--------------------- DUPLICATED CODE DICT ---------------------")
         print(refactored_code)
         print("--------------------- DEAD CODE DICT ---------------------------")
         print(dict_dead_code)
         print("--------------------- SPRITE NAMING DICT -----------------------")
         print(result_sprite_naming)
-        print("--------------------- BACKDROP NAMING DICT ----------------------")
+        print("--------------------- BACKDROP NAMING DICT ---------------------")
         print(result_backdrop_naming)
-        print("------------------------------------------------------------------")
+        print("----------------------------------------------------------------")
         
         # RECOMENDER SECTION
         if (dashboard == 'Recommender'):
@@ -737,7 +720,6 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         dict_analysis.update(proc_backdrop_naming(result_backdrop_naming, file_obj))
         dict_analysis.update(proc_refactored_code(refactored_code))
         dict_analysis.update(proc_block_sprite_usage(result_block_sprite_usage, file_obj))
-        
         # dict_analysis.update(proc_urls(request, dict_mastery, file_obj))
         # dictionary.update(proc_initialization(resultInitialization, filename))
         return dict_analysis

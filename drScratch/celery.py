@@ -6,6 +6,8 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'drScratch.settings')
 app = Celery('drScratch')
 
 app.config_from_object('django.conf:settings', namespace='CELERY')
+worker_lost_timeout = 60
+
 app.autodiscover_tasks()
 
 @app.task(bind=True)
