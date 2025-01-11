@@ -1,4 +1,4 @@
-import random
+import random, re
 from django.utils.translation import get_language
 from .recomender_phrases import LanguageManager
 
@@ -183,6 +183,47 @@ class RecomenderSystem():
             feedback = None
         return feedback    
     
+    def recommender_message(self, dict_messageNaming):
+        type = "Messages"
+        message = ""
+        explanation = ""
+        farwell = ""
+        message_list = re.findall(r'message\d+', dict_messageNaming)
+
+        if (len(message_list) != 0):
+            # Select one of the motivational phrases to start
+            message += self.upgrade_feedback(type)
+
+            # We have to create an message
+            if (len(message_list) > 1):
+                messages = ", ".join(message_list)
+                if self.curr_lan == 'en':
+                    message += f" you have a lot of broadcasts with the default name, for example in your case you have {self.MAGENTA}{len(message_list)} broadcasts{self.RESET} with the default names. To solve it, you have to change the names of {messages} for more descriptive names."
+                elif self.curr_lan == 'es':
+                    message += f" tienes muchos mensajes con el nombre por defecto, por ejemplo en tu caso tienes {self.MAGENTA}{len(message_list)} mensajes{self.RESET} con nombres por defecto. Mira, para solucionarlo, debes cambiar los nombres de {messages} por nombres más descriptivos."
+            else:
+                if self.curr_lan == 'en':
+                    message += f" you have one broadcast with the default name provided by Scratch, try changing the broadcast {self.MAGENTA}{message_list[0]}{self.RESET} name, for a more descriptive name."
+                elif self.curr_lan == 'es':
+                    message += f" tienes un mensaje con el nombre por defecto proporcionado por Scratch, intenta cambiar el nombre del mensaje {self.MAGENTA}{message_list[0]}{self.RESET} por un nombre más descriptivo."
+
+
+            explanation += self.language_manager.messages_explanation_phrases[random.randint(0, len(self.language_manager.messages_explanation_phrases) - 1) ]
+            farwell += self.farwells[random.randint(0, len(self.farwells) - 1)]
+
+            feedback = {
+                'type': type,
+                'message': message,
+                'blocks': [],  
+                'explanation': explanation,
+                'farwell': farwell,
+            }
+
+        else:
+            feedback = None
+        
+        return feedback
+
     def recomender_duplicatedScripts(self, dict_duplicatedScripts, dict_refactoredDups) ->dict:
         type = "Duplicates"
         message = ""
@@ -263,8 +304,6 @@ class RecomenderSystem():
         seq_original = [{'sprite': entry['sprite'], 'code': entry['original'], 'repetitions': entry['repetitions']} for entry in refactor_dict]
         seq_refactor = [{'sprite': entry['sprite'], 'code': entry['refactored']} for entry in refactor_dict]
 
-        print("PEPE:", seq_original)
-
         if sequentialBlocks != 0:
             # Select one of the motivational phrases to start
             message += self.upgrade_feedback(type)
@@ -320,6 +359,9 @@ class RecomenderSystem():
             if (self.curr_type == "Sprites"):
                 fail_message = self.language_manager.upgrade_feedback_phrases['Sprites']['fail']
                 success_message = self.language_manager.upgrade_feedback_phrases['Sprites']['success']
+            if (self.curr_type == "Messages"):
+                fail_message = self.language_manager.upgrade_feedback_phrases['Messages']['fail']
+                success_message = self.language_manager.upgrade_feedback_phrases['Messages']['success']
             if (self.curr_type == "deadCode"):
                 fail_message = self.language_manager.upgrade_feedback_phrases['deadCode']['fail']
                 success_message = self.language_manager.upgrade_feedback_phrases['deadCode']['success']
@@ -330,8 +372,8 @@ class RecomenderSystem():
                 fail_message = self.language_manager.upgrade_feedback_phrases['Sequential']['fail']
                 success_message = self.language_manager.upgrade_feedback_phrases['Sequential']['success']
             
-            # Current Order: Backdrop, Sprites, DeadCode, Duplicates, Sequential
-            bad_smells_order = ['Backdrops','Sprites','deadCode','Duplicates', 'Sequential']
+            # Current Order: Backdrop, Sprites, Messages, DeadCode, Duplicates, Sequential
+            bad_smells_order = ['Backdrops','Sprites','Messages','deadCode','Duplicates','Sequential']
             currIndex = bad_smells_order.index(self.curr_type)
             newIndex = bad_smells_order.index(new_type)
             if (currIndex == newIndex):
