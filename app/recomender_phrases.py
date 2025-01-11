@@ -593,7 +593,6 @@ class LanguageManager:
         else:
             return []
 
-    # Faltan las traducciones mas allá del ESPAÑOL 
     def get_messages_explanation_phrases(self):
         if self.curr_lan == 'en':
             return [
@@ -613,67 +612,68 @@ class LanguageManager:
             ]
         elif self.curr_lan == 'eu':
             return [
-                "\nAZALPENA:\nFondoak izen garrantzitsuak ematea etxea oinarrizko atez ate etiketatzea bezala da: laguntzen dizu ambiente bakoitzari azkar identifikatzeko. Izen argiak egiten dute zure proiektua antolatzeko eta nabigatzeko errazagoa.",
-                "\nAZALPENA:\nFondoak izendatzea film baten zenaletasunak izendatzea bezala da: testuinguru ematen du eta ipuinaren aurrerapenaren ulermena hobetzen du. Izen egokiak zure proiektua nahiagoa egiten du.",
-                "\nAZALPENA:\nPentsatu fondoen izendatzea mapan kokapenak izendatzea bezala: izen bakoitza bere helburua argi adierazi behar du. Hau proiektuaren egitura orokorra hobetzen du eta ulermena errazten du.",
-                "\nAZALPENA:\nFondoak izendatzea parke tematiko baten seinaleak jartzea bezala da: edozein eremua ondo identifikatuta egon behar du eta bisitalariak ez galdu. Izenetan argitasuna proiektuaren kudeaketa eta erabiltzaileen esperientzia hobetzen du.",
-                "\nAZALPENA:\nFondoak izendatzea aldizkari baten atalak etiketatzea bezala da: zure proiektuan nabigatzea eraginkorragoa eta ez-konplexua egiten du. Izen argiak lankidetza eta arazoen ebazpena arindu egiten du.",
+                "\nAZALPENA:\nEmandako izen esanguratsuek broadcast-ak izendatzea kontrol-panelean botoiak etiketatzea bezala da: zure helburua ikusteko laguntzen dizu. Izen argiek deskargatzea eta lankidetza eraginkorragoak bihurtzen dituzte.",
+                "\nAZALPENA:\nBroadcast-ak izendatzea liburu baten kapituloak izendatzea bezala da: argitasuna eta testuingurua eskaintzen du, proiektuko logika jarraitzea errazten du. Honek nahasteak saihesten ditu eta nabigazio leuna ziurtatzen du.",
+                "\nAZALPENA:\nBroadcast-ak izendatzea sukaldeko ontziak etiketatzea bezala pentsa dezakezu: etiketak bere edukiaren arabera egon behar dira, akatsak saihesteko. Izen deskribatzaileek antolakuntza hobetzen dute eta garapen prozesua bizkortzen dute.",
+                "\nAZALPENA:\nBroadcast-ak izendatzea zure dokumentuei izen esanguratsuak ematea bezala da: denbora aurrezten du eta gaizki ulertuak murrizten ditu. Izen egokiak komunikazioa hobetzen dute eta proiektuaren argitasuna mantentzen dute.",
+                "\nAZALPENA:\nPentsa broadcast-ak izendatzea mapa batean adierazpen argiak ematea bezala: guztiek elementu bakoitzaren helburua ulertzea ziurtatzen du, eta honek lankidetza eta proiektuaren kudeaketa hobetzen ditu.",
             ]
+
         elif self.curr_lan == 'gl':
             return [
-                "\nEXPLICACIÓN:\nDar nomes significativos aos fondos é como etiquetar as habitacións dunha casa: axúdate a identificar rapidamente cada entorno. Nomes claros fan que o teu proxecto sexa máis doado de organizar e navegar.",
-                "\nEXPLICACIÓN:\nNomear fondos é como titular as escenas dunha película: proporciona contexto e mellora a comprensión da progresión da historia. Nomes apropiados fan que o teu proxecto sexa máis intuitivo.",
-                "\nEXPLICACIÓN:\nPensa en nomear fondos como designar ubicacións nun mapa: cada nome debe indicar claramente o seu propósito. Isto mellora a estrutura xeral e facilita a comprensión do proxecto.",
-                "\nEXPLICACIÓN:\nNomear fondos é como poñer carteis nun parque temático: asegura que cada área estea ben identificada e que os visitantes non se perdan. A claridade nos nomes mellora a xestión do proxecto e a experiencia do usuario.",
-                "\nEXPLICACIÓN:\nConsidera nomear fondos como etiquetar as diferentes seccións dunha revista: fai que navegar polo teu proxecto sexa máis eficiente e menos confuso. Nomes claros axilizan a colaboración e a resolución de problemas.",
+                "\nEXPLICACIÓN:\nDar nomes significativos aos broadcasts é coma etiquetar os botóns dun panel de control: axúdache a entender o seu propósito dun vistazo. Os nomes claros fan que a depuración e a colaboración sexan máis eficientes.",
+                "\nEXPLICACIÓN:\nNomear os broadcasts é coma nomear os capítulos dun libro: proporciona clareza e contexto, facilitando o seguimento da lóxica do teu proxecto. Isto evita confusións e asegura unha navegación fluída.",
+                "\nEXPLICACIÓN:\nPensa en nomear os broadcasts coma etiquetar os contedores nunha cociña: cada etiqueta debe reflectir o seu contido para evitar erros. Os nomes descritivos melloran a organización e agilizan o proceso de desenvolvemento.",
+                "\nEXPLICACIÓN:\nNomear os broadcasts é coma asignar nomes significativos aos teus documentos: aforra tempo e reduce o risco de malentendidos. Os nomes axeitados melloran a comunicación e manteñen a clareza do proxecto.",
+                "\nEXPLICACIÓN:\nConsidera nomear os broadcasts coma dar indicacións claras nun mapa: asegura que todos entendan o propósito de cada elemento, o que leva a unha mellor colaboración e xestión do proxecto.",
             ]
         elif self.curr_lan == 'el':
             return [
-                "\nΕΡΜΗΝΕΙΑ:\nΤο να δίνεις σημαντικά ονόματα στα φόντα είναι σαν να ετικετάρεις τα δωμάτια σε ένα σπίτι: σε βοηθά να αναγνωρίζεις γρήγορα κάθε περιβάλλον. Καθαρά ονόματα κάνουν το έργο σου πιο εύκολο να οργανωθεί και να πλοηγηθεί.",
-                "\nΕΡΜΗΝΕΙΑ:\nΤο να ονομάζεις τα φόντα είναι σαν να δίνεις τίτλους στις σκηνές ενός φιλμ: παρέχει πλαίσιο και βελτιώνει την κατανόηση της προόδου της ιστορίας. Κατάλληλα ονόματα κάνουν το έργο σου πιο εύχρηστο.",
-                "\nΕΡΜΗΝΕΙΑ:\nΣκέψου το να ονομάζεις τα φόντα ως την ανάθεση τοποθεσιών σε ένα χάρτη: κάθε όνομα πρέπει να δείχνει καθαρά τον σκοπό του. Αυτό βελτιώνει τη συνολική δομή και διευκολύνει την κατανόηση του έργου.",
-                "\nΕΡΜΗΝΕΙΑ:\nΤο να ονομάζεις τα φόντα είναι σαν να βάζεις πινακίδες σε ένα θεματικό πάρκο: εξασφαλίζει ότι κάθε περιοχή είναι καλά αναγνωρισμένη και οι επισκέπτες δεν χάνονται. Η σαφήνεια στα ονόματα βελτιώνει τη διαχείριση του έργου και την εμπειρία του χρήστη.",
-                "\nΕΡΜΗΝΕΙΑ:\nΣκέψου το να ονομάζεις τα φόντα ως το να ετικετάρεις τις διαφορετικές ενότητες ενός περιοδικού: κάνει την πλοήγηση στο έργο σου πιο αποδοτική και λιγότερο μπερδεμένη. Καθαρά ονόματα επιταχύνουν τη συνεργασία και την επίλυση προβλημάτων.",
+                "\nΕΡΜΗΝΕΙΑ:\nΤο να δίνεις σημασιολογικά ονόματα στις μεταδόσεις είναι σαν να ετικετάρεις τα κουμπιά ενός πίνακα ελέγχου: σε βοηθά να κατανοήσεις τον σκοπό τους με μια ματιά. Τα καθαρά ονόματα κάνουν τον εντοπισμό σφαλμάτων και τη συνεργασία πιο αποδοτικά.",
+                "\nΕΡΜΗΝΕΙΑ:\nΗ ονομασία των μεταδόσεων είναι σαν να ονομάζεις τα κεφάλαια ενός βιβλίου: προσφέρει σαφήνεια και συμφραζόμενα, διευκολύνοντας την παρακολούθηση της λογικής του έργου σου. Αυτό αποτρέπει τις συγχύσεις και εξασφαλίζει ομαλή πλοήγηση.",
+                "\nΕΡΜΗΝΕΙΑ:\nΣκέψου την ονομασία των μεταδόσεων σαν να ετικετάρεις τα δοχεία σε μια κουζίνα: κάθε ετικέτα πρέπει να αντικατοπτρίζει το περιεχόμενό της για να αποφεύγονται τα λάθη. Τα περιγραφικά ονόματα βελτιώνουν την οργάνωση και επιταχύνουν τη διαδικασία ανάπτυξης.",
+                "\nΕΡΜΗΝΕΙΑ:\nΗ ονομασία των μεταδόσεων είναι σαν να δίνεις σημασιολογικά ονόματα στα έγγραφά σου: εξοικονομεί χρόνο και μειώνει τον κίνδυνο παρερμηνειών. Τα κατάλληλα ονόματα βελτιώνουν την επικοινωνία και διατηρούν τη σαφήνεια του έργου.",
+                "\nΕΡΜΗΝΕΙΑ:\nΣκέψου την ονομασία των μεταδόσεων σαν να δίνεις σαφείς οδηγίες σε έναν χάρτη: διασφαλίζει ότι όλοι καταλαβαίνουν τον σκοπό κάθε στοιχείου, κάτι που οδηγεί σε καλύτερη συνεργασία και διαχείριση του έργου.",
             ]
         elif self.curr_lan == 'pt':
             return [
-                "\nEXPLICAÇÃO:\nDar nomes significativos aos fundos é como etiquetar os cômodos de uma casa: ajuda a identificar rapidamente cada ambiente. Nomes claros tornam seu projeto mais fácil de organizar e navegar.",
-                "\nEXPLICAÇÃO:\nNomear fundos é como nomear as cenas de um filme: fornece contexto e melhora a compreensão da progressão da história. Nomes apropriados tornam seu projeto mais intuitivo.",
-                "\nEXPLICAÇÃO:\nPense em nomear fundos como designar locais em um mapa: cada nome deve indicar claramente seu propósito. Isso melhora a estrutura geral e facilita a compreensão do projeto.",
-                "\nEXPLICAÇÃO:\nNomear fundos é como colocar placas em um parque temático: garante que cada área esteja bem identificada e que os visitantes não se percam. A clareza nos nomes melhora a gestão do projeto e a experiência do usuário.",
-                "\nEXPLICAÇÃO:\nConsidere nomear fundos como etiquetar as diferentes seções de uma revista: torna a navegação pelo seu projeto mais eficiente e menos confusa. Nomes claros agilizam a colaboração e a resolução de problemas.",
+                "\nEXPLICAÇÃO:\nDar nomes significativos aos broadcasts é como etiquetar os botões de um painel de controle: ajuda a entender seu propósito com um só olhar. Nomes claros tornam a depuração e a colaboração mais eficientes.",
+                "\nEXPLICAÇÃO:\nNomear os broadcasts é como nomear os capítulos de um livro: fornece clareza e contexto, facilitando o acompanhamento da lógica do seu projeto. Isso evita confusões e garante uma navegação fluida.",
+                "\nEXPLICAÇÃO:\nPense em nomear os broadcasts como etiquetar os recipientes em uma cozinha: cada etiqueta deve refletir seu conteúdo para evitar erros. Nomes descritivos melhoram a organização e aceleram o processo de desenvolvimento.",
+                "\nEXPLICAÇÃO:\nNomear os broadcasts é como dar nomes significativos aos seus documentos: economiza tempo e reduz o risco de mal-entendidos. Nomes adequados melhoram a comunicação e mantêm a clareza do projeto.",
+                "\nEXPLICAÇÃO:\nConsidere nomear os broadcasts como dar instruções claras em um mapa: garante que todos entendam o propósito de cada elemento, o que leva a uma melhor colaboração e gestão do projeto.",
             ]
         elif self.curr_lan == 'it':
             return [
-                "\nSPIEGAZIONE:\nDare nomi significativi ai background è come etichettare le stanze di una casa: ti aiuta a identificare rapidamente ogni ambiente. Nomi chiari rendono il tuo progetto più facile da organizzare e navigare.",
-                "\nSPIEGAZIONE:\nNominare i background è come titolare le scene di un film: fornisce contesto e migliora la comprensione della progressione della storia. Nomi appropriati rendono il tuo progetto più intuitivo.",
-                "\nSPIEGAZIONE:\nPensa al nominare i background come assegnare posizioni su una mappa: ogni nome dovrebbe indicare chiaramente il suo scopo. Questo migliora la struttura generale e facilita la comprensione del progetto.",
-                "\nSPIEGAZIONE:\nNominare i background è come mettere segnaletica in un parco tematico: assicura che ogni area sia ben identificata e che i visitatori non si perdano. La chiarezza nei nomi migliora la gestione del progetto e l'esperienza dell'utente.",
-                "\nSPIEGAZIONE:\nConsidera il nominare i background come etichettare le diverse sezioni di una rivista: rende la navigazione nel tuo progetto più efficiente e meno confusa. Nomi chiari velocizzano la collaborazione e la risoluzione dei problemi.",
+                "\nSPIEGAZIONE:\nDare nomi significativi ai broadcast è come etichettare i pulsanti di un pannello di controllo: ti aiuta a capire il loro scopo con uno sguardo. Nomi chiari rendono il debug e la collaborazione più efficienti.",
+                "\nSPIEGAZIONE:\nNomina dei broadcast è come nominare i capitoli di un libro: fornisce chiarezza e contesto, facilitando il seguito della logica del tuo progetto. Questo evita confusioni e garantisce una navigazione fluida.",
+                "\nSPIEGAZIONE:\nPensa alla nomina dei broadcast come all'etichettatura dei contenitori in una cucina: ogni etichetta dovrebbe riflettere il suo contenuto per evitare errori. I nomi descrittivi migliorano l'organizzazione e accelerano il processo di sviluppo.",
+                "\nSPIEGAZIONE:\nNomina dei broadcast è come dare nomi significativi ai tuoi documenti: risparmia tempo e riduce il rischio di fraintendimenti. I nomi giusti migliorano la comunicazione e mantengono la chiarezza del progetto.",
+                "\nSPIEGAZIONE:\nConsidera la nomina dei broadcast come dare indicazioni chiare su una mappa: assicura che tutti capiscano lo scopo di ogni elemento, il che porta a una migliore collaborazione e gestione del progetto.",
             ]
         elif self.curr_lan == 'ru':
             return [
-                "\nОБЪЯСНЕНИЕ:\nДавать осмысленные имена фонам — это как помечать комнаты в доме: это помогает быстро опознать каждую обстановку. Ясные названия делают ваш проект более удобным для организации и навигации.",
-                "\nОБЪЯСНЕНИЕ:\nНазывать фоны — это как названия сцен в фильме: это добавляет контекст и улучшает понимание хода сюжета. Подходящие названия делают ваш проект более интуитивным.",
-                "\nОБЪЯСНЕНИЕ:\nПодумайте о названии фонов, как о указании местоположений на карте: каждое название должно четко указывать на его назначение. Это улучшает общую структуру и облегчает понимание проекта.",
-                "\nОБЪЯСНЕНИЕ:\nНазывать фоны — это как размещать указатели в тематическом парке: это гарантирует, что каждая зона хорошо идентифицирована, и посетители не заблудятся. Ясность в названиях улучшает управление проектом и пользовательский опыт.",
-                "\nОБЪЯСНЕНИЕ:\nРассмотрите названия фонов, как маркировку различных разделов журнала: это делает навигацию по вашему проекту более эффективной и менее запутанной. Ясные названия способствуют более гладкому сотрудничеству и решению проблем.",
+                "\nОБЪЯСНЕНИЕ:\nДавать значимые имена вещаниям — это как подписывать кнопки на панели управления: это помогает понять их назначение с первого взгляда. Ясные имена делают отладку и сотрудничество более эффективными.",
+                "\nОБЪЯСНЕНИЕ:\nНазначение имен вещаниям похоже на именование глав книги: это дает ясность и контекст, облегчая отслеживание логики вашего проекта. Это предотвращает путаницу и обеспечивает плавную навигацию.",
+                "\nОБЪЯСНЕНИЕ:\nПредставьте, что назначение имен вещаниям — это как подписывать контейнеры на кухне: каждая этикетка должна отражать содержание, чтобы избежать ошибок. Описательные имена улучшают организацию и ускоряют процесс разработки.",
+                "\nОБЪЯСНЕНИЕ:\nНазначение имен вещаниям — это как давать значимые имена вашим документам: экономит время и снижает риск недоразумений. Подобающие имена улучшают коммуникацию и сохраняют ясность проекта.",
+                "\nОБЪЯСНЕНИЕ:\nПредставьте назначение имен вещаниям как дачу четких указаний на карте: это гарантирует, что все понимают назначение каждого элемента, что приводит к лучшему сотрудничеству и управлению проектом.",
             ]
         elif self.curr_lan == 'ca':
             return [
-                "\nEXPLICACIÓ:\nDonar noms significatius als fons és com etiquetar les habitacions d'una casa: t'ajuda a identificar ràpidament cada entorn. Noms clars fan que el teu projecte sigui més fàcil d'organitzar i navegar.",
-                "\nEXPLICACIÓ:\nNomenar fons és com titular les escenes d'una pel·lícula: proporciona context i millora la comprensió de la progressió de la història. Noms adequats fan que el teu projecte sigui més intuïtiu.",
-                "\nEXPLICACIÓ:\nPensa en nomenar fons com designar ubicacions en un mapa: cada nom ha d'indicar clarament el seu propòsit. Això millora l'estructura general i facilita la comprensió del projecte.",
-                "\nEXPLICACIÓ:\nNomenar fons és com posar rètols en un parc temàtic: assegura que cada àrea estigui ben identificada i que els visitants no es perdi. La claredat en els noms millora la gestió del projecte i l'experiència de l'usuari.",
-                "\nEXPLICACIÓ:\nConsidera nomenar fons com etiquetar les diferents seccions d'una revista: fa que navegar pel teu projecte sigui més eficient i menys confús. Noms clars agilitzen la col·laboració i la resolució de problemes.",
+                "\nEXPLICACIÓ:\nDonar noms significatius als broadcasts és com etiquetar els botons d'un panell de control: t'ajuda a entendre el seu propòsit d'una ullada. Els noms clars fan que la depuració i la col·laboració siguin més eficients.",
+                "\nEXPLICACIÓ:\nAnomenar els broadcasts és com anomenar els capítols d'un llibre: proporciona claredat i context, facilitant el seguiment de la lògica del teu projecte. Això evita confusions i garanteix una navegació fluida.",
+                "\nEXPLICACIÓ:\nPensa en anomenar els broadcasts com etiquetar els contenidors a la cuina: cada etiqueta ha de reflectir el seu contingut per evitar errors. Els noms descriptius milloren l'organització i acceleren el procés de desenvolupament.",
+                "\nEXPLICACIÓ:\nAnomenar els broadcasts és com donar noms significatius als teus documents: estalvia temps i redueix el risc de malentesos. Els noms adequats milloren la comunicació i mantenen la claredat del projecte.",
+                "\nEXPLICACIÓ:\nConsidera anomenar els broadcasts com donar instruccions clares a un mapa: assegura't que tothom entengui el propòsit de cada element, cosa que porta a una millor col·laboració i gestió del projecte.",
             ]
         elif self.curr_lan == 'tr':
             return [
-                "\nAÇIKLAMA:\nDekorlara anlamlı isimler vermek, bir evdeki odaları etiketlemek gibidir: her ortamı hızlıca tanımanıza yardımcı olur. Net isimler, projenizin organize edilmesini ve gezinilmesini kolaylaştırır.",
-                "\nAÇIKLAMA:\nDekorlara isim vermek, bir filmdeki sahnelere başlık vermek gibidir: bağlam sağlar ve hikayenin ilerleyişinin anlaşılmasını artırır. Uygun isimler, projenizin daha sezgisel olmasını sağlar.",
-                "\nAÇIKLAMA:\nDekorlara isim vermeyi, bir haritada konumları belirlemek gibi düşünün: her isim amacını açıkça belirtmelidir. Bu, genel yapıyı geliştirir ve projenin anlaşılmasını kolaylaştırır.",
-                "\nAÇIKLAMA:\nDekorlara isim vermek, bir tema parkında tabelalar koymak gibidir: her alanın iyi tanımlanmasını sağlar ve ziyaretçilerin kaybolmamasını sağlar. İsimlendirmede netlik, proje yönetimini ve kullanıcı deneyimini artırır.",
-                "\nAÇIKLAMA:\nDekor isimlendirmeyi, bir derginin farklı bölümlerini etiketlemek olarak düşünün: projenizde gezinmeyi daha verimli ve daha az kafa karıştırıcı hale getirir. Net isimler, işbirliğini ve sorun gidermeyi kolaylaştırır.",
+                "\nAÇIKLAMA:\nBroadcast'lere anlamlı isimler vermek, bir kontrol panelindeki düğmeleri etiketlemeye benzer: Amacını bir bakışta anlamana yardımcı olur. Açık isimler, hata ayıklamayı ve işbirliğini daha verimli hale getirir.",
+                "\nAÇIKLAMA:\nBroadcast'leri adlandırmak, bir kitabın bölümlerini adlandırmaya benzer: Projendeki mantığı takip etmeyi kolaylaştıran netlik ve bağlam sağlar. Bu, kafa karışıklıklarını önler ve düzgün bir gezinmeyi garanti eder.",
+                "\nAÇIKLAMA:\nBroadcast'leri adlandırmayı, bir mutfakta kapları etiketlemeye benzetebilirsin: Her etiket içeriğini yansıtmalı, böylece hatalardan kaçınılır. Tanımlayıcı isimler, organizasyonu geliştirir ve geliştirme sürecini hızlandırır.",
+                "\nAÇIKLAMA:\nBroadcast'lere anlamlı isimler vermek, belgelerine anlamlı isimler vermek gibidir: Zaman kazandırır ve yanlış anlamaların riskini azaltır. Uygun isimler, iletişimi geliştirir ve projenin netliğini korur.",
+                "\nAÇIKLAMA:\nBroadcast'leri adlandırmayı bir haritaya açık talimatlar vermek gibi düşün: Her öğenin amacını herkesin anlamasını sağlar, bu da daha iyi işbirliği ve proje yönetimi sağlar.",
             ]
         else:
             return []
