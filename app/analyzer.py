@@ -13,6 +13,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from app.exception import DrScratchException
 from app.forms import UrlForm
 from app.hairball3.backdropNaming import BackdropNaming
+from app.hairball3.messageNaming import MessageNaming
 from app.hairball3.deadCode import DeadCode
 from app.hairball3.duplicateScripts import DuplicateScripts
 from app.hairball3.mastery import Mastery
@@ -484,6 +485,13 @@ def proc_recomender(dict_recom):
         }
         RecomenderSystem.curr_type = dict_recom["backdropNaming"]['type']
         return recomender
+    if (dict_recom["messageNaming"] != None):
+        recomender = {
+            'recomenderSystem': dict_recom["messageNaming"],
+        }
+        RecomenderSystem.curr_type = dict_recom["messageNaming"]['type']
+        return recomender
+    
     return recomender
 
 
@@ -596,6 +604,22 @@ def proc_backdrop_naming(lines, file_obj):
     dic['backdropNaming'] = dic
     dic['backdropNaming']['number'] = int(number)
     dic['backdropNaming']['backdrop'] = lfinal
+
+    file_obj.backdropNaming = number
+    file_obj.save()
+
+    return dic
+
+def proc_message_naming(lines, file_obj):
+
+    dic = {}
+    lLines = lines.split('\n')
+    number = lLines[0].split(' ')[0]
+    lObjects = lLines[1:]
+    lfinal = lObjects[:-1]
+    dic['messageNaming'] = dic
+    dic['messageNaming']['number'] = int(number)
+    dic['messageNaming']['message'] = lfinal
 
     file_obj.backdropNaming = number
     file_obj.save()
@@ -754,6 +778,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
 
     dashboard = request.POST.get('dashboard_mode', 'Default')
     curr_type = request.POST.get('curr_type', '')
+
     
     if os.path.exists(path_projectsb3):
         json_scratch_project = load_json_project(path_projectsb3)
@@ -765,6 +790,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         dict_seq = SequentialBlocks(path_projectsb3, json_scratch_project).finalize()
         result_sprite_naming = SpriteNaming(path_projectsb3, json_scratch_project).finalize()
         result_backdrop_naming = BackdropNaming(path_projectsb3, json_scratch_project).finalize()
+        result_message_naming = MessageNaming(path_projectsb3, json_scratch_project).finalize()
         result_block_sprite_usage = Block_Sprite_Usage(path_projectsb3, json_scratch_project).finalize()
         refactored_code = RefactorDuplicate(json_scratch_project, dict_duplicate_script).refactor_duplicates()
         refactored_sequence = RefactorSequence(json_scratch_project, dict_seq).refactor_sequences()
@@ -777,6 +803,8 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         print(result_sprite_naming)
         print("--------------------- BACKDROP NAMING DICT ----------------------")
         print(result_backdrop_naming)
+        print("--------------------- MESSAGE NAMING DICT ----------------------")
+        print(result_message_naming)
         print("--------------------- BABIA DICT ----------------------")
         print(dict_babia)
         print("--------------------- SEQ DICT ----------------------")
@@ -794,6 +822,8 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
             dict_recom["deadCode"] = recomender.recomender_deadcode(dict_dead_code)
             dict_recom["spriteNaming"] = recomender.recomender_sprite(result_sprite_naming)
             dict_recom["backdropNaming"] = recomender.recomender_backdrop(result_backdrop_naming)
+            dict_recom["messageNaming"] = recomender.recommender_message(result_message_naming)
+            print("PEPE:", dict_recom["messageNaming"])
             dict_recom["duplicatedScripts"] = recomender.recomender_duplicatedScripts(dict_duplicate_script, refactored_code)
             dict_recom["sequentialBlocks"] = recomender.recomender_sequentialBlocks(dict_seq, refactored_sequence)
             dict_analysis.update(proc_recomender(dict_recom))
@@ -803,6 +833,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         dict_analysis.update(proc_dead_code(dict_dead_code, file_obj))
         dict_analysis.update(proc_sprite_naming(result_sprite_naming, file_obj))
         dict_analysis.update(proc_backdrop_naming(result_backdrop_naming, file_obj))
+        dict_analysis.update(proc_message_naming(result_message_naming, file_obj))
         dict_analysis.update(proc_refactored_code(refactored_code))
         dict_analysis.update(proc_block_sprite_usage(result_block_sprite_usage, file_obj))
         dict_analysis.update(proc_babia(dict_babia))
