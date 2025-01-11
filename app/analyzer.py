@@ -16,10 +16,11 @@ from app.hairball3.backdropNaming import BackdropNaming
 from app.hairball3.deadCode import DeadCode
 from app.hairball3.duplicateScripts import DuplicateScripts
 from app.hairball3.mastery import Mastery
-from app.hairball3.refactor import RefactorDuplicate
+from app.hairball3.refactor import RefactorDuplicate, RefactorSequence
 from app.hairball3.spriteNaming import SpriteNaming
 from app.hairball3.scratchGolfing import ScratchGolfing
 from app.hairball3.block_sprite_usage import Block_Sprite_Usage
+from app.hairball3.sequentialBlocks import SequentialBlocks
 from app.hairball3.babiaInfo import Babia
 from app.models import Coder, File, Organization
 from app.scratchclient import ScratchSession
@@ -459,6 +460,12 @@ def proc_recomender(dict_recom):
         }
         RecomenderSystem.curr_type = dict_recom["duplicatedScripts"]['type']
         return recomender
+    if (dict_recom["sequentialBlocks"] != None):
+        recomender = {
+            'recomenderSystem': dict_recom["sequentialBlocks"],
+        }
+        RecomenderSystem.curr_type = dict_recom["sequentialBlocks"]['type']
+        return recomender
     if (dict_recom["deadCode"] != None):
         recomender = {
             'recomenderSystem': dict_recom["deadCode"],
@@ -600,6 +607,18 @@ def proc_babia(dict_result) -> dict:
     dict_babia["babia"] = dict_result
 
     return dict_babia
+
+def proc_sequential_blocks(dict_result, file_obj) -> dict:
+
+    dict_sb = {}
+    dict_sb["sequentialBlocks"] = dict_sb
+    dict_sb["sequentialBlocks"]["number"] = dict_result['result']['total_sequential']
+    dict_sb["sequentialBlocks"]["scripts"] = dict_result['result']['list_sequential']
+
+    file_obj.sequentialBlocks = dict_result['result']['total_sequential']
+    file_obj.save()
+
+    return dict_sb
 
 
 
@@ -743,10 +762,12 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         dict_babia = Babia(path_projectsb3, json_scratch_project).finalize()
         dict_duplicate_script = DuplicateScripts(path_projectsb3, json_scratch_project).finalize()
         dict_dead_code = DeadCode(path_projectsb3, json_scratch_project,).finalize()
+        dict_seq = SequentialBlocks(path_projectsb3, json_scratch_project).finalize()
         result_sprite_naming = SpriteNaming(path_projectsb3, json_scratch_project).finalize()
         result_backdrop_naming = BackdropNaming(path_projectsb3, json_scratch_project).finalize()
         result_block_sprite_usage = Block_Sprite_Usage(path_projectsb3, json_scratch_project).finalize()
         refactored_code = RefactorDuplicate(json_scratch_project, dict_duplicate_script).refactor_duplicates()
+        refactored_sequence = RefactorSequence(json_scratch_project, dict_seq).refactor_sequences()
 
         print("--------------------- DUPLICATED CODE DICT ---------------------------")
         print(refactored_code)
@@ -758,6 +779,12 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         print(result_backdrop_naming)
         print("--------------------- BABIA DICT ----------------------")
         print(dict_babia)
+        print("--------------------- SEQ DICT ----------------------")
+        print(dict_seq)
+        print("--------------------- REFACTORED DUPLICATE ----------------------")
+        print(refactored_code)
+        print("--------------------- REFACTORED SEQUENCE ----------------------")
+        print(refactored_sequence)
         print("------------------------------------------------------------------")
 
         # RECOMENDER SECTION
@@ -768,6 +795,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
             dict_recom["spriteNaming"] = recomender.recomender_sprite(result_sprite_naming)
             dict_recom["backdropNaming"] = recomender.recomender_backdrop(result_backdrop_naming)
             dict_recom["duplicatedScripts"] = recomender.recomender_duplicatedScripts(dict_duplicate_script, refactored_code)
+            dict_recom["sequentialBlocks"] = recomender.recomender_sequentialBlocks(dict_seq, refactored_sequence)
             dict_analysis.update(proc_recomender(dict_recom))
 
         dict_analysis.update(proc_mastery(request, dict_mastery, file_obj))
@@ -778,6 +806,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         dict_analysis.update(proc_refactored_code(refactored_code))
         dict_analysis.update(proc_block_sprite_usage(result_block_sprite_usage, file_obj))
         dict_analysis.update(proc_babia(dict_babia))
+        dict_analysis.update(proc_sequential_blocks(dict_seq, file_obj))
         
         # dict_analysis.update(proc_urls(request, dict_mastery, file_obj))
         # dictionary.update(proc_initialization(resultInitialization, filename))
