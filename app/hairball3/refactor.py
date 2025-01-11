@@ -191,3 +191,56 @@ class RefactorDuplicate():
 
     def refactor_sprite_clones(self):
         pass
+
+class RefactorSequence():
+    def __init__(self, json_project, sequence_dict):
+        self.json_project = json_project
+        self.sequence = sequence_dict['result']['list_sequential']
+        self.refactored = {}
+        self.clones = {}
+        self.sprite_dict = {}
+        self.block_dict = {}
+        self.constants = []
+        self.variables = []
+        self.arg_count = 1
+
+    def refactor_sequences(self):
+        """
+        Convierte scripts duplicados en formato de bloque personalizado.
+        Devuelve una lista de diccionarios con la estructura:
+        [
+            {
+                'sprite': nombre_del_sprite,
+                'original': patrón_original_en_texto,
+                'refactored': script_refactorizado_en_texto
+            },
+            ...
+        ]
+        """
+        sequences = self.sequence
+        func_counter = 1
+        refactored_list = []
+
+        for seq in sequences:
+            sprite_name = seq['sprite']
+            repetitions = seq['repetitions']
+            pattern = seq['pattern']  # Esto es el patrón asociado al elemento
+
+            # Construir el bloque refactorizado
+            repeat_block = f"repeat ({repetitions}) "
+            for line in pattern:
+                repeat_block += f"{line}\n "
+            repeat_block += "end"
+
+            # Construir la salida refactorizada
+            refactored_list.append({
+                'sprite': sprite_name,
+                'repetitions': repetitions,
+                'original': "\n".join(pattern),
+                'refactored': repeat_block
+
+            })
+
+            func_counter += 1
+
+        return refactored_list
