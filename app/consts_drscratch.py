@@ -27,6 +27,10 @@ PLUGIN_SPRITENAMING_DEFAULT_NAMES = [
     "Personaia"
 ]
 
+PLUGIN_MESSAGENAMING_DEFAULT_NAMES = [
+    "message"
+]
+
 PLUGIN_DEADCODE_LIST_LOOP_BLOCKS = [
     "control_repeat",
     "control_forever",
