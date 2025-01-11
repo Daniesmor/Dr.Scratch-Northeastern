@@ -253,6 +253,59 @@ class RecomenderSystem():
             feedback = None
         return feedback   
     
+    def recomender_sequentialBlocks(self, original_dict, refactor_dict):
+        type = "Sequential"
+        message = ""
+        explanation = ""
+        farwell = ""
+        blocks = []
+        sequentialBlocks = original_dict.get('result').get('total_sequential')
+        seq_original = [{'sprite': entry['sprite'], 'code': entry['original'], 'repetitions': entry['repetitions']} for entry in refactor_dict]
+        seq_refactor = [{'sprite': entry['sprite'], 'code': entry['refactored']} for entry in refactor_dict]
+
+        print("PEPE:", seq_original)
+
+        if sequentialBlocks != 0:
+            # Select one of the motivational phrases to start
+            message += self.upgrade_feedback(type)
+
+            # Create a message for duplicatedScripts
+            if sequentialBlocks > 1:
+                if self.curr_lan == 'en':
+                    message += f" you have {self.MAGENTA}{sequentialBlocks} sequences of blocks{self.RESET} in your code, which means you have the same actions repeated multiple times. Instead of repeating the same blocks, you can use a loop to simplify your code.\n\nBut don't worry, let's fix that. For now, we will try to solve just a few. To solve it: below this text, you have a selector with arrows. In tab {self.MAGENTA}1{self.RESET}, you can see your sequence of blocks, and in tab {self.MAGENTA}2{self.RESET}, you can see the refactored version with loops. You just need to replace the sequences of blocks with the refactored version in your project."
+                elif self.curr_lan == 'es':
+                    message += f" tienes {self.MAGENTA}{sequentialBlocks} secuencias de bloques{self.RESET} en tu código, lo que significa que tienes las mismas acciones repetidas múltiples veces. En lugar de repetir los mismos bloques, puedes usar un bucle para simplificar tu código.\n\nPero no te preocupes, vamos a solucionarlo. Por ahora, intentaremos resolver solo unos pocos. Para solucionarlo: debajo de este texto, tienes un selector con flechas. En la pestaña {self.MAGENTA}1{self.RESET}, puedes ver tu secuencia de bloques, y en la pestaña {self.MAGENTA}2{self.RESET}, puedes ver la versión refactorizada con bucles. Solo necesitas reemplazar las secuencias de bloques con la versión refactorizada en tu proyecto."
+            elif sequentialBlocks == 1:
+                if self.curr_lan == 'en':
+                    message += f" you have {self.MAGENTA}{sequentialBlocks} sequence of blocks{self.RESET} in your code, which means you have the same actions repeated multiple times. Instead of repeating the same blocks, you can use a loop to simplify your code.\n\nBut don't worry, let's fix that. To solve it: below this text, you have a selector with arrows. In tab {self.MAGENTA}1{self.RESET}, you can see your sequence of blocks, and in tab {self.MAGENTA}2{self.RESET}, you can see the refactored version with loops. You just need to replace the sequence of blocks with the refactored version in your project."
+                elif self.curr_lan == 'es':
+                    message += f" tienes {self.MAGENTA}{sequentialBlocks} secuencia de bloques{self.RESET} en tu código, lo que significa que tienes las mismas acciones repetidas múltiples veces. En lugar de repetir los mismos bloques, puedes usar un bucle para simplificar tu código.\n\nPero no te preocupes, vamos a solucionarlo. Para solucionarlo: debajo de este texto, tienes un selector con flechas. En la pestaña {self.MAGENTA}1{self.RESET}, puedes ver tu secuencia de bloques, y en la pestaña {self.MAGENTA}2{self.RESET}, puedes ver la versión refactorizada con bucles. Solo necesitas reemplazar la secuencia de bloques con la versión refactorizada en tu proyecto."
+            
+            if self.curr_lan == 'en':
+                blocks.append((f"{seq_original[0].get('code')}", f"You have this {self.MAGENTA}sequence of blocks{self.RESET} repeated {seq_original[0].get('repetitions')} times in a row in the sprite {self.MAGENTA}{seq_original[0].get('sprite')}{self.RESET}."))
+                blocks.append((f"{seq_refactor[0].get('code')}", f"This is the {self.MAGENTA}refactorized code{self.RESET} to avoid sequential blocks in your project."))
+
+            elif self.curr_lan == 'es':
+                blocks.append((f"{seq_original[0].get('code')}", f"Tienes esta {self.MAGENTA}secuencia de bloques{self.RESET} repetida {seq_original[0].get('repetitions')} veces seguidas en el sprite {self.MAGENTA}{seq_original[0].get('sprite')}{self.RESET}."))
+                blocks.append((f"{seq_refactor[0].get('code')}", f"Este es el {self.MAGENTA}código refactorizado{self.RESET} para evitar secuencias de bloques largas en tu proyecto."))
+
+            explanation += self.language_manager.sequential_explanation_phrases[random.randint(0, len(self.language_manager.sequential_explanation_phrases) - 1) ]
+
+            farwell += self.farwells[random.randint(0, len(self.farwells) - 1)]
+
+            feedback = {
+                'type': type,
+                'message': message,
+                'blocks': blocks,  
+                'explanation': explanation,
+                'farwell': farwell,
+            }
+        else:
+            feedback = None
+        
+        return feedback
+
+
     def upgrade_feedback(self, new_type: str) -> str:
         """
         This function see what was the last type of bad smell analyzed for see
@@ -273,9 +326,12 @@ class RecomenderSystem():
             if (self.curr_type == "Duplicates"):
                 fail_message = self.language_manager.upgrade_feedback_phrases['Duplicates']['fail']
                 success_message = self.language_manager.upgrade_feedback_phrases['Duplicates']['success']
+            if (self.curr_type == "Sequential"):
+                fail_message = self.language_manager.upgrade_feedback_phrases['Sequential']['fail']
+                success_message = self.language_manager.upgrade_feedback_phrases['Sequential']['success']
             
-            # Current Order: Backdrop, Sprites, DeadCode, Duplicates
-            bad_smells_order = ['Backdrops','Sprites','deadCode','Duplicates']
+            # Current Order: Backdrop, Sprites, DeadCode, Duplicates, Sequential
+            bad_smells_order = ['Backdrops','Sprites','deadCode','Duplicates', 'Sequential']
             currIndex = bad_smells_order.index(self.curr_type)
             newIndex = bad_smells_order.index(new_type)
             if (currIndex == newIndex):

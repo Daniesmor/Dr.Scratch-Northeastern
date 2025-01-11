@@ -11,6 +11,7 @@ class LanguageManager:
         self.deadcode_explanation_phrases = self.get_deadcode_explanation_phrases()
         self.sprite_explanation_phrases = self.get_sprite_explanation_phrases()
         self.backdrop_explanation_phrases = self.get_backdrop_explanation_phrases()
+        self.sequential_explanation_phrases = self.get_sequential_explanation_phrases()
         self.upgrade_feedback_phrases = self.get_upgrade_feedback_phrases()
 
     def get_motivational_phrases(self):
@@ -187,6 +188,90 @@ class LanguageManager:
                 "\nEXPLICACIÓN:\nTener scripts duplicados es como tener varias herramientas idénticas en tu caja de herramientas con pequeñas diferencias. Si una se rompe o necesita ajuste, debes arreglar cada una individualmente. Un mejor enfoque es tener una única herramienta con configuraciones ajustables.",
                 "\nEXPLICACIÓN:\nPiensa en los scripts duplicados como escribir las mismas instrucciones para diferentes tareas. Si necesitas actualizar las instrucciones, debes reescribirlas para cada tarea, lo cual es ineficiente. En su lugar, escribe un único conjunto de instrucciones y refiérete a ellas según sea necesario.",
                 "\nEXPLICACIÓN:\nLos scripts duplicados son como pintar varias paredes del mismo color pero con diferentes marcas de pintura. Si decides cambiar el color, necesitas repintar cada pared por separado. Usar una pintura consistente permite cambios y mantenimiento más fáciles.",
+            ]
+        elif self.curr_lan == 'eu':
+            return [
+                "\nAZALPENA:\nIruditu zaizu proiektu batean bi script izatea, bloke berdinak baina parametro edo balio ezberdinez osatuak. Zer gertatuko litzateke aldaketa txiki bat egin behar badugu? Bi script horiek aldatu beharko genituzke, eta kodearen mantentzea konplikatzen du hori. Horrelako egoeretan, programatzaileak modu egokiena da bloke pertsonalizatu bat sortzea, hau da, jatorrizko jarrera definitzen duena, eta beharrezkoa denean bloke berri hori erabili.",
+                "\nAZALPENA:\nScript bikoitza izateak errezeta bera hainbat kopia izatearen antzekoa da, ingredienteen txikiko aldaerak badaude. Ingrediente bat aldatzen baduzu, kopi guztiak eguneratu behar dituzu, eta hori nahiko galtzailea da. Badago, sortu errezepta nagusia eta erreferentzia egin behar duzu beharrezkoa den lekuan.",
+                "\nAZALPENA:\nScript bikoitzak izateak besteak beste, bitxikeria askorekin eguneratzeko premia dagoen tresna bera duzula ikusten da. Batzuk apurtzen badira edo egokitzeko behar izango dituzu bakoitzeko. Harreman onena, tresna bakarra izan behar da ezarpen egokitagarriekin.",
+                "\nAZALPENA:\nPentsatu script bikoitzak tresnetan erabiltzea eta horien legeak eta tarea ezberdinetarako berbera. Aginduak eguneratu behar badituzu, bakoitza berriro idatzi behar duzu, eta hori ez da eraginkorra. Horren ordez, idatzi agindu bakarra eta erreferentziatu behar duzu beharrezkoa den moduan.",
+                "\nAZALPENA:\nScript bikoitzak paretak berdin kolorez margotzea da, baina kolore ezberdinak erabili. Kolorea aldatzea erabakitzen baduzu, paretak banan banan margotu behar dituzu. Kolore konstantea erabiltzeak eguneraketa eta mantentze errazagoak egiten ditu.",
+            ]
+        elif self.curr_lan == 'gl':
+            return [
+                "\nEXPLICACIÓN:\nImaxina que nun proxecto temos dous scripts compostos polos mesmos bloques pero con diferentes parámetros ou valores. Que pasa se precisamos facer un pequeno cambio? Teríamos que modificar ambos scripts, o que complica o mantemento do código. Nestas situacións, é máis apropiado que o programador cree un bloque personalizado que defina este comportamento e use este novo bloque onde sexa necesario.",
+                "\nEXPLICACIÓN:\nOs scripts duplicados son como ter múltiples copias da mesma receita con pequenas variacións nos ingredientes. Se cambias un ingrediente, tes que actualizar todas as copias, o que é engorroso. En lugar diso, crea unha receita mestra e refírete a ela onde sexa necesario.",
+                "\nEXPLICACIÓN:\nTer scripts duplicados é como ter varias ferramentas idénticas na túa caixa de ferramentas con pequenas diferenzas. Se unha se rompe ou necesita axuste, debes arranxar cada unha individualmente. Unha mellor aproximación é ter unha única ferramenta con configuracións axustables.",
+                "\nEXPLICACIÓN:\nPensa nos scripts duplicados como escribir as mesmas instrucións para diferentes tarefas. Se necesitas actualizar as instrucións, debes reescribilas para cada tarefa, o que é ineficiente. En lugar diso, escribe un único conxunto de instrucións e refírete a elas segundo sexa necesario.",
+                "\nEXPLICACIÓN:\nOs scripts duplicados son como pintar varias paredes da mesma cor pero con diferentes marcas de pintura. Se decides cambiar a cor, necesitas repintar cada parede por separado. Usar unha pintura consistente permite cambios e mantemento máis sinxelos.",
+            ]
+        elif self.curr_lan == 'el':
+            return [
+                "\nΕΡΜΗΝΕΙΑ:\nΦαντάσου ότι σε ένα έργο έχουμε δύο σενάρια που αποτελούνται από τα ίδια τμήματα αλλά με διαφορετικές παραμέτρους ή τιμές. Τι συμβαίνει αν χρειαστεί να κάνουμε ένα μικρό αλλαγή; Θα έπρεπε να τροποποιήσουμε και τα δύο σενάρια, κάτι που δυσκολεύει τη συντήρηση του κώδικα. Σε τέτοιες καταστάσεις, είναι πιο κατάλληλο για τον προγραμματιστή να δημιουργήσει έναν προσαρμοσμένο τεμαχισμό που να ορίζει αυτή τη συμπεριφορά και να χρησιμοποιεί αυτόν τον νέο τεμαχισμό όπου απαιτείται.",
+                "\nΕΡΜΗΝΕΙΑ:\nΤα διπλασιασμένα σενάρια είναι σαν να έχεις πολλαπλές αντίγραφα της ίδιας συνταγής με μικρές παραλλαγές στα συστατικά. Αν αλλάξεις ένα συστατικό, πρέπει να ενημερώσεις όλα τα αντίγραφα, που είναι ενοχλητικό. Αντί γι' αυτό, δημιούργησε μια μητρική συνταγή και αναφέρσου σε αυτήν όπου χρειάζεται.",
+                "\nΕΡΜΗΝΕΙΑ:\nΝα έχεις διπλασιασμένα σενάρια είναι σαν να έχεις διάφορα αντίγραφα του ίδιου εργαλείου στο εργαλειοθήκη σου με μικρές διαφορές. Αν ένα χαλάσει ή χρειαστεί προσαρμογή, πρέπει να επιδιορθώσεις κάθε ένα ξεχωριστά. Ένα καλύτερο προσέγγιση είναι να έχεις ένα μοναδικό εργαλείο με ρυθμίσεις που μπορούν να προσαρμοστούν.",
+                "\nΕΡΜΗΝΕΙΑ:\nΣκέψου τα διπλασιασμένα σενάρια ως το να γράφεις τις ίδιες οδηγίες για διαφορετικές εργασίες. Αν χρειαστεί να ενημερώσεις τις οδηγίες, πρέπει να τις ξαναγράψεις για κάθε εργασία, που είναι ανεπιτυχές. Αντί γι' αυτό, γράψε ένα μοναδικό σύνολο οδηγιών και αναφέρσου σε αυτές όπως χρειάζεται.",
+                "\nΕΡΜΗΝΕΙΑ:\nΤα διπλασιασμένα σενάρια είναι σαν να βάφεις πολλούς τοίχους με το ίδιο χρώμα αλλά με διαφορετικές μάρκες χρώματος. Αν αποφασίσεις να αλλάξεις το χρώμα, πρέπει να ξαναβάψεις κάθε τοίχο ξεχωριστά. Χρησιμοποίησε ένα συνεπές χρώμα επιτρέπει ευκολότερες αλλαγές και συντήρηση.",
+            ]
+        elif self.curr_lan == 'pt':
+            return [
+                "\nEXPLICAÇÃO:\nImagine que em um projeto temos dois scripts compostos pelos mesmos blocos, mas com diferentes parâmetros ou valores. E se precisarmos fazer uma pequena alteração? Teríamos que modificar ambos os scripts, o que complica a manutenção do código. Nessas situações, é mais apropriado para o programador criar um bloco personalizado que defina esse comportamento e utilizar esse novo bloco onde for necessário.",
+                "\nEXPLICAÇÃO:\nScripts duplicados são como ter várias cópias da mesma receita com pequenas variações nos ingredientes. Se você altera um ingrediente, precisa atualizar todas as cópias, o que é trabalhoso. Em vez disso, crie uma receita mestra e refira-se a ela onde for necessário.",
+                "\nEXPLICAÇÃO:\nTer scripts duplicados é como ter várias ferramentas idênticas em sua caixa de ferramentas com pequenas diferenças. Se uma quebra ou precisa de ajuste, você precisa consertar cada uma individualmente. Uma abordagem melhor é ter uma única ferramenta com configurações ajustáveis.",
+                "\nEXPLICAÇÃO:\nPense em scripts duplicados como escrever as mesmas instruções para diferentes tarefas. Se precisar atualizar as instruções, você deve reescrevê-las para cada tarefa, o que é ineficiente. Em vez disso, escreva um único conjunto de instruções e faça referência a elas conforme necessário.",
+                "\nEXPLICAÇÃO:\nScripts duplicados são como pintar várias paredes da mesma cor, mas com marcas de tinta diferentes. Se decidir mudar a cor, precisará repintar cada parede separadamente. Usar uma tinta consistente facilita alterações e manutenção.",
+            ]
+        elif self.curr_lan == 'it':
+            return [
+                "\nSPIEGAZIONE:\nImmagina di avere un progetto con due script composti dagli stessi blocchi ma con parametri o valori diversi. Cosa succede se devi fare una piccola modifica? Dovresti modificare entrambi gli script, complicando la manutenzione del codice. In queste situazioni, è più appropriato che il programmatore crei un blocco personalizzato che definisca questo comportamento e utilizzi questo nuovo blocco dove necessario.",
+                "\nSPIEGAZIONE:\nGli script duplicati sono come avere multiple copie della stessa ricetta con lievi variazioni negli ingredienti. Se cambi un ingrediente, devi aggiornare tutte le copie, il che è laborioso. Invece, crea una ricetta principale e fai riferimento ad essa dove necessario.",
+                "\nSPIEGAZIONE:\nAvere script duplicati è come avere diverse attrezzature identiche nel tuo set di strumenti con piccole differenze. Se una si rompe o ha bisogno di essere regolata, devi sistemare ciascuna individualmente. Un approccio migliore è avere un'unica attrezzatura con configurazioni regolabili.",
+                "\nSPIEGAZIONE:\nPensa agli script duplicati come scrivere le stesse istruzioni per diverse attività. Se devi aggiornare le istruzioni, devi riscriverle per ogni attività, il che è inefficiente. Invece, scrivi un'unica serie di istruzioni e fai riferimento ad esse secondo necessità.",
+                "\nSPIEGAZIONE:\nGli script duplicati sono come dipingere pareti multiple dello stesso colore ma con diverse marche di vernice. Se decidi di cambiare il colore, devi ridipingere ogni parete separatamente. Utilizzare una vernice consistente consente modifiche e manutenzione più semplici.",
+            ]
+        elif self.curr_lan == 'ru':
+            return [
+                "\nОБЪЯСНЕНИЕ:\nПредставьте, что у нас есть два скрипта, состоящих из одинаковых блоков, но с разными параметрами или значениями. Что если нам нужно внести небольшие изменения? Нам придется изменить оба скрипта, что усложняет поддержку кода. В таких ситуациях более целесообразно, чтобы программист создал пользовательский блок, который определяет это поведение, и использовал этот новый блок там, где это необходимо.",
+                "\nОБЪЯСНЕНИЕ:\nДублированные скрипты — это как иметь несколько копий одного и того же рецепта с небольшими изменениями в ингредиентах. Если вы меняете один ингредиент, вам придется обновить все копии, что неудобно. Вместо этого создайте мастер-рецепт и используйте его по необходимости.",
+                "\nОБЪЯСНЕНИЕ:\nИметь дублированные скрипты — это как иметь несколько идентичных инструментов в вашем ящике с инструментами с небольшими различиями. Если один из них сломается или потребует настройки, вам придется исправлять каждый индивидуально. Более эффективный подход — иметь единственный инструмент с настраиваемыми параметрами.",
+                "\nОБЪЯСНЕНИЕ:\nДублированные скрипты — это как написание одинаковых инструкций для различных задач. Если вам нужно обновить инструкции, вам придется переписать их для каждой задачи, что неэффективно. Вместо этого напишите единственный набор инструкций и ссылайтесь на них по мере необходимости.",
+                "\nОБЪЯСНЕНИЕ:\nДублированные скрипты — это как покраска нескольких стен одним цветом, но с разными марками краски. Если вы решите изменить цвет, вам нужно будет перекрасить каждую стену отдельно. Использование одного и того же типа краски упрощает изменения и обслуживание.",
+            ]
+        elif self.curr_lan == 'ca':
+            return [
+                "\nEXPLICACIÓ:\nImagina que en un projecte tenim dos scripts compostos pels mateixos blocs però amb diferents paràmetres o valors. Què passa si necessitem fer un petit canvi? Hauríem de modificar tots dos scripts, cosa que complica el manteniment del codi. En aquestes situacions, és més apropiat que el programador creï un bloc personalitzat que defineixi aquest comportament i utilitzi aquest nou bloc on sigui necessari.",
+                "\nEXPLICACIÓ:\nEls scripts duplicats són com tenir múltiples còpies de la mateixa recepta amb petites variacions en els ingredients. Si canviem un ingredient, cal actualitzar totes les còpies, la qual cosa és engorrosa. En lloc d'això, crea una recepta mestra i refèreix-t'hi on sigui necessari.",
+                "\nEXPLICACIÓ:\nTenir scripts duplicats és com tenir diverses eines idèntiques a la teva caixa d'eines amb petites diferències. Si una es trenca o necessita ajust, has de reparar cada una individualment. Un millor enfocament és tenir una única eina amb configuracions ajustables.",
+                "\nEXPLICACIÓ:\nPensa en els scripts duplicats com escriure les mateixes instruccions per a diferents tasques. Si necessites actualitzar les instruccions, has de reescriure-les per a cada tasca, la qual cosa és ineficient. En lloc d'això, escriu un únic conjunt d'instruccions i refèreix-t'hi segons sigui necessari.",
+                "\nEXPLICACIÓ:\nEls scripts duplicats són com pintar diverses parets del mateix color però amb diferents marques de pintura. Si decides canviar el color, necessites repintar cada paret per separat. Utilitzar una pintura consistent permet canvis i manteniment més fàcils.",
+            ]
+        elif self.curr_lan == 'tr':
+            return [
+                "\nAÇIKLAMA:\nBir projede aynı bloklardan oluşan ancak farklı parametreler veya değerlerle iki betiğimiz olduğunu hayal edin. Küçük bir değişiklik yapmamız gerekirse ne olur? Her iki betiği de değiştirmemiz gerekecek, bu da kod bakımını zorlaştırır. Böyle durumlarda, programcının bu davranışı tanımlayan özel bir blok oluşturması ve bu yeni bloğu gerektiği yerde kullanması daha uygundur.",
+                "\nAÇIKLAMA:\nYinelenen betikler, hafif malzeme varyasyonlarıyla aynı tarifin birden fazla kopyasına sahip olmak gibidir. Bir malzemeyi değiştirirseniz, tüm kopyaları güncellemeniz gerekir, bu da zahmetlidir. Bunun yerine, bir ana tarif oluşturun ve gerektiğinde ona başvurun.",
+                "\nAÇIKLAMA:\nYinelenen betiklere sahip olmak, alet kutunuzda küçük farklarla birden fazla aynı araca sahip olmak gibidir. Bir tanesi bozulur veya ayar gerektirirse, her birini ayrı ayrı tamir etmeniz gerekir. Daha iyi bir yaklaşım, ayarlanabilir ayarları olan tek bir araca sahip olmaktır.",
+                "\nAÇIKLAMA:\nYinelenen betikleri, farklı görevler için aynı talimatları yazmak gibi düşünün. Talimatları güncellemeniz gerekirse, her görev için yeniden yazmanız gerekir, bu verimsizdir. Bunun yerine, tek bir talimat seti yazın ve gerektiğinde ona başvurun.",
+                "\nAÇIKLAMA:\nYinelenen betikler, aynı rengi boyayan ancak farklı boya markaları kullanan birden fazla duvarı boyamak gibidir. Rengi değiştirmeye karar verirseniz, her duvarı ayrı ayrı yeniden boyamanız gerekir. Tutarlı bir boya kullanmak, değişiklikleri ve bakımı kolaylaştırır.",
+            ]
+        else:
+            return []
+        
+    def get_sequential_explanation_phrases(self):
+        if self.curr_lan == 'en':
+            return [
+                "\nEXPLANATION:\nImagine you have to pick up your toys one by one and put them in the box. Wouldn't it be faster if someone said, 'Put 5 toys in the box'? That's what a loop does—it helps you repeat actions quickly and easily.",
+                "\nEXPLANATION:\nRepeating blocks is like writing your name on a piece of paper over and over again. Wouldn't it be easier to just say, 'Write your name 10 times'? A loop lets you do the same thing without getting so tired.",
+                "\nEXPLANATION:\nThink about eating a big bowl of cereal. If you only eat one piece of cereal at a time, it would take forever! A loop is like using a spoon to scoop up many pieces at once—it makes everything faster and easier.",
+                "\nEXPLANATION:\nImagine building a sandcastle by carrying one handful of sand at a time. A loop is like using a bucket to carry many handfuls all at once. It helps you finish your castle faster so you can play more!",
+                "\nEXPLANATION:\nSequential blocks are like carrying apples one at a time to a basket. If you had a cart, you could carry all the apples in one trip! A loop is like that cart—it makes things easier and faster."
+            ]
+        elif self.curr_lan == 'es':
+            return [
+                "\nEXPLICACIÓN:\nImagina que tienes que recoger tus juguetes uno por uno y ponerlos en la caja. ¿No sería más rápido si alguien dijera: 'Pon 5 juguetes en la caja'? Eso es lo que hace un bucle: te ayuda a repetir acciones de manera rápida y fácil.",
+                "\nEXPLICACIÓN:\nRepetir bloques es como escribir tu nombre en una hoja de papel una y otra vez. ¿No sería más fácil decir: 'Escribe tu nombre 10 veces'? Un bucle te permite hacer lo mismo sin cansarte tanto.",
+                "\nEXPLICACIÓN:\nPiensa en comer un gran tazón de cereales. Si comes un grano de cereal a la vez, ¡te tardarás una eternidad! Un bucle es como usar una cuchara para tomar muchos cereales a la vez: hace todo más rápido y fácil.",
+                "\nEXPLICACIÓN:\nImagina que estás construyendo un castillo de arena llevando un puñado de arena a la vez. Un bucle es como usar un cubo para llevar muchos puñados de una sola vez. Te ayuda a terminar tu castillo más rápido para que puedas jugar más.",
+                "\nEXPLICACIÓN:\nLos bloques secuenciales son como llevar manzanas una a una a una cesta. Si tuvieras un carrito, podrías llevar todas las manzanas de un solo viaje. Un bucle es como ese carrito: hace las cosas más fáciles y rápidas."
             ]
         elif self.curr_lan == 'eu':
             return [
@@ -525,6 +610,10 @@ class LanguageManager:
                 'Duplicates': {
                     'fail': "Oooops, it's seem's that you haven't solved the problem with the duplicated code already, but don't worry, we are going to review again how we could solve it,",
                     'success': "YEAAHH, YOU HAVE SOLVED THE PROBLEM WITH THE DUPLICATED CODE, that's very great news! Does it seem good to you if we keep improving the project?",
+                },
+                'Sequential': {
+                    'fail': "Oooops, it's seem's that you haven't solved the problem with the sequential blocks already, but don't worry, we are going to review again how we could solve it,",
+                    'success': "YEAAHH, YOU HAVE SOLVED THE PROBLEM WITH THE SEQUENTIAL BLOCKS, that's very great news! Does it seem good to you if we keep improving the project?",
                 }
             }
         elif self.curr_lan == 'es':
@@ -544,6 +633,10 @@ class LanguageManager:
                 'Duplicates': {
                     'fail': "Oooops, parece que no has resuelto el problema con el código duplicado, pero no te preocupes, vamos a revisar cómo podríamos resolverlo de nuevo,",
                     'success': "¡YEAHH, HAS RESUELTO EL PROBLEMA CON EL CÓDIGO DUPLICADO, esa es una noticia genial! ¿Te parece bien si seguimos mejorando el proyecto?",
+                },
+                'Sequential': {
+                    'fail': "Oooops, parece que no has resuelto el problema con los bloques secuenciales, pero no te preocupes, vamos a revisar cómo podríamos resolverlo de nuevo,",
+                    'success': "¡YEAHH, HAS RESUELTO EL PROBLEMA CON LOS BLOQUES SECUENCIALES, esa es una noticia genial! ¿Te parece bien si seguimos mejorando el proyecto?",
                 }
             }
         elif self.curr_lan == 'eu':
