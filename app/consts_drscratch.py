@@ -31,6 +31,10 @@ PLUGIN_MESSAGENAMING_DEFAULT_NAMES = [
     "message"
 ]
 
+PLUGIN_VARIABLESNAMING_DEFAULT_NAMES = [
+    "variable"
+]
+
 PLUGIN_DEADCODE_LIST_LOOP_BLOCKS = [
     "control_repeat",
     "control_forever",
