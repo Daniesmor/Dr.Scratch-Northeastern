@@ -12,6 +12,7 @@ class LanguageManager:
         self.sprite_explanation_phrases = self.get_sprite_explanation_phrases()
         self.backdrop_explanation_phrases = self.get_backdrop_explanation_phrases()
         self.messages_explanation_phrases = self.get_messages_explanation_phrases()
+        self.variables_explanation_phrases = self.get_variable_naming_explanations()
         self.sequential_explanation_phrases = self.get_sequential_explanation_phrases()
         self.upgrade_feedback_phrases = self.get_upgrade_feedback_phrases()
 
@@ -677,6 +678,90 @@ class LanguageManager:
             ]
         else:
             return []
+        
+    def get_variable_naming_explanations(self):
+        if self.curr_lan == 'en':
+            return [
+                "\nEXPLANATION:\nUsing default variable names is like labeling every button on a control panel as 'button': it creates confusion and makes debugging a nightmare. Clear, specific names improve code readability and maintenance.",
+                "\nEXPLANATION:\nDefault variable names are like calling every folder on your computer 'new folder': it becomes impossible to find what you need. Descriptive names help organize your code and avoid errors.",
+                "\nEXPLANATION:\nKeeping default variable names is like using placeholders in a recipe: without clarity, the end result can be disastrous. Meaningful names guide both you and collaborators.",
+                "\nEXPLANATION:\nDefault names for variables are like having identical keys without labels: finding the right one is frustrating and time-consuming. Specific names save time and reduce confusion.",
+                "\nEXPLANATION:\nUsing default variable names is like writing a book where every character is named 'person': it’s impossible to follow the story. Unique, descriptive names make your code logical and understandable.",
+            ]
+        elif self.curr_lan == 'es':
+            return [
+                "\nEXPLICACIÓN:\nUsar nombres de variables por defecto es como etiquetar todos los botones de un panel de control como 'botón': genera confusión y hace que la depuración sea una pesadilla. Los nombres claros y específicos mejoran la legibilidad y el mantenimiento del código.",
+                "\nEXPLICACIÓN:\nLos nombres de variables por defecto son como llamar a todas las carpetas de tu ordenador 'nueva carpeta': se vuelve imposible encontrar lo que necesitas. Los nombres descriptivos ayudan a organizar tu código y evitan errores.",
+                "\nEXPLICACIÓN:\nMantener nombres de variables por defecto es como usar marcadores de posición en una receta: sin claridad, el resultado final puede ser desastroso. Los nombres significativos guían tanto a ti como a tus colaboradores.",
+                "\nEXPLICACIÓN:\nLos nombres por defecto en las variables son como tener llaves idénticas sin etiquetas: encontrar la correcta es frustrante y lleva tiempo. Los nombres específicos ahorran tiempo y reducen la confusión.",
+                "\nEXPLICACIÓN:\nUsar nombres de variables por defecto es como escribir un libro donde todos los personajes se llaman 'persona': es imposible seguir la historia. Los nombres únicos y descriptivos hacen que tu código sea lógico y comprensible.",
+            ]
+        elif self.curr_lan == 'eu':
+            return [
+                "\nAZALPENA:\nAldagai izen lehenetsiak erabiltzea kontrol-paneleko botoi guztiak 'botoi' bezala etiketatzea bezalakoa da: nahasmena sortzen du eta arazketa amesgaizto bihurtzen du. Izen argi eta zehatzek kodearen irakurgarritasuna eta mantentzea hobetzen dute.",
+                "\nAZALPENA:\nAldagai izen lehenetsiak erabiltzea zure ordenagailuko karpeta guztiak 'karpeta berria' deitzea bezalakoa da: behar duzuna aurkitzea ezinezkoa bihurtzen da. Izen deskriptiboek zure kodea antolatzen laguntzen dute eta erroreak saihesten dituzte.",
+                "\nAZALPENA:\nAldagai izen lehenetsiak mantentzea errezeta batean leku-markatzaileak erabiltzea bezalakoa da: argitasunik gabe, emaitza katastrofikoa izan daiteke. Izen esanguratsuek bai zu bai zure lankideak gidatzen zaituztete.",
+                "\nAZALPENA:\nAldagaietan lehenetsitako izenak edukitzea etiketarik gabeko giltza berdinak izatea bezalakoa da: egokia aurkitzea neketsua eta denbora-galtzea da. Izen zehatzenek denbora aurrezten dute eta nahasmena murrizten dute.",
+                "\nAZALPENA:\nAldagai izen lehenetsiak erabiltzea pertsonaia guztiak 'pertsona' deitzen diren liburu bat idaztea bezalakoa da: istorioa jarraitzea ezinezkoa da. Izen bakar eta deskriptiboek zure kodea logiko eta ulergarria bihurtzen dute.",
+            ]
+        elif self.curr_lan == 'gl':
+            return [
+                "\nEXPLICACIÓN:\nUsar nomes de variábeis por defecto é coma etiquetar todos os botóns dun panel de control como 'botón': xera confusión e fai que a depuración sexa un pesadelo. Os nomes claros e específicos melloran a lexibilidade e o mantemento do código.",
+                "\nEXPLICACIÓN:\nOs nomes de variábeis por defecto son coma chamar a todas as carpetas do teu ordenador 'nova carpeta': faise imposible atopar o que necesitas. Os nomes descritivos axudan a organizar o teu código e evitan erros.",
+                "\nEXPLICACIÓN:\nManter nomes de variábeis por defecto é coma usar marcadores de posición nunha receita: sen claridade, o resultado final pode ser desastroso. Os nomes significativos guían tanto a ti coma aos teus colaboradores.",
+                "\nEXPLICACIÓN:\nOs nomes por defecto nas variábeis son coma ter chaves idénticas sen etiquetas: atopar a correcta é frustrante e leva tempo. Os nomes específicos aforran tempo e reducen a confusión.",
+                "\nEXPLICACIÓN:\nUsar nomes de variábeis por defecto é coma escribir un libro onde todos os personaxes se chaman 'persoa': é imposible seguir a historia. Os nomes únicos e descritivos fan que o teu código sexa lóxico e comprensible.",
+            ]
+        elif self.curr_lan == 'el':
+            return [
+                "\nΕΞΗΓΗΣΗ:\nΗ χρήση προεπιλεγμένων ονομάτων μεταβλητών είναι σαν να χαρακτηρίζετε όλα τα κουμπιά σε έναν πίνακα ελέγχου ως 'κουμπί': προκαλεί σύγχυση και καθιστά την αποσφαλμάτωση εφιάλτη. Τα σαφή και συγκεκριμένα ονόματα βελτιώνουν την αναγνωσιμότητα και τη συντήρηση του κώδικα.",
+                "\nΕΞΗΓΗΣΗ:\nΤα προεπιλεγμένα ονόματα μεταβλητών είναι σαν να ονομάζετε όλους τους φακέλους στον υπολογιστή σας 'νέος φάκελος': γίνεται αδύνατο να βρείτε αυτό που χρειάζεστε. Τα περιγραφικά ονόματα βοηθούν στην οργάνωση του κώδικα και αποτρέπουν σφάλματα.",
+                "\nΕΞΗΓΗΣΗ:\nΗ διατήρηση προεπιλεγμένων ονομάτων μεταβλητών είναι σαν να χρησιμοποιείτε σύμβολα κράτησης θέσης σε μια συνταγή: χωρίς σαφήνεια, το τελικό αποτέλεσμα μπορεί να είναι καταστροφικό. Τα σημασιολογικά ονόματα καθοδηγούν τόσο εσάς όσο και τους συνεργάτες σας.",
+                "\nΕΞΗΓΗΣΗ:\nΤα προεπιλεγμένα ονόματα για μεταβλητές είναι σαν να έχετε πανομοιότυπα κλειδιά χωρίς ετικέτες: η εύρεση του σωστού είναι απογοητευτική και χρονοβόρα. Τα συγκεκριμένα ονόματα εξοικονομούν χρόνο και μειώνουν τη σύγχυση.",
+                "\nΕΞΗΓΗΣΗ:\nΗ χρήση προεπιλεγμένων ονομάτων μεταβλητών είναι σαν να γράφετε ένα βιβλίο όπου όλοι οι χαρακτήρες ονομάζονται 'πρόσωπο': είναι αδύνατο να παρακολουθήσετε την ιστορία. Τα μοναδικά και περιγραφικά ονόματα καθιστούν τον κώδικά σας λογικό και κατανοητό.",
+            ]
+        elif self.curr_lan == 'pt':
+            return [
+                "\nEXPLICAÇÃO:\nUsar nomes padrão para variáveis é como etiquetar todos os botões de um painel de controle como 'botão': cria confusão e torna a depuração um pesadelo. Nomes claros e específicos melhoram a legibilidade e manutenção do código.",
+                "\nEXPLICAÇÃO:\nNomes padrão para variáveis são como chamar todas as pastas do seu computador de 'nova pasta': torna-se impossível encontrar o que você precisa. Nomes descritivos ajudam a organizar o código e evitam erros.",
+                "\nEXPLICAÇÃO:\nManter nomes padrão para variáveis é como usar espaços reservados em uma receita: sem clareza, o resultado final pode ser desastroso. Nomes significativos guiam você e seus colaboradores.",
+                "\nEXPLICAÇÃO:\nNomes padrão para variáveis são como ter chaves idênticas sem rótulos: encontrar a correta é frustrante e demorado. Nomes específicos economizam tempo e reduzem a confusão.",
+                "\nEXPLICAÇÃO:\nUsar nomes padrão para variáveis é como escrever um livro onde todos os personagens se chamam 'pessoa': é impossível seguir a história. Nomes únicos e descritivos tornam seu código lógico e compreensível.",
+            ]
+        elif self.curr_lan == 'it':
+            return [
+                "\nSPIEGAZIONE:\nUtilizzare nomi predefiniti per le variabili è come etichettare tutti i pulsanti di un pannello di controllo come 'pulsante': crea confusione e rende il debugging un incubo. Nomi chiari e specifici migliorano la leggibilità e la manutenzione del codice.",
+                "\nSPIEGAZIONE:\nI nomi predefiniti per le variabili sono come chiamare tutte le cartelle del tuo computer 'nuova cartella': diventa impossibile trovare ciò che ti serve. Nomi descrittivi aiutano a organizzare il codice e a evitare errori.",
+                "\nSPIEGAZIONE:\nMantenere nomi predefiniti per le variabili è come usare segnaposto in una ricetta: senza chiarezza, il risultato finale può essere disastroso. Nomi significativi guidano te e i tuoi collaboratori.",
+                "\nSPIEGAZIONE:\nI nomi predefiniti per le variabili sono come avere chiavi identiche senza etichette: trovare quella giusta è frustrante e richiede tempo. Nomi specifici fanno risparmiare tempo e riducono la confusione.",
+                "\nSPIEGAZIONE:\nUsare nomi predefiniti per le variabili è come scrivere un libro in cui tutti i personaggi si chiamano 'persona': è impossibile seguire la storia. Nomi unici e descrittivi rendono il tuo codice logico e comprensibile.",
+            ]
+        elif self.curr_lan == 'ru':
+            return [
+                "\nОБЪЯСНЕНИЕ:\nИспользование имен переменных по умолчанию похоже на то, как если все кнопки на пульте управления назвать 'button': это создает путаницу и превращает отладку в кошмар. Четкие и конкретные имена улучшают читаемость и обслуживание кода.",
+                "\nОБЪЯСНЕНИЕ:\nИмена переменных по умолчанию — это как называть все папки на компьютере 'новая папка': становится невозможно найти то, что нужно. Описательные имена помогают организовать код и избежать ошибок.",
+                "\nОБЪЯСНЕНИЕ:\nСохранение имен переменных по умолчанию похоже на использование заполнителей в рецепте: без ясности конечный результат может быть катастрофическим. Осмысленные имена помогают вам и вашим коллегам.",
+                "\nОБЪЯСНЕНИЕ:\nИмена переменных по умолчанию похожи на одинаковые ключи без этикеток: найти нужный становится сложно и затратно по времени. Конкретные имена экономят время и уменьшают путаницу.",
+                "\nОБЪЯСНЕНИЕ:\nИспользование имен переменных по умолчанию похоже на написание книги, где всех персонажей зовут 'человек': следить за историей невозможно. Уникальные и описательные имена делают ваш код логичным и понятным.",
+            ]
+        elif self.curr_lan == 'ca':
+            return [
+                "\nEXPLICACIÓ:\nUtilitzar noms de variables per defecte és com etiquetar tots els botons d'un panell de control com a 'botó': genera confusió i fa que la depuració sigui un malson. Els noms clars i específics milloren la llegibilitat i el manteniment del codi.",
+                "\nEXPLICACIÓ:\nEls noms de variables per defecte són com anomenar totes les carpetes del teu ordinador 'nova carpeta': esdevé impossible trobar el que necessites. Els noms descriptius ajuden a organitzar el teu codi i eviten errors.",
+                "\nEXPLICACIÓ:\nMantenir noms de variables per defecte és com utilitzar marcadors de posició en una recepta: sense claredat, el resultat final pot ser desastrós. Els noms significatius guien tant a tu com als teus col·laboradors.",
+                "\nEXPLICACIÓ:\nEls noms per defecte a les variables són com tenir claus idèntiques sense etiquetes: trobar la correcta és frustrant i requereix molt de temps. Els noms específics estalvien temps i redueixen la confusió.",
+                "\nEXPLICACIÓ:\nUtilitzar noms de variables per defecte és com escriure un llibre on tots els personatges es diuen 'persona': és impossible seguir la història. Els noms únics i descriptius fan que el teu codi sigui lògic i comprensible.",
+            ]
+        elif self.curr_lan == 'tr':
+            return [
+                "\nAÇIKLAMA:\nVarsayılan değişken adlarını kullanmak, bir kontrol panelindeki tüm düğmeleri 'düğme' olarak etiketlemek gibidir: kafa karışıklığı yaratır ve hata ayıklamayı kâbusa çevirir. Açık ve spesifik adlar, kodun okunabilirliğini ve bakımını iyileştirir.",
+                "\nAÇIKLAMA:\nVarsayılan değişken adları, bilgisayarınızdaki tüm klasörlere 'yeni klasör' adını vermek gibidir: ihtiyacınız olanı bulmayı imkânsız hale getirir. Açıklayıcı adlar kodunuzu düzenlemeye yardımcı olur ve hataları önler.",
+                "\nAÇIKLAMA:\nVarsayılan değişken adlarını korumak, bir tarifte yer tutucular kullanmak gibidir: netlik olmadan, sonuç felaket olabilir. Anlamlı adlar, hem sizi hem de iş arkadaşlarınızı yönlendirir.",
+                "\nAÇIKLAMA:\nVarsayılan değişken adları, etiketsiz aynı anahtarlara sahip olmak gibidir: doğru olanı bulmak sinir bozucu ve zaman alıcıdır. Belirli adlar zaman kazandırır ve kafa karışıklığını azaltır.",
+                "\nAÇIKLAMA:\nVarsayılan değişken adlarını kullanmak, tüm karakterlerin 'kişi' olarak adlandırıldığı bir kitap yazmak gibidir: hikayeyi takip etmek imkânsızdır. Benzersiz ve açıklayıcı adlar, kodunuzu mantıklı ve anlaşılır hale getirir.",
+            ]
+        else:
+            return []
 
     def get_upgrade_feedback_phrases(self):
         if self.curr_lan == 'en':
@@ -692,6 +777,10 @@ class LanguageManager:
                 'Messages': {
                     'fail': "Oooops, it's seem's that you haven't solved the problem with the message naming, but don't worry, we are going to review again how we could solve it,",
                     'success': "YEAAHH, YOU HAVE SOLVED THE PROBLEM WITH THE MESSAGE NAMING, that's very great news! Does it seem good to you if we keep improving the project?",
+                },
+                'Variables': {
+                    'fail': "Oooops, it's seem's that you haven't solved the problem with the variables naming, but don't worry, we are going to review again how we could solve it,",
+                    'success': "YEAAHH, YOU HAVE SOLVED THE PROBLEM WITH THE VARIABLES NAMING, that's very great news! Does it seem good to you if we keep improving the project?",
                 },
                 'deadCode': {
                     'fail': "Oooops, it's seem's that you haven't solved the problem with the dead code, but don't worry, we are going to review again how we could solve it,",
@@ -715,6 +804,14 @@ class LanguageManager:
                 'Sprites': {
                     'fail': "Oooops, parece que no has resuelto el problema con el nombramiento de los sprites, pero no te preocupes, vamos a revisar cómo podríamos resolverlo de nuevo,",
                     'success': "¡YEAHH, HAS RESUELTO EL PROBLEMA CON EL NOMBRAMIENTO DE LOS SPRITES, esa es una noticia genial! ¿Te parece bien si seguimos mejorando el proyecto?",
+                },
+                'Messages': {
+                    'fail': "Oooops, parece que no has resuelto el problema con el nombramiento de los mensajes, pero no te preocupes, vamos a revisar cómo podríamos resolverlo de nuevo,",
+                    'success': "¡YEAHH, HAS RESUELTO EL PROBLEMA CON EL NOMBRAMIENTO DE LOS MENSAJES, esa es una noticia genial! ¿Te parece bien si seguimos mejorando el proyecto?",
+                },
+                'Variables': {
+                    'fail': "Oooops, parece que no has resuelto el problema con el nombramiento de las variables, pero no te preocupes, vamos a revisar cómo podríamos resolverlo de nuevo,",
+                    'success': "¡YEAHH, HAS RESUELTO EL PROBLEMA CON EL NOMBRAMIENTO DE LOS VARIABLES, esa es una noticia genial! ¿Te parece bien si seguimos mejorando el proyecto?",
                 },
                 'deadCode': {
                     'fail': "Oooops, parece que no has resuelto el problema con el código muerto, pero no te preocupes, vamos a revisar cómo podríamos resolverlo de nuevo,",

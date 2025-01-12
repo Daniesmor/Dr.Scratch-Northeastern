@@ -1,4 +1,4 @@
-import random, re
+import random
 from django.utils.translation import get_language
 from .recomender_phrases import LanguageManager
 
@@ -188,7 +188,7 @@ class RecomenderSystem():
         message = ""
         explanation = ""
         farwell = ""
-        message_list = re.findall(r'message\d+', dict_messageNaming)
+        message_list = [line.strip() for line in dict_messageNaming.splitlines()[1:]]
 
         if (len(message_list) != 0):
             # Select one of the motivational phrases to start
@@ -209,6 +209,47 @@ class RecomenderSystem():
 
 
             explanation += self.language_manager.messages_explanation_phrases[random.randint(0, len(self.language_manager.messages_explanation_phrases) - 1) ]
+            farwell += self.farwells[random.randint(0, len(self.farwells) - 1)]
+
+            feedback = {
+                'type': type,
+                'message': message,
+                'blocks': [],  
+                'explanation': explanation,
+                'farwell': farwell,
+            }
+
+        else:
+            feedback = None
+        
+        return feedback
+    
+    def recommender_variables(self, dict_variablesNaming):
+        type = "Variables"
+        message = ""
+        explanation = ""
+        farwell = ""
+        variables_list = [line.strip() for line in dict_variablesNaming.splitlines()[1:]]
+
+        if (len(variables_list) != 0):
+            # Select one of the motivational phrases to start
+            message += self.upgrade_feedback(type)
+
+            # We have to create an message
+            if (len(variables_list) > 1):
+                variables = ", ".join(variables_list)
+                if self.curr_lan == 'en':
+                    message += f" you have a lot of variables with the default name, for example in your case you have {self.MAGENTA}{len(variables_list)} variables{self.RESET} with the default names. To solve it, you have to change the names of {variables} for more descriptive names."
+                elif self.curr_lan == 'es':
+                    message += f" tienes muchas variables con el nombre por defecto, por ejemplo en tu caso tienes {self.MAGENTA}{len(variables_list)} variables{self.RESET} con nombres por defecto. Mira, para solucionarlo, debes cambiar los nombres de {variables} por nombres más descriptivos."
+            else:
+                if self.curr_lan == 'en':
+                    message += f" you have one variable with the default name provided by Scratch, try changing the variable {self.MAGENTA}{variables_list[0]}{self.RESET} name, for a more descriptive name."
+                elif self.curr_lan == 'es':
+                    message += f" tienes una variable con el nombre por defecto proporcionado por Scratch, intenta cambiar el nombre de la variable {self.MAGENTA}{variables_list[0]}{self.RESET} por un nombre más descriptivo."
+
+
+            explanation += self.language_manager.variables_explanation_phrases[random.randint(0, len(self.language_manager.variables_explanation_phrases) - 1) ]
             farwell += self.farwells[random.randint(0, len(self.farwells) - 1)]
 
             feedback = {
@@ -353,6 +394,9 @@ class RecomenderSystem():
         new_message = ""
 
         if (self.curr_type != ""):
+            fail_message = self.language_manager.upgrade_feedback_phrases.get(self.curr_type).get('fail')
+            success_message = self.language_manager.upgrade_feedback_phrases.get(self.curr_type).get('success')
+            """
             if (self.curr_type == "Backdrops"):
                 fail_message = self.language_manager.upgrade_feedback_phrases['Backdrops']['fail']
                 success_message = self.language_manager.upgrade_feedback_phrases['Backdrops']['success']
@@ -362,6 +406,9 @@ class RecomenderSystem():
             if (self.curr_type == "Messages"):
                 fail_message = self.language_manager.upgrade_feedback_phrases['Messages']['fail']
                 success_message = self.language_manager.upgrade_feedback_phrases['Messages']['success']
+            if (self.curr_type == "Variables"):
+                fail_message = self.language_manager.upgrade_feedback_phrases['Variables']['fail']
+                success_message = self.language_manager.upgrade_feedback_phrases['Variables']['success']
             if (self.curr_type == "deadCode"):
                 fail_message = self.language_manager.upgrade_feedback_phrases['deadCode']['fail']
                 success_message = self.language_manager.upgrade_feedback_phrases['deadCode']['success']
@@ -371,9 +418,10 @@ class RecomenderSystem():
             if (self.curr_type == "Sequential"):
                 fail_message = self.language_manager.upgrade_feedback_phrases['Sequential']['fail']
                 success_message = self.language_manager.upgrade_feedback_phrases['Sequential']['success']
+            """
             
-            # Current Order: Backdrop, Sprites, Messages, DeadCode, Duplicates, Sequential
-            bad_smells_order = ['Backdrops','Sprites','Messages','deadCode','Duplicates','Sequential']
+            # Current Order: Backdrop, Sprites, Messages, Variables, DeadCode, Duplicates, Sequential
+            bad_smells_order = ['Backdrops','Sprites','Messages','Variables','deadCode','Duplicates','Sequential']
             currIndex = bad_smells_order.index(self.curr_type)
             newIndex = bad_smells_order.index(new_type)
             if (currIndex == newIndex):
