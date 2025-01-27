@@ -1,0 +1,33 @@
+{% extends 'learn/base.html' %}
+{% load i18n %}
+{% block content %}
+<div class="container" style="text-align: left;">
+    <h2> {% trans "Message Naming" %} </h2>
+    <div class="panel panel-default">
+        <div class="panel-body col-lg-10">
+            {% trans "When programming with Scratch, it's common to use broadcast messages like 'message1' or 'message2' by default. While this might seem fine with a few messages, it becomes confusing as the number of broadcasts increases." %}
+            <br><br>
+            {% trans "Using default broadcast names like 'message1' or 'message2' makes it difficult to understand the purpose of each message. This can lead to errors and make the project harder to manage, especially as it grows in complexity." %}
+            <br><br>
+            {% trans "A good practice is to give descriptive names to broadcast messages, such as 'StartGame' or 'GameOver'. This improves the readability and maintainability of the project, making it easier to track the flow of messages and understand their purpose." %}
+            <br><br>
+            <div class="row" style="padding-left: 5%;">
+                <pre class="blocks col-lg-5">
+                    {% trans "// Poor Message Naming" %}
+                    {% trans "when I receive [message1 v]" %}
+                    {% trans "say [Game Starting] for (2) seconds" %}
+                    {% trans "broadcast [message2 v]" %}
+                </pre>
+                <pre class="blocks col-lg-5 col-lg-offset-1">
+                    {% trans "// Poor Message Naming" %}
+                    {% trans "when I receive [starGame v]" %}
+                    {% trans "say [Game Starting] for (2) seconds" %}
+                    {% trans "broadcast [generateWorld v]" %}
+                </pre>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+{% endblock %}
