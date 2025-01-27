@@ -52,6 +52,7 @@ PLUGIN_DEADCODE_LIST_MENU_BLOCKS = [
     "text2speech_menu_languages",
     "translate_menu_languages",
     "music_menu_DRUM",
+    "sound_sounds_menu"
     
 ]
 
