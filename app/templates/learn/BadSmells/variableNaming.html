@@ -1,0 +1,35 @@
+{% extends 'learn/base.html' %}
+{% load i18n %}
+{% block content %}
+<div class="container" style="text-align: left;">
+    <h2> {% trans "Variable Naming" %} </h2>
+    <div class="panel panel-default">
+        <div class="panel-body col-lg-10">
+            {% trans "When programming with Scratch, it's common to use default variable names like 'var1' or 'var2'. While this might seem fine with a few variables, it becomes confusing as the number of variables grows." %}
+            <br><br>
+            {% trans "Using default variable names like 'var1' or 'var2' makes it difficult to understand the role of each variable. This can lead to errors and make the project harder to manage, especially as it grows in complexity." %}
+            <br><br>
+            {% trans "A good practice is to give descriptive names to variables, such as 'damage' or 'playerHealth'. This improves the readability and maintainability of the project, making it easier to track how variables are used and what they represent." %}
+            <br><br>
+            <div class="row" style="padding-left: 1%;">
+                <pre class="blocks col-lg-5">
+                    {% trans "// Poor Variable Naming" %}
+                    {% trans "when I receive [enemyAttack v]" %}
+                    {% trans "change [var1 v] by ((var1) - (var2))" %}
+                    {% trans "if &lt;(var1) &lt; (0)&gt; then" %}
+                    {% trans "say [Game Over] for (2) seconds" %}
+                </pre>
+                <pre class="blocks col-lg-6 col-lg-offset-1">
+                    {% trans "// Good Variable Naming" %}
+                    {% trans "when I receive [enemyAttack v]" %}
+                    {% trans "change [health v] by ((health) - (damage))" %}
+                    {% trans "if &lt;(health) &lt; (0)&gt; then" %}
+                    {% trans "say [Game Over] for (2) seconds" %}
+                </pre>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+{% endblock %}
