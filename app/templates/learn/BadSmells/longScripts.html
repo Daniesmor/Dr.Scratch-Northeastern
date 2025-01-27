@@ -1,0 +1,100 @@
+{% extends 'learn/base.html' %}
+{% load i18n %}
+{% block content %}
+<div class="container" style="text-align: left;">
+    <h2> {% trans "Long Scripts" %} </h2>
+    <div class="panel panel-default">
+        <div class="panel-body col-lg-10">
+            {% trans "Imagine you're programming a robot to perform a set of tasks, such as navigating a maze, picking up objects, and interacting with the environment. In this version, all tasks are written without breaking them into smaller functions, making the code less organized." %}
+            <br><br>
+            <pre class="blocks col-lg-5 col-lg-offset-3">
+                {% trans "when green flag clicked" %}
+                {% trans "move (10) steps" %}
+                {% trans "turn right (90) degrees" %}
+                {% trans "if (object detected) then" %}
+                {% trans "pick up object :: custom" %}
+                {% trans "move (20) steps" %}
+                {% trans "else" %}
+                {% trans "turn right (45) degrees" %}
+                {% trans "end" %}
+                {% trans "if (obstacle detected) then" %}
+                {% trans "jump over obstacle :: custom" %}
+                {% trans "else" %}
+                {% trans "move (15) steps" %}
+                {% trans "end" %}
+                {% trans "set [light v] effect to (red)" %}
+                {% trans "wait (2) seconds" %}
+                {% trans "change [red v] effect by (-10)" %}
+                {% trans "wait (2) seconds" %}
+                {% trans "change [red v] effect by (-10)" %}
+                {% trans "wait (2) seconds" %}
+            </pre>
+            <div class="col-lg-12">
+                <br>
+                {% trans "This script shows all tasks in a long sequence, making it hard to follow, debug, or modify. Now let's break it down into smaller functions to make it more efficient and easier to manage!" %}
+                <br><br>
+            </div>
+
+            <div class="row" style="padding-left: 4%;">
+                <pre class="blocks col-lg-5">
+                    {% trans "define transform light" %}
+                    {% trans "set [light v] effect to (red)" %}
+                    {% trans "wait (2) seconds" %}
+                    {% trans "repeat (2)" %}
+                    {% trans "change [red v] effect by (-10)" %}
+                    {% trans "wait (2) seconds" %}
+                    {% trans "end" %}
+                </pre>
+    
+                <pre class="blocks col-lg-5 col-lg-offset-1">
+                    {% trans "define handle objects" %}
+                    {% trans "if (object detected) then" %}
+                    {% trans "pick up object :: custom" %}
+                    {% trans "move (20) steps" %}
+                    {% trans "else" %}
+                    {% trans "turn right (45) degrees" %}
+                    {% trans "end" %}
+                </pre>
+            </div>
+            <div class="row" style="padding-left: 4%;">
+                <pre class="blocks col-lg-5">
+                    {% trans "define handle obstacles" %}
+                    {% trans "if (obstacle detected) then" %}
+                    {% trans "jump over obstacle :: custom" %}
+                    {% trans "else" %}
+                    {% trans "move (15) steps" %}
+                    {% trans "end" %}
+                </pre>
+    
+                <pre class="blocks col-lg-5 col-lg-offset-1">
+                    {% trans "define move and turn (steps) (degrees)" %}
+                    {% trans "move (steps) steps" %}
+                    {% trans "turn right (degrees) degrees" %}
+                </pre>
+            </div>
+
+            <div class="col-lg-12">
+                <br>
+                {% trans "Now that we’ve created functions for 'transform light', 'handle objects', 'handle obstacles', and 'move and turn', our script is much more organized. Here's how the final script looks:" %}
+                <br><br>
+            </div>
+
+            <div class="row">
+                <pre class="blocks col-lg-5 col-lg-offset-3">
+                    {% trans "when green flag clicked" %}
+                    {% trans "move and turn (10) (90) :: custom" %}
+                    {% trans "handle objects :: custom" %}
+                    {% trans "handle obstacles :: custom" %}
+                    {% trans "transform light :: custom" %}
+                </pre>
+            </div>
+
+            <div class="col-lg-12">
+                <br>
+                {% trans "By dividing our script into small functions we make the code more organized and reusable, which makes it easier to debug, modify, and expand!" %}
+                <br><br>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
