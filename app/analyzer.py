@@ -14,6 +14,7 @@ from app.exception import DrScratchException
 from app.forms import UrlForm
 from app.hairball3.backdropNaming import BackdropNaming
 from app.hairball3.messageNaming import MessageNaming
+from app.hairball3.longScripts import LongScripts
 from app.hairball3.variablesNaming import VariablesNaming
 from app.hairball3.deadCode import DeadCode
 from app.hairball3.duplicateScripts import DuplicateScripts
@@ -468,6 +469,12 @@ def proc_recomender(dict_recom):
         }
         RecomenderSystem.curr_type = dict_recom["sequentialBlocks"]['type']
         return recomender
+    if (dict_recom["longScripts"] != None):
+        recomender = {
+            'recomenderSystem': dict_recom["longScripts"],
+        }
+        RecomenderSystem.curr_type = dict_recom["longScripts"]['type']
+        return recomender
     if (dict_recom["deadCode"] != None):
         recomender = {
             'recomenderSystem': dict_recom["deadCode"],
@@ -667,6 +674,18 @@ def proc_sequential_blocks(dict_result, file_obj) -> dict:
 
     return dict_sb
 
+def proc_long_scripts(dict_result, file_obj) -> dict:
+
+    dict_sb = {}
+    dict_sb["longScripts"] = dict_sb
+    dict_sb["longScripts"]["number"] = dict_result['result']['total_long_blocks']
+    dict_sb["longScripts"]["scripts"] = dict_result['result']['list_long_blocks']
+
+    file_obj.sequentialBlocks = dict_result['result']['total_long_blocks']
+    file_obj.save()
+
+    return dict_sb
+
 
 def translate(request, d, filename, vanilla=False):
     """
@@ -810,6 +829,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         dict_duplicate_script = DuplicateScripts(path_projectsb3, json_scratch_project).finalize()
         dict_dead_code = DeadCode(path_projectsb3, json_scratch_project,).finalize()
         dict_seq = SequentialBlocks(path_projectsb3, json_scratch_project).finalize()
+        dict_long = LongScripts(path_projectsb3, json_scratch_project).finalize()
         result_sprite_naming = SpriteNaming(path_projectsb3, json_scratch_project).finalize()
         result_backdrop_naming = BackdropNaming(path_projectsb3, json_scratch_project).finalize()
         result_message_naming = MessageNaming(path_projectsb3, json_scratch_project).finalize()
@@ -832,8 +852,10 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         print(result_variables_naming)
         print("--------------------- BABIA DICT ----------------------")
         print(dict_babia)
-        print("--------------------- SEQ DICT ----------------------")
+        print("--------------------- SEQ BLOCKS DICT ----------------------")
         print(dict_seq)
+        print("--------------------- LONG SCRIPTS DICT ----------------------")
+        print(dict_long)
         print("--------------------- REFACTORED DUPLICATE ----------------------")
         print(refactored_code)
         print("--------------------- REFACTORED SEQUENCE ----------------------")
@@ -851,6 +873,8 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
             dict_recom["variableNaming"] = recomender.recommender_variables(result_variables_naming)
             dict_recom["duplicatedScripts"] = recomender.recomender_duplicatedScripts(dict_duplicate_script, refactored_code)
             dict_recom["sequentialBlocks"] = recomender.recomender_sequentialBlocks(dict_seq, refactored_sequence)
+            dict_recom["longScripts"] = recomender.recomender_longScripts(dict_long)
+            print(dict_recom["longScripts"])
             dict_analysis.update(proc_recomender(dict_recom))
 
         dict_analysis.update(proc_mastery(request, dict_mastery, file_obj))
@@ -864,6 +888,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         dict_analysis.update(proc_block_sprite_usage(result_block_sprite_usage, file_obj))
         dict_analysis.update(proc_babia(dict_babia))
         dict_analysis.update(proc_sequential_blocks(dict_seq, file_obj))
+        dict_analysis.update(proc_long_scripts(dict_long, file_obj))
         
         # dict_analysis.update(proc_urls(request, dict_mastery, file_obj))
         # dictionary.update(proc_initialization(resultInitialization, filename))
