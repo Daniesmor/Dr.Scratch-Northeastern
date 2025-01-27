@@ -299,6 +299,12 @@
                             <strong> {% trans "Bad Habits" %} </strong> <i class="bi bi-caret-down"></i>
                         </h4>
                         <ul class="nav flex-column bad-habits-items" style="display: none;">
+                            <li class="nav-item {% if request.path == '/learn/BadSmells/longScripts/' %} active {% endif %}">
+                                <a class="nav-link" href="/learn/BadSmells/longScripts/">{% trans "Long Scripts" %}</a>
+                            </li>
+                            <li class="nav-item {% if request.path == '/learn/BadSmells/seqBlocks/' %} active {% endif %}">
+                                <a class="nav-link" href="/learn/BadSmells/seqBlocks/">{% trans "Sequential Blocks" %}</a>
+                            </li>
                             <li class="nav-item {% if request.path == '/learn/BadSmells/duplicatedScripts/' %} active {% endif %}">
                                 <a class="nav-link" href="/learn/BadSmells/duplicatedScripts/">{% trans "Duplicated scripts" %}</a>
                             </li>
@@ -310,6 +316,12 @@
                             </li>
                             <li class="nav-item {% if request.path == '/learn/BadSmells/backdropNaming/' %} active {% endif %}">
                                 <a class="nav-link" href="/learn/BadSmells/backdropNaming/">{% trans "Backdrop naming" %}</a>
+                            </li>
+                            <li class="nav-item {% if request.path == '/learn/BadSmells/messageNaming/' %} active {% endif %}">
+                                <a class="nav-link" href="/learn/BadSmells/messageNaming/">{% trans "Message naming" %}</a>
+                            </li>
+                            <li class="nav-item {% if request.path == '/learn/BadSmells/variableNaming/' %} active {% endif %}">
+                                <a class="nav-link" href="/learn/BadSmells/variableNaming/">{% trans "Variable naming" %}</a>
                             </li>
                         </ul>
                     </li>
