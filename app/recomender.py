@@ -85,6 +85,50 @@ class RecomenderSystem():
             feedback = None
         return feedback
     
+    def recomender_longScripts(self, dict_long) -> dict:
+        type = "longScripts"
+        message = ""
+        explanation = ""
+        farwell = ""
+        total_long_blocks = dict_long.get('result').get('total_long_blocks')
+        blocks_list = []
+        long_scripts_list = dict_long.get('result').get('list_long_blocks')
+
+        if (total_long_blocks != 0):
+
+            message += self.upgrade_feedback(type)
+
+            if (total_long_blocks > 1):
+                if self.curr_lan == 'en':
+                    message += f" you have more than one long script in your project, maybe it would be a good idea to remove them, do you agree?\nTry refactoring the following long scripts: "
+                elif self.curr_lan == 'es':
+                    message += f" tienes más de un script largo en tu proyectto, quizás sería una buena idea eliminarlos, ¿estás de acuerdo?\nIntenta modificar los siguientes scripts largos: "
+            else:
+                if self.curr_lan == 'en':
+                    message += f" you have one long script in the sprite {self.MAGENTA}{dict_long.get('result').get('list_long_blocks')[0].get('sprite')}{self.RESET}, maybe it would be a good idea to remove it, do you agree?\nTry refactoring the script: "
+                elif self.curr_lan == 'es':
+                    message += f" tienes un script largo en el sprite {self.MAGENTA}{dict_long.get('result').get('list_long_blocks')[0].get('sprite')}{self.RESET}, quizás sería una buena idea eliminarlo, ¿estás de acuerdo?\nIntenta modificar el script: "
+
+            if self.curr_lan == 'en':
+                blocks_list.append((f"{long_scripts_list[0].get('script_text')}", f"You have this {self.MAGENTA}long script{self.RESET} with a size of {long_scripts_list[0].get('script_length')} blocks in the sprite {self.MAGENTA}{long_scripts_list[0].get('sprite')}{self.RESET}."))
+            elif self.curr_lan == 'es':
+                blocks_list.append((f"{long_scripts_list[0].get('script_text')}", f"Tienes este {self.MAGENTA}script largo{self.RESET} con un tamaño de {long_scripts_list[0].get('script_length')} bloques en el sprite {self.MAGENTA}{long_scripts_list[0].get('sprite')}{self.RESET}."))            
+            
+            explanation += self.language_manager.longScripts_explanation_phrases[random.randint(0, len(self.language_manager.longScripts_explanation_phrases) - 1) ]
+
+            farwell += self.farwells[random.randint(0, len(self.farwells) - 1)]
+
+            feedback = {
+                'type': type,
+                'message': message,
+                'blocks': blocks_list,  
+                'explanation': explanation,
+                'farwell': farwell,
+            }
+        else:
+            feedback = None
+        return feedback
+    
     def recomender_sprite(self, dict_spriteNaming) -> dict:
         type = "Sprites"
         message = ""

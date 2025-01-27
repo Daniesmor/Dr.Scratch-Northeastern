@@ -14,6 +14,7 @@ class LanguageManager:
         self.messages_explanation_phrases = self.get_messages_explanation_phrases()
         self.variables_explanation_phrases = self.get_variable_naming_explanations()
         self.sequential_explanation_phrases = self.get_sequential_explanation_phrases()
+        self.longScripts_explanation_phrases = self.get_longScripts_explanation_phrases()
         self.upgrade_feedback_phrases = self.get_upgrade_feedback_phrases()
 
     def get_motivational_phrases(self):
@@ -338,6 +339,91 @@ class LanguageManager:
                 "\nAÇIKLAMA:\nBüyük bir kase mısır gevreği yediğini düşün. Her seferinde bir parça yersen, bu çok uzun sürebilir! Bir döngü, bir kaşık kullanarak birden fazla parça alman gibidir: her şeyi daha hızlı ve kolay yapar.",
                 "\nAÇIKLAMA:\nHayal et ki bir kumdan kale yapıyorsun ve her seferinde bir avuç kum taşıyorsun. Bir döngü, bir kova kullanarak birden fazla avuç kum taşıman gibidir. Kalenin daha hızlı bitmesine yardımcı olur, böylece daha fazla oynayabilirsin!",
                 "\nAÇIKLAMA:\nSıralı bloklar, elmaları birer birer sepete taşımak gibidir. Bir araban olsa, tüm elmaları tek seferde taşıyabilirdin! Bir döngü, bu araba gibidir: işleri daha kolay ve hızlı hale getirir."
+            ]
+        else:
+            return []
+        
+    def get_longScripts_explanation_phrases(self):
+        if self.curr_lan == 'en':
+            return [
+                "\nEXPLANATION:\nImagine building a tower with hundreds of tiny blocks stacked one by one. If one block in the middle is out of place, you’d have to go through all of them to fix it! A better way is using bigger sections or modular pieces—just like breaking your script into functions.",
+                "\nEXPLANATION:\nThink about writing a long letter without any paragraphs or punctuation. It would be hard to read and understand! A long script without structure is the same—it’s messy and difficult to fix. Breaking it into smaller, clear sections makes everything easier.",
+                "\nEXPLANATION:\nImagine cooking a big meal but using only one giant pan for everything—pasta, soup, and dessert all mixed together! It would be a disaster. Writing one huge script is like that. It’s better to use separate pots (functions) so each part is well organized.",
+                "\nEXPLANATION:\nThink of solving a big puzzle. If all the pieces were glued together randomly, it would be impossible to fix mistakes or change things later. A long script with too many blocks is like that glued puzzle—it’s better to keep pieces separate and organized.",
+                "\nEXPLANATION:\nImagine writing a huge story on a single piece of paper without any spaces. Finding a specific word or fixing an error would be painful! A long, unstructured script is just as frustrating. Organizing it into functions is like adding paragraphs—it makes everything clearer."
+            ]
+
+        elif self.curr_lan == 'es':
+            return [
+                "\nEXPLICACIÓN:\nImagina construir una torre con cientos de pequeños bloques apilados uno por uno. Si uno de los bloques en el medio está mal colocado, ¡tendrías que revisar todos para arreglarlo! Una mejor manera es usar secciones más grandes o piezas modulares, como dividir tu script en funciones.",  
+                "\nEXPLICACIÓN:\nPiensa en escribir una carta larguísima sin párrafos ni puntuación. ¡Sería muy difícil de leer y entender! Un script largo y sin estructura es lo mismo: es desordenado y difícil de corregir. Dividirlo en partes más pequeñas y claras hace todo mucho más fácil.",  
+                "\nEXPLICACIÓN:\nImagina cocinar una gran comida usando solo una sartén gigante para todo: pasta, sopa y postre mezclados. ¡Sería un desastre! Escribir un script enorme es igual. Es mejor usar ollas separadas (funciones) para que cada parte esté bien organizada.",  
+                "\nEXPLICACIÓN:\nPiensa en resolver un rompecabezas enorme. Si todas las piezas estuvieran pegadas al azar, sería imposible corregir errores o hacer cambios. Un script largo con demasiados bloques es como ese rompecabezas pegado: es mejor mantener las piezas separadas y organizadas.",  
+                "\nEXPLICACIÓN:\nImagina escribir una historia enorme en una sola hoja de papel sin dejar espacios. Encontrar una palabra específica o corregir un error sería una pesadilla. Un script largo y desordenado es igual de frustrante. Organizarlo en funciones es como agregar párrafos: todo se vuelve más claro."  
+            ]
+        elif self.curr_lan == 'eu':
+            return [
+                "\nAZALPENA:\nPentsa dorre bat eraikitzen ari zarela ehunka pieza txiki bata bestearen gainean jarriz. Erdiko pieza bat gaizki badago, denak berrikusi beharko zenituzke konpontzeko! Modu hobea zatika eraikitzea da, piezak moduluetan banatuz, zure script-a funtziotan banatzea bezala.",  
+                "\nAZALPENA:\nImajinatu testu luze bat idazten ari zarela, baina paragraforik eta puntuaziorik gabe. Oso zaila litzateke irakurtzea eta ulertzea! Egiturarik gabeko script luze bat berdina da: nahasia eta zaila zuzentzeko. Zati txikiago eta argiagoetan banatzeak dena errazten du.",  
+                "\nAZALPENA:\nPentsa otordu handi bat prestatzen ari zarela, baina osagai guztiak zartagin bakarrean nahastuta daude: pasta, zopa eta postrea elkarrekin. Hondamendia izango litzateke! Script erraldoi bat idaztea berdina da. Hobe da zartagin ezberdinak erabiltzea (funtzioak), atal bakoitza ondo antolatuta egon dadin.",  
+                "\nAZALPENA:\nImajinatu puzzle handi bat egiten ari zarela. Pieza guztiak itsatsita badaude modu kaotikoan, ezin izango zenuke akatsik zuzendu edo aldaketarik egin. Bloke gehiegi dituen script luze bat itsatsitako puzzle hori bezalakoa da: hobe da piezak banatuta eta antolatuta mantentzea.",  
+                "\nAZALPENA:\nPentsa istorio oso luze bat orri bakar batean idazten duzula, tarterik gabe. Hitz bat aurkitzea edo akats bat zuzentzea amesgaiztoa izango litzateke! Antolatu gabeko script luze bat berdin-berdina da. Funtzioetan antolatzea paragrafoak gehitzea bezalakoa da: dena argiago eta ulergarriago bihurtzen du."  
+            ]
+        elif self.curr_lan == 'gl':
+            return [
+                "\nEXPLICACIÓN:\nImaxina que estás construíndo unha torre con centos de pequenos bloques apilados un a un. Se un dos bloques do medio está mal colocado, terías que revisalos todos para arranxalo! Unha mellor forma sería usar seccións máis grandes ou pezas modulares, como dividir o teu script en funcións.",  
+                "\nEXPLICACIÓN:\nPensa en escribir unha carta moi longa sen parágrafos nin puntuación. Sería moi difícil de ler e entender! Un script longo e sen estrutura é o mesmo: é un caos e resulta complicado de corrixir. Dividilo en partes máis pequenas e claras fai todo moito máis fácil.",  
+                "\nEXPLICACIÓN:\nImaxina que estás preparando unha gran comida pero mesturando todo nunha única tixola: pasta, sopa e sobremesa xuntos. Sería un desastre! Escribir un script enorme é o mesmo. É mellor usar potas separadas (funcións) para que cada parte estea ben organizada.",  
+                "\nEXPLICACIÓN:\nPensa en facer un quebracabezas xigante. Se todas as pezas estivesen pegadas ao azar, sería imposible corrixir erros ou facer cambios. Un script longo con demasiados bloques é como ese quebracabezas pegado: é mellor manter as pezas separadas e organizadas.",  
+                "\nEXPLICACIÓN:\nImaxina escribir unha historia enorme nunha soa folla de papel sen espazos. Atopar unha palabra específica ou corrixir un erro sería un pesadelo! Un script longo e desorganizado é igual de frustrante. Organizalo en funcións é como engadir parágrafos: todo vólvese máis claro."  
+            ]
+        elif self.curr_lan == 'el':
+            return [
+                "\nΕΡΜΗΝΕΙΑ:\nΦαντάσου ότι χτίζεις έναν πύργο με εκατοντάδες μικρά τουβλάκια, το ένα πάνω στο άλλο. Αν ένα τουβλάκι στη μέση είναι τοποθετημένο λάθος, θα έπρεπε να ελέγξεις όλα για να το διορθώσεις! Ένας καλύτερος τρόπος είναι να χρησιμοποιήσεις μεγαλύτερα τμήματα ή αρθρωτά κομμάτια, όπως η διαίρεση του script σου σε συναρτήσεις.",  
+                "\nΕΡΜΗΝΕΙΑ:\nΣκέψου να γράφεις μια πολύ μεγάλη επιστολή χωρίς παραγράφους ή στίξη. Θα ήταν πολύ δύσκολο να τη διαβάσεις και να την κατανοήσεις! Ένα μακρύ script χωρίς δομή είναι το ίδιο: χαοτικό και δύσκολο να διορθωθεί. Η διαίρεσή του σε μικρότερα και πιο σαφή μέρη κάνει τα πάντα πιο εύκολα.",  
+                "\nΕΡΜΗΝΕΙΑ:\nΦαντάσου ότι ετοιμάζεις ένα μεγάλο γεύμα, αλλά ανακατεύεις τα πάντα σε ένα μόνο τηγάνι: ζυμαρικά, σούπα και επιδόρπιο μαζί. Θα ήταν καταστροφή! Η συγγραφή ενός τεράστιου script είναι το ίδιο. Είναι καλύτερο να χρησιμοποιήσεις ξεχωριστά σκεύη (συναρτήσεις) για να είναι κάθε μέρος καλά οργανωμένο.",  
+                "\nΕΡΜΗΝΕΙΑ:\nΣκέψου να φτιάχνεις ένα τεράστιο παζλ. Αν όλα τα κομμάτια ήταν κολλημένα τυχαία, θα ήταν αδύνατο να διορθώσεις λάθη ή να κάνεις αλλαγές. Ένα μακρύ script με πάρα πολλά μπλοκ είναι σαν αυτό το κολλημένο παζλ: είναι καλύτερο να διατηρείς τα κομμάτια ξεχωριστά και οργανωμένα.",  
+                "\nΕΡΜΗΝΕΙΑ:\nΦαντάσου να γράφεις μια τεράστια ιστορία σε ένα μόνο φύλλο χαρτιού χωρίς κενά. Η εύρεση μιας συγκεκριμένης λέξης ή η διόρθωση ενός λάθους θα ήταν εφιάλτης! Ένα μακρύ και ανοργάνωτο script είναι εξίσου απογοητευτικό. Η οργάνωσή του σε συναρτήσεις είναι σαν να προσθέτεις παραγράφους: όλα γίνονται πιο καθαρά."  
+            ]
+        elif self.curr_lan == 'pt':
+            return [
+                "\nEXPLICAÇÃO:\nImagine que você está construindo uma torre com centenas de pequenos blocos empilhados um sobre o outro. Se um bloco no meio estiver fora de lugar, você teria que verificar todos para consertá-lo! Uma maneira melhor é usar seções maiores ou peças modulares, como dividir seu script em funções.",  
+                "\nEXPLICAÇÃO:\nPense em escrever uma carta muito longa sem parágrafos ou pontuação. Seria muito difícil de ler e entender! Um script longo e sem estrutura é a mesma coisa: é bagunçado e difícil de corrigir. Dividi-lo em partes menores e mais claras torna tudo mais fácil.",  
+                "\nEXPLICAÇÃO:\nImagine que você está preparando uma grande refeição, mas misturando tudo em uma única frigideira: macarrão, sopa e sobremesa juntos. Seria uma bagunça! Escrever um script enorme é a mesma coisa. É melhor usar panelas separadas (funções) para que cada parte esteja bem organizada.",  
+                "\nEXPLICAÇÃO:\nPense em montar um quebra-cabeça gigante. Se todas as peças estivessem coladas aleatoriamente, seria impossível corrigir erros ou fazer alterações. Um script longo com muitos blocos é como esse quebra-cabeça colado: é melhor manter as peças separadas e organizadas.",  
+                "\nEXPLICAÇÃO:\nImagine escrever uma história enorme em uma única folha de papel sem espaços. Encontrar uma palavra específica ou corrigir um erro seria um pesadelo! Um script longo e desorganizado é igualmente frustrante. Organizá-lo em funções é como adicionar parágrafos: tudo fica mais claro."  
+            ]
+        elif self.curr_lan == 'it':
+            return [
+                "\nSPIEGAZIONE:\nImmagina di costruire una torre con centinaia di piccoli mattoni impilati uno sopra l'altro. Se un mattone nel mezzo è fuori posto, dovresti controllare tutti per sistemarlo! Un modo migliore è usare sezioni più grandi o pezzi modulari, come dividere il tuo script in funzioni.",  
+                "\nSPIEGAZIONE:\nPensa di scrivere una lettera molto lunga senza paragrafi o punteggiatura. Sarebbe molto difficile da leggere e capire! Un lungo script senza struttura è lo stesso: è disordinato e difficile da correggere. Dividerlo in parti più piccole e chiare rende tutto più facile.",  
+                "\nSPIEGAZIONE:\nImmagina di preparare un grande pasto, ma mescolando tutto in una sola padella: pasta, zuppa e dessert insieme. Sarebbe un disastro! Scrivere uno script enorme è la stessa cosa. È meglio usare pentole separate (funzioni) per organizzare ogni parte.",  
+                "\nSPIEGAZIONE:\nPensa di fare un enorme puzzle. Se tutti i pezzi fossero incollati a caso, sarebbe impossibile correggere gli errori o fare modifiche. Un lungo script con troppi blocchi è come quel puzzle incollato: è meglio mantenere i pezzi separati e organizzati.",  
+                "\nSPIEGAZIONE:\nImmagina di scrivere una storia enorme su un solo foglio di carta senza spazi. Trovare una parola specifica o correggere un errore sarebbe un incubo! Un lungo script disorganizzato è altrettanto frustrante. Organizzarlo in funzioni è come aggiungere paragrafi: tutto diventa più chiaro."  
+            ]
+        elif self.curr_lan == 'ru':
+            return [
+                "\nОБЪЯСНЕНИЕ:\nПредставь, что ты строишь башню из сотен маленьких блоков, сложенных один на другой. Если один из блоков в середине поставлен неправильно, тебе нужно будет проверять все, чтобы исправить ошибку! Лучший способ — использовать более крупные секции или модульные элементы, как разделить твой скрипт на функции.",  
+                "\nОБЪЯСНЕНИЕ:\nПредставь, что ты пишешь очень длинное письмо без абзацев и пунктуации. Это будет очень сложно читать и понимать! Длинный скрипт без структуры — это то же самое: он беспорядочный и трудный для исправления. Разделение его на более мелкие и понятные части делает все проще.",  
+                "\nОБЪЯСНЕНИЕ:\nПредставь, что ты готовишь большой обед, но все смешиваешь в одной сковороде: пасту, суп и десерт вместе. Это будет катастрофа! Написание огромного скрипта — то же самое. Лучше использовать отдельные кастрюли (функции), чтобы каждая часть была хорошо организована.",  
+                "\nОБЪЯСНЕНИЕ:\nПредставь, что ты собираешь гигантскую головоломку. Если все pieces будут приклеены случайным образом, будет невозможно исправить ошибки или внести изменения. Длинный скрипт с слишком многими блоками похож на этот приклеенный пазл: лучше держать pieces отдельно и организованно.",  
+                "\nОБЪЯСНЕНИЕ:\nПредставь, что ты пишешь огромную историю на одном листе бумаги без пробелов. Найти нужное слово или исправить ошибку будет кошмаром! Длинный и неорганизованный скрипт так же разочаровывает. Организовать его в функции — это как добавить абзацы: все становится гораздо понятнее."  
+            ]
+        elif self.curr_lan == 'ca':
+            return [
+                "\nEXPLICACIÓ:\nImagina que estàs construint una torre amb centenars de petits blocs apilats un sobre l'altre. Si un dels blocs al mig està mal col·locat, hauràs de revisar-los tots per arreglar-ho! Una millor manera és utilitzar seccions més grans o peces modulares, com dividir el teu script en funcions.",  
+                "\nEXPLICACIÓ:\nPensa que estàs escrivint una carta molt llarga sense paràgrafs ni puntuació. Seria molt difícil de llegir i entendre! Un script llarg i sense estructura és el mateix: és desordenat i difícil de corregir. Dividir-lo en parts més petites i clares fa tot més fàcil.",  
+                "\nEXPLICACIÓ:\nImagina que estàs preparant un gran àpat, però barrejant-ho tot en una sola paella: pasta, sopa i postres junts. Seria un desastre! Escriure un script enorme és el mateix. És millor utilitzar paelles separades (funcions) perquè cada part estigui ben organitzada.",  
+                "\nEXPLICACIÓ:\nPensa a fer un trencaclosques gegant. Si totes les peces estiguessin enganxades a l'atzar, seria impossible corregir errors o fer canvis. Un script llarg amb massa blocs és com aquest trencaclosques enganxat: és millor mantenir les peces separades i organitzades.",  
+                "\nEXPLICACIÓ:\nImagina escriure una història enorme en una sola fulla de paper sense espais. Trobar una paraula específica o corregir un error seria una pesadilla! Un script llarg i desorganitzat és igual de frustrant. Organitzar-lo en funcions és com afegir paràgrafs: tot es torna més clar."  
+            ]
+        elif self.curr_lan == 'tr':
+            return [
+                "\nAÇIKLAMA:\nBirbirinin üstüne yığılmış yüzlerce küçük blokla bir kule inşa ettiğini hayal et. Orta kısımdaki bir blok yanlış yerleştirilmişse, düzeltmek için hepsini kontrol etmen gerekir! Daha iyi bir yol, script'ini fonksiyonlara ayırmak gibi daha büyük bölümler veya modüler parçalar kullanmaktır.",  
+                "\nAÇIKLAMA:\nParagrafsız ve noktalama işaretsiz çok uzun bir mektup yazdığını hayal et. Okuması ve anlaması çok zor olurdu! Yapısız uzun bir script de aynıdır: karışıktır ve düzeltmesi zordur. Küçük ve net parçalara ayırmak her şeyi daha kolay hale getirir.",  
+                "\nAÇIKLAMA:\nBüyük bir yemek hazırladığını hayal et, ancak her şeyi tek bir tavada karıştırıyorsun: makarna, çorba ve tatlı birlikte. Bu felaket olurdu! Kocaman bir script yazmak da aynıdır. Her bölümün düzgün bir şekilde düzenlendiğinden emin olmak için ayrı tavalar (fonksiyonlar) kullanmak daha iyidir.",  
+                "\nAÇIKLAMA:\nDev bir puzzle yaptığını hayal et. Tüm parçalar rastgele yapıştırılmışsa, hataları düzeltmek veya değişiklik yapmak imkansız olurdu. Çok fazla blok olan uzun bir script de aynı şekilde: parçaları ayrı tutmak ve düzenli tutmak daha iyidir.",  
+                "\nAÇIKLAMA:\nBüyük bir hikaye yazdığını hayal et, ama tümünü tek bir kağıt parçasına yazıyorsun ve hiç boşluk yok. Belirli bir kelimeyi bulmak veya hata düzeltmek bir kabus olurdu! Uzun ve düzensiz bir script de aynı şekilde hayal kırıklığına yol açar. Onu fonksiyonlara ayırmak, paragraflar eklemek gibidir: her şey daha net olur."  
             ]
         else:
             return []
@@ -793,6 +879,10 @@ class LanguageManager:
                 'Sequential': {
                     'fail': "Oooops, it's seem's that you haven't solved the problem with the sequential blocks already, but don't worry, we are going to review again how we could solve it,",
                     'success': "YEAAHH, YOU HAVE SOLVED THE PROBLEM WITH THE SEQUENTIAL BLOCKS, that's very great news! Does it seem good to you if we keep improving the project?",
+                },
+                'longScripts': {
+                    'fail': "Oooops, it's seem's that you haven't solved the problem with the long scripts already, but don't worry, we are going to review again how we could solve it,",
+                    'success': "YEAAHH, YOU HAVE SOLVED THE PROBLEM WITH THE LONG SCRIPTS, that's very great news! Does it seem good to you if we keep improving the project?",
                 }
             }
         elif self.curr_lan == 'es':
@@ -824,6 +914,10 @@ class LanguageManager:
                 'Sequential': {
                     'fail': "Oooops, parece que no has resuelto el problema con los bloques secuenciales, pero no te preocupes, vamos a revisar cómo podríamos resolverlo de nuevo,",
                     'success': "¡YEAHH, HAS RESUELTO EL PROBLEMA CON LOS BLOQUES SECUENCIALES, esa es una noticia genial! ¿Te parece bien si seguimos mejorando el proyecto?",
+                },
+                'Sequential': {
+                    'fail': "Oooops, parece que no has resuelto el problema con los scripts largos, pero no te preocupes, vamos a revisar cómo podríamos resolverlo de nuevo,",
+                    'success': "¡YEAHH, HAS RESUELTO EL PROBLEMA CON LOS SCRIPTS LARGOS, esa es una noticia genial! ¿Te parece bien si seguimos mejorando el proyecto?",
                 }
             }
         elif self.curr_lan == 'eu':
