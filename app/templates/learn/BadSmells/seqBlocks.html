@@ -1,0 +1,45 @@
+{% extends 'learn/base.html' %}
+{% load i18n %}
+{% block content %}
+<div class="container" style="text-align: left;">
+    <h2> {% trans "Sequential Blocks" %} </h2>
+    <div class="panel panel-default">
+        <div class="panel-body col-lg-10">
+            {% trans "Imagine you want your Scratch cat to perform a fun movement with effects. Some kids might write the same steps again and again, but there's a smarter way!" %}
+            <br><br>
+            <pre class="blocks col-lg-5 col-lg-offset-3">
+                {% trans "when green flag clicked" %}
+                {% trans "move (10) steps" %}
+                {% trans "turn right (15) degrees" %}
+                {% trans "switch backdrop to (next)" %}
+                {% trans "move (10) steps" %}
+                {% trans "turn right (15) degrees" %}
+                {% trans "switch backdrop to (next)" %}
+                {% trans "move (10) steps" %}
+                {% trans "turn right (15) degrees" %}
+                {% trans "switch backdrop to (next)" %}
+                {% trans "move (10) steps" %}
+                {% trans "turn right (15) degrees" %}
+            </pre>
+            <div class="col-lg-12">
+                <br>
+                {% trans "Writing long scripts without structure is like making a recipe without steps or ingredients—it's messy and hard to follow!" %}
+                <br><br>
+            </div>
+            
+            <pre class="blocks col-lg-5 col-lg-offset-3">
+                {% trans "when green flag clicked" %}
+                {% trans "repeat (4)" %}
+                {% trans "move (10) steps" %}
+                {% trans "turn right (15) degrees" %}
+                {% trans "switch backdrop to (next)" %}
+            </pre>
+        </div>
+        <div class="col-lg-12">
+            <br>
+            {% trans "By using loops, you tell the computer to repeat a pattern without writing it over and over. This makes your code cleaner, easier to read, and much easier to fix!" %}
+            <br><br>
+        </div>
+    </div>
+</div>
+{% endblock %}
