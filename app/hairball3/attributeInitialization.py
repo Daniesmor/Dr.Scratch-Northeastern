@@ -1,5 +1,5 @@
 from plugin import Plugin
-import consts_plugins as consts
+import app.consts_drscratch  as consts
 
 
 class AttributeInitialization(Plugin):
