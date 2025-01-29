@@ -10,6 +10,8 @@ from .models import BatchCSV, File
 import re
 import json
 import ast
+from django.conf import settings
+
 
 
 def skills_translation(request) -> dict:
@@ -462,11 +464,88 @@ def safe_json_load(value):
     except json.JSONDecodeError:
         print(f"Error decoding JSON: {value}")
         return None
+    
+extended_metrics_fields = [
+        'url', 'filename', 'total_blocks','total_points', 
+        'Abstraction', 'Parallelization', 'Logic', 'Synchronization',
+        'FlowControl', 'UserInteractivity', 'DataRepresentation',
+        'MathOperators', 'MotionOperators'
+    ]
+
+vanilla_metrics_fields = [
+    'Van total_points','Van Abstraction','Van Parallelization', 'Van Logic', 
+    'Van Synchronization', 'Van FlowControl', 'Van UserInteractivity',
+    'Van DataRepresentation'
+]
+
+bad_smells_fields = ['duplicateScript', 'spriteNaming', 'initialization']
+other_extended_fields = ['Error']
+common_metrics = ['total_points','Abstraction', 'Parallelization', 'Logic', 'Synchronization',
+        'FlowControl', 'UserInteractivity', 'DataRepresentation']
+
+def format_field_value(value):
+    return "/".join([str(item) for item in value]) if isinstance(value, list) else str(value)
+
+def process_batches(batches):
+    for batch in batches:
+        project_row = {}
+        ext_metrics = batch.get("extended_metrics", {})
+        van_metrics = batch.get("vanilla_metrics", {})
+
+        project_row.update({
+            dim: format_field_value(ext_metrics.get(dim, "")) 
+            for dim in extended_metrics_fields
+        })
+
+        project_row.update({
+            f"Van {dim}": format_field_value(van_metrics.get(dim, "")) 
+            for dim in common_metrics
+        })
+
+        project_row.update({
+            dim: batch.get(dim, "") 
+            for dim in bad_smells_fields
+        })
+
+        project_row.update({
+            dim: format_field_value(ext_metrics.get(dim, "")) 
+            for dim in other_extended_fields
+        })
+        project_row["filename"] = batch.get("filename", "").replace(",", "")
+        yield project_row  
+    
+def make_csv_path(batch_id: str):
+    csv_name = f"{batch_id}_main.csv"
+    root_path = settings.BASE_DIR
+    csv_path = os.path.join(root_path, "csvs", "Dr.Scratch", f"{csv_name}.csv")
+    os.makedirs(os.path.dirname(csv_path), exist_ok=True)
+    return csv_path
+
+def write_to_csv(batch_id: str, row_generator: dict):
+    fieldnames = extended_metrics_fields + vanilla_metrics_fields + bad_smells_fields + other_extended_fields
+    csv_path = make_csv_path(batch_id)
+
+    try:
+        with open(csv_path, mode='w', newline='', encoding='utf-8') as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            writer.writeheader()
+            for row in row_generator:
+                writer.writerow(row)
+    except IOError as e:
+        raise IOError(f"Error writing CSV file at {csv_path}: {e}")
 
 def create_csv(request, temp_dict_metrics) -> uuid.UUID:
     batch_id = request.POST["batch_id"]
-    batches = File.objects.filter(batch_id=batch_id)
-    for batch in batches:
+    batches = File.objects.filter(batch_id=batch_id).values("filename", "extended_metrics", "vanilla_metrics", "duplicateScript", "spriteNaming", "initialization")
+
+    row_generator = process_batches(batches)
+
+    write_to_csv(batch_id, row_generator)    
+
+
+
+    """
+    for batch in batches_querysets:
         print("METRICS VANILLA")
         print(batch.vanilla_metrics)
         print("METRICS EXTENDED")
@@ -475,7 +554,7 @@ def create_csv(request, temp_dict_metrics) -> uuid.UUID:
         print("Duplicate:",batch.duplicateScript)
         print("SpriteName:",batch.spriteNaming)
         print("BackdropName:",batch.initialization)
-
+    """
     """
     with open(temp_dict_metrics, 'r') as dict_metrics:
         d = json.loads(dict_metrics.read())

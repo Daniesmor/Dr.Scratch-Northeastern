@@ -21,6 +21,9 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from types import SimpleNamespace
 from io import BytesIO
 import json
+import gc
+import psutil
+import time
 
 
 def remove_circular_references(obj, seen=None):
@@ -37,8 +40,30 @@ def remove_circular_references(obj, seen=None):
         return [remove_circular_references(item, seen) for item in obj]
     else:
         return obj
+    
+def gen_filepath(projects_file):
+    for root, dirs, files in os.walk(projects_file):
+        for i, file in enumerate(files):
+            file_path = os.path.join(root, file)
+            if os.path.exists(file_path):
+                yield file_path
+
+
+def track_memory_usage():
+    """
+    Función que imprime el uso de memoria en tiempo real del proceso en ejecución.
+    """
+    process = psutil.Process(os.getpid())  # Obtener el proceso actual
+    memory_info = process.memory_info()    # Obtener información de memoria
+    memory_used = memory_info.rss / (1024 ** 2)  # Convertir bytes a MB
+    print(f"Memory usage: {memory_used:.4f} MB")
+
 
 def process_url(request_data_obj: object, skill_points: dict) -> str:
+    """
+    Función que procesa la URL y maneja el archivo.
+    """
+    track_memory_usage()  # Verificar la memoria antes de comenzar
     projects_file = request_data_obj.POST['urlsFile']
     dashboard_mode = request_data_obj.POST['dashboard_mode']
     curr_dir = os.path.dirname(os.path.abspath(__file__))
@@ -49,18 +74,20 @@ def process_url(request_data_obj: object, skill_points: dict) -> str:
         if os.path.isdir(projects_file):
             dir_name = os.listdir(projects_file)[0]
             projects_file = os.path.join(projects_file, dir_name)
-        # projects_file es un directorio con archivos
-        for root, dirs, files in os.walk(projects_file):
-            for i, file in enumerate(files):
-                file_path = os.path.join(root, file)
+
+            for file_path in gen_filepath(projects_file):
                 if os.path.exists(file_path):
                     try:
-                        print("ya aqui????")
+                        print("BEFORE READING FILE:")
+                        track_memory_usage()
+                        print("Reading file...")
                         with open(file_path, 'rb') as f:
                             file_name = os.path.basename(file_path)
                             file_data = BytesIO(f.read())
-                            print("ya aquiasdasd????")
+                        
+                        track_memory_usage()  # Verificar el uso de memoria después de cargar el archivo
 
+                        with file_data:
                             inmemory_file = InMemoryUploadedFile(
                                 file=file_data,
                                 field_name=None,
@@ -69,33 +96,40 @@ def process_url(request_data_obj: object, skill_points: dict) -> str:
                                 size=file_data.getbuffer().nbytes,
                                 charset=None,
                             )
+
                             request_data_obj.user = SimpleNamespace(is_authenticated=True, username=None)
                             request_data_obj.session = {}
 
                             print(f"\033[32m ----------> Analyzing: {file_name}\033[0m")
-                            metrics = analysis_by_upload(request_data_obj, skill_points, inmemory_file)
-                            
+                            print("TRACKEO ANTES DE ANALYSIS")
+                            track_memory_usage()  
+                            analysis_by_upload(request_data_obj, skill_points, inmemory_file)
+                            print("TRACKEO DESPUES DE ANALYSIS")
+                            track_memory_usage()  
+
+                        
+                        # Liberar recursos y verificar la memoria
+                        del file_data, inmemory_file
+                        gc.collect()
+                        try:
+                            print(file_data)
+                        except NameError:
+                            print("file_data ha sido borrada correctamente")
+
+                        try:
+                            print(inmemory_file)
+                        except NameError:
+                            print("inmemory_file ha sido borrada correctamente")
+                        track_memory_usage()  # Verificar la memoria después de liberar recursos
+
                     except Exception as e:
                         print(f"Error processing file {file_path}: {e}")
+
+            # Limpiar archivos temporales
             if os.path.exists(projects_file):
                 shutil.rmtree(projects_file)
-    else:
-        # projects_file es una lista de URLs
-        for i, url in enumerate(projects_file):
-            url = url.decode('utf-8').strip()
-            try:
-                metrics = analysis_by_url(request_data_obj, url, skill_points)
-                metrics.update({
-                    'url': url,
-                    'filename': url,
-                    'dashboard_mode': dashboard_mode,
-                })
 
-            except Exception as e:
-                print(f"Error processing URL {url}: {e}")
-
-    print(f"\033[34mResults saved in {temp_json_file}\033[0m")
-    return temp_json_file
+    track_memory_usage()  # Verificar la memoria al final del proceso
 
 def mk_url(csv_id: uuid) -> str:
     url = ''
@@ -167,7 +201,6 @@ def init_batch(self, request_data, skill_points):
     start_time = datetime.now()
     request_data_obj = SimpleNamespace(**request_data)
     re_email = request_data_obj.POST ['email']
-
     temp_dict_metrics = process_url(request_data_obj, skill_points)
     csv_id = create_csv(request_data_obj, temp_dict_metrics) 
     """

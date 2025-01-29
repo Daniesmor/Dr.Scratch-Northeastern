@@ -35,7 +35,7 @@ services:
       - "15672:15672"
   celery:
     build: .
-    command: celery -A drScratch worker --loglevel=info
+    command: celery -A drScratch worker --loglevel=debug
     volumes:
       - .:/var/www
     depends_on:

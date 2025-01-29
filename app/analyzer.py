@@ -28,6 +28,7 @@ import app.consts_drscratch as consts
 
 
 def save_analysis_in_file_db(request, zip_filename):
+    filename = zip_filename.decode('utf-8')
     now = datetime.now()
     method = "project"
     if request.POST['batch_id']:
@@ -40,21 +41,21 @@ def save_analysis_in_file_db(request, zip_filename):
         username = None
 
     if Organization.objects.filter(username=username):
-        filename_obj = File(filename=zip_filename,
+        filename_obj = File(filename=filename,
                         organization=username,
                         method=method, batch_id=batch_id, time=now,
                         score=0, vanilla_metrics={}, extended_metrics={},
                         spriteNaming=0, initialization=0,
                         deadCode=0, duplicateScript=0)
     elif Coder.objects.filter(username=username):
-        filename_obj = File(filename=zip_filename,
+        filename_obj = File(filename=filename,
                         coder=username,
                         method=method, batch_id=batch_id, time=now,
                         score=0, vanilla_metrics={}, extended_metrics={},
                         spriteNaming=0, initialization=0,
                         deadCode=0, duplicateScript=0)
     else:
-        filename_obj = File(filename=zip_filename,
+        filename_obj = File(filename=filename,
                         method=method, batch_id=batch_id, time=now,
                         score=0, vanilla_metrics={}, extended_metrics={},
                         spriteNaming=0, initialization=0,
@@ -686,24 +687,25 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         print("TRAZA DENTRO ANALYZE PROJECT (activar para ver dict del proyecto completo) --------------------------------")
         #print(json_scratch_project)
         dict_mastery = Mastery(path_projectsb3, json_scratch_project, skill_points, dashboard).finalize()
-        dict_duplicate_script = DuplicateScripts(path_projectsb3, json_scratch_project).finalize()
-        dict_dead_code = DeadCode(path_projectsb3, json_scratch_project,).finalize()
-        result_sprite_naming = SpriteNaming(path_projectsb3, json_scratch_project).finalize()
-        result_backdrop_naming = BackdropNaming(path_projectsb3, json_scratch_project).finalize()
-        result_block_sprite_usage = Block_Sprite_Usage(path_projectsb3, json_scratch_project).finalize()
-        refactored_code = RefactorDuplicate(json_scratch_project, dict_duplicate_script).refactor_duplicates()
+        #dict_duplicate_script = DuplicateScripts(path_projectsb3, json_scratch_project).finalize()
+        #dict_dead_code = DeadCode(path_projectsb3, json_scratch_project,).finalize()
+        #result_sprite_naming = SpriteNaming(path_projectsb3, json_scratch_project).finalize()
+        #result_backdrop_naming = BackdropNaming(path_projectsb3, json_scratch_project).finalize()
+        #result_block_sprite_usage = Block_Sprite_Usage(path_projectsb3, json_scratch_project).finalize()
+        #refactored_code = RefactorDuplicate(json_scratch_project, dict_duplicate_script).refactor_duplicates()
 
         print("--------------------- DUPLICATED CODE DICT ---------------------")
-        print(refactored_code)
+        #print(refactored_code)
         print("--------------------- DEAD CODE DICT ---------------------------")
-        print(dict_dead_code)
+        #print(dict_dead_code)
         print("--------------------- SPRITE NAMING DICT -----------------------")
-        print(result_sprite_naming)
+        #print(result_sprite_naming)
         print("--------------------- BACKDROP NAMING DICT ---------------------")
-        print(result_backdrop_naming)
+        #print(result_backdrop_naming)
         print("----------------------------------------------------------------")
         
         # RECOMENDER SECTION
+        """
         if (dashboard == 'Recommender'):
             dict_recom = {}
             recomender = RecomenderSystem(curr_type)
@@ -712,16 +714,17 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
             dict_recom["backdropNaming"] = recomender.recomender_backdrop(result_backdrop_naming)
             dict_recom["duplicatedScripts"] = recomender.recomender_duplicatedScripts(dict_duplicate_script, refactored_code)
             dict_analysis.update(proc_recomender(dict_recom))
-
+        """
         dict_analysis.update(proc_mastery(request, dict_mastery, file_obj))
-        dict_analysis.update(proc_duplicate_script(dict_duplicate_script, file_obj))
-        dict_analysis.update(proc_dead_code(dict_dead_code, file_obj))
-        dict_analysis.update(proc_sprite_naming(result_sprite_naming, file_obj))
-        dict_analysis.update(proc_backdrop_naming(result_backdrop_naming, file_obj))
-        dict_analysis.update(proc_refactored_code(refactored_code))
-        dict_analysis.update(proc_block_sprite_usage(result_block_sprite_usage, file_obj))
+        #dict_analysis.update(proc_duplicate_script(dict_duplicate_script, file_obj))
+        #dict_analysis.update(proc_dead_code(dict_dead_code, file_obj))
+        #dict_analysis.update(proc_sprite_naming(result_sprite_naming, file_obj))
+        #dict_analysis.update(proc_backdrop_naming(result_backdrop_naming, file_obj))
+        #dict_analysis.update(proc_refactored_code(refactored_code))
+        #dict_analysis.update(proc_block_sprite_usage(result_block_sprite_usage, file_obj))
         # dict_analysis.update(proc_urls(request, dict_mastery, file_obj))
         # dictionary.update(proc_initialization(resultInitialization, filename))
+        #del json_scratch_project
         return dict_analysis
     else:
         return dict_analysis
