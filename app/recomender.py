@@ -378,56 +378,109 @@ class RecomenderSystem():
         else:
             feedback = None
         return feedback   
-    
+
     def recomender_sequentialBlocks(self, original_dict, refactor_dict):
         type = "Sequential"
-        message = ""
-        explanation = ""
-        farwell = ""
-        blocks = []
-        sequentialBlocks = original_dict.get('result').get('total_sequential')
-        seq_original = [{'sprite': entry['sprite'], 'code': entry['original'], 'repetitions': entry['repetitions']} for entry in refactor_dict]
-        seq_refactor = [{'sprite': entry['sprite'], 'code': entry['refactored']} for entry in refactor_dict]
-
-        if sequentialBlocks != 0:
-            # Select one of the motivational phrases to start
-            message += self.upgrade_feedback(type)
-
-            # Create a message for duplicatedScripts
-            if sequentialBlocks > 1:
-                if self.curr_lan == 'en':
-                    message += f" you have {self.MAGENTA}{sequentialBlocks} sequences of blocks{self.RESET} in your code, which means you have the same actions repeated multiple times. Instead of repeating the same blocks, you can use a loop to simplify your code.\n\nBut don't worry, let's fix that. For now, we will try to solve just a few. To solve it: below this text, you have a selector with arrows. In tab {self.MAGENTA}1{self.RESET}, you can see your sequence of blocks, and in tab {self.MAGENTA}2{self.RESET}, you can see the refactored version with loops. You just need to replace the sequences of blocks with the refactored version in your project."
-                elif self.curr_lan == 'es':
-                    message += f" tienes {self.MAGENTA}{sequentialBlocks} secuencias de bloques{self.RESET} en tu código, lo que significa que tienes las mismas acciones repetidas múltiples veces. En lugar de repetir los mismos bloques, puedes usar un bucle para simplificar tu código.\n\nPero no te preocupes, vamos a solucionarlo. Por ahora, intentaremos resolver solo unos pocos. Para solucionarlo: debajo de este texto, tienes un selector con flechas. En la pestaña {self.MAGENTA}1{self.RESET}, puedes ver tu secuencia de bloques, y en la pestaña {self.MAGENTA}2{self.RESET}, puedes ver la versión refactorizada con bucles. Solo necesitas reemplazar las secuencias de bloques con la versión refactorizada en tu proyecto."
-            elif sequentialBlocks == 1:
-                if self.curr_lan == 'en':
-                    message += f" you have {self.MAGENTA}{sequentialBlocks} sequence of blocks{self.RESET} in your code, which means you have the same actions repeated multiple times. Instead of repeating the same blocks, you can use a loop to simplify your code.\n\nBut don't worry, let's fix that. To solve it: below this text, you have a selector with arrows. In tab {self.MAGENTA}1{self.RESET}, you can see your sequence of blocks, and in tab {self.MAGENTA}2{self.RESET}, you can see the refactored version with loops. You just need to replace the sequence of blocks with the refactored version in your project."
-                elif self.curr_lan == 'es':
-                    message += f" tienes {self.MAGENTA}{sequentialBlocks} secuencia de bloques{self.RESET} en tu código, lo que significa que tienes las mismas acciones repetidas múltiples veces. En lugar de repetir los mismos bloques, puedes usar un bucle para simplificar tu código.\n\nPero no te preocupes, vamos a solucionarlo. Para solucionarlo: debajo de este texto, tienes un selector con flechas. En la pestaña {self.MAGENTA}1{self.RESET}, puedes ver tu secuencia de bloques, y en la pestaña {self.MAGENTA}2{self.RESET}, puedes ver la versión refactorizada con bucles. Solo necesitas reemplazar la secuencia de bloques con la versión refactorizada en tu proyecto."
-            
-            if self.curr_lan == 'en':
-                blocks.append((f"{seq_original[0].get('code')}", f"You have this {self.MAGENTA}sequence of blocks{self.RESET} repeated {seq_original[0].get('repetitions')} times in a row in the sprite {self.MAGENTA}{seq_original[0].get('sprite')}{self.RESET}."))
-                blocks.append((f"{seq_refactor[0].get('code')}", f"This is the {self.MAGENTA}refactorized code{self.RESET} to avoid sequential blocks in your project."))
-
-            elif self.curr_lan == 'es':
-                blocks.append((f"{seq_original[0].get('code')}", f"Tienes esta {self.MAGENTA}secuencia de bloques{self.RESET} repetida {seq_original[0].get('repetitions')} veces seguidas en el sprite {self.MAGENTA}{seq_original[0].get('sprite')}{self.RESET}."))
-                blocks.append((f"{seq_refactor[0].get('code')}", f"Este es el {self.MAGENTA}código refactorizado{self.RESET} para evitar secuencias de bloques largas en tu proyecto."))
-
-            explanation += self.language_manager.sequential_explanation_phrases[random.randint(0, len(self.language_manager.sequential_explanation_phrases) - 1) ]
-
-            farwell += self.farwells[random.randint(0, len(self.farwells) - 1)]
-
-            feedback = {
-                'type': type,
-                'message': message,
-                'blocks': blocks,  
-                'explanation': explanation,
-                'farwell': farwell,
-            }
-        else:
-            feedback = None
+        sequentialBlocks = original_dict.get('result', {}).get('total_sequential', 0)
         
-        return feedback
+        if sequentialBlocks == 0:
+            return None
+
+        seq_original = [{
+            'sprite': entry['sprite'], 
+            'code': entry['original'], 
+            'repetitions': entry['repetitions'], 
+            'same_inputs': entry['same_inputs']
+        } for entry in refactor_dict]
+        
+        seq_refactor = [{
+            'sprite': entry['sprite'], 
+            'code': entry['refactored']
+        } for entry in refactor_dict]
+
+        message = self.upgrade_feedback(type)
+
+        same_inputs = seq_original[0]['same_inputs']
+        
+        # Diccionario con las palabras clave por idioma
+        key_phrases_by_lang = {
+            'en': ("loop", "loops", "function", "functions"),
+            'es': ("bucle", "bucles", "función", "funciones"),
+            'eu': ("begizta", "begiztak", "funtzio", "funtzioak"),
+            'gl': ("bucle", "bucles", "función", "funcións"),
+            'el': ("βρόχος", "βρόχοι", "συνάρτηση", "συναρτήσεις"),
+            'pt': ("laço", "laços", "função", "funções"),
+            'it': ("ciclo", "cicli", "funzione", "funzioni"),
+            'ru': ("цикл", "циклы", "функция", "функции"),
+            'ca': ("bucle", "bucles", "funció", "funcions"),
+            'tr': ("döngü", "döngüler", "fonksiyon", "fonksiyonlar"),
+        }
+
+        # Obtener la palabra correcta según el idioma y si se usan loops o funciones
+        key_phrase, key_phrase_plural, alt_phrase, alt_phrase_plural = key_phrases_by_lang.get(self.curr_lan, key_phrases_by_lang['en'])
+        chosen_phrase = key_phrase if same_inputs else alt_phrase
+        chosen_phrase_plural = key_phrase_plural if same_inputs else alt_phrase_plural
+
+        messages = {
+            'en': (
+                f" you have {self.MAGENTA}{sequentialBlocks} sequence{'s' if sequentialBlocks > 1 else ''} of blocks{self.RESET} in your code, "
+                f"which means you have the same actions repeated multiple times. Instead of repeating the same blocks, you can use a {chosen_phrase} to simplify your code.\n\n"
+                "But don't worry, let's fix that. To solve it: below this text, you have a selector with arrows. "
+                f"In tab {self.MAGENTA}1{self.RESET}, you can see your sequence of blocks, and in tab {self.MAGENTA}2{self.RESET}, "
+                f"you can see the refactored version with {chosen_phrase_plural}. You just need to replace the sequence of blocks with the refactored version in your project."
+            ),
+            'es': (
+                f" tienes {self.MAGENTA}{sequentialBlocks} secuencia{'s' if sequentialBlocks > 1 else ''} de bloques{self.RESET} en tu código, "
+                f"lo que significa que tienes las mismas acciones repetidas múltiples veces. En lugar de repetir los mismos bloques, puedes usar un(a) {chosen_phrase} para simplificar tu código.\n\n"
+                "Pero no te preocupes, vamos a solucionarlo. Para solucionarlo: debajo de este texto, tienes un selector con flechas. "
+                f"En la pestaña {self.MAGENTA}1{self.RESET}, puedes ver tu secuencia de bloques, y en la pestaña {self.MAGENTA}2{self.RESET}, "
+                f"puedes ver la versión refactorizada con {chosen_phrase_plural}. Solo necesitas reemplazar la secuencia de bloques con la versión refactorizada en tu proyecto."
+            )
+        }
+
+        message += messages.get(self.curr_lan, messages['en'])
+
+        blocks = [
+            (
+                seq_original[0]['code'], 
+                f"Tienes esta {self.MAGENTA}secuencia de bloques{self.RESET} repetida {seq_original[0]['repetitions']} veces seguidas en el sprite {self.MAGENTA}{seq_original[0]['sprite']}{self.RESET}."
+            ),
+            (
+                seq_refactor[0]['code'], 
+                f"Este es el {self.MAGENTA}código refactorizado{self.RESET} para evitar secuencias de bloques largas en tu proyecto."
+            )
+        ] if self.curr_lan == 'es' else [
+            (
+                seq_original[0]['code'], 
+                f"You have this {self.MAGENTA}sequence of blocks{self.RESET} repeated {seq_original[0]['repetitions']} times in a row in the sprite {self.MAGENTA}{seq_original[0]['sprite']}{self.RESET}."
+            ),
+            (
+                seq_refactor[0]['code'], 
+                f"This is the {self.MAGENTA}refactored code{self.RESET} to avoid sequential blocks in your project."
+            )
+        ]
+
+        # Elegir una explicación aleatoria
+        explanation_template = random.choice(self.language_manager.sequential_explanation_phrases)
+
+        # Reemplazar todas las palabras clave en todos los idiomas
+        for lang, (loop_sing, loop_plur, func_sing, func_plur) in key_phrases_by_lang.items():
+            explanation_template = explanation_template.replace(loop_sing, chosen_phrase).replace(loop_plur, chosen_phrase_plural) \
+                                                    .replace(func_sing, chosen_phrase).replace(func_plur, chosen_phrase_plural)
+
+        explanation = explanation_template
+
+        farwell = random.choice(self.farwells)
+
+        return {
+            'type': type,
+            'message': message,
+            'blocks': blocks,  
+            'explanation': explanation,
+            'farwell': farwell,
+        }
+
+
 
 
     def upgrade_feedback(self, new_type: str) -> str:
@@ -440,32 +493,9 @@ class RecomenderSystem():
         if (self.curr_type != ""):
             fail_message = self.language_manager.upgrade_feedback_phrases.get(self.curr_type).get('fail')
             success_message = self.language_manager.upgrade_feedback_phrases.get(self.curr_type).get('success')
-            """
-            if (self.curr_type == "Backdrops"):
-                fail_message = self.language_manager.upgrade_feedback_phrases['Backdrops']['fail']
-                success_message = self.language_manager.upgrade_feedback_phrases['Backdrops']['success']
-            if (self.curr_type == "Sprites"):
-                fail_message = self.language_manager.upgrade_feedback_phrases['Sprites']['fail']
-                success_message = self.language_manager.upgrade_feedback_phrases['Sprites']['success']
-            if (self.curr_type == "Messages"):
-                fail_message = self.language_manager.upgrade_feedback_phrases['Messages']['fail']
-                success_message = self.language_manager.upgrade_feedback_phrases['Messages']['success']
-            if (self.curr_type == "Variables"):
-                fail_message = self.language_manager.upgrade_feedback_phrases['Variables']['fail']
-                success_message = self.language_manager.upgrade_feedback_phrases['Variables']['success']
-            if (self.curr_type == "deadCode"):
-                fail_message = self.language_manager.upgrade_feedback_phrases['deadCode']['fail']
-                success_message = self.language_manager.upgrade_feedback_phrases['deadCode']['success']
-            if (self.curr_type == "Duplicates"):
-                fail_message = self.language_manager.upgrade_feedback_phrases['Duplicates']['fail']
-                success_message = self.language_manager.upgrade_feedback_phrases['Duplicates']['success']
-            if (self.curr_type == "Sequential"):
-                fail_message = self.language_manager.upgrade_feedback_phrases['Sequential']['fail']
-                success_message = self.language_manager.upgrade_feedback_phrases['Sequential']['success']
-            """
-            
-            # Current Order: Backdrop, Sprites, Messages, Variables, DeadCode, Duplicates, Sequential
-            bad_smells_order = ['Backdrops','Sprites','Messages','Variables','deadCode','Duplicates','Sequential']
+        
+            # Current Order: Backdrop, Sprites, Messages, Variables, DeadCode, Duplicates, Sequential, LongScripts
+            bad_smells_order = ['Backdrops','Sprites','Messages','Variables','deadCode','Duplicates','Sequential','longScripts']
             currIndex = bad_smells_order.index(self.curr_type)
             newIndex = bad_smells_order.index(new_type)
             if (currIndex == newIndex):
