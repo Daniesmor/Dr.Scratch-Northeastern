@@ -52,33 +52,39 @@ class SequentialBlocks(Plugin):
 
     def find_repeated_patterns(self, script):
         """
-        Detects repeated patterns in a script
+        Detects repeated patterns in a script, regardless of input values.
+        Identifies whether inputs are the same or different.
         """
 
-        # Extract the blocks from the script with their variables
-        script_dict = script.get_script_dict()  
+        script_dict = script.get_script_dict()
         block_list = [
             {"opcode": block["name"], "vars": list(block[key] for key in block if key.startswith("var_"))}
             for block in script_dict.values()
-        ] 
+        ]
         n = len(block_list)
         detected_patterns = []
 
-        # Detection of all posible patterns
         for length in range(1, n):  
             for start in range(n - length + 1):  
-                pattern = block_list[start:start + length]
+                pattern_opcodes = [{"opcode": block["opcode"]} for block in block_list[start:start + length]]
+                pattern_with_vars = block_list[start:start + length]
 
                 repetitions = 1
                 while start + repetitions * length + length <= n and \
-                        block_list[start + repetitions * length:start + (repetitions + 1) * length] == pattern:
+                        [{"opcode": block["opcode"]} for block in block_list[start + repetitions * length:start + (repetitions + 1) * length]] == pattern_opcodes:
                     repetitions += 1
 
                 if repetitions > 1:
+                    same_inputs = all(
+                        block_list[start + i]["vars"] == block_list[start + (j * length) + i]["vars"]
+                        for j in range(1, repetitions)
+                        for i in range(length)
+                    )
+
                     pattern_script = Script()
                     custom_dict = {
-                        f'block_{i}': {"name": block["opcode"], **{f"var_{j}": value for j, value in enumerate(block["vars"])}}
-                        for i, block in enumerate(pattern)
+                        f'block_{i}': {"name": block["opcode"], **{f"var_{j}": value for j, value in enumerate(block["vars"])} }
+                        for i, block in enumerate(pattern_with_vars)
                     }
                     pattern_script.set_custom_script_dict(custom_dict)
 
@@ -86,10 +92,10 @@ class SequentialBlocks(Plugin):
                         'pattern': [pattern_script.convert_to_text()],  
                         'start': start,
                         'length': length * repetitions,
-                        'repetitions': repetitions
+                        'repetitions': repetitions,
+                        'same_inputs': same_inputs
                     })
 
-        # Filter patterns that are contained within other patterns
         filtered_patterns = []
         for candidate in detected_patterns:
             is_contained = any(
@@ -101,12 +107,8 @@ class SequentialBlocks(Plugin):
             if not is_contained:
                 filtered_patterns.append(candidate)
 
-        # Order patterns by start position
         filtered_patterns.sort(key=lambda x: x['start'])
         return filtered_patterns
-
-
-
 
     def analyze_sprite(self, sprite_name, sprite_scripts):
         """
@@ -123,7 +125,8 @@ class SequentialBlocks(Plugin):
                     'pattern': pattern_info['pattern'],
                     'start': pattern_info['start'],
                     'length': pattern_info['length'],
-                    'repetitions': pattern_info['repetitions']
+                    'repetitions': pattern_info['repetitions'],
+                    'same_inputs': pattern_info['same_inputs']
                 })
 
     def analyze(self):

@@ -206,7 +206,7 @@ class RefactorSequence():
 
     def refactor_sequences(self):
         """
-        Convierte scripts duplicados en formato de bloque personalizado.
+        Convierte scripts secuenciales en bloques refactorizados o funciones personalizadas en Scratch.
         Devuelve una lista de diccionarios con la estructura:
         [
             {
@@ -224,23 +224,55 @@ class RefactorSequence():
         for seq in sequences:
             sprite_name = seq['sprite']
             repetitions = seq['repetitions']
-            pattern = seq['pattern']  # Esto es el patrón asociado al elemento
+            pattern = seq['pattern']
+            same_inputs = seq['same_inputs']
 
-            # Construir el bloque refactorizado
-            repeat_block = f"repeat ({repetitions}) "
-            for line in pattern:
-                repeat_block += f"{line}\n "
-            repeat_block += "end"
+            if same_inputs:
+                # Refactorización con repeat si los inputs son iguales
+                repeat_block = f"repeat ({repetitions})\n"
+                for line in pattern:
+                    repeat_block += f"    {line}\n"
+                repeat_block += "end"
 
-            # Construir la salida refactorizada
+            else:
+                function_name = f"function_{func_counter}"
+                input_vars = []
+                param_list = []
+
+                if pattern[0].startswith("\n"):
+                    pattern[0] = pattern[0][1:]
+                
+                for block in pattern:
+                    words = block.split()
+                    for word in words:
+                        if word.replace('.', '', 1).isdigit() or word.startswith("("):
+                            if word not in input_vars:
+                                input_vars.append(word)
+                
+                param_list = [f"(var_{i})" for i in range(len(input_vars))]
+                param_str = " ".join(param_list)
+
+
+                function_def = f"define {function_name} {param_str}\n"
+                function_body = ""
+                for line in pattern:
+                    for i, value in enumerate(input_vars):
+                        line = line.replace(value, f"(var_{i})")
+                    function_body += f"    {line}\n"
+
+                function_call = f"{function_name} {param_str}"
+
+                repeat_block = function_def + function_body + f"\n{function_call}:: custom\n" 
+
             refactored_list.append({
                 'sprite': sprite_name,
                 'repetitions': repetitions,
                 'original': "\n".join(pattern),
-                'refactored': repeat_block
-
+                'refactored': repeat_block,
+                'same_inputs': same_inputs
             })
 
             func_counter += 1
 
         return refactored_list
+    
