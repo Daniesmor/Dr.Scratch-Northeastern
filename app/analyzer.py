@@ -18,6 +18,7 @@ from app.hairball3.longScripts import LongScripts
 from app.hairball3.variablesNaming import VariablesNaming
 from app.hairball3.deadCode import DeadCode
 from app.hairball3.duplicateScripts import DuplicateScripts
+from app.hairball3.duplicateSprites import DuplicateSprites
 from app.hairball3.mastery import Mastery
 from app.hairball3.refactor import RefactorDuplicate, RefactorSequence
 from app.hairball3.spriteNaming import SpriteNaming
@@ -827,6 +828,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         dict_mastery = Mastery(path_projectsb3, json_scratch_project, skill_points, dashboard).finalize()
         dict_babia = Babia(path_projectsb3, json_scratch_project).finalize()
         dict_duplicate_script = DuplicateScripts(path_projectsb3, json_scratch_project).finalize()
+        dict_duplicate_sprite = DuplicateSprites(path_projectsb3, json_scratch_project).finalize()
         dict_dead_code = DeadCode(path_projectsb3, json_scratch_project,).finalize()
         dict_seq = SequentialBlocks(path_projectsb3, json_scratch_project).finalize()
         dict_long = LongScripts(path_projectsb3, json_scratch_project).finalize()
@@ -839,7 +841,9 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         refactored_sequence = RefactorSequence(json_scratch_project, dict_seq).refactor_sequences()
 
         print("--------------------- DUPLICATED CODE DICT ---------------------------")
-        print(refactored_code)
+        print(dict_duplicate_script)
+        print("--------------------- DUPLICATED SPRITES DICT ---------------------------")
+        print(dict_duplicate_sprite)
         print("--------------------- DEAD CODE DICT ---------------------------")
         print(dict_dead_code)
         print("--------------------- SPRITE NAMING DICT -----------------------")
