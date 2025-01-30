@@ -762,7 +762,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         print("------------------------------------------------------------------")
         
         # RECOMENDER SECTION
-        if (dashboard == 'Default') or (dashboard == 'Recomender'):
+        if (dashboard == 'Default') or (dashboard == 'Recomender') or (dashboard == 'Personalized'):
             dict_recom = {}
             recomender = RecomenderSystem(curr_type)
             dict_recom["deadCode"] = recomender.recomender_deadcode(dict_dead_code)

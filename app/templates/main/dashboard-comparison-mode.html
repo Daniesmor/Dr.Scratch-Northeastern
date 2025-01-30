@@ -89,7 +89,7 @@
                                                 <div class="col-12 text-center" id="modal_new_score">
                                                     <h3 class="dark-text" style="margin-top: 0;"><strong>Score:</strong></h3>
                                                     <h2 id="original-score" class="dark-text" style="font-size: 70px;">
-                                                        ${data.Original.mastery_vanilla.points[0]} / ${data.Original.mastery_vanilla.points[1]}
+                                                        ${data.Original.mastery.points[0]} / ${data.Original.mastery.points[1]}
                                                     </h2>
                                                 </div>
                                             </div>
@@ -164,7 +164,7 @@
                                                 <div class="col-12 text-center" id="modal_new_score">
                                                     <h3 class="dark-text" style="margin-top: 0;"><strong>Score:</strong></h3>
                                                     <h2 id="new-score" class="dark-text" style="font-size: 70px;">
-                                                        ${data.New.mastery_vanilla.points[0]} / ${data.New.mastery_vanilla.points[1]}
+                                                        ${data.New.mastery.points[0]} / ${data.New.mastery.points[1]}
                                                     </h2>
                                                 </div>
                                             </div>
@@ -224,6 +224,75 @@
             </section>
         </div>
         <button id="show-more-button" class="btn btn-primary standard-button" style="width: auto; margin-bottom: 2%;">Show more</button>`;
+
+        let masteryOriginal = data.Original.mastery;
+        let masteryNew = data.New.mastery;
+
+        let allKeys = new Set([...Object.keys(masteryOriginal), ...Object.keys(masteryNew)]);
+
+        let masteryTableRows = Array.from(allKeys)
+        .filter(key => key !== "points" && key !== "competence")
+        .map(key => {
+            let originalValue = masteryOriginal[key] || [[0, 0], "unknown"];
+            let newValue = masteryNew[key] || [[0, 0], "unknown"] ;
+
+            let originalScore = originalValue[0][0];
+            let originalMax = originalValue[0][1];
+
+            let newScore = newValue[0][0];
+            let newMax = newValue[0][1];
+
+            // Definir color de la barra de New
+            let newBarColor = "progress-bar-danger"; // Rojo por defecto
+            if (newScore === originalScore) {
+                newBarColor = ""; // Azul si son iguales
+            } else if (newScore > originalScore) {
+                newBarColor = "progress-bar-success"; // Verde si es mayor
+            } else if (originalScore - newScore < 2) {
+                newBarColor = "progress-bar-warning"; // Amarillo si es menor en 1 punto
+            }
+
+            // Si la puntuación es 0, solo mostramos el texto, sin barra de progreso
+            let originalProgress = originalScore === 0
+                ? `<div class="progress"> <span style="color: grey; font-weight: bold;"><strong>${originalScore} / ${originalMax}</strong></span> </div>`
+                : `
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped" 
+                            role="progressbar" 
+                            aria-valuenow="${originalScore}" 
+                            aria-valuemin="0" 
+                            aria-valuemax="${originalMax}" 
+                            style="width: ${(originalScore / originalMax) * 100}%;">
+                            <span style="color: white; font-weight: bold;">${originalScore} / ${originalMax}</span>
+                        </div>
+                    </div>`;
+
+            let newProgress = newScore === 0
+                ? `<div class="progress"> <span style="color: grey; font-weight: bold;"><strong>${newScore} / ${newMax}</strong></span> </div>`
+                : `
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped ${newBarColor}" 
+                            role="progressbar" 
+                            aria-valuenow="${newScore}" 
+                            aria-valuemin="0" 
+                            aria-valuemax="${newMax}" 
+                            style="width: ${(newScore / newMax) * 100}%;">
+                            <span style="color: white; font-weight: bold;">${newScore} / ${newMax}</span>
+                        </div>
+                    </div>`;
+
+            return `
+                <tr>
+                    <td style="text-align: left; width: 300px;">
+                        ${originalScore === originalMax ? '<span class="glyphicon glyphicon-star" id="star"></span>' : '<img src="/static/app/images/little_bulb.png" alt="">' }
+                        <a href="/learn/Dimensions/${originalValue[1]}/" target="_blank">${key}</a>
+                    </td>
+                    <td colspan="2">${originalProgress}</td>
+                    <td colspan="2">${newProgress}</td>
+                </tr>
+            `;
+        })
+        .join("");
 
         const hiddenContent = `
         <div id="hidden-content" style="display: none;">
@@ -303,19 +372,252 @@
                         </div>
                     </div>
                 </div>
+                <div class="row" style="padding-top: 2%;">
+                    <div class="col-md-6">
+                        <div id="bad-habits">
+                            {% if Original.mastery_vanilla.points.0 != New.mastery_vanilla.points.0 %}
+                                <div class="improve">
+                            {% else %}
+                                <div class="improve" style="padding-top: 15px;">
+                            {% endif %}
+                                <div class="panel panel-success" id="improve">
+                                    <div id="stepthree">
+                                        <div class="panel-heading" >
+                                            <h2 id="score" class="panel-title dark-text" name="original-bad-habits">
+                                                {% trans "Original Bad habits"%} 
+                                                <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Specific parts of the project that do not contribute to good programming practices' %}"></i>
+                                            </h2>
+                                        </div>
+                                        <div class="panel-body text-left typ">
+                                            <a class="glyphicon glyphicon-repeat"/>
+                                            <a id="duplicated-scripts" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Duplicated scripts' %}" 
+                                            data-trigger="manual" href="/learn/BadSmells/duplicatedScripts/" target="_blank"> 
+                                                ${data.Original.duplicateScript.number} {% trans " duplicated scripts." %}
+                                            </a>
+                                            <br>
+                                            <a class="glyphicon glyphicon-pencil"/>
+                                            <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Sprite naming' %}" 
+                                            data-trigger="manual" href="/learn/BadSmells/spriteNaming/" target="_blank"> 
+                                                ${data.Original.spriteNaming.number} {% trans " sprite naming." %}
+                                            </a><br>
+                                            <a class="glyphicon glyphicon-pencil"/> 
+                                            <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Backdrop naming' %}" href="/learn/BadSmells/backdropNaming/" target="_blank"> 
+                                                    ${data.Original.spriteNaming.number} {% trans " backdrop naming." %}
+                                            </a><br>
+                                            <a class="glyphicon glyphicon-remove-sign"/>
+                                            <a id="dead-code" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Dead code' %}" 
+                                            data-trigger="manual" href="/learn/BadSmells/deadCode/" target="_blank"> 
+                                                ${data.Original.deadCode.number} {% trans " dead code." %}
+                                            </a>
+                        
+                                        </div>
+                                        {% if Original.refactor.refactor_list %}
+                                            <button type="button" class="btn btn-primary" onclick="modalContentChange('duplicated-scripts-content-base')" style="margin-bottom: 2%;">
+                                                {% trans 'Display all duplicates' %}
+                                            </button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="bad-habits">
+                            {% if Original.mastery_vanilla.points.0 != New.mastery_vanilla.points.0 %}
+                                <div class="improve">
+                            {% else %}
+                                <div class="improve" style="padding-top: 15px;">
+                            {% endif %}
+                                <div class="panel panel-success" id="improve">
+                                    <div id="stepthree">
+                                        <div class="panel-heading" >
+                                            <h2 id="score" class="panel-title dark-text" name="original-bad-habits">
+                                                {% trans "New Bad habits"%} 
+                                                <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Specific parts of the project that do not contribute to good programming practices' %}"></i>
+                                            </h2>
+                                        </div>
+                                        <div class="panel-body text-left typ">
+                                            <a class="glyphicon glyphicon-repeat"/>
+                                            <a id="duplicated-scripts" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Duplicated scripts' %}" 
+                                            data-trigger="manual" href="/learn/BadSmells/duplicatedScripts/" target="_blank"> 
+                                                ${data.New.duplicateScript.number} {% trans " duplicated scripts." %}
+                                            </a>
+                                            <br>
+                                            <a class="glyphicon glyphicon-pencil"/>
+                                            <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Sprite naming' %}" href="/learn/BadSmells/spriteNaming/" target="_blank"> 
+                                                ${data.New.spriteNaming.number} {% trans " sprite naming." %}
+                                            </a><br>
+                                            <a class="glyphicon glyphicon-pencil"/> 
+                                            <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Backdrop naming' %}" href="/learn/BadSmells/backdropNaming/" target="_blank"> 
+                                                    ${data.New.backdropNaming.number} {% trans " backdrop naming." %}
+                                            </a><br>
+                                            <a class="glyphicon glyphicon-remove-sign"/>
+                                            <a id="dead-code" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Dead code' %}" 
+                                            data-trigger="manual" href="/learn/BadSmells/deadCode/" target="_blank"> 
+                                                ${data.New.deadCode.number} {% trans " dead code." %}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <section id="dashboard" style="padding-top: 2%;">
+                            <div class="container-fluid">
+                                <div class="row marketing">
+                                    <div class="jumbotron">
+                                        <div class="table-responsive">
+                                            <div id="stepfive">
+                                                <table class="table tablesorter">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="text-align: left; width: 300px;">
+                                                                <h4>
+                                                                    {% trans "Level up" %}
+                                                                    <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Dimensions Evaluated in your Scratch Project' %}"></i>
+                                                                </h4>
+                                                            </th>
+                                                            <th colspan="2" style="text-align: center;">
+                                                                <h4>
+                                                                    {% trans "BEFORE" %}
+                                                                    <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Grade of each Dimension' %}"></i>
+                                                                </h4>
+                                                            </th>
+                                                            <th colspan="2" style="text-align: center;">
+                                                                <h4>
+                                                                    {% trans "AFTER" %}
+                                                                    <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Grade of each Dimension' %}"></i>
+                                                                </h4>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="more-content-body">
+                                                        ${masteryTableRows}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
             </div>
         </div>
+        
 
         `;
         
         htmlContent += hiddenContent;
 
-                // Sustituir el contenido de la sección #blackboard
-                document.getElementById("Comparison").innerHTML = htmlContent;
+        
+
+        // Sustituir el contenido de la sección #blackboard
+        document.getElementById("Comparison").innerHTML = htmlContent;
+
+        // Insertar el script dinámicamente
+        let script = document.createElement("script");
+        script.textContent = `
+            (function() {
+                var originalBlocks = ${JSON.stringify(data.Original.block_sprite_usage.result.categories)};
+                var newBlocks = ${JSON.stringify(data.New.block_sprite_usage.result.categories)};
+
+                // Preparar los datos para Chart.js
+                var labelsOriginal = Object.keys(originalBlocks);
+                var labelsNew = Object.keys(newBlocks);
+
+                var originalData = Object.values(originalBlocks);
+                var newData = Object.values(newBlocks);
+                var colors = [
+                    '#4C97FF', // Motion - Blue
+                    '#9966FF', // Looks - Purple
+                    '#CF63CF', // Sounds - Magenta
+                    '#FFBF00', // Events - Yellow
+                    '#FFAB19', // Control - Orange
+                    '#FF6680', // Sensing - Pink
+                    '#0FBD8C', // Operators - Green
+                    '#FF8C1A',  // Variables - Dark Orange
+                    '#E66464', // My Blocks - Red
+                    '#808080'  // Others - Grey
+                ];
+
+                // Esperar a que el DOM esté listo antes de acceder a los elementos
+                setTimeout(function() {
+                    var ctxOriginal = document.getElementById('originalProjectChart');
+                    var ctxNew = document.getElementById('newProjectChart');
+
+                    if (ctxOriginal && ctxNew) {
+                        var ctxOriginalChart = ctxOriginal.getContext('2d');
+                        var ctxNewChart = ctxNew.getContext('2d');
+
+                        new Chart(ctxOriginalChart, {
+                            type: 'doughnut',
+                            data: {
+                                labels: labelsOriginal,
+                                datasets: [{
+                                    data: originalData,
+                                    backgroundColor: colors
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function(tooltipItem) {
+                                                return tooltipItem.label + ': ' + tooltipItem.raw + '%';
+                                            }
+                                        }
+                                    },
+                                    legend: { display: true, position: 'bottom' }
+                                }
+                            }
+                        });
+
+                        new Chart(ctxNewChart, {
+                            type: 'doughnut',
+                            data: {
+                                labels: labelsNew,
+                                datasets: [{
+                                    data: newData,
+                                    backgroundColor: colors
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function(tooltipItem) {
+                                                return tooltipItem.label + ': ' + tooltipItem.raw + '%';
+                                            }
+                                        }
+                                    },
+                                    legend: { display: true, position: 'bottom' }
+                                }
+                            }
+                        });
+                    } else {
+                        console.error("Los elementos canvas no se encontraron en el DOM.");
+                    }
+                }, 100);  // Retraso para asegurarse de que los elementos están en el DOM
+            })();
+        `;
+
+        // Agregar el script al body para que se ejecute
+        document.body.appendChild(script);
+
+
             })
-            .catch(error => {
-                console.error("There was a problem with the fetch operation:", error);
-            });
+        .catch(error => {
+            console.error("There was a problem with the fetch operation:", error);
         });
+        
+    });
+    
     </script>
 </div>

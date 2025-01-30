@@ -7,10 +7,16 @@
         <div class="container" id="stepone">
             <section id="dashboard">
                 <div class="tab text-center">
-                    <button class="tablinks active" onclick="openMode(event, 'Vanilla')">{% trans 'Vanilla Mode' %}</button>
-                    <button class="tablinks" onclick="openMode(event, 'Extended')">{% trans 'Extended Mode' %}</button>
-                    <button class="tablinks recommender-btn" onclick="openMode(event, 'Recommender')">{% trans 'Recommender Assistant' %}</button>
-                    <button class="tablinks" onclick="openMode(event, 'Comparison')">{% trans 'Comparison Mode' %}</button>
+                    {% if dashboard_mode == 'Default' %}
+                        <button class="tablinks active" onclick="openMode(event, 'Vanilla')">{% trans 'Vanilla Mode' %}</button>
+                        <button class="tablinks" onclick="openMode(event, 'Extended')">{% trans 'Extended Mode' %}</button>
+                    {% else %}
+                        <button class="tablinks active" onclick="openMode(event, 'Extended')">{% trans 'Personal Mode' %}</button>
+                        <button class="recommender-button tablinks" onclick="openMode(event, 'Recommender')">{% trans 'Recommender Assistant' %}</button>
+                        <!-- <button class="comparison-button tablinks" onclick="openMode(event, 'Comparison')">{% trans 'Comparison Mode' %}</button> -->
+
+                    {% endif %}
+                   
                 </div>
             </section>
         </div>
@@ -43,12 +49,17 @@
                 line-height: 50px; /* Alinea verticalmente el texto */
             }
         </style>
-        
-        <!-- VANILLA MODE -->
-        {% include 'main/dashboard-vanilla-mode.html' %}
 
-        <!-- EXTENDED MODE -->
-        {% include 'main/dashboard-extended-mode.html' %}
+        {% if dashboard_mode == 'Default' %}
+            <!-- VANILLA MODE -->
+            {% include 'main/dashboard-vanilla-mode.html' %}
+
+            <!-- EXTENDED MODE -->
+            {% include 'main/dashboard-extended-mode.html' %}
+        {% else %}
+            <!-- PERSONAL MODE -->
+            {% include 'main/dashboard-extended-mode.html' %}
+        {% endif %}
 
         <!-- RECOMMENDER ASSISTANT -->
         {% include 'main/dashboard-recommender-assistant.html' %}
@@ -144,13 +155,26 @@
             }
         </script>
 
-        <script>
-            // Show the Vanilla mode by default
-            document.getElementById("Vanilla").style.display = "block";
-            // Hide the others content
-            document.getElementById("Extended").style.display = "none";
-            document.getElementById("Recommender").style.display = "none";
-            document.getElementById("Comparison").style.display = "none";
-        </script>
+
+        {% if dashboard_mode == 'Default' %}
+            <script>
+                // Show the Vanilla mode by default
+                document.getElementById("Vanilla").style.display = "block";
+                // Hide the others content
+                document.getElementById("Extended").style.display = "none";
+                document.getElementById("Recommender").style.display = "none";
+                document.getElementById("Comparison").style.display = "none";
+            </script>
+        {% else %}
+            <script>
+                // Show the Vanilla mode by default
+                document.getElementById("Extended").style.display = "block";
+                // Hide the others content
+                document.getElementById("Recommender").style.display = "none";
+                document.getElementById("Comparison").style.display = "none";
+            </script>
+        {% endif %}
+        
+        
 
 {% endblock %}

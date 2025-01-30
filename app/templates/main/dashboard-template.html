@@ -20,6 +20,9 @@
         <script src="../../static/app/scripts/scratchblocks-v3.4-min.js"></script>
         <!-- str typing simulation -->
         <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+        <!-- Agrega esto en tu template base o en tu HTML -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
         <!-- SITE TITLE -->
         <title>Dr. Scratch</title>
@@ -67,101 +70,6 @@
 
         <!-- DEFAULT COLOR/ CURRENTLY USING -->
         <link rel="stylesheet" href="../../static/app/content/red.css">
-
-
-        <script>
-            $(document).ready(function() {
-                var baseScore = {{ Original.mastery_vanilla.points.0 }};
-                var projectScore = {{ New.mastery_vanilla.points.0 }};
-                
-                if (baseScore !== projectScore) {
-                    var modalTitle = '';
-                    var modalMessage = '';
-                    var imageUrl = '';
-                    var diffPoints = Math.abs(baseScore - projectScore);
-            
-                    if (baseScore < projectScore) {
-                        modalTitle = '{% trans "Congrats!!" %}';
-                        modalMessage = '{% trans "You have improved this project by " %}' + '<span class="text-success"><strong>' + diffPoints + '</strong></span>' + '{% trans " points" %}';
-                        imageUrl = '/static/app/images/cat.png';
-                    } else {
-                        modalTitle = '{% trans "Oops..." %}';
-                        modalMessage = '{% trans "Your project score has dropped by " %}' + '<span class="colored-text"><strong>' + diffPoints + '</strong></span>' + '{% trans " points" %}';
-                        imageUrl = '/static/app/images/monkey.png'
-                    }
-        
-                    var imgElement = $('<img>', {
-                        src: imageUrl,
-                        class: 'img-responsive col-md-4',
-                        style: 'margin-left: 30px;'
-                    });
-                    
-                    $('#modal-feedback-img').append(imgElement);
-                    $('#scoreChangeModalLabel').text(modalTitle);
-                    $('#modal-feedback-content').html(modalMessage);
-                    $('#scoreChangeModal').modal('show');
-                }
-            });
-        </script>
-        
-        <script>
-            $(document).ready(function() {
-                // Delegación de eventos para los elementos dinámicos
-                $(document).on('change', '#original-score, #original-total-blocks, #original-total-sprites, #original-duplicate, #original-dead, #original-sprite, #original-backdrop, #new-score, #new-total-blocks, #new-total-sprites, #new-duplicate, #new-dead, #new-sprite, #new-backdrop', function() {
-                    
-                    // Obtenemos los valores de bloques y sprites de "BEFORE"
-                    var scoreBefore = parseInt($("#original-score").text());
-                    var blocksBefore = parseInt($("#original-total-blocks").text());
-                    var spritesBefore = parseInt($("#original-total-sprites").text());
-                    var duplicateBefore = parseInt($("#original-duplicate").text());
-                    var deadBefore = parseInt($("#original-dead").text());
-                    var spriteBefore = parseInt($("#original-sprite").text());
-                    var backdropBefore = parseInt($("#original-backdrop").text());
-                    
-                    // Obtenemos los valores de bloques y sprites de "AFTER"
-                    var scoreAfter = parseInt($("#new-score").text());
-                    var blocksAfter = parseInt($("#new-total-blocks").text());
-                    var spritesAfter = parseInt($("#new-total-sprites").text());
-                    var duplicateAfter = parseInt($("#new-duplicate").text());
-                    var deadAfter = parseInt($("#new-dead").text());
-                    var spriteAfter = parseInt($("#new-sprite").text());
-                    var backdropAfter = parseInt($("#new-backdrop").text());
-                    
-                    // Función para actualizar la clase del texto
-                    function updateTextClass(element, valueBefore, valueAfter) {
-                        if (valueAfter < valueBefore) {
-                            element.removeClass('dark-text colored-text').addClass('text-success');
-                            element.append('<i class="bi bi-check-circle-fill"></i>');
-                        } else if (valueAfter > valueBefore) {
-                            element.removeClass('dark-text text-success').addClass('colored-text');
-                            element.append('<i class="bi bi-exclamation-triangle-fill"></i>');
-                        } else {
-                            element.removeClass('text-success colored-text').addClass('dark-text');
-                        }
-                    }
-        
-                    // Función para actualizar la clase del texto
-                    function updateTextScore(element, valueBefore, valueAfter) {
-                        if (valueAfter > valueBefore) {
-                            element.removeClass('dark-text colored-text').addClass('text-success');
-                        } else if (valueAfter < valueBefore) {
-                            element.removeClass('dark-text text-success').addClass('colored-text');
-                        } else {
-                            element.removeClass('text-success colored-text').addClass('dark-text');
-                        }
-                    }
-        
-                    // Actualizamos las clases de los elementos
-                    updateTextScore($("#new-score"), scoreBefore, scoreAfter);
-                    updateTextClass($("#new-total-blocks"), blocksBefore, blocksAfter);
-                    updateTextClass($("#new-total-sprites"), spritesBefore, spritesAfter);
-                    updateTextClass($("#new-duplicate"), duplicateBefore, duplicateAfter);
-                    updateTextClass($("#new-dead"), deadBefore, deadAfter);
-                    updateTextClass($("#new-sprite"), spriteBefore, spriteAfter);
-                    updateTextClass($("#new-backdrop"), backdropBefore, backdropAfter);
-                });
-            });
-        </script>
         
         
         <script>
@@ -179,255 +87,6 @@
                 });
             });
         </script>
-        
-        
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                // Función para actualizar el filename
-                function updateFilename(elementId) {
-                    // Selecciona el elemento que contiene el filename
-                    var filenameElement = document.getElementById(elementId);
-        
-                    // Verifica si el elemento existe en el DOM
-                    if (filenameElement) {
-                        // Obtiene el contenido del elemento
-                        var filename = filenameElement.innerText;
-        
-                        // Define el patrón para la URL del proyecto
-                        var pattern = /^https:\/\/scratch\.mit\.edu\/projects\/(\d+)\/$/;
-        
-                        // Verifica si el filename coincide con el patrón
-                        var match = filename.match(pattern);
-        
-                        if (match) {
-                            // Extrae el ID del proyecto
-                            var projectId = match[1];
-        
-                            // Modifica el contenido del elemento
-                            filenameElement.innerText = 'Project: ' + projectId;
-                        }
-                    }
-                }
-        
-                // Actualiza el filename para New.filename
-                updateFilename('project-new-filename');
-        
-                // Actualiza el filename para Original.filename
-                updateFilename('project-original-filename');
-            });
-        </script>
-        
-        <script>
-            $(document).ready(function () {
-                function updatePopoverContent() {
-                    $('.dropdown').each(function () {
-                        var $this = $(this);
-                        var type = $this.data('type');
-                        var compareType = $this.data('compare-type');
-                        var popoverContent = '';
-                        if (type === "Original") {
-                            popoverContent = '{% trans "This is the original ' + compareType + '." %}';
-                        } else if (compareType !=  undefined) {
-                            var originalNumber = parseInt($this.data('original-number'));
-                            var newNumber = parseInt($this.data('new-number'));
-                            if (newNumber === 0) {
-                                popoverContent = '{% trans "Congratulations!! You have erase all your ' + compareType + ' of your project" %}';
-                            } else if (newNumber < originalNumber) {
-                                popoverContent = '{% trans "Congrats!! You have decrease the number of ' + compareType + ' in your project, keep it up !!" %}';
-                            } else if (newNumber > originalNumber) {
-                                popoverContent = '{% trans "Oops... You have increase the number of ' + compareType + ' in your project, try to erase them !!" %}';
-                            } else {
-                                popoverContent = '{% trans "You have the same the number of ' + compareType + ' in your project, try to erase them !!" %}';
-                            }
-                        }
-                        $this.attr('data-content', popoverContent);
-                    });
-                }
-        
-                updatePopoverContent();
-        
-                $('.dropdown').popover({
-                    trigger: 'manual',
-                    html: true,
-                    animation: false
-                }).on('mouseenter', function () {
-                    $(this).popover('show');
-                }).on('mouseleave', function () {
-                    $(this).popover('hide');
-                });
-            });
-        </script>
-        
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                // Function to insert the commented tbody content into the more-content table
-                function insertMoreContent() {
-                    var data = {};
-                    var dataBefore = {};
-                    var htmlkey = '';
-                    {% for key,value in New.mastery_vanilla.items %}
-                        data['{{ key }}'] = '{{ value }}',
-                    {% endfor %}
-                    {% for key,value in Original.mastery_vanilla.items %}
-                        dataBefore['{{ key }}'] = '{{ value }}',
-                    {% endfor %}
-                    console.log(data);
-        
-                    for (var key in data) {
-                        if (key != 'competence' && key != 'points'){
-                            var valueAfter = parseInt(data[key][2]);
-                            var valueBefore = parseInt(dataBefore[key][2]);
-                            if (valueAfter == 0){
-                                if (valueAfter < valueBefore){
-                                    var progressBarHTML = `
-                                    <div class="progress">
-                                        <div class="progress-bar-new progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="3" style="width: 0%">
-                                            <span style="color: red; font-size: 12px;"><strong>0/3</strong></span>
-                                        </div>
-                                    </div>`;
-                                } else {
-                                    var progressBarHTML = `
-                                    <div class="progress">
-                                        <div class="progress-bar-new progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="3" style="width: 0%">
-                                            <span style="color: grey;  font-size: 12px;"><strong>0/3</strong></span>
-                                        </div>
-                                    </div>`;
-                                }
-        
-                            } else {
-                                if (valueAfter > valueBefore) {
-                                    var progressBarHTML =  `
-                                    <div class="progress">
-                                        <div class="progress-bar-new progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="${valueAfter}" aria-valuemin="0" aria-valuemax="3" style="width: ${valueAfter / 3 * 100}%;">
-                                            <span style="font-size: 12px;"><strong>${valueAfter} / 3</strong></span>
-                                        </div>
-                                    </div>
-                                    `;
-                                } else if (valueAfter < valueBefore) {
-                                    var progressBarHTML =  `
-                                    <div class="progress">
-                                        <div class="progress-bar-new progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="${valueAfter}" aria-valuemin="0" aria-valuemax="3" style="width: ${valueAfter / 3 * 100}%;">
-                                            <span style="font-size: 12px;"><strong>${valueAfter} / 3</strong></span>
-                                        </div>
-                                    </div>
-                                    `;
-                                } else {
-                                    var progressBarHTML =  `
-                                    <div class="progress">
-                                        <div class="progress-bar-new progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="${valueAfter}" aria-valuemin="0" aria-valuemax="3" style="width: ${valueAfter / 3 * 100}%;">
-                                            <span style="font-size: 12px;"><strong>${valueAfter} / 3</strong></span>
-                                        </div>
-                                    </div>
-                                    `;
-                                }
-                            }
-                            document.getElementById(key).innerHTML += (progressBarHTML);
-                        }
-                    }
-                };
-        
-                // Call the function to insert content
-                insertMoreContent();
-            });
-        </script>
-        
-        <script>
-            $(document).ready(function () {
-                // Delegación de eventos para ejecutar cuando los gráficos se añaden al DOM
-                $(document).on('load', function () {
-                    // Pasar los datos de los bloques desde Django al contexto de JavaScript
-                    var originalBlocks = {{ Original.block_sprite_usage.result.categories|safe }};
-                    var newBlocks = {{ New.block_sprite_usage.result.categories|safe }};
-            
-                    // Preparar los datos para Chart.js
-                    if ("other" in originalBlocks) {
-                        var labelsOriginal= ['Motion', 'Looks', 'Sounds', 'Events', 'Control', 'Sensing', 'Operators', 'Variables', 'My Blocks', 'Others'];
-                    } else {
-                        var labelsOriginal= ['Motion', 'Looks', 'Sounds', 'Events', 'Control', 'Sensing', 'Operators', 'Variables', 'My Blocks'];
-                    }
-            
-                    if ("other" in newBlocks) {
-                        var labelsNew= ['Motion', 'Looks', 'Sounds', 'Events', 'Control', 'Sensing', 'Operators', 'Variables', 'My Blocks', 'Others'];
-                    } else {
-                        var labelsNew= ['Motion', 'Looks', 'Sounds', 'Events', 'Control', 'Sensing', 'Operators', 'Variables', 'My Blocks'];
-                    }
-            
-                    var originalData = Object.values(originalBlocks);
-                    var newData = Object.values(newBlocks);
-                    var colors = [
-                        '#4C97FF', // Motion - Blue
-                        '#9966FF', // Looks - Purple
-                        '#CF63CF', // Sounds - Magenta
-                        '#FFBF00', // Events - Yellow
-                        '#FFAB19', // Control - Orange
-                        '#FF6680', // Sensing - Pink
-                        '#0FBD8C', // Operators - Green
-                        '#FF8C1A',  // Variables - Dark Orange
-                        '#E66464', // My Blocks - Red
-                        '#808080'  // Others - Grey
-                    ];
-            
-                    // Configuración del gráfico circular para el proyecto original
-                    var ctxOriginal = document.getElementById('originalProjectChart').getContext('2d');
-                    var originalProjectChart = new Chart(ctxOriginal, {
-                        type: 'doughnut',
-                        data: {
-                            labels: labelsOriginal,
-                            datasets: [{
-                                data: originalData,
-                                backgroundColor: colors
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            plugins: {
-                                tooltip: {
-                                    callbacks: {
-                                        label: function(tooltipItem) {
-                                            return tooltipItem.label + ': ' + tooltipItem.raw + '%';
-                                        }
-                                    }
-                                },
-                                legend: {
-                                    display: true,
-                                    position: 'bottom',
-                                }
-                            }
-                        }
-                    });
-            
-                    // Configuración del gráfico circular para el nuevo proyecto
-                    var ctxNew = document.getElementById('newProjectChart').getContext('2d');
-                    var newProjectChart = new Chart(ctxNew, {
-                        type: 'doughnut',
-                        data: {
-                            labels: labelsNew,
-                            datasets: [{
-                                data: newData,
-                                backgroundColor: colors
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            plugins: {
-                                tooltip: {
-                                    callbacks: {
-                                        label: function(tooltipItem) {
-                                            return tooltipItem.label + ': ' + tooltipItem.raw + '%';
-                                        }
-                                    }
-                                },
-                                legend: {
-                                    display: true,
-                                    position: 'bottom',
-                                }
-                            }
-                        }
-                    });
-                });
-            });
-        </script>
-        
         
 
         <script>
@@ -660,6 +319,46 @@
             .language-content {
                 cursor: pointer;
             }
+            .recommender-button {
+                background-color: #FF7F32 !important;  /* Verde */
+                color: white !important;
+                border: none;
+                padding: 10px 20px;
+                font-size: 16px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            
+            .recommender-button:hover {
+                background-color: #E66A28 !important; /* Verde más oscuro al pasar el cursor */
+            }
+
+            .recommender-button.active {
+                background-color: #FF9F5E !important; /* Verde más claro al hacer clic */
+            }
+            
+            .comparison-button {
+                background-color: #E1A500 !important; /* Amarillo mostaza más claro */
+                color: white !important;
+                border: none;
+                padding: 10px 20px;
+                font-size: 16px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            
+            .comparison-button:hover {
+                background-color: #D68A00 !important; /* Amarillo más oscuro al pasar el cursor */
+            }
+            
+            .comparison-button:active {
+                background-color: #FFD97F !important; /* Amarillo claro al hacer clic */
+            }
+            
+            
+            
+            
+            
 
 
         </style>    

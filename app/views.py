@@ -162,7 +162,7 @@ def show_dashboard(request, skill_points=None):
             if d.get('dashboard_mode') == 'Default':
                 return render(request, user + '/dashboard-default.html', d)
             elif d.get('dashboard_mode') == 'Personalized':
-                return render(request, user + '/dashboard-personal.html', d)               
+                return render(request, user + '/dashboard-default.html', d)               
             elif d.get('dashboard_mode') == 'Recommender':
                 return render(request, user + '/dashboard-recommender.html', d)
             elif d.get('dashboard_mode') == 'Comparison':
