@@ -10,6 +10,8 @@
                     {% if dashboard_mode == 'Default' %}
                         <button class="tablinks active" onclick="openMode(event, 'Vanilla')">{% trans 'Vanilla Mode' %}</button>
                         <button class="tablinks" onclick="openMode(event, 'Extended')">{% trans 'Extended Mode' %}</button>
+                        <button class="recommender-button tablinks" onclick="openMode(event, 'Recommender')">{% trans 'Recommender Assistant' %}</button>
+                        <button class="comparison-button tablinks" onclick="openMode(event, 'Comparison')">{% trans 'Comparison Mode' %}</button>
                     {% else %}
                         <button class="tablinks active" onclick="openMode(event, 'Extended')">{% trans 'Personal Mode' %}</button>
                         <button class="recommender-button tablinks" onclick="openMode(event, 'Recommender')">{% trans 'Recommender Assistant' %}</button>
