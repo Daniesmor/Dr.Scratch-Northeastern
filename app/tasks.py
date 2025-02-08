@@ -105,8 +105,6 @@ def process_single_file(request_data_obj: object, file_path: str, skill_points: 
             print(f"\033[32m ----------> Analyzing: {file_name}\033[0m")
             analysis_by_upload(request_data_obj, skill_points, inmemory_file)
             track_memory_usage()  
-
-        # Liberar recursos y verificar la memoria
         del file_data, inmemory_file
         gc.collect()
         

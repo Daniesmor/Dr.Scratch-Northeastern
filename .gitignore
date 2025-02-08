@@ -75,6 +75,9 @@ target/
 # Certificates
 app/certificate/
 
+# Csvs
+*.csv
+
 # Translations
 static/img/
 
