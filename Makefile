@@ -15,6 +15,9 @@ coverage:
 environment:
 	export $(cat .env)
 
+celery-restart:
+	docker-compose restart celery
+
 build:
 	docker-compose build
 

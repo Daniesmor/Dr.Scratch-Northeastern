@@ -6,13 +6,13 @@ import requests
 import shutil
 import tempfile
 from zipfile import ZipFile
-from .batch import create_csv, create_summary
+from .batch import create_csv
 from django.core.mail import EmailMessage
 from django.core.mail import EmailMessage as DjangoEmailMessage
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 import uuid
-from .models import BatchCSV
+from .models import File, BatchCSV
 from datetime import datetime
 from django.template.loader import render_to_string
 from css_inline import inline
@@ -24,6 +24,7 @@ import json
 import gc
 import psutil
 import time
+from typing import Generator
 
 
 def remove_circular_references(obj, seen=None):
@@ -31,7 +32,7 @@ def remove_circular_references(obj, seen=None):
         seen = set()
 
     if id(obj) in seen:
-        return None  # O puedes retornar un valor predeterminado, como un diccionario vacío
+        return None
     seen.add(id(obj))
 
     if isinstance(obj, dict):
@@ -41,7 +42,7 @@ def remove_circular_references(obj, seen=None):
     else:
         return obj
     
-def gen_filepath(projects_file):
+def gen_filepath(projects_file: str) -> Generator[str, None, None]:
     for root, dirs, files in os.walk(projects_file):
         for i, file in enumerate(files):
             file_path = os.path.join(root, file)
@@ -50,95 +51,86 @@ def gen_filepath(projects_file):
 
 
 def track_memory_usage():
-    """
-    Función que imprime el uso de memoria en tiempo real del proceso en ejecución.
-    """
-    process = psutil.Process(os.getpid())  # Obtener el proceso actual
-    memory_info = process.memory_info()    # Obtener información de memoria
-    memory_used = memory_info.rss / (1024 ** 2)  # Convertir bytes a MB
+    process = psutil.Process(os.getpid())
+    memory_info = process.memory_info()
+    memory_used = memory_info.rss / (1024 ** 2)
     print(f"Memory usage: {memory_used:.4f} MB")
 
 
 def process_url(request_data_obj: object, skill_points: dict) -> str:
-    """
-    Función que procesa la URL y maneja el archivo.
-    """
-    track_memory_usage()  # Verificar la memoria antes de comenzar
     projects_file = request_data_obj.POST['urlsFile']
-    dashboard_mode = request_data_obj.POST['dashboard_mode']
-    curr_dir = os.path.dirname(os.path.abspath(__file__))
-    csvs_dir = os.path.abspath(os.path.join(curr_dir, "..", "csvs"))
-    temp_json_file = os.path.join(csvs_dir, f"{str(uuid.uuid4())[:8]}_temp_metrics.json")
 
     if type(projects_file) != list:
-        if os.path.isdir(projects_file):
-            dir_name = os.listdir(projects_file)[0]
-            projects_file = os.path.join(projects_file, dir_name)
+        process_multiple_or_file(request_data_obj, skill_points, projects_file)
+    else:
+        # projects_file is a list of urls
+        process_url_list(request_data_obj, skill_points, projects_file)
 
-            for file_path in gen_filepath(projects_file):
-                if os.path.exists(file_path):
-                    try:
-                        print("BEFORE READING FILE:")
-                        track_memory_usage()
-                        print("Reading file...")
-                        with open(file_path, 'rb') as f:
-                            file_name = os.path.basename(file_path)
-                            file_data = BytesIO(f.read())
-                        
-                        track_memory_usage()  # Verificar el uso de memoria después de cargar el archivo
 
-                        with file_data:
-                            inmemory_file = InMemoryUploadedFile(
-                                file=file_data,
-                                field_name=None,
-                                name=file_name,
-                                content_type='application/octet-stream',
-                                size=file_data.getbuffer().nbytes,
-                                charset=None,
-                            )
+def process_multiple_or_file(request_data_obj: object, skill_points: dict, projects_file: list):
+    if os.path.isdir(projects_file):
+        dir_name = os.listdir(projects_file)[0]
+        projects_file = os.path.join(projects_file, dir_name)
 
-                            request_data_obj.user = SimpleNamespace(is_authenticated=True, username=None)
-                            request_data_obj.session = {}
+        for file_path in gen_filepath(projects_file):
+            if os.path.exists(file_path):
+                process_single_file(request_data_obj, file_path, skill_points)
+            clean_temporary_files(projects_file)
 
-                            print(f"\033[32m ----------> Analyzing: {file_name}\033[0m")
-                            print("TRACKEO ANTES DE ANALYSIS")
-                            track_memory_usage()  
-                            analysis_by_upload(request_data_obj, skill_points, inmemory_file)
-                            print("TRACKEO DESPUES DE ANALYSIS")
-                            track_memory_usage()  
 
-                        
-                        # Liberar recursos y verificar la memoria
-                        del file_data, inmemory_file
-                        gc.collect()
-                        try:
-                            print(file_data)
-                        except NameError:
-                            print("file_data ha sido borrada correctamente")
+def clean_temporary_files(directory):
+    if os.path.exists(directory):
+        shutil.rmtree(directory)
 
-                        try:
-                            print(inmemory_file)
-                        except NameError:
-                            print("inmemory_file ha sido borrada correctamente")
-                        track_memory_usage()  # Verificar la memoria después de liberar recursos
 
-                    except Exception as e:
-                        print(f"Error processing file {file_path}: {e}")
+def process_single_file(request_data_obj: object, file_path: str, skill_points: dict):
+    try:
+        with open(file_path, 'rb') as f:
+            file_name = os.path.basename(file_path)
+            file_data = BytesIO(f.read())
+        
+        with file_data:
+            inmemory_file = InMemoryUploadedFile(
+                file=file_data,
+                field_name=None,
+                name=file_name,
+                content_type='application/octet-stream',
+                size=file_data.getbuffer().nbytes,
+                charset=None,
+            )
 
-            # Limpiar archivos temporales
-            if os.path.exists(projects_file):
-                shutil.rmtree(projects_file)
+            request_data_obj.user = SimpleNamespace(is_authenticated=True, username=None)
+            request_data_obj.session = {}
 
-    track_memory_usage()  # Verificar la memoria al final del proceso
+            print(f"\033[32m ----------> Analyzing: {file_name}\033[0m")
+            analysis_by_upload(request_data_obj, skill_points, inmemory_file)
+            track_memory_usage()  
 
-def mk_url(csv_id: uuid) -> str:
+        # Liberar recursos y verificar la memoria
+        del file_data, inmemory_file
+        gc.collect()
+        
+    except Exception as e:
+        print(f"Error processing file {file_path}: {e}")
+
+def process_url_list(request_data_obj: object, skill_points: dict, projects_file: list):
+    # Proccess each URL of the list
+    for url in projects_file:
+        #if i >= 10:
+        #   break 
+        url = url.decode('utf-8').strip()
+        analysis_by_url(request_data_obj, url, skill_points)
+
+
+def mk_url(batch_id: uuid) -> str:
     url = ''
     if (settings.PRODUCTION == True):
-        url = '{}/{}'.format('https://www.drscratch.org/batch',csv_id)
+        url = '{}/{}'.format('https://www.drscratch.org/batch',batch_id)
     else:
-        url = '{}/{}'.format('http://127.0.0.1:8000/batch',csv_id)
+        url = '{}/{}'.format('http://127.0.0.1:8000/batch',batch_id)
     print("The link of the batch analysis is:", url) 
     return url
+
 
 def get_csv_sum(csv) -> dict:
     summary = {}
@@ -146,7 +138,7 @@ def get_csv_sum(csv) -> dict:
         'num_projects': csv.num_projects,
         'Points': [csv.points, csv.max_points],
         'Logic': [csv.logic, csv.max_logic],
-        'Parallelism': [csv.parallelization, csv.max_parallelization],
+        'Parallelism': [csv.parallelism, csv.max_parallelism],
         'Data representation': [csv.data, csv.max_data],
         'Synchronization': [csv.synchronization, csv.max_synchronization],
         'User interactivity': [csv.userInteractivity, csv.max_userInteractivity],
@@ -158,16 +150,16 @@ def get_csv_sum(csv) -> dict:
     }
     return summary
 
-def mk_html(csv_id: uuid, url: str) -> str:
+
+def mk_html(batch_id: uuid, url: str) -> str:
     try:
-        csv = get_object_or_404(BatchCSV, id=csv_id)
-        csv_filepath = csv.filepath
-        summary = get_csv_sum(csv)
+        batch_obj = get_object_or_404(BatchCSV, id=batch_id)
+        summary = get_csv_sum(batch_obj)
         
         context = {
             'url': url,
             'summary': summary,
-            'csv_filepath': csv_filepath
+            'csv_filepath': batch_obj.filepath
         }
 
         html_message = render_to_string('main' + '/dashboard-bulk-emailv.html', context)
@@ -176,9 +168,10 @@ def mk_html(csv_id: uuid, url: str) -> str:
     except ObjectDoesNotExist:
         return ''
 
-def send_mail(email: str, csv_id: uuid) -> None:
-    url = mk_url(csv_id)
-    ehtml = mk_html(csv_id, url)
+
+def send_mail(email: str, batch_id: uuid) -> None:
+    url = mk_url(batch_id)
+    ehtml = mk_html(batch_id, url)
     subject = '[Dr.Scratch Batch Analysis Finish]'
 
     email = EmailMessage(subject, ehtml, settings.EMAIL_HOST_USER, [email])
@@ -188,12 +181,14 @@ def send_mail(email: str, csv_id: uuid) -> None:
     except:
         print(f"Error seding mail: {email}")
 
-def register_timestamp(csv_id: uuid, start_time, end_endtime: datetime) -> None:
+
+def register_timestamp(batch_id: uuid, start_time, end_endtime: datetime) -> None:
     timestamp = (end_endtime - start_time).total_seconds() + 60
 
-    obj = get_object_or_404(BatchCSV, id=csv_id)
+    obj = get_object_or_404(BatchCSV, id=batch_id)
     obj.task_time = timestamp
     obj.save()
+
 
 @app.task(bind=True)
 def init_batch(self, request_data, skill_points):
@@ -203,12 +198,8 @@ def init_batch(self, request_data, skill_points):
     re_email = request_data_obj.POST ['email']
     temp_dict_metrics = process_url(request_data_obj, skill_points)
     csv_id = create_csv(request_data_obj, temp_dict_metrics) 
-    """
     send_mail(re_email, csv_id)
 
     # Stop and register time for ETA
     end_time = datetime.now()
     register_timestamp(csv_id, start_time, end_time)
-    """
-
-        

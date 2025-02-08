@@ -65,7 +65,9 @@ from .tasks import init_batch
 
 # Analyzer imports
 from .analyzer import analyze_project, generator_dic, return_scratch_project_identifier, send_request_getsb3, _make_compare, analysis_by_upload, analysis_by_url
-from .batch import skills_translation
+
+# Translations imports
+from .translation import skills_translation
 
 # Recomender System imports
 from .recomender import RecomenderSystem
@@ -222,7 +224,7 @@ def batch(request, csv_identifier):
         'num_projects': csv.num_projects,
         'Points': [csv.points, csv.max_points],
         'Logic': [csv.logic, csv.max_logic],
-        'Parallelism': [csv.parallelization, csv.max_parallelization],
+        'Parallelism': [csv.parallelism, csv.max_parallelism],
         'Data representation': [csv.data, csv.max_data],
         'Synchronization': [csv.synchronization, csv.max_synchronization],
         'User interactivity': [csv.userInteractivity, csv.max_userInteractivity],
@@ -314,8 +316,7 @@ def calc_num_projects(batch_path: str) -> int:
             num_projects += 1
     return num_projects
     
-def extract_batch_projects(projects_file: object) -> int:
-    project_name = str(uuid.uuid4())
+def extract_batch_projects(projects_file: object, project_name: uuid.UUID) -> int:
     unique_id = '{}_{}{}'.format(project_name, datetime.now().strftime("%Y_%m_%d_%H_%M_%S_"), datetime.now().microsecond)
     base_dir = os.getcwd()
 
@@ -330,7 +331,7 @@ def extract_batch_projects(projects_file: object) -> int:
             temp_extraction =  os.path.join(base_dir, 'uploads', 'batch_mode', unique_id)
             with ZipFile(temp_file, 'r') as zip_ref:
                 zip_ref.extractall(temp_extraction)
-    return temp_extraction, project_name
+    return temp_extraction
 
 def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dict:
     dict_metrics = {}
@@ -367,14 +368,15 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
                 dict_metrics[project_counter] =  {'Error': 'MultiValueDict'}
         elif '_urls' in request.POST:
             projects_file = request.FILES['urlsFile']
-            
+            batch_id = str(uuid.uuid4())
+
             if projects_file.content_type.endswith('zip') == False: 
                 # List of urls
                 projects = projects_file.readlines()
                 num_projects = len(projects)
             else:
-                # Str with temp path of projects
-                projects_path, batch_id = extract_batch_projects(projects_file)
+                # Str with temp path of projects   
+                projects_path = extract_batch_projects(projects_file, batch_id) 
                 num_projects = calc_num_projects(projects_path)
                 projects = projects_path
     

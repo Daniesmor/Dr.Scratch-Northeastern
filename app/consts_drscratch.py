@@ -70,3 +70,30 @@ URL_SCRATCH_SERVER = 'https://projects.scratch.mit.edu'
 URL_GETSB3 = 'http://127.0.0.1:3000/api'
 URL_SCRATCH_API = 'https://api.scratch.mit.edu/projects'
 
+
+EXTENDED_RUBRIC = {
+    'EXTENDED_POINTS': 36,
+    'ABSTRACTION': 4,
+    'LOGIC': 4,
+    'SYNCHRONIZATION': 4,
+    'FLOW_CONTROL': 4,
+    'PARALLELISM': 4,
+    'USER_INTERACTIVITY': 4,
+    'DATA_REPRESENTATION': 4,
+    'MATH_OPERATORS': 4,
+    'MOTION_OPERATORS': 4,
+    'BASIC_LIMIT': 0, #  0 < Points <= 7
+    'DEVELOPING_LIMIT': 7, #  7 < Points <= 14
+    'MASTER_LIMIT': 14, #  14 < Points <= 21
+    'ADVANCED_LIMIT': 21, #  21 < Points 
+}
+
+def get_mastery(avg_points: int) -> str:
+    if EXTENDED_RUBRIC['BASIC_LIMIT'] < avg_points <= EXTENDED_RUBRIC['DEVELOPING_LIMIT']:
+        return 'Developing'
+    elif EXTENDED_RUBRIC['DEVELOPING_LIMIT'] < avg_points <= EXTENDED_RUBRIC['MASTER_LIMIT']:
+        return 'Master'
+    elif avg_points <= EXTENDED_RUBRIC['ADVANCED_LIMIT']:
+        return 'Advanced'
+    else:
+        return 'Basic'
