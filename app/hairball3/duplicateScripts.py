@@ -2,6 +2,7 @@ from app.hairball3.plugin import Plugin
 from app.hairball3.scriptObject import Script
 import logging
 import coloredlogs
+import gc
 
 logger = logging.getLogger(__name__)
 coloredlogs.install(level='DEBUG', logger=logger)
@@ -20,6 +21,7 @@ class DuplicateScripts(Plugin):
         self.list_duplicate = []
         self.list_csv = []
 
+
     def get_blocks(self, dict_target):
         """
         Gets all the blocks in json format into a dictionary
@@ -35,6 +37,7 @@ class DuplicateScripts(Plugin):
         
         return out
     
+
     def set_sprite_dict(self):
         """
         Sets a dictionary containing the scripts of each sprite in Script() format
@@ -57,39 +60,30 @@ class DuplicateScripts(Plugin):
                     self.sprite_dict[sprite_name] = sprite_scripts
         
 
-
     def analyze(self):
         """
         Searches for intra duplicates of each sprite and outputs them
         """
         self.set_sprite_dict()
         for sprite, scripts in self.sprite_dict.items():
-            seen = set()
             sprite_duplicates = {}
             
             for script in scripts:
                 blocks = tuple(script.get_blocks())
-                if blocks not in sprite_duplicates.keys():
-                    if len(blocks) > 5:
+                if len(blocks) > 5:
+                    if blocks not in sprite_duplicates.keys():
                         sprite_duplicates[blocks] = [(script, sprite)]
-                else:
-                    sprite_duplicates[blocks].append((script, sprite))
-                seen.add(blocks)
+                    else:
+                        sprite_duplicates[blocks].append((script, sprite))
+                
+            sprite_duplicates = {k: v for k, v in sprite_duplicates.items() if len(v) > 1}
 
-            for key in seen:
-                if key in sprite_duplicates:
-                    if len(sprite_duplicates[key]) <= 1:
-                        sprite_duplicates.pop(key, None)
             self.duplicates.update(sprite_duplicates)
 
-
-        print("self.duplicates-------")
-        print(self.duplicates)
-        
         for key, value in self.duplicates.items():
             duplicated_scripts = [pair[0] for pair in value]
-            print("duplicated_Scripts")
-            print(duplicated_scripts)
+            #print("duplicated_Scripts")
+            #print(duplicated_scripts)
             csv_text = [script.get_blocks() for script in duplicated_scripts]
             script_text = "\n\n".join([script.convert_to_text() for script in duplicated_scripts])
             self.total_duplicate += sum(1 for _ in duplicated_scripts)
@@ -97,6 +91,19 @@ class DuplicateScripts(Plugin):
             self.list_csv.append(csv_text)
 
         return self.duplicates
+    
+    def _clear_resources(self):
+        """
+        This function forces the garbage collector
+        Python automatically ensures to run the garbage collector, but the batch mode
+        could manage a huge demand of project so could be efficient ensures that the gc
+        is collecting them only to be sure
+        """
+        self.sprite_dict = None
+        self.duplicates = None
+        self.list_duplicate = None
+        self.list_csv = None
+        gc.collect()
 
     def finalize(self) -> dict:
         self.analyze()
@@ -118,6 +125,8 @@ class DuplicateScripts(Plugin):
             logger.info(self.dict_mastery['list_duplicate_scripts'])
 
         dict_result = {'plugin': 'duplicate_scripts', 'result': self.dict_mastery}
+        self._clear_resources()
+        
 
         return dict_result
 

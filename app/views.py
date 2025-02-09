@@ -126,7 +126,8 @@ def calc_eta(num_projects: int) -> str:
     """
     last_ten = BatchCSV.objects.all().order_by('-date')[:10]
 
-    anal_time = sum(batch.task_time/batch.num_projects for batch in last_ten)/10
+    anal_time = sum(batch.task_time/batch.num_projects if batch.num_projects != 0 else 0
+                    for batch in last_ten)/10
     mean_tm = anal_time * num_projects
     eta_h = mean_tm // 3600
     eta_m = (mean_tm % 3600) // 60

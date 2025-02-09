@@ -1,8 +1,13 @@
 PLUGIN_DEADCODE_LIST_EVENT_VARS = [
-    "event_broadcastandwait", "event_whenflagclicked",
+    "event_whenflagclicked",
     "event_whengreaterthan", "event_whenkeypressed",
     "event_whenthisspriteclicked", "event_whenbackdropswitchesto",
-    "procedures_prototype", "procedures_definition"
+    "control_start_as_clone", "procedures_definition",
+    "event_whenbroadcastreceived"
+]
+
+PLUGIN_NON_STARTING_EVENTS = [
+    "event_broadcastandwait", "event_broadcast"
 ]
 
 PLUGIN_BACKDROPNAMING_DEFAULT_NAMES = [
@@ -28,6 +33,18 @@ PLUGIN_DEADCODE_LIST_LOOP_BLOCKS = [
     "control_if",
     "control_if_else",
     "control_repeat_until"
+]
+
+PLUGIN_DEADCODE_LIST_MENU_BLOCKS = [
+    "sensing_touchingobjectmenu",
+    "music_menu_INSTRUMENT",
+    "pen_menu_colorParam",
+    "note",
+    "text2speech_menu_voices",
+    "text2speech_menu_languages",
+    "translate_menu_languages",
+    "music_menu_DRUM",
+    
 ]
 
 PLUGIN_MASTERY_MAX_POINTS = 21

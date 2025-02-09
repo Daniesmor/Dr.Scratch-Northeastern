@@ -24,7 +24,7 @@ from app.models import Coder, File, Organization
 from app.scratchclient import ScratchSession
 from app.recomender import RecomenderSystem
 import app.consts_drscratch as consts
-
+from .translation import translate
 
 
 def save_analysis_in_file_db(request, zip_filename):
@@ -317,8 +317,6 @@ def generator_dic(request, id_project, skill_points: dict) -> dict:
     try:
         username = None
         path_project, file_obj, ext_type_project = send_request_getsb3(id_project, username, method="url")
-        if request.POST['batch_id']:
-            file_obj.batch_id = request.POST['batch_id']
         try:
             request.session['current_project_path'] = path_project
         except AttributeError:
@@ -551,163 +549,38 @@ def proc_backdrop_naming(lines, file_obj):
     return dic
 
 
-def translate(request, d, filename, vanilla=False):
-    """
-    Translate the output of Hairball
-    """
-
-    if request.LANGUAGE_CODE == "es":
-        d_translate_es = {'Abstracción': [d['Abstraction'], 'Abstraction'], 'Paralelismo': [d['Parallelization'], 'Parallelization'],
-                          'Pensamiento lógico': [d['Logic'], 'Logic'], 'Sincronización': [d['Synchronization'], 'Synchronization'],
-                          'Control de flujo': [d['FlowControl'], 'FlowControl'], 'Interactividad con el usuario': [d['UserInteractivity'], 'UserInteractivity'],
-                          'Representación de la información': [d['DataRepresentation'], 'DataRepresentation']}
-        if not vanilla: # Check that not is Vanilla Mode
-            d_translate_es.update({'Operadores matemáticos': [d['MathOperators'], 'MathOperators'], 'Operadores de movimiento': [d['MotionOperators'], 'MotionOperators']})
-        filename.language = "es"
-        filename.save()
-        return d_translate_es
-    elif request.LANGUAGE_CODE == "en":
-        d_translate_en = {'Abstraction': [d['Abstraction'], 'Abstraction'], 'Parallelism': [d['Parallelization'], 'Parallelization'], 'Logic': [d['Logic'], 'Logic'],
-                          'Synchronization': [d['Synchronization'], 'Synchronization'], 'Flow control': [d['FlowControl'], 'FlowControl'],
-                          'User interactivity': [d['UserInteractivity'], 'UserInteractivity'], 'Data representation': [d['DataRepresentation'], 'DataRepresentation']}
-        if not vanilla: 
-            d_translate_en.update({'Math operators': [d['MathOperators'], 'MathOperators'], 'Motion operators': [d['MotionOperators'], 'MotionOperators']})
-        filename.language = "en"
-        filename.save()
-        return d_translate_en
-    elif request.LANGUAGE_CODE == "ca":
-        d_translate_ca = {'Abstracció': [d['Abstraction'], 'Abstraction'], 'Paral·lelisme': [d['Parallelization'], 'Parallelization'], 'Lògica': [d['Logic'], 'Logic'],
-                          'Sincronització': [d['Synchronization'], 'Synchronization'], 'Controls de flux': [d['FlowControl'], 'FlowControl'],
-                          "Interactivitat de l'usuari": [d['UserInteractivity'], 'UserInteractivity'],
-                          'Representació de dades': [d['DataRepresentation'], 'DataRepresentation']}
-        if not vanilla: 
-            d_translate_ca.update({'Operadors matemàtics': [d['MathOperators'], 'MathOperators'], 'Operadors de moviment':  [d['MotionOperators'], 'MotionOperators']})
-        filename.language = "ca"
-        filename.save()
-        return d_translate_ca
-    elif request.LANGUAGE_CODE == "gl":
-        d_translate_gl = {'Abstracción': [d['Abstraction'], 'Abstraction'], 'Paralelismo': [d['Parallelization'], 'Parallelization'], 'Lóxica': [d['Logic'], 'Logic'],
-                          'Sincronización': [d['Synchronization'], 'Synchronization'], 'Control de fluxo': [d['FlowControl'], 'FlowControl'],
-                          "Interactividade do susario": [d['UserInteractivity'], 'UserInteractivity'],
-                          'Representación dos datos': [d['DataRepresentation'], 'DataRepresentation']}
-        if not vanilla: 
-            d_translate_gl.update({'Operadores matemáticos': [d['MathOperators'], 'MathOperators'], 'Operadores de movemento': [d['MotionOperators'], 'MotionOperators']})
-        filename.language = "gl"
-        filename.save()
-        return d_translate_gl
-
-    elif request.LANGUAGE_CODE == "pt":
-        d_translate_pt = {'Abstração': [d['Abstraction'], 'Abstraction'], 'Paralelismo': [d['Parallelization'], 'Parallelization'], 'Lógica': [d['Logic'], 'Logic'],
-                          'Sincronização': [d['Synchronization'], 'Synchronization'], 'Controle de fluxo': [d['FlowControl'], 'FlowControl'],
-                          "Interatividade com o usuário": [d['UserInteractivity'], 'UserInteractivity'],
-                          'Representação de dados': [d['DataRepresentation'], 'DataRepresentation']}
-        if not vanilla: 
-            d_translate_pt.update({'Operadores matemáticos': [d['MathOperators'], 'MathOperators'], 'Operadores de movimento': [d['MotionOperators'], 'MotionOperators']})
-        filename.language = "pt"
-        filename.save()
-        return d_translate_pt
-    
-    elif request.LANGUAGE_CODE == "el":
-        d_translate_el = {'Αφαίρεση': [d['Abstraction'], 'Abstraction'], 'Παραλληλισμός': [d['Parallelization'], 'Parallelization'], 'Λογική': [d['Logic'], 'Logic'],
-                          'Συγχρονισμός': [d['Synchronization'], 'Synchronization'], 'Έλεγχος ροής': [d['FlowControl'], 'FlowControl'],
-                          'Αλληλεπίδραση χρήστη': [d['UserInteractivity'], 'UserInteractivity'],
-                          'Αναπαράσταση δεδομένων': [d['DataRepresentation'], 'DataRepresentation']}
-        if not vanilla: 
-            d_translate_el.update({'Μαθηματικοί χειριστές': [d['MathOperators'], 'MathOperators'], 'Χειριστές κίνησης': [d['MotionOperators'], 'MotionOperators']})
-        filename.language = "el"
-        filename.save()
-        return d_translate_el
-
-    elif request.LANGUAGE_CODE == "eu":           
-        d_translate_eu = {'Abstrakzioa': [d['Abstraction'], 'Abstraction'], 'Paralelismoa': [d['Parallelization'], 'Parallelization'], 'Logika': [d['Logic'], 'Logic'],
-                          'Sinkronizatzea': [d['Synchronization'], 'Synchronization'], 'Kontrol fluxua': [d['FlowControl'], 'FlowControl'],
-                          'Erabiltzailearen elkarreragiletasuna': [d['UserInteractivity'], 'UserInteractivity'],
-                          'Datu adierazlea': [d['DataRepresentation'], 'DataRepresentation']}
-        if not vanilla: 
-            d_translate_eu.update({'Eragile matematikoak': [d['MathOperators'], 'MathOperators'], 'Mugimendu-eragileak': [d['MotionOperators'], 'MotionOperators']})
-        filename.language = "eu"
-        filename.save()
-        return d_translate_eu
-
-    elif request.LANGUAGE_CODE == "it":           
-        d_translate_it = {'Astrazione': [d['Abstraction'], 'Abstraction'], 'Parallelismo': [d['Parallelization'], 'Parallelization'], 'Logica': [d['Logic'], 'Logic'],
-                          'Sincronizzazione': [d['Synchronization'], 'Synchronization'], 'Controllo di flusso': [d['FlowControl'], 'FlowControl'],
-                          'Interattività utente': [d['UserInteractivity'], 'UserInteractivity'],
-                          'Rappresentazione dei dati': [d['DataRepresentation'], 'DataRepresentation']}
-        if not vanilla: 
-            d_translate_it.update({'Operatori matematici':  [d['MathOperators'], 'MathOperators'], 'Operatori del movimento': [d['MotionOperators'], 'MotionOperators']})
-        filename.language = "it"
-        filename.save()
-        return d_translate_it
-
-    elif request.LANGUAGE_CODE == "ru":
-        d_translate_ru = {'Абстракция': [d['Abstraction'], 'Abstraction'], 'Параллельность действий': [d['Parallelization'], 'Parallelization'],
-                          'Логика': [d['Logic'], 'Logic'], 'cинхронизация': [d['Synchronization'], 'Synchronization'],
-                          'Управление потоком': [d['FlowControl'], 'FlowControl'], 'Интерактивность': [d['UserInteractivity'], 'UserInteractivity'],
-                          'Представление данных': [d['DataRepresentation'], 'DataRepresentation']}
-        if not vanilla: 
-            d_translate_ru.update({'Математические операторы': [d['MathOperators'], 'MathOperators'], 'Операторы движения': [d['MotionOperators'], 'MotionOperators']})
-        filename.language = "ru"
-        filename.save()
-        return d_translate_ru
-
-    elif request.LANGUAGE_CODE == "tr":
-        d_translate_tr = {
-            'Soyutlama': [d['Abstraction'], 'Abstraction'], 'Paralellik': [d['Parallelization'], 'Parallelization'],
-            'Mantık': [d['Logic'], 'Logic'], 'Senkranizasyon': [d['Synchronization'], 'Synchronization'],
-            'Akış kontrolü': [d['FlowControl'], 'FlowControl'], 'Kullanıcı etkileşimi': [d['UserInteractivity'], 'UserInteractivity'],
-            'Veri temsili': [d['DataRepresentation'], 'DataRepresentation']
-        }
-        if not vanilla: 
-            d_translate_tr.update({'Matematiksel operatörler': [d['MathOperators'], 'MathOperators'], 'Hareket operatörleri': [d['MotionOperators'], 'MotionOperators']})
-        filename.language = "tr"
-        filename.save()
-        return d_translate_tr
-
-    else:
-        d_translate_en = {'Abstraction': [d['Abstraction'], 'Abstraction'], 'Parallelism': [d['Parallelization'], 'Parallelization'], 'Logic': [d['Logic'], 'Logic'],
-                          'Synchronization': [d['Synchronization'], 'Synchronization'], 'Flow control': [d['FlowControl'], 'FlowControl'],
-                          'User interactivity': [d['UserInteractivity'], 'UserInteractivity'], 'Data representation': [d['DataRepresentation'], 'DataRepresentation']}
-        if not vanilla: 
-            d_translate_en.update({'Math Operators': [d['MathOperators'], 'MathOperators'], 'Motion Operators': [d['MotionOperators'], 'MotionOperators']})
-        filename.language = "any"
-        filename.save()
-        return d_translate_en
-
-
-
-
 def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_points: dict):
 
     dict_analysis = {}
 
     dashboard = request.POST.get('dashboard_mode', 'Default')
     curr_type = request.POST.get('curr_type', '')
-    
+    batch_id = request.POST.get('batch_id', '')
+ 
     if os.path.exists(path_projectsb3):
         json_scratch_project = load_json_project(path_projectsb3)
         print("TRAZA DENTRO ANALYZE PROJECT (activar para ver dict del proyecto completo) --------------------------------")
         #print(json_scratch_project)
         dict_mastery = Mastery(path_projectsb3, json_scratch_project, skill_points, dashboard).finalize()
-        #dict_duplicate_script = DuplicateScripts(path_projectsb3, json_scratch_project).finalize()
-        #dict_dead_code = DeadCode(path_projectsb3, json_scratch_project,).finalize()
-        #result_sprite_naming = SpriteNaming(path_projectsb3, json_scratch_project).finalize()
-        #result_backdrop_naming = BackdropNaming(path_projectsb3, json_scratch_project).finalize()
+        dict_duplicate_script = DuplicateScripts(path_projectsb3, json_scratch_project).finalize()
+        dict_dead_code = DeadCode(path_projectsb3, json_scratch_project,).finalize()
+        result_sprite_naming = SpriteNaming(path_projectsb3, json_scratch_project).finalize()
+        result_backdrop_naming = BackdropNaming(path_projectsb3, json_scratch_project).finalize()
         #result_block_sprite_usage = Block_Sprite_Usage(path_projectsb3, json_scratch_project).finalize()
-        #refactored_code = RefactorDuplicate(json_scratch_project, dict_duplicate_script).refactor_duplicates()
+        if not batch_id:
+            refactored_code = RefactorDuplicate(json_scratch_project, dict_duplicate_script).refactor_duplicates()
 
         print("--------------------- DUPLICATED CODE DICT ---------------------")
-        #print(refactored_code)
+        print(refactored_code)
         print("--------------------- DEAD CODE DICT ---------------------------")
-        #print(dict_dead_code)
+        print(dict_dead_code)
         print("--------------------- SPRITE NAMING DICT -----------------------")
-        #print(result_sprite_naming)
+        print(result_sprite_naming)
         print("--------------------- BACKDROP NAMING DICT ---------------------")
-        #print(result_backdrop_naming)
+        print(result_backdrop_naming)
         print("----------------------------------------------------------------")
         
         # RECOMENDER SECTION
-        """
         if (dashboard == 'Recommender'):
             dict_recom = {}
             recomender = RecomenderSystem(curr_type)
@@ -716,13 +589,14 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
             dict_recom["backdropNaming"] = recomender.recomender_backdrop(result_backdrop_naming)
             dict_recom["duplicatedScripts"] = recomender.recomender_duplicatedScripts(dict_duplicate_script, refactored_code)
             dict_analysis.update(proc_recomender(dict_recom))
-        """
+        
         dict_analysis.update(proc_mastery(request, dict_mastery, file_obj))
-        #dict_analysis.update(proc_duplicate_script(dict_duplicate_script, file_obj))
-        #dict_analysis.update(proc_dead_code(dict_dead_code, file_obj))
-        #dict_analysis.update(proc_sprite_naming(result_sprite_naming, file_obj))
-        #dict_analysis.update(proc_backdrop_naming(result_backdrop_naming, file_obj))
-        #dict_analysis.update(proc_refactored_code(refactored_code))
+        dict_analysis.update(proc_duplicate_script(dict_duplicate_script, file_obj))
+        dict_analysis.update(proc_dead_code(dict_dead_code, file_obj))
+        dict_analysis.update(proc_sprite_naming(result_sprite_naming, file_obj))
+        dict_analysis.update(proc_backdrop_naming(result_backdrop_naming, file_obj))
+        if not batch_id:
+            dict_analysis.update(proc_refactored_code(refactored_code))
         #dict_analysis.update(proc_block_sprite_usage(result_block_sprite_usage, file_obj))
         # dict_analysis.update(proc_urls(request, dict_mastery, file_obj))
         # dictionary.update(proc_initialization(resultInitialization, filename))
