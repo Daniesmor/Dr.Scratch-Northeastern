@@ -317,6 +317,7 @@ def generator_dic(request, id_project, skill_points: dict) -> dict:
     try:
         username = None
         path_project, file_obj, ext_type_project = send_request_getsb3(id_project, username, method="url")
+        file_obj.batch_id = request.POST.get('batch_id', '') if request.POST.get('batch_id') else None
         try:
             request.session['current_project_path'] = path_project
         except AttributeError:
@@ -570,15 +571,17 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         if not batch_id:
             refactored_code = RefactorDuplicate(json_scratch_project, dict_duplicate_script).refactor_duplicates()
 
-        print("--------------------- DUPLICATED CODE DICT ---------------------")
-        print(refactored_code)
-        print("--------------------- DEAD CODE DICT ---------------------------")
-        print(dict_dead_code)
-        print("--------------------- SPRITE NAMING DICT -----------------------")
-        print(result_sprite_naming)
-        print("--------------------- BACKDROP NAMING DICT ---------------------")
-        print(result_backdrop_naming)
-        print("----------------------------------------------------------------")
+        if not batch_id:
+            print("--------------------- DUPLICATED CODE DICT ---------------------")
+            print(dict_duplicate_script)
+            print(refactored_code)
+            print("--------------------- DEAD CODE DICT ---------------------------")
+            print(dict_dead_code)
+            print("--------------------- SPRITE NAMING DICT -----------------------")
+            print(result_sprite_naming)
+            print("--------------------- BACKDROP NAMING DICT ---------------------")
+            print(result_backdrop_naming)
+            print("----------------------------------------------------------------")
         
         # RECOMENDER SECTION
         if (dashboard == 'Recommender'):

@@ -30,7 +30,7 @@ vanilla_metrics_fields = [
 ]
 
 
-bad_smells_fields = ['deadcode', 'duplicateScript', 'spriteNaming', 'initialization']
+bad_smells_fields = ['deadCode', 'duplicateScript', 'spriteNaming', 'initialization']
 other_extended_fields = ['Error']
 common_metrics = ['total_points','Abstraction', 'Parallelization', 'Logic', 'Synchronization',
         'FlowControl', 'UserInteractivity', 'DataRepresentation']
@@ -174,7 +174,8 @@ def create_csv(request, temp_dict_metrics) -> uuid.UUID:
         "score",
         "filename", 
         "extended_metrics", 
-        "vanilla_metrics", 
+        "vanilla_metrics",
+        "deadCode", 
         "duplicateScript", 
         "spriteNaming", 
         "initialization"

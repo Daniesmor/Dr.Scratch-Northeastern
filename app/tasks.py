@@ -75,7 +75,7 @@ def process_multiple_or_file(request_data_obj: object, skill_points: dict, proje
         for file_path in gen_filepath(projects_file):
             if os.path.exists(file_path):
                 process_single_file(request_data_obj, file_path, skill_points)
-            clean_temporary_files(projects_file)
+        clean_temporary_files(projects_file)
 
 
 def clean_temporary_files(directory):
