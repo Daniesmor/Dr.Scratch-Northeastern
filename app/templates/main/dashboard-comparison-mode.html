@@ -20,23 +20,6 @@
                             <input type="hidden" name="urlProject" value="{{ url }}">
                             {% trans '<input name="urlProject" id="cf-name" class="form-control input-box placeholder" placeholder="http:/scratch.mit.edu/projects/your_number" type="text">' %}
                             <p id="project-warning" style="display: none;"><span class='colored-text'>{% trans "Please enter a project!" %}</span></p>
-                            <div class="form-check">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    {% trans "Is the new project an update from the original?" %}
-                                </label>
-                                <div class="col-md-6" style="padding-left: 25%; padding-top: 8px;">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="same_functionality" id="inlineRadio1" value="True" required>
-                                        <label class="form-check-label" for="inlineRadio1">{% trans 'Yes' %}</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6" style="padding-right: 25%; padding-top: 8px;">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="same_functionality" id="inlineRadio1" value="False" required>
-                                        <label class="form-check-label" for="inlineRadio1">{% trans 'No' %}</label>
-                                    </div>
-                                </div>
-                            </div>
                             <button id="compare-projects-button" class="btn btn-primary standard-button">{% trans "Compare projects" %}</button>
                             {% csrf_token %}
                         </form>
@@ -53,7 +36,19 @@
             const form = document.getElementById("form-compare");
             const formData = new FormData(form);
 
-            fetch('{% url "get_comparison" %}', {
+            // Obtener la URL actual
+            let currentUrl = window.location.pathname;
+
+            // Extraer el identificador si existe después de /show_dashboard/
+            let match = currentUrl.match(/^\/show_dashboard\/([a-zA-Z0-9]+)\/?$/);
+            let identifier = match ? match[1] : "";
+
+            // Construir la URL de comparación con o sin identificador
+            let comparisonUrl = identifier 
+                ? `/get_comparison/${identifier}` 
+                : `{% url "get_comparison" %}`;
+
+            fetch(comparisonUrl, {
                 method: "POST",
                 body: formData,
                 headers: {
@@ -482,13 +477,13 @@
                                                             </th>
                                                             <th colspan="2" style="text-align: center;">
                                                                 <h4>
-                                                                    {% trans "BEFORE" %}
+                                                                    {% trans "Original Project" %}
                                                                     <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Grade of each Dimension' %}"></i>
                                                                 </h4>
                                                             </th>
                                                             <th colspan="2" style="text-align: center;">
                                                                 <h4>
-                                                                    {% trans "AFTER" %}
+                                                                    {% trans "New Project" %}
                                                                     <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Grade of each Dimension' %}"></i>
                                                                 </h4>
                                                             </th>

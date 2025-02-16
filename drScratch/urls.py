@@ -28,7 +28,7 @@ urlpatterns = [
     url(r'^get_recommender/.*$', app_views.get_recommender, name='get_recommender'),
 
     # API COMPARISON
-    url(r'^get_comparison/.*$', app_views.get_comparison, name='get_comparison'),
+    url(r'^get_comparison/(?P<skill_points>.{1,6})?$', app_views.get_comparison, name='get_comparison'),
     
     
     # CONTACT FORM

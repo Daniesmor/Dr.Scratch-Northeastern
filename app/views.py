@@ -216,19 +216,18 @@ def remove_circular_references(dictionary):
 @csrf_exempt
 def get_comparison(request, skill_points=None):
     if request.method == 'POST':
-        numbers = ''
+        url = request.path.split('/')[-1]
+        if url != '':
+            numbers = base32_to_str(url)
+        else:
+            numbers = ''
         skill_rubric = generate_rubric(numbers)
         user = str(identify_user_type(request))
-        print("Mode:", request.POST)
         d = build_dictionary_with_automatic_analysis(request, skill_rubric)
+        d = d.get(0)
         print("-------------------- COMPARISON -------------------------")
         print("Context Dictionary:")
         print(d)
-        print("Skill rubric")
-        print(skill_rubric)
-        d = d.get(0)
-        print("-------------------- DIC COMPARISON -------------------------")  
-        print(remove_circular_references(d['Comparison']))
 
         return JsonResponse(remove_circular_references(d['Comparison']))
     else:

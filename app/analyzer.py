@@ -129,7 +129,6 @@ def _make_compare(request, skill_points: dict):
         dict_scratch_golfing = dict_scratch_golfing['result']['scratch_golfing']
 
         d[project_counter]['Comparison']['Compare'] = dict_scratch_golfing
-        check_same_functionality(request, d, project_counter)
 
         if "_url_compare" in request.POST:
             d[project_counter]['Comparison']['dashboard_mode'] = "Default"
@@ -149,20 +148,6 @@ def check_project(counter):
         project = "New"
     return project
 
-def check_same_functionality(request, d, project_counter):
-    """
-    Check if the projects have the same functionality
-    """
-    same_functionality = request.POST.get('same_functionality') == "True"
-    print("Same functionality:", same_functionality)
-    if same_functionality:
-            d[project_counter]['Comparison']['Compare'].update({
-                'same_functionality': True
-            })
-    else: 
-        d[project_counter]['Comparison']['Compare'].update({
-            'same_functionality': False
-        })
 
 def return_scratch_project_identifier(url) -> str:
     """
@@ -283,8 +268,8 @@ def download_scratch_project_from_servers(path_project, id_project):
             json_string_format = response_from_scratch.read()
         
         json_data = json.loads(json_string_format)
-        print("PATH JSON TEMPORARY FILE in dspfs---------------------------------------------------------")
-        print(json_data)
+        # print("PATH JSON TEMPORARY FILE in dspfs---------------------------------------------------------")
+        # print(json_data)
         resulting_file = open(path_json_file, 'wb')
         resulting_file.write(json_string_format)
         resulting_file.close()
@@ -739,7 +724,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
     if os.path.exists(path_projectsb3):
         json_scratch_project = load_json_project(path_projectsb3)
         print("TRAZAAA DENTRO ANALYZE PROJECT --------------------------------")
-        print(json_scratch_project)
+        # print(json_scratch_project)
         try:
             dict_mastery = Mastery(path_projectsb3, json_scratch_project, skill_points, dashboard).finalize()
         except Exception:
