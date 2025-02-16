@@ -77,11 +77,6 @@ a:focus{
     color: #1792A4;
 }
 
-
-#footer .btn,
-.btn{
-}
-
 .btn:hover,
 .btn:focus,
 #footer .btn:hover,
@@ -102,6 +97,25 @@ a:focus{
     
 
 }
+
+.tab-button {
+    background-color: #1792A4 !important;  /* Azul verdoso */
+    color: white !important;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.tab-button:hover {
+    background-color: #127B88 !important; /* Azul verdoso más oscuro al pasar el cursor */
+}
+
+.tab-button.active {
+    background-color: #1FB3C7 !important; /* Azul verdoso más claro al hacer clic */
+}
+
 #improve{
     border-color:#A3D5D1;
     -webkit-box-shadow: 0px 0px 13px -2px rgba(0,0,0,0.75);

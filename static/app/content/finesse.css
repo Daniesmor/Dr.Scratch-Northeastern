@@ -86,6 +86,25 @@ a:focus{
     
 
 }
+
+.tab-button {
+    background-color: #FA2EFA !important;  /* Magenta */
+    color: white !important;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.tab-button:hover {
+    background-color: #D026D0 !important; /* Magenta más oscuro al pasar el cursor */
+}
+
+.tab-button.active {
+    background-color: #FF70FF !important; /* Magenta más claro al hacer clic */
+}
+
 #improve{
     border-color:#f3c4ff;
     -webkit-box-shadow: 0px 0px 13px -2px rgba(0,0,0,0.75);

@@ -85,6 +85,26 @@ a:focus{
     padding-top: 90px;
 
 }
+
+.tab-button {
+    background-color: #91C470 !important;  /* Verde */
+    color: white !important;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.tab-button:hover {
+    background-color: #7AA65E !important; /* Verde más oscuro al pasar el cursor */
+}
+
+.tab-button.active {
+    background-color: #A8D180 !important; /* Verde más claro al hacer clic */
+}
+
+
 #improve{
     border-color:#CCDD91;
      -webkit-box-shadow: 0px 0px 13px -2px rgba(0,0,0,0.75);
