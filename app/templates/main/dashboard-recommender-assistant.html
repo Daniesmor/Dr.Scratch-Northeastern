@@ -1,11 +1,4 @@
 {% load i18n %}
-
-<div id="Recommender" class="tabcontent">
-    <div class="container" id="stepone">
-        <section id="dashboard" style="padding-top: 0px;">
-           
-        </section>
-    </div>
     
     <style>
         /* Estilos para la sección */
@@ -263,81 +256,208 @@
             });
             
         }
-        // Function to reload AJAX data of scratch projects
-        var urlProject = "{{ url|escapejs }}";
-        $(document).ready(function() {
-            $('#test-again').click(function(e) {
-                e.preventDefault()
-                $('#loading-spinner').show();
-                $.ajax({
-                    type: 'POST',
-                    data: {
-                        'dashboard_mode': 'Default',
-                        'urlProject': urlProject,
-                        '_url': '',
-                        'curr_type': '{{ recomenderSystem.type|escapejs }}'
-                    },
-                    url: '{% url "get_recommender" %}',
-                    success: function(data) {
-                        document.getElementById('loading-spinner').style.display = 'none';
-                        document.getElementById('test-again').style.display = 'none';
-                        document.getElementById('typed-message').innerHTML = '';
-                        document.getElementById('typed-explanation').innerHTML = '';
-                        document.getElementById('typed-farwell').innerHTML = '';
-                        document.getElementById('blocks-recomender').style.display = 'none';
-                        document.getElementById('block-selector').style.display = 'none';
-
-                        // Initialize dynamic content again
-                        initPrompt(data);
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error reloading data:', error);
-                    }
-                });
-            });
-        });
-
         document.addEventListener("DOMContentLoaded", function() {
             initPrompt();
         });
     </script>
 
-    
-        <div class="container d-flex justify-content-center">
-            <div class="col-md-9">
-                <section id="dashboard" style="padding-top: 3.5%;">
-                    <div class="card" style="min-height: 80px;">
-                        <div class="container-fluid">   
-                            <div class="row" style="margin-top: 10px;">
-                                <div class="col-md-1 d-flex">
-                                    <img src="/static/app/images/cat_chat.png" class="position-absolute top-20 start-90" style="max-width: 100%; width: 100%; padding: 10px;" alt="">
-                                </div>
-                                <div class="col-md-11">
-                                    <div id="typed-message" class="typed-family"></div>
-                                    <div id="block-selector" style="display: none;">
-                                        <a id="prevBlock" style="cursor: pointer;"> &lt; </a><span class="typed-family" id="currSelValue">1</span><span class="typed-family"> / </span><span  class="typed-family" id="totSelValue">30</span><a id="nextBlock" style="cursor: pointer;"> &gt;</a>                                     
-                                    </div>
-                                    <div id="blocks-recomender" class="typed-family"></div>
-                                    <br>
-                                    <div id="typed-explanation" class="typed-family"></div>
-                                    <br>
-                                    <div id="typed-farwell" class="typed-family"></div>
-                                    <br>
-                                    <div class="d-flex align-items-center">
-                                        <button id="test-again" class="typed-family btn btn-primary" style="display: none; color: #ffff;">Fixed it!</button>  
-                                        <div class="spinner" id="loading-spinner"></div>
-                                    </div>        
-                                    <br>
-                                </div>
-                            </div>
+    <div id="Recommender" class="tabcontent">
+        <!-- Sección inicial con la pregunta -->
+        <section id="blackboard-recommend" class="services col-md-8" style="padding-top: 3.5%; width: 70%; margin-left: 15%;">
+            <div class="improve">
+                <div class="panel panel-success" id="improve" style="width: 50%; margin-left: 25%;">
+                    <div id="stepfour">
+                        <div class="panel-heading">
+                            <h2 id="score" class="panel-title dark-text">
+                                {% trans "Do you want a recommendation?" %}
+                                <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Click to receive a recommendation based on your project' %}"></i>
+                            </h2>
+                        </div>
+                        <div class="panel-success" style="word-break: break-word; text-align: center; padding: 20px;">
+                            <button id="get-recommendation" class="btn btn-primary standard-button">
+                                {% trans "Get Recommendation" %}
+                            </button>
+                            <div class="spinner" id="loading-spinner" style="display: none; margin-top: 10px;"></div>
                         </div>
                     </div>
-                    
-                    
-                    <br></br>
-    
-                </section>
+                </div>
             </div>
-            <br></br>
-        </div>
-</div>
+        </section>
+    
+        <!-- Contenedor donde se insertará la recomendación -->
+        <div id="recommendation-content"></div>
+    </div>
+    
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var btnGetRecommendation = document.getElementById("get-recommendation");
+            var spinner = document.getElementById("loading-spinner");
+            var recommenderContainer = document.getElementById("Recommender");
+            var blackboardRecommend = document.getElementById("blackboard-recommend");
+            var recommendationContent = document.getElementById("recommendation-content");
+    
+            btnGetRecommendation.addEventListener("click", function () {
+                // Mostrar el spinner y desactivar el botón mientras carga la recomendación
+                spinner.style.display = "block";
+                btnGetRecommendation.disabled = true;
+    
+                // Obtener la URL del proyecto
+                var projectUrl = "{{ url }}";
+                console.log("Enviando urlProject_recom:", projectUrl);
+    
+                // Hacer la solicitud AJAX con datos en formato x-www-form-urlencoded
+                fetch("{% url 'get_recommender' %}", {
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": "{{ csrf_token }}",
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: new URLSearchParams({
+                        "dashboard_mode": "Recommender",
+                        "urlProject_recom": projectUrl,
+                        "_url_recom": "",
+                        "curr_type": "{{ recomenderSystem.type|escapejs }}"
+                    })
+                })
+                .then(response => response.json())  // Esperar JSON como respuesta
+                .then(data => {
+                    console.log("Respuesta recibida:", data); // Verificar qué datos devuelve el servidor
+    
+                    // Eliminar la sección de la pregunta inicial
+                    blackboardRecommend.remove();
+    
+                    // Reemplazar el contenido dentro de #Recommender
+                    recommenderContainer.innerHTML = `
+                        <div class="container">
+                            <section id="dashboard" style="padding-top: 3.5%;">
+                                <div class="card" style="min-height: 80px;">
+                                    <div class="container-fluid">   
+                                        <div class="row" style="margin-top: 10px;">
+                                            <div class="col-md-1 d-flex">
+                                                <img src="/static/app/images/cat_chat.png" class="position-absolute top-20 start-90" style="max-width: 100%; width: 100%; padding: 10px;" alt="">
+                                            </div>
+                                            <div class="col-md-11">
+                                                <div id="typed-message" class="typed-family"></div>
+                                                <div id="block-selector" style="display: none;">
+                                                    <a id="prevBlock" style="cursor: pointer;"> &lt; </a>
+                                                    <span class="typed-family" id="currSelValue">1</span>
+                                                    <span class="typed-family"> / </span>
+                                                    <span class="typed-family" id="totSelValue">30</span>
+                                                    <a id="nextBlock" style="cursor: pointer;"> &gt;</a>                                     
+                                                </div>
+                                                <div id="blocks-recomender" class="typed-family"></div>
+                                                <br>
+                                                <div id="typed-explanation" class="typed-family"></div>
+                                                <br>
+                                                <div id="typed-farwell" class="typed-family"></div>
+                                                <br>
+                                                <div class="d-flex align-items-center">
+                                                    <button id="test-again" class="typed-family btn btn-primary" style="display: none; color: #ffff;">Fixed it!</button>  
+                                                    <div class="spinner" id="loading-spinner"></div>
+                                                </div>        
+                                                <br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>`;
+
+                    // Insertar el script dinámicamente
+                    let script = document.createElement("script");
+                    script.textContent = `
+                    $(document).ready(function() {
+                        scratchblocks.renderMatching('pre.blocks', {
+                        style:     'scratch3',   // Optional, defaults to 'scratch2'.
+                        languages: ['en'], // Optional, defaults to ['en'].
+                        scale: 0.5,                // Optional, defaults to 1
+                        });
+                    })
+                    `;
+                    // Agregar el script al body para que se ejecute
+                    document.body.appendChild(script);
+    
+                    // Llamar a la función que activa la animación de escritura
+                    initPrompt(data);
+
+                    
+                })
+                .catch(error => {
+                    console.error("Error al obtener la recomendación:", error);
+                    alert("Error al obtener la recomendación. Inténtalo de nuevo.");
+                })
+                .finally(() => {
+                    // Ocultar el spinner y reactivar el botón
+                    spinner.style.display = "none";
+                    btnGetRecommendation.disabled = false;
+                });
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener("click", function (event) {
+            if (event.target && event.target.id === "test-again") {
+                console.log("Fixed it! clickeado");
+                realizarPost();
+            }
+        });
+    </script>
+        
+
+    <script>
+        function realizarPost() {
+            var urlProject = "{{ url|escapejs }}";
+        
+            $(document).on("click", "#test-again", function(e) {
+                e.preventDefault();
+                $('#loading-spinner').show();
+        
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "get_recommender" %}',
+                    headers: { "X-CSRFToken": "{{ csrf_token }}" },
+                    data: {
+                        "dashboard_mode": "Recommender",
+                        "urlProject_recom": urlProject,
+                        "_url_recom": "",
+                        "curr_type": "{{ recomenderSystem.type|escapejs }}"
+                    },
+                    success: function(data) {
+                        console.log("Respuesta recibida (Fixed):", data);
+        
+                        // Ocultar el spinner
+                        $('#loading-spinner').hide();
+                        $('#test-again').hide();
+        
+                        // 🔥 RESET ANIMACIONES Typed.js SI EXISTEN 🔥
+                        if (window.typed_message) {
+                            window.typed_message.destroy();
+                            window.typed_message = null;
+                        }
+                        if (window.typed_explanation) {
+                            window.typed_explanation.destroy();
+                            window.typed_explanation = null;
+                        }
+                        if (window.typed_farewell) {
+                            window.typed_farewell.destroy();
+                            window.typed_farewell = null;
+                        }
+        
+                        // 🔄 LIMPIAR CONTENIDO PARA EVITAR ANIMACIONES DUPLICADAS
+                        $('#typed-message, #typed-explanation, #typed-farwell').html('');
+                        $('#blocks-recomender, #block-selector').hide();
+        
+                        // 🔄 VOLVER A INICIALIZAR EL CONTENIDO CON LOS NUEVOS DATOS
+                        initPrompt(data);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error al recargar datos:', error);
+                        alert('Error al obtener la recomendación. Inténtalo de nuevo.');
+                    }
+                });
+            });
+        }
+        
+    </script>
