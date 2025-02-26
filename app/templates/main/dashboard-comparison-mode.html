@@ -5,7 +5,7 @@
     <section id="blackboard compare" class="services col-md-8" style="padding-top: 3.5%; width: 70%; margin-left: 15%;">
         <!-- Este es el contenido inicial que se reemplazará al recibir la respuesta -->
         <div class="improve">
-            <div class="panel panel-success" id="improve">
+            <div class="panel panel-success" id="improve" style="width: 50%; margin-left: 25%;">
                 <div id="stepfour">
                     <div class="panel-heading">
                         <h2 id="score" class="panel-title dark-text">
@@ -14,11 +14,14 @@
                         </h2>
                     </div>
                     <div class="panel-success" style="word-break: break-word;">
+                        <p>
+                            {% trans "Enter the URL of the project you want to compare:" %}
+                        </p>
                         <form id="form-compare" name="form" class="project-form" enctype="multipart/form-data" method="post" style="margin: 10px" target="_blank">
                             <input type="hidden" name="dashboard_mode" value="Default">
                             <input type="hidden" name="_url_compare" value="Url">
                             <input type="hidden" name="urlProject" value="{{ url }}">
-                            {% trans '<input name="urlProject" id="cf-name" class="form-control input-box placeholder" placeholder="http:/scratch.mit.edu/projects/your_number" type="text">' %}
+                            {% trans '<input name="urlProject" id="cf-name" class="form-control input-box" placeholder="http:/scratch.mit.edu/projects/your_number" type="text">' %}
                             <p id="project-warning" style="display: none;"><span class='colored-text'>{% trans "Please enter a project!" %}</span></p>
                             <button id="compare-projects-button" class="btn btn-primary standard-button">{% trans "Compare projects" %}</button>
                             {% csrf_token %}
