@@ -30,7 +30,7 @@ vanilla_metrics_fields = [
 ]
 
 
-bad_smells_fields = ['deadCode', 'duplicateScript', 'spriteNaming', 'initialization']
+bad_smells_fields = ['deadCode', 'duplicateScript', 'spriteNaming', 'backdropNaming']
 other_extended_fields = ['Error']
 common_metrics = ['total_points','Abstraction', 'Parallelization', 'Logic', 'Synchronization',
         'FlowControl', 'UserInteractivity', 'DataRepresentation']
@@ -178,7 +178,7 @@ def create_csv(request, temp_dict_metrics) -> uuid.UUID:
         "deadCode", 
         "duplicateScript", 
         "spriteNaming", 
-        "initialization"
+        "backdropNaming"
     )
     create_batch_obj(batch_id, batches)
     row_generator = process_batches(batches)

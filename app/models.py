@@ -18,6 +18,7 @@ class File(models.Model):
     vanilla_metrics = models.JSONField(default=dict)
     extended_metrics = models.JSONField(default=dict)
     spriteNaming = models.IntegerField()
+    backdropNaming = models.IntegerField()
     initialization = models.IntegerField()
     deadCode = models.IntegerField()
     duplicateScript = models.IntegerField()

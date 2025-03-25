@@ -3,10 +3,11 @@ from app.hairball3.scriptObject import Script
 import logging
 import coloredlogs
 import gc
+from memory_profiler import profile
+
 
 logger = logging.getLogger(__name__)
 coloredlogs.install(level='DEBUG', logger=logger)
-
 
 class DuplicateScripts(Plugin):
     """
@@ -20,7 +21,6 @@ class DuplicateScripts(Plugin):
         self.duplicates = {}
         self.list_duplicate = []
         self.list_csv = []
-
 
     def get_blocks(self, dict_target):
         """
@@ -37,7 +37,6 @@ class DuplicateScripts(Plugin):
         
         return out
     
-
     def set_sprite_dict(self):
         """
         Sets a dictionary containing the scripts of each sprite in Script() format
@@ -59,7 +58,6 @@ class DuplicateScripts(Plugin):
                             sprite_scripts.append(new_script)
                     self.sprite_dict[sprite_name] = sprite_scripts
         
-
     def analyze(self):
         """
         Searches for intra duplicates of each sprite and outputs them
@@ -103,7 +101,8 @@ class DuplicateScripts(Plugin):
         self.duplicates = None
         self.list_duplicate = None
         self.list_csv = None
-        gc.collect()
+        self.json_project = None
+        #gc.collect()
 
     def finalize(self) -> dict:
         self.analyze()

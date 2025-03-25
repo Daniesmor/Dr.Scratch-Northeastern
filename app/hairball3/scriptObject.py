@@ -1,5 +1,6 @@
 import tracemalloc
-
+from memory_profiler import profile
+import gc
 
 BLOCK_TEXT = {
     "CONTROL_FOREVER": "forever",
@@ -398,6 +399,7 @@ class Script():
         self.vars = {}
         self.blocks = []
 
+
     def parser_block(self, block_dict, block_name):
         """
         Searches through each block and outputs a dictionary with all the contents inside the block
@@ -483,17 +485,17 @@ class Script():
         current = start
         curr_dict = {}
 
-        tracemalloc.start()
-        MEMORY_LIMIT_GB = 0.5
+        #tracemalloc.start()
+        #MEMORY_LIMIT_GB = 0.5
 
         while True:
             current_block = self.parser_block(block_dict=block_dict, block_name=current)
 
-            current_memory = tracemalloc.get_traced_memory()[1] / (1024 ** 3) 
+            #current_memory = tracemalloc.get_traced_memory()[1] / (1024 ** 3) 
             #print(f"    Memory used at the moment parsing the script: {current_memory:.2f} GB")
-            if current_memory > MEMORY_LIMIT_GB:
-                print(f"    Detected huge use of memory: {current_memory:.2f} GB. Finalized.")
-                break
+            #if current_memory > MEMORY_LIMIT_GB:
+                #print(f"    Detected huge use of memory: {current_memory:.2f} GB. Finalized.")
+                #break
 
             # For "if" blocks or "ifelse" blocks
             for i, child_key in enumerate(self.child_keys):
@@ -501,6 +503,7 @@ class Script():
                     input_block = block_dict[current]['inputs'][child_key][1]
                     if input_block:
                         current_block[[*current_block][0]][f'child_{i}'] = self.parser_script(block_dict, input_block)
+                        del input_block
                     else:
                         current_block[[*current_block][0]][f'child_{i}'] = None
 
@@ -512,10 +515,12 @@ class Script():
             else:
                 break
 
-        tracemalloc.stop()
+        #tracemalloc.stop()
+        del current, current_block, next_block
+        #gc.collect()
+
         return curr_dict
 
-    
     def set_script_dict(self, block_dict, start):
 
         self.counter_vars = 0

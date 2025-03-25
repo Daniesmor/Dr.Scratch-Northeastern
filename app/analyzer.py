@@ -25,6 +25,7 @@ from app.scratchclient import ScratchSession
 from app.recomender import RecomenderSystem
 import app.consts_drscratch as consts
 from .translation import translate
+from memory_profiler import profile
 
 
 def save_analysis_in_file_db(request, zip_filename):
@@ -45,20 +46,20 @@ def save_analysis_in_file_db(request, zip_filename):
                         organization=username,
                         method=method, batch_id=batch_id, time=now,
                         score=0, vanilla_metrics={}, extended_metrics={},
-                        spriteNaming=0, initialization=0,
+                        spriteNaming=0, backdropNaming=0,initialization=0,
                         deadCode=0, duplicateScript=0)
     elif Coder.objects.filter(username=username):
         filename_obj = File(filename=filename,
                         coder=username,
                         method=method, batch_id=batch_id, time=now,
                         score=0, vanilla_metrics={}, extended_metrics={},
-                        spriteNaming=0, initialization=0,
+                        spriteNaming=0, backdropNaming=0, initialization=0,
                         deadCode=0, duplicateScript=0)
     else:
         filename_obj = File(filename=filename,
                         method=method, batch_id=batch_id, time=now,
                         score=0, vanilla_metrics={}, extended_metrics={},
-                        spriteNaming=0, initialization=0,
+                        spriteNaming=0, backdropNaming=0, initialization=0,
                         deadCode=0, duplicateScript=0)
 
     filename_obj.save()
@@ -284,20 +285,20 @@ def send_request_getsb3(id_project, username, method, batch=None):
                         organization=username,
                         method=method, batch_id=None, time=now,
                         score=0, vanilla_metrics={}, extended_metrics={},
-                        spriteNaming=0, initialization=0,
+                        spriteNaming=0, backdropNaming=0, initialization=0,
                         deadCode=0, duplicateScript=0)
     elif Coder.objects.filter(username=username):
         file_obj = File(filename=file_url,
                         coder=username,
                         method=method, batch_id=None, time=now,
                         score=0, vanilla_metrics={}, extended_metrics={},
-                        spriteNaming=0, initialization=0,
+                        spriteNaming=0, backdropNaming=0, initialization=0,
                         deadCode=0, duplicateScript=0)
     else:
         file_obj = File(filename=file_url,
                         method=method, batch_id=None, time=now,
                         score=0, vanilla_metrics={}, extended_metrics={},
-                        spriteNaming=0, initialization=0,
+                        spriteNaming=0, backdropNaming=0, initialization=0,
                         deadCode=0, duplicateScript=0)
     
     file_obj.save()
@@ -313,7 +314,6 @@ def generator_dic(request, id_project, skill_points: dict) -> dict:
     """
     Return a dictionary with static analysis and errors
     """
-
     try:
         username = None
         path_project, file_obj, ext_type_project = send_request_getsb3(id_project, username, method="url")
@@ -348,9 +348,6 @@ def generator_dic(request, id_project, skill_points: dict) -> dict:
         shutil.copy(old_path_project, new_path_project)
         return {'Error': 'analyzing'}
 
-    # Redirect to dashboard for unregistered user
-    d['Error'] = 'None'
-
     return d
 
 
@@ -369,12 +366,10 @@ def check_version(filename):
 
     return version
 
-
+#@profile
 def load_json_project(path_projectsb3):
     try:
-        zip_file = ZipFile(path_projectsb3, "r")
-        json_project = json.loads(zip_file.open("project.json").read())
-        return json_project
+        return json.loads(ZipFile(path_projectsb3, "r").open("project.json").read())
     except BadZipfile:
         print('Bad zipfile')
  
@@ -549,7 +544,8 @@ def proc_backdrop_naming(lines, file_obj):
 
     return dic
 
-
+import sys
+#@profile
 def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_points: dict):
 
     dict_analysis = {}
@@ -564,13 +560,13 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         #print(json_scratch_project)
         dict_mastery = Mastery(path_projectsb3, json_scratch_project, skill_points, dashboard).finalize()
         dict_duplicate_script = DuplicateScripts(path_projectsb3, json_scratch_project).finalize()
-        dict_dead_code = DeadCode(path_projectsb3, json_scratch_project,).finalize()
+        dict_dead_code = DeadCode(path_projectsb3, json_scratch_project).finalize()
         result_sprite_naming = SpriteNaming(path_projectsb3, json_scratch_project).finalize()
         result_backdrop_naming = BackdropNaming(path_projectsb3, json_scratch_project).finalize()
         #result_block_sprite_usage = Block_Sprite_Usage(path_projectsb3, json_scratch_project).finalize()
         if not batch_id:
             refactored_code = RefactorDuplicate(json_scratch_project, dict_duplicate_script).refactor_duplicates()
-
+        del json_scratch_project
         if not batch_id:
             print("--------------------- DUPLICATED CODE DICT ---------------------")
             print(dict_duplicate_script)
@@ -603,12 +599,13 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         #dict_analysis.update(proc_block_sprite_usage(result_block_sprite_usage, file_obj))
         # dict_analysis.update(proc_urls(request, dict_mastery, file_obj))
         # dictionary.update(proc_initialization(resultInitialization, filename))
-        #del json_scratch_project
-        return dict_analysis
-    else:
-        return dict_analysis
+        dict_duplicate_script = None
+        dict_dead_code = None
+        result_sprite_naming = None
+        result_backdrop_naming = None
     
-    
+
+#@profile
 def analysis_by_upload(request, skill_points: dict, upload):
     """
     Upload file from form POST for unregistered users
@@ -627,11 +624,9 @@ def analysis_by_upload(request, skill_points: dict, upload):
         file_saved = dir_zips + unique_id + ".sb2"
     else:
         file_saved = dir_zips + unique_id + ".sb3"
+    
     # Create log
-    path_log = os.path.dirname(os.path.dirname(__file__)) + "/log/"
-    log_file = open(path_log + "logFile.txt", "a")
-    log_file.write("FileName: " + str(zip_filename) + "\t\t\t" + "ID: " + str(filename_obj.id) + "\t\t\t" + \
-                "Method: " + str(filename_obj.method) + "\t\t\tTime: " + str(filename_obj.time) + "\n")
+    
     # Save file in server
     file_name = os.path.join("uploads", file_saved)
     request.session['current_project_path'] = file_name
@@ -639,31 +634,17 @@ def analysis_by_upload(request, skill_points: dict, upload):
         for chunk in upload.chunks():
             destination.write(chunk)
     try:
-        ext_type_project=None
-        dict_drscratch_analysis = analyze_project(request, file_name, filename_obj, ext_type_project, skill_points)
-        print(dict_drscratch_analysis)
+        ext_type_project = None
+        analyze_project(request, file_name, filename_obj, ext_type_project, skill_points)
     except Exception:
         traceback.print_exc()
-        filename_obj.method = 'project/error'
-        filename_obj.save()
-        old_path_project = file_saved
-        new_path_project = file_saved.split("/uploads/")[0] + "/error_analyzing/" + file_saved.split("/uploads/")[1]
-        shutil.copy(old_path_project, new_path_project)
-        dict_drscratch_analysis = {
-            'filename': upload.name,
-            'Error': 'analyzing',
-            'dashboard_mode': request.POST.get('dashboard_mode')
-            }
-        return dict_drscratch_analysis
-    # Redirect to dashboard for unregistered user
-    dict_drscratch_analysis['Error'] = 'None'
-    dict_drscratch_analysis.update({
-        'url': None,
-        'filename': upload.name,
-        'dashboard_mode': request.POST.get('dashboard_mode'),
-        'multiproject': False
-    })
-    return dict_drscratch_analysis
+        
+    del request.session['current_project_path']
+    del filename_obj
+    
+    # Delete the uploaded file after processing if necessary
+    if os.path.exists(file_name):
+        os.remove(file_name)
 
     
 def analysis_by_url(request, url, skill_points: dict):

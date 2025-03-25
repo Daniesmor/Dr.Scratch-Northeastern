@@ -25,6 +25,7 @@ import gc
 import psutil
 import time
 from typing import Generator
+from memory_profiler import profile
 
 
 def remove_circular_references(obj, seen=None):
@@ -48,6 +49,20 @@ def gen_filepath(projects_file: str) -> Generator[str, None, None]:
             file_path = os.path.join(root, file)
             if os.path.exists(file_path):
                 yield file_path
+
+def show_top_objects():
+    objs = gc.get_objects()
+    print(f"Total de objetos en memoria: {len(objs)}")
+    
+    obj_types = {}
+    for obj in objs:
+        obj_type = type(obj).__name__
+        obj_types[obj_type] = obj_types.get(obj_type, 0) + 1
+
+    sorted_objs = sorted(obj_types.items(), key=lambda x: x[1], reverse=True)[:10]
+    print("Top 10 tipos de objetos en memoria:")
+    for obj_type, count in sorted_objs:
+        print(f"{obj_type}: {count}")
 
 
 def track_memory_usage():
@@ -75,6 +90,7 @@ def process_multiple_or_file(request_data_obj: object, skill_points: dict, proje
         for file_path in gen_filepath(projects_file):
             if os.path.exists(file_path):
                 process_single_file(request_data_obj, file_path, skill_points)
+                gc.collect()
         clean_temporary_files(projects_file)
 
 
@@ -82,20 +98,16 @@ def clean_temporary_files(directory):
     if os.path.exists(directory):
         shutil.rmtree(directory)
 
-
 def process_single_file(request_data_obj: object, file_path: str, skill_points: dict):
     try:
         with open(file_path, 'rb') as f:
             file_name = os.path.basename(file_path)
-            file_data = BytesIO(f.read())
-        
-        with file_data:
             inmemory_file = InMemoryUploadedFile(
-                file=file_data,
+                file=BytesIO(f.read()),
                 field_name=None,
                 name=file_name,
                 content_type='application/octet-stream',
-                size=file_data.getbuffer().nbytes,
+                size=BytesIO(f.read()).getbuffer().nbytes,
                 charset=None,
             )
 
@@ -105,11 +117,17 @@ def process_single_file(request_data_obj: object, file_path: str, skill_points: 
             print(f"\033[32m ----------> Analyzing: {file_name}\033[0m")
             analysis_by_upload(request_data_obj, skill_points, inmemory_file)
             track_memory_usage()  
-        del file_data, inmemory_file
-        gc.collect()
+            #show_top_objects()
+            inmemory_file = None
+            #gc.collect()
+        inmemory_file = None
+
+        
+        #gc.collect()
         
     except Exception as e:
         print(f"Error processing file {file_path}: {e}")
+        inmemory_file = None
 
 def process_url_list(request_data_obj: object, skill_points: dict, projects_file: list):
     # Proccess each URL of the list
@@ -118,6 +136,7 @@ def process_url_list(request_data_obj: object, skill_points: dict, projects_file
         #   break 
         url = url.decode('utf-8').strip()
         analysis_by_url(request_data_obj, url, skill_points)
+        #gc.collect()
 
 
 def mk_url(batch_id: uuid) -> str:

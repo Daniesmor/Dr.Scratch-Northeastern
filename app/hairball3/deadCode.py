@@ -199,7 +199,8 @@ class DeadCode(Plugin):
         self.blocks_list = None
         self.dict_deadcode = None
         self.script_block_list = None
-        gc.collect()
+        self.json_project = None
+        #gc.collect()
     
 
     def finalize(self):

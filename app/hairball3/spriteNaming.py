@@ -17,9 +17,9 @@ class SpriteNaming(Plugin):
         Run and return the results from the SpriteNaming module
         """
 
-        json_scratch_project = self.json_project.copy()
+        #json_scratch_project = self.json_project.copy()
 
-        for key, value in json_scratch_project.items():
+        for key, value in self.json_project.items():
             if key == "targets":
                 for dicc in value:
                     for dicc_key, dicc_value in dicc.items():
