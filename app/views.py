@@ -1731,7 +1731,7 @@ def get_babia(request):
     fake_request = SimpleNamespace()
     fake_request.method = 'POST'
     fake_request.POST = {'_url': '',
-                         'urlProject': 'https://scratch.mit.edu/projects/282489021/'}
+                         'urlProject': 'https://scratch.mit.edu/projects/290030950/'}
     fake_request.GET = SimpleNamespace()
     fake_request.session = SimpleNamespace()
     fake_request.LANGUAGE_CODE = get_language()

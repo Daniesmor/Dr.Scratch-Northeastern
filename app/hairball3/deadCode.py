@@ -73,13 +73,14 @@ class DeadCode(Plugin):
         self.blocks_list = []
         for blocks, blocks_dicc in dicc["blocks"].items():
             if isinstance(blocks_dicc, dict):
-                self.blocks_list = self.proccess_block(blocks_dicc, dicc, blocks)
+                self.proccess_block(blocks_dicc, dicc, blocks)
                 if self.blocks_list:
                     blocks_by_script[f'script_{self.currScript}'] = self.blocks_list
+                    self.blocks_list = []
         return blocks_by_script
           
     
-    def proccess_block(self, blocks_dicc: dict, dicc: dict, blocks) -> list:
+    def proccess_block(self, blocks_dicc: dict, dicc: dict, blocks) -> None:
         
         if blocks_dicc['topLevel'] == True:
             
@@ -102,7 +103,7 @@ class DeadCode(Plugin):
                 if self.is_loop_block(blocks_dicc) and blocks_dicc["opcode"] not in self.blocks_list:
                     if blocks_dicc["parent"] == None:
                         self.handle_loop_block(blocks_dicc, dicc, blocks)                  
-        return self.blocks_list
+        self.blocks_list
     
 
     def is_event_var(self, blocks_dicc):
