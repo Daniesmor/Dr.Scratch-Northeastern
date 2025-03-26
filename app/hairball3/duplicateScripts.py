@@ -85,8 +85,8 @@ class DuplicateScripts(Plugin):
 
             self.duplicates.update(sprite_duplicates)
 
-        print("self.duplicates in duplicateScripts.py-------")
-        print(self.duplicates)
+        #print("self.duplicates in duplicateScripts.py-------")
+        #print(self.duplicates)
         
         for key, value in self.duplicates.items():
             duplicated_scripts = [pair[0] for pair in value]

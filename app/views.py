@@ -1732,13 +1732,11 @@ def get_babia(request):
     fake_request = SimpleNamespace()
     fake_request.method = 'POST'
     fake_request.POST = {'_url': '',
-                         'urlProject': 'https://scratch.mit.edu/projects/282489021/'}
+                         'urlProject': 'https://scratch.mit.edu/projects/290030950/editor/'}
     fake_request.GET = SimpleNamespace()
     fake_request.session = SimpleNamespace()
     fake_request.LANGUAGE_CODE = get_language()
     # _____________________________________________________________________________________
-    
-
 
     d = build_dictionary_with_automatic_analysis(fake_request, skill_rubric)
     babia_dict = format_babia_dict(d[0])
@@ -1746,74 +1744,54 @@ def get_babia(request):
     context = {
         'babia_dict': json.dumps(babia_dict)
     }
-
     return render(request, 'babia/project_babia.html', context)
 
 
-import random
 
 def format_babia_dict(d: dict):
     global_babia = d['babia']
     deadCode_babia = d['deadCode']['scripts']
 
-    print("Mi deadCode")
-    print(deadCode_babia)
     colors = {}
-
-    #print("deadCode babia")
-    #print(deadCode_babia)
-
-
-    #colors =  ["#eb4034", "#4554ff", "#03ff96"]
 
     data = {
         "id": "Root",
         "children": [],
     }
 
+    # Inicializar los colores para los scripts muertos
     for sprite_name, script_dicc in deadCode_babia.items():
         colors[sprite_name] = {}
-        for script_key, script_value in script_dicc.items():
-            colors[sprite_name][script_key] = '#3a85fc'
-    
+        for script_key in script_dicc:
+            colors[sprite_name][script_key] = '#3a85fc'  # Color para scripts muertos
 
-
+    # Procesar sprites en babia
     for sprite_key, sprite_item in global_babia['sprites'].items():
         sprite_data = {
             "id": sprite_key,
             "children": [],
         }
-        for script_key, script_value in sprite_item.items():
-            """ 
-            script_data = {
-                "id": script_key,
-                "area": 2,
-                "Blocks": len(script_value.split('\n')),
-                "building_color": colors[script_key],
-                "script_blocks": script_value
-            }
-            """
-            #print("-------------------------------------")
-            #print(" ".join(script_value.split('\n')))
-            #print("--------------------------------------")
-            if script_key not in colors[sprite_key]:
-                colors[sprite_key][script_key] = "#ffffff"
-            
-            script_data = {
-                "id": script_key,
-                "area": 2,
-                "Blocks": len(script_value.split('\n')),
-                "building_color": colors[sprite_key][script_key],
-                "script_blocks": script_value
-            }
-            
-            
-            sprite_data["children"].append(script_data)
-        data["children"].append(sprite_data)
-    #print(data)
 
-    
+        for script_key, script_value in sprite_item.items():
+            # Verificar si el script está en deadCode_babia, si es así le asignamos el color de muerto
+            if sprite_key in deadCode_babia and script_key in deadCode_babia[sprite_key]:
+                script_color = colors[sprite_key].get(script_key, '#3a85fc')  # Color para deadCode
+            else:
+                script_color = '#ffffff'  # Color por defecto para scripts no muertos
+
+            script_data = {
+                "id": script_key,
+                "area": 2,
+                "Blocks": len(script_value.split('\n')),
+                "building_color": script_color,
+                "script_blocks": script_value
+            }
+
+            sprite_data["children"].append(script_data)
+
+        data["children"].append(sprite_data)
 
     return data
+
 
 
