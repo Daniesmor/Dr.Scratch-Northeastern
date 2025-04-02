@@ -57,6 +57,8 @@ urlpatterns = [
         RedirectView.as_view(url='https://drscratchblog.wordpress.com')),
     
     # Rubric personalized
+    url(r'^rubric_creator/students', app_views.rubric_creator_students, name='rubric_creator'),
+    url(r'^rubric_creator/teachers', app_views.rubric_creator_teachers, name='rubric_creator'),
     url(r'^rubric_creator', app_views.rubric_creator, name='rubric_creator'),
     url(r'^(?P<skill_points>.{1,6})$', app_views.upload_personalized, name='upload_personalized'),
 

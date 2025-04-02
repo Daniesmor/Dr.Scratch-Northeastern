@@ -1,0 +1,1355 @@
+{% load i18n %}
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="description" content="Analyze your Scratch projects to assess your Computational Thinking skills">
+    <meta name="keywords" content="Stamp, Startup, Multipurpose, Bootstrap, Landing page, Template, Registration, Landing">
+    <meta name="author" content="Programamos URJC Libresoft FECyT">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+    <link rel="stylesheet" href="../../static/app/content/scratchblocks2.css">
+    <!-- <script src="../../static/app/scripts/bootstrap-modal.js"></script> -->
+    <script src="../../static/app/scripts/translations.js"></script>
+    <!-- <script src="../../static/app/scripts/bootstrap.js"></script> -->
+    <script src="../../static/app/scripts/googleAnalytics.js"></script>
+    <script src="../../static/app/scripts/scratchblocks-v3.4-min.js"></script>
+    <link rel="stylesheet" href="../../static/app/content/bootstrap-tour.css">
+    <script src="../../static/app/scripts/bootstrap.min.js"></script>
+    <script src="../../static/app/scripts/bootstrap-tour.js"></script>
+
+    <!-- Cargar Shepherd.js -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shepherd.js@8.0.0/dist/css/shepherd.css">
+    <script src="https://cdn.jsdelivr.net/npm/shepherd.js@8.0.0/dist/js/shepherd.min.js"></script>
+
+    <!-- SITE TITLE -->
+    <title>Dr. Scratch</title>
+
+
+    <link rel="stylesheet" href="/static/app/content/style.css">
+    <!-- =========================
+     FAV AND TOUCH ICONS AND FONT
+    ============================== -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="icon" href="/static/app/images/favicon.ico">
+    <link rel="stylesheet" href="static/app/icons/icons.css">
+    <link type="text/css" rel="stylesheet" href="/static/app/content/css_002.css">
+    <link type="text/css" rel="stylesheet" href="/static/app/content/css.css">
+    <!-- =========================
+     STYLESHEETS
+    ============================== -->
+    <!-- BOOTSTRAP AND ANIMATION -->
+    <link rel="stylesheet" href="/static/app/content/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/app/content/animate.css">
+
+    <!-- CAROUSEL AND LIGHTBOX -->
+    <link rel="stylesheet" href="../../static/app/content/owl_002.css">
+    <link rel="stylesheet" href="../../static/app/content/owl.css">
+    <link rel="stylesheet" href="../../static/app/content/nivo-lightbox.css">
+    <link rel="stylesheet" href="../../static/app/content/default.css">
+
+    <!-- CUSTOM STYLESHEETS -->
+    <link rel="stylesheet" href="../../static/app/content/styles.css">
+    <link rel="stylesheet" href="/static/app/content/master.css">
+    <!-- RESPONSIVE FIXES -->
+    <link rel="stylesheet" href="../../static/app/content/responsive.css">
+
+    <!-- DEFAULT COLOR/ CURRENTLY USING -->
+    <link rel="stylesheet" href="../../static/app/content/red.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+    
+    <script>
+        window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            scratchblocks.renderMatching('pre.blocks', {
+            style:     'scratch3',   // Optional, defaults to 'scratch2'.
+            languages: ['en'], // Optional, defaults to ['en'].
+            scale: 0.5,                // Optional, defaults to 1
+            });
+        })
+    </script>
+
+    <script>
+
+        
+
+        document.addEventListener("DOMContentLoaded", function() {
+            function hideDigits(digits) {
+                var base32 = digits.toString(32);
+                return base32;
+            }
+
+            document.getElementById("rubric-generator").addEventListener("submit", function(event) {
+                event.preventDefault(); 
+                
+
+
+                var abstractionInput = document.getElementById("Abstraction");
+                var parallelizationInput = document.getElementById("Parallelization");
+                var logicThinkingInput = document.getElementById("LogicThinking");
+                var synchronizationInput = document.getElementById("Synchronization");
+                var flowControlInput = document.getElementById("FlowControl");
+                var userInteractivityInput = document.getElementById("UserInteractivity");
+                var dataRepresentationInput = document.getElementById("DataRepresentation");
+                var mathOperators = document.getElementById("MathOperators");
+                var motionOperators = document.getElementById("MotionOperators");
+
+
+                var abstractionValue = abstractionInput.value;
+                var parallelizationValue = parallelizationInput.value;
+                var logicThinkingValue = logicThinkingInput.value;
+                var synchronizationValue = synchronizationInput.value;
+                var flowControlValue = flowControlInput.value;
+                var userInteractivityValue = userInteractivityInput.value;
+                var dataRepresentationValue = dataRepresentationInput.value;
+                var mathOperatorsValue = mathOperators.value;
+                var motionOperatorsValue = motionOperators.value;
+
+                var digits = abstractionValue +
+                        parallelizationValue +
+                        logicThinkingValue +
+                        synchronizationValue + 
+                        flowControlValue + 
+                        userInteractivityValue + 
+                        dataRepresentationValue +
+                        mathOperatorsValue +
+                        motionOperatorsValue;
+
+                
+                var digits = hideDigits(parseInt(digits))
+                var url = "https://drscratch.org/" + digits;
+                // document.getElementById("url-share").innerText = url;
+                var linkElement = document.createElement("a");
+                linkElement.setAttribute("href", url);
+                linkElement.textContent = url;
+
+                var urlShareElement = document.getElementById("url-share");
+                urlShareElement.innerHTML = ""; 
+                urlShareElement.appendChild(linkElement); 
+            });
+
+
+        });
+
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Obtener las barras deslizadoras
+            var sliders = document.querySelectorAll(".form-range");
+    
+            // Función para establecer los valores de las barras deslizadoras
+            function setSliderValues(abstraction, parallelization, logicThinking, synchronization, flowControl, userInteractivity, dataRepresentation) {
+                document.getElementById("Abstraction").value = abstraction;
+                document.getElementById("Parallelization").value = parallelization;
+                document.getElementById("LogicThinking").value = logicThinking;
+                document.getElementById("Synchronization").value = synchronization;
+                document.getElementById("FlowControl").value = flowControl;
+                document.getElementById("UserInteractivity").value = userInteractivity;
+                document.getElementById("DataRepresentation").value = dataRepresentation;
+            }
+
+            // Definir las traducciones
+            var translations = {
+                'games': "{% trans 'Games' %}",
+                'stories': "{% trans 'Stories' %}",
+                'animations': "{% trans 'Animations' %}",
+                'music': "{% trans 'Music' %}",
+                'arts': "{% trans 'Arts' %}"
+            };
+    
+            // Evento clic en los elementos de texto
+            var textElements = document.querySelectorAll(".text-success");
+            textElements.forEach(function(element) {
+                element.addEventListener("click", function() {
+                    switch (element.textContent.trim()) {
+                        case translations['games']:
+                            setSliderValues(3, 4, 3, 4, 4, 3, 3); // Games's Rubric
+                            break;
+                        case translations['stories']:
+                            setSliderValues(2, 3, 2, 3, 3, 2, 2); // Stories's Rubric
+                            break;
+                        case translations['animations']:
+                            setSliderValues(2, 3, 2, 2, 3, 2, 2); // Animation's Rubric
+                            break;
+                        case translations['music']:
+                            setSliderValues(2, 2, 0, 4, 4, 2, 2); // Music's Rubric
+                            break;
+                        case translations['arts']:
+                            setSliderValues(2, 2, 0, 2, 4, 4, 2); // Art's Rubric
+                            break;
+                        default:
+                            break;
+
+                    }
+                });
+            });
+        });
+    </script>
+
+    <style>
+        .btn-primary {
+            background-color: #1792A4;
+        }
+        .btn-primary:hover {
+            background-color: #4CA8A1;
+        }
+        .btn-primary:focus {
+            background-color: #4CA8A1;
+        }
+        .text-success {
+            cursor: pointer; /* Cambiar el cursor a pointer cuando se pasa sobre el texto */
+        }
+        /* Estilos generales para el slider */
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #ddd; /* Color de fondo predeterminado */
+            outline: none;
+            transition: background 0.3s ease-in-out;
+            cursor: grab; /* Cursor de mano por defecto */
+        }
+        input[type="range"]:active {
+            cursor: grabbing; /* Cursor de mano cerrada cuando se mueve */
+        }
+
+        /* Para navegadores basados en WebKit (Chrome, Edge, Safari) */
+        input[type="range"]::-webkit-slider-runnable-track {
+            height: 8px;
+            border-radius: 4px;
+            background: var(--track-color, #ddd); /* Color dinámico */
+        }
+
+        /* Para navegadores basados en Firefox */
+        input[type="range"]::-moz-range-progress {
+            background: var(--track-color, #ddd);
+            height: 8px;
+        }
+
+
+        body p {
+            font-size: 10px;
+            color: #088CE3;
+        }
+
+        body .phrase {
+            font-size: 13px;
+        }
+
+        
+        .phrase {
+            display: none; 
+        }
+
+        .lightbulb-color {
+            color: #FBE259;
+            
+        }
+
+        .label-pair {
+            display: inline-block;
+            vertical-align: middle;
+            
+        }
+
+
+        /* Lightbulb zoom hover */
+        .zoomable {
+            transition: transform 0.3s ease;
+        }
+
+        .zoomable:hover {
+            transform: scale(1.2); /* El valor 1.1 puede ajustarse según el nivel de zoom deseado */
+        }
+
+        .language-content {
+            cursor: pointer;
+        }
+        .img-fluid.zoomable {
+            cursor: pointer;
+        }
+        .form-label.text-primary.label-pair a:hover {
+            text-decoration: none;
+        }
+        .btn-personalized {
+            background-color: #A3D5D1 !important; /* Color de fondo por defecto con prioridad */
+            color: #ffffff; /* Color del texto */
+            border: none; /* Sin borde */
+            padding: 20px 40px; /* Aumenta el tamaño del botón */
+            font-size: 20px !important; /* Texto más grande */
+            border-radius: 12px; /* Bordes más redondeados */
+            cursor: pointer; /* Cursor de mano al pasar por encima */
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Transiciones suaves */
+        }
+        
+        .btn-personalized:hover {
+            background-color: #C7E8E5 !important; /* Color más claro al pasar el mouse con prioridad */
+            transform: scale(1.08); /* Efecto de agrandamiento al pasar el mouse */
+        }
+        /* Estilo del tour */
+        .shepherd-element {
+            background-color: white !important;
+            color: #333 !important;
+            border-radius: 10px !important;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2) !important;
+            font-size: 16px !important;
+            padding: 15px !important;
+        }
+
+        /* Estilo general del tour */
+.shepherd-element {
+    background-color: #f8f9fa !important;  /* Fondo claro */
+    color: #313131 !important;  /* Texto oscuro */
+    border-radius: 12px !important;  /* Bordes redondeados */
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2) !important;  /* Sombra suave */
+    font-size: 16px !important;
+    padding: 20px !important;
+}
+
+    /* Estilo del título del tour */
+    .shepherd-title {
+        font-size: 18px !important;
+        font-weight: bold !important;
+        color: #1792A4 !important;  /* Azul verdoso */
+    }
+
+    /* Botones del tour */
+    .shepherd-button {
+        font-size: 14px !important;
+        padding: 10px 15px !important;
+        border-radius: 8px !important;
+        cursor: pointer !important;
+    }
+
+    /* Botón "Next" */
+    .shepherd-button-primary {
+        background-color: #1792A4 !important;  /* Azul verdoso principal */
+        color: white !important;
+        border: none !important;
+    }
+
+    .shepherd-button-primary:hover {
+        background-color: #4CA8A1 !important;  /* Azul más claro al pasar el mouse */
+    }
+
+    /* Botón "Back" */
+    .shepherd-button-secondary {
+        background-color: #6c757d !important;  /* Gris oscuro */
+        color: white !important;
+        border: none !important;
+    }
+
+    .shepherd-button-secondary:hover {
+        background-color: #545b62 !important;  /* Gris más oscuro */
+    }
+
+
+    </style>
+    
+</head>
+<body>
+    <!-- TOP BAR -->
+    <div id="wrap">
+        <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top  sticky-navigation" role="navigation">
+            <div class="container">
+                <!-- NAVIGATION LINK -->
+                <a href="/" style="padding-left: 4%;">
+                    <img src="static/app/images/logo_main.png" alt="" width="220" height="70.1667">
+                </a>
+                <ul class="nav navbar-nav navbar-right login-register small-text">
+                    <li style="display: block;" class="login dropdown">
+                        <a aria-expanded="false" type="button" data-toggle="dropdown" class="dropdown-toggle language-content" data-hover="dropdown" style="padding-top: 60%;">
+                            <span class="icon-basic-world "></span>
+                        </a>
+                        <ul role="menu" class="dropdown-menu" style="padding: 20px;">
+                            <li style="padding-left: 20px;">
+                                <div>
+                                    <form action="/i18n/setlang/" method="post">
+                                        {% csrf_token %}
+                                        <input name="next" type="hidden" value="{{ redirect_to }}" />
+                                        <select name="language" onchange="this.form.submit()" class='btn-group btn-group-justified colored-text language-content'>
+                                            {% get_language_info_list for LANGUAGES as languages %}
+                                            {% for language in languages %}
+                                                {% if language.code == request.LANGUAGE_CODE %}
+                                                    <option value="{{ language.code }}" selected>{{ language.name }} ({{ language.code }})</option>
+                                                {% else %}
+                                                    <option value="{{ language.code }}">{{ language.name }} ({{ language.code }})</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                    </form>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+    
+            </div>
+        </div>
+    <!-- /END TOP BAR -->
+
+<div class="container">
+    
+    <!-- BODY -->
+    
+    <section id="blackboard" class="services">
+        <div class="display-center">
+            <!-- Score in detail -->
+
+            
+
+            
+            <div class="col-md-7">
+                <section id="dashboard">
+                    <div class="container-fluid" id="stepfour">
+                        <div class="row marketing">
+                            
+                            <div class="jumbotron">
+                                
+                                <h4>{% trans 'Build your rubric!' %}</h4>
+    
+                                                         
+                                <div id="personalized-options">
+                                    <form action="" id="rubric-generator">
+                                        <div class="form-group">
+                                            <label for="Abstraction" class="form-label text-primary label-pair">
+                                                {% trans 'Abstraction' %}: <span id="Abstraction-value"></span> 
+                                                <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                                            </label>
+                                        
+                                            <input type="range" class="form-range" min="0" max="4" id="Abstraction" name="Abstraction">
+                                            
+                                            <div class="card border-success">
+                                                <div id="collapse1" class="collapse card-body bg-light" aria-labelledby="headingOne" data-parent="#accordion">
+                                                    <br>
+                                                    <p id="Abstraction-phrase-0" class="phrase phrase-Abstraction card-body">{% trans 'Abstraction is not relevant to me at this moment. I am focused on concrete and specific details of the program.' %}</p>
+                                                    <div id="Abstraction-phrase-1" class="phrase phrase-Abstraction" >
+                                                        <pre class="blocks col-lg-12">
+                                                            {% trans "// Earn 1 point by implementing more than one script like the one below:" %}
+                                                            {% trans "when green flag clicked" %}
+                                                            {% trans "clear" %}
+                                                            {% trans "go to x:(-100) y:(30)" %}
+                                                            {% trans "pen down" %}
+                                                            {% trans "move (200) steps" %}
+                                                            {% trans "pen up" %}
+                                                            
+                                                        </pre>
+                                                    </div>
+                                                    <div id="Abstraction-phrase-2" class="phrase phrase-Abstraction" >
+                                                        <pre class="blocks col-lg-12">
+                                                            {% trans "// To get 2 points you need to use clones, such as:" %}
+                                                            {% trans "when green flag clicked" %}
+                                                            {% trans "forever" %}
+                                                            {% trans "create clone of [myself v]" %}
+                                                            {% trans "glide (3) secs to x:(x position) y:(-180)" %}
+                                                            {% trans "delete this clone" %}
+                                                        </pre>
+                                                    </div>
+                                                    <div id="Abstraction-phrase-3" class="phrase phrase-Abstraction" >
+                                                        <pre class="blocks col-lg-12">
+                                                            {% trans "// To get 3 points you have to define your own blocks and variables, such as:" %}
+                                                            {% trans "define PaintOrange(length)" %}
+                                                            {% trans "set pen color to [#FFA500]" %}
+                                                            {% trans "pen down" %}
+                                                            {% trans "move (length) steps" %}
+                                                            {% trans "pen up" %}
+                                                        </pre>
+                                                    </div>
+                                                    <div id="Abstraction-phrase-4" class="phrase phrase-Abstraction" >
+                                                        <pre class="blocks col-lg-12">
+                                                            {% trans "// To get 4 points you have to use Advanced Clones, such as:" %}
+                                                            {% trans "when I start as a clone" %}
+                                                            {% trans "set [xSpeed v] to (pick random (-5) to (5))" %}
+                                                            {% trans "set [ySpeed v] to (pick random (-5) to (5))" %}
+                                                            {% trans "repeat until &lt;(y position) < (-200)&gt;" %}
+                                                                {% trans "change x by (xSpeed)" %}
+                                                                {% trans "change y by (ySpeed)" %}
+                                                            {% trans "end" %}
+                                                        </pre>
+                                                    </div>
+                                                    <p id="Abstraction-phrase-5" class="phrase phrase-Abstraction card-body">{% trans 'Abstraction is absolutely vital. The code must be abstract and flexible to adapt to future changes and reuse.' %}</p>
+                                                    <!-- "Show more info" SIEMPRE visible -->
+                                                    <p class="card-body">
+                                                        <a href="/learn/Dimensions/Abstraction/" target="_blank" class="btn btn-primary text-primary" style="font-size: 13px;">
+                                                            {% trans 'Why is it important?' %}
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                                
+                                            </div>                                       
+                                        </div>
+
+                                        
+                                        
+                                        <div class="form-group">
+
+                                            <label for="Parallelization" class="form-label text-primary label-pair">
+                                                {% trans 'Parallelization' %}: <span id="Parallelization-value"></span> 
+                                                <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                                            </label>
+
+                                            <input type="range" class="form-range" min="0"s max="4" id="Parallelization" name="Parallelization">
+
+                                            <div id="collapse2" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                                <br>
+                                                <p id="Parallelization-phrase-0" class="phrase phrase-Parallelization" >{% trans 'Parallelization is not crucial at this moment. There is no need to execute tasks simultaneously in the code.' %}</p>
+                                                <div id="Parallelization-phrase-1" class="phrase phrase-Parallelization" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// To get 1 point you have to use more than one Green Flag block, such as:" %}
+                                                        {% trans "when green flag clicked" %}
+                                                        {% trans "say [Hello my name is Catty !!] for (2) secs" %}
+                                                        {% trans "when green flag clicked" %}
+                                                        {% trans "say [Hello my name is Doggy !!] for (2) secs" %}
+                                                    </pre>
+                                                </div>
+                                                <div id="Parallelization-phrase-2" class="phrase phrase-Parallelization" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// Earn 2 points by using serveral blocks like Sprite Clicked, such as: "%}
+                                                        {% trans "when this sprite clicked" %}
+                                                        {% trans "forever" %}
+                                                        {% trans "if &lt;touching [the mouse pointer v]? &gt; then" %}
+                                                        {% trans "turn cw (30) degrees" %}
+                                                        {% trans "end" %}
+                                                    </pre>
+                                                </div>
+                                                <div id="Parallelization-phrase-3" class="phrase phrase-Parallelization" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// To get 3 points you have to use certain blocks, such as:" %}
+                                                        {% trans "when backdrop switches to [backdrop1 v]" %}
+                                                        {% trans "when I receive [message1 v]" %}
+                                                        {% trans "when [loudness v] &gt; (10)" %}
+                                                    </pre>
+                                                </div>
+                                                <div id="Parallelization-phrase-4" class="phrase phrase-Parallelization" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// To get 4 points you need Advanced Event Synchronization, such as:" %}
+                                                        {% trans "when backdrop switches to [backdrop1 v]" %}
+                                                        {% trans "when I receive [message1 v]" %}
+                                                        {% trans "when [loudness v] &gt; (10)" %}
+                                                    </pre>
+                                                </div>
+                                                <p id="Parallelization-phrase-5" class="phrase phrase-Parallelization" >{% trans 'Parallelization is absolutely vital. The ability to perform parallel processing is fundamental for system performance.' %}</p>
+                                                <!-- "Show more info" SIEMPRE visible -->
+                                                <p class="card-body">
+                                                    <a href="/learn/Dimensions/Parallelization/" target="_blank" class="btn btn-primary text-primary" style="font-size: 13px;">
+                                                        {% trans 'Why is it important?' %}
+                                                    </a>
+                                                </p>
+                                            </div>                                                 
+                                        </div>
+                                    
+                                        <div class="form-group">
+                                            <label for="LogicThinking" class="form-label text-primary label-pair">
+                                                {% trans 'Logic Thinking' %}: <span id="LogicThinking-value"></span> 
+                                                <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                                            </label>
+
+                                            <input type="range" class="form-range" min="0"s max="4" id="LogicThinking" name="LogicThinking">
+
+                                            <div id="collapse3" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                                <br>
+                                                <p id="LogicThinking-phrase-0" class="phrase phrase-LogicThinking">
+                                                    {% trans 'Logical thinking is not relevant to me at this moment. I am focused on other aspects of the problem.' %}
+                                                </p>
+                                                <div id="LogicThinking-phrase-1" class="phrase phrase-LogicThinking" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// To get 1 point you have to use if and then statements, such as:" %}
+                                                        {% trans "if &lt; touching color [#0000FF]?  &gt;then" %}
+                                                        {% trans "say [I have reached the goal!] for (2) secs" %}
+                                                    </pre>
+                                                </div>
+                                                <div id="LogicThinking-phrase-2" class="phrase phrase-LogicThinking" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// To get 2 points you have to use if and else statements, such as:" %}
+                                                        {% trans "if &lt; touching color [#0000FF]? &gt;then" %}
+                                                        {% trans "say [I have reached the goal!] for (2) secs" %}
+                                                        {% trans "else" %}
+                                                        {% trans "say [I have reached the goal!] for (2) secs" %}
+                                                    </pre>
+                                                </div>                                                
+                                                <div id="LogicThinking-phrase-3" class="phrase phrase-LogicThinking" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// To get 3 points you have to use Logical Operations, such as:" %}
+                                                        {% trans "if &lt;&lt; touching [Enemy v]? &gt; and &lt;(lives) = [0]&gt;&gt; then" %}
+                                                        {% trans "say [Game over]" %}
+                                                        {% trans "stop [all v]" %}
+                                                        {% trans "end" %}
+                                                    </pre>
+                                                </div>                                                  
+                                                <div id="LogicThinking-phrase-4" class="phrase phrase-LogicThinking" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// To get 4 points you have to use Nested Conditionals, such as:" %}
+                                                        {% trans "if &lt;&lt; (score) > (50) &gt; and &lt; (lives) > [1]&gt;&gt; then" %}
+                                                        {% trans "    if  &lt;touching [Power-Up v]?&gt; then" %}
+                                                        {% trans "        change [score v] by (10)" %}
+                                                        {% trans "    end" %}
+                                                        {% trans "else" %}
+                                                        {% trans "    if <(time) < (30)> then" %}
+                                                        {% trans "        say [Hurry up!] for (2) secs" %}
+                                                        {% trans "    end" %}
+                                                        {% trans "end" %}
+                                                    </pre>
+                                                </div> 
+                                                <p id="LogicThinking-phrase-5" class="phrase phrase-LogicThinking" >{% trans 'Logical thinking is absolutely vital. All code must follow strict logic for problem-solving.' %}</p>
+                                                <!-- "Show more info" SIEMPRE visible -->
+                                                <p class="card-body">
+                                                    <a href="/learn/Dimensions/Logic/" target="_blank" class="btn btn-primary text-primary" style="font-size: 13px;">
+                                                        {% trans 'Why is it important?' %}
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    
+                                        <div class="form-group">
+                                            <label for="Synchronization" class="form-label text-primary label-pair">
+                                                {% trans 'Synchronization' %}: <span id="Synchronization-value"></span> 
+                                                <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                                            </label>
+
+                                            <input type="range" class="form-range" min="0"s max="4" id="Synchronization" name="Synchronization">
+
+                                            <div id="collapse4" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                                <br>
+                                                <p id="Synchronization-phrase-0" class="phrase phrase-Synchronization" >{% trans 'Synchronization is not relevant at this moment. I am not concerned about coordinating activities in the code.' %}</p>
+                                                <div id="Synchronization-phrase-1" class="phrase phrase-Synchronization" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// To get 1 point you have to use a wait block, such as:" %}
+                                                        {% trans "when green flag clicked" %}
+                                                        {% trans "say [Hello, how are you?] for (2) secs" %}
+                                                        {% trans "wait (2) secs" %}
+                                                        {% trans "say [Well, do you want to play hide-and seek?] for (3) secs" %}
+                                                        {% trans "wait (1) secs" %}
+                                                        {% trans "say [Let's go] for (2) secs" %}
+                                                    </pre>
+                                                </div>
+                                                <div id="Synchronization-phrase-2" class="phrase phrase-Synchronization" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// To get 2 points you have to manage broadcast messages, such as:" %}
+                                                        {% trans "when green flag clicked" %}
+                                                        {% trans "say [Hello, how are you?] for (2) secs" %}
+                                                        {% trans "forever" %}
+                                                        {% trans "if &lt; touching [mouse pointer v]?&gt;then" %}
+                                                        {% trans "broadcast [catched! v]" %}
+                                                        {% trans "end" %}
+                                                    </pre>
+                                                </div>
+                                                <div id="Synchronization-phrase-3" class="phrase phrase-Synchronization" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// To get 3 points you have to use some blocks, such as:" %}
+                                                        {% trans "when backdrop switches to [Spring v]" %}
+                                                        {% trans "say [Spring has come!] for (2) secs" %}
+                                                        {% trans "wait until &lt;(lives) =[0]&gt;" %}
+                                                        {% trans "say [Game over] for (2) secs" %}
+                                                        {% trans "stop [all v]" %}
+                                                    </pre>
+                                                </div>
+                                                <div id="Synchronization-phrase-4" class="phrase phrase-Synchronization" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// To get 4 points you need Dynamic Message Handling, such as:" %}
+                                                        {% trans "when I receive [score updated! v]" %}
+                                                        {% trans "change [score v] by (1)" %}
+                                                        {% trans "if &lt;(score) =[10]&gt; then" %}
+                                                        {% trans "say [You reached 10 points!] for (2) secs" %}
+                                                        {% trans "stop [all v]" %}
+                                                        {% trans "end" %}
+                                                    </pre>
+                                                </div>
+                                                <p id="Synchronization-phrase-5" class="phrase phrase-Synchronization" >{% trans 'Synchronization is absolutely vital. Efficient concurrency is fundamental for system performance and reliability.' %}</p>
+                                                <!-- "Show more info" SIEMPRE visible -->
+                                                <p class="card-body">
+                                                    <a href="/learn/Dimensions/Synchronization/" target="_blank" class="btn btn-primary text-primary" style="font-size: 13px;">
+                                                        {% trans 'Why is it important?' %}
+                                                    </a>
+                                                </p>
+                                            </div>                                                                                        
+                                        </div>
+                                    
+                                        <div class="form-group">
+                                            <label for="FlowControl" class="form-label text-primary label-pair">
+                                                {% trans 'Flow control' %}: <span id="FlowControl-value"></span> 
+                                                <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+                                            </label>
+
+                                            <input type="range" class="form-range" min="0"s max="4" id="FlowControl" name="FlowControl">
+                                            
+                                            <div id="collapse5" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                                <br>
+                                                <p id="FlowControl-phrase-0" class="phrase phrase-FlowControl" >{% trans 'Flow control is not relevant at this moment. I do not need control structures to direct code execution.' %}</p>
+                                                <div id="FlowControl-phrase-1" class="phrase phrase-FlowControl" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// To get 1 point you have to use a sequence of blocks, such as:" %}
+                                                        {% trans "when green flag clicked" %}
+                                                        {% trans "say [I'm a dancer cat] for (2) secs" %}
+                                                        {% trans "move (10) steps" %}
+                                                        {% trans "turn cw (15) degrees" %}
+                                                    </pre>
+                                                </div>                                                
+                                                <div id="FlowControl-phrase-2" class="phrase phrase-FlowControl" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// To get 2 points you have to use a repeat or a forever block, such as:" %}
+                                                        {% trans "when green flag clicked" %}
+                                                        {% trans "say [I'm a profesional dancer cat !!] for (2) secs" %}
+                                                        {% trans "repeat (3)" %}
+                                                        {% trans "move (10) steps" %}
+                                                        {% trans "turn cw (15) degrees" %}
+                                                        {% trans "wait (0.5) secs" %}
+                                                        {% trans "end" %}
+                                                    </pre>
+                                                </div>                                                
+                                                <div id="FlowControl-phrase-3" class="phrase phrase-FlowControl" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// To get 3 points you have to use a repeat until block, such as:" %}
+                                                        {% trans "when green flag clicked" %}
+                                                        {% trans "repeat until &lt; touching [Enemy v] ?&gt;" %}
+                                                        {% trans "say [You don't catch me]" %}
+                                                        {% trans "end" %}
+                                                        {% trans "say [You catch me]" %}
+                                                    </pre>
+                                                </div>  
+                                                <div id="FlowControl-phrase-4" class="phrase phrase-FlowControl" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// To get 4 points you have to use a Nested Iterative blocks, such as:" %}
+                                                        {% trans "when green flag clicked" %}
+                                                        {% trans "repeat until &lt;  (Score) = (Max Score) &gt;" %}
+                                                        {% trans "repeat (3)" %}
+                                                        {% trans "move (10) steps" %}
+                                                        {% trans "wait (0.5) secs" %}
+                                                        {% trans "end" %}
+                                                        {% trans "say [Finished a round!]" %}
+                                                        {% trans "wait (1) secs" %}
+                                                        {% trans "end" %}
+                                                    </pre>
+                                                </div>                                                
+                                                <p id="FlowControl-phrase-5" class="phrase phrase-FlowControl" >{% trans 'Flow control is absolutely vital. Proper flow control management determines the efficiency and effectiveness of the program.' %}</p>
+                                                <!-- "Show more info" SIEMPRE visible -->
+                                                <p class="card-body">
+                                                    <a href="/learn/Dimensions/FlowControl/" target="_blank" class="btn btn-primary text-primary" style="font-size: 13px;">
+                                                        {% trans 'Why is it important?' %}
+                                                    </a>
+                                                </p>
+                                            </div>                                       
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="UserInteractivity" class="form-label text-primary label-pair">
+                                                {% trans 'User interactivity' %}: <span id="UserInteractivity-value"></span> 
+                                                <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
+                                            </label>
+
+                                            <input type="range" class="form-range" min="0"s max="4" id="UserInteractivity" name="UserInteractivity">
+
+                                            <div id="collapse6" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                                <br>
+                                                <p id="UserInteractivity-phrase-0" class="phrase phrase-UserInteractivity" >{% trans 'User interactivity is not relevant at this moment. I do not need the code to respond to user input.' %}</p>
+                                                <div id="UserInteractivity-phrase-1" class="phrase phrase-UserInteractivity" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// To get 1 point you need to use a Green Flag Block, such as:" %}
+                                                        {% trans "when green flag clicked" %}
+                                                        {% trans "say [Hello World!] for (5) secs" %}
+                                                    </pre>
+                                                </div>
+                                                <div id="UserInteractivity-phrase-2" class="phrase phrase-UserInteractivity" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// To get 2 points you need to use certain blocks, such as:" %}
+                                                        {% trans " when [right arrow v] key pressed" %}
+                                                        {% trans "move (10) steps" %}
+                                                        <br></br>
+                                                        {% trans "when this sprite clicked" %}
+                                                        {% trans "say [Hello] for (2) secs" %}
+
+                                                    </pre>
+                                                </div>
+                                                <div id="UserInteractivity-phrase-3" class="phrase phrase-UserInteractivity" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// To get 3 points you need to use certain blocks, such as:" %}
+                                                        {% trans "video [motion v] on [sprite v]" %}
+                                                        <br></br>
+                                                        {% trans "video [direction v] on [sprite v]" %}
+                                                    </pre>
+                                                </div>
+                                                <div id="UserInteractivity-phrase-4" class="phrase phrase-UserInteractivity" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// To get 4 points you need to use External User Inputs, such as:" %}
+                                                        {% trans "if &lt;(Distance) < (5)&gt; then" %}
+                                                        {% trans "say [Object very close!] for (2) secs" %}
+                                                        {% trans "stop [all v]" %}
+                                                        {% trans "end" %}
+                                                    </pre>
+                                                </div>
+                                                <p id="UserInteractivity-phrase-5" class="phrase phrase-UserInteractivity" >{% trans 'User interactivity is absolutely vital. The ability to interact effectively with the user is fundamental.' %}</p>
+                                                <!-- "Show more info" SIEMPRE visible -->
+                                                <p class="card-body">
+                                                    <a href="/learn/Dimensions/UserInteractivity/" target="_blank" class="btn btn-primary text-primary" style="font-size: 13px;">
+                                                        {% trans 'Why is it important?' %}
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    
+                                        <div class="form-group">
+                                            <label for="DataRepresentation" class="form-label text-primary label-pair">
+                                                {% trans 'Data Representation' %}: <span id="DataRepresentation-value"></span> 
+                                                <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
+                                            </label>
+
+                                            <input type="range" class="form-range" min="0"s max="4" id="DataRepresentation" name="DataRepresentation">
+
+                                            <div id="collapse7" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                                <br>
+                                                <p id="DataRepresentation-phrase-0" class="phrase phrase-DataRepresentation" >{% trans 'Data representation is not crucial at this moment. It does not significantly affect code execution.' %}</p>
+                                                <div id="DataRepresentation-phrase-1" class="phrase phrase-DataRepresentation" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// To get 1 point you need to modify Sprites Properties, such as:" %}
+                                                        <br>
+                                                        {% trans "change size by (10)" %}
+                                                        <br>
+                                                        {% trans "change [color v] effect by (25)" %}
+                                                    </pre>
+                                                </div>
+                                                <div id="DataRepresentation-phrase-2" class="phrase phrase-DataRepresentation" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// To get 2 points you need to make operations in variables, such as:" %}
+                                                        {% trans "when green flag clicked" %}
+                                                        {% trans "set [Points v] to [0]" %}
+                                                        {% trans "if &lt;touching color [#0000FF]&gt; then" %}
+                                                        {% trans "change [Points v] by (1)" %}
+                                                    </pre>
+                                                </div>
+                                                <div id="DataRepresentation-phrase-3" class="phrase phrase-DataRepresentation" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// To get 3 points you need to make operations in lists, such as:" %}
+                                                        {% trans "when green flag clicked" %}
+                                                        {% trans "delete (all v) of [Students v]" %}
+                                                        {% trans "repeat (3)" %}
+                                                        {% trans "ask [Introduce a student name] and wait" %}
+                                                        {% trans "insert (answer) at (last v) of [Students v]" %}
+                                                    </pre>
+                                                </div>
+                                                <div id="DataRepresentation-phrase-4" class="phrase phrase-DataRepresentation" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// To get 4 points you have to implement Boolean Logic, such as:" %}
+                                                        {% trans "when green flag clicked" %}
+                                                        {% trans "if &lt;&lt; (score) > [10] &gt; and &lt;touching color [#FF0000]&gt;&gt; then" %}
+                                                        {% trans "say [You win!] for (2) secs" %}
+                                                        {% trans "else" %}
+                                                        {% trans "say [Try again!] for (2) secs" %}
+                                                        {% trans "end" %}
+                                                    </pre>
+                                                </div>
+                                                <p id="DataRepresentation-phrase-5" class="phrase phrase-DataRepresentation" >{% trans 'Data representation is absolutely vital. Poor data representation can lead to critical errors.' %}</p>
+                                                <!-- "Show more info" SIEMPRE visible -->
+                                                <p class="card-body">
+                                                    <a href="/learn/Dimensions/DataRepresentation/" target="_blank" class="btn btn-primary text-primary" style="font-size: 13px;">
+                                                        {% trans 'Why is it important?' %}
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        
+
+                                        <div class="form-group">
+                                            <label for="MathOperators" class="form-label text-primary label-pair">
+                                                {% trans 'Math Operators' %}: <span id="MathOperators-value"></span> 
+                                                <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse8" aria-expanded="false" aria-controls="collapse8">
+                                            </label>
+
+                                            <input type="range" class="form-range" min="0"s max="4" id="MathOperators" name="MathOperators">
+
+                                            <div id="collapse8" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                                <br>
+                                                <p id="MathOperators-phrase-0" class="phrase phrase-MathOperators" >{% trans 'Mathematical operators are not crucial at this moment. Performing complex mathematical operations is not required.' %}</p>
+                                                <div id="MathOperators-phrase-1" class="phrase phrase-MathOperators" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// To get 1 point you have to implement basic Math blocks, such as:" %}
+                                                        {% trans "when green flag clicked" %}
+                                                        {% trans "set [result v] to ((5) + (3))" %}
+                                                        {% trans "say (result) for (3) secs" %}
+                                                        {% trans "set [result v] to ((10) - (2))" %}
+                                                        {% trans "say (result) for (3) secs" %}
+                                                    </pre>
+                                                </div>
+                                                <div id="MathOperators-phrase-2" class="phrase phrase-MathOperators" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// To get 2 points you have to implement Math Equations, such as:" %}
+                                                        {% trans "when green flag clicked" %}
+                                                        {% trans "set [a v] to (3)" %}
+                                                        {% trans "set [b v] to (4)" %}
+                                                        {% trans "set [hypotenuse v] to ([sqrt v] of (((a)*(a)) + ((b)*(b))))" %}
+                                                        {% trans "say (hypotenuse) for (3) secs" %}
+                                                    </pre>
+                                                </div>
+                                                <div id="MathOperators-phrase-3" class="phrase phrase-MathOperators" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// To get 3 points you have to use make Operations with Strings, such as:" %}
+                                                        {% trans "when green flag clicked" %}
+                                                        {% trans "set [text1 v] to [Hello]" %}
+                                                        {% trans "set [text2 v] to [World]" %}
+                                                        {% trans "set [combinedText v] to (join (text1) (text2))" %}
+                                                        {% trans "say (combinedText) for (3) secs" %}
+                                                    </pre>
+                                                </div>
+                                                <div id="MathOperators-phrase-4" class="phrase phrase-MathOperators" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// To get 4 points you have to use trigonometric blocks, such as:" %}
+                                                        {% trans "when green flag clicked" %}  
+                                                        {% trans "set [angle A v] to (30)" %}  
+                                                        {% trans "set [angle B v] to (45)" %}  
+                                                        {% trans "set [side a v] to (10)" %}  
+                                                        {% trans "set [side b v] to ((side a) * (([sin v] of (angle B)) / ([sin v] of (angle A))))" %}  
+                                                        {% trans "say (join [Side b is ] (side b)) for (3) secs" %}  
+                                                    </pre>
+                                                </div>
+                                                <p id="MathOperators-phrase-5" class="phrase phrase-MathOperators" >{% trans 'Mathematical operators are absolutely vital. They are indispensable for operations that determine the final result.' %}</p>
+                                                <!-- "Show more info" SIEMPRE visible -->
+                                                <p class="card-body">
+                                                    <a href="/learn/Dimensions/MathOperators/" target="_blank" class="btn btn-primary text-primary" style="font-size: 13px;">
+                                                        {% trans 'Why is it important?' %}
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="MotionOperators" class="form-label text-primary label-pair">
+                                                {% trans 'Motion Operators' %}: <span id="MotionOperators-value"></span> 
+                                                <img src="static/app/images/little_bulb.png" class="img-fluid zoomable" data-toggle="collapse" data-target="#collapse9" aria-expanded="false" aria-controls="collapse9">
+                                            </label>
+
+                                            <input type="range" class="form-range" min="0"s max="4" id="MotionOperators" name="MotionOperators">
+                                            
+                                            <div id="collapse9" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                                <br>
+                                                <p id="MotionOperators-phrase-0" class="phrase phrase-MotionOperators" >{% trans 'Motion operators are not crucial at this moment. Extensive manipulation of movements in the code is not required.' %}</p>
+                                                <div id="MotionOperators-phrase-1" class="phrase phrase-MotionOperators" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// To get 1 point you have to use basic Motion Blocks, such as:" %}
+                                                        {% trans "when green flag clicked" %}
+                                                        {% trans "go to x:(0) y:(0)" %}
+                                                        {% trans "move (50) steps" %}
+                                                    </pre>
+                                                </div>
+                                                <div id="MotionOperators-phrase-2" class="phrase phrase-MotionOperators" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// To get 2 points you have to use Angular movements, such as:" %}
+                                                        {% trans "when green flag clicked" %}
+                                                        {% trans "point in direction (90)" %}
+                                                        {% trans "move (100) steps" %}
+                                                        {% trans "turn cw (90) degrees" %}
+                                                        {% trans "move (100) steps" %}
+                                                        
+                                                    </pre>
+                                                </div>
+                                                <div id="MotionOperators-phrase-3" class="phrase phrase-MotionOperators" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// To get 3 points you have to implement Velocity movements, such as:" %}
+                                                        {% trans "when green flag clicked" %}
+                                                        {% trans "glide (1) secs to x:(-100) y:(0)" %}
+                                                        {% trans "glide (0.75) secs to x:(-50) y:(0)" %}
+                                                    </pre>
+                                                </div>
+                                                <div id="MotionOperators-phrase-4" class="phrase phrase-MotionOperators" >
+                                                    <pre class="blocks col-lg-12">
+                                                        {% trans "// Earn 4 points by creating Complex Motion Sequences, such as:" %}
+                                                        {% trans "when green flag clicked" %}
+                                                        {% trans "repeat (4)" %}
+                                                        {% trans "move (100) steps" %}
+                                                        {% trans "turn cw (90) degrees" %}
+                                                        {% trans "repeat (2)" %}
+                                                        {% trans "glide (1) secs to x:(x position) y:(y position)" %}
+                                                        {% trans "end" %}
+                                                        {% trans "end" %}
+                                                    </pre>
+                                                </div>
+                                                <p id="MotionOperators-phrase-5" class="phrase phrase-MotionOperators" >{% trans 'Motion operators are absolutely vital. The ability to manipulate movements effectively is fundamental.' %}</p>
+                                                <!-- "Show more info" SIEMPRE visible -->
+                                                <p class="card-body">
+                                                    <a href="/learn/Dimensions/MotionOperators/" target="_blank" class="btn btn-primary text-primary" style="font-size: 13px;">
+                                                        {% trans 'Why is it important?' %}
+                                                    </a>
+                                                </p>
+                                            </div>
+                                            
+                                        </div>
+
+                                        <br>
+                                        <div id="pepe">
+                                            <button id="url" name='_url' type="submit" class="btn btn-personalized btn-primary">{% trans "Generate rubric" %}</button>
+                                        </div>
+                                    </form>
+                                    
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="col-md-4">
+                <section id="dashboard">
+                        <div class="container-fluid" id="stepfour">
+                            <div class="row marketing">
+                                <div class="jumbotron">
+                                    <h4>{% trans 'You can share this url:' %}</h4>
+                                    <div id="personalized-options">
+                                        <h5 class="text-success" id="url-share">{% trans 'First fill the form' %}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row marketing" id="rubric-examples">
+                                <div class="jumbotron">
+                                    <h4>{% trans 'Here there are some rubrics examples:' %}</h4>
+                                    <div id="personalized-options">
+                                        <h5 class="text-success">{% trans 'Arts' %}</h5>
+                                        <h5 class="text-success">{% trans 'Music' %}</h5>
+                                        <h5 class="text-success">{% trans 'Animations' %}</h5>
+                                        <h5 class="text-success">{% trans 'Stories' %}</h5>
+                                        <h5 class="text-success">{% trans 'Games' %}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row marketing">
+                                <div class="jumbotron" id="how-to-create">
+                                    <h4>{% trans 'How to create a rubric?' %}</h4>
+                                    <div>
+                                        <br>
+                                        <button id="start-tour" class="btn btn-primary">{% trans 'Start Tutorial' %}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </section>
+            </div>
+
+            
+            
+        </div>
+
+    </section>
+
+  
+</div>
+
+    <!-- FOOTER -->
+    <footer class="footer grey-bg">
+        <p style="font-size: 16px; color: #313131;">{% trans "©2024 Dr.Scratch Made with " %} <span style="color: #e25555;">&#9829;</span> {% trans "by " %} <a href="/collaborators">{% trans "Dr.Scratch Team." %}</a></p>
+            <!-- SOCIAL ICONS -->
+            <ul class="social-icons">
+                <li>
+                    <a href="https://github.com/Daniesmor/Dr.Scratch-Northeastern"> 
+                    <i class="bi bi-github" style="color: black;"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://twitter.com/DrScratchTool">
+                    <i class="bi bi-twitter-x" style="color: black;"></i>
+                    </a>
+                </li>    
+            </ul>
+    </footer>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var sliders = document.querySelectorAll("input[type='range']");
+            
+            sliders.forEach(function(slider) {
+                var sliderValue = document.getElementById(slider.id + "-value");
+                var initialValue = slider.value; // Obtener el valor inicial del slider
+    
+                // Ocultar todas las frases al cargar la página
+                // Ocultar todas las frases
+                document.querySelectorAll(".phrase").forEach(function(element) {
+                    element.style.display = "none";
+                });
+    
+                var initialPhrases = document.querySelectorAll("#" + slider.id + "-phrase-" + initialValue);
+
+                initialPhrases.forEach(function(phrase) {
+                    phrase.style.display = "block";
+                });
+    
+                slider.addEventListener("input", function() {
+                    updateSliderValue(slider, sliderValue);
+                });
+            });
+        });
+        
+        function updateSliderValue(slider, sliderValue) {
+            sliderValue.textContent = slider.value;
+
+            type_phrases = document.querySelectorAll("." + "phrase-" + slider.id)
+            type_phrases.forEach(function(type_phrase) {
+                type_phrase.style.display = "none";
+            });
+
+
+            var phrases = document.querySelectorAll("#" + slider.id + "-phrase-" + slider.value);
+            phrases.forEach(function(phrase) {                
+                phrase.style.display = "block";
+            });
+
+
+           
+        }
+    </script>
+    
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var sliders = document.querySelectorAll("input[type='range']");
+            
+            sliders.forEach(function(slider) {
+                var sliderValue = document.getElementById(slider.id + "-value");
+            
+                updateSliderValue(slider, sliderValue);
+            
+                slider.addEventListener("input", function() {
+                    updateSliderValue(slider, sliderValue);
+                });
+            });
+    
+            // Función para establecer los valores de los sliders y actualizar los span correspondientes
+            function setSliderAndSpanValues(sliderId, value) {
+                var slider = document.getElementById(sliderId);
+                slider.value = value;
+                updateSliderValue(slider, document.getElementById(sliderId + "-value"));
+            }
+
+            // Definir las traducciones
+            var translations = {
+                'games': "{% trans 'Games' %}",
+                'stories': "{% trans 'Stories' %}",
+                'animations': "{% trans 'Animations' %}",
+                'music': "{% trans 'Music' %}",
+                'arts': "{% trans 'Arts' %}"
+            };
+    
+            // Evento clic en los elementos de texto para establecer los valores predefinidos
+            var textElements = document.querySelectorAll(".text-success");
+            textElements.forEach(function(element) {
+                element.addEventListener("click", function() {
+                    switch (element.textContent.trim()) {
+                        case translations['games']:
+                            setSliderAndSpanValues("Abstraction", 2);
+                            setSliderAndSpanValues("Parallelization", 3);
+                            setSliderAndSpanValues("LogicThinking", 2);
+                            setSliderAndSpanValues("Synchronization", 3);
+                            setSliderAndSpanValues("FlowControl", 3);
+                            setSliderAndSpanValues("UserInteractivity", 2);
+                            setSliderAndSpanValues("DataRepresentation", 2);
+                            setSliderAndSpanValues("MathOperators", 2);
+                            setSliderAndSpanValues("MotionOperators", 3);
+                            break;
+                        case translations['stories']:
+                            setSliderAndSpanValues("Abstraction", 1);
+                            setSliderAndSpanValues("Parallelization", 2);
+                            setSliderAndSpanValues("LogicThinking", 1);
+                            setSliderAndSpanValues("Synchronization", 2);
+                            setSliderAndSpanValues("FlowControl", 2);
+                            setSliderAndSpanValues("UserInteractivity", 1);
+                            setSliderAndSpanValues("DataRepresentation", 1);
+                            setSliderAndSpanValues("MathOperators", 2);
+                            setSliderAndSpanValues("MotionOperators", 1);
+                            break;
+                        case translations['animations']:
+                            setSliderAndSpanValues("Abstraction", 1);
+                            setSliderAndSpanValues("Parallelization", 2);
+                            setSliderAndSpanValues("LogicThinking", 1);
+                            setSliderAndSpanValues("Synchronization", 1);
+                            setSliderAndSpanValues("FlowControl", 2);
+                            setSliderAndSpanValues("UserInteractivity", 1);
+                            setSliderAndSpanValues("DataRepresentation", 1);
+                            setSliderAndSpanValues("MathOperators", 1);
+                            setSliderAndSpanValues("MotionOperators", 3);
+                            break;                        
+                        case translations['music']:
+                            setSliderAndSpanValues("Abstraction", 1);
+                            setSliderAndSpanValues("Parallelization", 1);
+                            setSliderAndSpanValues("LogicThinking", 0);
+                            setSliderAndSpanValues("Synchronization", 2);
+                            setSliderAndSpanValues("FlowControl", 2);
+                            setSliderAndSpanValues("UserInteractivity", 1);
+                            setSliderAndSpanValues("DataRepresentation", 1);
+                            setSliderAndSpanValues("MathOperators", 1);
+                            setSliderAndSpanValues("MotionOperators", 1);
+                            break;
+                        case translations['arts']:
+                            setSliderAndSpanValues("Abstraction", 1);
+                            setSliderAndSpanValues("Parallelization", 1);
+                            setSliderAndSpanValues("LogicThinking", 0);
+                            setSliderAndSpanValues("Synchronization", 1);
+                            setSliderAndSpanValues("FlowControl", 2);
+                            setSliderAndSpanValues("UserInteractivity", 2);
+                            setSliderAndSpanValues("DataRepresentation", 1);
+                            setSliderAndSpanValues("MathOperators", 1);
+                            setSliderAndSpanValues("MotionOperators", 2);
+                            break;
+                        default:
+                            break;
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var sliders = document.querySelectorAll("input[type='range']");
+            
+            sliders.forEach(function (slider) {
+                updateSliderColor(slider); // Establecer color inicial
+                
+                slider.addEventListener("input", function () {
+                    updateSliderColor(slider); // Actualizar color en tiempo real
+                });
+            });
+        
+            function updateSliderColor(slider) {
+                var value = parseInt(slider.value);
+                
+                // Gradiente de colores desde un tono más claro hasta #A3D5D1
+                var colors = ["#E0F2F1", "#CDE7E5", "#B7DBDA", "#A3D5D1", "#8FC8C5"];
+                var color = colors[value] || "#ddd";
+        
+                // Cambia el color del "track" del slider dinámicamente
+                slider.style.setProperty("--track-color", color);
+            }
+
+            // Actualizar colores también cuando se eligen modos por defecto
+            var textElements = document.querySelectorAll(".text-success");
+            textElements.forEach(function(element) {
+                element.addEventListener("click", function() {
+                    setTimeout(function() { // Esperar a que los valores se actualicen
+                        sliders.forEach(function (slider) {
+                            updateSliderColor(slider);
+                        });
+                    }, 100);
+                });
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const tour = new Shepherd.Tour({
+                defaultStepOptions: {
+                    classes: 'custom-tour-style',
+                    scrollTo: false,  // Desactivamos el scroll automático de Shepherd.js
+                    cancelIcon: { enabled: true },
+                    arrow: true
+                }
+            });
+        
+            function scrollToElement(selector) {
+                return new Promise((resolve) => {
+                    const element = document.querySelector(selector);
+                    const headerOffset = 80; // Ajusta esto según la altura de tu header
+                    if (element) {
+                        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+                        window.scrollTo({
+                            top: elementPosition - headerOffset,
+                            behavior: "smooth"
+                        });
+                        setTimeout(resolve, 500); // Espera a que termine la animación
+                    } else {
+                        resolve();
+                    }
+                });
+            }
+        
+            // Paso 1: Introducción
+            tour.addStep({
+                id: 'step-1',
+                title: 'Welcome to the Rubric Generator!',
+                text: 'This tour will guide you through the different parts of the rubric generator.',
+                attachTo: { element: '#how-to-create', on: 'bottom' },
+                beforeShowPromise: () => scrollToElement('#how-to-create'),
+                buttons: [{ text: 'Next ➡️', action: tour.next, classes: 'shepherd-button-primary' }]
+            });
+        
+            // Paso 2: Rúbricas predefinidas
+            tour.addStep({
+                id: 'step-2',
+                title: '📌 Predefined Rubrics',
+                text: 'Find templates for Games, Music, and Animations here.',
+                attachTo: { element: '#rubric-examples', on: 'bottom' },
+                beforeShowPromise: () => scrollToElement('#rubric-examples'),
+                buttons: [
+                    { text: '⬅️ Back', action: tour.back, classes: 'shepherd-button-secondary' },
+                    { text: 'Next ➡️', action: tour.next, classes: 'shepherd-button-primary' }
+                ]
+            });
+        
+            // Paso 3: Generador de rúbricas
+            tour.addStep({
+                id: 'step-3',
+                title: '🛠️ Create Your Own Rubric',
+                text: 'Customize your rubric by adjusting different computational thinking aspects.',
+                attachTo: { element: '#personalized-options', on: 'left' },
+                beforeShowPromise: () => scrollToElement('#personalized-options'),
+                buttons: [
+                    { text: '⬅️ Back', action: tour.back, classes: 'shepherd-button-secondary' },
+                    { text: 'Next ➡️', action: tour.next, classes: 'shepherd-button-primary' }
+                ]
+            });
+        
+            // Paso 4: Sliders de habilidades
+            tour.addStep({
+                id: 'step-4',
+                title: '🎚️ Adjusting the Levels',
+                text: 'Use these sliders to adjust different skills such as Abstraction, Logic Thinking, and Synchronization.',
+                attachTo: { element: '.form-range', on: 'top' },
+                beforeShowPromise: () => scrollToElement('.form-range'),
+                buttons: [
+                    { text: '⬅️ Back', action: tour.back, classes: 'shepherd-button-secondary' },
+                    { text: 'Next ➡️', action: tour.next, classes: 'shepherd-button-primary' }
+                ]
+            });
+        
+            // Paso 5: Bombillas para más info
+            tour.addStep({
+                id: 'step-5',
+                title: '💡 More Information',
+                text: 'Click the lightbulbs to see additional explanations about each skill.',
+                attachTo: { element: '.zoomable', on: 'right' },
+                beforeShowPromise: () => scrollToElement('.zoomable'),
+                buttons: [
+                    { text: '⬅️ Back', action: tour.back, classes: 'shepherd-button-secondary' },
+                    { text: 'Next ➡️', action: tour.next, classes: 'shepherd-button-primary' }
+                ]
+            });
+        
+        
+            // Paso 7: Compartir rúbrica
+            tour.addStep({
+                id: 'step-6',
+                title: '🔗 Share Your Rubric',
+                text: 'Here you will find a link that you can share once you have generated your rubric.',
+                attachTo: { element: '#url-share', on: 'bottom' },
+                beforeShowPromise: () => scrollToElement('#url-share'),
+                buttons: [
+                    { text: '⬅️ Back', action: tour.back, classes: 'shepherd-button-secondary' },
+                    { text: '🎉 Finish', action: tour.complete, classes: 'shepherd-button-primary' }
+                ]
+            });
+        
+            // Iniciar el tour al hacer clic en el botón
+            document.getElementById("start-tour").addEventListener("click", function () {
+                tour.start();
+            });
+        });
+        
+        
+        
+    </script>
+
+
+</body>
+</html>
