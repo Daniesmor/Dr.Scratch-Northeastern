@@ -432,19 +432,14 @@
                                                     <p id="Abstraction-phrase-0" class="phrase phrase-Abstraction card-body">{% trans 'Abstraction is not relevant to me at this moment. I am focused on concrete and specific details of the program.' %}</p>
                                                     <div id="Abstraction-phrase-1" class="phrase phrase-Abstraction" >
                                                         <pre class="blocks col-lg-12">
-                                                            {% trans "// To get 1 point you need more than one sequence of blocks, such as:" %}
+                                                            {% trans "// Earn 1 point by implementing more than one script like the one below:" %}
                                                             {% trans "when green flag clicked" %}
                                                             {% trans "clear" %}
                                                             {% trans "go to x:(-100) y:(30)" %}
                                                             {% trans "pen down" %}
                                                             {% trans "move (200) steps" %}
                                                             {% trans "pen up" %}
-                                                            {% trans "when green flag clicked" %}
-                                                            {% trans "wait (1) secs" %}
-                                                            {% trans "go to x:(-44) y:(-24)" %}
-                                                            {% trans "set pen color to [#FFA500]" %}
-                                                            {% trans "move (100) steps" %}
-                                                            {% trans "pen up" %}
+                                                            
                                                         </pre>
                                                     </div>
                                                     <div id="Abstraction-phrase-2" class="phrase phrase-Abstraction" >
@@ -453,8 +448,6 @@
                                                             {% trans "when green flag clicked" %}
                                                             {% trans "forever" %}
                                                             {% trans "create clone of [myself v]" %}
-                                                            {% trans "wait (0.2) secs" %}
-                                                            {% trans "go to x:(pick random(-200) to (200)) y:(200)" %}
                                                             {% trans "glide (3) secs to x:(x position) y:(-180)" %}
                                                             {% trans "delete this clone" %}
                                                         </pre>
@@ -475,13 +468,9 @@
                                                             {% trans "when I start as a clone" %}
                                                             {% trans "set [xSpeed v] to (pick random (-5) to (5))" %}
                                                             {% trans "set [ySpeed v] to (pick random (-5) to (5))" %}
-                                                            {% trans "go to x:(pick random(-200) to (200)) y:(200)" %}
-                                                            {% trans "forever" %}
-                                                            {% trans "change x by (xSpeed)" %}
-                                                            {% trans "change y by (ySpeed)" %}
-                                                            {% trans "if &lt;(y position) < (-200)&gt; then" %}
-                                                            {% trans "delete this clone" %}
-                                                            {% trans "end" %}
+                                                            {% trans "repeat until &lt;(y position) < (-200)&gt;" %}
+                                                                {% trans "change x by (xSpeed)" %}
+                                                                {% trans "change y by (ySpeed)" %}
                                                             {% trans "end" %}
                                                         </pre>
                                                     </div>
@@ -522,12 +511,7 @@
                                                 </div>
                                                 <div id="Parallelization-phrase-2" class="phrase phrase-Parallelization" >
                                                     <pre class="blocks col-lg-12">
-                                                        {% trans "// To get 2 points you need more than one Key pressed or Sprite Clicked block, such as:" %}
-                                                        {% trans "when this sprite clicked" %}
-                                                        {% trans "forever" %}
-                                                        {% trans "move (10) steps" %}
-                                                        {% trans "if on edge, bounce" %}
-                                                        {% trans "end" %}
+                                                        {% trans "// Earn 2 points by using serveral blocks like Sprite Clicked, such as: "%}
                                                         {% trans "when this sprite clicked" %}
                                                         {% trans "forever" %}
                                                         {% trans "if &lt;touching [the mouse pointer v]? &gt; then" %}
@@ -597,9 +581,6 @@
                                                         {% trans "say [Game over]" %}
                                                         {% trans "stop [all v]" %}
                                                         {% trans "end" %}
-                                                        {% trans "if &lt; not &lt;(level)=(5)&gt;&gt;then" %}
-                                                        {% trans "say [You still have undiscovered levels] for (2) secs" %}
-                                                        {% trans "end" %}
                                                     </pre>
                                                 </div>                                                  
                                                 <div id="LogicThinking-phrase-4" class="phrase phrase-LogicThinking" >
@@ -608,14 +589,10 @@
                                                         {% trans "if &lt;&lt; (score) > (50) &gt; and &lt; (lives) > [1]&gt;&gt; then" %}
                                                         {% trans "    if  &lt;touching [Power-Up v]?&gt; then" %}
                                                         {% trans "        change [score v] by (10)" %}
-                                                        {% trans "    else" %}
-                                                        {% trans "        change [lives v] by (1)" %}
                                                         {% trans "    end" %}
                                                         {% trans "else" %}
                                                         {% trans "    if <(time) < (30)> then" %}
                                                         {% trans "        say [Hurry up!] for (2) secs" %}
-                                                        {% trans "    else" %}
-                                                        {% trans "        stop [all v]" %}
                                                         {% trans "    end" %}
                                                         {% trans "end" %}
                                                     </pre>
@@ -666,12 +643,11 @@
                                                 <div id="Synchronization-phrase-3" class="phrase phrase-Synchronization" >
                                                     <pre class="blocks col-lg-12">
                                                         {% trans "// To get 3 points you have to use some blocks, such as:" %}
+                                                        {% trans "when backdrop switches to [Spring v]" %}
+                                                        {% trans "say [Spring has come!] for (2) secs" %}
                                                         {% trans "wait until &lt;(lives) =[0]&gt;" %}
                                                         {% trans "say [Game over] for (2) secs" %}
                                                         {% trans "stop [all v]" %}
-                                                        {% trans "when backdrop switches to [Spring v]" %}
-                                                        {% trans "show" %}
-                                                        {% trans "say [Spring has come!] for (2) secs" %}
                                                     </pre>
                                                 </div>
                                                 <div id="Synchronization-phrase-4" class="phrase phrase-Synchronization" >
@@ -713,9 +689,6 @@
                                                         {% trans "say [I'm a dancer cat] for (2) secs" %}
                                                         {% trans "move (10) steps" %}
                                                         {% trans "turn cw (15) degrees" %}
-                                                        {% trans "wait (0.5) secs" %}
-                                                        {% trans "turn ccw (15) degrees" %}
-                                                        {% trans "move (-10) steps" %}
                                                     </pre>
                                                 </div>                                                
                                                 <div id="FlowControl-phrase-2" class="phrase phrase-FlowControl" >
@@ -747,7 +720,6 @@
                                                         {% trans "repeat until &lt;  (Score) = (Max Score) &gt;" %}
                                                         {% trans "repeat (3)" %}
                                                         {% trans "move (10) steps" %}
-                                                        {% trans "turn cw (15) degrees" %}
                                                         {% trans "wait (0.5) secs" %}
                                                         {% trans "end" %}
                                                         {% trans "say [Finished a round!]" %}
@@ -791,19 +763,12 @@
                                                         <br></br>
                                                         {% trans "when this sprite clicked" %}
                                                         {% trans "say [Hello] for (2) secs" %}
-                                                        <br></br>
-                                                        {% trans "ask [What's your name?] and wait" %}
-                                                        {% trans "say (join [Hello] [answer])" %}
 
                                                     </pre>
                                                 </div>
                                                 <div id="UserInteractivity-phrase-3" class="phrase phrase-UserInteractivity" >
                                                     <pre class="blocks col-lg-12">
                                                         {% trans "// To get 3 points you need to use certain blocks, such as:" %}
-                                                        {% trans "if &lt;(loudness) >[30]&gt; then" %}
-                                                        {% trans "say [There is much noise...]" %}
-                                                        {% trans "end" %}
-                                                        <br></br>
                                                         {% trans "video [motion v] on [sprite v]" %}
                                                         <br></br>
                                                         {% trans "video [direction v] on [sprite v]" %}
@@ -842,7 +807,6 @@
                                                 <div id="DataRepresentation-phrase-1" class="phrase phrase-DataRepresentation" >
                                                     <pre class="blocks col-lg-12">
                                                         {% trans "// To get 1 point you need to modify Sprites Properties, such as:" %}
-                                                        {% trans "point in direction (90 v)" %}
                                                         <br>
                                                         {% trans "change size by (10)" %}
                                                         <br>
@@ -934,12 +898,12 @@
                                                 <div id="MathOperators-phrase-4" class="phrase phrase-MathOperators" >
                                                     <pre class="blocks col-lg-12">
                                                         {% trans "// To get 4 points you have to use trigonometric blocks, such as:" %}
-                                                        {% trans "when green flag clicked" %}
-                                                        {% trans "set [angle A v] to (30)" %}
-                                                        {% trans "set [angle B v] to (45)" %}
-                                                        {% trans "set [side a v] to (10)" %}
-                                                        {% trans "set [side b v] to ((side a)*(([sin v] of (angle A))/([sin v] of (angle B))))" %}
-                                                        {% trans "say (join [Side b is ] (side b)) for (3) secs" %}
+                                                        {% trans "when green flag clicked" %}  
+                                                        {% trans "set [angle A v] to (30)" %}  
+                                                        {% trans "set [angle B v] to (45)" %}  
+                                                        {% trans "set [side a v] to (10)" %}  
+                                                        {% trans "set [side b v] to ((side a) * (([sin v] of (angle B)) / ([sin v] of (angle A))))" %}  
+                                                        {% trans "say (join [Side b is ] (side b)) for (3) secs" %}  
                                                     </pre>
                                                 </div>
                                                 <p id="MathOperators-phrase-5" class="phrase phrase-MathOperators" >{% trans 'Mathematical operators are absolutely vital. They are indispensable for operations that determine the final result.' %}</p>
@@ -969,39 +933,30 @@
                                                         {% trans "when green flag clicked" %}
                                                         {% trans "go to x:(0) y:(0)" %}
                                                         {% trans "move (50) steps" %}
-                                                        {% trans "go to x:(-50) y:(50)" %}
-                                                        {% trans "move (-30) steps" %}
-                                                        {% trans "go to x:(0) y:(0)" %}
                                                     </pre>
                                                 </div>
                                                 <div id="MotionOperators-phrase-2" class="phrase phrase-MotionOperators" >
                                                     <pre class="blocks col-lg-12">
                                                         {% trans "// To get 2 points you have to use Angular movements, such as:" %}
                                                         {% trans "when green flag clicked" %}
-                                                        {% trans "go to x:(0) y:(0)" %}
                                                         {% trans "point in direction (90)" %}
                                                         {% trans "move (100) steps" %}
                                                         {% trans "turn cw (90) degrees" %}
                                                         {% trans "move (100) steps" %}
-                                                        {% trans "turn ccw (180) degrees" %}
-                                                        {% trans "move (100) steps" %}
+                                                        
                                                     </pre>
                                                 </div>
                                                 <div id="MotionOperators-phrase-3" class="phrase phrase-MotionOperators" >
                                                     <pre class="blocks col-lg-12">
                                                         {% trans "// To get 3 points you have to implement Velocity movements, such as:" %}
                                                         {% trans "when green flag clicked" %}
-                                                        {% trans "go to x:(-150) y:(0)" %}
                                                         {% trans "glide (1) secs to x:(-100) y:(0)" %}
                                                         {% trans "glide (0.75) secs to x:(-50) y:(0)" %}
-                                                        {% trans "glide (0.5) secs to x:(0) y:(0)" %}
-                                                        {% trans "glide (0.25) secs to x:(50) y:(0)" %}
-                                                        {% trans "glide (0.1) secs to x:(100) y:(0)" %}
                                                     </pre>
                                                 </div>
                                                 <div id="MotionOperators-phrase-4" class="phrase phrase-MotionOperators" >
                                                     <pre class="blocks col-lg-12">
-                                                        {% trans "// To get 4 points you have to implement Complex Motion Sequences, such as:" %}
+                                                        {% trans "// Earn 4 points by creating Complex Motion Sequences, such as:" %}
                                                         {% trans "when green flag clicked" %}
                                                         {% trans "repeat (4)" %}
                                                         {% trans "move (100) steps" %}
@@ -1010,7 +965,6 @@
                                                         {% trans "glide (1) secs to x:(x position) y:(y position)" %}
                                                         {% trans "end" %}
                                                         {% trans "end" %}
-                                                        {% trans "glide (1) secs to x:(0) y:(0)" %}
                                                     </pre>
                                                 </div>
                                                 <p id="MotionOperators-phrase-5" class="phrase phrase-MotionOperators" >{% trans 'Motion operators are absolutely vital. The ability to manipulate movements effectively is fundamental.' %}</p>
@@ -1313,7 +1267,7 @@
             // Paso 1: Introducción
             tour.addStep({
                 id: 'step-1',
-                title: '✨ Welcome to the Rubric Generator!',
+                title: 'Welcome to the Rubric Generator!',
                 text: 'This tour will guide you through the different parts of the rubric generator.',
                 attachTo: { element: '#how-to-create', on: 'bottom' },
                 beforeShowPromise: () => scrollToElement('#how-to-create'),
@@ -1372,22 +1326,10 @@
                 ]
             });
         
-            // Paso 6: Generar rúbrica
-            tour.addStep({
-                id: 'step-6',
-                title: '📄 Generate Your Rubric',
-                text: 'Once you have adjusted the sliders, click this button to generate your rubric.',
-                attachTo: { element: '#url', on: 'down' },
-                beforeShowPromise: () => scrollToElement('#url'),
-                buttons: [
-                    { text: '⬅️ Back', action: tour.back, classes: 'shepherd-button-secondary' },
-                    { text: 'Next ➡️', action: tour.next, classes: 'shepherd-button-primary' }
-                ]
-            });
         
             // Paso 7: Compartir rúbrica
             tour.addStep({
-                id: 'step-7',
+                id: 'step-6',
                 title: '🔗 Share Your Rubric',
                 text: 'Here you will find a link that you can share once you have generated your rubric.',
                 attachTo: { element: '#url-share', on: 'bottom' },

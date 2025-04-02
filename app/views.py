@@ -103,10 +103,18 @@ def contest(request):
 
 def collaborators(request):
     return render(request, 'main/collaborators.html')
+
+def rubric_creator_students(request):
+    user = str(identify_user_type(request))
+    return render(request, user + '/rubric-creator-students.html')
+
+def rubric_creator_teachers(request):
+    user = str(identify_user_type(request))
+    return render(request, user + '/rubric-creator-teachers.html')
     
 def rubric_creator(request):
     user = str(identify_user_type(request))
-    return render(request, user + '/rubric-creator.html')
+    return render(request, user + '/rubric-creator-teachers.html')
 
 def upload_personalized(request, skill_points=None):
     user = str(identify_user_type(request))
