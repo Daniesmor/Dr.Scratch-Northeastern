@@ -205,26 +205,51 @@
         .text-success {
             cursor: pointer; /* Cambiar el cursor a pointer cuando se pasa sobre el texto */
         }
-        /* Estilos generales para el slider */
         input[type="range"] {
             -webkit-appearance: none;
+            appearance: none;
             width: 100%;
             height: 8px;
+            background: lightgray;
             border-radius: 4px;
-            background: #ddd; /* Color de fondo predeterminado */
             outline: none;
-            transition: background 0.3s ease-in-out;
-            cursor: grab; /* Cursor de mano por defecto */
-        }
+          }
+          
+          /* Firefox */
+          input[type="range"]::-moz-range-thumb {
+            height: 20px;
+            width: 20px;
+            background: white;
+            border: 2px solid #ccc;
+            border-radius: 50%;
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
+            cursor: pointer;
+          }
+          
+          
+          input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            height: 20px;
+            width: 20px;
+            background: white;
+            border: 2px solid #ccc;
+            border-radius: 50%;
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
+            margin-top: -6px; /* Ajuste vertical si lo necesitas */
+            cursor: pointer;
+          }
+          
+          
+          
+          
         input[type="range"]:active {
             cursor: grabbing; /* Cursor de mano cerrada cuando se mueve */
         }
 
-        /* Para navegadores basados en WebKit (Chrome, Edge, Safari) */
+        /* 🎨 Track del slider en Chrome */
         input[type="range"]::-webkit-slider-runnable-track {
             height: 8px;
-            border-radius: 4px;
-            background: var(--track-color, #ddd); /* Color dinámico */
+            border-radius: 5px;
         }
 
         /* Para navegadores basados en Firefox */
@@ -349,7 +374,6 @@
     .shepherd-button-secondary:hover {
         background-color: #545b62 !important;  /* Gris más oscuro */
     }
-
 
     </style>
     
@@ -1213,13 +1237,18 @@
         
             function updateSliderColor(slider) {
                 var value = parseInt(slider.value);
-                
-                // Gradiente de colores desde un tono más claro hasta #A3D5D1
+                var max = parseInt(slider.max);
+                var percent = (value / max) * 100;
+        
+                // Colores personalizados según el valor del slider
                 var colors = ["#E0F2F1", "#CDE7E5", "#B7DBDA", "#A3D5D1", "#8FC8C5"];
                 var color = colors[value] || "#ddd";
         
-                // Cambia el color del "track" del slider dinámicamente
+                // Firefox usa `::-moz-range-progress` automáticamente
                 slider.style.setProperty("--track-color", color);
+        
+                // Chrome: Usamos un gradiente para simular el mismo efecto
+                slider.style.background = `linear-gradient(to right, ${color} 0%, ${color} ${percent}%, #ddd ${percent}%, #ddd 100%)`;
             }
 
             // Actualizar colores también cuando se eligen modos por defecto
@@ -1235,6 +1264,7 @@
             });
         });
     </script>
+
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
