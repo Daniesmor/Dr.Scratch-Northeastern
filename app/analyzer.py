@@ -77,7 +77,7 @@ def _make_compare(request, skill_points: dict):
     path = {}
     json = {}
     d[project_counter] = {}
-
+    
     if request.method == "POST":
         if "_urls" in request.POST:
             for url in request.POST.getlist('urlProject'):
@@ -132,6 +132,7 @@ def _make_compare(request, skill_points: dict):
         check_same_functionality(request, d, project_counter)
 
         d[project_counter]['dashboard_mode'] = "Comparison"
+        d[project_counter]['Error'] = "None"
         
 
         return d
