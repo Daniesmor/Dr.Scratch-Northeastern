@@ -20,77 +20,73 @@ from app.hairball3.refactor import RefactorDuplicate
 from app.hairball3.spriteNaming import SpriteNaming
 from app.hairball3.scratchGolfing import ScratchGolfing
 from app.hairball3.block_sprite_usage import Block_Sprite_Usage
-from app.hairball3.babiaInfo import Babia
 from app.models import Coder, File, Organization
 from app.scratchclient import ScratchSession
 from app.recomender import RecomenderSystem
 import app.consts_drscratch as consts
-
+from .translation import translate
+from memory_profiler import profile
 
 
 def save_analysis_in_file_db(request, zip_filename):
+    filename = zip_filename.decode('utf-8')
     now = datetime.now()
     method = "project"
-
+    if request.POST['batch_id']:
+        batch_id = request.POST['batch_id']
+    else:
+        batch_id = None
     if request.user.is_authenticated:
         username = request.user.username
     else:
         username = None
 
     if Organization.objects.filter(username=username):
-        filename_obj = File(filename=zip_filename,
-                        organization=username,
-                        method=method, time=now,
-                        score=0, abstraction=0, parallelization=0,
-                        logic=0, synchronization=0, flowControl=0,
-                        userInteractivity=0, dataRepresentation=0,
-                        spriteNaming=0, initialization=0,
-                        deadCode=0, duplicateScript=0)
+        filename_obj = File(filename=filename,
+                            organization=username,
+                            method=method, batch_id=batch_id, time=now,
+                            score=0, vanilla_metrics={}, extended_metrics={},
+                            spriteNaming=0, backdropNaming=0, initialization=0,
+                            deadCode=0, duplicateScript=0)
     elif Coder.objects.filter(username=username):
-        filename_obj = File(filename=zip_filename,
-                        coder=username,
-                        method=method, time=now,
-                        score=0, abstraction=0, parallelization=0,
-                        logic=0, synchronization=0, flowControl=0,
-                        userInteractivity=0, dataRepresentation=0,
-                        spriteNaming=0, initialization=0,
-                        deadCode=0, duplicateScript=0)
+        filename_obj = File(filename=filename,
+                            coder=username,
+                            method=method, batch_id=batch_id, time=now,
+                            score=0, vanilla_metrics={}, extended_metrics={},
+                            spriteNaming=0, backdropNaming=0, initialization=0,
+                            deadCode=0, duplicateScript=0)
     else:
-        filename_obj = File(filename=zip_filename,
-                        method=method, time=now,
-                        score=0, abstraction=0, parallelization=0,
-                        logic=0, synchronization=0, flowControl=0,
-                        userInteractivity=0, dataRepresentation=0,
-                        spriteNaming=0, initialization=0,
-                        deadCode=0, duplicateScript=0)
+        filename_obj = File(filename=filename,
+                            method=method, batch_id=batch_id, time=now,
+                            score=0, vanilla_metrics={}, extended_metrics={},
+                            spriteNaming=0, backdropNaming=0, initialization=0,
+                            deadCode=0, duplicateScript=0)
 
     filename_obj.save()
     return filename_obj
+
 
 def _make_compare(request, skill_points: dict):
     """
     Make comparison of two projects
     """
-    project_counter = 0
     counter = 0
     d = {}
     path = {}
     json = {}
-    d[project_counter] = {}
-    
     if request.method == "POST":
         if "_urls" in request.POST:
             for url in request.POST.getlist('urlProject'):
                 print("Url:", url)
                 project = check_project(counter)
-                d[project_counter][project] = analysis_by_url(request, url, skill_points)
+                d[project] = analysis_by_url(request, url, skill_points)
                 path[project] = request.session.get('current_project_path')
                 counter += 1
         elif "_uploads" in request.POST:
             for upload in request.FILES.getlist('zipFile'):
                 project = check_project(counter)
                 print("Upload:", upload)
-                d[project_counter][project] = analysis_by_upload(request, skill_points, upload)
+                d[project] = analysis_by_upload(request, skill_points, upload)
                 path[project] = request.session.get('current_project_path')
                 counter += 1
         elif "_mix" in request.POST:
@@ -98,47 +94,36 @@ def _make_compare(request, skill_points: dict):
             base_type = request.POST.get('baseProjectType')
             if base_type == "urlProject":
                 url = request.POST.getlist('urlProject')[0]
-                d[project_counter][project] = analysis_by_url(request, url, skill_points)
+                d[project] = analysis_by_url(request, url, skill_points)
                 path[project] = request.session.get('current_project_path')
                 counter += 1
                 upload = request.FILES.get('zipFile')
                 project = check_project(counter)
-                d[project_counter][project] = analysis_by_upload(request, skill_points, upload)
+                d[project] = analysis_by_upload(request, skill_points, upload)
                 path[project] = request.session.get('current_project_path')
             else:
                 upload = request.FILES.get('zipFile')
-                d[project_counter][project] = analysis_by_upload(request, skill_points, upload)
+                d[project] = analysis_by_upload(request, skill_points, upload)
                 path[project] = request.session.get('current_project_path')
                 counter += 1
                 project = check_project(counter)
                 url = request.POST.getlist('urlProject')[1]
-                d[project_counter][project] = analysis_by_url(request, url, skill_points)
+                d[project] = analysis_by_url(request, url, skill_points)
                 path[project] = request.session.get('current_project_path')
 
-        for key in ['Original', 'New']:
-            if key in d[project_counter] and isinstance(d[project_counter][key], dict):
-                if d[project_counter][key].get('Error') != 'None':
-                    d[project_counter]['Error'] = d[project_counter][key]['Error']
-                    return d
-
-        for key,value in path.items():
+        for key, value in path.items():
             print(key, value)
-            json[key] = load_json_project(value)    
-
+            json[key] = load_json_project(value)
         dict_scratch_golfing = ScratchGolfing(json.get('Original'), json.get('New')).finalize()
         dict_scratch_golfing = dict_scratch_golfing['result']['scratch_golfing']
-
-        d[project_counter]['Compare'] = dict_scratch_golfing
-        check_same_functionality(request, d, project_counter)
-
-        d[project_counter]['dashboard_mode'] = "Comparison"
-        d[project_counter]['Error'] = "None"
-        
+        d['Compare'] = dict_scratch_golfing
+        check_same_functionality(request, d)
 
         return d
     else:
         return HttpResponseRedirect('/')
-    
+
+
 def check_project(counter):
     if counter == 0:
         project = "Original"
@@ -146,20 +131,22 @@ def check_project(counter):
         project = "New"
     return project
 
-def check_same_functionality(request, d, project_counter):
+
+def check_same_functionality(request, d):
     """
     Check if the projects have the same functionality
     """
     same_functionality = request.POST.get('same_functionality') == "True"
     print("Same functionality:", same_functionality)
     if same_functionality:
-            d[project_counter]['Compare'].update({
-                'same_functionality': True
-            })
-    else: 
-        d[project_counter]['Compare'].update({
+        d['Compare'].update({
+            'same_functionality': True
+        })
+    else:
+        d['Compare'].update({
             'same_functionality': False
         })
+
 
 def return_scratch_project_identifier(url) -> str:
     """
@@ -189,7 +176,6 @@ def return_scratch_project_identifier(url) -> str:
 
 
 def write_activity_in_logfile(file_name):
-
     log_filename = '{}/log/{}'.format(os.path.dirname(os.path.dirname(__file__)), 'logFile.txt')
 
     try:
@@ -211,11 +197,10 @@ def generate_uniqueid_for_saving(id_project):
 
 
 def save_projectsb3(path_file_temporary, id_project):
-
     dir_zips = os.path.dirname(os.path.dirname(__file__)) + "/uploads/"
 
     unique_id = generate_uniqueid_for_saving(id_project)
-    unique_file_name_for_saving = dir_zips + unique_id + ".sb3"
+    unique_file_name_for_saving = dir_zips + unique_id + ".sb2"
 
     dir_utemp = path_file_temporary.split(id_project)[0].encode('utf-8')
     path_project = os.path.dirname(os.path.dirname(__file__))
@@ -245,7 +230,7 @@ def save_projectsb3(path_file_temporary, id_project):
 def download_scratch_project_from_servers(path_project, id_project):
     scratch_project_inf = ScratchSession().get_project(id_project)
     url_json_scratch = "{}/{}?token={}".format(consts.URL_SCRATCH_SERVER, id_project, scratch_project_inf.project_token)
-    print("URL JSON PROJECT -------------------")
+    print("URLLLLL -------------------")
     print(url_json_scratch)
     path_utemp = '{}/utemp/{}'.format(path_project, id_project)
     path_json_file = path_utemp + '_new_project.json'
@@ -257,29 +242,19 @@ def download_scratch_project_from_servers(path_project, id_project):
         # Two ways, id does not exist in servers or id is in other server
         logger.error('HTTPError')
         url_json_scratch = "{}/{}".format(consts.URL_GETSB3, id_project)
-        try:
-            response_from_scratch = urlopen(url_json_scratch)
-            path_json_file = path_utemp + '_old_project.json'
-        except URLError:
-            logger.error('URLError')
-            traceback.print_exc()
-            response_from_scratch = None
+        response_from_scratch = urlopen(url_json_scratch)
+        path_json_file = path_utemp + '_old_project.json'
     except URLError:
         logger.error('URLError')
         traceback.print_exc()
-        response_from_scratch = None
     except:
         traceback.print_exc()
 
     try:
-        if response_from_scratch is None:
-            raise AttributeError("response_from_scratch is None")
-        elif not hasattr(response_from_scratch, "read"):
-            raise AttributeError("response_from_scratch no tiene método read()")
-        else:
-            json_string_format = response_from_scratch.read()
-        
+        json_string_format = response_from_scratch.read()
         json_data = json.loads(json_string_format)
+        print("PATH JSON TEMPORARY FILE in dspfs---------------------------------------------------------")
+        print(json_data)
         resulting_file = open(path_json_file, 'wb')
         resulting_file.write(json_string_format)
         resulting_file.close()
@@ -289,25 +264,19 @@ def download_scratch_project_from_servers(path_project, id_project):
     except IOError as e:
         logger.error('IOError %s' % e.message)
         raise IOError
-    except AttributeError as e:
-        logger.error("AttributeError: %s", str(e))
-        raise AttributeError("AttributeError: %s" % str(e))
 
     return path_json_file
 
-def send_request_getsb3(id_project, username, method):
+
+def send_request_getsb3(id_project, username, method, batch=None):
     """
     Send request to getsb3 app
     """
 
     file_url = '{}{}'.format(id_project, '.sb3')
 
-    try:
-        path_project = os.path.dirname(os.path.dirname(__file__))
-        path_json_file_temporary = download_scratch_project_from_servers(path_project, id_project)
-    except AttributeError as e:
-        logger.error('AttributeError: %s', str(e))
-        raise DrScratchException
+    path_project = os.path.dirname(os.path.dirname(__file__))
+    path_json_file_temporary = download_scratch_project_from_servers(path_project, id_project)
 
     print("PATH JSON TEMPORARY FILE ---------------------------------------------------------")
     print(path_json_file_temporary)
@@ -317,30 +286,24 @@ def send_request_getsb3(id_project, username, method):
     if Organization.objects.filter(username=username):
         file_obj = File(filename=file_url,
                         organization=username,
-                        method=method, time=now,
-                        score=0, abstraction=0, parallelization=0,
-                        logic=0, synchronization=0, flowControl=0,
-                        userInteractivity=0, dataRepresentation=0,
-                        spriteNaming=0, initialization=0,
+                        method=method, batch_id=None, time=now,
+                        score=0, vanilla_metrics={}, extended_metrics={},
+                        spriteNaming=0, backdropNaming=0, initialization=0,
                         deadCode=0, duplicateScript=0)
     elif Coder.objects.filter(username=username):
         file_obj = File(filename=file_url,
                         coder=username,
-                        method=method, time=now,
-                        score=0, abstraction=0, parallelization=0,
-                        logic=0, synchronization=0, flowControl=0,
-                        userInteractivity=0, dataRepresentation=0,
-                        spriteNaming=0, initialization=0,
+                        method=method, batch_id=None, time=now,
+                        score=0, vanilla_metrics={}, extended_metrics={},
+                        spriteNaming=0, backdropNaming=0, initialization=0,
                         deadCode=0, duplicateScript=0)
     else:
         file_obj = File(filename=file_url,
-                        method=method, time=now,
-                        score=0, abstraction=0, parallelization=0,
-                        logic=0, synchronization=0, flowControl=0,
-                        userInteractivity=0, dataRepresentation=0,
-                        spriteNaming=0, initialization=0,
+                        method=method, batch_id=None, time=now,
+                        score=0, vanilla_metrics={}, extended_metrics={},
+                        spriteNaming=0, backdropNaming=0, initialization=0,
                         deadCode=0, duplicateScript=0)
-    
+
     file_obj.save()
 
     write_activity_in_logfile(file_obj)
@@ -349,21 +312,18 @@ def send_request_getsb3(id_project, username, method):
     return path_scratch_project_sb3, file_obj, ext_type_project
 
 
-
 def generator_dic(request, id_project, skill_points: dict) -> dict:
     """
     Return a dictionary with static analysis and errors
     """
-
     try:
         username = None
         path_project, file_obj, ext_type_project = send_request_getsb3(id_project, username, method="url")
+        file_obj.batch_id = request.POST.get('batch_id', '') if request.POST.get('batch_id') else None
         try:
             request.session['current_project_path'] = path_project
         except AttributeError:
             pass
-        except TypeError:
-            pass 
     except DrScratchException:
         logger.error('DrScratchException')
         d = {'Error': 'no_exists'}
@@ -375,6 +335,10 @@ def generator_dic(request, id_project, skill_points: dict) -> dict:
         return d
 
     try:
+        print("MAS TRAZASS------------------------------------------------")
+        print(path_project)
+        print(file_obj)
+        print(ext_type_project)
         d = analyze_project(request, path_project, file_obj, ext_type_project, skill_points)
     except Exception:
         logger.error('Impossible analyze project')
@@ -385,9 +349,6 @@ def generator_dic(request, id_project, skill_points: dict) -> dict:
         new_path_project = path_project.split("/uploads/")[0] + "/error_analyzing/" + path_project.split("/uploads/")[1]
         shutil.copy(old_path_project, new_path_project)
         return {'Error': 'analyzing'}
-
-    # Redirect to dashboard for unregistered user
-    d['Error'] = 'None'
 
     return d
 
@@ -408,14 +369,14 @@ def check_version(filename):
     return version
 
 
+# @profile
 def load_json_project(path_projectsb3):
     try:
-        zip_file = ZipFile(path_projectsb3, "r")
-        json_project = json.loads(zip_file.open("project.json").read())
-        return json_project
+        return json.loads(ZipFile(path_projectsb3, "r").open("project.json").read())
     except BadZipfile:
         print('Bad zipfile')
- 
+
+
 def proc_refactored_code(refactor):
     dict_refactor = {}
     dict_refactor["refactor"] = dict_refactor
@@ -423,29 +384,28 @@ def proc_refactored_code(refactor):
 
     return dict_refactor
 
+
 def proc_block_sprite_usage(result_block_sprite_usage, filename):
     dict_block_sprite_usage = {}
     dict_block_sprite_usage["block_sprite_usage"] = dict_block_sprite_usage
-    dict_block_sprite_usage["block_sprite_usage"]= result_block_sprite_usage
+    dict_block_sprite_usage["block_sprite_usage"] = result_block_sprite_usage
 
     return dict_block_sprite_usage
+
 
 def proc_dead_code(dict_dead_code, filename):
     dict_dc = {}
     dict_dc["deadCode"] = dict_dc
     dict_dc["deadCode"]["number"] = dict_dead_code['result']['total_dead_code_scripts']
-    #dict_dc["deadCode"]['plugins']["babia"] = dict_dead_code['babia']
-    
-    dict_dc["deadCode"]["scripts"] = {}
+
     for dict_sprite_dead_code_blocks in dict_dead_code['result']['list_dead_code_scripts']:
         for sprite_name, list_blocks in dict_sprite_dead_code_blocks.items():
-            dict_dc["deadCode"]["scripts"][sprite_name] = list_blocks
+            dict_dc["deadCode"][sprite_name] = list_blocks
 
     filename.deadCode = dict_dead_code['result']['total_dead_code_scripts']
     filename.save()
 
     return dict_dc
-
 
 
 def proc_recomender(dict_recom):
@@ -497,12 +457,14 @@ def proc_urls(request, dict_mastery, file_obj):
         dict_urls["url_personal"] = get_urls(dict_personal)
     return dict_urls
 
+
 def get_urls(dict_mastery):
     list_urls = []
     for key in dict_mastery.keys():
-        if key != 'total_points' and key!= 'competence' and key!= 'max_points' and key!= 'average_points':
+        if key != 'total_points' and key != 'competence' and key != 'max_points' and key != 'average_points':
             list_urls.append(key)
     return list_urls
+
 
 def proc_mastery(request, dict_mastery, file_obj):
     dic = {}
@@ -519,7 +481,7 @@ def proc_mastery(request, dict_mastery, file_obj):
         dic["mastery"]["competence"] = dict_extended["competence"]
         dic["mastery"]["points"] = dict_extended["total_points"]
         dic["mastery_vanilla"]["competence"] = dict_vanilla["competence"]
-        dic["mastery_vanilla"]["points"] = dict_vanilla["total_points"]     
+        dic["mastery_vanilla"]["points"] = dict_vanilla["total_points"]
     elif mode == 'Personalized':
         dict_personal = dict_mastery['personalized'].copy()
         set_file_obj(request, file_obj, dict_personal)
@@ -528,28 +490,20 @@ def proc_mastery(request, dict_mastery, file_obj):
         dic["mastery"]["competence"] = dict_personal["competence"]
         dic["mastery"]["points"] = dict_personal["total_points"]
         print("Lista_Mastery:", dict_personal.keys())
-    
+
     return dic
 
-def set_file_obj(request, file_obj, dict, mode=None):
 
+def set_file_obj(request, file_obj, dict, mode=None):
     file_obj.score = dict["total_points"][0]
     file_obj.competence = dict["competence"]
-    file_obj.abstraction = dict["Abstraction"][0]
-    file_obj.parallelization = dict["Parallelization"][0]
-    file_obj.logic = dict["Logic"][0]
-    file_obj.synchronization = dict["Synchronization"][0]
-    file_obj.flow_control = dict["FlowControl"][0]
-    file_obj.userInteractivity = dict["UserInteractivity"][0]
-    file_obj.dataRepresentation = dict["DataRepresentation"][0]
+    file_obj.vanilla_metrics = dict
     if mode != 'Vanilla':
-        file_obj.mathOperators = dict["MathOperators"][0]
-        file_obj.mathOperators = dict["MotionOperators"][0]
+        file_obj.extended_metrics = dict
     file_obj.save()
 
 
 def proc_duplicate_script(dict_result, file_obj) -> dict:
-
     dict_ds = {}
     dict_ds["duplicateScript"] = dict_ds
     dict_ds["duplicateScript"]["number"] = dict_result['result']['total_duplicate_scripts']
@@ -563,7 +517,6 @@ def proc_duplicate_script(dict_result, file_obj) -> dict:
 
 
 def proc_sprite_naming(lines, file_obj):
-
     dic = {}
     lLines = lines.split('\n')
     number = lLines[0].split(' ')[0]
@@ -581,7 +534,6 @@ def proc_sprite_naming(lines, file_obj):
 
 
 def proc_backdrop_naming(lines, file_obj):
-
     dic = {}
     lLines = lines.split('\n')
     number = lLines[0].split(' ')[0]
@@ -596,170 +548,43 @@ def proc_backdrop_naming(lines, file_obj):
 
     return dic
 
-def proc_babia(dict_result) -> dict:
-    dict_babia = {}
-    dict_babia["babia"] = dict_result
 
-    return dict_babia
+import sys
 
 
-
-def translate(request, d, filename, vanilla=False):
-    """
-    Translate the output of Hairball
-    """
-
-    if request.LANGUAGE_CODE == "es":
-        d_translate_es = {'Abstracción': [d['Abstraction'], 'Abstraction'], 'Paralelismo': [d['Parallelization'], 'Parallelization'],
-                          'Pensamiento lógico': [d['Logic'], 'Logic'], 'Sincronización': [d['Synchronization'], 'Synchronization'],
-                          'Control de flujo': [d['FlowControl'], 'FlowControl'], 'Interactividad con el usuario': [d['UserInteractivity'], 'UserInteractivity'],
-                          'Representación de la información': [d['DataRepresentation'], 'DataRepresentation']}
-        if not vanilla: # Check that not is Vanilla Mode
-            d_translate_es.update({'Operadores matemáticos': [d['MathOperators'], 'MathOperators'], 'Operadores de movimiento': [d['MotionOperators'], 'MotionOperators']})
-        filename.language = "es"
-        filename.save()
-        return d_translate_es
-    elif request.LANGUAGE_CODE == "en":
-        d_translate_en = {'Abstraction': [d['Abstraction'], 'Abstraction'], 'Parallelism': [d['Parallelization'], 'Parallelization'], 'Logic': [d['Logic'], 'Logic'],
-                          'Synchronization': [d['Synchronization'], 'Synchronization'], 'Flow control': [d['FlowControl'], 'FlowControl'],
-                          'User interactivity': [d['UserInteractivity'], 'UserInteractivity'], 'Data representation': [d['DataRepresentation'], 'DataRepresentation']}
-        if not vanilla: 
-            d_translate_en.update({'Math operators': [d['MathOperators'], 'MathOperators'], 'Motion operators': [d['MotionOperators'], 'MotionOperators']})
-        filename.language = "en"
-        filename.save()
-        return d_translate_en
-    elif request.LANGUAGE_CODE == "ca":
-        d_translate_ca = {'Abstracció': [d['Abstraction'], 'Abstraction'], 'Paral·lelisme': [d['Parallelization'], 'Parallelization'], 'Lògica': [d['Logic'], 'Logic'],
-                          'Sincronització': [d['Synchronization'], 'Synchronization'], 'Controls de flux': [d['FlowControl'], 'FlowControl'],
-                          "Interactivitat de l'usuari": [d['UserInteractivity'], 'UserInteractivity'],
-                          'Representació de dades': [d['DataRepresentation'], 'DataRepresentation']}
-        if not vanilla: 
-            d_translate_ca.update({'Operadors matemàtics': [d['MathOperators'], 'MathOperators'], 'Operadors de moviment':  [d['MotionOperators'], 'MotionOperators']})
-        filename.language = "ca"
-        filename.save()
-        return d_translate_ca
-    elif request.LANGUAGE_CODE == "gl":
-        d_translate_gl = {'Abstracción': [d['Abstraction'], 'Abstraction'], 'Paralelismo': [d['Parallelization'], 'Parallelization'], 'Lóxica': [d['Logic'], 'Logic'],
-                          'Sincronización': [d['Synchronization'], 'Synchronization'], 'Control de fluxo': [d['FlowControl'], 'FlowControl'],
-                          "Interactividade do susario": [d['UserInteractivity'], 'UserInteractivity'],
-                          'Representación dos datos': [d['DataRepresentation'], 'DataRepresentation']}
-        if not vanilla: 
-            d_translate_gl.update({'Operadores matemáticos': [d['MathOperators'], 'MathOperators'], 'Operadores de movemento': [d['MotionOperators'], 'MotionOperators']})
-        filename.language = "gl"
-        filename.save()
-        return d_translate_gl
-
-    elif request.LANGUAGE_CODE == "pt":
-        d_translate_pt = {'Abstração': [d['Abstraction'], 'Abstraction'], 'Paralelismo': [d['Parallelization'], 'Parallelization'], 'Lógica': [d['Logic'], 'Logic'],
-                          'Sincronização': [d['Synchronization'], 'Synchronization'], 'Controle de fluxo': [d['FlowControl'], 'FlowControl'],
-                          "Interatividade com o usuário": [d['UserInteractivity'], 'UserInteractivity'],
-                          'Representação de dados': [d['DataRepresentation'], 'DataRepresentation']}
-        if not vanilla: 
-            d_translate_pt.update({'Operadores matemáticos': [d['MathOperators'], 'MathOperators'], 'Operadores de movimento': [d['MotionOperators'], 'MotionOperators']})
-        filename.language = "pt"
-        filename.save()
-        return d_translate_pt
-    
-    elif request.LANGUAGE_CODE == "el":
-        d_translate_el = {'Αφαίρεση': [d['Abstraction'], 'Abstraction'], 'Παραλληλισμός': [d['Parallelization'], 'Parallelization'], 'Λογική': [d['Logic'], 'Logic'],
-                          'Συγχρονισμός': [d['Synchronization'], 'Synchronization'], 'Έλεγχος ροής': [d['FlowControl'], 'FlowControl'],
-                          'Αλληλεπίδραση χρήστη': [d['UserInteractivity'], 'UserInteractivity'],
-                          'Αναπαράσταση δεδομένων': [d['DataRepresentation'], 'DataRepresentation']}
-        if not vanilla: 
-            d_translate_el.update({'Μαθηματικοί χειριστές': [d['MathOperators'], 'MathOperators'], 'Χειριστές κίνησης': [d['MotionOperators'], 'MotionOperators']})
-        filename.language = "el"
-        filename.save()
-        return d_translate_el
-
-    elif request.LANGUAGE_CODE == "eu":           
-        d_translate_eu = {'Abstrakzioa': [d['Abstraction'], 'Abstraction'], 'Paralelismoa': [d['Parallelization'], 'Parallelization'], 'Logika': [d['Logic'], 'Logic'],
-                          'Sinkronizatzea': [d['Synchronization'], 'Synchronization'], 'Kontrol fluxua': [d['FlowControl'], 'FlowControl'],
-                          'Erabiltzailearen elkarreragiletasuna': [d['UserInteractivity'], 'UserInteractivity'],
-                          'Datu adierazlea': [d['DataRepresentation'], 'DataRepresentation']}
-        if not vanilla: 
-            d_translate_eu.update({'Eragile matematikoak': [d['MathOperators'], 'MathOperators'], 'Mugimendu-eragileak': [d['MotionOperators'], 'MotionOperators']})
-        filename.language = "eu"
-        filename.save()
-        return d_translate_eu
-
-    elif request.LANGUAGE_CODE == "it":           
-        d_translate_it = {'Astrazione': [d['Abstraction'], 'Abstraction'], 'Parallelismo': [d['Parallelization'], 'Parallelization'], 'Logica': [d['Logic'], 'Logic'],
-                          'Sincronizzazione': [d['Synchronization'], 'Synchronization'], 'Controllo di flusso': [d['FlowControl'], 'FlowControl'],
-                          'Interattività utente': [d['UserInteractivity'], 'UserInteractivity'],
-                          'Rappresentazione dei dati': [d['DataRepresentation'], 'DataRepresentation']}
-        if not vanilla: 
-            d_translate_it.update({'Operatori matematici':  [d['MathOperators'], 'MathOperators'], 'Operatori del movimento': [d['MotionOperators'], 'MotionOperators']})
-        filename.language = "it"
-        filename.save()
-        return d_translate_it
-
-    elif request.LANGUAGE_CODE == "ru":
-        d_translate_ru = {'Абстракция': [d['Abstraction'], 'Abstraction'], 'Параллельность действий': [d['Parallelization'], 'Parallelization'],
-                          'Логика': [d['Logic'], 'Logic'], 'cинхронизация': [d['Synchronization'], 'Synchronization'],
-                          'Управление потоком': [d['FlowControl'], 'FlowControl'], 'Интерактивность': [d['UserInteractivity'], 'UserInteractivity'],
-                          'Представление данных': [d['DataRepresentation'], 'DataRepresentation']}
-        if not vanilla: 
-            d_translate_ru.update({'Математические операторы': [d['MathOperators'], 'MathOperators'], 'Операторы движения': [d['MotionOperators'], 'MotionOperators']})
-        filename.language = "ru"
-        filename.save()
-        return d_translate_ru
-
-    elif request.LANGUAGE_CODE == "tr":
-        d_translate_tr = {
-            'Soyutlama': [d['Abstraction'], 'Abstraction'], 'Paralellik': [d['Parallelization'], 'Parallelization'],
-            'Mantık': [d['Logic'], 'Logic'], 'Senkranizasyon': [d['Synchronization'], 'Synchronization'],
-            'Akış kontrolü': [d['FlowControl'], 'FlowControl'], 'Kullanıcı etkileşimi': [d['UserInteractivity'], 'UserInteractivity'],
-            'Veri temsili': [d['DataRepresentation'], 'DataRepresentation']
-        }
-        if not vanilla: 
-            d_translate_tr.update({'Matematiksel operatörler': [d['MathOperators'], 'MathOperators'], 'Hareket operatörleri': [d['MotionOperators'], 'MotionOperators']})
-        filename.language = "tr"
-        filename.save()
-        return d_translate_tr
-
-    else:
-        d_translate_en = {'Abstraction': [d['Abstraction'], 'Abstraction'], 'Parallelism': [d['Parallelization'], 'Parallelization'], 'Logic': [d['Logic'], 'Logic'],
-                          'Synchronization': [d['Synchronization'], 'Synchronization'], 'Flow control': [d['FlowControl'], 'FlowControl'],
-                          'User interactivity': [d['UserInteractivity'], 'UserInteractivity'], 'Data representation': [d['DataRepresentation'], 'DataRepresentation']}
-        if not vanilla: 
-            d_translate_en.update({'Math Operators': [d['MathOperators'], 'MathOperators'], 'Motion Operators': [d['MotionOperators'], 'MotionOperators']})
-        filename.language = "any"
-        filename.save()
-        return d_translate_en
-
-
-
-
+# @profile
 def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_points: dict):
-
     dict_analysis = {}
 
     dashboard = request.POST.get('dashboard_mode', 'Default')
     curr_type = request.POST.get('curr_type', '')
-    
+    batch_id = request.POST.get('batch_id', '')
+
     if os.path.exists(path_projectsb3):
         json_scratch_project = load_json_project(path_projectsb3)
-
+        print(
+            "TRAZA DENTRO ANALYZE PROJECT (activar para ver dict del proyecto completo) --------------------------------")
+        # print(json_scratch_project)
         dict_mastery = Mastery(path_projectsb3, json_scratch_project, skill_points, dashboard).finalize()
-        dict_babia = Babia(path_projectsb3, json_scratch_project).finalize()
         dict_duplicate_script = DuplicateScripts(path_projectsb3, json_scratch_project).finalize()
-        dict_dead_code = DeadCode(path_projectsb3, json_scratch_project,).finalize()
+        dict_dead_code = DeadCode(path_projectsb3, json_scratch_project).finalize()
         result_sprite_naming = SpriteNaming(path_projectsb3, json_scratch_project).finalize()
         result_backdrop_naming = BackdropNaming(path_projectsb3, json_scratch_project).finalize()
-        result_block_sprite_usage = Block_Sprite_Usage(path_projectsb3, json_scratch_project).finalize()
-        refactored_code = RefactorDuplicate(json_scratch_project, dict_duplicate_script).refactor_duplicates()
-
-        print("--------------------- DUPLICATED CODE DICT ---------------------------")
-        print(refactored_code)
-        print("--------------------- DEAD CODE DICT ---------------------------")
-        print(dict_dead_code)
-        print("--------------------- SPRITE NAMING DICT -----------------------")
-        print(result_sprite_naming)
-        print("--------------------- BACKDROP NAMING DICT ----------------------")
-        print(result_backdrop_naming)
-        print("--------------------- BABIA DICT ----------------------")
-        print(dict_babia)
-        print("------------------------------------------------------------------")
+        # result_block_sprite_usage = Block_Sprite_Usage(path_projectsb3, json_scratch_project).finalize()
+        if not batch_id:
+            refactored_code = RefactorDuplicate(json_scratch_project, dict_duplicate_script).refactor_duplicates()
+        del json_scratch_project
+        if not batch_id:
+            print("--------------------- DUPLICATED CODE DICT ---------------------")
+            print(dict_duplicate_script)
+            print(refactored_code)
+            print("--------------------- DEAD CODE DICT ---------------------------")
+            print(dict_dead_code)
+            print("--------------------- SPRITE NAMING DICT -----------------------")
+            print(result_sprite_naming)
+            print("--------------------- BACKDROP NAMING DICT ---------------------")
+            print(result_backdrop_naming)
+            print("----------------------------------------------------------------")
 
         # RECOMENDER SECTION
         if (dashboard == 'Recommender'):
@@ -768,7 +593,8 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
             dict_recom["deadCode"] = recomender.recomender_deadcode(dict_dead_code)
             dict_recom["spriteNaming"] = recomender.recomender_sprite(result_sprite_naming)
             dict_recom["backdropNaming"] = recomender.recomender_backdrop(result_backdrop_naming)
-            dict_recom["duplicatedScripts"] = recomender.recomender_duplicatedScripts(dict_duplicate_script, refactored_code)
+            dict_recom["duplicatedScripts"] = recomender.recomender_duplicatedScripts(dict_duplicate_script,
+                                                                                      refactored_code)
             dict_analysis.update(proc_recomender(dict_recom))
 
         dict_analysis.update(proc_mastery(request, dict_mastery, file_obj))
@@ -776,17 +602,18 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         dict_analysis.update(proc_dead_code(dict_dead_code, file_obj))
         dict_analysis.update(proc_sprite_naming(result_sprite_naming, file_obj))
         dict_analysis.update(proc_backdrop_naming(result_backdrop_naming, file_obj))
-        dict_analysis.update(proc_refactored_code(refactored_code))
-        dict_analysis.update(proc_block_sprite_usage(result_block_sprite_usage, file_obj))
-        dict_analysis.update(proc_babia(dict_babia))
-        
+        if not batch_id:
+            dict_analysis.update(proc_refactored_code(refactored_code))
+        # dict_analysis.update(proc_block_sprite_usage(result_block_sprite_usage, file_obj))
         # dict_analysis.update(proc_urls(request, dict_mastery, file_obj))
         # dictionary.update(proc_initialization(resultInitialization, filename))
-        return dict_analysis
-    else:
-        return dict_analysis
-    
-    
+        dict_duplicate_script = None
+        dict_dead_code = None
+        result_sprite_naming = None
+        result_backdrop_naming = None
+
+
+# @profile
 def analysis_by_upload(request, skill_points: dict, upload):
     """
     Upload file from form POST for unregistered users
@@ -795,21 +622,20 @@ def analysis_by_upload(request, skill_points: dict, upload):
     filename_obj = save_analysis_in_file_db(request, zip_filename)
     dir_zips = os.path.dirname(os.path.dirname(__file__)) + "/uploads/"
     project_name = str(uuid.uuid4())
-    unique_id = '{}_{}{}'.format(project_name, datetime.now().strftime("%Y_%m_%d_%H_%M_%S_"), datetime.now().microsecond)
+    unique_id = '{}_{}{}'.format(project_name, datetime.now().strftime("%Y_%m_%d_%H_%M_%S_"),
+                                 datetime.now().microsecond)
     zip_filename = zip_filename.decode('utf-8')
     version = check_version(zip_filename)
+    file_saved = dir_zips + unique_id + ".sb2"
     if version == "1.4":
         file_saved = dir_zips + unique_id + ".sb"
     elif version == "2.0":
         file_saved = dir_zips + unique_id + ".sb2"
     else:
         file_saved = dir_zips + unique_id + ".sb3"
-    
+
     # Create log
-    path_log = os.path.dirname(os.path.dirname(__file__)) + "/log/"
-    log_file = open(path_log + "logFile.txt", "a")
-    log_file.write("FileName: " + str(zip_filename) + "\t\t\t" + "ID: " + str(filename_obj.id) + "\t\t\t" + \
-                "Method: " + str(filename_obj.method) + "\t\t\tTime: " + str(filename_obj.time) + "\n")
+
     # Save file in server
     file_name = os.path.join("uploads", file_saved)
     request.session['current_project_path'] = file_name
@@ -817,33 +643,19 @@ def analysis_by_upload(request, skill_points: dict, upload):
         for chunk in upload.chunks():
             destination.write(chunk)
     try:
-        ext_type_project=None
-        dict_drscratch_analysis = analyze_project(request, file_name, filename_obj, ext_type_project, skill_points)
-        print(dict_drscratch_analysis)
+        ext_type_project = None
+        analyze_project(request, file_name, filename_obj, ext_type_project, skill_points)
     except Exception:
         traceback.print_exc()
-        filename_obj.method = 'project/error'
-        filename_obj.save()
-        old_path_project = file_saved
-        new_path_project = file_saved.split("/uploads/")[0] + "/error_analyzing/" + file_saved.split("/uploads/")[1]
-        shutil.copy(old_path_project, new_path_project)
-        dict_drscratch_analysis = {
-            'filename': upload.name,
-            'Error': 'analyzing',
-            'dashboard_mode': request.POST.get('dashboard_mode')
-            }
-        return dict_drscratch_analysis
-    # Redirect to dashboard for unregistered user
-    dict_drscratch_analysis['Error'] = 'None'
-    dict_drscratch_analysis.update({
-        'url': None,
-        'filename': upload.name,
-        'dashboard_mode': request.POST.get('dashboard_mode'),
-        'multiproject': False
-    })
-    return dict_drscratch_analysis
 
-    
+    del request.session['current_project_path']
+    del filename_obj
+
+    # Delete the uploaded file after processing if necessary
+    if os.path.exists(file_name):
+        os.remove(file_name)
+
+
 def analysis_by_url(request, url, skill_points: dict):
     """
     Make the automatic analysis by URL
@@ -861,20 +673,3 @@ def analysis_by_url(request, url, skill_points: dict):
             'multiproject': False
         })
         return dic
-    
-
-
-def analyze_babia_project(request, path_projectsb3, file_obj):
-
-    dict_analysis = {}
-
-    if os.path.exists(path_projectsb3):
-        json_scratch_project = load_json_project(path_projectsb3)
-        dict_mastery = Babia(path_projectsb3, json_scratch_project).finalize()
-        
-        # dict_analysis.update(proc_urls(request, dict_mastery, file_obj))
-        # dictionary.update(proc_initialization(resultInitialization, filename))
-        return dict_analysis
-    else:
-        return dict_analysis
-    
