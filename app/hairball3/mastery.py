@@ -95,7 +95,7 @@ class Mastery(Plugin):
                 logger.info(self.dict_mastery['description'])
             dict_result = {'plugin': 'mastery', 'extended': self.dict_mastery, 'vanilla': vanilla_dict}
 
-        print("DICT_RESULT: ", dict_result)
+        #print("DICT_RESULT: ", dict_result)
 
         return dict_result
 

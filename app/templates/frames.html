@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página con Dos Marcos</title>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        .marco-superior {
+            height: 20vh;
+            border: none;
+            display: block;
+        }
+        .marco-inferior {
+            height: 80vh;
+            border: none;
+            display: block;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Marco superior (con texto simple) -->
+    <iframe src="{% url 'up_frame' %}" class="marco-superior" name="arriba"></iframe>
+    
+    <!-- Marco inferior (Dr. Scratch) -->
+    <iframe src="{% url 'main' %}" class="marco-inferior" name="abajo"></iframe>
+</body>
+</html>

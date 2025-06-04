@@ -2,6 +2,7 @@ import datetime
 import uuid
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 class File(models.Model):
@@ -10,17 +11,14 @@ class File(models.Model):
     coder = models.CharField(max_length=100, default='drscratch')
     # type_user = models.CharField(max_length=100, default='drscratch')
     method = models.CharField(max_length=100)
+    batch_id = models.UUIDField(null=True, default=None, editable=False)
     time = models.DateField(auto_now=False)
     language = models.TextField(default="en")
     score = models.IntegerField()
-    abstraction = models.IntegerField()
-    parallelization = models.IntegerField()
-    logic = models.IntegerField()
-    synchronization = models.IntegerField()
-    flowControl = models.IntegerField()
-    userInteractivity = models.IntegerField()
-    dataRepresentation = models.IntegerField()
+    vanilla_metrics = models.JSONField(default=dict)
+    extended_metrics = models.JSONField(default=dict)
     spriteNaming = models.IntegerField()
+    backdropNaming = models.IntegerField()
     initialization = models.IntegerField()
     deadCode = models.IntegerField()
     duplicateScript = models.IntegerField()
@@ -34,8 +32,8 @@ class BatchCSV(models.Model):
     points = models.FloatField()
     max_logic = models.FloatField()
     logic = models.FloatField()
-    max_parallelization = models.FloatField()
-    parallelization = models.FloatField()
+    max_parallelism = models.FloatField()
+    parallelism = models.FloatField()
     max_data = models.FloatField()
     data = models.FloatField()
     max_synchronization = models.FloatField()
@@ -51,7 +49,7 @@ class BatchCSV(models.Model):
     max_motion_operators = models.FloatField()
     motion_operators = models.FloatField()
     mastery = models.CharField(max_length=50)
-    date = models.DateTimeField(default=datetime.datetime.now)
+    date = models.DateTimeField(default=timezone.now)
 
 class CSVs(models.Model):
     filename = models.CharField(max_length=100)

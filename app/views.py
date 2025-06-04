@@ -64,11 +64,13 @@ import coloredlogs
 
 
 # Celery imports
-from .tasks import init_batch
+from .tasks import init_batch_dispatcher
 
 # Analyzer imports
-from .analyzer import analyze_project, generator_dic, return_scratch_project_identifier, send_request_getsb3, _make_compare, analysis_by_upload, analysis_by_url, analyze_babia_project
-from .batch import skills_translation
+from .analyzer import analyze_project, generator_dic, return_scratch_project_identifier, send_request_getsb3, _make_compare, analysis_by_upload, analysis_by_url
+
+# Translations imports
+from .translation import skills_translation
 
 # Recomender System imports
 from .recomender import RecomenderSystem
@@ -111,7 +113,7 @@ def rubric_creator_students(request):
 def rubric_creator_teachers(request):
     user = str(identify_user_type(request))
     return render(request, user + '/rubric-creator-teachers.html')
-    
+
 def rubric_creator(request):
     user = str(identify_user_type(request))
     return render(request, user + '/rubric-creator-teachers.html')
@@ -135,7 +137,8 @@ def calc_eta(num_projects: int) -> str:
     """
     last_ten = BatchCSV.objects.all().order_by('-date')[:10]
 
-    anal_time = sum(batch.task_time/batch.num_projects for batch in last_ten)/10
+    anal_time = sum(batch.task_time/batch.num_projects if batch.num_projects != 0 else 0
+                    for batch in last_ten)/10
     mean_tm = anal_time * num_projects
     eta_h = mean_tm // 3600
     eta_m = (mean_tm % 3600) // 60
@@ -154,7 +157,7 @@ def show_dashboard(request, skill_points=None):
             numbers = ''
         print(f"Mi url {url}")
         skill_rubric = generate_rubric(numbers)
-        user = str(identify_user_type(request)) 
+        user = str(identify_user_type(request))
         print("Mode:", request.POST)
         d = build_dictionary_with_automatic_analysis(request, skill_rubric)
         print("Context Dictionary:")
@@ -167,18 +170,18 @@ def show_dashboard(request, skill_points=None):
                 'ETA': calc_eta(d['num_projects'])
             }
             return render(request, user + '/dashboard-bulk-landing.html', context)
-        
+
         elif d.get('Error') != "None":
             return render(request, 'error/error.html', {'error': d.get('Error')})
-        else: 
+        else:
             if d.get('dashboard_mode') == 'Default':
                 return render(request, user + '/dashboard-default.html', d)
             elif d.get('dashboard_mode') == 'Personalized':
-                return render(request, user + '/dashboard-personal.html', d)               
+                return render(request, user + '/dashboard-personal.html', d)
             elif d.get('dashboard_mode') == 'Recommender':
                 return render(request, user + '/dashboard-recommender.html', d)
             elif d.get('dashboard_mode') == 'Comparison':
-                return render(request, user + '/dashboard-compare.html', d)     
+                return render(request, user + '/dashboard-compare.html', d)
     else:
         return HttpResponseRedirect('/')    
 
@@ -201,8 +204,8 @@ def get_recommender(request, skill_points=None):
         print("Skill rubric")
         print(skill_rubric)
         d = d.get(0)
-        
-        return JsonResponse(d['recomenderSystem'])        
+
+        return JsonResponse(d['recomenderSystem'])
     else:
         return HttpResponseRedirect('/')
 
@@ -216,7 +219,7 @@ def batch(request, csv_identifier):
         'num_projects': csv.num_projects,
         'Points': [csv.points, csv.max_points],
         'Logic': [csv.logic, csv.max_logic],
-        'Parallelism': [csv.parallelization, csv.max_parallelization],
+        'Parallelism': [csv.parallelism, csv.max_parallelism],
         'Data representation': [csv.data, csv.max_data],
         'Synchronization': [csv.synchronization, csv.max_synchronization],
         'User interactivity': [csv.userInteractivity, csv.max_userInteractivity],
@@ -308,8 +311,7 @@ def calc_num_projects(batch_path: str) -> int:
             num_projects += 1
     return num_projects
     
-def extract_batch_projects(projects_file: object) -> int:
-    project_name = str(uuid.uuid4())
+def extract_batch_projects(projects_file: object, project_name: uuid.UUID) -> int:
     unique_id = '{}_{}{}'.format(project_name, datetime.now().strftime("%Y_%m_%d_%H_%M_%S_"), datetime.now().microsecond)
     base_dir = os.getcwd()
 
@@ -361,26 +363,30 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
                 dict_metrics[project_counter] =  {'Error': 'MultiValueDict'}
         elif '_urls' in request.POST:
             projects_file = request.FILES['urlsFile']
-            
+            batch_id = str(uuid.uuid4())
+
             if projects_file.content_type.endswith('zip') == False: 
                 # List of urls
                 projects = projects_file.readlines()
                 num_projects = len(projects)
             else:
                 # Str with temp path of projects
-                projects_path = extract_batch_projects(projects_file)
+                projects_path = extract_batch_projects(projects_file, batch_id)
                 num_projects = calc_num_projects(projects_path)
                 projects = projects_path
     
             request_data = {
-                'LANGUAGE_CODE': request.LANGUAGE_CODE,
                 'POST': {
-                    'urlsFile': projects,
-                    'dashboard_mode': 'Default', 
-                    'email': request.POST['batch-email']       
+                    'urlsFile': projects, # list of URLs (bytes) or path (str)
+                    'dashboard_mode': 'Default',
+                    'email': request.POST['batch-email'],
+                    'batch_id': batch_id, # str(uuid.uuid4())
+                    'extracted_path_for_cleanup': projects_path if isinstance(projects, str) else None, # str or None
+                    'LANGUAGE_CODE': request.LANGUAGE_CODE,
                 }
             }
-            init_batch.delay(request_data, skill_points) # Call to analyzer task
+            init_batch_dispatcher.delay(request_data, skill_points)
+
 
             dict_metrics[project_counter] = {
                 'multiproject': True,
@@ -422,7 +428,7 @@ def learn(request, category, page):
     """
     Shows pages to learn more about CT
     """
-    
+
     flag_user = 0
 
     if request.user.is_authenticated:
@@ -1744,7 +1750,7 @@ def get_babia(request):
     fake_request.session = SimpleNamespace()
     fake_request.LANGUAGE_CODE = get_language()
     # _____________________________________________________________________________________
-    
+
 
 
     d = build_dictionary_with_automatic_analysis(fake_request, skill_rubric)
@@ -1782,7 +1788,7 @@ def format_babia_dict(d: dict):
         colors[sprite_name] = {}
         for script_key, script_value in script_dicc.items():
             colors[sprite_name][script_key] = '#3a85fc'
-    
+
 
 
     for sprite_key, sprite_item in global_babia['sprites'].items():
@@ -1805,7 +1811,7 @@ def format_babia_dict(d: dict):
             #print("--------------------------------------")
             if script_key not in colors[sprite_key]:
                 colors[sprite_key][script_key] = "#ffffff"
-            
+
             script_data = {
                 "id": script_key,
                 "area": 2,
@@ -1813,13 +1819,13 @@ def format_babia_dict(d: dict):
                 "building_color": colors[sprite_key][script_key],
                 "script_blocks": script_value
             }
-            
-            
+
+
             sprite_data["children"].append(script_data)
         data["children"].append(sprite_data)
     #print(data)
 
-    
+
 
     return data
 

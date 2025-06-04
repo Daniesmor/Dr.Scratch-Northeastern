@@ -1,3 +1,7 @@
+import tracemalloc
+from memory_profiler import profile
+import gc
+
 BLOCK_TEXT = {
     "CONTROL_FOREVER": "forever",
     "CONTROL_REPEAT": "repeat (%1)",
@@ -418,6 +422,7 @@ class Script():
         self.vars = {}
         self.blocks = []
 
+
     def parser_block(self, block_dict, block_name):
         """
         Searches through each block and outputs a dictionary with all the contents inside the block
@@ -500,32 +505,48 @@ class Script():
 
     def parser_script(self, block_dict, start):
         """
-        Goes through the json file of a scratch script and outputs a dictionary containing all the blocks and variables of such script
+        Goes through the JSON file of a Scratch script and outputs a dictionary 
+        containing all the blocks and variables of such script.
         """
         current = start
         curr_dict = {}
+
+        #tracemalloc.start()
+        #MEMORY_LIMIT_GB = 0.5
+
         while True:
             current_block = self.parser_block(block_dict=block_dict, block_name=current)
 
-            #For "if" blocks or "ifelse" blocks
+            #current_memory = tracemalloc.get_traced_memory()[1] / (1024 ** 3) 
+            #print(f"    Memory used at the moment parsing the script: {current_memory:.2f} GB")
+            #if current_memory > MEMORY_LIMIT_GB:
+                #print(f"    Detected huge use of memory: {current_memory:.2f} GB. Finalized.")
+                #break
+
+            # For "if" blocks or "ifelse" blocks
             for i, child_key in enumerate(self.child_keys):
                 if child_key in block_dict[current]['inputs']:
-                    if block_dict[current]['inputs'][child_key][1]:
-                        current_block[[*current_block][0]][f'child_{i}'] = self.parser_script(block_dict, block_dict[current]['inputs'][child_key][1])
+                    input_block = block_dict[current]['inputs'][child_key][1]
+                    if input_block:
+                        current_block[[*current_block][0]][f'child_{i}'] = self.parser_script(block_dict, input_block)
+                        del input_block
                     else:
                         current_block[[*current_block][0]][f'child_{i}'] = None
 
             curr_dict.update(current_block)
 
             next_block = block_dict[current]["next"]
-
             if next_block:
                 current = next_block
             else:
                 break
 
+        #tracemalloc.stop()
+        del current, current_block, next_block
+        #gc.collect()
+
         return curr_dict
-    
+
     def set_script_dict(self, block_dict, start):
 
         self.counter_vars = 0
