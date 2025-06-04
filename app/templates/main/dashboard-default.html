@@ -3,7 +3,7 @@
 {% block content %}
 
 <!-- NAV-MODES -->
-        
+
         <div class="container" id="stepone">
             <section id="dashboard">
                 <div class="tab text-center">
@@ -12,7 +12,7 @@
                 </div>
             </section>
         </div>
-        
+
         <style>
             /* Estilos para la sección */
             .bg-success {
@@ -51,32 +51,32 @@
                     var valid = true;
 
                     if (!compareInput.value.trim()) {
-                        projectWarning.style.display = 'block'; 
-                        valid = false; 
+                        projectWarning.style.display = 'block';
+                        valid = false;
                     } else {
-                        projectWarning.style.display = 'none'; 
+                        projectWarning.style.display = 'none';
                     }
-                    
-                
+
+
                     if (!valid) {
                         event.preventDefault();
                     }
                 });
             });
         </script>
-        
 
 
-        
-        
+
+
+
         <!-- VANILLA MODE -->
         <div id="Vanilla" class="tabcontent">
             {% if mastery_vanilla.competence == "Master" %}
                 <div id="confeti-container"></div>
             {% endif %}
-            
+
             <div class="container">
-                
+
                 <section id="blackboard" class="services col-md-5">
                     <!-- POINTS PANEL -->
                     <div id="devpanels">
@@ -117,16 +117,16 @@
                                                 {{ mastery_vanilla.points.1|floatformat:"0" }}
                                             {% else %}
                                                 {{ mastery_vanilla.points.1 }}
-                                            {% endif %}                          
+                                            {% endif %}
                                         </span>
-                                            
+
                                     <a class="twitter-share-button" data-text="{% blocktrans with points=mastery_vanilla.points.0 %} I have just obtained {{ points }} points analyzing my project in Dr. Scratch! Beat it! @DrScratchTool {% endblocktrans %}"href="https://twitter.com/share">Tweet</a></h2>
                                 </div>
                                 <div class="panel-body" id="original-panel-body">
                                     <div class="container col-md-12">
                                         <div id="motivational-text">
                                             <h3 class='text-left dark-text'>{% trans 'The level of your project is...' %} <strong> {{ mastery_vanilla.competence|upper }}! </strong></h3>
-                                        
+
                                             {% if mastery.competence == "Basic" %}
                                             <p class='text-left dark-text'> {% trans "You're at the beginning of a <br>great adventure . . . Keep it up!" %}</br></p>
                                             {% elif mastery.competence == "Developing" %}
@@ -138,9 +138,9 @@
                                             {% elif mastery.competence == "Finesse" %}
                                                 <p class='text-left dark-text'> {% trans "You're doing a great job. Keep it up!!! " %}</p>
                                             {% endif %}
-                                        </div> 
+                                        </div>
                                     </div>
-    
+
                                 </div>
                                 {% if url != None %}
                                     <a href="{{ url }}" target="_blank" id="back-to-project"><span class="glyphicon glyphicon-hand-right"></span>{% trans "Come back to your Scratch project." %}</a>
@@ -148,8 +148,8 @@
                             </div>
                         </div>
                     </div>
-                    
-                    
+
+
                     <div id="bad-habits">
                         {% if mastery_vanilla.competence == "Developing" or mastery_vanilla.competence == "Master" %}
                         <div class="improve">
@@ -157,21 +157,21 @@
                                 <div id="stepthree">
                                     <div class="panel-heading" >
                                         <h2 id="score" class="panel-title dark-text" name="original-bad-habits">
-                                            {% trans "Bad habits"%} 
+                                            {% trans "Bad habits"%}
                                             <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Specific parts of the project that do not contribute to good programming practices' %}"></i>
                                         </h2>
                                     </div>
                                     <div class="panel-body text-left typ">
                                         <a class="glyphicon glyphicon-repeat"/>
-                                        <a id="duplicated-scripts" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Duplicated scripts' %}" 
-                                        data-trigger="manual" href="/learn/BadSmells/duplicatedScripts/" target="_blank"> 
+                                        <a id="duplicated-scripts" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Duplicated scripts' %}"
+                                        data-trigger="manual" href="/learn/BadSmells/duplicatedScripts/" target="_blank">
                                             {{ duplicateScript.number }} {% trans " duplicated scripts." %}
                                         </a>
                                         <div id="duplicated-scripts-content" class="collapse">
                                             <div class="container-fluid">
                                                 {% for k, list_duplicate_blocks in duplicateScript.items %}
                                                 {% if k == 'scripts' %}
-                                                   
+
                                                     {% for list_blocks in list_duplicate_blocks %}
                                                         <pre class="blocks">
                                                             {{ list_blocks }}
@@ -186,7 +186,7 @@
                                         </div>
                                         <br>
                                         <a class="glyphicon glyphicon-pencil"/>
-                                        <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Sprite naming' %}" 
+                                        <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Sprite naming' %}"
                                         data-content="
                                         {% for value in spriteNaming.sprite %}
                                             {{ value }}
@@ -195,10 +195,10 @@
                                         {% if spriteNaming.number == 0 %}
                                             {% trans 'Your project does not have default sprite naming, good job!' %}
                                         {% endif %}
-                                        " data-trigger="manual" href="/learn/BadSmells/spriteNaming/" target="_blank"> 
+                                        " data-trigger="manual" href="/learn/BadSmells/spriteNaming/" target="_blank">
                                             {{ spriteNaming.number }} {% trans " sprite naming." %}
                                         </a><br>
-                                        <a class="glyphicon glyphicon-pencil"/> 
+                                        <a class="glyphicon glyphicon-pencil"/>
                                         <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Backdrop naming' %}" data-content="
                                         {% for value in backdropNaming.backdrop %}
                                                 {{ value }} <br>
@@ -206,12 +206,12 @@
                                         {% if backdropNaming.number == 0 %}
                                                 {% trans 'Your project does not have default backdrop naming, good job!' %}
                                         {% endif %}
-                                            " data-trigger="manual" href="/learn/BadSmells/backdropNaming/" target="_blank"> 
+                                            " data-trigger="manual" href="/learn/BadSmells/backdropNaming/" target="_blank">
                                                 {{ backdropNaming.number }} {% trans " backdrop naming." %}
                                         </a><br>
                                         <a class="glyphicon glyphicon-remove-sign"/>
-                                        <a id="dead-code" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Dead code' %}" 
-                                        data-trigger="manual" href="/learn/BadSmells/deadCode/" target="_blank"> 
+                                        <a id="dead-code" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Dead code' %}"
+                                        data-trigger="manual" href="/learn/BadSmells/deadCode/" target="_blank">
                                             {{ deadCode.number }} {% trans " dead code." %}
                                         </a>
                                         <div id="dead-code-content" class="collapse">
@@ -247,7 +247,7 @@
                         </div>
                         {% endif %}
                     </div>
-                    
+
                     <div class="improve">
                         <div class="panel panel-success" id="improve">
                             <div id="stepfour">
@@ -267,7 +267,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     {% if url != None %}
                     <div class="improve">
                         <div class="panel panel-success" id="improve">
@@ -311,7 +311,7 @@
                     </div>
                     {% endif %}
                     </section>
-                    
+
                 </section>
 
                 <div class="col-md-7">
@@ -321,7 +321,7 @@
                                 <div class="jumbotron">
                                     <div class="table-responsive">
                                         <div id="stepfive">
-                                            
+
                                             <table class="table tablesorter">
                                                 <thead>
                                                     <tr>
@@ -340,14 +340,14 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                
-                                                
+
+
                                                 {% for key, value in mastery_vanilla.items %}
-                                                
+
                                                 {% if forloop.counter0|divisibleby:1 %}<tr>{% endif %}
                                                 {% if key != "points" %}
                                                 {% if key != "competence" %}
-                
+
                                                     <td style="text-align: left;">
                                                         {% if value.0.0 == value.0.1 %}
                                                         <span class="glyphicon glyphicon-star" id="star"></span>
@@ -377,12 +377,12 @@
                                                                             {{ value.0.1 }}
                                                                         {% endif %}
                                                                     </strong></span>
-                                                                    
+
                                                                 </div>
                                                             </div>
                                                         {% endif %}
                                                     </td>
-                           
+
                                                 {% endif %}
                                                 {% endif %}
                                                 {% if forloop.counter|divisibleby:1 or forloop.last %}
@@ -390,12 +390,12 @@
                                                 {% endif %}
                                                 {% endfor %}
 
-                                                
-                                                
+
+
                                                 </tbody>
                                              </table>
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -410,7 +410,7 @@
             {% if mastery.competence == "Master" %}
                 <div id="confeti-container"></div>
             {% endif %}
-            
+
             <div class="container">
                 <section id="blackboard" class="services col-md-5">
                     <!-- POINTS PANEL -->
@@ -452,9 +452,9 @@
                                                 {{ mastery.points.1|floatformat:"0" }}
                                             {% else %}
                                                 {{ mastery.points.1 }}
-                                            {% endif %}                          
+                                            {% endif %}
                                         </span>
-                                            
+
                                     <a class="twitter-share-button" data-text="{% blocktrans with points=mastery_vanilla.points.0 %} I have just obtained {{ points }} points analyzing my project in Dr. Scratch! Beat it! @DrScratchTool {% endblocktrans %}"href="https://twitter.com/share">Tweet</a></h2>
                                 </div>
                                 <div class="panel-body" id="original-panel-body">
@@ -472,9 +472,9 @@
                                             {% elif mastery.competence == "Finesse" %}
                                                 <p class='text-left dark-text'> {% trans "You're doing a great job. Keep it up!!! " %}</p>
                                             {% endif %}
-                                        </div> 
+                                        </div>
                                     </div>
-    
+
                                 </div>
                                 {% if url != None %}
                                     <a href="{{ url }}" target="_blank" id="back-to-project"><span class="glyphicon glyphicon-hand-right"></span>{% trans "Come back to your Scratch project." %}</a>
@@ -482,8 +482,8 @@
                             </div>
                         </div>
                     </div>
-                    
-                    
+
+
                     <div id="bad-habits">
                         {% if mastery.competence != "Basic" %}
                         <div class="improve">
@@ -491,21 +491,21 @@
                                 <div id="stepthree">
                                     <div class="panel-heading" >
                                         <h2 id="score" class="panel-title dark-text" name="original-bad-habits">
-                                            {% trans "Bad habits"%} 
+                                            {% trans "Bad habits"%}
                                             <i class="bi bi-question-circle small-icon" data-toggle="tooltip" data-placement="right" title="{% trans 'Specific parts of the project that do not contribute to good programming practices' %}"></i>
                                         </h2>
                                     </div>
                                     <div class="panel-body text-left typ">
                                         <a class="glyphicon glyphicon-repeat"/>
-                                        <a id="duplicated-scripts" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Duplicated scripts' %}" 
-                                        data-trigger="manual" href="/learn/BadSmells/duplicatedScripts/" target="_blank"> 
+                                        <a id="duplicated-scripts" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Duplicated scripts' %}"
+                                        data-trigger="manual" href="/learn/BadSmells/duplicatedScripts/" target="_blank">
                                             {{ duplicateScript.number }} {% trans " duplicated scripts." %}
                                         </a>
                                         <div id="duplicated-scripts-content" class="collapse">
                                             <div class="container-fluid">
                                                 {% for k, list_duplicate_blocks in duplicateScript.items %}
                                                 {% if k == 'scripts' %}
-                                                    
+
                                                     {% for list_blocks in list_duplicate_blocks %}
                                                         <pre class="blocks">
                                                             {{ list_blocks }}
@@ -520,7 +520,7 @@
                                         </div>
                                         <br>
                                         <a class="glyphicon glyphicon-pencil"/>
-                                        <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Sprite naming' %}" 
+                                        <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Sprite naming' %}"
                                         data-content="
                                         {% for value in spriteNaming.sprite %}
                                             {{ value }}
@@ -529,10 +529,10 @@
                                         {% if spriteNaming.number == 0 %}
                                             {% trans 'Your project does not have default sprite naming, good job!' %}
                                         {% endif %}
-                                        " data-trigger="manual" href="/learn/BadSmells/spriteNaming/" target="_blank"> 
+                                        " data-trigger="manual" href="/learn/BadSmells/spriteNaming/" target="_blank">
                                             {{ spriteNaming.number }} {% trans " sprite naming." %}
                                         </a><br>
-                                        <a class="glyphicon glyphicon-pencil"/> 
+                                        <a class="glyphicon glyphicon-pencil"/>
                                         <a id="bad-smells" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Backdrop naming' %}" data-content="
                                         {% for value in backdropNaming.backdrop %}
                                                 {{ value }} <br>
@@ -540,12 +540,12 @@
                                         {% if backdropNaming.number == 0 %}
                                                 {% trans 'Your project does not have default backdrop naming, good job!' %}
                                         {% endif %}
-                                            " data-trigger="manual" href="/learn/BadSmells/backdropNaming/" target="_blank"> 
+                                            " data-trigger="manual" href="/learn/BadSmells/backdropNaming/" target="_blank">
                                                 {{ backdropNaming.number }} {% trans " backdrop naming." %}
                                         </a><br>
                                         <a class="glyphicon glyphicon-remove-sign"/>
-                                        <a id="dead-code" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Dead code' %}" 
-                                        data-trigger="manual" href="/learn/BadSmells/deadCode/" target="_blank"> 
+                                        <a id="dead-code" data-html="true" class="dropdown" data-toggle="popover" title="{% trans 'Dead code' %}"
+                                        data-trigger="manual" href="/learn/BadSmells/deadCode/" target="_blank">
                                             {{ deadCode.number }} {% trans " dead code." %}
                                         </a>
                                         <div id="dead-code-content" class="collapse">
@@ -579,7 +579,7 @@
                         </div>
                         {% endif %}
                     </div>
-                    
+
                     <div class="improve">
                         <div class="panel panel-success" id="improve">
                             <div id="stepfour">
@@ -639,9 +639,9 @@
                             </div>
                         </div>
                     </div>
-                    {% endif %}     
+                    {% endif %}
                     </section>
-                    
+
                 </section>
 
 
@@ -652,7 +652,7 @@
                                 <div class="jumbotron">
                                     <div class="table-responsive">
                                         <div id="stepfive">
-                                            
+
                                             <table class="table tablesorter">
                                                 <thead>
                                                     <tr>
@@ -671,14 +671,14 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                
-                                                
+
+
                                                 {% for key, value in mastery.items %}
-                                                
+
                                                 {% if forloop.counter0|divisibleby:1 %}<tr>{% endif %}
                                                 {% if key != "points" %}
                                                 {% if key != "competence" %}
-                
+
                                                     <td style="text-align: left;">
                                                         {% if value.0.0 == value.0.1 %}
                                                         <span class="glyphicon glyphicon-star" id="star"></span>
@@ -710,12 +710,12 @@
                                                                             {{ value.0.1 }}
                                                                         {% endif %}
                                                                     </strong></span>
-                                                                    
+
                                                                 </div>
                                                             </div>
                                                         {% endif %}
                                                     </td>
-                            
+
                                                 {% endif %}
                                                 {% endif %}
                                                 {% if forloop.counter|divisibleby:1 or forloop.last %}
@@ -723,12 +723,12 @@
                                                 {% endif %}
                                                 {% endfor %}
 
-                                                
-                                                
+
+
                                                 </tbody>
                                                 </table>
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -739,8 +739,8 @@
             </div>
         </div>
 
-        
-        
+
+
 
         <!-- MODAL -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -809,19 +809,19 @@
             function openMode(evt, ModeName) {
                 // Declare all variables
                 var i, tabcontent, tablinks;
-                
+
                 // Get all elements with class="tabcontent" and hide them
                 tabcontent = document.getElementsByClassName("tabcontent");
                 for (i = 0; i < tabcontent.length; i++) {
                     tabcontent[i].style.display = "none";
                 }
-                
+
                 // Get all elements with class="tablinks" and remove the class "active"
                 tablinks = document.getElementsByClassName("tablinks");
                 for (i = 0; i < tablinks.length; i++) {
                     tablinks[i].className = tablinks[i].className.replace(" active", "");
                 }
-                
+
                 // Show the current tab, and add an "active" class to the button that opened the tab
                 document.getElementById(ModeName ).style.display = "block";
                 evt.currentTarget.className += " active";

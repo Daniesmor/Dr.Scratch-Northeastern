@@ -560,31 +560,32 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
     curr_type = request.POST.get('curr_type', '')
     batch_id = request.POST.get('batch_id', '')
 
-    if os.path.exists(path_projectsb3):
+    if not os.path.exists(path_projectsb3):
+        logger.error(f'Project file not found: {path_projectsb3}')
+        return {'Error': 'file_not_found'} # Explicit return on file not found
+
+    try:
         json_scratch_project = load_json_project(path_projectsb3)
-        print(
-            "TRAZA DENTRO ANALYZE PROJECT (activar para ver dict del proyecto completo) --------------------------------")
-        # print(json_scratch_project)
+        if json_scratch_project is None:
+             logger.error(f'Failed to load JSON from project file: {path_projectsb3}')
+             return {'Error': 'invalid_project_file'} # Explicit return on invalid JSON
+
+        # ... (rest of the analysis logic remains the same) ...
         dict_mastery = Mastery(path_projectsb3, json_scratch_project, skill_points, dashboard).finalize()
         dict_duplicate_script = DuplicateScripts(path_projectsb3, json_scratch_project).finalize()
         dict_dead_code = DeadCode(path_projectsb3, json_scratch_project).finalize()
         result_sprite_naming = SpriteNaming(path_projectsb3, json_scratch_project).finalize()
         result_backdrop_naming = BackdropNaming(path_projectsb3, json_scratch_project).finalize()
-        # result_block_sprite_usage = Block_Sprite_Usage(path_projectsb3, json_scratch_project).finalize()
+
+        refactored_code = None
         if not batch_id:
-            refactored_code = RefactorDuplicate(json_scratch_project, dict_duplicate_script).refactor_duplicates()
+            try:
+                refactored_code = RefactorDuplicate(json_scratch_project, dict_duplicate_script).refactor_duplicates()
+            except Exception as e:
+                 logger.warning(f"Error during RefactorDuplicate: {e}")
+
+
         del json_scratch_project
-        if not batch_id:
-            print("--------------------- DUPLICATED CODE DICT ---------------------")
-            print(dict_duplicate_script)
-            print(refactored_code)
-            print("--------------------- DEAD CODE DICT ---------------------------")
-            print(dict_dead_code)
-            print("--------------------- SPRITE NAMING DICT -----------------------")
-            print(result_sprite_naming)
-            print("--------------------- BACKDROP NAMING DICT ---------------------")
-            print(result_backdrop_naming)
-            print("----------------------------------------------------------------")
 
         # RECOMENDER SECTION
         if (dashboard == 'Recommender'):
@@ -602,15 +603,27 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         dict_analysis.update(proc_dead_code(dict_dead_code, file_obj))
         dict_analysis.update(proc_sprite_naming(result_sprite_naming, file_obj))
         dict_analysis.update(proc_backdrop_naming(result_backdrop_naming, file_obj))
+
         if not batch_id:
-            dict_analysis.update(proc_refactored_code(refactored_code))
-        # dict_analysis.update(proc_block_sprite_usage(result_block_sprite_usage, file_obj))
-        # dict_analysis.update(proc_urls(request, dict_mastery, file_obj))
-        # dictionary.update(proc_initialization(resultInitialization, filename))
-        dict_duplicate_script = None
-        dict_dead_code = None
-        result_sprite_naming = None
-        result_backdrop_naming = None
+             if isinstance(refactored_code, dict):
+                dict_analysis.update(proc_refactored_code(refactored_code))
+             else:
+                logger.warning("refactored_code is not a dictionary, skipping update.")
+
+        # Clean up temporary analysis results if they are large and not needed later
+        # dict_duplicate_script = None
+        # dict_dead_code = None
+        # result_sprite_naming = None
+        # result_backdrop_naming = None
+
+
+    except Exception as e:
+        logger.error(f'Error during project analysis: {e}')
+        traceback.print_exc()
+        return {'Error': 'analysis_failed', 'details': str(e)} # Explicit return on analysis failure
+
+    # Explicit return for the successful analysis path
+    return dict_analysis
 
 
 # @profile

@@ -26,15 +26,14 @@ class DuplicateScripts(Plugin):
         """
         out = {}
 
-
         for dict_key, dicc_value in dict_target.items():
             if dict_key == "blocks":
                 for blocks, blocks_value in dicc_value.items():
                     if type(blocks_value) is dict:
                         out[blocks] = blocks_value
-        
+
         return out
-    
+
     def set_sprite_dict(self):
         """
         Sets a dictionary containing the scripts of each sprite in Script() format
@@ -56,13 +55,12 @@ class DuplicateScripts(Plugin):
 
                     self.sprite_dict[sprite_name] = sprite_scripts
 
-
     def analyze(self):
         """
         Searches for intra duplicates of each sprite and outputs them
         """
         self.set_sprite_dict()
-        
+
         for sprite, scripts in self.sprite_dict.items():
             seen = set()
             sprite_duplicates = {}
@@ -77,7 +75,6 @@ class DuplicateScripts(Plugin):
 
                 seen.add(blocks)
 
-
             for key in seen:
                 if key in sprite_duplicates:
                     if len(sprite_duplicates[key]) <= 1:
@@ -87,7 +84,7 @@ class DuplicateScripts(Plugin):
 
         print("self.duplicates in duplicateScripts.py-------")
         print(self.duplicates)
-        
+
         for key, value in self.duplicates.items():
             duplicated_scripts = [pair[0] for pair in value]
             csv_text = [script.get_blocks() for script in duplicated_scripts]
@@ -112,7 +109,7 @@ class DuplicateScripts(Plugin):
         self.dict_mastery['total_duplicate_scripts'] = self.total_duplicate
         self.dict_mastery['list_duplicate_scripts'] = self.list_duplicate
         self.dict_mastery['duplicates'] = self.duplicates
-        self.dict_mastery['list_csv'] =  self.list_csv
+        self.dict_mastery['list_csv'] = self.list_csv
 
         if self.verbose:
             logger.info(self.dict_mastery['description'])
@@ -122,4 +119,3 @@ class DuplicateScripts(Plugin):
         dict_result = {'plugin': 'duplicate_scripts', 'result': self.dict_mastery}
 
         return dict_result
-

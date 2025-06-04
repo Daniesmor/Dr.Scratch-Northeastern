@@ -146,9 +146,9 @@ def calc_eta(num_projects: int) -> str:
 
     eta_format = f'{int(eta_h)}h: {int(eta_m)}min: {round(eta_s,2)}s'
     return eta_format
- 
+
+
 def show_dashboard(request, skill_points=None):
-    
     if request.method == 'POST':
         url = request.path.split('/')[-1]
         if url != '':
@@ -159,31 +159,60 @@ def show_dashboard(request, skill_points=None):
         skill_rubric = generate_rubric(numbers)
         user = str(identify_user_type(request))
         print("Mode:", request.POST)
+
+        # Aquí es donde se construye el diccionario 'd'
         d = build_dictionary_with_automatic_analysis(request, skill_rubric)
-        print("Context Dictionary:")
+
+        print("Context Dictionary (antes de acceder a d[0]):")
         print(d)
-        print("Skill rubric")
+
+        if not isinstance(d, dict) or 0 not in d:
+            print("Error: El diccionario 'd' no tiene la estructura esperada.")
+            return render(request, 'error/error.html', {'error': 'Invalid data structure for analysis results'})
+
+        analysis_results_for_template = d[0]  # Renombrar para claridad
+
+        print("Skill rubric:")
         print(skill_rubric)
-        d = d[0]
-        if d.get('multiproject'):
+
+        #print("Datos que se pasarán a la plantilla (analysis_results_for_template):")
+        #print(analysis_results_for_template)
+
+        if analysis_results_for_template.get('multiproject'):
             context = {
-                'ETA': calc_eta(d['num_projects'])
+                'ETA': calc_eta(analysis_results_for_template['num_projects'])
             }
+            #print("Renderizando dashboard-bulk-landing.html con contexto:", context)
             return render(request, user + '/dashboard-bulk-landing.html', context)
 
-        elif d.get('Error') != "None":
-            return render(request, 'error/error.html', {'error': d.get('Error')})
+        elif analysis_results_for_template.get('Error') and analysis_results_for_template.get(
+                'Error') != "None":  # Comprobar que 'Error' existe y no es "None"
+            print(f"Renderizando error.html con error: {analysis_results_for_template.get('Error')}")  # Traza
+            return render(request, 'error/error.html', {'error': analysis_results_for_template.get('Error')})
         else:
-            if d.get('dashboard_mode') == 'Default':
-                return render(request, user + '/dashboard-default.html', d)
-            elif d.get('dashboard_mode') == 'Personalized':
-                return render(request, user + '/dashboard-personal.html', d)
-            elif d.get('dashboard_mode') == 'Recommender':
-                return render(request, user + '/dashboard-recommender.html', d)
-            elif d.get('dashboard_mode') == 'Comparison':
-                return render(request, user + '/dashboard-compare.html', d)
+            context_to_render = {'dict_metrics': d}
+
+            #print(
+             #   f"Renderizando para dashboard_mode: {analysis_results_for_template.get('dashboard_mode')} con contexto:",
+              #  context_to_render)  # Traza
+
+            if analysis_results_for_template.get('dashboard_mode') == 'Default':
+                print("ENTRANDO 1")
+                return render(request, user + '/dashboard-default.html', analysis_results_for_template)
+            elif analysis_results_for_template.get('dashboard_mode') == 'Personalized':
+                # Para dashboard-personal.html, que usa {% with analysis_data=dict_metrics.0 %}
+                # el contexto debe ser {'dict_metrics': d}
+                print("ENTRANDO 2")
+                return render(request, user + '/dashboard-personal.html', {'dict_metrics': analysis_results_for_template})
+            elif analysis_results_for_template.get('dashboard_mode') == 'Recommender':
+                print("ENTRANDO 3")
+                return render(request, user + '/dashboard-recommender.html', context_to_render)
+            elif analysis_results_for_template.get('dashboard_mode') == 'Comparison':
+                print("ENTRANDO 4")
+                return render(request, user + '/dashboard-compare.html',
+                              context_to_render)  # Asumiendo que d es el contexto correcto para comparación
     else:
-        return HttpResponseRedirect('/')    
+        return HttpResponseRedirect('/')
 
 @csrf_exempt
 def get_recommender(request, skill_points=None):
