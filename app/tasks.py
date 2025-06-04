@@ -6,7 +6,7 @@ import requests
 import shutil
 import tempfile
 from zipfile import ZipFile
-from .batch import create_csv
+from .batch import create_csv_by_id
 from django.core.mail import EmailMessage
 from django.core.mail import EmailMessage as DjangoEmailMessage
 from django.shortcuts import get_object_or_404
@@ -19,29 +19,15 @@ from css_inline import inline
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from types import SimpleNamespace
+from celery import chord, group
 from io import BytesIO
 import json
 import gc
 import psutil
 import time
 from typing import Generator
-from memory_profiler import profile
 
 
-def remove_circular_references(obj, seen=None):
-    if seen is None:
-        seen = set()
-
-    if id(obj) in seen:
-        return None
-    seen.add(id(obj))
-
-    if isinstance(obj, dict):
-        return {key: remove_circular_references(value, seen) for key, value in obj.items()}
-    elif isinstance(obj, list):
-        return [remove_circular_references(item, seen) for item in obj]
-    else:
-        return obj
     
 def gen_filepath(projects_file: str) -> Generator[str, None, None]:
     for root, dirs, files in os.walk(projects_file):
@@ -50,93 +36,10 @@ def gen_filepath(projects_file: str) -> Generator[str, None, None]:
             if os.path.exists(file_path):
                 yield file_path
 
-def show_top_objects():
-    objs = gc.get_objects()
-    print(f"Total de objetos en memoria: {len(objs)}")
-    
-    obj_types = {}
-    for obj in objs:
-        obj_type = type(obj).__name__
-        obj_types[obj_type] = obj_types.get(obj_type, 0) + 1
-
-    sorted_objs = sorted(obj_types.items(), key=lambda x: x[1], reverse=True)[:10]
-    print("Top 10 tipos de objetos en memoria:")
-    for obj_type, count in sorted_objs:
-        print(f"{obj_type}: {count}")
-
-
-def track_memory_usage():
-    process = psutil.Process(os.getpid())
-    memory_info = process.memory_info()
-    memory_used = memory_info.rss / (1024 ** 2)
-    print(f"Memory usage: {memory_used:.4f} MB")
-
-
-def process_url(request_data_obj: object, skill_points: dict) -> str:
-    projects_file = request_data_obj.POST['urlsFile']
-
-    if type(projects_file) != list:
-        process_multiple_or_file(request_data_obj, skill_points, projects_file)
-    else:
-        # projects_file is a list of urls
-        process_url_list(request_data_obj, skill_points, projects_file)
-
-
-def process_multiple_or_file(request_data_obj: object, skill_points: dict, projects_file: list):
-    if os.path.isdir(projects_file):
-        dir_name = os.listdir(projects_file)[0]
-        projects_file = os.path.join(projects_file, dir_name)
-
-        for file_path in gen_filepath(projects_file):
-            if os.path.exists(file_path):
-                process_single_file(request_data_obj, file_path, skill_points)
-                gc.collect()
-        clean_temporary_files(projects_file)
-
 
 def clean_temporary_files(directory):
     if os.path.exists(directory):
         shutil.rmtree(directory)
-
-def process_single_file(request_data_obj: object, file_path: str, skill_points: dict):
-    try:
-        with open(file_path, 'rb') as f:
-            file_name = os.path.basename(file_path)
-            inmemory_file = InMemoryUploadedFile(
-                file=BytesIO(f.read()),
-                field_name=None,
-                name=file_name,
-                content_type='application/octet-stream',
-                size=BytesIO(f.read()).getbuffer().nbytes,
-                charset=None,
-            )
-
-            request_data_obj.user = SimpleNamespace(is_authenticated=True, username=None)
-            request_data_obj.session = {}
-
-            print(f"\033[32m ----------> Analyzing: {file_name}\033[0m")
-            analysis_by_upload(request_data_obj, skill_points, inmemory_file)
-            track_memory_usage()  
-            #show_top_objects()
-            inmemory_file = None
-            #gc.collect()
-        inmemory_file = None
-
-        
-        #gc.collect()
-        
-    except Exception as e:
-        print(f"Error processing file {file_path}: {e}")
-        inmemory_file = None
-
-def process_url_list(request_data_obj: object, skill_points: dict, projects_file: list):
-    # Proccess each URL of the list
-    for url in projects_file:
-        #if i >= 10:
-        #   break 
-        url = url.decode('utf-8').strip()
-        analysis_by_url(request_data_obj, url, skill_points)
-        #gc.collect()
 
 
 def mk_url(batch_id: uuid) -> str:
@@ -207,16 +110,123 @@ def register_timestamp(batch_id: uuid, start_time, end_endtime: datetime) -> Non
     obj.save()
 
 
-@app.task(bind=True)
-def init_batch(self, request_data, skill_points):
-    # Start task counter for ETA
-    start_time = datetime.now()
-    request_data_obj = SimpleNamespace(**request_data)
-    re_email = request_data_obj.POST ['email']
-    temp_dict_metrics = process_url(request_data_obj, skill_points)
-    csv_id = create_csv(request_data_obj, temp_dict_metrics) 
-    send_mail(re_email, csv_id)
+@app.task
+def analyze_single_project_task(project_input_identifier, batch_id_str, 
+                                skill_points_dict, is_url, 
+                                post_data_dict):
+    
+    class MinimalRequestData:
+        def __init__(self):
+            self.POST = post_data_dict
+            self.LANGUAGE_CODE = post_data_dict.get('LANGUAGE_CODE', 'en')
+            self.user = SimpleNamespace(is_authenticated=False, username=None)
+            self.session = {}
+    
+    request_for_analysis = MinimalRequestData()
+    request_for_analysis.POST['batch_id'] = batch_id_str
 
-    # Stop and register time for ETA
-    end_time = datetime.now()
-    register_timestamp(csv_id, start_time, end_time)
+    try:
+        if is_url:
+            print(f"\033[34m [Worker] Analyzing URL: {project_input_identifier} for batch {batch_id_str}\033[0m")
+            analysis_by_url(request_for_analysis, project_input_identifier, skill_points_dict)
+        else:
+            file_path = project_input_identifier
+            with open(file_path, 'rb') as f:
+                file_name = os.path.basename(file_path)
+                inmemory_file = InMemoryUploadedFile(
+                    file=BytesIO(f.read()),
+                    field_name=None, name=file_name, content_type='application/octet-stream',
+                    size=os.path.getsize(file_path), charset=None,
+                )
+                print(f"\033[34m [Worker] Analyzing File: {file_name} for batch {batch_id_str}\033[0m")
+                analysis_by_upload(request_for_analysis, skill_points_dict, inmemory_file)
+                inmemory_file = None
+            gc.collect()
+    except Exception as e:
+        print(f"\033[31mError analyzing project {project_input_identifier} for batch {batch_id_str}: {e}\033[0m")
+
+
+@app.task
+def finalize_batch_task(results, batch_id_str, email, start_time_iso, extracted_path_to_clean=None, original_post_data=None):
+    print(f"\033[32mFinalizing batch: {batch_id_str}\033[0m")
+    batch_uuid = create_csv_by_id(batch_id_str) 
+
+    if batch_uuid:
+        send_mail(email, batch_uuid)
+
+        end_time = datetime.now()
+        start_time = datetime.fromisoformat(start_time_iso)
+        register_timestamp(batch_uuid, start_time, end_time)
+    else:
+        print(f"\033[31mError: No se pudo crear/finalizar el BatchCSV para {batch_id_str}\033[0m")
+
+    if extracted_path_to_clean and os.path.exists(extracted_path_to_clean):
+        print(f"Cleaning up temporary path: {extracted_path_to_clean}")
+        clean_temporary_files(extracted_path_to_clean)
+    
+    print(f"\033[32mBatch {batch_id_str} finalized successfully.\033[0m")
+
+
+@app.task(bind=True)
+def init_batch_dispatcher(self, request_data_dict, skill_points_dict):
+    start_time = datetime.now()
+
+    original_post_data = request_data_dict.get('POST', {})
+    batch_id_str = original_post_data.get('batch_id')
+    email = original_post_data.get('email')
+    projects_input = original_post_data['urlsFile'] # List of URLs (bytes) o path (str)
+    extracted_path_for_cleanup = original_post_data.get('extracted_path_for_cleanup')
+
+    tasks_to_run: list = []
+
+    if isinstance(projects_input, list):
+        for url_bytes in projects_input:
+            url = url_bytes.decode('utf-8').strip()
+            tasks_to_run.append(analyze_single_project_task.s(url, batch_id_str, skill_points_dict, True, original_post_data))
+    elif isinstance(projects_input, str) and os.path.isdir(projects_input):
+        curr_projects_dir = projects_input
+        dir_contents = os.listdir(projects_input)
+        if len(dir_contents) == 1 and os.path.isdir(os.path.join(projects_input, dir_contents[0])):
+                curr_projects_dir = os.path.join(projects_input, dir_contents[0])
+        
+        for file_path in gen_filepath(curr_projects_dir):
+            if os.path.exists(file_path):
+                tasks_to_run.append(analyze_single_project_task.s(
+                    file_path, batch_id_str, skill_points_dict, False, original_post_data
+                ))
+
+    else:
+        print(f"\033[31mError: projects_input no es una lista de URLs ni una ruta de directorio válida: {projects_input}\033[0m")
+        finalize_batch_task.delay(
+            results=None, 
+            batch_id_str=batch_id_str, 
+            email=email, 
+            start_time_iso=start_time.isoformat(),
+            extracted_path_to_clean=extracted_path_for_cleanup,
+            original_post_data=original_post_data
+        )
+        return
+    
+    if not tasks_to_run:
+        print(f"No projects to analyze for batch {batch_id_str}.")
+        finalize_batch_task.delay(
+            results=None, 
+            batch_id_str=batch_id_str, 
+            email=email, 
+            start_time_iso=start_time.isoformat(),
+            extracted_path_to_clean=extracted_path_for_cleanup,
+            original_post_data=original_post_data
+        )
+        return
+    
+    callback = finalize_batch_task.s(
+        batch_id_str=batch_id_str, # Pasar argumentos fijos a la tarea de callback
+        email=email,
+        start_time_iso=start_time.isoformat(),
+        extracted_path_to_clean=extracted_path_for_cleanup,
+        original_post_data=original_post_data
+    )
+
+    chord(header=group(tasks_to_run), body=callback).apply_async()
+
+    print(f"Dispatched {len(tasks_to_run)} analysis tasks for batch {batch_id_str}.")

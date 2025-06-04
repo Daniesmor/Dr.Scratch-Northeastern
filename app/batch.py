@@ -45,24 +45,6 @@ def safe_get(data, keys, default=None):
     return data
 
 
-def safe_get_index(data, index, default=None):
-    if isinstance(data, list) and len(data) > index:
-        return data[index]
-    return default
-
-
-def zip_folder(folder_path: str):
-    with ZipFile(folder_path + '.zip', 'w') as zipObj:
-        for folderName, subfolders, filenames in os.walk(folder_path):
-            for filename in filenames:
-                filePath = os.path.join(folderName, filename)
-                zipObj.write(filePath, os.path.basename(filePath))
-                
-    # Remove the original folder
-    shutil.rmtree(folder_path)
-    return folder_path + '.zip'
-
-
 def get_avg_points(batches: QuerySet) -> int:
     scores = [project['score'] for project in batches]
     return sum(scores) // len(batches) if scores else 0
@@ -108,14 +90,6 @@ def create_batch_obj(batch_id: uuid.UUID, batches: QuerySet):
     )
 
 
-def safe_json_load(value):
-    try:
-        return json.loads(value)
-    except (json.JSONDecodeError, ValueError, SyntaxError) as e:
-        logging.warning(f"Error decoding JSON: {value} - {e}")
-        return None
-    
-
 def format_field_value(value):
     return "/".join([str(item) for item in value]) if isinstance(value, list) else str(value)
 
@@ -148,12 +122,14 @@ def process_batches(batches):
         project_row["filename"] = batch.get("filename", "").replace(",", "")
         yield project_row  
     
+
 def make_csv_path(batch_id: str):
     csv_name = f"{batch_id}_main.csv"
     root_path = settings.BASE_DIR
     csv_path = os.path.join(root_path, "csvs", "Dr.Scratch", f"{csv_name}")
     os.makedirs(os.path.dirname(csv_path), exist_ok=True)
     return csv_path
+
 
 def write_to_csv(batch_id: str, row_generator: dict):
     fieldnames = extended_metrics_fields + vanilla_metrics_fields + bad_smells_fields + other_extended_fields
@@ -168,8 +144,8 @@ def write_to_csv(batch_id: str, row_generator: dict):
     except IOError as e:
         raise IOError(f"Error writing CSV file at {csv_path}: {e}")
 
-def create_csv(request, temp_dict_metrics) -> uuid.UUID:
-    batch_id = request.POST["batch_id"]
+
+def create_csv_by_id(batch_id: str) -> uuid.UUID:
     batches = File.objects.filter(batch_id=batch_id).values(
         "score",
         "filename", 

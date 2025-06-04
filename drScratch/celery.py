@@ -7,6 +7,8 @@ app = Celery('drScratch')
 app.config_from_object('django.conf:settings', namespace='CELERY')
 worker_lost_timeout = 60
 
+app.conf.result_backend = 'django-db'
+
 app.autodiscover_tasks()
 
 @app.task(bind=True)

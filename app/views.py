@@ -61,7 +61,7 @@ import coloredlogs
 
 
 # Celery imports
-from .tasks import init_batch
+from .tasks import init_batch_dispatcher
 
 # Analyzer imports
 from .analyzer import analyze_project, generator_dic, return_scratch_project_identifier, send_request_getsb3, _make_compare, analysis_by_upload, analysis_by_url
@@ -382,15 +382,17 @@ def build_dictionary_with_automatic_analysis(request, skill_points: dict) -> dic
                 projects = projects_path
     
             request_data = {
-                'LANGUAGE_CODE': request.LANGUAGE_CODE,
                 'POST': {
-                    'urlsFile': projects,
-                    'dashboard_mode': 'Default', 
+                    'urlsFile': projects, # list of URLs (bytes) or path (str)
+                    'dashboard_mode': 'Default',
                     'email': request.POST['batch-email'],
-                    'batch_id': batch_id      
+                    'batch_id': batch_id, # str(uuid.uuid4())
+                    'extracted_path_for_cleanup': projects_path if isinstance(projects, str) else None, # str or None
+                    'LANGUAGE_CODE': request.LANGUAGE_CODE,
                 }
             }
-            init_batch.delay(request_data, skill_points) # Call to analyzer task
+            init_batch_dispatcher.delay(request_data, skill_points)
+
 
             dict_metrics[project_counter] = {
                 'multiproject': True,
