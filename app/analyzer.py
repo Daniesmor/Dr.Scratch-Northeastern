@@ -312,19 +312,20 @@ def send_request_getsb3(id_project, username, method, batch=None):
     return path_scratch_project_sb3, file_obj, ext_type_project
 
 
+
 def generator_dic(request, id_project, skill_points: dict) -> dict:
     """
     Return a dictionary with static analysis and errors
     """
+
     try:
         username = None
         path_project, file_obj, ext_type_project = send_request_getsb3(id_project, username, method="url")
-        file_obj.batch_id = request.POST.get('batch_id', '') if request.POST.get('batch_id') else None
         try:
-            # This is the line causing the error
             request.session['current_project_path'] = path_project
-        except (AttributeError, TypeError):
-            # FIX: Catch TypeError as well to handle fake_request objects
+        except AttributeError:
+            pass
+        except TypeError:
             pass
     except DrScratchException:
         logger.error('DrScratchException')
@@ -337,10 +338,6 @@ def generator_dic(request, id_project, skill_points: dict) -> dict:
         return d
 
     try:
-        print("MAS TRAZASS------------------------------------------------")
-        print(path_project)
-        print(file_obj)
-        print(ext_type_project)
         d = analyze_project(request, path_project, file_obj, ext_type_project, skill_points)
     except Exception:
         logger.error('Impossible analyze project')
@@ -351,6 +348,9 @@ def generator_dic(request, id_project, skill_points: dict) -> dict:
         new_path_project = path_project.split("/uploads/")[0] + "/error_analyzing/" + path_project.split("/uploads/")[1]
         shutil.copy(old_path_project, new_path_project)
         return {'Error': 'analyzing'}
+
+    # Redirect to dashboard for unregistered user
+    d['Error'] = 'None'
 
     return d
 
@@ -574,7 +574,6 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
              logger.error(f'Failed to load JSON from project file: {path_projectsb3}')
              return {'Error': 'invalid_project_file'} # Explicit return on invalid JSON
 
-        # ... (rest of the analysis logic remains the same) ...
         dict_mastery = Mastery(path_projectsb3, json_scratch_project, skill_points, dashboard).finalize()
         dict_duplicate_script = DuplicateScripts(path_projectsb3, json_scratch_project).finalize()
         dict_dead_code = DeadCode(path_projectsb3, json_scratch_project).finalize()
@@ -601,6 +600,8 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
             dict_recom["backdropNaming"] = recomender.recomender_backdrop(result_backdrop_naming)
             dict_recom["duplicatedScripts"] = recomender.recomender_duplicatedScripts(dict_duplicate_script,
                                                                                       refactored_code)
+            print("PROBANMD")
+            print(proc_recomender(dict_recom))
             dict_analysis.update(proc_recomender(dict_recom))
 
         dict_analysis.update(proc_mastery(request, dict_mastery, file_obj))

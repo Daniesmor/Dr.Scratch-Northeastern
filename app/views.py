@@ -190,8 +190,7 @@ def show_dashboard(request, skill_points=None):
             print(f"Renderizando error.html con error: {analysis_results_for_template.get('Error')}")  # Traza
             return render(request, 'error/error.html', {'error': analysis_results_for_template.get('Error')})
         else:
-            context_to_render = {'dict_metrics': d}
-
+            context_to_render = d[0]
             #print(
              #   f"Renderizando para dashboard_mode: {analysis_results_for_template.get('dashboard_mode')} con contexto:",
               #  context_to_render)  # Traza

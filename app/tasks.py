@@ -44,7 +44,7 @@ def clean_temporary_files(directory):
 
 def mk_url(batch_id: uuid) -> str:
     url = ''
-    if (settings.PRODUCTION == True):
+    if (settings.DEBUG == False):
         url = '{}/{}'.format('https://www.drscratch.org/batch',batch_id)
     else:
         url = '{}/{}'.format('http://127.0.0.1:8000/batch',batch_id)
