@@ -26,6 +26,8 @@ services:
     container_name: tor_proxy
     ports:
       - "9050:9050"
+    volumes:
+      - tor_data:/var/lib/tor
   rabbitmq:
     image: rabbitmq:3-management
     volumes:
@@ -62,3 +64,4 @@ services:
         condition: service_started  
 volumes:
   dbdata:
+  tor_data: {}

@@ -220,7 +220,7 @@ def init_batch_dispatcher(self, request_data_dict, skill_points_dict):
         return
     
     callback = finalize_batch_task.s(
-        batch_id_str=batch_id_str, # Pasar argumentos fijos a la tarea de callback
+        batch_id_str=batch_id_str,
         email=email,
         start_time_iso=start_time.isoformat(),
         extracted_path_to_clean=extracted_path_for_cleanup,

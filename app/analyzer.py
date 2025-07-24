@@ -26,7 +26,7 @@ from app.recomender import RecomenderSystem
 import app.consts_drscratch as consts
 from .translation import translate
 from memory_profiler import profile
-
+from app.hairball3.babiaInfo import Babia
 
 def save_analysis_in_file_db(request, zip_filename):
     filename = zip_filename.decode('utf-8')
@@ -321,8 +321,10 @@ def generator_dic(request, id_project, skill_points: dict) -> dict:
         path_project, file_obj, ext_type_project = send_request_getsb3(id_project, username, method="url")
         file_obj.batch_id = request.POST.get('batch_id', '') if request.POST.get('batch_id') else None
         try:
+            # This is the line causing the error
             request.session['current_project_path'] = path_project
-        except AttributeError:
+        except (AttributeError, TypeError):
+            # FIX: Catch TypeError as well to handle fake_request objects
             pass
     except DrScratchException:
         logger.error('DrScratchException')
@@ -395,12 +397,14 @@ def proc_block_sprite_usage(result_block_sprite_usage, filename):
 
 def proc_dead_code(dict_dead_code, filename):
     dict_dc = {}
-    dict_dc["deadCode"] = dict_dc
+    dict_dc["deadCode"] = {}
     dict_dc["deadCode"]["number"] = dict_dead_code['result']['total_dead_code_scripts']
+    # dict_dc["deadCode"]['plugins']["babia"] = dict_dead_code['babia']
 
+    dict_dc["deadCode"]["scripts"] = {}
     for dict_sprite_dead_code_blocks in dict_dead_code['result']['list_dead_code_scripts']:
         for sprite_name, list_blocks in dict_sprite_dead_code_blocks.items():
-            dict_dc["deadCode"][sprite_name] = list_blocks
+            dict_dc["deadCode"]["scripts"][sprite_name] = list_blocks
 
     filename.deadCode = dict_dead_code['result']['total_dead_code_scripts']
     filename.save()
@@ -505,7 +509,7 @@ def set_file_obj(request, file_obj, dict, mode=None):
 
 def proc_duplicate_script(dict_result, file_obj) -> dict:
     dict_ds = {}
-    dict_ds["duplicateScript"] = dict_ds
+    dict_ds["duplicateScript"] = {}
     dict_ds["duplicateScript"]["number"] = dict_result['result']['total_duplicate_scripts']
     dict_ds["duplicateScript"]["scripts"] = dict_result['result']['list_duplicate_scripts']
     dict_ds["duplicateScript"]["csv_format"] = dict_result['result']['list_csv']
@@ -523,7 +527,7 @@ def proc_sprite_naming(lines, file_obj):
     lObjects = lLines[1:]
     lfinal = lObjects[:-1]
 
-    dic['spriteNaming'] = dic
+    dic['spriteNaming'] = {}
     dic['spriteNaming']['number'] = int(number)
     dic['spriteNaming']['sprite'] = lfinal
 
@@ -539,7 +543,7 @@ def proc_backdrop_naming(lines, file_obj):
     number = lLines[0].split(' ')[0]
     lObjects = lLines[1:]
     lfinal = lObjects[:-1]
-    dic['backdropNaming'] = dic
+    dic['backdropNaming'] = {}
     dic['backdropNaming']['number'] = int(number)
     dic['backdropNaming']['backdrop'] = lfinal
 
@@ -574,6 +578,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         dict_mastery = Mastery(path_projectsb3, json_scratch_project, skill_points, dashboard).finalize()
         dict_duplicate_script = DuplicateScripts(path_projectsb3, json_scratch_project).finalize()
         dict_dead_code = DeadCode(path_projectsb3, json_scratch_project).finalize()
+        dict_babia = Babia(path_projectsb3, json_scratch_project).finalize()
         result_sprite_naming = SpriteNaming(path_projectsb3, json_scratch_project).finalize()
         result_backdrop_naming = BackdropNaming(path_projectsb3, json_scratch_project).finalize()
 
@@ -601,6 +606,7 @@ def analyze_project(request, path_projectsb3, file_obj, ext_type_project, skill_
         dict_analysis.update(proc_mastery(request, dict_mastery, file_obj))
         dict_analysis.update(proc_duplicate_script(dict_duplicate_script, file_obj))
         dict_analysis.update(proc_dead_code(dict_dead_code, file_obj))
+        dict_analysis['babia'] = dict_babia
         dict_analysis.update(proc_sprite_naming(result_sprite_naming, file_obj))
         dict_analysis.update(proc_backdrop_naming(result_backdrop_naming, file_obj))
 
