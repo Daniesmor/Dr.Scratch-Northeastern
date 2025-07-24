@@ -53,6 +53,40 @@ DRSCRATCH_DATABASE_PORT=3306
 CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672//
 ```
 
+
+This is what your complete `.env` file should look like:
+
+```
+# Django Configuration
+DRSCRATCH_DEBUG=True
+DRSCRATCH_SECRET_KEY=drscratchv3
+ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0,drscratch.org
+CSRF_TRUSTED_ORIGINS=https://drscratch.org,https://www.drscratch.org
+
+# Database Configuration (MySQL)
+DRSCRATCH_SQLENGINE=django.db.backends.mysql
+DRSCRATCH_DATABASE_NAME=drscratchv3_database
+DRSCRATCH_DATABASE_USER=drscratchv3
+DRSCRATCH_DATABASE_PASSWORD=password
+DRSCRATCH_DATABASE_ROOT_PASSWORD=password
+DRSCRATCH_DATABASE_HOST=db
+DRSCRATCH_DATABASE_PORT=3306
+
+# Celery Configuration (RabbitMQ)
+CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672//
+
+# Email Configuration (Batch Mode and Contact Form)
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_HOST_USER=your_email@gmail.com
+EMAIL_HOST_PASSWORD=your_app_password
+EMAIL_USE_TLS=True
+
+# reCAPTCHA Configuration (Contact Form)
+RECAPTCHA_PUBLIC_KEY=your_public_key
+RECAPTCHA_PRIVATE_KEY=your_private_key
+```
+
 ### 2. Build and Start the Containers
 
 Once the `.env` file is created, open a terminal in the root of the project and run:
