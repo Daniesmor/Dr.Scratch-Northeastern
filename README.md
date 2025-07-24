@@ -17,8 +17,8 @@ Follow these steps to set up and run a local instance of Dr. Scratch.
 
 Make sure you have the following tools installed:
 
-- **Docker**
-- **Docker Compose**
+- **Docker** 20.10.x or newer.
+- **Docker Compose** 1.28.x or newer.  
 
 ### 1. Create the Environment File (`.env`)
 
