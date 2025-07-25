@@ -18,9 +18,18 @@ Follow these steps to set up and run a local instance of Dr. Scratch.
 Make sure you have the following tools installed:
 
 - **Docker** 20.10.x or newer.
-- **Docker Compose** 1.28.x or newer.  
+- **Docker Compose** 1.28.x or newer.
 
-### 1. Create the Environment File (`.env`)
+### 1. Clone the Repository
+
+First, clone the official Dr. Scratch repository from GitHub:
+
+```bash
+git clone https://github.com/ucm-dr-scratch/drscratchv3.git
+cd drscratchv3
+```
+
+### 2. Create the Environment File (`.env`)
 
 Before starting the containers, it is **essential** to create a file named `.env` in the root of the project. This file contains all the configuration variables required for the services to communicate with each other.
 
@@ -87,7 +96,7 @@ RECAPTCHA_PUBLIC_KEY=your_public_key
 RECAPTCHA_PRIVATE_KEY=your_private_key
 ```
 
-### 2. Build and Start the Containers
+### 3. Build and Start the Containers
 
 Once the `.env` file is created, open a terminal in the root of the project and run:
 
