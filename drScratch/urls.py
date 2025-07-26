@@ -121,6 +121,7 @@ urlpatterns = [
     # Learn
     url(r'^learn/(Modes|Dimensions|BadSmells)/(\w+)', app_views.learn, name='learn'),
     url(r'^$', app_views.main, name='main'),
+    url(r'^documents/(?P<filename>[\w\-\.]+\.pdf)$', app_views.serve_document_pdf, name='serve_document_pdf'),
     #url(r'^.*', app_views.redirect_main, name='redirect_main'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

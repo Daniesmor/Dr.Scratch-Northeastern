@@ -8,7 +8,7 @@ import json
 import uuid
 import requests
 import tempfile
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, FileResponse, Http404
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.contrib import messages
@@ -1857,4 +1857,13 @@ def format_babia_dict(d: dict):
 
     return data
 
+def serve_document_pdf(request, filename):
+    # Evitamos rutas peligrosas
+    if not filename.endswith('.pdf') or '/' in filename or '\\' in filename:
+        raise Http404("Invalid filename")
 
+    file_path = os.path.join(settings.BASE_DIR, 'documents', filename)
+    if os.path.exists(file_path):
+        return FileResponse(open(file_path, 'rb'), content_type='application/pdf')
+    else:
+        raise Http404("File not found")
