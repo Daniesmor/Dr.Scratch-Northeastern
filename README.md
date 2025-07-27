@@ -198,11 +198,4 @@ python manage.py compilemessages
 
 ---
 
-- **Dr. Scratch 2.0 (CT4ALL): Advanced Modes and Rubrics for Assessing Computational Thinking in Scratch Projects**  
-  *Gregorio Robles, Guillermo Pons, Daniel Escobar-Morales, Casper Harteveld, Giovanni M. Troiano, David Moreno-Lumbreras, Jesús M. Gonzalez-Barahona*  
-  *SoftwareX, 2025 (Preprint submitted June 25, 2025)*  
-  8 Pages — Posted: April 28, 2025  
-  This article presents Dr. Scratch 2.0, which includes advanced CT assessment modes and new rubric designs, furthering the tool's role in scalable and nuanced evaluation of Scratch projects.
-
----
 
